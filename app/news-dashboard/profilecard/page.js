@@ -37,7 +37,7 @@ const ProfileCard = () => {
         </div>
         <div className="mx-5 mt-3 flex justify-between items-center">
           <div className="text-sm text-gray-900 leading-4 font-medium">
-          Who’s viewed your profile
+            Who’s viewed your profile
           </div>
           <div className="flex gap-2 items-center font-light text-sm">
             <EyeIcon className="h-5 w-5" />
@@ -46,8 +46,8 @@ const ProfileCard = () => {
         </div>
         <div className="border-1 text-gray-100 my-5"></div>
         <div className="flex justify-center items-center font-light text-base gap-2">
-        <BookmarkIcon className="h-5 w-5"/>
-        Saved Items
+          <BookmarkIcon className="h-5 w-5" />
+          Saved Items
         </div>
       </div>
     </Fragment>
