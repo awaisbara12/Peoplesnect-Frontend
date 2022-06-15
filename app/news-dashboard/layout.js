@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 
-const userDashboardLayout = ({ children }) => {
+const UserDashboardLayout = ({ children }) => {
   return <Fragment>{children}</Fragment>;
 };
 
-export default userDashboardLayout;
+export default UserDashboardLayout;
