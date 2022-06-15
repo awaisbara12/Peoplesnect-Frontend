@@ -6,7 +6,7 @@ const NewsSearch = () => {
     <div className="flex items-center w-full mt-7 gap-4">
       <label className="relative block">
         <span className="absolute inset-y-0 left-0 flex items-center pl-7">
-          <SearchIcon className="text-slate-400 h-5 w-5" />
+          <a href="/"><SearchIcon className="text-slate-400 h-5 w-5" /></a>
         </span>
         <input
           className="placeholder:text-slate-400 bg-white placeholder:text-xl w-60 rounded-full py-2 border-none pl-14"

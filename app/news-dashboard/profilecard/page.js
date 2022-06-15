@@ -9,7 +9,7 @@ const ProfileCard = () => {
     <Fragment>
       <div className="mt-11 mx-auto bg-white rounded-xl w-full h-auto pb-4">
         <div className="relative -z-0 ">
-          <Image src={profilebg} width={280} height={93} placeholder="blur" />
+          <Image src={profilebg} width={293} height={93} placeholder="blur" />
           <div className="absolute z-10 -top-4 left-32">
             <Image
               src={profileAvatar}
@@ -37,7 +37,7 @@ const ProfileCard = () => {
         </div>
         <div className="mx-5 mt-3 flex justify-between items-center">
           <div className="text-sm text-gray-900 leading-4 font-medium">
-          Who’s viewed your profile
+            Who’s viewed your profile
           </div>
           <div className="flex gap-2 items-center font-light text-sm">
             <EyeIcon className="h-5 w-5" />
@@ -45,10 +45,12 @@ const ProfileCard = () => {
           </div>
         </div>
         <div className="border-1 text-gray-100 my-5"></div>
-        <div className="flex justify-center items-center font-light text-base gap-2">
-        <BookmarkIcon className="h-5 w-5"/>
-        Saved Items
-        </div>
+        <a href="/">
+          <div className="flex justify-center items-center font-light text-base gap-2">
+            <BookmarkIcon className="h-5 w-5" />
+            Saved Items
+          </div>
+        </a>
       </div>
     </Fragment>
   );
