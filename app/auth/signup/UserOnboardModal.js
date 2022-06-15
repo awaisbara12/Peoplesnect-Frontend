@@ -14,7 +14,7 @@ export default function UserOnboardModal() {
 
   return (
     <>
-      {/* <div className="fixed inset-0 flex items-center justify-center z-50">
+      <div className="fixed inset-0 flex items-center justify-center z-50">
         <button
           type="button"
           onClick={openModal}
@@ -22,7 +22,7 @@ export default function UserOnboardModal() {
         >
           Open dialog
         </button>
-      </div> */}
+      </div>
 
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-50" onClose={closeModal}>
