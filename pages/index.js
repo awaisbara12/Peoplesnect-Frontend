@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Signup from "../app/auth/signup/Signup";
 import RootLayout from "../app/layout";
-import NewsFeed from "./newsFeed";
+import NewsFeed from "./NewsFeed";
 
 export default function Home() {
   return (
