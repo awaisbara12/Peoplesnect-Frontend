@@ -1,9 +1,9 @@
 import React from 'react'
 
-const feed = () => {
+const NewsFeed = () => {
   return (
     <div>feed</div>
   )
 }
 
-export default feed
+export default NewsFeed
