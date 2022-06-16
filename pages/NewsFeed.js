@@ -1,15 +1,15 @@
 import React, { Fragment } from "react";
-import EventsCard from "../app/news-dashboard/eventcard/page";
-import UserDashboardLayout from "../app/news-dashboard/layout";
-import NewsFeedUserCard from "../app/news-dashboard/newsfeed/feedcard/page";
-import NewsPost from "../app/news-dashboard/newsfeed/newspost/page";
-import NewsFeedSidebar from "../app/news-dashboard/newsfeed/sidebar/page";
-import ProfileCard from "../app/news-dashboard/profilecard/page";
-import NewsSearch from "../app/news-dashboard/search/page";
+import EventsCard from "../components/news-feed/eventcard/EventsCard";
+import NewsFeedLayout from "../components/news-feed/layout";
+import NewsFeedUserCard from "../components/news-feed/newsfeed/feedcard/NewsFeedUserCard";
+import NewsPost from "../components/news-feed/newsfeed/newspost/NewsPost";
+import NewsFeedSidebar from "../components/news-feed/newsfeed/sidebar/NewsFeedSidebar";
+import ProfileCard from "../components/news-feed/profilecard/ProfileCard";
+import NewsSearch from "../components/news-feed/search/NewsSearch";
 
 const NewsFeed = () => {
   return (
-    <UserDashboardLayout>
+    <NewsFeedLayout>
       <div className="bg-zinc-100 w-full h-full pb-96">
         <div className="container mx-auto">
           <div className="flex gap-[65px] justify-between">
@@ -34,7 +34,7 @@ const NewsFeed = () => {
           </div>
         </div>
       </div>
-    </UserDashboardLayout>
+    </NewsFeedLayout>
   );
 };
 

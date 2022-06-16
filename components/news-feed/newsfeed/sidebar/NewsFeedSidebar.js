@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
-import NewsFeedNav from "../../navbar/page";
-import SugestedUser from "../../sugesteduser/page";
+import NewsFeedNav from "../../navbar/NewsFeedNav";
+import SugestedUser from "../../sugesteduser/SugestedUser";
 import FooterNewsFeed from "../newsfeedfooter/FooterNewsFeed";
 
 const NewsFeedSidebar = () => {
