@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import Head from "next/head";
-import Login from "../components/auth/login/Login";
+import SignIn from "../components/auth/signin/SignIn";
 
 const login = () => {
   return (
@@ -10,7 +10,7 @@ const login = () => {
         <meta name="description" content="Connect peoples proffasoinaly" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Login />
+      <SignIn />
     </Fragment>
   );
 };
