@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
-const MarkeetplaceLayout = () => {
-  return (
-    <div>layout</div>
-  )
-}
+const MarkeetPlaceLayout = ({ children }) => {
+  return <div className="container mx-auto">{children}</div>;
+};
 
-export default MarkeetplaceLayout
+export default MarkeetPlaceLayout;

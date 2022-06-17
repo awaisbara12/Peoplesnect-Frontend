@@ -1,6 +1,11 @@
-import React, { Fragment } from 'react'
+import React, { Fragment } from "react";
+import Head from "next/head";
+import MarkeetplaceLayout from "../components/markeetplace/layout";
+import MarkeetplaceNavbar from "../components/markeetplace/navbar/MarkeetplaceNavbar";
+import MarkeetplaceCategories from "../components/markeetplace/categoriesSlider/Categories";
+import HomeProducts from "../components/markeetplace/products/LatestProducts";
 
-const markeetplace = () => {
+const Markeetplace = () => {
   return (
     <Fragment>
       <Head>
@@ -8,9 +13,19 @@ const markeetplace = () => {
         <meta name="description" content="Connect peoples proffasoinaly" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <h1>Markeetplace</h1>
+      <div className="bg-gray-100 w-full h-screen text-gray-900">
+        <MarkeetplaceLayout>
+          <MarkeetplaceNavbar />
+          <div className="mt-11 text-lg font-normal">
+            <MarkeetplaceCategories />
+          </div>
+          <div className="mt-11">
+            <HomeProducts />
+          </div>
+        </MarkeetplaceLayout>
+      </div>
     </Fragment>
-  )
-}
+  );
+};
 
-export default markeetplace
+export default Markeetplace;
