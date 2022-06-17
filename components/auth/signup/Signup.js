@@ -1,4 +1,3 @@
-
 import React, { Fragment, useEffect, useState } from "react";
 import Image from "next/image";
 import Logo from "../../../public/images/logo.png";
@@ -26,7 +25,6 @@ const Signup = () => {
     console.log(props.openModal);
   };
 
-
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
 
@@ -47,7 +45,6 @@ const Signup = () => {
     };
     signUpData();
   }, []);
-
 
   return (
     <Fragment>
@@ -209,10 +206,9 @@ const Signup = () => {
                       className="h-5 w-5 text-indigo-400 absolute top-10 right-3 cursor-pointer"
                     />
                   </div>
-                  
+
                   <div className="bg-indigo-400 text-white text-xl text-center cursor-pointer font-semibold w-full py-2 rounded-full mt-6">
-                      className="h-5 w-5 text-indigo-400 absolute top-11 right-3 cursor-pointer"
-                    />
+                    <div className="h-5 w-5 text-indigo-400 absolute top-11 right-3 cursor-pointer" />
                   </div>
                   <div
                     onClick={() => GetModal()}
