@@ -22,10 +22,6 @@ const Signup = () => {
     setPasswordShow(!passwordShow);
   };
 
-
-
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState([]);
   const signUpData = (e) => {
     e.preventDefault();
 
@@ -61,9 +57,7 @@ const Signup = () => {
     setconfirmPassword("");
   };
 
-
   console.log(data);
-
 
   return (
     <Fragment>
