@@ -9,6 +9,7 @@ import Link from "next/link";
 import { SIGN_UP_API_KEY } from "../../../pages/config";
 
 const Signup = () => {
+  const [data, setData] = useState([]);
   const [FirstName, setFirstName] = useState("");
   const [LastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -21,30 +22,42 @@ const Signup = () => {
     setPasswordShow(!passwordShow);
   };
 
-  const GetModal = () => {
-    console.log(props.openModal);
-  };
+  const signUpData = (e) => {
+    e.preventDefault();
 
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState([]);
+    const data = {
+      user: {
+        email: FirstName,
+        first_name: LastName,
+        last_name: email,
+        password: password,
+        password_confirmation: confirmPassword,
+      },
+    };
 
-  useEffect(() => {
-    const signUpData = async () => {
-      setLoading(true);
+    console.log(data);
 
-      const res = await fetch(SIGN_UP_API_KEY, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-        },
+    fetch(SIGN_UP_API_KEY, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((result) => result.json())
+      .then((resp) => {
+        setData(resp);
       });
 
-      setData(res);
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    setPassword("");
+    setconfirmPassword("");
+  };
 
-      setLoading(false);
-    };
-    signUpData();
-  }, []);
+  console.log(data);
 
   return (
     <Fragment>
@@ -146,7 +159,7 @@ const Signup = () => {
                     or
                   </div>
                 </div>
-                <form className="relative z-10 mt-4">
+                <form onSubmit={signUpData} className="relative z-10 mt-4">
                   <div className="block sm:flex gap-4">
                     <div className="w-full sm:w-[50%] mt-4">
                       <label
@@ -157,6 +170,8 @@ const Signup = () => {
                       </label>
                       <input
                         type="text"
+                        value={FirstName}
+                        onChange={(e) => setFirstName(e.target.value)}
                         placeholder="First Name"
                         className="w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400"
                       />
@@ -170,6 +185,8 @@ const Signup = () => {
                       </label>
                       <input
                         type="text"
+                        value={LastName}
+                        onChange={(e) => setLastName(e.target.value)}
                         placeholder="Last Name"
                         className="w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400"
                       />
@@ -184,6 +201,8 @@ const Signup = () => {
                     </label>
                     <input
                       type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                       placeholder="Email"
                       className="w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400"
                     />
@@ -198,7 +217,10 @@ const Signup = () => {
 
                     <input
                       type={passwordShow ? "text" : "password"}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                       placeholder="Password"
+                      autoComplete="false"
                       className="w-full border-gray-100 border py-2 mt-2 px-3 rounded-md focus: outline-none focus:border-indigo-400"
                     />
                     <EyeIcon
@@ -207,15 +229,30 @@ const Signup = () => {
                     />
                   </div>
 
-                  <div className="bg-indigo-400 text-white text-xl text-center cursor-pointer font-semibold w-full py-2 rounded-full mt-6">
-                    <div className="h-5 w-5 text-indigo-400 absolute top-11 right-3 cursor-pointer" />
+                  <div className="mt-4 relative">
+                    <label
+                      htmlFor="Password"
+                      className="text-neutral-900 font-semibold px-1"
+                    >
+                      Confirm Password
+                    </label>
+
+                    <input
+                      type={passwordShow ? "text" : "password"}
+                      value={confirmPassword}
+                      onChange={(e) => setconfirmPassword(e.target.value)}
+                      placeholder="Password"
+                      autoComplete="false"
+                      className="w-full border-gray-100 border py-2 mt-2 px-3 rounded-md focus: outline-none focus:border-indigo-400"
+                    />
                   </div>
-                  <div
-                    onClick={() => GetModal()}
+
+                  <button
+                    type="submit"
                     className="bg-indigo-400 text-white text-xl text-center cursor-pointer font-semibold w-full py-2 rounded-full mt-6"
                   >
                     Join Now
-                  </div>
+                  </button>
                   <div className="flex items-start gap-2 justify-start mt-8 px-1">
                     <input type="checkbox" name="" id="agreeCheckbox" />
                     <p className="font-light -mt-2 text-sm sm:text-lg">
