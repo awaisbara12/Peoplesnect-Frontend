@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import Head from "next/head";
-import Login from "../app/auth/login/Login";
+import Login from "../components/auth/login/Login";
 
 const login = () => {
   return (

@@ -10,14 +10,20 @@ const ProfileCard = () => {
     <Fragment>
       <div className="mt-11 mx-auto bg-white rounded-xl w-full h-auto pb-4">
         <div className="relative -z-0 ">
-          <Image src={profilebg} width={293} height={93} placeholder="blur" />
+          <Image
+            src={profilebg}
+            width={293}
+            height={93}
+            placeholder="blur"
+            alt="profile-bg"
+          />
           <div className="absolute z-10 -top-4 left-32">
             <Image
               src={profileAvatar}
               width={42}
               height={42}
               placeholder="blur"
-              alt=""
+              alt="profile"
             />
           </div>
         </div>
