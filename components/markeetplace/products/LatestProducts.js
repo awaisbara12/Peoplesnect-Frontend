@@ -12,15 +12,13 @@ import productImage2 from "../../../public/images/product2.png";
 import productImage3 from "../../../public/images/product3.png";
 import productImage4 from "../../../public/images/product4.png";
 
-
-
 const ProductCetagory = [
- {
- heading: "✨ Latest Products",
- moreabout: "See All",
- dotIcon: DotsHorizontalIcon,
- }
-]
+  {
+    heading: "✨ Latest Products",
+    moreabout: "See All",
+    dotIcon: DotsHorizontalIcon,
+  },
+];
 
 const ProductCard = [
   {
@@ -73,28 +71,28 @@ const ProductCard = [
 const HomeProducts = () => {
   return (
     <Fragment>
-    {ProductCetagory.map((category, i) => (
-      <div key={i} className="flex justify-between font-semibold text-xl">
-        <Link href="">
-          <a>
-            <div className="">{category.heading}</div>
-          </a>
-        </Link>
-        <div className="flex gap-1 items-center">
-          <Link href="">
-            <a>{category.moreabout}</a>
-          </Link>
+      {ProductCetagory.map((category, i) => (
+        <div key={i} className="flex justify-between font-semibold text-xl">
           <Link href="">
             <a>
-              <category.dotIcon className="h-5 w-5" />
+              <div className="">{category.heading}</div>
             </a>
           </Link>
+          <div className="flex gap-1 items-center">
+            <Link href="">
+              <a>{category.moreabout}</a>
+            </Link>
+            <Link href="">
+              <a>
+                <category.dotIcon className="h-5 w-5" />
+              </a>
+            </Link>
+          </div>
         </div>
-      </div>
-    ))}
-      <div className="flex justify-between">
+      ))}
+      <div className="flex justify-between gap-6">
         {ProductCard.map((product, i) => (
-          <div key={i} className="bg-white w-80 h-80 rounded-xl mt-6">
+          <div key={i} className="bg-white w-80 h-80 lg:h-auto sm:w-{50%} rounded-xl mt-6">
             <div className="relative">
               <Image
                 src={product.image}
@@ -114,8 +112,8 @@ const HomeProducts = () => {
               </div>
             </div>
             <div className="px-3 mt-4 mb-7">
-              <div className="flex justify-between font-semibold text-base mb-1.5">
-                <div className="">{product.title}</div>
+              <div className="flex justify-between items-center font-semibold text-base mb-1.5">
+                <div className="lg:text-xs">{product.title}</div>
                 <div className="bg-indigo-400 px-3 py-1 text-white rounded-md">
                   <Link href="">
                     <a>
@@ -124,14 +122,14 @@ const HomeProducts = () => {
                   </Link>
                 </div>
               </div>
-              <div className="flex gap-3">
-                <div className="flex gap-2">
+              <div className="flex  lg:text-xs lg:justify-between gap-3">
+                <div className="flex items-center gap-2">
                   <product.mapIcon className="h-5 w-5" />
                   <div className="">{product.locationtitle}</div>
                 </div>
                 <Link href="">
                   <a>
-                    <div className="flex gap-2">
+                    <div className="flex items-center gap-2">
                       <product.catIcon className="h-5 w-5" />
                       <div className="">{product.catTitle}</div>
                     </div>

@@ -39,7 +39,7 @@ const CategoryCard = [
 const MarkeetplaceCategories = () => {
   return (
     <Fragment>
-      <div className="flex justify-between">
+      <div className="flex justify-between items-center md:gap-6">
         {CategoryCard.map((category, i) => (
           <div key={i} className="bg-white py-2 px-4 rounded-full">
             <Link href="">
