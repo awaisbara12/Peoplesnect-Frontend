@@ -6,7 +6,7 @@ const login = () => {
   return (
     <Fragment>
       <Head>
-        <title>Login - Peoples Nect</title>
+        <title>Logins - Peoples Nect</title>
         <meta name="description" content="Connect peoples proffasoinaly" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
