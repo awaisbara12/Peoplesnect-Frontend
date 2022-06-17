@@ -1,4 +1,5 @@
-import React, { Fragment, useState } from "react";
+
+import React, { Fragment, useEffect, useState } from "react";
 import Image from "next/image";
 import Logo from "../../../public/images/logo.png";
 import Footer from "../../footer/Footer";
@@ -6,7 +7,15 @@ import Footer from "../../footer/Footer";
 import { EyeIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 
+import { SIGN_UP_API_KEY } from "../../../pages/config";
+
 const Signup = () => {
+  const [FirstName, setFirstName] = useState("");
+  const [LastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setconfirmPassword] = useState("");
+
   const [passwordShow, setPasswordShow] = useState(false);
 
   const showPassword = () => {
@@ -16,6 +25,29 @@ const Signup = () => {
   const GetModal = () => {
     console.log(props.openModal);
   };
+
+
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const signUpData = async () => {
+      setLoading(true);
+
+      const res = await fetch(SIGN_UP_API_KEY, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+        },
+      });
+
+      setData(res);
+
+      setLoading(false);
+    };
+    signUpData();
+  }, []);
+
 
   return (
     <Fragment>
@@ -174,6 +206,11 @@ const Signup = () => {
                     />
                     <EyeIcon
                       onClick={() => showPassword()}
+                      className="h-5 w-5 text-indigo-400 absolute top-10 right-3 cursor-pointer"
+                    />
+                  </div>
+                  
+                  <div className="bg-indigo-400 text-white text-xl text-center cursor-pointer font-semibold w-full py-2 rounded-full mt-6">
                       className="h-5 w-5 text-indigo-400 absolute top-11 right-3 cursor-pointer"
                     />
                   </div>
@@ -209,7 +246,7 @@ const Signup = () => {
                   <div className="border-gray-100 border mt-4"></div>
                   <div className="mt-4 text-center">
                     Already Join?{" "}
-                    <Link href="/ogin">
+                    <Link href="/login">
                       <a className="text-indigo-400">Sign In</a>
                     </Link>{" "}
                   </div>
