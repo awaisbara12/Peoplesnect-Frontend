@@ -21,6 +21,7 @@ const NewsFeedNav = () => {
               width={234}
               height={45}
               placeholder="blur"
+              alt=""
             />
           </a>
         </Link>

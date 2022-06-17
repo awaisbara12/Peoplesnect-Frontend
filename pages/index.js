@@ -11,7 +11,7 @@ export default function Home() {
         <meta name="description" content="Connect peoples proffasoinaly" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <NewsFeed />
+      <Signup />
     </RootLayout>
   );
 }

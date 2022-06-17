@@ -20,6 +20,7 @@ const NewsPost = () => {
             width={42}
             height={42}
             placeholder="empty"
+            alt=""
           />
           <form>
             <input

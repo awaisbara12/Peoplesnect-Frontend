@@ -49,7 +49,7 @@ const NewsFeedUserCard = () => {
     <div className="w-[600px] pb-4 mt-[14px] bg-white rounded-xl">
       <div className="flex gap-2 justify-between items-center px-[22px] py-[14px]">
         <div className="flex gap-2">
-          <Image src={ProfileAvatar} width={45} height={45} />
+          <Image src={ProfileAvatar} width={45} height={45} alt="" />
           <div>
             <h4 className="flex gap-[6px] items-center font-medium text-gray-900">
               Maria Momo{" "}
@@ -140,7 +140,7 @@ const NewsFeedUserCard = () => {
           </a>
         </div>
         <div className="mt-[14px]">
-          <Image src={PostImage} width={552} height={240} placeholder="blur" />
+          <Image src={PostImage} width={552} height={240} placeholder="blur" alt="" />
         </div>
         <div className="flex justify-between mt-[14px]">
           <div className="flex gap-2 items-center">

@@ -3,6 +3,7 @@ import Image from "next/image";
 import profilebg from "../../../public/images/profile-bg.png";
 import profileAvatar from "../../../public/images/profile-avatar.png";
 import { UserIcon, EyeIcon, BookmarkIcon } from "@heroicons/react/outline";
+import Link from "next/link";
 
 const ProfileCard = () => {
   return (
@@ -16,6 +17,7 @@ const ProfileCard = () => {
               width={42}
               height={42}
               placeholder="blur"
+              alt=""
             />
           </div>
         </div>
@@ -45,12 +47,14 @@ const ProfileCard = () => {
           </div>
         </div>
         <div className="border-1 text-gray-100 my-5"></div>
-        <a href="/">
-          <div className="flex justify-center items-center font-light text-base gap-2">
-            <BookmarkIcon className="h-5 w-5" />
-            Saved Items
-          </div>
-        </a>
+        <Link href="/">
+          <a>
+            <div className="flex justify-center items-center font-light text-base gap-2">
+              <BookmarkIcon className="h-5 w-5" />
+              Saved Items
+            </div>
+          </a>
+        </Link>
       </div>
     </Fragment>
   );
