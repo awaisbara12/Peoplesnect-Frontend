@@ -72,6 +72,7 @@ const Signup = () => {
                     width={234}
                     height={45}
                     placeholder="blur"
+                    alt=""
                   />
                 </div>
                 <div className="flex w-full md:w-72 sm:w-72 items-center mt-6 mx-auto lg:mx-auto gap-2 bg-indigo-400 p-2 cursor-pointer rounded-md">

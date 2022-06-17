@@ -24,6 +24,7 @@ const Login = () => {
                     width={234}
                     height={45}
                     placeholder="blur"
+                    alt=""
                   />
                 </div>
                 <div className="border-gray-100 border mt-4"></div>
