@@ -33,7 +33,6 @@ const SugestedUser = () => {
           </Link>
         </div>
       </div>
-      <div className="flex items-start mt-4">
         <Image src={MiraProfile} width={35} height={35} />
         <div className="flex items-center justify-between ">
           <div className="ml-2">

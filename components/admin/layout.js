@@ -1,7 +1,7 @@
 import React from "react";
 
 const AdminDashboardLayout = ({ children }) => {
-  return <div>layout {children}</div>;
+  return <div> {children}</div>;
 };
 
 export default AdminDashboardLayout;
