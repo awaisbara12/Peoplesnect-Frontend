@@ -15,7 +15,7 @@ const ProfileCard = () => {
             width={293}
             height={93}
             placeholder="blur"
-            alt=""
+            alt="profile-bg"
           />
           <div className="absolute z-10 -top-4 left-32">
             <Image
@@ -23,7 +23,7 @@ const ProfileCard = () => {
               width={42}
               height={42}
               placeholder="blur"
-              alt=""
+              alt="profile"
             />
           </div>
         </div>
