@@ -9,7 +9,7 @@ const ReplyComments = () => {
     <Fragment>
       <div className="w-full bg-zinc-100 mt-[14px] p-[16px] rounded-xl">
         <div className="flex items-start gap-[10px]">
-          <Image src={ProfileAvatar} width={38} height={38} />
+          <Image src={ProfileAvatar} width={38} height={38} alt="" />
           <div>
             <Link href="/">
               <a className="text-slate-900 flex gap-[6px] items-center">

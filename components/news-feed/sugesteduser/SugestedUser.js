@@ -11,7 +11,8 @@ const SugestedUser = () => {
     <>
       <div className="text-base font-normal leading-5">Start feed with</div>
       <div className="flex items-start mt-4">
-        <Image src={MariaProfile} width={35} height={35} placeholder="blur" />
+        <Image src={SugestionProfile} width={35} height={35} alt="" />
+
         <div className="flex items-center justify-between ">
           <div className="ml-2">
             <Link href="/">
@@ -34,7 +35,8 @@ const SugestedUser = () => {
         </div>
       </div>
       <div className="flex items-start mt-4">
-        <Image src={MariaProfile} width={35} height={35} placeholder="blur" />
+
+        <Image src={MiraProfile} width={35} height={35} alt="" />
         <div className="flex items-center justify-between ">
           <div className="ml-2">
             <Link href="/">
@@ -57,7 +59,7 @@ const SugestedUser = () => {
         </div>
       </div>
       <div className="flex items-start mt-4">
-        <Image src={MariaProfile} width={35} height={35} placeholder="blur" />
+        <Image src={MariaProfile} width={35} height={35} placeholder="blur" alt="" />
         <div className="flex items-center justify-between ">
           <div className="ml-2">
             <Link href="/">
