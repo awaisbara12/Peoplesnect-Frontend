@@ -14,7 +14,7 @@ const PostComments = () => {
           placeholder="Your comment"
         />
         <div className="absolute top-[6.5px] left-2">
-          <Image src={ProfileAvatar} width={34} height={34} />
+          <Image src={ProfileAvatar} width={34} height={34} alt="" />
         </div>
         <div className="flex gap-[14px] absolute top-[12.5px] right-3">
           <EmojiHappyIcon className="w-5 h-5" />

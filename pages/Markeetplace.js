@@ -1,4 +1,5 @@
-import React, { Fragment } from 'react'
+import React, { Fragment } from "react";
+import Head from "next/head";
 
 const markeetplace = () => {
   return (
@@ -10,7 +11,7 @@ const markeetplace = () => {
       </Head>
       <h1>Markeetplace</h1>
     </Fragment>
-  )
-}
+  );
+};
 
-export default markeetplace
+export default markeetplace;
