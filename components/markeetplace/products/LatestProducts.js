@@ -90,55 +90,57 @@ const HomeProducts = () => {
           </div>
         </div>
       ))}
-      <div className="flex justify-between gap-6">
-        {ProductCard.map((product, i) => (
-          <div key={i} className="bg-white w-80 h-80 lg:h-auto sm:w-{50%} rounded-xl mt-6">
-            <div className="relative">
-              <Image
-                src={product.image}
-                width={326}
-                height={230}
-                placeholder="blur"
-              />
-              <div className="absolute top-5 left-5">
-                <div className="bg-gray-900 rounded-xl py-1 px-3 text-white font-medium text-sm">
-                  ${product.price}
+      <div className="flex justify-between lg:gap-6 md:gap-4">
+        <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-8 mx-auto">
+          {ProductCard.map((product, i) => (
+            <div key={i} className="bg-white w-auto h-auto rounded-xl mt-6">
+              <div className="relative">
+                <Image
+                  src={product.image}
+                  width={326}
+                  height={230}
+                  placeholder="blur"
+                />
+                <div className="absolute top-5 left-5">
+                  <div className="bg-gray-900 rounded-xl py-1 px-3 text-white font-medium text-sm">
+                    ${product.price}
+                  </div>
+                </div>
+                <div className="absolute top-5 left-20">
+                  <div className="bg-red-400 rounded-xl py-1 px-3 text-white font-medium text-sm">
+                    {product.status}
+                  </div>
                 </div>
               </div>
-              <div className="absolute top-5 left-20">
-                <div className="bg-red-400 rounded-xl py-1 px-3 text-white font-medium text-sm">
-                  {product.status}
+              <div className="lg:px-3 px-2 mt-4 lg:mb-7 mb-3">
+                <div className="flex justify-between items-center font-semibold lg:text-base md:text-sm mb-1.5">
+                  <div className="">{product.title}</div>
+                  <div className="bg-indigo-400  lg:px-3 py-2 md:px-2  text-white rounded-md">
+                    <Link href="">
+                      <a>
+                        <product.cartIcon className="lg:f-5 lg:w-5 md:h-3 md:w-3" />
+                      </a>
+                    </Link>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <div className="px-3 mt-4 mb-7">
-              <div className="flex justify-between items-center font-semibold text-base mb-1.5">
-                <div className="lg:text-xs">{product.title}</div>
-                <div className="bg-indigo-400 px-3 py-1 text-white rounded-md">
+                <div className="flex md:justify-between lg:gap-3 lg:text-sm text-xs gap-4 leading-4 items-center">
+                  <div className="flex items-center lg:gap-2 gap-1">
+                    <product.mapIcon className="h-5 w-5" />
+                    <div className="">{product.locationtitle}</div>
+                  </div>
                   <Link href="">
                     <a>
-                      <product.cartIcon className="f-5 w-5" />
+                      <div className="flex items-center lg:gap-2 md:gap-1">
+                        <product.catIcon className="h-5 w-5" />
+                        <div className="">{product.catTitle}</div>
+                      </div>
                     </a>
                   </Link>
                 </div>
               </div>
-              <div className="flex  lg:text-xs lg:justify-between gap-3">
-                <div className="flex items-center gap-2">
-                  <product.mapIcon className="h-5 w-5" />
-                  <div className="">{product.locationtitle}</div>
-                </div>
-                <Link href="">
-                  <a>
-                    <div className="flex items-center gap-2">
-                      <product.catIcon className="h-5 w-5" />
-                      <div className="">{product.catTitle}</div>
-                    </div>
-                  </a>
-                </Link>
-              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </Fragment>
   );
