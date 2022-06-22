@@ -13,7 +13,7 @@ import {
   DocumentReportIcon,
   XCircleIcon,
 } from "@heroicons/react/outline";
-import { Popover, Transition } from "@headlessui/react";
+// import { Popover, Transition } from "@headlessui/react";
 
 import ProfileAvatar from "../../../../public/images/profile-avatar-2.png";
 import PostImage from "../../../../public/images/post-image.png";
@@ -74,7 +74,7 @@ const NewsFeedUserCard = () => {
             Follow
           </div>
           <div className="">
-            <Popover className="relative">
+            {/* <Popover className="relative">
               {({ open }) => (
                 <>
                   <Popover.Button
@@ -120,7 +120,7 @@ const NewsFeedUserCard = () => {
                   </Transition>
                 </>
               )}
-            </Popover>
+            </Popover> */}
           </div>
         </div>
       </div>
@@ -140,7 +140,13 @@ const NewsFeedUserCard = () => {
           </a>
         </div>
         <div className="mt-[14px]">
-          <Image src={PostImage} width={552} height={240} placeholder="blur" alt="" />
+          <Image
+            src={PostImage}
+            width={552}
+            height={240}
+            placeholder="blur"
+            alt=""
+          />
         </div>
         <div className="flex justify-between mt-[14px]">
           <div className="flex gap-2 items-center">

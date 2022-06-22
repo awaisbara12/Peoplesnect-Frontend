@@ -9,12 +9,16 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@headlessui/react": "^1.6.4",
+    "@headlessui/react": "^0.0.0-insiders.bc0b64a",
     "@heroicons/react": "^1.0.6",
+    "@reduxjs/toolkit": "^1.8.2",
+    "cookies-next": "^2.0.4",
     "formik": "^2.2.9",
     "next": "12.1.6",
+    "next-auth": "^4.5.0",
     "react": "18.1.0",
     "react-dom": "18.1.0",
+    "react-redux": "^8.0.2",
     "yup": "^0.32.11"
   },
   "devDependencies": {
