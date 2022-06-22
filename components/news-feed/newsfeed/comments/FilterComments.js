@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from "react";
 import Link from "next/link";
-import { Listbox, Transition } from "@headlessui/react";
+// import { Listbox, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/outline";
 import { CheckIcon } from "@heroicons/react/solid";
 
@@ -14,7 +14,7 @@ const FilterComments = () => {
       <div className="flex items-center justify-between mt-[6px]">
         <div className="flex items-center gap-2 text-sm text-slate-400">
           <div className="w-72">
-            <Listbox value={selected} onChange={setSelected}>
+            {/* <Listbox value={selected} onChange={setSelected}>
               <div className="relative mt-1">
                 <Listbox.Button className="relative  cursor-default rounded-lg bg-transparent py-2 pl-3 pr-10 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-300 sm:text-sm">
                   <span className="block truncate">{selected.name}</span>
@@ -68,7 +68,7 @@ const FilterComments = () => {
                   </Listbox.Options>
                 </Transition>
               </div>
-            </Listbox>
+            </Listbox> */}
           </div>
         </div>
         <Link href="/">

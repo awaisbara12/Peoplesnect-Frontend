@@ -65,23 +65,33 @@ const Signup = () => {
         password_confirmation: values.confirmPassword,
       },
     };
-    fetch(SIGN_UP_API_KEY, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((result) => result.json())
-      .then((resp) => {
-        if (resp && 422) {
-          setErr(resp.error);
+
+    const signup = async () => {
+      const res = await fetch(SIGN_UP_API_KEY, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await res.json();
+
+      try {
+        if (result && 422) {
+          setErr(result.error);
         }
-        if (resp && 200) {
+        if (result && 200) {
           router.push("/news-feed");
         }
-      });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    signup();
+
     handleSubmit();
   };
 
