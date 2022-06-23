@@ -1,10 +1,9 @@
 import React from "react";
 import { router } from "next/router";
 import { getCookie } from "cookies-next";
-
 import { SIGN_OUT_API_KEY } from "../../../pages/config";
 
-const authKey = getCookie("authKey", { maxAge: 60 * 6 * 24 });
+const authKey = getCookie("authKey");
 
 export const signout = async () => {
   const res = await fetch(SIGN_OUT_API_KEY, {

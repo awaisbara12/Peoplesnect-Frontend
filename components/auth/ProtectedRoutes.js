@@ -2,7 +2,7 @@ import React from "react";
 import Router from "next/router";
 import { getCookie } from "cookies-next";
 
-const authKey = getCookie("authKey", { maxAge: 60 * 6 * 24 });
+const authKey = getCookie("authKey");
 
 const login = "/login?redirected=true"; // Define your login route address.
 

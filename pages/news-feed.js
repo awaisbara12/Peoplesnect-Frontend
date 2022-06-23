@@ -7,7 +7,7 @@ import NewsPost from "../components/news-feed/newsfeed/newspost/NewsPost";
 import NewsFeedSidebar from "../components/news-feed/newsfeed/sidebar/NewsFeedSidebar";
 import ProfileCard from "../components/news-feed/profilecard/ProfileCard";
 import NewsSearch from "../components/news-feed/search/NewsSearch";
-import ProRoutes from "../components/ProRoutes";
+import ProtectedRoutes from "../components/auth/ProtectedRoutes";
 
 const NewsFeed = () => {
   return (
@@ -46,4 +46,4 @@ const NewsFeed = () => {
   );
 };
 
-export default ProRoutes(NewsFeed);
+export default ProtectedRoutes(NewsFeed);
