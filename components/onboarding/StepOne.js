@@ -50,9 +50,10 @@ const StepOne = () => {
     try {
       if (result && result.error) {
         setErr(result.error);
-      }
-      if (result && 200) {
-        router.push("/onboarding/step-two");
+      } else {
+        if (result && 200) {
+          router.push("/onboarding/step-two");
+        }
       }
     } catch (err) {
       console.log(err);

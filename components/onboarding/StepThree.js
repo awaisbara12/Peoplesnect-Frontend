@@ -47,9 +47,10 @@ const StepThree = () => {
     try {
       if (result && result.error) {
         setErr(result.error);
-      }
-      if (result && 200) {
-        router.push("/news-feed");
+      } else {
+        if (result && 200) {
+          router.push("/news-feed");
+        }
       }
     } catch (err) {
       console.log(err);

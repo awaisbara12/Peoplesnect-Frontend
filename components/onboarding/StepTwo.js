@@ -76,7 +76,7 @@ const StepTwo = () => {
 
     const data = {
       user: {
-        jobtitle: values.jobtitle,
+        recent_job: values.jobtitle,
         recent_company: values.recentCompany,
         full_time: FullTime,
         part_time: PartTime,
@@ -104,9 +104,10 @@ const StepTwo = () => {
     try {
       if (result && result.error) {
         setErr(result.error);
-      }
-      if (result && 200) {
-        router.push("/onboarding/step-three");
+      } else {
+        if (result && 200) {
+          router.push("/onboarding/step-three");
+        }
       }
     } catch (err) {
       console.log(err);
