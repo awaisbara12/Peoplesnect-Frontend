@@ -2,16 +2,40 @@ import React, { useState, Fragment } from "react";
 import Image from "next/image";
 import Logo from "../../public/images/logo.png";
 import { useFormik } from "formik";
-import { Listbox, Transition } from "@headlessui/react";
+import { Listbox, Transition, Combobox } from "@headlessui/react";
 import { XIcon } from "@heroicons/react/outline";
 import { XCircleIcon, CheckIcon, SelectorIcon } from "@heroicons/react/solid";
-
+import { useRouter } from "next/router";
 import { OnboardingSchemaSecond } from "../auth/schemas/OnboardSchema";
-import { ONBOARDING_STEP_ONE_URL } from "../../pages/config";
+import { ONBOARDING_STEP_TWO_URL } from "../../pages/config";
 
-const dataUser = [{ name: "I AM STUDENT" }, { name: "I AM EMPLOYE" }];
+import { getCookie } from "cookies-next";
+
+const authKey = getCookie("authKey");
+
+console.log(authKey);
+
+const dataUser = [{ name: "I AM EMPLOYE" }, { name: "I AM STUDENT" }];
+
+const employmentTypes = [
+  { employmentTypename: "Select One" },
+  { employmentTypename: "Full Time" },
+  { employmentTypename: "Part Time" },
+  { employmentTypename: "Self Employed" },
+  { employmentTypename: "Freelance" },
+  { employmentTypename: "Contract" },
+  { employmentTypename: "Internship" },
+  { employmentTypename: "Apprenticeship" },
+  { employmentTypename: "Seasonal" },
+];
 
 const StepTwo = () => {
+  const router = useRouter();
+
+  const [selectedEmploymentType, setSelectedEmploymentType] = useState(
+    employmentTypes[0]
+  );
+
   const [selected, setSelected] = useState(dataUser[0]);
   const [err, setErr] = useState();
   const [close, setClose] = useState(false);
@@ -20,20 +44,57 @@ const StepTwo = () => {
     setClose(true);
   };
 
+  const FullTime = `${
+    selectedEmploymentType !== "Full Time" ? "Full Time" : ""
+  }`;
+  const PartTime = `${
+    selectedEmploymentType !== "Part Time" ? "Part Time" : ""
+  }`;
+
+  const SelfEmployed = `${
+    selectedEmploymentType !== "Self Employed" ? "Self Employed" : ""
+  }`;
+
+  const Freelance = `${
+    selectedEmploymentType !== "Freelance" ? "Freelance" : ""
+  }`;
+
+  const Contract = `${selectedEmploymentType !== "Contract" ? "Contract" : ""}`;
+
+  const Internship = `${
+    selectedEmploymentType !== "Internship" ? "Internship" : ""
+  }`;
+
+  const Apprenticeship = `${
+    selectedEmploymentType !== "Apprenticeship" ? "Apprenticeship" : ""
+  }`;
+
+  const Seasonal = `${selectedEmploymentType !== "Seasonal" ? "Seasonal" : ""}`;
+
   const stepData = async (e) => {
     e.preventDefault();
 
     const data = {
       user: {
         jobtitle: values.jobtitle,
+        recent_company: values.recentCompany,
+        full_time: FullTime,
+        part_time: PartTime,
+        self_employed: SelfEmployed,
+        freelance: Freelance,
+        contract: Contract,
+        internship: Internship,
+        apprenticeship: Apprenticeship,
+        seasonal: Seasonal,
       },
     };
 
-    const resp = await fetch(ONBOARDING_STEP_ONE_URL, {
+    const resp = await fetch(ONBOARDING_STEP_TWO_URL, {
       method: "PUT",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
+        Authorization: `${authKey}`,
       },
       body: JSON.stringify(data),
     });
@@ -43,6 +104,9 @@ const StepTwo = () => {
     try {
       if (result && result.error) {
         setErr(result.error);
+      }
+      if (result && 200) {
+        router.push("/onboarding/step-three");
       }
     } catch (err) {
       console.log(err);
@@ -61,6 +125,8 @@ const StepTwo = () => {
     initialValues: {
       country: "",
       city: "",
+      employmentType: "",
+      recentCompany: "",
       institute: "",
       degree: "",
       startYear: "",
@@ -82,7 +148,7 @@ const StepTwo = () => {
           />
         </div>
         <div className="flex flex-col justify-center items-center">
-          <div className="bg-white w-[45%] rounded-xl p-5">
+          <div className="bg-white w-[45%] rounded-xl p-5 mb-6">
             {err ? (
               <div
                 className={`bg-red-50 mt-4 text-red-600 px-4 py-4 rounded relative ${
@@ -110,39 +176,149 @@ const StepTwo = () => {
               <div className="border border-gray-100 mt-4"></div>
             </div>
             <form onSubmit={stepData} className="w-3/4 mx-auto pt-8 pb-6">
-              <div className="form-group pb-4">
-                <label htmlFor="" className="font-medium">
-                  Recent Job Title <span className="text-red-400">*</span>
-                </label>
-                <input
-                  name="jobtitle"
-                  value={values.jobtitle}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  type="text"
-                  className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400 ${
-                    errors.jobtitle && touched.jobtitle ? "border-red-600" : ""
-                  }`}
-                />
-                {errors.jobtitle && touched.jobtitle ? (
-                  <div className="text-red-600 pt-2 pl-1">
-                    {errors.jobtitle}
-                  </div>
-                ) : null}
+              <div
+                className={`form-group pb-4 ${
+                  selected.name === "I AM STUDENT" ? "hidden" : "visible"
+                }`}
+              >
+                <div className="form-group mb-4">
+                  <label htmlFor="recentJob" className="font-medium">
+                    Recent Job Title <span className="text-red-400">*</span>
+                  </label>
+                  <input
+                    name="jobtitle"
+                    value={
+                      selected.name === "I AM STUDENT" ? "" : values.jobtitle
+                    }
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    type="text"
+                    id="recentJob"
+                    className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400 ${
+                      errors.jobtitle && touched.jobtitle
+                        ? "border-red-600"
+                        : ""
+                    }`}
+                  />
+                  {errors.jobtitle && touched.jobtitle ? (
+                    <div className="text-red-600 pt-2 pl-1">
+                      {errors.jobtitle}
+                    </div>
+                  ) : null}
+                </div>
+                <div className="form-group mb-4">
+                  <label htmlFor="recentJob" className="font-medium">
+                    Employment Type <span className="text-red-400">*</span>
+                  </label>
+                  <Listbox
+                    value={selectedEmploymentType}
+                    onChange={setSelectedEmploymentType}
+                  >
+                    <div className="relative mt-2">
+                      <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-3 pl-3 pr-10 text-left border border-gray-100 focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
+                        <span className="block truncate">
+                          {selectedEmploymentType.employmentTypename}
+                        </span>
+                        <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                          <SelectorIcon
+                            className="h-5 w-5 text-gray-400"
+                            aria-hidden="true"
+                          />
+                        </span>
+                      </Listbox.Button>
+                      <Transition
+                        as={Fragment}
+                        leave="transition ease-in duration-100"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0"
+                      >
+                        <Listbox.Options className="absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                          {employmentTypes.map((employType, personIdx) => (
+                            <Listbox.Option
+                              key={personIdx}
+                              className={({ active }) =>
+                                `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                                  active
+                                    ? "bg-amber-100 text-amber-900"
+                                    : "text-gray-900"
+                                }`
+                              }
+                              value={employType}
+                            >
+                              {({ selected }) => (
+                                <>
+                                  <span
+                                    className={`block truncate ${
+                                      selected ? "font-medium" : "font-normal"
+                                    }`}
+                                  >
+                                    {employType.employmentTypename}
+                                  </span>
+                                  {selected ? (
+                                    <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
+                                      <CheckIcon
+                                        className="h-5 w-5"
+                                        aria-hidden="true"
+                                      />
+                                    </span>
+                                  ) : null}
+                                </>
+                              )}
+                            </Listbox.Option>
+                          ))}
+                        </Listbox.Options>
+                      </Transition>
+                    </div>
+                  </Listbox>
+                </div>
+                <div className="form-group pb-4">
+                  <label htmlFor="recentCompany" className="font-medium">
+                    Recent Company <span className="text-red-400">*</span>
+                  </label>
+                  <input
+                    name="recentCompany"
+                    value={
+                      selected.name === "I AM STUDENT"
+                        ? ""
+                        : values.recentCompany
+                    }
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    type="text"
+                    id="recentCompany"
+                    className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400 ${
+                      errors.recentCompany && touched.recentCompany
+                        ? "border-red-600"
+                        : ""
+                    }`}
+                  />
+                  {errors.recentCompany && touched.recentCompany ? (
+                    <div className="text-red-600 pt-2 pl-1">
+                      {errors.recentCompany}
+                    </div>
+                  ) : null}
+                </div>
               </div>
 
-              <div className="student-details">
+              <div
+                className={`student-details  ${
+                  selected.name === "I AM STUDENT" ? "visible" : "hidden"
+                }`}
+              >
                 <div className="form-group pb-4">
-                  <label htmlFor="" className="font-medium">
+                  <label htmlFor="institute" className="font-medium">
                     School College - university{" "}
                     <span className="text-red-400">*</span>
                   </label>
                   <input
                     name="institute"
-                    value={values.institute}
+                    value={
+                      selected.name === "I AM EMPLOYE" ? "" : values.institute
+                    }
                     onChange={handleChange}
                     onBlur={handleBlur}
                     type="text"
+                    id="institute"
                     className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400 ${
                       errors.institute && touched.institute
                         ? "border-red-600"
@@ -156,16 +332,19 @@ const StepTwo = () => {
                   ) : null}
                 </div>
                 <div className="form-group pb-4">
-                  <label htmlFor="" className="font-medium">
+                  <label htmlFor="degree" className="font-medium">
                     Degree
                     <span className="text-red-400">*</span>
                   </label>
                   <input
                     name="degree"
-                    value={values.degree}
+                    value={
+                      selected.name === "I AM EMPLOYE" ? "" : values.degree
+                    }
                     onChange={handleChange}
                     onBlur={handleBlur}
                     type="text"
+                    id="degree"
                     className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400 ${
                       errors.degree && touched.degree ? "border-red-600" : ""
                     }`}
@@ -176,53 +355,55 @@ const StepTwo = () => {
                     </div>
                   ) : null}
                 </div>
-                <div className="block sm:flex gap-4 items-center">
-                  <div className="w-full sm:w-[50%] form-group pb-4">
-                    <label htmlFor="" className="font-medium">
-                      Start Year
-                      <span className="text-red-400">*</span>
-                    </label>
-                    <input
-                      name="startYear"
-                      value={values.startYear}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      type="date"
-                      className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400 ${
-                        errors.startYear && touched.startYear
-                          ? "border-red-600"
-                          : ""
-                      }`}
-                    />
-                    {errors.startYear && touched.startYear ? (
-                      <div className="text-red-600 pt-2 pl-1">
-                        {errors.startYear}
-                      </div>
-                    ) : null}
-                  </div>
-                  <div className="w-full sm:w-[50%] form-group pb-4">
-                    <label htmlFor="" className="font-medium">
-                      Start Year
-                      <span className="text-red-400">*</span>
-                    </label>
-                    <input
-                      name="endYear"
-                      value={values.endYear}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      type="date"
-                      className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400 ${
-                        errors.endYear && touched.endYear
-                          ? "border-red-600"
-                          : ""
-                      }`}
-                    />
-                    {errors.degree && touched.degree ? (
-                      <div className="text-red-600 pt-2 pl-1">
-                        {errors.degree}
-                      </div>
-                    ) : null}
-                  </div>
+                <div className="w-full form-group pb-4">
+                  <label htmlFor="startYear" className="font-medium">
+                    Start Year
+                    <span className="text-red-400">*</span>
+                  </label>
+                  <input
+                    name="startYear"
+                    value={
+                      selected.name === "I AM EMPLOYE" ? "" : values.startYear
+                    }
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    type="date"
+                    id="startYear"
+                    className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400 ${
+                      errors.startYear && touched.startYear
+                        ? "border-red-600"
+                        : ""
+                    }`}
+                  />
+                  {errors.startYear && touched.startYear ? (
+                    <div className="text-red-600 pt-2 pl-1">
+                      {errors.startYear}
+                    </div>
+                  ) : null}
+                </div>
+                <div className="w-full form-group pb-4">
+                  <label htmlFor="endYear" className="font-medium">
+                    End Year
+                    <span className="text-red-400">*</span>
+                  </label>
+                  <input
+                    name="endYear"
+                    value={
+                      selected.name === "I AM EMPLOYE" ? "" : values.endYear
+                    }
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    type="date"
+                    id="endYear"
+                    className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400 ${
+                      errors.endYear && touched.endYear ? "border-red-600" : ""
+                    }`}
+                  />
+                  {errors.degree && touched.degree ? (
+                    <div className="text-red-600 pt-2 pl-1">
+                      {errors.degree}
+                    </div>
+                  ) : null}
                 </div>
               </div>
               <div className="w-full">

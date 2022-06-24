@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import Image from "next/image";
 import Logo from "../../public/images/logo.png";
 import { useFormik } from "formik";
@@ -6,16 +6,14 @@ import { XIcon } from "@heroicons/react/outline";
 import { XCircleIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/router";
 
-import { OnboardingSchemaFitst } from "../auth/schemas/OnboardSchema";
-import { ONBOARDING_STEP_ONE_URL } from "../../pages/config";
-
 import { getCookie } from "cookies-next";
+
+import { OnboardingSchemaThree } from "../auth/schemas/OnboardSchema";
+import { ONBOARDING_STEP_THREE_URL } from "../../pages/config";
 
 const authKey = getCookie("authKey");
 
-console.log(authKey);
-
-const StepOne = () => {
+const StepThree = () => {
   const router = useRouter();
 
   const [err, setErr] = useState();
@@ -30,12 +28,11 @@ const StepOne = () => {
 
     const data = {
       user: {
-        country: values.country,
-        city: values.city,
+        otp: values.otp,
       },
     };
 
-    const resp = await fetch(ONBOARDING_STEP_ONE_URL, {
+    const resp = await fetch(ONBOARDING_STEP_THREE_URL, {
       method: "PUT",
       headers: {
         Accept: "application/json",
@@ -52,7 +49,7 @@ const StepOne = () => {
         setErr(result.error);
       }
       if (result && 200) {
-        router.push("/onboarding/step-two");
+        router.push("/news-feed");
       }
     } catch (err) {
       console.log(err);
@@ -69,10 +66,9 @@ const StepOne = () => {
     handleSubmit,
   } = useFormik({
     initialValues: {
-      country: "",
-      city: "",
+      otp: "",
     },
-    validationSchema: OnboardingSchemaFitst,
+    validationSchema: OnboardingSchemaThree,
   });
 
   return (
@@ -88,7 +84,7 @@ const StepOne = () => {
           />
         </div>
         <div className="flex flex-col justify-center items-center">
-          <div className="bg-white w-[45%] rounded-xl p-5">
+          <div className="bg-white w-[45%] rounded-xl p-5 mb-6">
             {err ? (
               <div
                 className={`bg-red-50 mt-4 text-red-600 px-4 py-4 rounded relative ${
@@ -109,50 +105,37 @@ const StepOne = () => {
               ""
             )}
             <div className="text-center pt-6">
-              <h1 className="font-bold text-xl pb-2">Welcome Abdul</h1>
-              <p className="font-light">
-                Lets start your profile, connect with peoples
-                <br /> communries, companies & find jobs
-              </p>
+              <h1 className="font-bold text-xl pb-2">
+                Your profile help you to grow on
+                <br /> peoplesnect
+              </h1>
+              <div className="border border-gray-100 mt-4"></div>
             </div>
             <form onSubmit={stepData} className="w-3/4 mx-auto pt-8 pb-6">
-              <div className="form-group pb-4">
-                <label htmlFor="" className="font-medium">
-                  Country - Region <span className="text-red-400">*</span>
+              <div className={`form-group pb-4`}>
+                <label htmlFor="OnboardingSchemaThree" className="font-medium">
+                  Enter Otp <span className="text-red-400">*</span>
                 </label>
                 <input
-                  name="country"
-                  value={values.country}
+                  name="otp"
+                  value={values.otp}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  type="text"
+                  type="number"
+                  id="recentJob"
                   className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400 ${
-                    errors.country && touched.country ? "border-red-600" : ""
+                    errors.otp && touched.otp ? "border-red-600" : ""
                   }`}
                 />
-                {errors.country && touched.country ? (
-                  <div className="text-red-600 pt-2 pl-1">{errors.country}</div>
+                {errors.otp && touched.otp ? (
+                  <div className="text-red-600 pt-2 pl-1">{errors.otp}</div>
                 ) : null}
               </div>
-              <div className="form-group pb-4">
-                <label htmlFor="" className="font-medium">
-                  City / State <span className="text-red-400">*</span>
-                </label>
-                <input
-                  type="text"
-                  name="city"
-                  value={values.city}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400 ${
-                    errors.city && touched.city ? "border-red-600" : ""
-                  }`}
-                />
-                {errors.city && touched.city ? (
-                  <div className="text-red-600 pt-2 pl-1">{errors.city}</div>
-                ) : null}
-              </div>
-              <button className="bg-indigo-400 w-full text-white font-semibold py-3 rounded-md mt-4">
+
+              <button
+                disabled={isSubmitting}
+                className="disabled:bg-indigo-100 bg-indigo-400 w-full text-white font-semibold py-3 rounded-md mt-4"
+              >
                 Continue
               </button>
             </form>
@@ -163,4 +146,4 @@ const StepOne = () => {
   );
 };
 
-export default StepOne;
+export default StepThree;

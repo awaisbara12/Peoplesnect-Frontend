@@ -18,7 +18,7 @@ import { LoginSchema } from "../schemas/LoginSchema";
 const Login = () => {
   const router = useRouter();
   const [key, setKey] = useState();
-  setCookies("authKey", `${key}`, {maxAge: 60 * 6 * 24});
+  setCookies("authKey", `${key}`, { maxAge: 60 * 6 * 24 });
 
   const [passwordShow, setPasswordShow] = useState(false);
 
@@ -82,7 +82,8 @@ const Login = () => {
       try {
         if (result && result.error) {
           setErr(result.error);
-        } else {
+        }
+        if (result && 200) {
           router.push("/news-feed");
         }
       } catch (error) {

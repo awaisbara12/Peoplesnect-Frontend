@@ -26,4 +26,10 @@ export const OnboardingSchemaSecond = Yup.object().shape({
     .required("Please enter your degree"),
   startYear: Yup.string().required("Please select start year"),
   endYear: Yup.string().required("Please select end year"),
+  recentCompany: Yup.string().required("Please select recent company"),
+  employmentType: Yup.string().required("Please select employment type"),
+});
+
+export const OnboardingSchemaThree = Yup.object().shape({
+  otp: Yup.string().required("Please enter correct otp"),
 });
