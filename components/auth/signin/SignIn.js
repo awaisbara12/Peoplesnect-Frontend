@@ -7,21 +7,18 @@ import Link from "next/link";
 import Footer from "../../footer/Footer";
 import { useRouter } from "next/router";
 import { XCircleIcon } from "@heroicons/react/solid";
-
+import Spinner from "../../../components/common/Spinner";
 import { SIGN_IN_API_KEY } from "../../../pages/config";
-
 import GoogleLogo from "../../../public/images/google.png";
-
 import { useFormik } from "formik";
 import { LoginSchema } from "../schemas/LoginSchema";
 
 const Login = () => {
   const router = useRouter();
   const [key, setKey] = useState();
-  setCookies("authKey", `${key}`, {maxAge: 60 * 6 * 24});
-
+  setCookies("authKey", `${key}`, { maxAge: 60 * 6 * 24 });
   const [passwordShow, setPasswordShow] = useState(false);
-
+  const [spinner, setSpinner] = useState(false);
   const showPassword = () => {
     setPasswordShow(!passwordShow);
   };
@@ -66,6 +63,7 @@ const Login = () => {
     };
 
     const signin = async () => {
+      setSpinner(true);
       const res = await fetch(SIGN_IN_API_KEY, {
         method: "POST",
         headers: {
@@ -83,11 +81,14 @@ const Login = () => {
         if (result && result.error) {
           setErr(result.error);
         } else {
-          router.push("/news-feed");
+          if (result && 200) {
+            router.push("/news-feed");
+          }
         }
       } catch (error) {
         console.log(error);
       }
+      setSpinner(false);
     };
 
     signin();
@@ -104,7 +105,7 @@ const Login = () => {
         <div className="block md:flex items-center justify-start">
           <div className="w-full xl:w-[66%] h-screen flex flex-col justify-between ml-auto relative z-50">
             <div className="flex justify-center items-start pt-10">
-              <div className="w-11/12 xl:w-1/2 lg:w-1/2 bg-white py-8 px-8 mb-6 rounded-xl">
+              <div className="w-11/12 xl:w-1/2 lg:w-1/2 bg-white py-8 px-8 mb-8 rounded-xl">
                 <div className="text-center">
                   <Image
                     src={Logo}
@@ -218,9 +219,9 @@ const Login = () => {
                   </div>
                   <button
                     type="submit"
-                    className="bg-indigo-400 text-white text-xl font-semibold w-full py-2 rounded-full mt-6"
+                    className="bg-indigo-400 flex gap-2 items-center justify-center text-white text-xl text-center cursor-pointer font-semibold w-full py-2 rounded-full mt-6"
                   >
-                    Sign In
+                    Sign In {spinner && true ? <Spinner /> : ""}
                   </button>
                 </form>
                 <div className="mt-4 text-center">
@@ -231,11 +232,9 @@ const Login = () => {
                 </div>
               </div>
             </div>
-            <Fragment>
-              <Footer />
-            </Fragment>
           </div>
         </div>
+        <Footer />
       </div>
     </>
   );

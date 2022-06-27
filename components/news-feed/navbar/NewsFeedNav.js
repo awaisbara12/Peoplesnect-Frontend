@@ -12,7 +12,7 @@ import {
 
 const NewsFeedNav = () => {
   return (
-    <div className="navbar w-full">
+    <div className="w-full">
       <div className="navbar-header text-center">
         <Link href="/">
           <a>

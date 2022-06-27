@@ -1,37 +1,9 @@
 import React from "react";
 import Link from "next/link";
-import { getCookie } from "cookies-next";
-import { useRouter } from "next/router";
 import { SearchIcon, LockOpenIcon } from "@heroicons/react/outline";
-
-import { SIGN_OUT_API_KEY } from "../../../pages/config";
+import { signout } from "../../auth/signout/SignOut";
 
 const NewsSearch = () => {
-  const router = useRouter();
-
-  const authKey = getCookie("authKey", { maxAge: 60 * 6 * 24 });
-
-  const signOutData = () => {
-    const signout = async () => {
-      const res = await fetch(SIGN_OUT_API_KEY, {
-        method: "DELETE",
-        headers: {
-          Authorization: `${authKey}`,
-        },
-      });
-
-      const result = await res.json();
-
-      try {
-        if (result && 200) {
-          router.push("/login");
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    signout();
-  };
   return (
     <div className="flex items-center w-full mt-7 gap-4">
       <label className="relative block">
@@ -51,7 +23,7 @@ const NewsSearch = () => {
       </label>
       <div className="bg-blue-500 flex items-center justify-center rounded-full w-8 h-8 p-2">
         <LockOpenIcon
-          onClick={() => signOutData()}
+          onClick={() => signout()}
           className="text-white w-5 h-5 cursor-pointer"
         />
       </div>
