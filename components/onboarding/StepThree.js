@@ -5,9 +5,8 @@ import { useFormik } from "formik";
 import { XIcon } from "@heroicons/react/outline";
 import { XCircleIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/router";
-
+import Spinner from "../common/Spinner";
 import { getCookie } from "cookies-next";
-
 import { OnboardingSchemaThree } from "../auth/schemas/OnboardSchema";
 import { ONBOARDING_STEP_THREE_URL } from "../../pages/config";
 
@@ -15,7 +14,7 @@ const authKey = getCookie("authKey");
 
 const StepThree = () => {
   const router = useRouter();
-
+  const [spinner, setSpinner] = useState(false);
   const [err, setErr] = useState();
   const [close, setClose] = useState(false);
 
@@ -25,6 +24,7 @@ const StepThree = () => {
 
   const stepData = async (e) => {
     e.preventDefault();
+    setSpinner(true);
 
     const data = {
       user: {
@@ -55,22 +55,17 @@ const StepThree = () => {
     } catch (err) {
       console.log(err);
     }
+    setSpinner(false);
+
     handleSubmit();
   };
-  const {
-    values,
-    errors,
-    touched,
-    isSubmitting,
-    handleBlur,
-    handleChange,
-    handleSubmit,
-  } = useFormik({
-    initialValues: {
-      otp: "",
-    },
-    validationSchema: OnboardingSchemaThree,
-  });
+  const { values, errors, touched, isSubmiting, handleBlur, handleChange, handleSubmit } =
+    useFormik({
+      initialValues: {
+        otp: "",
+      },
+      validationSchema: OnboardingSchemaThree,
+    });
 
   return (
     <>
@@ -92,14 +87,16 @@ const StepThree = () => {
                   close === true ? "hidden" : "visible"
                 }`}
                 role="alert"
-                onClick={() => handleClose()}
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <XCircleIcon className="fill-current h-6 w-6 text-red-500" />
                     <span className="block sm:inline">{err}</span>
                   </div>
-                  <XIcon className="fill-current h-6 w-6 text-red-500 cursor-pointer" />
+                  <XIcon
+                    onClick={() => handleClose()}
+                    className="fill-current h-6 w-6 text-red-500 cursor-pointer"
+                  />
                 </div>
               </div>
             ) : (
@@ -134,10 +131,11 @@ const StepThree = () => {
               </div>
 
               <button
-                disabled={isSubmitting}
-                className="disabled:bg-indigo-100 bg-indigo-400 w-full text-white font-semibold py-3 rounded-md mt-4"
+                type="submit"
+                disabled={isSubmiting}
+                className="bg-indigo-400 flex gap-2 items-center justify-center text-white text-xl text-center cursor-pointer font-semibold w-full py-2 rounded-full mt-6"
               >
-                Continue
+                Continue {spinner && true ? <Spinner /> : ""}
               </button>
             </form>
           </div>

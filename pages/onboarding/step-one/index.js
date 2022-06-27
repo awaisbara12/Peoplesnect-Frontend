@@ -1,6 +1,8 @@
 import React from "react";
 import StepOne from "../../../components/onboarding/StepOne";
 
+import RegistrationRoutes from "../../../components/auth/RegistrationRoutes";
+
 const index = () => {
   return (
     <>
@@ -9,4 +11,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default RegistrationRoutes(index);

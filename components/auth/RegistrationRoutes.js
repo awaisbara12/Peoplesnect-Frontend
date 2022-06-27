@@ -4,7 +4,7 @@ import { getCookie } from "cookies-next";
 
 const authKey = getCookie("authKey");
 
-const login = "/login"; // Define your login route address.
+const login = "/"; // Define your login route address.
 
 /**
  * Check user authentication and authorization
@@ -16,9 +16,9 @@ const checkUserAuthentication = () => {
 };
 
 export default (WrappedComponent) => {
-  const hocComponent = ({ ...props }) => <WrappedComponent {...props} />;
+  const HocComponent = ({ ...props }) => <WrappedComponent {...props} />;
 
-  hocComponent.getInitialProps = async (context) => {
+  HocComponent.getInitialProps = async (context) => {
     const userAuth = await checkUserAuthentication();
 
     // Are you an authorized user or not?
@@ -43,5 +43,5 @@ export default (WrappedComponent) => {
     return { userAuth };
   };
 
-  return hocComponent;
+  return HocComponent;
 };

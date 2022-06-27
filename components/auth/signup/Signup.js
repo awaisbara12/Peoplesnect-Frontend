@@ -11,6 +11,8 @@ import { XCircleIcon } from "@heroicons/react/solid";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
+import Spinner from "../../../components/common/Spinner";
+
 import { SIGN_UP_API_KEY } from "../../../pages/config";
 import { SignupSchema } from "../schemas/SignupSchema";
 
@@ -19,13 +21,13 @@ const Signup = () => {
   setCookies("authKey", `${key}`, { maxAge: 60 * 6 * 24 });
   const router = useRouter();
   const [passwordShow, setPasswordShow] = useState(false);
+  const [err, setErr] = useState();
   const [close, setClose] = useState(false);
+  const [spinner, setSpinner] = useState(false);
 
   const showPassword = () => {
     setPasswordShow(!passwordShow);
   };
-
-  const [err, setErr] = useState();
 
   const handleClose = () => {
     setClose(true);
@@ -50,6 +52,7 @@ const Signup = () => {
       email: "",
       password: "",
       confirmPassword: "",
+      checkbox: false,
     },
     validationSchema: SignupSchema,
     onSubmit,
@@ -69,6 +72,7 @@ const Signup = () => {
     };
 
     const signup = async () => {
+      setSpinner(true);
       const res = await fetch(SIGN_UP_API_KEY, {
         method: "POST",
         headers: {
@@ -92,6 +96,7 @@ const Signup = () => {
       } catch (error) {
         console.log(error);
       }
+      setSpinner(false);
     };
 
     signup();
@@ -108,9 +113,9 @@ const Signup = () => {
     <Fragment>
       <div className="signUp--background min-h-screen overflow-y-auto">
         <div className="block md:flex items-center justify-start">
-          <div className="w-full xl:w-[64%] lg:[70%] h-screen flex flex-col justify-between ml-auto relative z-50">
+          <div className="w-full xl:w-[64%] lg:[70%] h-full flex flex-col justify-between ml-auto relative z-50">
             <div className="flex justify-center items-start pt-6">
-              <div className="w-11/12 xl:w-2/3 lg:w-2/3 bg-white py-8 px-8 mb-6 rounded-xl">
+              <div className="w-11/12 xl:w-2/3 lg:w-2/3 bg-white py-8 px-8 mb-8 rounded-xl">
                 <div className="text-center">
                   <Image
                     src={Logo}
@@ -304,12 +309,24 @@ const Signup = () => {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="bg-indigo-400 text-white text-xl text-center cursor-pointer font-semibold w-full py-2 rounded-full mt-6"
+                    className="bg-indigo-400 flex gap-2 items-center justify-center text-white text-xl text-center cursor-pointer font-semibold w-full py-2 rounded-full mt-6"
                   >
-                    Join Now
+                    Join Now {spinner && true ? <Spinner /> : ""}
                   </button>
                   <div className="flex items-start gap-2 justify-start mt-8 px-1">
-                    <input type="checkbox" name="" id="agreeCheckbox" />
+                    <input
+                      value={values.checkbox}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      type="checkbox"
+                      name="checkbox"
+                      id="agreeCheckbox"
+                    />
+                    {errors.checkbox && touched.checkbox ? (
+                      <div className="text-red-600 pt-2 pl-1">
+                        {errors.checkbox}
+                      </div>
+                    ) : null}
                     <p className="font-light -mt-2 text-sm sm:text-lg">
                       creating an account at peoplesNect you must agree{" "}
                       <Link href="/">
@@ -341,12 +358,10 @@ const Signup = () => {
                 </form>
               </div>
             </div>
-            <Fragment>
-              <Footer />
-            </Fragment>
           </div>
         </div>
       </div>
+      <Footer />
     </Fragment>
   );
 };

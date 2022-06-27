@@ -5,19 +5,16 @@ import { useFormik } from "formik";
 import { XIcon } from "@heroicons/react/outline";
 import { XCircleIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/router";
-
 import { OnboardingSchemaFitst } from "../auth/schemas/OnboardSchema";
 import { ONBOARDING_STEP_ONE_URL } from "../../pages/config";
-
 import { getCookie } from "cookies-next";
+import Spinner from "../common/Spinner";
 
 const authKey = getCookie("authKey");
 
-console.log(authKey);
-
 const StepOne = () => {
   const router = useRouter();
-
+  const [spinner, setSpinner] = useState(false);
   const [err, setErr] = useState();
   const [close, setClose] = useState(false);
 
@@ -27,6 +24,7 @@ const StepOne = () => {
 
   const stepData = async (e) => {
     e.preventDefault();
+    setSpinner(true);
 
     const data = {
       user: {
@@ -58,6 +56,8 @@ const StepOne = () => {
     } catch (err) {
       console.log(err);
     }
+    setSpinner(false);
+
     handleSubmit();
   };
   const {
@@ -96,14 +96,16 @@ const StepOne = () => {
                   close === true ? "hidden" : "visible"
                 }`}
                 role="alert"
-                onClick={() => handleClose()}
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <XCircleIcon className="fill-current h-6 w-6 text-red-500" />
                     <span className="block sm:inline">{err}</span>
                   </div>
-                  <XIcon className="fill-current h-6 w-6 text-red-500 cursor-pointer" />
+                  <XIcon
+                    onClick={() => handleClose()}
+                    className="fill-current h-6 w-6 text-red-500 cursor-pointer"
+                  />
                 </div>
               </div>
             ) : (
@@ -116,6 +118,7 @@ const StepOne = () => {
                 <br /> communries, companies & find jobs
               </p>
             </div>
+
             <form onSubmit={stepData} className="w-3/4 mx-auto pt-8 pb-6">
               <div className="form-group pb-4">
                 <label htmlFor="" className="font-medium">
@@ -153,8 +156,12 @@ const StepOne = () => {
                   <div className="text-red-600 pt-2 pl-1">{errors.city}</div>
                 ) : null}
               </div>
-              <button className="bg-indigo-400 w-full text-white font-semibold py-3 rounded-md mt-4">
-                Continue
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="bg-indigo-400 flex gap-2 items-center justify-center text-white text-xl text-center cursor-pointer font-semibold w-full py-2 rounded-full mt-6"
+              >
+                Continue {spinner && true ? <Spinner /> : ""}
               </button>
             </form>
           </div>

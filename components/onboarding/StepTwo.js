@@ -8,33 +8,40 @@ import { XCircleIcon, CheckIcon, SelectorIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/router";
 import { OnboardingSchemaSecond } from "../auth/schemas/OnboardSchema";
 import { ONBOARDING_STEP_TWO_URL } from "../../pages/config";
-
 import { getCookie } from "cookies-next";
+import Spinner from "../common/Spinner";
 
 const authKey = getCookie("authKey");
-
-console.log(authKey);
 
 const dataUser = [{ name: "I AM EMPLOYE" }, { name: "I AM STUDENT" }];
 
 const employmentTypes = [
-  { employmentTypename: "Select One" },
-  { employmentTypename: "Full Time" },
-  { employmentTypename: "Part Time" },
-  { employmentTypename: "Self Employed" },
-  { employmentTypename: "Freelance" },
-  { employmentTypename: "Contract" },
-  { employmentTypename: "Internship" },
-  { employmentTypename: "Apprenticeship" },
-  { employmentTypename: "Seasonal" },
+  { value: "", employmentTypename: "Select One" },
+  { employmentTypValue: "full_time", employmentTypename: "Full Time" },
+  { employmentTypValue: "part_time", employmentTypename: "Part Time" },
+  { employmentTypValue: "self_employed", employmentTypename: "Self Employed" },
+  { employmentTypValue: "freelance", employmentTypename: "Freelance" },
+  { employmentTypValue: "contract", employmentTypename: "Contract" },
+  { employmentTypValue: "internship", employmentTypename: "Internship" },
+  {
+    employmentTypValue: "apprenticeship",
+    employmentTypename: "Apprenticeship",
+  },
+  { employmentTypValue: "seasonal", employmentTypename: "Seasonal" },
 ];
 
 const StepTwo = () => {
   const router = useRouter();
-
+  const [spinner, setSpinner] = useState(false);
   const [selectedEmploymentType, setSelectedEmploymentType] = useState(
     employmentTypes[0]
   );
+
+  const [selectedValue, setSelectedValue] = useState(employmentTypes[0]);
+
+  const commonChange = (e) => {
+    setSelectedEmploymentType(e), setSelectedValue(e);
+  };
 
   const [selected, setSelected] = useState(dataUser[0]);
   const [err, setErr] = useState();
@@ -44,48 +51,20 @@ const StepTwo = () => {
     setClose(true);
   };
 
-  const FullTime = `${
-    selectedEmploymentType !== "Full Time" ? "Full Time" : ""
-  }`;
-  const PartTime = `${
-    selectedEmploymentType !== "Part Time" ? "Part Time" : ""
-  }`;
-
-  const SelfEmployed = `${
-    selectedEmploymentType !== "Self Employed" ? "Self Employed" : ""
-  }`;
-
-  const Freelance = `${
-    selectedEmploymentType !== "Freelance" ? "Freelance" : ""
-  }`;
-
-  const Contract = `${selectedEmploymentType !== "Contract" ? "Contract" : ""}`;
-
-  const Internship = `${
-    selectedEmploymentType !== "Internship" ? "Internship" : ""
-  }`;
-
-  const Apprenticeship = `${
-    selectedEmploymentType !== "Apprenticeship" ? "Apprenticeship" : ""
-  }`;
-
-  const Seasonal = `${selectedEmploymentType !== "Seasonal" ? "Seasonal" : ""}`;
-
   const stepData = async (e) => {
     e.preventDefault();
-
+    setSpinner(true);
     const data = {
       user: {
         recent_job: values.jobtitle,
         recent_company: values.recentCompany,
-        full_time: FullTime,
-        part_time: PartTime,
-        self_employed: SelfEmployed,
-        freelance: Freelance,
-        contract: Contract,
-        internship: Internship,
-        apprenticeship: Apprenticeship,
-        seasonal: Seasonal,
+        employment_type: selectedValue.employmentTypValue,
+        is_student: {
+          school: values.institute,
+          degree: values.degree,
+          start_year: values.startYear,
+          end_year: values.endYear,
+        },
       },
     };
 
@@ -112,13 +91,15 @@ const StepTwo = () => {
     } catch (err) {
       console.log(err);
     }
+    setSpinner(false);
+
     handleSubmit();
   };
   const {
     values,
     errors,
     touched,
-    isSubmitting,
+    isSubmiting,
     handleBlur,
     handleChange,
     handleSubmit,
@@ -156,14 +137,16 @@ const StepTwo = () => {
                   close === true ? "hidden" : "visible"
                 }`}
                 role="alert"
-                onClick={() => handleClose()}
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <XCircleIcon className="fill-current h-6 w-6 text-red-500" />
                     <span className="block sm:inline">{err}</span>
                   </div>
-                  <XIcon className="fill-current h-6 w-6 text-red-500 cursor-pointer" />
+                  <XIcon
+                    onClick={() => handleClose()}
+                    className="fill-current h-6 w-6 text-red-500 cursor-pointer"
+                  />
                 </div>
               </div>
             ) : (
@@ -212,8 +195,8 @@ const StepTwo = () => {
                     Employment Type <span className="text-red-400">*</span>
                   </label>
                   <Listbox
-                    value={selectedEmploymentType}
-                    onChange={setSelectedEmploymentType}
+                    value={selectedValue.employmentTypValue}
+                    onChange={commonChange}
                   >
                     <div className="relative mt-2">
                       <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-3 pl-3 pr-10 text-left border border-gray-100 focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
@@ -233,7 +216,10 @@ const StepTwo = () => {
                         leaveFrom="opacity-100"
                         leaveTo="opacity-0"
                       >
-                        <Listbox.Options className="absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                        <Listbox.Options
+                          required
+                          className="absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+                        >
                           {employmentTypes.map((employType, personIdx) => (
                             <Listbox.Option
                               key={personIdx}
@@ -464,11 +450,13 @@ const StepTwo = () => {
                   </div>
                 </Listbox>
               </div>
+
               <button
-                disabled={isSubmitting}
-                className="disabled:bg-indigo-100 bg-indigo-400 w-full text-white font-semibold py-3 rounded-md mt-4"
+                type="submit"
+                disabled={isSubmiting}
+                className="bg-indigo-400 flex gap-2 items-center justify-center text-white text-xl text-center cursor-pointer font-semibold w-full py-2 rounded-full mt-6"
               >
-                Continue
+                Continue {spinner && true ? <Spinner /> : ""}
               </button>
             </form>
           </div>
