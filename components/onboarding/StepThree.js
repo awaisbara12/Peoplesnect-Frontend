@@ -59,13 +59,20 @@ const StepThree = () => {
 
     handleSubmit();
   };
-  const { values, errors, touched, isSubmiting, handleBlur, handleChange, handleSubmit } =
-    useFormik({
-      initialValues: {
-        otp: "",
-      },
-      validationSchema: OnboardingSchemaThree,
-    });
+  const {
+    values,
+    errors,
+    touched,
+    isSubmiting,
+    handleBlur,
+    handleChange,
+    handleSubmit,
+  } = useFormik({
+    initialValues: {
+      otp: "",
+    },
+    validationSchema: OnboardingSchemaThree,
+  });
 
   return (
     <>
@@ -80,7 +87,7 @@ const StepThree = () => {
           />
         </div>
         <div className="flex flex-col justify-center items-center">
-          <div className="bg-white w-[45%] rounded-xl p-5 mb-6">
+          <div className="bg-white w-[95%] lg:w-[50%] md:w-[60%] rounded-xl p-5 mb-6">
             {err ? (
               <div
                 className={`bg-red-50 mt-4 text-red-600 px-4 py-4 rounded relative ${

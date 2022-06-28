@@ -89,7 +89,7 @@ const StepOne = () => {
           />
         </div>
         <div className="flex flex-col justify-center items-center">
-          <div className="bg-white w-[45%] rounded-xl p-5">
+          <div className="bg-white w-[95%] lg:w-[50%] md:w-[60%] rounded-xl p-5">
             {err ? (
               <div
                 className={`bg-red-50 mt-4 text-red-600 px-4 py-4 rounded relative ${

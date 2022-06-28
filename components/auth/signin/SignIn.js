@@ -103,7 +103,7 @@ const Login = () => {
     <>
       <div className="signUp--background min-h-screen overflow-y-auto">
         <div className="block md:flex items-center justify-start">
-          <div className="w-full xl:w-[66%] h-screen flex flex-col justify-between ml-auto relative z-50">
+          <div className="w-full xl:w-[70%] h-full flex flex-col justify-end ml-auto relative z-50">
             <div className="flex justify-center items-start pt-10">
               <div className="w-11/12 xl:w-1/2 lg:w-1/2 bg-white py-8 px-8 mb-8 rounded-xl">
                 <div className="text-center">
