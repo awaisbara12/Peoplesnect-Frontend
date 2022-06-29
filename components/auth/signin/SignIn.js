@@ -100,7 +100,7 @@ const Login = () => {
   }, []);
 
   return (
-    <>
+    <Fragment>
       <div className="signUp--background min-h-screen overflow-y-auto">
         <div className="block md:flex items-center justify-start">
           <div className="w-full xl:w-[70%] h-full flex flex-col justify-end ml-auto relative z-50">
@@ -117,7 +117,7 @@ const Login = () => {
                 </div>
                 <div className="border-gray-100 border mt-4"></div>
                 <div className="flex w-64 md:w-64 sm:w-48 items-center justify-center mt-6 mx-auto lg:mx-auto gap-2 bg-indigo-400 p-2 cursor-pointer rounded-md">
-                  <div className="bg-white w-10 py-1 rounded-sm flex justify-center items-center">
+                  <div className="bg-white w-10 py-1 rounded-full flex justify-center items-center">
                     <Image
                       src={GoogleLogo}
                       width={30}
@@ -234,9 +234,9 @@ const Login = () => {
             </div>
           </div>
         </div>
-        <Footer />
       </div>
-    </>
+      <Footer />
+    </Fragment>
   );
 };
 

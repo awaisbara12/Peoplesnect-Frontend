@@ -126,7 +126,7 @@ const Signup = () => {
                   />
                 </div>
                 <div className="flex justify-center w-64 md:w-64 sm:w-48 items-center mt-6 mx-auto lg:mx-auto gap-2 bg-indigo-400 p-2 cursor-pointer rounded-md">
-                  <div className="bg-white w-10 py-1 rounded-sm flex justify-center items-center">
+                  <div className="bg-white w-10 py-1 rounded-full flex justify-center items-center">
                     <Image
                       src={GoogleLogo}
                       width={30}
