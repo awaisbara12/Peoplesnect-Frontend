@@ -35,6 +35,13 @@ const Login = () => {
     actions.resetForm();
   };
 
+  useEffect(() => {
+    if (key && key) {
+      const getkey = localStorage.setItem("sessionKey", key);
+      console.log(getkey);
+    }
+  }, [key]);
+
   const {
     values,
     errors,

@@ -18,6 +18,8 @@ export const signout = async () => {
   try {
     if (result && 200) {
       router.push("/login");
+      localStorage.getItem("sessionKey");
+      localStorage.removeItem("sessionKey");
     }
   } catch (error) {
     console.log(error);
