@@ -22,8 +22,6 @@ const Signup = () => {
   const [close, setClose] = useState(false);
   const [spinner, setSpinner] = useState(false);
 
-  console.log(err);
-
   const showPassword = () => {
     setPasswordShow(!passwordShow);
   };
@@ -85,7 +83,7 @@ const Signup = () => {
             "keyStore",
             response.headers.get("Authorization")
           );
-          if (response && response.error) {
+          if (response && 422) {
             setErr(response.error);
           } else {
             if (response && 200) {
