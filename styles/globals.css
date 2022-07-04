@@ -19,8 +19,12 @@ a {
   box-sizing: border-box;
 }
 
-.signUp--background{
+.signUp--background {
   background-image: url('../public/images/bg.webp');
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+.kwtwXm img{
+  object-fit: cover !important;
 }

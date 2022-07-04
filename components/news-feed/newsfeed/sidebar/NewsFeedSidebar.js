@@ -5,7 +5,7 @@ import FooterNewsFeed from "../newsfeedfooter/FooterNewsFeed";
 
 const NewsFeedSidebar = () => {
   return (
-    <>
+    <div>
       <div className="bg-white w-72 rounded-xl mt-7 p-5">
         <div className="">
           <NewsFeedNav />
@@ -16,7 +16,7 @@ const NewsFeedSidebar = () => {
         </div>
       </div>
       <FooterNewsFeed />
-    </>
+    </div>
   );
 };
 

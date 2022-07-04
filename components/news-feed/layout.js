@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 
 const NewsFeedLayout = ({ children }) => {
-  return <Fragment>{children}</Fragment>;
+  return <div>{children}</div>;
 };
 
 export default NewsFeedLayout;

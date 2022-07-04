@@ -5,7 +5,6 @@ import Image from "next/image";
 import Logo from "../../../public/images/logo.png";
 import GoogleLogo from "../../../public/images/google.png";
 import Footer from "../../footer/Footer";
-import { setCookies } from "cookies-next";
 import { EyeIcon, XIcon } from "@heroicons/react/outline";
 import { XCircleIcon } from "@heroicons/react/solid";
 import Link from "next/link";
@@ -17,8 +16,6 @@ import { SIGN_UP_API_KEY } from "../../../pages/config";
 import { SignupSchema } from "../schemas/SignupSchema";
 
 const Signup = () => {
-  const [key, setKey] = useState();
-  setCookies("authKey", `${key}`, { maxAge: 60 * 6 * 24 });
   const router = useRouter();
   const [passwordShow, setPasswordShow] = useState(false);
   const [err, setErr] = useState();
@@ -82,8 +79,6 @@ const Signup = () => {
         body: JSON.stringify(data),
       });
 
-      setKey(res.headers.get("Authorization"));
-
       const result = await res.json();
 
       try {
@@ -91,6 +86,10 @@ const Signup = () => {
           setErr(result.error);
         }
         if (result && 200) {
+          localStorage.setItem(
+            "keyStore",
+            response.headers.get("Authorization")
+          );
           router.push("/onboarding/step-one");
         }
       } catch (error) {
@@ -126,7 +125,7 @@ const Signup = () => {
                   />
                 </div>
                 <div className="flex justify-center w-64 md:w-64 sm:w-48 items-center mt-6 mx-auto lg:mx-auto gap-2 bg-indigo-400 p-2 cursor-pointer rounded-md">
-                  <div className="bg-white w-10 py-1 rounded-sm flex justify-center items-center">
+                  <div className="bg-white w-10 py-1 rounded-full flex justify-center items-center">
                     <Image
                       src={GoogleLogo}
                       width={30}

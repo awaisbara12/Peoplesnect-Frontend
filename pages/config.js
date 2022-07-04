@@ -1,6 +1,7 @@
 import React from "react";
 
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+export const POST_NEWSFEED_API_KEY = process.env.NEXT_PUBLIC_NEWSFEED_POST_URL;
 export const USER_DETAILS_API_KEY = process.env.NEXT_PUBLIC_USER_DETAILS_URL;
 export const SIGN_UP_API_KEY = process.env.NEXT_PUBLIC_SIGN_UP_API_URL;
 export const SIGN_IN_API_KEY = process.env.NEXT_PUBLIC_SIGN_IN_API_URL;

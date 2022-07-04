@@ -7,14 +7,26 @@ import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUser } from "../../../store/userSlice";
 
+import Spinner from "../../common/Spinner";
+
 const ProfileCard = () => {
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     dispatch(fetchUser());
+    setLoading(false);
   }, [dispatch]);
 
   const { data: user } = useSelector((state) => state.user);
+
+  if (loading)
+    return (
+      <div className="mt-8">
+        <Spinner />
+      </div>
+    );
 
   return (
     <Fragment>
@@ -40,9 +52,11 @@ const ProfileCard = () => {
           </div>
           <div className="font-semibold text-base text-gray-900 text-center mt-2.5 mb-1.5">
             Johnson Kia
+            {/* {user.user?.map((item) => (
+                <div key={item.id}></div>
+              ))} */}
           </div>
         </div>
-
         <div className="font-light text-base text-gray-900 leading-5 text-center">
           Node.js developer at agency.
         </div>

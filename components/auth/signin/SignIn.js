@@ -1,11 +1,10 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { setCookies } from "cookies-next";
 import Image from "next/image";
 import Logo from "../../../public/images/logo.png";
 import { EyeIcon, XIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 import Footer from "../../footer/Footer";
-import { useRouter } from "next/router";
+import Router from "next/router";
 import { XCircleIcon } from "@heroicons/react/solid";
 import Spinner from "../../../components/common/Spinner";
 import { SIGN_IN_API_KEY } from "../../../pages/config";
@@ -14,9 +13,6 @@ import { useFormik } from "formik";
 import { LoginSchema } from "../schemas/LoginSchema";
 
 const Login = () => {
-  const router = useRouter();
-  const [key, setKey] = useState();
-  setCookies("authKey", `${key}`, { maxAge: 60 * 6 * 24 });
   const [passwordShow, setPasswordShow] = useState(false);
   const [spinner, setSpinner] = useState(false);
   const showPassword = () => {
@@ -35,15 +31,7 @@ const Login = () => {
     actions.resetForm();
   };
 
-  const {
-    values,
-    errors,
-    touched,
-    isSubmitting,
-    handleBlur,
-    handleChange,
-    handleSubmit,
-  } = useFormik({
+  const { values, errors, touched, handleBlur, handleChange } = useFormik({
     initialValues: {
       email: "",
       password: "",
@@ -62,32 +50,36 @@ const Login = () => {
       },
     };
 
-    const signin = async () => {
+    const signin = () => {
       setSpinner(true);
-      const res = await fetch(SIGN_IN_API_KEY, {
+      fetch(SIGN_IN_API_KEY, {
         method: "POST",
         headers: {
           Accept: "application/json",
-          "Content-Type": "application/json",
+          "Content-type": "application/json; charset=utf-8",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Credentials": true,
         },
+        credentials: "same-origin",
         body: JSON.stringify(data),
-      });
-
-      setKey(res.headers.get("Authorization"));
-
-      const result = await res.json();
-
-      try {
-        if (result && result.error) {
-          setErr(result.error);
-        } else {
-          if (result && 200) {
-            router.push("/news-feed");
+      })
+        .then((response) => {
+          localStorage.setItem(
+            "keyStore",
+            response.headers.get("Authorization")
+          );
+          if (response && response.error) {
+            setErr(response.error);
+          } else {
+            if (response && 200) {
+              Router.push("/news-feed");
+            }
           }
-        }
-      } catch (error) {
-        console.log(error);
-      }
+        })
+
+        .catch((error) => {
+          console.log(error);
+        });
       setSpinner(false);
     };
 
@@ -96,14 +88,14 @@ const Login = () => {
 
   useEffect(() => {
     // Prefetch the dashboard page
-    router.prefetch("/news-feed");
+    Router.prefetch("/news-feed");
   }, []);
 
   return (
-    <>
+    <Fragment>
       <div className="signUp--background min-h-screen overflow-y-auto">
         <div className="block md:flex items-center justify-start">
-          <div className="w-full xl:w-[66%] h-screen flex flex-col justify-between ml-auto relative z-50">
+          <div className="w-full xl:w-[70%] h-full flex flex-col justify-end ml-auto relative z-50">
             <div className="flex justify-center items-start pt-10">
               <div className="w-11/12 xl:w-1/2 lg:w-1/2 bg-white py-8 px-8 mb-8 rounded-xl">
                 <div className="text-center">
@@ -117,7 +109,7 @@ const Login = () => {
                 </div>
                 <div className="border-gray-100 border mt-4"></div>
                 <div className="flex w-64 md:w-64 sm:w-48 items-center justify-center mt-6 mx-auto lg:mx-auto gap-2 bg-indigo-400 p-2 cursor-pointer rounded-md">
-                  <div className="bg-white w-10 py-1 rounded-sm flex justify-center items-center">
+                  <div className="bg-white w-10 py-1 rounded-full flex justify-center items-center">
                     <Image
                       src={GoogleLogo}
                       width={30}
@@ -234,9 +226,9 @@ const Login = () => {
             </div>
           </div>
         </div>
-        <Footer />
       </div>
-    </>
+      <Footer />
+    </Fragment>
   );
 };
 
