@@ -6,13 +6,12 @@ import { XIcon } from "@heroicons/react/outline";
 import { XCircleIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/router";
 import Spinner from "../common/Spinner";
-import { getCookie } from "cookies-next";
+import Cookies from "js-cookie";
 import { OnboardingSchemaThree } from "../auth/schemas/OnboardSchema";
 import { ONBOARDING_STEP_THREE_URL } from "../../pages/config";
 
-const authKey = getCookie("authKey");
-
 const StepThree = () => {
+  const authKey = localStorage.getItem("keyStore");
   const router = useRouter();
   const [spinner, setSpinner] = useState(false);
   const [err, setErr] = useState();

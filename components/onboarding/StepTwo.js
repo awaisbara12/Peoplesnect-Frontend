@@ -8,10 +8,8 @@ import { XCircleIcon, CheckIcon, SelectorIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/router";
 import { OnboardingSchemaSecond } from "../auth/schemas/OnboardSchema";
 import { ONBOARDING_STEP_TWO_URL } from "../../pages/config";
-import { getCookie } from "cookies-next";
+import Cookies from "js-cookie";
 import Spinner from "../common/Spinner";
-
-const authKey = getCookie("authKey");
 
 const dataUser = [{ name: "I AM EMPLOYE" }, { name: "I AM STUDENT" }];
 
@@ -31,6 +29,7 @@ const employmentTypes = [
 ];
 
 const StepTwo = () => {
+  const authKey = localStorage.getItem("keyStore");
   const router = useRouter();
   const [spinner, setSpinner] = useState(false);
   const [selectedEmploymentType, setSelectedEmploymentType] = useState(

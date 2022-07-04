@@ -1,5 +1,4 @@
 import Head from "next/head";
-
 import Signup from "../components/auth/signup/Signup";
 import RootLayout from "../components/layout";
 

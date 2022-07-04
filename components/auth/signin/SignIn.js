@@ -1,11 +1,10 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { setCookies } from "cookies-next";
 import Image from "next/image";
 import Logo from "../../../public/images/logo.png";
 import { EyeIcon, XIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 import Footer from "../../footer/Footer";
-import { useRouter } from "next/router";
+import Router from "next/router";
 import { XCircleIcon } from "@heroicons/react/solid";
 import Spinner from "../../../components/common/Spinner";
 import { SIGN_IN_API_KEY } from "../../../pages/config";
@@ -14,9 +13,6 @@ import { useFormik } from "formik";
 import { LoginSchema } from "../schemas/LoginSchema";
 
 const Login = () => {
-  const router = useRouter();
-  const [key, setKey] = useState();
-  setCookies("authKey", `${key}`, { maxAge: 60 * 6 * 24 });
   const [passwordShow, setPasswordShow] = useState(false);
   const [spinner, setSpinner] = useState(false);
   const showPassword = () => {
@@ -35,22 +31,7 @@ const Login = () => {
     actions.resetForm();
   };
 
-  useEffect(() => {
-    if (key && key) {
-      const getkey = localStorage.setItem("sessionKey", key);
-      console.log(getkey);
-    }
-  }, [key]);
-
-  const {
-    values,
-    errors,
-    touched,
-    isSubmitting,
-    handleBlur,
-    handleChange,
-    handleSubmit,
-  } = useFormik({
+  const { values, errors, touched, handleBlur, handleChange } = useFormik({
     initialValues: {
       email: "",
       password: "",
@@ -69,32 +50,36 @@ const Login = () => {
       },
     };
 
-    const signin = async () => {
+    const signin = () => {
       setSpinner(true);
-      const res = await fetch(SIGN_IN_API_KEY, {
+      fetch(SIGN_IN_API_KEY, {
         method: "POST",
         headers: {
           Accept: "application/json",
-          "Content-Type": "application/json",
+          "Content-type": "application/json; charset=utf-8",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Credentials": true,
         },
+        credentials: "same-origin",
         body: JSON.stringify(data),
-      });
-
-      setKey(res.headers.get("Authorization"));
-
-      const result = await res.json();
-
-      try {
-        if (result && result.error) {
-          setErr(result.error);
-        } else {
-          if (result && 200) {
-            router.push("/news-feed");
+      })
+        .then((response) => {
+          localStorage.setItem(
+            "keyStore",
+            response.headers.get("Authorization")
+          );
+          if (response && response.error) {
+            setErr(response.error);
+          } else {
+            if (response && 200) {
+              Router.push("/news-feed");
+            }
           }
-        }
-      } catch (error) {
-        console.log(error);
-      }
+        })
+
+        .catch((error) => {
+          console.log(error);
+        });
       setSpinner(false);
     };
 
@@ -103,7 +88,7 @@ const Login = () => {
 
   useEffect(() => {
     // Prefetch the dashboard page
-    router.prefetch("/news-feed");
+    Router.prefetch("/news-feed");
   }, []);
 
   return (

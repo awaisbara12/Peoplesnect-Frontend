@@ -1,8 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getCookie } from "cookies-next";
+import axios from "axios";
 import { USER_DETAILS_API_KEY } from "../pages/config";
-
-const authKey = getCookie("authKey");
 
 const userSlice = createSlice({
   name: "user",
@@ -25,20 +23,20 @@ export default userSlice.reducer;
 
 // Api Thunks
 export function fetchUser() {
-  return async function fetchUserThunk(dispatch) {
-    const res = await fetch(USER_DETAILS_API_KEY, {
+  return function fetchUserThunk(dispatch) {
+    const authKey = localStorage.getItem("keyStore");
+    axios(USER_DETAILS_API_KEY, {
       method: "GET",
       headers: {
-        Authorization: `${authKey}`,
+        Accept: "application/json",
+        "Content-type": "application/json; charset=utf-8",
+        Authorization: authKey,
       },
-    });
-
-    const data = await res.json();
-
-    try {
-      dispatch(setUser(data));
-    } catch (err) {
-      console.log(err);
-    }
+      credentials: "same-origin",
+    })
+      .then((response) => response.data)
+      .then((data) => {
+        dispatch(setUser(data));
+      });
   };
 }

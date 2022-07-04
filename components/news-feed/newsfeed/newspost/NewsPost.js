@@ -1,4 +1,6 @@
 import React, { useState, useEffect, Fragment } from "react";
+import ReactDOM from "react-dom";
+import TimezoneSelect, { allTimezones } from "react-timezone-select";
 import Image from "next/image";
 import ProfileAvatar from "../../../../public/images/profile-avatar.png";
 import {
@@ -17,125 +19,96 @@ import { useFormik } from "formik";
 import { eventScheema } from "../../../auth/schemas/CreateEventScheema";
 import { Dialog, Transition } from "@headlessui/react";
 import { POST_NEWSFEED_API_KEY } from "../../../../pages/config";
-import { useDropzone } from "react-dropzone";
-import { TimezoneSelect, clientTz } from "timezone-select-js";
 import ImageUpload from "image-upload-react";
-
-import { getCookie } from "cookies-next";
 import Link from "next/link";
-const authKey = getCookie("authKey");
 
 const NewsPost = () => {
+  const authKey = localStorage.getItem("keyStore");
   let [isOpen, setIsOpen] = useState(false);
-  const [eventCover, setEventCover] = useState();
   const [imageSrc, setImageSrc] = useState();
-
-  const handleImageSelect = (e) => {
-    setEventCover(e.target.files);
-    setImageSrc(URL.createObjectURL(e.target.files[0]));
-  };
-
-  const handleCoverReomve = (e) => {
-    setEventCover("");
-    setImageSrc(URL.revokeObjectURL(e.target.files));
-  };
-
-  console.log(eventCover)
+  const [postImage, setPostImage] = useState();
+  const [selectedTimezone, setSelectedTimezone] = useState({});
 
   const [inPerson, setInPerson] = useState(false);
   const [online, setOnline] = useState(false);
 
   const [postText, setPostText] = useState("");
 
-  const [files, setFiles] = useState([]);
+  const [feedType, setFeedType] = useState("basic");
 
-  const [selectedTimezone, setSelectedTimezone] = useState(clientTz());
+  const handleImageSelect = (e) => {
+    setImageSrc(window.URL.createObjectURL(e.target.files[0]));
+  };
 
-  const {
-    values,
-    errors,
-    touched,
-    isSubmitting,
-    handleBlur,
-    handleChange,
-    handleSubmit,
-  } = useFormik({
-    initialValues: {
-      eventName: "",
-      timezone: "",
-      startDate: "",
-      endDate: "",
-      startTime: "",
-      endTime: "",
-      address: "",
-      venue: "",
-      externalLink: "",
-      description: "",
-      speakers: "",
-    },
-    validationSchema: eventScheema,
-  });
+  const handleImagePost = (e) => {
+    setPostImage(window.URL.createObjectURL(e.target.files[0]));
+  };
 
-  const { getRootProps, getInputProps } = useDropzone({
-    accept: {
-      "image/*": [],
-    },
-    onDrop: (acceptedFiles) => {
-      setFiles(
-        acceptedFiles.map((file) =>
-          Object.assign(file, {
-            preview: URL.createObjectURL(file),
-          })
-        )
-      );
-    },
-  });
+  const handleCoverReomve = (e) => {
+    setImageSrc(window.URL.revokeObjectURL(e.target.files));
+    setPostImage(window.URL.revokeObjectURL(e.target.files));
+  };
 
-  const thumbs = files.map((file) => (
-    <div key={file.name}>
-      <div className="mt-2">
-        <img
-          className="rounded-xl"
-          src={file.preview}
-          // Revoke data uri after image is loaded
-          onLoad={() => {
-            URL.revokeObjectURL(file.preview);
-          }}
-        />
-      </div>
-    </div>
-  ));
+  const onSubmit = () => {
+    resetForm();
+  };
 
-  const newsPost = async () => {
-    const data = {
-      news_feeds: {
-        body: postText,
-        feed_attachments: [files],
-        // events: {
-        //   name: values.eventName,
-        // },
+  const { values, errors, touched, handleBlur, handleChange, resetForm } =
+    useFormik({
+      initialValues: {
+        eventOnline: "",
+        eventInPerson: "",
+        eventName: "",
+        timezone: "",
+        startDate: "",
+        endDate: "",
+        startTime: "",
+        endTime: "",
+        address: "",
+        venue: "",
+        externalLink: "",
+        description: "",
+        speakers: "",
       },
-    };
-    const resp = await fetch(POST_NEWSFEED_API_KEY, {
+      validationSchema: eventScheema,
+    });
+
+  function postNewsData(e) {
+    e.preventDefault();
+    const dataForm = new FormData();
+    dataForm.append("news_feeds[body]", postText);
+    dataForm.append("news_feeds[feed_type]", feedType);
+    dataForm.append("news_feeds[feed_attachments]", postImage);
+    dataForm.append("news_feeds[events[name]]", values.eventName);
+    dataForm.append("news_feeds[events[cover_photo]]", imageSrc);
+    dataForm.append("news_feeds[events[event_timezone]]", selectedTimezone);
+    dataForm.append("news_feeds[events[start_date]]", values.startDate);
+    dataForm.append("news_feeds[events[end_date]]", values.endDate);
+    dataForm.append("news_feeds[events[start_time]]", values.startTime);
+    dataForm.append("news_feeds[events[end_time]]", values.endTime);
+    dataForm.append("news_feeds[events[event_link]]", values.externalLink);
+    dataForm.append("news_feeds[events[description]]", values.description);
+    dataForm.append("news_feeds[events[address]]", values.address);
+    dataForm.append("news_feeds[events[venue]]", values.venue);
+
+    fetch(POST_NEWSFEED_API_KEY, {
       method: "POST",
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json",
         Authorization: `${authKey}`,
       },
-      body: JSON.stringify(data),
-    });
-
-    const result = await resp.json();
-
-    try {
-      console.log(result);
-    } catch (err) {
-      console.log(err);
-    }
+      body: dataForm,
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((err) => console.log(err));
     setPostText("");
-    setFiles([]);
-  };
+    setPostImage("");
+    setImageSrc("");
+    onSubmit();
+  }
 
   function closeModal() {
     setIsOpen(false);
@@ -148,7 +121,7 @@ const NewsPost = () => {
   return (
     <div className="mt-7">
       <div className="w-[600px] rounded-xl bg-white p-[22px]">
-        <form>
+        <form onSubmit={(e) => postNewsData(e)}>
           <div className="w-full flex justify-start gap-[22px]">
             <div className="w-[42px] h-[42px]">
               <Image
@@ -169,26 +142,77 @@ const NewsPost = () => {
               placeholder="Start a post?"
             />
           </div>
+          {postImage ? (
+            <div className={`relative`}>
+              <img
+                src={postImage}
+                className="aspect-video rounded-xl mb-4"
+                alt=""
+              />
 
-          <aside className="pt-0 mb-5">{thumbs}</aside>
+              <div
+                onClick={handleCoverReomve}
+                className="bg-indigo-100 absolute top-4 right-4 z-50 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
+              >
+                <TrashIcon className="w-5 h-5 text-indigo-600" />
+              </div>
+            </div>
+          ) : (
+            ""
+          )}
+
+          {values.eventName && true ? (
+            <div className={`rounded-xl bg-white border border-gray-100 mb-2`}>
+              <img
+                src={imageSrc}
+                className="aspect-video object-cover rounded-t-xl"
+                alt=""
+              />
+              <div className="py-2 px-3">
+                <div className="flex justify-between items-center">
+                  <div>
+                    <div className="text-red-400 text-sm">
+                      {values.startDate} {values.startTime}{" "}
+                      {selectedTimezone.label}
+                    </div>
+                    <div className="font-semibold text-lg">
+                      {values.eventName}
+                    </div>
+                    <div className="text-gray-900">
+                      {inPerson && true ? "In Person" : "Online"}
+                    </div>
+                  </div>
+                  <div
+                    onClick={openModal}
+                    className="text-sm text-gray-600 cursor-pointer flex items-center border border-gray-100 rounded-full py-1 px-3"
+                  >
+                    Edit Event
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            ""
+          )}
 
           <div className="flex justify-between">
             <div className="flex items-center gap-6">
-              <div
-                {...getRootProps({ className: "dropzone" })}
-                className="relative flex items-center justify-center "
-              >
+              <div className="relative flex items-center justify-center ">
                 <PhotographIcon
                   width={22}
                   height={22}
-                  className="text-indigo-400 cursor-pointer"
+                  className={
+                    values.eventName && true
+                      ? `text-indigo-100`
+                      : `text-indigo-400 cursor-pointer`
+                  }
                 />
                 <input
-                  type="file"
-                  multiple
+                  type={values.eventName && true ? `` : `file`}
                   name="image"
-                  {...getInputProps()}
-                  className="opacity-0 absolute w-6 h-6 cursor-pointer -z-0"
+                  id="image"
+                  className="opacity-0 absolute w-6 h-6 -z-0"
+                  onChange={handleImagePost}
                 />
               </div>
 
@@ -201,8 +225,12 @@ const NewsPost = () => {
               <CalendarIcon
                 width={22}
                 height={22}
-                onClick={openModal}
-                className="text-indigo-400 cursor-pointer"
+                onClick={postImage ? closeModal : openModal}
+                className={
+                  postImage
+                    ? `text-indigo-100`
+                    : `text-indigo-400 cursor-pointer`
+                }
               />
 
               <EmojiHappyIcon
@@ -217,15 +245,16 @@ const NewsPost = () => {
                 className="text-indigo-400 cursor-pointer"
               />
             </div>
-            <div
-              onClick={() => newsPost()}
+            <button
+              type="submit"
               className="w-[100px] h-8 rounded-full flex gap-1 items-center justify-center bg-indigo-400 text-white cursor-pointer"
             >
               <GlobeAltIcon width={16} height={16} /> Public
-            </div>
+            </button>
           </div>
         </form>
       </div>
+
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog
           as="div"
@@ -274,12 +303,14 @@ const NewsPost = () => {
                       <div className="relative">
                         <input
                           type="file"
+                          name="image"
+                          id="image"
                           className="absolute top-0 left-0 w-full h-[270px] opacity-0"
                           onChange={handleImageSelect}
                         />
                         <div
                           className={`text-center	${
-                            eventCover && true ? "hidden" : "visible"
+                            imageSrc ? "hidden" : "visible"
                           }`}
                         >
                           <CameraIcon className="h-8 w-8 mx-auto mb-1 text-indigo-400" />
@@ -291,8 +322,17 @@ const NewsPost = () => {
                           </div>
                         </div>
                         <div className="relative">
-                          <img src={imageSrc} className="aspect-video" alt="" />
-                          {eventCover && true ? (
+                          {imageSrc ? (
+                            <img
+                              src={imageSrc}
+                              className="aspect-video object-cover"
+                              alt=""
+                            />
+                          ) : (
+                            ""
+                          )}
+
+                          {imageSrc ? (
                             <div
                               onClick={handleCoverReomve}
                               className="bg-indigo-100 absolute top-4 right-4 z-50 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
@@ -314,6 +354,7 @@ const NewsPost = () => {
                               type="radio"
                               name="event-radio"
                               id="online"
+                              value={"online"}
                               onChange={() => {
                                 setOnline(true);
                                 setInPerson(false);
@@ -326,7 +367,11 @@ const NewsPost = () => {
                               type="radio"
                               name="event-radio"
                               id="in-person"
-                              onChange={() => setInPerson(true)}
+                              value={"I Person"}
+                              onChange={() => {
+                                setInPerson(true);
+                                setOnline(false);
+                              }}
                             />
                             <label htmlFor="in-person">In Person</label>
                           </fieldset>
@@ -366,10 +411,16 @@ const NewsPost = () => {
                           >
                             Timezone <span className="text-red-500">*</span>
                           </label>
-                          <TimezoneSelect
-                            value={selectedTimezone}
-                            onChange={setSelectedTimezone}
-                          />
+                          <div className="select-wrapper">
+                            <TimezoneSelect
+                              value={selectedTimezone}
+                              onChange={setSelectedTimezone}
+                              timezones={{
+                                ...allTimezones,
+                                "America/Lima": "Pittsburgh",
+                              }}
+                            />
+                          </div>
                         </div>
                         <div className="block md:flex justify-between items-center gap-6">
                           <div className="form-group w-full py-4">
@@ -410,6 +461,7 @@ const NewsPost = () => {
                             <input
                               type="date"
                               name="endDate"
+                              onChange={handleChange}
                               placeholder="Event Name"
                               className="w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400"
                               id="endDate"
@@ -456,6 +508,7 @@ const NewsPost = () => {
                               type="time"
                               name="endTime"
                               value={values.endTime}
+                              onChange={handleChange}
                               placeholder="Event Name"
                               className="w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400"
                               id="endTime"
@@ -534,6 +587,7 @@ const NewsPost = () => {
                             type="text"
                             name="externalLink"
                             value={values.externalLink}
+                            onChange={handleChange}
                             placeholder="Event Name"
                             className="w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400"
                             id="externalLink"
@@ -549,6 +603,7 @@ const NewsPost = () => {
                           <textarea
                             type="text"
                             value={values.description}
+                            onChange={handleChange}
                             name="description"
                             placeholder="Ex: topics, schedual, etc."
                             className="w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400"
@@ -567,6 +622,7 @@ const NewsPost = () => {
                               type="text"
                               name="speakers"
                               value={values.speakers}
+                              onChange={handleChange}
                               placeholder=""
                               className="w-full border-gray-100 border pl-10 py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400"
                               id="speakers"
