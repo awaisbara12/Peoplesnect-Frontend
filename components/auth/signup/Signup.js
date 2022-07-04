@@ -22,6 +22,8 @@ const Signup = () => {
   const [close, setClose] = useState(false);
   const [spinner, setSpinner] = useState(false);
 
+  console.log(err);
+
   const showPassword = () => {
     setPasswordShow(!passwordShow);
   };
@@ -70,31 +72,31 @@ const Signup = () => {
 
     const signup = async () => {
       setSpinner(true);
-      const res = await fetch(SIGN_UP_API_KEY, {
+      fetch(SIGN_UP_API_KEY, {
         method: "POST",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
-      });
-
-      const result = await res.json();
-
-      try {
-        if (result && 422) {
-          setErr(result.error);
-        }
-        if (result && 200) {
+      })
+        .then((response) => {
           localStorage.setItem(
             "keyStore",
             response.headers.get("Authorization")
           );
-          router.push("/onboarding/step-one");
-        }
-      } catch (error) {
-        console.log(error);
-      }
+          if (response && response.error) {
+            setErr(response.error);
+          } else {
+            if (response && 200) {
+              router.push("/onboarding/step-one");
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
       setSpinner(false);
     };
 
@@ -307,7 +309,6 @@ const Signup = () => {
 
                   <button
                     type="submit"
-                    disabled={isSubmitting}
                     className="bg-indigo-400 flex gap-2 items-center justify-center text-white text-xl text-center cursor-pointer font-semibold w-full py-2 rounded-full mt-6"
                   >
                     Join Now {spinner && true ? <Spinner /> : ""}

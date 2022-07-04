@@ -1,14 +1,16 @@
 import React from "react";
 import StepTwo from "../../../components/onboarding/StepTwo";
 
-import RegistrationRoutes from "../../../components/auth/RegistrationRoutes";
+import PrivateRoutes from "../../../components/auth/routes/PrivateRoutes";
 
 const index = () => {
   return (
     <>
-      <StepTwo />
+      <PrivateRoutes>
+        <StepTwo />
+      </PrivateRoutes>
     </>
   );
 };
 
-export default RegistrationRoutes(index);
+export default index;
