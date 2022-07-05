@@ -1,19 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import Spinner from "../../common/Spinner";
 
-export default function PrivateRoutes({ children }) {
+const PrivateRoutes = ({ children }) => {
   const router = useRouter();
-  const [loaded, setLoaded] = useState(false);
+  const [loader, setLoader] = useState(true);
 
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
   }
 
   useEffect(() => {
-    setLoaded(true);
-    const data = authKey ? children : router.push("/login");
-    if (loaded) {
-      return data;
+    if (!authKey) {
+      router.push("/login");
     }
   }, []);
-}
+
+  if (!authKey && loader)
+    return (
+      <div className="h-screen flex items-center justify-center">
+        <Spinner />
+      </div>
+    );
+
+  useEffect(() => {
+    setLoader(false);
+  }, [loader, setLoader]);
+
+  return children;
+};
+
+export default PrivateRoutes;
