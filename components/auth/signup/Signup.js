@@ -79,20 +79,19 @@ const Signup = () => {
         body: JSON.stringify(data),
       });
 
-      const result = await res.json();
-
       const headers = res.headers.get("Authorization");
+      const result = await res.json();
 
       if (result) {
         localStorage.setItem("keyStore", headers);
       }
 
       try {
-        if (result && 422) {
-          setErr(result.error);
+        if (result.message && "Signed up successfully") {
+          router.push("/onboarding/step-one");
         } else {
-          if (result && 200) {
-            router.push("/onboarding/step-one");
+          if (result && result.error) {
+            setErr(result.error);
           }
         }
       } catch (error) {
