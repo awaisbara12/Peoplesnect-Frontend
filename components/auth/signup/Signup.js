@@ -81,20 +81,24 @@ const Signup = () => {
 
       const result = await res.json();
 
+      const headers = res.headers.get("Authorization");
+
+      if (result) {
+        localStorage.setItem("keyStore", headers);
+      }
+
       try {
         if (result && 422) {
           setErr(result.error);
-        }
-        if (result && 200) {
-          localStorage.setItem(
-            "keyStore",
-            response.headers.get("Authorization")
-          );
-          router.push("/onboarding/step-one");
+        } else {
+          if (result && 200) {
+            router.push("/onboarding/step-one");
+          }
         }
       } catch (error) {
         console.log(error);
       }
+
       setSpinner(false);
     };
 
@@ -307,7 +311,6 @@ const Signup = () => {
 
                   <button
                     type="submit"
-                    disabled={isSubmitting}
                     className="bg-indigo-400 flex gap-2 items-center justify-center text-white text-xl text-center cursor-pointer font-semibold w-full py-2 rounded-full mt-6"
                   >
                     Join Now {spinner && true ? <Spinner /> : ""}

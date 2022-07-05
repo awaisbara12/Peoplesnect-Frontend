@@ -14,6 +14,7 @@ const NotFound = () => {
           height={45}
           className="cursor-pointer"
           placeholder="blur"
+          alt=""
         />
       </Link>
       <div className="flex justify-center justify-center">

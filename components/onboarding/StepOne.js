@@ -7,7 +7,6 @@ import { XCircleIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/router";
 import { OnboardingSchemaFitst } from "../auth/schemas/OnboardSchema";
 import { ONBOARDING_STEP_ONE_URL } from "../../pages/config";
-import Cookies from "js-cookie";
 import Spinner from "../common/Spinner";
 
 const StepOne = () => {

@@ -50,9 +50,9 @@ const Login = () => {
       },
     };
 
-    const signin = () => {
+    const signin = async () => {
       setSpinner(true);
-      fetch(SIGN_IN_API_KEY, {
+      const res = await fetch(SIGN_IN_API_KEY, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -62,24 +62,28 @@ const Login = () => {
         },
         credentials: "same-origin",
         body: JSON.stringify(data),
-      })
-        .then((response) => {
-          localStorage.setItem(
-            "keyStore",
-            response.headers.get("Authorization")
-          );
-          if (response && response.error) {
-            setErr(response.error);
-          } else {
-            if (response && 200) {
-              Router.push("/news-feed");
-            }
-          }
-        })
+      });
 
-        .catch((error) => {
-          console.log(error);
-        });
+      const result = await res.json();
+
+      const headers = res.headers.get("Authorization");
+
+      if (result) {
+        localStorage.setItem("keyStore", headers);
+      }
+
+      try {
+        if (result && result.error) {
+          setErr(result.error);
+        } else {
+          if (result && 200) {
+            Router.push("/news-feed");
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+
       setSpinner(false);
     };
 

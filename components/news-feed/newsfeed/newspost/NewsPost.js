@@ -1,5 +1,5 @@
-import React, { useState, useEffect, Fragment } from "react";
 import ReactDOM from "react-dom";
+import React, { useState, useEffect, Fragment } from "react";
 import TimezoneSelect, { allTimezones } from "react-timezone-select";
 import Image from "next/image";
 import ProfileAvatar from "../../../../public/images/profile-avatar.png";
@@ -28,13 +28,10 @@ const NewsPost = () => {
   const [imageSrc, setImageSrc] = useState();
   const [postImage, setPostImage] = useState();
   const [selectedTimezone, setSelectedTimezone] = useState({});
-
   const [inPerson, setInPerson] = useState(false);
   const [online, setOnline] = useState(false);
-
   const [postText, setPostText] = useState("");
-
-  const [feedType, setFeedType] = useState("basic");
+  const [feedType, setFeedType] = useState();
 
   const handleImageSelect = (e) => {
     setImageSrc(window.URL.createObjectURL(e.target.files[0]));
@@ -42,6 +39,7 @@ const NewsPost = () => {
 
   const handleImagePost = (e) => {
     setPostImage(window.URL.createObjectURL(e.target.files[0]));
+    setFeedType("image_feed");
   };
 
   const handleCoverReomve = (e) => {
