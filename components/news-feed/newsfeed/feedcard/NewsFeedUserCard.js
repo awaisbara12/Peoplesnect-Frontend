@@ -17,7 +17,6 @@ import {
 import { POST_NEWSFEED_API_KEY } from "../../../../pages/config";
 import { Popover, Transition } from "@headlessui/react";
 import Link from "next/link";
-import Cookies from "js-cookie";
 import ProfileAvatar from "../../../../public/images/profile-avatar-2.png";
 import PostImage from "../../../../public/images/post-image.png";
 import PostComments from "../comments/PostComments";
