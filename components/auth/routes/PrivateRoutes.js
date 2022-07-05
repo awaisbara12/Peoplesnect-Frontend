@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
-const PrivateRoutes = ({ children }) => {
+export default function PrivateRoutes({ children }) {
   const router = useRouter();
   const [loaded, setLoaded] = useState(false);
 
@@ -11,17 +11,9 @@ const PrivateRoutes = ({ children }) => {
 
   useEffect(() => {
     setLoaded(true);
+    const data = authKey ? children : router.push("/login");
+    if (loaded) {
+      return data;
+    }
   }, []);
-
-  const data = authKey
-    ? children
-    : useEffect(() => {
-        router.push("/login");
-      }, []);
-
-  if (loaded) {
-    return data;
-  }
-};
-
-export default PrivateRoutes;
+}

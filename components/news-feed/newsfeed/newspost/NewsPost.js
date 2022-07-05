@@ -104,6 +104,7 @@ const NewsPost = () => {
         console.log(result);
       })
       .catch((err) => console.log(err));
+    setFeedType("basic");
     setPostText("");
     setPostImage("");
     setImageSrc("");
@@ -387,7 +388,10 @@ const NewsPost = () => {
                             type="text"
                             name="eventName"
                             value={values.eventName}
-                            onChange={handleChange}
+                            onChange={(e) => {
+                              handleChange(e);
+                              setFeedType("event_feed");
+                            }}
                             onBlur={handleBlur}
                             placeholder="Event Name"
                             className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400 ${
