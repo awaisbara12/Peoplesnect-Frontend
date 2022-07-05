@@ -1,6 +1,6 @@
 import ReactDOM from "react-dom";
 import React, { useState, useEffect, Fragment } from "react";
-// import TimezoneSelect, { allTimezones } from "react-timezone-select";
+import TimezoneSelect, { allTimezones } from "react-timezone-select";
 import Image from "next/image";
 import ProfileAvatar from "../../../../public/images/profile-avatar.png";
 import {
@@ -29,7 +29,7 @@ const NewsPost = () => {
   let [isOpen, setIsOpen] = useState(false);
   const [imageSrc, setImageSrc] = useState();
   const [postImage, setPostImage] = useState();
-  // const [selectedTimezone, setSelectedTimezone] = useState({});
+  const [selectedTimezone, setSelectedTimezone] = useState({});
   const [inPerson, setInPerson] = useState(false);
   const [online, setOnline] = useState(false);
   const [postText, setPostText] = useState("");
@@ -83,7 +83,7 @@ const NewsPost = () => {
     dataForm.append("news_feeds[feed_attachments]", postImage);
     dataForm.append("news_feeds[events[name]]", values.eventName);
     dataForm.append("news_feeds[events[cover_photo]]", imageSrc);
-    dataForm.append("news_feeds[events[event_timezone]]", "selectedTimezone");
+    dataForm.append("news_feeds[events[event_timezone]]", selectedTimezone);
     dataForm.append("news_feeds[events[start_date]]", values.startDate);
     dataForm.append("news_feeds[events[end_date]]", values.endDate);
     dataForm.append("news_feeds[events[start_time]]", values.startTime);
@@ -418,14 +418,14 @@ const NewsPost = () => {
                             Timezone <span className="text-red-500">*</span>
                           </label>
                           <div className="select-wrapper">
-                            {/* <TimezoneSelect
+                            <TimezoneSelect
                               value={selectedTimezone}
                               onChange={setSelectedTimezone}
                               timezones={{
                                 ...allTimezones,
                                 "America/Lima": "Pittsburgh",
                               }}
-                            /> */}
+                            />
                           </div>
                         </div>
                         <div className="block md:flex justify-between items-center gap-6">
