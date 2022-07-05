@@ -70,30 +70,34 @@ const Signup = () => {
 
     const signup = async () => {
       setSpinner(true);
-      fetch(SIGN_UP_API_KEY, {
+      const res = await fetch(SIGN_UP_API_KEY, {
         method: "POST",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
-      })
-        .then((response) => {
-          localStorage.setItem(
-            "keyStore",
-            response.headers.get("Authorization")
-          );
-          if (response && 422) {
-            setErr(response.error);
-          } else {
-            if (response && 200) {
-              router.push("/onboarding/step-one");
-            }
+      });
+
+      const result = await res.json();
+
+      const headers = res.headers.get("Authorization");
+
+      if (result) {
+        localStorage.setItem("keyStore", headers);
+      }
+
+      try {
+        if (result && 422) {
+          setErr(result.error);
+        } else {
+          if (result && 200) {
+            router.push("/onboarding/step-one");
           }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+        }
+      } catch (error) {
+        console.log(error);
+      }
 
       setSpinner(false);
     };
