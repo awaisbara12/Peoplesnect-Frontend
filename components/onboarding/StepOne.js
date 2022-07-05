@@ -10,7 +10,9 @@ import { ONBOARDING_STEP_ONE_URL } from "../../pages/config";
 import Spinner from "../common/Spinner";
 
 const StepOne = () => {
-  const authKey = localStorage.getItem("keyStore");
+  if (typeof window !== "undefined") {
+    var authKey = window.localStorage.getItem("keyStore");
+  }
   const router = useRouter();
   const [spinner, setSpinner] = useState(false);
   const [err, setErr] = useState();
@@ -36,7 +38,7 @@ const StepOne = () => {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: `${authKey}`,
+        Authorization: authKey,
       },
       body: JSON.stringify(data),
     });

@@ -50,7 +50,9 @@ const cardDropdown = [
 const NewsFeedUserCard = () => {
   const [loading, setLoading] = useState(false);
   const [feedData, setFeedData] = useState(null);
-  const authKey = localStorage.getItem("keyStore");
+  if (typeof window !== "undefined") {
+    var authKey = window.localStorage.getItem("keyStore");
+  }
 
   useEffect(() => {
     const getNewsFeed = () => {

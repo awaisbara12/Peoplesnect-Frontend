@@ -10,7 +10,9 @@ import { OnboardingSchemaThree } from "../auth/schemas/OnboardSchema";
 import { ONBOARDING_STEP_THREE_URL } from "../../pages/config";
 
 const StepThree = () => {
-  const authKey = localStorage.getItem("keyStore");
+  if (typeof window !== "undefined") {
+    var authKey = window.localStorage.getItem("keyStore");
+  }
   const router = useRouter();
   const [spinner, setSpinner] = useState(false);
   const [err, setErr] = useState();

@@ -28,7 +28,9 @@ const employmentTypes = [
 ];
 
 const StepTwo = () => {
-  const authKey = localStorage.getItem("keyStore");
+  if (typeof window !== "undefined") {
+    var authKey = window.localStorage.getItem("keyStore");
+  }
   const router = useRouter();
   const [spinner, setSpinner] = useState(false);
   const [selectedEmploymentType, setSelectedEmploymentType] = useState(
@@ -71,7 +73,7 @@ const StepTwo = () => {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: `${authKey}`,
+        Authorization: authKey,
       },
       body: JSON.stringify(data),
     });
