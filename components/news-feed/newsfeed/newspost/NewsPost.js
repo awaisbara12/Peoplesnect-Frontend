@@ -31,7 +31,9 @@ const NewsPost = () => {
   const [inPerson, setInPerson] = useState(false);
   const [online, setOnline] = useState(false);
   const [postText, setPostText] = useState("");
-  const [feedType, setFeedType] = useState();
+  const [feedType, setFeedType] = useState("basic");
+
+  console.log(feedType);
 
   const handleImageSelect = (e) => {
     setImageSrc(window.URL.createObjectURL(e.target.files[0]));
