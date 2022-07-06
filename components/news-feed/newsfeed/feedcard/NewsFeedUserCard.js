@@ -55,13 +55,6 @@ const NewsFeedUserCard = () => {
     var authKey = window.localStorage.getItem("keyStore");
   }
 
-  const sources = {
-    hd: {
-      play_url:
-        "https://peoplesnect.s3.us-east-2.amazonaws.com/cxks0322v6ajgtcflozcb5sdww2n?response-content-disposition=attachment%3B%20filename%3D%223207126058.mp4%22%3B%20filename%2A%3DUTF-8%27%273207126058.mp4&response-content-type=video%2Fmp4&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIA3M5BR7ISB75XIQFG%2F20220706%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Date=20220706T145350Z&X-Amz-Expires=300&X-Amz-SignedHeaders=host&X-Amz-Signature=10b9865f825b13dcfea99f99f4c322c828d8ad0194e32fdbfa7a61eff81b1a45",
-    },
-  };
-
   console.log(feedData);
 
   useEffect(() => {
@@ -254,7 +247,7 @@ const NewsFeedUserCard = () => {
               ) : (
                 ""
               )}
-              {items.feed_type === "image_feed" ? (
+              {items.attachments_link && items.feed_type === "image_feed" ? (
                 <div className="mt-[14px]">
                   <img
                     src={items.attachments_link}
