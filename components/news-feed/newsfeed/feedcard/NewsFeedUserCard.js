@@ -14,6 +14,7 @@ import {
   DocumentReportIcon,
   XCircleIcon,
 } from "@heroicons/react/outline";
+import { CalendarIcon } from "@heroicons/react/solid";
 import { POST_NEWSFEED_API_KEY } from "../../../../pages/config";
 import { Popover, Transition } from "@headlessui/react";
 import Link from "next/link";
@@ -53,6 +54,15 @@ const NewsFeedUserCard = () => {
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
   }
+
+  const sources = {
+    hd: {
+      play_url:
+        "https://peoplesnect.s3.us-east-2.amazonaws.com/cxks0322v6ajgtcflozcb5sdww2n?response-content-disposition=attachment%3B%20filename%3D%223207126058.mp4%22%3B%20filename%2A%3DUTF-8%27%273207126058.mp4&response-content-type=video%2Fmp4&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIA3M5BR7ISB75XIQFG%2F20220706%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Date=20220706T145350Z&X-Amz-Expires=300&X-Amz-SignedHeaders=host&X-Amz-Signature=10b9865f825b13dcfea99f99f4c322c828d8ad0194e32fdbfa7a61eff81b1a45",
+    },
+  };
+
+  console.log(feedData);
 
   useEffect(() => {
     const getNewsFeed = () => {
@@ -174,24 +184,91 @@ const NewsFeedUserCard = () => {
             <div className="border-1 border-gray-100"></div>
 
             <div className="px-[22px] py-[14px]">
-              <p>{items.body}</p>
+              <p>{items.body ? items.body : ""}</p>
+              {items.event && items.event ? (
+                <div className="rounded-xl bg-white border border-gray-100 my-2">
+                  {items.event.cover_photo_url ? (
+                    <img
+                      src={items.event.cover_photo_url}
+                      className="aspect-video object-cover rounded-t-xl"
+                      alt=""
+                    />
+                  ) : (
+                    ""
+                  )}
+
+                  <div className="py-3 px-3">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <div className="text-red-400 text-sm">
+                          <span>{items.event.start_time}</span>
+                          <span>-{items.event.end_time}</span>&nbsp;
+                          <span>{items.event.start_date}</span>&nbsp;
+                        </div>
+                        <div className="font-semibold text-lg">
+                          {items.event.name}
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <CalendarIcon
+                            width={16}
+                            height={16}
+                            className="text-gray-900"
+                          />
+                          <span className="text-gray-900 text-sm">
+                            {items.event.event_type}
+                          </span>
+                        </div>
+                        <div className="text-gray-900"></div>
+                      </div>
+                      <div className="text-sm text-gray-600 cursor-pointer flex items-center border border-gray-100 rounded-full py-1 px-3">
+                        Edit Event
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                ""
+              )}
+
               <div className="flex gap-1 items-center mt-3">
                 <GlobeIcon width={14} height={14} className="text-slate-400" />
                 <div className="w-1 h-1 rounded-full bg-slate-400"></div>
                 <div className="text-slate-400 text-sm">1d</div>
-                <a href="#" className="text-indigo-400 text-[15px] ml-3">
-                  seemore...
-                </a>
+                {items.body.length > 200 ? (
+                  <a href="#" className="text-indigo-400 text-[15px] ml-3">
+                    seemore...
+                  </a>
+                ) : (
+                  ""
+                )}
               </div>
-              <div className="mt-[14px]">
-                <Image
-                  src={PostImage}
-                  width={552}
-                  height={240}
-                  placeholder="blur"
-                  alt=""
-                />
-              </div>
+              {items.feed_type && items.feed_type === "video_feed" ? (
+                <>
+                  <video
+                    controls
+                    className="aspect-video w-full rounded-xl my-4"
+                  >
+                    <source src={items.attachments_link} type="video/mp4" />
+                  </video>
+                </>
+              ) : (
+                ""
+              )}
+              {items.feed_type === "image_feed" ? (
+                <div className="mt-[14px]">
+                  <img
+                    src={items.attachments_link}
+                    width={552}
+                    height={240}
+                    layout="responsive"
+                    className="aspect-video object-cover rounded-lg"
+                    alt=""
+                  />
+                </div>
+              ) : (
+                ""
+              )}
+
               <div className="flex justify-between mt-[14px]">
                 <div className="flex gap-2 items-center">
                   <HeartIcon

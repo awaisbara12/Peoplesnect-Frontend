@@ -27,28 +27,40 @@ const NewsPost = () => {
     var authKey = window.localStorage.getItem("keyStore");
   }
   let [isOpen, setIsOpen] = useState(false);
-  const [imageSrc, setImageSrc] = useState();
-  const [postImage, setPostImage] = useState();
+  const [eventCoverImage, setEventCoverImage] = useState([]);
+  const [previewEventCoverImage, setPreviewEventCoverImage] = useState();
+  const [postImage, setPostImage] = useState([]);
+  const [postImagePreview, setpostImagePreview] = useState();
   const [selectedTimezone, setSelectedTimezone] = useState({});
   const [inPerson, setInPerson] = useState(false);
   const [online, setOnline] = useState(false);
   const [postText, setPostText] = useState("");
   const [feedType, setFeedType] = useState("basic");
-
-  console.log(feedType);
+  const [eventType, setEventType] = useState();
+  const [videoSrc, setVideoSrc] = useState([]);
+  const [videoPreview, setVideoPreview] = useState();
 
   const handleImageSelect = (e) => {
-    setImageSrc(window.URL.createObjectURL(e.target.files[0]));
+    setEventCoverImage(e.target.files[0]);
+    setPreviewEventCoverImage(window.URL.createObjectURL(e.target.files[0]));
   };
 
   const handleImagePost = (e) => {
-    setPostImage(window.URL.createObjectURL(e.target.files[0]));
     setFeedType("image_feed");
+    setPostImage(e.target.files[0]);
+    setpostImagePreview(window.URL.createObjectURL(e.target.files[0]));
   };
 
   const handleCoverReomve = (e) => {
-    setImageSrc(window.URL.revokeObjectURL(e.target.files));
-    setPostImage(window.URL.revokeObjectURL(e.target.files));
+    setpostImagePreview(window.URL.revokeObjectURL(e.target.files));
+    setPreviewEventCoverImage(window.URL.revokeObjectURL(e.target.files));
+    setVideoPreview(window.URL.revokeObjectURL(e.target.files));
+  };
+
+  const handleVideo = (e) => {
+    setFeedType("video_feed");
+    setVideoSrc(e.target.files[0]);
+    setVideoPreview(URL.createObjectURL(e.target.files[0]));
   };
 
   const onSubmit = () => {
@@ -58,8 +70,8 @@ const NewsPost = () => {
   const { values, errors, touched, handleBlur, handleChange, resetForm } =
     useFormik({
       initialValues: {
-        eventOnline: "",
-        eventInPerson: "",
+        eventOnline: "online",
+        eventInPerson: "In person",
         eventName: "",
         timezone: "",
         startDate: "",
@@ -80,18 +92,25 @@ const NewsPost = () => {
     const dataForm = new FormData();
     dataForm.append("news_feeds[body]", postText);
     dataForm.append("news_feeds[feed_type]", feedType);
-    dataForm.append("news_feeds[feed_attachments]", postImage);
-    dataForm.append("news_feeds[events[name]]", values.eventName);
-    dataForm.append("news_feeds[events[cover_photo]]", imageSrc);
-    dataForm.append("news_feeds[events[event_timezone]]", selectedTimezone);
-    dataForm.append("news_feeds[events[start_date]]", values.startDate);
-    dataForm.append("news_feeds[events[end_date]]", values.endDate);
-    dataForm.append("news_feeds[events[start_time]]", values.startTime);
-    dataForm.append("news_feeds[events[end_time]]", values.endTime);
-    dataForm.append("news_feeds[events[event_link]]", values.externalLink);
-    dataForm.append("news_feeds[events[description]]", values.description);
-    dataForm.append("news_feeds[events[address]]", values.address);
-    dataForm.append("news_feeds[events[venue]]", values.venue);
+    dataForm.append("news_feeds[feed_attachments][]", postImage);
+    if (feedType === "event_feed") {
+      dataForm.append("events[name]", values.eventName);
+      dataForm.append("events[event_type]", eventType);
+      dataForm.append("events[cover_photo]", eventCoverImage);
+      dataForm.append("events[event_timezone]", selectedTimezone.label);
+      dataForm.append("events[start_date]", values.startDate);
+      dataForm.append("events[end_date]", values.endDate);
+      dataForm.append("events[start_time]", values.startTime);
+      dataForm.append("events[end_time]", values.endTime);
+      dataForm.append("events[event_link]", values.externalLink);
+      dataForm.append("events[description]", values.description);
+      dataForm.append("events[address]", values.address);
+      dataForm.append("events[venue]", values.venue);
+    }
+
+    if (feedType === "video_feed") {
+      dataForm.append("news_feeds[feed_attachments][]", videoSrc);
+    }
 
     fetch(POST_NEWSFEED_API_KEY, {
       method: "POST",
@@ -108,8 +127,10 @@ const NewsPost = () => {
       .catch((err) => console.log(err));
     setFeedType("basic");
     setPostText("");
-    setPostImage("");
-    setImageSrc("");
+    setpostImagePreview("");
+    setEventCoverImage("");
+    setVideoSrc("");
+    setVideoPreview("");
     onSubmit();
   }
 
@@ -124,7 +145,7 @@ const NewsPost = () => {
   return (
     <div className="mt-7">
       <div className="w-[600px] rounded-xl bg-white p-[22px]">
-        <form onSubmit={(e) => postNewsData(e)}>
+        <form onSubmit={postNewsData}>
           <div className="w-full flex justify-start gap-[22px]">
             <div className="w-[42px] h-[42px]">
               <Image
@@ -145,11 +166,32 @@ const NewsPost = () => {
               placeholder="Start a post?"
             />
           </div>
-          {postImage ? (
+
+          {videoPreview ? (
+            <div className="relative">
+              <video
+                autoPlay="autoplay"
+                controls
+                className="aspect-video rounded-xl mb-4"
+              >
+                <source src={videoPreview} type="video/mp4" />
+              </video>
+              <div
+                onClick={handleCoverReomve}
+                className="bg-indigo-100 absolute top-4 right-4 z-50 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
+              >
+                <TrashIcon className="w-5 h-5 text-indigo-600" />
+              </div>
+            </div>
+          ) : (
+            ""
+          )}
+
+          {postImagePreview ? (
             <div className={`relative`}>
               <img
-                src={postImage}
-                className="aspect-video rounded-xl mb-4"
+                src={postImagePreview}
+                className="aspect-video object-cover rounded-xl mb-4"
                 alt=""
               />
 
@@ -167,7 +209,7 @@ const NewsPost = () => {
           {values.eventName && true ? (
             <div className={`rounded-xl bg-white border border-gray-100 mb-2`}>
               <img
-                src={imageSrc}
+                src={previewEventCoverImage}
                 className="aspect-video object-cover rounded-t-xl"
                 alt=""
               />
@@ -200,7 +242,7 @@ const NewsPost = () => {
 
           <div className="flex justify-between">
             <div className="flex items-center gap-6">
-              <div className="relative flex items-center justify-center ">
+              <div className="relative flex items-center justify-center">
                 <PhotographIcon
                   width={22}
                   height={22}
@@ -219,18 +261,28 @@ const NewsPost = () => {
                 />
               </div>
 
-              <VideoCameraIcon
-                width={22}
-                height={22}
-                className="text-indigo-400 cursor-pointer"
-              />
+              <div className="relative flex items-center justify-center">
+                <VideoCameraIcon
+                  width={22}
+                  height={22}
+                  className="text-indigo-400 cursor-pointer"
+                />
+
+                <input
+                  type="file"
+                  name="video"
+                  id="video"
+                  onChange={handleVideo}
+                  className="opacity-0 absolute w-6 h-6 -z-0"
+                />
+              </div>
 
               <CalendarIcon
                 width={22}
                 height={22}
-                onClick={postImage ? closeModal : openModal}
+                onClick={postImagePreview ? closeModal : openModal}
                 className={
-                  postImage
+                  postImagePreview
                     ? `text-indigo-100`
                     : `text-indigo-400 cursor-pointer`
                 }
@@ -313,7 +365,7 @@ const NewsPost = () => {
                         />
                         <div
                           className={`text-center	${
-                            imageSrc ? "hidden" : "visible"
+                            previewEventCoverImage ? "hidden" : "visible"
                           }`}
                         >
                           <CameraIcon className="h-8 w-8 mx-auto mb-1 text-indigo-400" />
@@ -325,9 +377,9 @@ const NewsPost = () => {
                           </div>
                         </div>
                         <div className="relative">
-                          {imageSrc ? (
+                          {previewEventCoverImage ? (
                             <img
-                              src={imageSrc}
+                              src={previewEventCoverImage}
                               className="aspect-video object-cover"
                               alt=""
                             />
@@ -335,7 +387,7 @@ const NewsPost = () => {
                             ""
                           )}
 
-                          {imageSrc ? (
+                          {previewEventCoverImage ? (
                             <div
                               onClick={handleCoverReomve}
                               className="bg-indigo-100 absolute top-4 right-4 z-50 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
@@ -357,10 +409,11 @@ const NewsPost = () => {
                               type="radio"
                               name="event-radio"
                               id="online"
-                              value={"online"}
+                              value="online"
                               onChange={() => {
                                 setOnline(true);
                                 setInPerson(false);
+                                setEventType(values.eventOnline);
                               }}
                             />
                             <label htmlFor="online">Online</label>
@@ -370,10 +423,11 @@ const NewsPost = () => {
                               type="radio"
                               name="event-radio"
                               id="in-person"
-                              value={"I Person"}
+                              value="I Person"
                               onChange={() => {
                                 setInPerson(true);
                                 setOnline(false);
+                                setEventType(values.eventInPerson);
                               }}
                             />
                             <label htmlFor="in-person">In Person</label>
