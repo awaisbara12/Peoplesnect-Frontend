@@ -16,12 +16,13 @@ const PrivateRoutes = ({ children }) => {
     }
   }, []);
 
-  if (!authKey && loader)
-    return (
-      <div className="h-screen flex items-center justify-center">
-        <Spinner />
-      </div>
-    );
+  // if (!authKey && loader) {
+  //   return (
+  //     <div className="h-screen flex items-center justify-center">
+  //       <Spinner />
+  //     </div>
+  //   );
+  // }
 
   useEffect(() => {
     setLoader(false);
