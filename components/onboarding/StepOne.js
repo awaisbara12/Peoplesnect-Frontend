@@ -7,6 +7,7 @@ import { XCircleIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/router";
 import { OnboardingSchemaFitst } from "../auth/schemas/OnboardSchema";
 import { ONBOARDING_STEP_ONE_URL } from "../../pages/config";
+
 import Spinner from "../common/Spinner";
 
 const StepOne = () => {
@@ -112,7 +113,14 @@ const StepOne = () => {
               ""
             )}
             <div className="text-center pt-6">
-              <h1 className="font-bold text-xl pb-2">Welcome Abdul</h1>
+              <h1 className="font-bold text-xl pb-2">
+                Welcome at PeoplesNect 👋{" "}
+                {/* {userDetails && userDetails.user ? (
+                  <> {userDetails.user.first_name}</>
+                ) : (
+                  ""
+                )} */}
+              </h1>
               <p className="font-light">
                 Lets start your profile, connect with peoples
                 <br /> communries, companies & find jobs

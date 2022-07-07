@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect, useState } from "react";
 import axios from "axios";
 import Image from "next/image";
+
 import {
   BadgeCheckIcon,
   PlusIcon,
@@ -54,8 +55,6 @@ const NewsFeedUserCard = () => {
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
   }
-
-  console.log(feedData);
 
   useEffect(() => {
     const getNewsFeed = () => {
@@ -214,7 +213,7 @@ const NewsFeedUserCard = () => {
                         <div className="text-gray-900"></div>
                       </div>
                       <div className="text-sm text-gray-600 cursor-pointer flex items-center border border-gray-100 rounded-full py-1 px-3">
-                        Edit Event
+                        View Event
                       </div>
                     </div>
                   </div>

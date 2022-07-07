@@ -32,7 +32,6 @@ export function fetchUser() {
         "Content-type": "application/json; charset=utf-8",
         Authorization: authKey,
       },
-      credentials: "same-origin",
     })
       .then((response) => response.data)
       .then((data) => {

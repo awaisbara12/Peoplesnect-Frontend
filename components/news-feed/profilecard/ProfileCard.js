@@ -11,6 +11,7 @@ import Spinner from "../../common/Spinner";
 
 const ProfileCard = () => {
   const dispatch = useDispatch();
+  const [userDetails, setUserDetails] = useState();
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -20,6 +21,16 @@ const ProfileCard = () => {
   }, [dispatch]);
 
   const { data: user } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    function load() {
+      if (localStorage == undefined || localStorage == []) {
+        localStorage.setItem("userData", JSON.stringify(user));
+      }
+    }
+    load();
+    setUserDetails(JSON.parse(localStorage.getItem("userData")));
+  }, []);
 
   if (loading)
     return (
@@ -51,10 +62,14 @@ const ProfileCard = () => {
             </div>
           </div>
           <div className="font-semibold text-base text-gray-900 text-center mt-2.5 mb-1.5">
-            Johnson Kia
-            {/* {user.user?.map((item) => (
-                <div key={item.id}></div>
-              ))} */}
+            {userDetails && userDetails.user ? (
+              <>
+                {" "}
+                {userDetails.user.first_name} {userDetails.user.last_name}
+              </>
+            ) : (
+              ""
+            )}
           </div>
         </div>
         <div className="font-light text-base text-gray-900 leading-5 text-center">

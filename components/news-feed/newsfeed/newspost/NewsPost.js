@@ -1,5 +1,7 @@
 import ReactDOM from "react-dom";
+import dynamic from "next/dynamic";
 import React, { useState, useEffect, Fragment } from "react";
+
 import TimezoneSelect, { allTimezones } from "react-timezone-select";
 import Image from "next/image";
 import ProfileAvatar from "../../../../public/images/profile-avatar.png";
@@ -17,7 +19,7 @@ import {
 import { XCircleIcon } from "@heroicons/react/solid";
 import { useFormik } from "formik";
 import { eventScheema } from "../../../auth/schemas/CreateEventScheema";
-import { Dialog, Transition } from "@headlessui/react";
+import { Dialog, Popover, Transition } from "@headlessui/react";
 import { POST_NEWSFEED_API_KEY } from "../../../../pages/config";
 import ImageUpload from "image-upload-react";
 import Link from "next/link";
@@ -26,7 +28,9 @@ const NewsPost = () => {
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
   }
+
   let [isOpen, setIsOpen] = useState(false);
+  const [postText, setPostText] = useState("");
   const [eventCoverImage, setEventCoverImage] = useState([]);
   const [previewEventCoverImage, setPreviewEventCoverImage] = useState();
   const [postImage, setPostImage] = useState([]);
@@ -34,7 +38,6 @@ const NewsPost = () => {
   const [selectedTimezone, setSelectedTimezone] = useState({});
   const [inPerson, setInPerson] = useState(false);
   const [online, setOnline] = useState(false);
-  const [postText, setPostText] = useState("");
   const [feedType, setFeedType] = useState("basic");
   const [eventType, setEventType] = useState();
   const [videoSrc, setVideoSrc] = useState([]);
@@ -42,13 +45,17 @@ const NewsPost = () => {
 
   const handleImageSelect = (e) => {
     setEventCoverImage(e.target.files[0]);
-    setPreviewEventCoverImage(window.URL.createObjectURL(e.target.files[0]));
+    if (e.target.files.length !== 0) {
+      setPreviewEventCoverImage(window.URL.createObjectURL(e.target.files[0]));
+    }
   };
 
   const handleImagePost = (e) => {
-    setFeedType("image_feed");
     setPostImage(e.target.files[0]);
-    setpostImagePreview(window.URL.createObjectURL(e.target.files[0]));
+    if (e.target.files.length !== 0) {
+      setpostImagePreview(window.URL.createObjectURL(e.target.files[0]));
+    }
+    setFeedType("image_feed");
   };
 
   const handleCoverReomve = (e) => {
@@ -60,7 +67,9 @@ const NewsPost = () => {
   const handleVideo = (e) => {
     setFeedType("video_feed");
     setVideoSrc(e.target.files[0]);
-    setVideoPreview(URL.createObjectURL(e.target.files[0]));
+    if (e.target.files.length !== 0) {
+      setVideoPreview(URL.createObjectURL(e.target.files[0]));
+    }
   };
 
   const onSubmit = () => {
@@ -164,7 +173,7 @@ const NewsPost = () => {
               onChange={(e) => setPostText(e.target.value)}
               className="w-full pt-0 resize-none border-0 px-0 text-base overflow-y-hidden outline-none focus:outline focus:ring-0"
               placeholder="Start a post?"
-            />
+            ></textarea>
           </div>
 
           {videoPreview ? (
@@ -247,17 +256,20 @@ const NewsPost = () => {
                   width={22}
                   height={22}
                   className={
-                    values.eventName && true
+                    values.eventName || (videoPreview && true)
                       ? `text-indigo-100`
                       : `text-indigo-400 cursor-pointer`
                   }
                 />
                 <input
-                  type={values.eventName && true ? `` : `file`}
+                  type={
+                    values.eventName || (videoPreview && true) ? `` : `file`
+                  }
                   name="image"
                   id="image"
                   className="opacity-0 absolute w-6 h-6 -z-0"
                   onChange={handleImagePost}
+                  multiple
                 />
               </div>
 
@@ -265,11 +277,17 @@ const NewsPost = () => {
                 <VideoCameraIcon
                   width={22}
                   height={22}
-                  className="text-indigo-400 cursor-pointer"
+                  className={
+                    values.eventName || (postImagePreview && true)
+                      ? `text-indigo-100`
+                      : `text-indigo-400 cursor-pointer`
+                  }
                 />
 
                 <input
-                  type="file"
+                  type={
+                    postImagePreview || (values.eventName && true) ? `` : `file`
+                  }
                   name="video"
                   id="video"
                   onChange={handleVideo}
@@ -280,18 +298,14 @@ const NewsPost = () => {
               <CalendarIcon
                 width={22}
                 height={22}
-                onClick={postImagePreview ? closeModal : openModal}
+                onClick={
+                  postImagePreview || videoPreview ? closeModal : openModal
+                }
                 className={
-                  postImagePreview
+                  postImagePreview || videoPreview
                     ? `text-indigo-100`
                     : `text-indigo-400 cursor-pointer`
                 }
-              />
-
-              <EmojiHappyIcon
-                width={22}
-                height={22}
-                className="text-indigo-400 cursor-pointer"
               />
 
               <NewspaperIcon
@@ -301,8 +315,11 @@ const NewsPost = () => {
               />
             </div>
             <button
+              disabled={postText == 0 ? true : false}
               type="submit"
-              className="w-[100px] h-8 rounded-full flex gap-1 items-center justify-center bg-indigo-400 text-white cursor-pointer"
+              className={`w-[100px] h-8 rounded-full flex gap-1 items-center justify-center bg-indigo-400 text-white cursor-pointer ${
+                postText == 0 ? `bg-indigo-200` : ``
+              }`}
             >
               <GlobeAltIcon width={16} height={16} /> Public
             </button>

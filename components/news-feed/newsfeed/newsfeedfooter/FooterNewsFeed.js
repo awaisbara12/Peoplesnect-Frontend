@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const FooterNewsFeed = () => {
   return (
-    <div className="bg-white w-full mt-5 rounded-xl">
+    <div className="bg-white sticky top-5 w-full mt-5 rounded-xl">
       <div className=" p-5 font-light text-base">
         <div className=" flex gap-4">
           <Link href="/">

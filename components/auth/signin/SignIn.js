@@ -11,8 +11,29 @@ import { SIGN_IN_API_KEY } from "../../../pages/config";
 import GoogleLogo from "../../../public/images/google.png";
 import { useFormik } from "formik";
 import { LoginSchema } from "../schemas/LoginSchema";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUser } from "../../../store/userSlice";
 
 const Login = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchUser());
+  }, [dispatch]);
+
+  var { data: user } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    function load() {
+      if (localStorage) {
+        localStorage.setItem("userData", JSON.stringify(user));
+      }
+    }
+    load();
+    JSON.parse(localStorage.getItem("userData"));
+    console.log(JSON.parse(localStorage.getItem("userData")));
+  }, []);
+
   const [passwordShow, setPasswordShow] = useState(false);
   const [spinner, setSpinner] = useState(false);
   const showPassword = () => {
@@ -76,8 +97,12 @@ const Login = () => {
         if (result && result.error) {
           setErr(result.error);
         } else {
-          if (result && 200) {
-            Router.push("/news-feed");
+          if (user.user && user.user.onboarded == false) {
+            Router.push("/onboarding/step-one");
+          } else {
+            if (result && 200) {
+              Router.push("/news-feed");
+            }
           }
         }
       } catch (error) {
