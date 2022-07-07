@@ -87,6 +87,7 @@ const Signup = () => {
       }
 
       try {
+        console.log(result);
         if (result.message && "Signed up successfully") {
           router.push("/onboarding/step-one");
         } else {

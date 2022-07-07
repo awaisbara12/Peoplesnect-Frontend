@@ -5,11 +5,11 @@ import * as Yup from "yup";
 export const SignupSchema = Yup.object().shape({
   fName: Yup.string()
     .min(3, "Too Short!")
-    .max(8, "Too Long!")
+    .max(20, "Too Long!")
     .required("Please enter your first name"),
   lName: Yup.string()
     .min(3, "Too Short!")
-    .max(8, "Too Long!")
+    .max(20, "Too Long!")
     .required("Please enter your last name"),
   email: Yup.string().email("Please enter a valid email").required("Required"),
   checkbox: Yup.string().required("Please agree terms & services"),
