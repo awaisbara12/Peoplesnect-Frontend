@@ -7,6 +7,8 @@ import NewsSearch from "./search/NewsSearch";
 import ProfileCard from "./profilecard/ProfileCard";
 import EventsCard from "./eventcard/EventsCard";
 import NewsFeedLayout from "./layout";
+import MobileNav from "./navbar/MobileNav";
+import MobileBottomBar from "./navbar/MobileBottomBar";
 
 const NewsFeedDashboard = () => {
   return (
@@ -16,9 +18,12 @@ const NewsFeedDashboard = () => {
         <meta name="description" content="Connect peoples proffasoinaly" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="bg-zinc-100 w-full h-full pb-10">
+      <div className="pb-10">
         <div className="container mx-auto">
-          <div className="flex gap-[65px] lg:gap-6 md:gap-4 justify-between">
+          <div className="">
+            <MobileNav />
+          </div>
+          <div className="flex xl:px-0 lg:px-4 md:px-8 sm:px-0 gap-[65px] lg:gap-6 md:gap-4 justify-between">
             <div className="hidden md:block lg:block">
               <NewsFeedSidebar />
             </div>
@@ -34,6 +39,7 @@ const NewsFeedDashboard = () => {
           </div>
         </div>
       </div>
+      <MobileBottomBar />
     </NewsFeedLayout>
   );
 };
