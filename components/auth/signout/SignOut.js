@@ -4,6 +4,7 @@ import { SIGN_OUT_API_KEY } from "../../../pages/config";
 
 export const signout = async () => {
   const authKey = localStorage.getItem("keyStore");
+
   fetch(SIGN_OUT_API_KEY, {
     method: "DELETE",
     headers: {

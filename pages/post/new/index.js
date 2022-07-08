@@ -1,9 +1,12 @@
 import React from "react";
-
+import BlogLayout from "../../../components/blog/BlogLayout";
+import PrivateRoutes from "../../../components/auth/routes/PrivateRoutes";
 const PostNew = () => {
   return (
-    <div className="">
-      <div></div>
+    <div>
+      <PrivateRoutes>
+        <BlogLayout />
+      </PrivateRoutes>
     </div>
   );
 };

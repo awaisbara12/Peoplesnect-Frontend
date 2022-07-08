@@ -1,7 +1,7 @@
 import ReactDOM from "react-dom";
 import dynamic from "next/dynamic";
 import React, { useState, useEffect, Fragment } from "react";
-
+import { useRouter } from "next/router";
 import TimezoneSelect, { allTimezones } from "react-timezone-select";
 import Image from "next/image";
 import ProfileAvatar from "../../../../public/images/profile-avatar.png";
@@ -71,6 +71,10 @@ const NewsPost = () => {
       setVideoPreview(URL.createObjectURL(e.target.files[0]));
     }
   };
+
+  function blogPush() {
+    router.push("/post/new");
+  }
 
   const onSubmit = () => {
     resetForm();

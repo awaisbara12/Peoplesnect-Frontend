@@ -25,6 +25,7 @@ export default userSlice.reducer;
 export function fetchUser() {
   return function fetchUserThunk(dispatch) {
     const authKey = localStorage.getItem("keyStore");
+
     axios(USER_DETAILS_API_KEY, {
       method: "GET",
       headers: {

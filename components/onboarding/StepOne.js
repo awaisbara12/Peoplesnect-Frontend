@@ -115,11 +115,6 @@ const StepOne = () => {
             <div className="text-center pt-6">
               <h1 className="font-bold text-xl pb-2">
                 Welcome at PeoplesNect 👋{" "}
-                {/* {userDetails && userDetails.user ? (
-                  <> {userDetails.user.first_name}</>
-                ) : (
-                  ""
-                )} */}
               </h1>
               <p className="font-light">
                 Lets start your profile, connect with peoples
