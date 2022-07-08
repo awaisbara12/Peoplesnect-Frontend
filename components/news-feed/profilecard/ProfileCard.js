@@ -11,8 +11,8 @@ import Spinner from "../../common/Spinner";
 
 const ProfileCard = () => {
   const dispatch = useDispatch();
-  const [userDetails, setUserDetails] = useState();
   const [loading, setLoading] = useState(false);
+  const [userDetails, setUserDetails] = useState();
 
   useEffect(() => {
     setLoading(true);
@@ -23,14 +23,15 @@ const ProfileCard = () => {
   const { data: user } = useSelector((state) => state.user);
 
   useEffect(() => {
+    const authKey = localStorage.getItem("keyStore");
     function load() {
-      if (localStorage == undefined || localStorage == []) {
+      if (authKey || localStorage == undefined) {
         localStorage.setItem("userData", JSON.stringify(user));
       }
     }
     load();
     setUserDetails(JSON.parse(localStorage.getItem("userData")));
-  }, []);
+  }, [user]);
 
   if (loading)
     return (
@@ -61,19 +62,23 @@ const ProfileCard = () => {
               />
             </div>
           </div>
-          <div className="font-semibold text-base text-gray-900 text-center mt-2.5 mb-1.5">
+          <div className="font-semibold capitalize text-base text-gray-900 text-center mt-2.5 mb-1.5">
             {userDetails && userDetails.user ? (
               <>
                 {" "}
                 {userDetails.user.first_name} {userDetails.user.last_name}
               </>
             ) : (
-              ""
+              <Spinner />
             )}
           </div>
         </div>
         <div className="font-light text-base text-gray-900 leading-5 text-center">
-          Node.js developer at agency.
+          {userDetails && userDetails.user ? (
+            <> {userDetails.user.recent_job}</>
+          ) : (
+            <Spinner />
+          )}
         </div>
         <div className="border-1 text-gray-100 my-5"></div>
         <div className="mx-5 flex justify-between items-center">

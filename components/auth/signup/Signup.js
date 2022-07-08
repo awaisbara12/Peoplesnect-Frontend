@@ -87,7 +87,7 @@ const Signup = () => {
       }
 
       try {
-        console.log(result);
+        console.log(result.user);
         if (result.message && "Signed up successfully") {
           router.push("/onboarding/step-one");
         } else {
@@ -147,12 +147,16 @@ const Signup = () => {
                       close === true ? "hidden" : "visible"
                     }`}
                     role="alert"
-                    onClick={() => handleClose()}
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <XCircleIcon className="fill-current h-6 w-6 text-red-500" />
-                        <span className="block sm:inline">{err}</span>
+                        <span
+                          onClick={() => handleClose()}
+                          className="block sm:inline"
+                        >
+                          {err}
+                        </span>
                       </div>
                       <XIcon className="fill-current h-6 w-6 text-red-500 cursor-pointer" />
                     </div>

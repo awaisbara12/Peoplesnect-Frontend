@@ -23,17 +23,6 @@ const Login = () => {
 
   var { data: user } = useSelector((state) => state.user);
 
-  useEffect(() => {
-    function load() {
-      if (localStorage) {
-        localStorage.setItem("userData", JSON.stringify(user));
-      }
-    }
-    load();
-    JSON.parse(localStorage.getItem("userData"));
-    console.log(JSON.parse(localStorage.getItem("userData")));
-  }, []);
-
   const [passwordShow, setPasswordShow] = useState(false);
   const [spinner, setSpinner] = useState(false);
   const showPassword = () => {

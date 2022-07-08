@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { SearchIcon, LockOpenIcon } from "@heroicons/react/outline";
 import { signout } from "../../auth/signout/SignOut";
+import Spinner from "../../common/Spinner";
 
 const NewsSearch = () => {
   return (
@@ -22,10 +23,14 @@ const NewsSearch = () => {
         />
       </label>
       <div className="bg-blue-500 flex items-center justify-center rounded-full w-8 h-8 p-2">
-        <LockOpenIcon
-          onClick={() => signout()}
-          className="text-white w-5 h-5 cursor-pointer"
-        />
+        {signout ? (
+          <LockOpenIcon
+            onClick={() => signout()}
+            className="text-white w-5 h-5 cursor-pointer"
+          />
+        ) : (
+          <Spinner />
+        )}
       </div>
     </div>
   );

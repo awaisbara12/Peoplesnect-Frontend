@@ -12,6 +12,7 @@ export const ONBOARDING_STEP_TWO_URL =
   process.env.NEXT_PUBLIC_ONBOARDING_STEP_TWO;
 export const ONBOARDING_STEP_THREE_URL =
   process.env.NEXT_PUBLIC_ONBOARDING_STEP_THREE;
+export const NEXT_PUBLIC_BLOG_POST_API = process.env.NEXT_PUBLIC_BLOG_POST_API;
 
 function Config() {
   return <></>;
