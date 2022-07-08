@@ -151,14 +151,12 @@ const Signup = () => {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <XCircleIcon className="fill-current h-6 w-6 text-red-500" />
-                        <span
-                          onClick={() => handleClose()}
-                          className="block sm:inline"
-                        >
-                          {err}
-                        </span>
+                        <span className="block sm:inline">{err}</span>
                       </div>
-                      <XIcon className="fill-current h-6 w-6 text-red-500 cursor-pointer" />
+                      <XIcon
+                        onClick={() => handleClose()}
+                        className="fill-current h-6 w-6 text-red-500 cursor-pointer"
+                      />
                     </div>
                   </div>
                 ) : (
