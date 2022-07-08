@@ -72,10 +72,6 @@ const NewsPost = () => {
     }
   };
 
-  function blogPush() {
-    router.push("/post/new");
-  }
-
   const onSubmit = () => {
     resetForm();
   };
@@ -105,7 +101,9 @@ const NewsPost = () => {
     const dataForm = new FormData();
     dataForm.append("news_feeds[body]", postText);
     dataForm.append("news_feeds[feed_type]", feedType);
+
     dataForm.append("news_feeds[feed_attachments][]", postImage);
+    dataForm.append("news_feeds[feed_attachments][]", videoSrc);
     if (feedType === "event_feed") {
       dataForm.append("events[name]", values.eventName);
       dataForm.append("events[event_type]", eventType);
@@ -119,10 +117,6 @@ const NewsPost = () => {
       dataForm.append("events[description]", values.description);
       dataForm.append("events[address]", values.address);
       dataForm.append("events[venue]", values.venue);
-    }
-
-    if (feedType === "video_feed") {
-      dataForm.append("news_feeds[feed_attachments][]", videoSrc);
     }
 
     fetch(POST_NEWSFEED_API_KEY, {
