@@ -327,12 +327,13 @@ const Signup = () => {
                       type="checkbox"
                       name="checkbox"
                       id="agreeCheckbox"
+                      className={`${
+                        errors.checkbox && touched.checkbox
+                          ? "border-red-600"
+                          : ""
+                      }`}
                     />
-                    {errors.checkbox && touched.checkbox ? (
-                      <div className="text-red-600 pt-2 pl-1">
-                        {errors.checkbox}
-                      </div>
-                    ) : null}
+
                     <p className="font-light -mt-2 text-sm sm:text-lg">
                       creating an account at peoplesNect you must agree{" "}
                       <Link href="/">
@@ -353,6 +354,13 @@ const Signup = () => {
                         </a>
                       </Link>{" "}
                     </p>
+                  </div>
+                  <div className="text-center">
+                    {errors.checkbox && touched.checkbox ? (
+                      <div className="text-red-600 pt-2 pl-1">
+                        {errors.checkbox}
+                      </div>
+                    ) : null}
                   </div>
                   <div className="border-gray-100 border mt-4"></div>
                   <div className="mt-4 text-center">

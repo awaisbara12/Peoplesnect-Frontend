@@ -12,7 +12,10 @@ export const SignupSchema = Yup.object().shape({
     .max(20, "Too Long!")
     .required("Please enter your last name"),
   email: Yup.string().email("Please enter a valid email").required("Required"),
-  checkbox: Yup.string().required("Please agree terms & services"),
+  checkbox: Yup.boolean().oneOf(
+    [true],
+    "please agree our terms before continue"
+  ),
   password: Yup.string()
 
     .min(
