@@ -4,11 +4,9 @@ import PrivateRoutes from "../components/auth/routes/PrivateRoutes";
 
 const NewsFeed = () => {
   return (
-    <>
-      <PrivateRoutes>
-        <NewsFeedDashboard />
-      </PrivateRoutes>
-    </>
+    <PrivateRoutes>
+      <NewsFeedDashboard />
+    </PrivateRoutes>
   );
 };
 
