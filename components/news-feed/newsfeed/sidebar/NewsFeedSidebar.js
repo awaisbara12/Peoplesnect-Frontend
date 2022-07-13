@@ -5,7 +5,7 @@ import FooterNewsFeed from "../newsfeedfooter/FooterNewsFeed";
 
 const NewsFeedSidebar = () => {
   return (
-    <div className="z-50">
+    <div className="sticky top-7 z-50">
       <div className=" bg-white w-72 rounded-xl mt-7 p-5">
         <div>
           <NewsFeedNav />

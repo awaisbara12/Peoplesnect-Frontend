@@ -8,6 +8,7 @@ import {
   UsersIcon,
   ChatAltIcon,
   BellIcon,
+  NewspaperIcon,
 } from "@heroicons/react/solid";
 
 const NewsFeedNav = () => {
@@ -28,7 +29,7 @@ const NewsFeedNav = () => {
       </div>
       <div className="navbar-body mt-6">
         <ul>
-          <Link href="/" className="">
+          <Link href="/news-feed" className="">
             <a>
               <li className="flex font-normal text-xl items-center gap-3">
                 <HomeIcon className="h-5 w-5" />
@@ -41,6 +42,14 @@ const NewsFeedNav = () => {
               <li className="flex font-normal text-xl items-center my-5 gap-3">
                 <BriefcaseIcon className="h-5 w-5" />
                 <div className="">Jobs</div>
+              </li>
+            </a>
+          </Link>
+          <Link href="/blog" className="">
+            <a>
+              <li className="flex font-normal text-xl items-center my-5 gap-3">
+                <NewspaperIcon className="h-5 w-5" />
+                <div className="">Articles</div>
               </li>
             </a>
           </Link>
@@ -60,6 +69,7 @@ const NewsFeedNav = () => {
               </li>
             </a>
           </Link>
+
           <Link href="/" className="">
             <a>
               <li className="flex font-normal text-xl items-center gap-3">

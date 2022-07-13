@@ -6,7 +6,7 @@ import Spinner from "../../common/Spinner";
 
 const NewsSearch = () => {
   return (
-    <div className="flex items-center w-full mt-7 gap-4">
+    <div className="sticky top-7 z-50 flex items-center w-full mt-7 gap-4">
       <label className="relative block">
         <span className="absolute inset-y-0 left-0 flex items-center pl-7">
           <Link href="/">

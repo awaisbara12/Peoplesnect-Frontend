@@ -23,13 +23,13 @@ import { Dialog, Popover, Transition } from "@headlessui/react";
 import { POST_NEWSFEED_API_KEY } from "../../../../pages/config";
 import ImageUpload from "image-upload-react";
 import Link from "next/link";
+import Spinner from "../../../common/Spinner";
 
 const NewsPost = () => {
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
   }
-
-  let [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [postText, setPostText] = useState("");
   const [eventCoverImage, setEventCoverImage] = useState([]);
   const [previewEventCoverImage, setPreviewEventCoverImage] = useState();
@@ -42,6 +42,7 @@ const NewsPost = () => {
   const [eventType, setEventType] = useState();
   const [videoSrc, setVideoSrc] = useState([]);
   const [videoPreview, setVideoPreview] = useState();
+  let [isOpen, setIsOpen] = useState(false);
 
   const handleImageSelect = (e) => {
     setEventCoverImage(e.target.files[0]);
@@ -98,6 +99,7 @@ const NewsPost = () => {
 
   function postNewsData(e) {
     e.preventDefault();
+
     const dataForm = new FormData();
     dataForm.append("news_feeds[body]", postText);
     dataForm.append("news_feeds[feed_type]", feedType);
@@ -118,7 +120,7 @@ const NewsPost = () => {
       dataForm.append("events[address]", values.address);
       dataForm.append("events[venue]", values.venue);
     }
-
+    setLoading(true);
     fetch(POST_NEWSFEED_API_KEY, {
       method: "POST",
       headers: {
@@ -129,7 +131,9 @@ const NewsPost = () => {
     })
       .then((resp) => resp.json())
       .then((result) => {
-        console.log(result);
+        if (result) {
+          setLoading(false);
+        }
       })
       .catch((err) => console.log(err));
     setFeedType("basic");
@@ -150,7 +154,7 @@ const NewsPost = () => {
   }
 
   return (
-    <div className="mt-7">
+    <div className="mt-7 z-50">
       <div className="w-[600px] rounded-xl bg-white p-[22px]">
         <form onSubmit={postNewsData}>
           <div className="w-full flex justify-start gap-[22px]">
@@ -306,11 +310,19 @@ const NewsPost = () => {
                 }
               />
 
-              <NewspaperIcon
-                width={22}
-                height={22}
-                className="text-indigo-400 cursor-pointer"
-              />
+              <Link href="/post/new">
+                <NewspaperIcon
+                  width={22}
+                  height={22}
+                  className={` ${
+                    values.eventName ||
+                    (postImagePreview && true) ||
+                    videoPreview
+                      ? "text-indigo-100"
+                      : "text-indigo-400 cursor-pointer"
+                  }`}
+                />
+              </Link>
             </div>
             <button
               disabled={postText == 0 ? true : false}
@@ -319,7 +331,7 @@ const NewsPost = () => {
                 postText == 0 ? `bg-indigo-200` : ``
               }`}
             >
-              <GlobeAltIcon width={16} height={16} /> Public
+              {loading ? <Spinner /> : "Public"}
             </button>
           </div>
         </form>
@@ -727,7 +739,7 @@ const NewsPost = () => {
                       <button
                         type="button"
                         onClick={closeModal}
-                        className="inline-flex justify-center rounded-md border border-transparent bg-indigo-100 px-4 py-2 text-sm font-medium text-indigo-600 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                        className="w-[100] h-[32px] inline-flex justify-center rounded-md border border-transparent bg-indigo-100 px-4 py-2 text-sm font-medium text-indigo-600 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                       >
                         Continue
                       </button>
