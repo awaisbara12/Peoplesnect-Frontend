@@ -55,56 +55,57 @@ const Signup = () => {
     onSubmit,
   });
 
-  const signUpData = (e) => {
+  const signUpData = async (e) => {
     e.preventDefault();
 
-    const data = {
-      user: {
-        email: values.email,
-        first_name: values.fName,
-        last_name: values.lName,
-        password: values.password,
-        password_confirmation: values.confirmPassword,
-      },
-    };
-
-    const signup = async () => {
-      setSpinner(true);
-      const res = await fetch(SIGN_UP_API_KEY, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-
-      const headers = res.headers.get("Authorization");
-      const result = await res.json();
-
-      if (result) {
-        localStorage.setItem("keyStore", headers);
-      }
-
-      try {
-        console.log(result.user);
-        if (result.message && "Signed up successfully") {
-          router.push("/onboarding/step-one");
-        } else {
-          if (result && result.error) {
-            setErr(result.error);
-          }
-        }
-      } catch (error) {
-        console.log(error);
-      }
-
-      setSpinner(false);
-    };
-
-    signup();
-
     handleSubmit();
+
+    const isValid = await SignupSchema.isValid(values)
+
+    if(isValid){
+      const data = {
+        user: {
+          email: values.email,
+          first_name: values.fName,
+          last_name: values.lName,
+          password: values.password,
+          password_confirmation: values.confirmPassword,
+        },
+      };
+      const signup = async () => {
+        setSpinner(true);
+        const res = await fetch(SIGN_UP_API_KEY, {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+
+        const headers = res.headers.get("Authorization");
+        const result = await res.json();
+
+        if (result) {
+          localStorage.setItem("keyStore", headers);
+        }
+
+        try {
+          if (result.message && "Signed up successfully") {
+            router.push("/onboarding/step-one");
+          } else {
+            if (result && result.error) {
+              setErr(result.error);
+            }
+          }
+        } catch (error) {
+          console.log(error);
+        }
+        setSpinner(false);
+      };
+
+      signup();
+    }
   };
 
   useEffect(() => {
@@ -311,48 +312,49 @@ const Signup = () => {
                     ) : null}
                   </div>
 
+                  <div className="flex items-start gap-2 justify-start mt-8 px-1">
+                  <input
+                  value={values.checkbox}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  type="checkbox"
+                  name="checkbox"
+                  id="agreeCheckbox"
+                  className={`${
+                    errors.checkbox && touched.checkbox
+                    ? "border-red-600"
+                    : ""
+                  }`}
+                  />
+
+                  <p className="font-light -mt-2 text-sm sm:text-lg">
+                  creating an account at peoplesNect you must agree{" "}
+                  <Link href="/">
+                  <a className="text-indigo-400 font-medium">
+                  User Agreement
+                  </a>
+                  </Link>{" "}
+                  ,
+                  <Link href="/">
+                  <a className="text-indigo-400 font-medium">
+                  Privacy Policy
+                  </a>
+                  </Link>{" "}
+                  and{" "}
+                  <Link href="/">
+                  <a className="text-indigo-400 font-medium">
+                  Cookies Policy
+                  </a>
+                  </Link>{" "}
+                  </p>
+                  </div>
                   <button
                     type="submit"
                     className="bg-indigo-400 flex gap-2 items-center justify-center text-white text-xl text-center cursor-pointer font-semibold w-full py-2 rounded-full mt-6"
+
                   >
                     Join Now {spinner && true ? <Spinner /> : ""}
                   </button>
-                  <div className="flex items-start gap-2 justify-start mt-8 px-1">
-                    <input
-                      value={values.checkbox}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      type="checkbox"
-                      name="checkbox"
-                      id="agreeCheckbox"
-                      className={`${
-                        errors.checkbox && touched.checkbox
-                          ? "border-red-600"
-                          : ""
-                      }`}
-                    />
-
-                    <p className="font-light -mt-2 text-sm sm:text-lg">
-                      creating an account at peoplesNect you must agree{" "}
-                      <Link href="/">
-                        <a className="text-indigo-400 font-medium">
-                          User Agreement
-                        </a>
-                      </Link>{" "}
-                      ,
-                      <Link href="/">
-                        <a className="text-indigo-400 font-medium">
-                          Privacy Policy
-                        </a>
-                      </Link>{" "}
-                      and{" "}
-                      <Link href="/">
-                        <a className="text-indigo-400 font-medium">
-                          Cookies Policy
-                        </a>
-                      </Link>{" "}
-                    </p>
-                  </div>
                   <div className="text-center">
                     {errors.checkbox && touched.checkbox ? (
                       <div className="text-red-600 pt-2 pl-1">
