@@ -56,32 +56,35 @@ const NewsFeedUserCard = () => {
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
   }
+  useEffect(() => {
+    setLoading(true)
+    const getNewsFeed = async () => {
+      const res = await axios(POST_NEWSFEED_API_KEY, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-type": "application/json; charset=utf-8",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Credentials": true,
+          Authorization: authKey,
+        },
+        credentials: "same-origin",
+      });
+      const result = await res;
 
-  const getNewsFeed = async () => {
-    const res = await axios(POST_NEWSFEED_API_KEY, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-type": "application/json; charset=utf-8",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Credentials": true,
-        Authorization: authKey,
-      },
-      credentials: "same-origin",
-    });
-    const result = await res;
-
-    try {
-      if (result.status == 200) {
-        setFeedData(result);
+      try {
+        if (result.status == 200) {
+          setFeedData(result);
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
-    }
-    setLoading(false);
-    return result;
-  };
-  getNewsFeed();
+      setLoading(false);
+      return result;
+    };
+    getNewsFeed();
+  }, [])
+
 
   if (loading)
     return (

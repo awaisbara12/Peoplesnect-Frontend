@@ -33,7 +33,6 @@ const MobileNav = () => {
                 src={NavbarLogo}
                 width={26}
                 height={26}
-                placeholder="blur"
                 alt=""
               />
             </a>
@@ -47,7 +46,6 @@ const MobileNav = () => {
                 src={ProfileAvatar}
                 width={35}
                 height={35}
-                placeholder="blur"
                 alt=""
               />
             </a>
