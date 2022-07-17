@@ -12,22 +12,8 @@ export const OnboardingSchemaFitst = Yup.object().shape({
 });
 
 export const OnboardingSchemaSecond = Yup.object().shape({
-  jobtitle: Yup.string()
-    .min(4, "Too Short!")
-    .max(18, "Too Long!")
-    .required("Please enter your recent jobtitle"),
-  institute: Yup.string()
-    .min(4, "Too Short!")
-    .max(18, "Too Long!")
-    .required("Please enter your institute"),
-  degree: Yup.string()
-    .min(4, "Too Short!")
-    .max(18, "Too Long!")
-    .required("Please enter your degree"),
-  startYear: Yup.string().required("Please select start year"),
-  endYear: Yup.string().required("Please select end year"),
+  jobtitle: Yup.string().required("Please enter your recent job title"),
   recentCompany: Yup.string().required("Please select recent company"),
-  employmentType: Yup.string().required("Please select employment type"),
 });
 
 export const OnboardingSchemaThree = Yup.object().shape({

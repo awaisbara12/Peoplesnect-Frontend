@@ -41,7 +41,7 @@ const Login = () => {
     actions.resetForm();
   };
 
-  const { values, errors, touched, handleBlur, handleChange } = useFormik({
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
     initialValues: {
       email: "",
       password: "",
@@ -50,58 +50,65 @@ const Login = () => {
     onSubmit,
   });
 
-  const LoginData = (e) => {
+  const LoginData = async (e) => {
     e.preventDefault();
+    handleSubmit();
 
-    const data = {
-      user: {
-        email: values.email,
-        password: values.password,
-      },
-    };
+    const isValid = await LoginSchema.isValid(values)
 
-    const signin = async () => {
-      setSpinner(true);
-      const res = await fetch(SIGN_IN_API_KEY, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-type": "application/json; charset=utf-8",
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Credentials": true,
+    if(isValid){
+      const data = {
+        user: {
+          email: values.email,
+          password: values.password,
         },
-        credentials: "same-origin",
-        body: JSON.stringify(data),
-      });
+      };
 
-      const result = await res.json();
+      const signin = async () => {
+        setSpinner(true);
+        const res = await fetch(SIGN_IN_API_KEY, {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-type": "application/json; charset=utf-8",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Credentials": true,
+          },
+          credentials: "same-origin",
+          body: JSON.stringify(data),
+        });
 
-      const headers = res.headers.get("Authorization");
+        const result = await res.json();
 
-      if (result) {
-        localStorage.setItem("keyStore", headers);
-      }
+        const headers = res.headers.get("Authorization");
 
-      try {
-        if (result && result.error) {
-          setErr(result.error);
-        } else {
-          if (user.user && user.user.onboarded == false) {
-            Router.push("/onboarding/step-one");
+        if (result) {
+          localStorage.setItem("keyStore", headers);
+        }
+
+        try {
+          if (result && result.error) {
+            setErr(result.error);
           } else {
-            if (result && 200) {
-              Router.push("/news-feed");
+            if (user.user && user.user.onboarded == false) {
+              Router.push("/onboarding/step-one");
+            } else {
+              if (result && 200) {
+                Router.push("/news-feed");
+              }
             }
           }
+        } catch (error) {
+          console.log(error);
         }
-      } catch (error) {
-        console.log(error);
-      }
 
-      setSpinner(false);
-    };
+        setSpinner(false);
+      };
 
-    signin();
+      signin();
+
+    }
+
   };
 
   useEffect(() => {
@@ -126,25 +133,8 @@ const Login = () => {
                   />
                 </div>
                 <div className="border-gray-100 border mt-4"></div>
-                <div className="flex w-64 md:w-64 sm:w-48 items-center justify-center mt-6 mx-auto lg:mx-auto gap-2 bg-indigo-400 p-2 cursor-pointer rounded-md">
-                  <div className="bg-white w-10 py-1 rounded-full flex justify-center items-center">
-                    <Image
-                      src={GoogleLogo}
-                      width={30}
-                      height={30}
-                      alt="google-signup"
-                    />
-                  </div>
-                  <h1 className="text-white font-semibold text-sm sm:text-lg">
-                    Sign In with Google
-                  </h1>
-                </div>
-                <div className="relative mt-8">
-                  <div className="border-gray-100 border"></div>
-                  <div className="absolute -top-3 inset-x-1/2 bg-white w-6 h-6 text-center">
-                    or
-                  </div>
-                </div>
+
+
 
                 {err ? (
                   <div

@@ -22,6 +22,10 @@ const StepThree = () => {
     setClose(true);
   };
 
+  const onSubmit = (actions) => {
+    actions.resetForm();
+  };
+
   const stepData = async (e) => {
     e.preventDefault();
     handleSubmit();
@@ -76,6 +80,7 @@ const StepThree = () => {
       otp: "",
     },
     validationSchema: OnboardingSchemaThree,
+    onSubmit,
   });
 
   return (
