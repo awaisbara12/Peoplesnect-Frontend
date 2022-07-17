@@ -25,41 +25,48 @@ const StepOne = () => {
 
   const stepData = async (e) => {
     e.preventDefault();
-    setSpinner(true);
-
-    const data = {
-      user: {
-        country: values.country,
-        city: values.city,
-      },
-    };
-
-    const resp = await fetch(ONBOARDING_STEP_ONE_URL, {
-      method: "PUT",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: authKey,
-      },
-      body: JSON.stringify(data),
-    });
-
-    const result = await resp.json();
-
-    try {
-      if (result && result.error) {
-        setErr(result.error);
-      } else {
-        if (result && 200) {
-          router.push("/onboarding/step-two");
-        }
-      }
-    } catch (err) {
-      console.log(err);
-    }
-    setSpinner(false);
 
     handleSubmit();
+
+    const isValid = await OnboardingSchemaFitst.isValid(values)
+
+    if(isValid){
+      setSpinner(true);
+
+      const data = {
+          user: {
+              country: values.country,
+              city: values.city,
+            },
+          };
+
+          const resp = await fetch(ONBOARDING_STEP_ONE_URL, {
+              method: "PUT",
+              headers: {
+                  Accept: "application/json",
+                  "Content-Type": "application/json",
+                  Authorization: authKey,
+                },
+                body: JSON.stringify(data),
+              });
+
+              const result = await resp.json();
+
+              try {
+                if (result && result.error) {
+                    setErr(result.error);
+                  } else {
+                      if (result && 200) {
+                          router.push("/onboarding/step-two");
+                        }
+                      }
+              } catch (err) {
+                console.log(err);
+                }
+      setSpinner(false);
+
+    }
+
   };
   const {
     values,

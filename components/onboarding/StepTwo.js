@@ -53,47 +53,51 @@ const StepTwo = () => {
 
   const stepData = async (e) => {
     e.preventDefault();
-    setSpinner(true);
-    const data = {
-      user: {
-        recent_job: values.jobtitle,
-        recent_company: values.recentCompany,
-        employment_type: selectedValue.employmentTypValue,
-        is_student: {
-          school: values.institute,
-          degree: values.degree,
-          start_year: values.startYear,
-          end_year: values.endYear,
-        },
-      },
-    };
-
-    const resp = await fetch(ONBOARDING_STEP_TWO_URL, {
-      method: "PUT",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: authKey,
-      },
-      body: JSON.stringify(data),
-    });
-
-    const result = await resp.json();
-
-    try {
-      if (result && result.error) {
-        setErr(result.error);
-      } else {
-        if (result && 200) {
-          router.push("/onboarding/step-three");
-        }
-      }
-    } catch (err) {
-      console.log(err);
-    }
-    setSpinner(false);
-
     handleSubmit();
+
+    const isValid = await OnboardingSchemaSecond.isValid(values)
+
+    if(isValid){
+      setSpinner(true);
+      const data = {
+        user: {
+          recent_job: values.jobtitle,
+          recent_company: values.recentCompany,
+          employment_type: selectedValue.employmentTypValue,
+          is_student: {
+            school: values.institute,
+            degree: values.degree,
+            start_year: values.startYear,
+            end_year: values.endYear,
+          },
+        },
+      };
+
+      const resp = await fetch(ONBOARDING_STEP_TWO_URL, {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: authKey,
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await resp.json();
+
+      try {
+        if (result && result.error) {
+          setErr(result.error);
+        } else {
+          if (result && 200) {
+            router.push("/onboarding/step-three");
+          }
+        }
+      } catch (err) {
+        console.log(err);
+      }
+      setSpinner(false);
+    }
   };
   const {
     values,

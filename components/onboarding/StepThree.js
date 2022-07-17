@@ -24,40 +24,44 @@ const StepThree = () => {
 
   const stepData = async (e) => {
     e.preventDefault();
-    setSpinner(true);
-
-    const data = {
-      user: {
-        otp: values.otp,
-      },
-    };
-
-    const resp = await fetch(ONBOARDING_STEP_THREE_URL, {
-      method: "PUT",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `${authKey}`,
-      },
-      body: JSON.stringify(data),
-    });
-
-    const result = await resp.json();
-
-    try {
-      if (result && result.error) {
-        setErr(result.error);
-      } else {
-        if (result && 200) {
-          router.push("/news-feed");
-        }
-      }
-    } catch (err) {
-      console.log(err);
-    }
-    setSpinner(false);
-
     handleSubmit();
+
+    const isValid = await OnboardingSchemaThree.isValid(values)
+
+    if(isValid){
+      setSpinner(true);
+
+      const data = {
+        user: {
+          otp: values.otp,
+        },
+      };
+
+      const resp = await fetch(ONBOARDING_STEP_THREE_URL, {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `${authKey}`,
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await resp.json();
+
+      try {
+        if (result && result.error) {
+          setErr(result.error);
+        } else {
+          if (result && 200) {
+            router.push("/news-feed");
+          }
+        }
+      } catch (err) {
+        console.log(err);
+      }
+      setSpinner(false);
+    }
   };
   const {
     values,
