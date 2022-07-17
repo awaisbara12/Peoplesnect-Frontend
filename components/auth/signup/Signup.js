@@ -129,19 +129,19 @@ const Signup = () => {
                     alt="peoplesNect-logo"
                   />
                 </div>
-                <div className="flex justify-center w-64 md:w-64 sm:w-48 items-center mt-6 mx-auto lg:mx-auto gap-2 bg-indigo-400 p-2 cursor-pointer rounded-md">
-                  <div className="bg-white w-10 py-1 rounded-full flex justify-center items-center">
-                    <Image
-                      src={GoogleLogo}
-                      width={30}
-                      height={30}
-                      alt="google-signup"
-                    />
-                  </div>
-                  <h1 className="text-white font-semibold text-sm sm:text-lg">
-                    Sign Up with Google
-                  </h1>
-                </div>
+                // <div className="flex justify-center w-64 md:w-64 sm:w-48 items-center mt-6 mx-auto lg:mx-auto gap-2 bg-indigo-400 p-2 cursor-pointer rounded-md">
+                //   <div className="bg-white w-10 py-1 rounded-full flex justify-center items-center">
+                //     <Image
+                //       src={GoogleLogo}
+                //       width={30}
+                //       height={30}
+                //       alt="google-signup"
+                //     />
+                //   </div>
+                //   <h1 className="text-white font-semibold text-sm sm:text-lg">
+                //     Sign Up with Google
+                //   </h1>
+                // </div>
                 {err ? (
                   <div
                     className={`bg-red-50 mt-8 text-red-600 px-4 py-4 rounded relative ${
