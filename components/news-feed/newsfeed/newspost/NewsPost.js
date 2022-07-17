@@ -24,6 +24,8 @@ import { POST_NEWSFEED_API_KEY } from "../../../../pages/config";
 import ImageUpload from "image-upload-react";
 import Link from "next/link";
 import Spinner from "../../../common/Spinner";
+import axios from "axios";
+import NewsFeedUserCard from "../../../news-feed/newsfeed/feedcard/NewsFeedUserCard";
 
 const NewsPost = () => {
   if (typeof window !== "undefined") {
@@ -132,6 +134,7 @@ const NewsPost = () => {
       .then((resp) => resp.json())
       .then((result) => {
         if (result) {
+          NewsFeedUserCard
           setLoading(false);
         }
       })

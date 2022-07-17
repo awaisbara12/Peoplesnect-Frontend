@@ -19,7 +19,7 @@ import { CalendarIcon } from "@heroicons/react/solid";
 import { POST_NEWSFEED_API_KEY } from "../../../../pages/config";
 import { Popover, Transition } from "@headlessui/react";
 import Link from "next/link";
-import ProfileAvatar from "../../../../public/images/profile-avatar-2.png";
+import ProfileAvatar from "../../../../public/images/profile-avatar.png";
 import PostImage from "../../../../public/images/post-image.png";
 import PostComments from "../comments/PostComments";
 import FilterComments from "../comments/FilterComments";
@@ -57,64 +57,31 @@ const NewsFeedUserCard = () => {
     var authKey = window.localStorage.getItem("keyStore");
   }
 
-  console.log(feedData && feedData.data.data.length);
+  const getNewsFeed = async () => {
+    const res = await axios(POST_NEWSFEED_API_KEY, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-type": "application/json; charset=utf-8",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true,
+        Authorization: authKey,
+      },
+      credentials: "same-origin",
+    });
+    const result = await res;
 
-  useEffect(() => {
-    setLoading(true);
-    const getNewsFeed = async () => {
-      const res = await axios(POST_NEWSFEED_API_KEY, {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-type": "application/json; charset=utf-8",
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Credentials": true,
-          Authorization: authKey,
-        },
-        credentials: "same-origin",
-      });
-      const result = await res;
-
-      try {
-        if (result.status == 200) {
-          setFeedData(result);
-        }
-      } catch (error) {
-        console.log(error);
+    try {
+      if (result.status == 200) {
+        setFeedData(result);
       }
-      return result;
-    };
+    } catch (error) {
+      console.log(error);
+    }
     setLoading(false);
-    getNewsFeed();
-  }, []);
-
-  // useEffect(() => {
-  //   const getNewsFeed = async () => {
-  //     setLoading(true);
-  //     const res = await axios(POST_NEWSFEED_API_KEY, {
-  //       method: "GET",
-  //       headers: {
-  //         Accept: "application/json",
-  //         "Content-type": "application/json; charset=utf-8",
-  //         "Access-Control-Allow-Origin": "*",
-  //         "Access-Control-Allow-Credentials": true,
-  //         Authorization: authKey,
-  //       },
-  //       credentials: "same-origin",
-  //     });
-
-  //     const result = await res;
-
-  //     try {
-  //       setFeedData(result);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-
-  //     setLoading(false);
-  //   };
-  //   getNewsFeed();
-  // }, []);
+    return result;
+  };
+  getNewsFeed();
 
   if (loading)
     return (
@@ -136,7 +103,7 @@ const NewsFeedUserCard = () => {
                 <Image src={ProfileAvatar} width={45} height={45} alt="" />
                 <div>
                   <h4 className="flex gap-[6px] items-center font-medium text-gray-900">
-                    Maria Momo{" "}
+                    {items.user.first_name} {items.user.last_name}
                     <BadgeCheckIcon
                       width={14}
                       height={14}
@@ -144,7 +111,7 @@ const NewsFeedUserCard = () => {
                     />
                   </h4>
                   <div className="font-light text-gray-900 opacity-[0.8]">
-                    Mern Stack Team Lead
+                    {items.user.recent_job}
                   </div>
                 </div>
               </div>
@@ -262,7 +229,7 @@ const NewsFeedUserCard = () => {
               <div className="flex gap-1 items-center mt-3">
                 <GlobeIcon width={14} height={14} className="text-slate-400" />
                 <div className="w-1 h-1 rounded-full bg-slate-400"></div>
-                <div className="text-slate-400 text-sm">1d</div>
+                <div className="text-slate-400 text-sm">{items.created_at}</div>
                 {items.body.length > 200 ? (
                   <a href="#" className="text-indigo-400 text-[15px] ml-3">
                     seemore...
@@ -332,11 +299,11 @@ const NewsFeedUserCard = () => {
                   <span className="font-light text-gray-900">14.2k</span>
                 </div>
               </div>
-              <Fragment>
+              {/* <Fragment>
                 <PostComments />
                 <FilterComments />
                 <ReplyComments />
-              </Fragment>
+              </Fragment> */}
             </div>
           </div>
         ))}
