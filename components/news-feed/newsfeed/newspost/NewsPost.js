@@ -27,7 +27,7 @@ import Spinner from "../../../common/Spinner";
 import axios from "axios";
 import NewsFeedUserCard from "../../../news-feed/newsfeed/feedcard/NewsFeedUserCard";
 
-const NewsPost = () => {
+const NewsPost = ({ setList }) => {
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
   }
@@ -134,7 +134,7 @@ const NewsPost = () => {
       .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-          NewsFeedUserCard
+          setList(result)
           setLoading(false);
         }
       })

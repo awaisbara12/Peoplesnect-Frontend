@@ -1,5 +1,4 @@
 import React, { Fragment, useEffect, useState } from "react";
-import axios from "axios";
 import Image from "next/image";
 
 import {
@@ -16,7 +15,6 @@ import {
   XCircleIcon,
 } from "@heroicons/react/outline";
 import { CalendarIcon } from "@heroicons/react/solid";
-import { POST_NEWSFEED_API_KEY } from "../../../../pages/config";
 import { Popover, Transition } from "@headlessui/react";
 import Link from "next/link";
 import ProfileAvatar from "../../../../public/images/profile-avatar.png";
@@ -49,54 +47,23 @@ const cardDropdown = [
   },
 ];
 
-const NewsFeedUserCard = () => {
-  const [loading, setLoading] = useState(true);
-  const [feedData, setFeedData] = useState();
-
-  if (typeof window !== "undefined") {
-    var authKey = window.localStorage.getItem("keyStore");
-  }
-  useEffect(() => {
-    setLoading(true)
-    const getNewsFeed = async () => {
-      const res = await axios(POST_NEWSFEED_API_KEY, {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-type": "application/json; charset=utf-8",
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Credentials": true,
-          Authorization: authKey,
-        },
-        credentials: "same-origin",
-      });
-      const result = await res;
-
-      try {
-        if (result.status == 200) {
-          setFeedData(result);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-      setLoading(false);
-      return result;
-    };
-    getNewsFeed();
-  }, [])
+const NewsFeedUserCard = (list) => {
+  // const [loading, setLoading] = useState(true);
+  // const [feedData, setFeedData] = useState();
+  // console.log("test")
 
 
-  if (loading)
-    return (
-      <div className="mt-8">
-        <Spinner />
-      </div>
-    );
+  // if (loading)
+  //   return (
+  //     <div className="mt-8">
+  //       <Spinner />
+  //     </div>
+  //   );
 
   return (
     <div>
-      {feedData &&
-        feedData.data.data.map((items) => (
+      {list &&
+        list.list.map((items) => (
           <div
             key={items.id}
             className="w-[600px] pb-4 mt-[14px] bg-white rounded-xl"
