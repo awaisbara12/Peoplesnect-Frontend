@@ -1,11 +1,14 @@
 import React from "react";
 import Head from "next/head";
+import Link from "next/link";
 import NewsSearch from "../news-feed/search/NewsSearch";
 import ProfileCard from "../news-feed/profilecard/ProfileCard";
 import EventsCard from "../news-feed/eventcard/EventsCard";
 import MobileNav from "../news-feed/navbar/MobileNav";
 import NewsFeedSidebar from "../news-feed/newsfeed/sidebar/NewsFeedSidebar";
 import BlogPosts from "./BlogPosts";
+import BlogsDesign from "./BlogsDesign";
+import AddNewBlog from "./AddNewBlog";
 
 const BlogsFeed = () => {
   return (
@@ -24,13 +27,17 @@ const BlogsFeed = () => {
             <div className="hidden md:block lg:block">
               <NewsFeedSidebar />
             </div>
-            <div className="h-full bg-zinc-100 md:bg-transparent lg:bg-transparent xl:bg-transparent px-4 md:px-0 lg-px-0 xl:px-0">
+            {/* <div className="h-full bg-zinc-100 md:bg-transparent lg:bg-transparent xl:bg-transparent px-4 md:px-0 lg-px-0 xl:px-0">
               <BlogPosts />
+            </div> */}
+            <div className="h-full bg-zinc-100 mx-auto">
+              <BlogsDesign />
             </div>
             <div className="w-72 hidden md:block lg:block">
               <NewsSearch />
               <ProfileCard />
               <EventsCard />
+              <AddNewBlog />
             </div>
           </div>
         </div>
