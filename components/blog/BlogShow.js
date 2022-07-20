@@ -1,11 +1,62 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from 'next/router'
 import MainBanner from "../../../peoplesnect-frontend/public/images/main-banner.jpg";
 import ProfileAvatar from "../../../peoplesnect-frontend/public/images/profile-avatar.png";
 import Profileimg from "../../../peoplesnect-frontend/public/images/mira.png";
+import Spinner from "../common/Spinner";
+import { BLOG_POST_USER_API_KEY } from "/pages/config";
 
 function BlogShow() {
+  const [loading, setLoading] = useState(true);
+  const [list, setList] = useState([])
+  const router = useRouter()
+  const { id } = router.query
+
+  if (typeof window !== "undefined") {
+    var authKey = window.localStorage.getItem("keyStore");
+
+  }
+
+  useEffect(() => {
+    setLoading(true)
+    const getBlogs = async () => {
+      const res = await axios(BLOG_POST_USER_API_KEY+'/'+id, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-type": "application/json; charset=utf-8",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Credentials": true,
+          Authorization: authKey,
+        },
+        credentials: "same-origin",
+      });
+      const result = await res;
+
+      try {
+        if (result.status == 200) {
+          console.log(result)
+          setList(result.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      setLoading(false);
+      return result;
+    };
+    getBlogs();
+  }, [])
+
+  if (loading)
+    return (
+      <div className="mt-8">
+        <Spinner />
+      </div>
+    );
+
   return (
     <div className="px-10 w-[620px] xl:w-full">
       <div className="blogs bg-white rounded-xl my-8 ">
@@ -13,36 +64,29 @@ function BlogShow() {
           <div className="">
             <Link href="/">
               <a>
-                <Image
-                  className="object-cover rounded-lg"
-                  src={MainBanner}
-                  width={900}
-                  height={500}
-                  alt=""
-                />
+                {list.data.photos_link &&
+                  <img
+                    className="object-cover rounded-t-lg"
+                    src={list.data.photos_link[0]}
+                    width={900}
+                    height={500}
+                    alt=""
+                  />
+                }
               </a>
             </Link>
           </div>
         </div>
         <div className=" details p-10">
-          <div className="heading text-6xl font-bold">Title Here....</div>
+          <div className="heading text-6xl font-bold">{list.data.title}</div>
           <div className="caption text-xl mt-4">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry'sLorem Ipsum is simply
-            dummy text of the printing and typesetting industry. Lorem Ipsum has
-            been the industry'Lorem Ipsum has been the industry'sLorem Ipsum is
-            simply dummy text of the printing and typesetting industry Lorem
-            Ipsum has been the industry'sLorem Ipsum is simply dummy text of the
-            printing and typesetting industry Lorem Ipsum has been the
-            industry'sLorem Ipsum is simply dummy text of the printing and
-            typesetting industry Lorem Ipsum has been the industry'sLorem Ipsum
-            is simply dummy text of the printing and typesetting industry
+            {list.data.description}
           </div>
         </div>
       </div>
       <div className="comment-section mt-18">
         <div className="comments-heading text-4xl font-bold">
-          Comments Section...
+          Comments
         </div>
         <div className="bg-white rounded-xl my-8 p-4">
           <div className="comments">
@@ -66,15 +110,15 @@ function BlogShow() {
                     <a>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        class="h-5 w-5"
+                        className="h-5 w-5"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
-                        stroke-width="2"
+                        strokeWidth="2"
                       >
                         <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
                           d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
                         />
                       </svg>
@@ -84,17 +128,17 @@ function BlogShow() {
                     <a>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        class="h-5 w-5"
+                        className="h-5 w-5"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
-                        stroke-width="2"
+                        strokeWidth="2"
                       >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                        />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                      />
                       </svg>
                     </a>
                   </Link>
@@ -126,29 +170,29 @@ function BlogShow() {
               <div className="flex gap-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5"
+                  className="h-5 w-5"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
-                  stroke-width="2"
+                  strokeWidth="2"
                 >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
                 </svg>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5"
+                  className="h-5 w-5"
                   viewBox="0 0 20 20"
                   fill="currentColor"
                 >
-                  <path
-                    fill-rule="evenodd"
-                    d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
-                    clip-rule="evenodd"
-                  />
+                <path
+                  fillRule="evenodd"
+                  d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
+                  clipRule="evenodd"
+                />
                 </svg>
               </div>
             </div>

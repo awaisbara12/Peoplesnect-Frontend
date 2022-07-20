@@ -60,7 +60,7 @@ const BlogsDesign = () => {
             <div className="blogs bg-white rounded-xl">
               <div className="image">
                 <div className="">
-                  <Link href="/blog/blog-show">
+                  <Link href={`/blog/${item.id}`}>
                     <a>
                       {item.photos_link &&
                         <img
@@ -82,7 +82,7 @@ const BlogsDesign = () => {
                 </div>
               </div>
               <div className="text-right">
-                <Link href="/blog/blog-show" className="">
+                <Link href={`/blog/${item.id}`} className="">
                   <a>
                     <button
                       type="submit"
