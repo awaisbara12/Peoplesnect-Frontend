@@ -6,7 +6,7 @@ import EventsCard from "../news-feed/eventcard/EventsCard";
 import MobileNav from "../news-feed/navbar/MobileNav";
 import NewsFeedSidebar from "../news-feed/newsfeed/sidebar/NewsFeedSidebar";
 import BlogPosts from "./BlogPosts";
-import MobileBottomBar from "../news-feed/navbar/MobileBottomBar";
+import BlogsBottomBar from "../news-feed/navbar/BlogsBottomBar";
 
 const AddBlogsFeed = () => {
   return (
@@ -36,7 +36,7 @@ const AddBlogsFeed = () => {
           </div>
         </div>
       </div>
-      <MobileBottomBar/>
+      <BlogsBottomBar/>
     </div>
   );
 };

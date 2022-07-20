@@ -29,12 +29,7 @@ const MobileNav = () => {
         <div className="">
           <Link href="/">
             <a>
-              <Image
-                src={NavbarLogo}
-                width={26}
-                height={26}
-                alt=""
-              />
+              <Image src={NavbarLogo} width={26} height={26} alt="" />
             </a>
           </Link>
         </div>
@@ -42,12 +37,7 @@ const MobileNav = () => {
           <DotsHorizontalIcon className="w-5 h-5" />
           <Link href="/">
             <a>
-              <Image
-                src={ProfileAvatar}
-                width={35}
-                height={35}
-                alt=""
-              />
+              <Image src={ProfileAvatar} width={35} height={35} alt="" />
             </a>
           </Link>
         </div>

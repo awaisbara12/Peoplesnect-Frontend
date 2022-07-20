@@ -7,7 +7,7 @@ import MobileNav from "../news-feed/navbar/MobileNav";
 import NewsFeedSidebar from "../news-feed/newsfeed/sidebar/NewsFeedSidebar";
 import BlogShow from "./BlogShow";
 import AddNewBlog from "./AddNewBlog";
-import MobileBottomBar from "../news-feed//navbar/MobileBottomBar";
+import BlogsBottomBar from "../news-feed/navbar/BlogsBottomBar";
 
 const BlogShowFeed = () => {
   return (
@@ -40,7 +40,7 @@ const BlogShowFeed = () => {
           </div>
         </div>
       </div>
-      <MobileBottomBar />
+      <BlogsBottomBar/>
     </div>
   );
 };

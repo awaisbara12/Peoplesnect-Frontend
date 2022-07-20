@@ -9,14 +9,14 @@ import Spinner from "../common/Spinner";
 import { BLOG_POST_USER_API_KEY } from "/pages/config";
 
 const BlogsDesign = () => {
-  const [list, setList] = useState([])
+  const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
   }
 
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
     const getBlogs = async () => {
       const res = await axios(BLOG_POST_USER_API_KEY, {
         method: "GET",
@@ -33,7 +33,7 @@ const BlogsDesign = () => {
 
       try {
         if (result.status == 200) {
-          console.log(result)
+          console.log(result);
           setList(result.data);
         }
       } catch (error) {
@@ -43,7 +43,7 @@ const BlogsDesign = () => {
       return result;
     };
     getBlogs();
-  }, [])
+  }, []);
 
   if (loading)
     return (
@@ -53,49 +53,49 @@ const BlogsDesign = () => {
     );
   return (
     <div className="w-[620px] lg:w-full md:w-full px-5 md:px-0 lg:px-0">
-      <div className="flex gap-10 mt-8">
+      <div className="columns-1 lg:columns-2 md:columns-2">
         {list &&
           list.data.map((item) => (
-          <div className="w-1/2 md:w-80">
-            <div className="blogs bg-white rounded-xl">
-              <div className="image">
-                <div className="">
-                  <Link href="/blog/blog-show">
+            <div className="w-full mt-8">
+              <div className="blogs bg-white rounded-xl">
+                <div className="image">
+                  <div className="">
+                    <Link href="/blog/blog-show">
+                      <a>
+                        {item.photos_link && (
+                          <img
+                            className="object-cover rounded-t-lg"
+                            src={item.photos_link[0]}
+                            width={600}
+                            height={200}
+                            alt=""
+                          />
+                        )}
+                      </a>
+                    </Link>
+                  </div>
+                </div>
+                <div className="details p-4">
+                  <div className="heading text-2xl font-bold">{item.title}</div>
+                  <div className="caption">
+                    {item.description && item.description.substring(0, 100)}...
+                  </div>
+                </div>
+                <div className="text-right">
+                  <Link href="/blog/blog-show" className="">
                     <a>
-                      {item.photos_link &&
-                        <img
-                          className="object-cover rounded-t-lg"
-                          src={item.photos_link[0]}
-                          width={400}
-                          height={200}
-                          alt=""
-                        />
-                      }
+                      <button
+                        type="submit"
+                        className=" bg-blue-500 text-sm text-white rounded-br-lg p-3 cursor-pointer"
+                      >
+                        Read More
+                      </button>
                     </a>
                   </Link>
                 </div>
               </div>
-              <div className="details p-4">
-                <div className="heading text-2xl font-bold">{item.title}</div>
-                <div className="caption">
-                  {item.description && item.description.substring(0, 100)}...
-                </div>
-              </div>
-              <div className="text-right">
-                <Link href="/blog/blog-show" className="">
-                  <a>
-                    <button
-                      type="submit"
-                      className=" bg-blue-500 text-sm text-white rounded-br-lg p-3 cursor-pointer"
-                    >
-                      Read More
-                    </button>
-                  </a>
-                </Link>
-              </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
 
       <div className="add_new_button text-center mt-12">
