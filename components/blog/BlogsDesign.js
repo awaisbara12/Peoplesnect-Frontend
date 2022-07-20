@@ -59,7 +59,7 @@ const BlogsDesign = () => {
           <div className="w-1/2 md:w-80">
             <div className="blogs bg-white rounded-xl">
               <div className="image">
-                <div className="">
+                <div>
                   <Link href={`/blog/${item.id}`}>
                     <a>
                       {item.photos_link &&
@@ -68,7 +68,6 @@ const BlogsDesign = () => {
                           src={item.photos_link[0]}
                           width={400}
                           height={200}
-                          alt=""
                         />
                       }
                     </a>
@@ -82,13 +81,13 @@ const BlogsDesign = () => {
                 </div>
               </div>
               <div className="text-right">
-                <Link href={`/blog/${item.id}`} className="">
+                <Link href={`/blog/${item.id}`}>
                   <a>
                     <button
                       type="submit"
                       className=" bg-blue-500 text-sm text-white rounded-br-lg p-3 cursor-pointer"
                     >
-                      {"Read More"}
+                      Read More
                     </button>
                   </a>
                 </Link>
@@ -99,13 +98,13 @@ const BlogsDesign = () => {
       </div>
 
       <div className="add_new_button text-center mt-12">
-        <Link href="" className="">
+        <Link href="/blog">
           <a>
             <button
               type="submit"
               className="border-2 border-blue-500 text-blue-500 text-md cursor-pointer font-bold py-2 px-4 rounded-full"
             >
-              {"Show More"}
+              Show More
             </button>
           </a>
         </Link>
