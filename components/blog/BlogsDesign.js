@@ -56,7 +56,7 @@ const BlogsDesign = () => {
       <div className="flex gap-10 mt-8">
         {list &&
           list.data.map((item) => (
-          <div className="w-1/2 md:w-80">
+          <div className="w-1/2 md:w-80" key={item.id}>
             <div className="blogs bg-white rounded-xl">
               <div className="image">
                 <div>
