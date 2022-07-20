@@ -145,14 +145,14 @@ function BlogShow() {
                 </div>
               </div>
               <div className="comment pl-14 text-sm mt-2">
-                If you’re like me, you are probably tired of and confused by
+                If youre like me, you are probably tired of and confused by
                 reading and listening to different opinions about the metaverse
                 these days. From Facebook changing their name to Meta to
-                Disney’s CEO saying that Disney+ will be their own metaverse as
+                Disneys CEO saying that Disney+ will be their own metaverse as
                 well as Microsoft paying 70 billion dollars for Activision as
                 part of their metaverse strategy, the list of big tech and media
-                companies investing billions of dollars in the "metaverse
-                category" continues to grow exponentially. So what is the
+                companies investing billions of dollars in the metaverse
+                category continues to grow exponentially. So what is the
                 metaverse? Today,
               </div>
             </div>
