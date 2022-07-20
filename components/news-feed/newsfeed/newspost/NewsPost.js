@@ -134,7 +134,7 @@ const NewsPost = ({ setList }) => {
       .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-          setList(result)
+          setList(result);
           setLoading(false);
         }
       })
@@ -274,6 +274,7 @@ const NewsPost = ({ setList }) => {
                   id="image"
                   className="opacity-0 absolute w-6 h-6 -z-0"
                   onChange={handleImagePost}
+                  title={"Add Image"}
                   multiple
                 />
               </div>
@@ -296,6 +297,7 @@ const NewsPost = ({ setList }) => {
                   name="video"
                   id="video"
                   onChange={handleVideo}
+                  title={"Add Video"}
                   className="opacity-0 absolute w-6 h-6 -z-0"
                 />
               </div>
@@ -313,19 +315,22 @@ const NewsPost = ({ setList }) => {
                 }
               />
 
-              <Link href="/post/new">
-                <NewspaperIcon
-                  width={22}
-                  height={22}
-                  className={` ${
-                    values.eventName ||
-                    (postImagePreview && true) ||
-                    videoPreview
-                      ? "text-indigo-100"
-                      : "text-indigo-400 cursor-pointer"
-                  }`}
-                />
-              </Link>
+              <div className="icon">
+                <Link href="/post/new">
+                  <NewspaperIcon
+                    width={22}
+                    height={22}
+                    className={` ${
+                      values.eventName ||
+                      (postImagePreview && true) ||
+                      videoPreview
+                        ? "text-indigo-100"
+                        : "text-indigo-400 cursor-pointer"
+                    }`}
+                  />
+                </Link>
+                <button className="text-indigo-400 hidden icon-hover:block">add block</button>
+              </div>
             </div>
             <button
               disabled={postText == 0 ? true : false}
