@@ -22,7 +22,7 @@ import PostImage from "../../../../public/images/post-image.png";
 import PostComments from "../comments/PostComments";
 import FilterComments from "../comments/FilterComments";
 import ReplyComments from "../comments/ReplyComments";
-import Spinner from "../../../common/Spinner";
+// import Spinner from "../../../common/Spinner";
 
 const cardDropdown = [
   {
