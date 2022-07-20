@@ -7,14 +7,15 @@ import {
   ChatAltIcon,
   BellIcon,
   LibraryIcon,
+  PlusSmIcon,
 } from "@heroicons/react/solid";
 
-const MobileBottomBar = () => {
+const BlogsBottomBar = () => {
   return (
     <div className="fixed bottom-0 block lg:hidden md:hidden bg-white w-full rounded-t-2xl">
       <div className="h-14 px-4 flex justify-between items-center">
         <div className="">
-          <Link href="/">
+          <Link href="/news-feed">
             <a className="flex flex-col items-center">
               <HomeIcon className="text-gray-900 h-7 w-7" />
               <div className="">Home</div>
@@ -22,7 +23,7 @@ const MobileBottomBar = () => {
           </Link>
         </div>
         <div className="">
-          <Link href="/">
+          <Link href="/news-feed">
             <a className="flex flex-col items-center">
               <BriefcaseIcon className="h-7 w-7" />
               <div className="">Jobs</div>
@@ -30,7 +31,7 @@ const MobileBottomBar = () => {
           </Link>
         </div>
         <div className="">
-          <Link href="/">
+          <Link href="/blog">
             <a className="flex flex-col items-center">
               <LibraryIcon className="h-7 w-7" />
               <div className="">Articles</div>
@@ -38,7 +39,7 @@ const MobileBottomBar = () => {
           </Link>
         </div>
         <div className="">
-          <Link href="/">
+          <Link href="/news-feed">
             <a className="flex flex-col items-center">
               <UsersIcon className="h-7 w-7" />
               <div className="">My Network</div>
@@ -46,7 +47,7 @@ const MobileBottomBar = () => {
           </Link>
         </div>
         <div className="">
-          <Link href="/">
+          <Link href="/news-feed">
             <a className="flex flex-col items-center">
               <ChatAltIcon className="h-7 w-7" />
               <div className="">Chat</div>
@@ -54,10 +55,18 @@ const MobileBottomBar = () => {
           </Link>
         </div>
         <div className="">
-          <Link href="/">
+          <Link href="/news-feed">
             <a className="flex flex-col items-center">
               <BellIcon className="h-7 w-7" />
               <div className="">Notifications</div>
+            </a>
+          </Link>
+        </div>
+        <div className="">
+          <Link href="/blog/new-blog">
+            <a className="flex flex-col items-center">
+              <PlusSmIcon className="h-7 w-7" />
+              <div className="">Add Blog</div>
             </a>
           </Link>
         </div>
@@ -65,5 +74,4 @@ const MobileBottomBar = () => {
     </div>
   );
 };
-
-export default MobileBottomBar;
+export default BlogsBottomBar;
