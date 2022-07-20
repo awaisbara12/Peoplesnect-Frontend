@@ -3,7 +3,6 @@ import axios from "axios";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from 'next/router'
-import MainBanner from "../../../peoplesnect-frontend/public/images/main-banner.jpg";
 import ProfileAvatar from "../../../peoplesnect-frontend/public/images/profile-avatar.png";
 import Profileimg from "../../../peoplesnect-frontend/public/images/mira.png";
 import Spinner from "../common/Spinner";
