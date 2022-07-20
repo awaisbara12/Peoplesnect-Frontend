@@ -60,7 +60,10 @@ const BlogsDesign = () => {
             <div className="blogs bg-white rounded-xl">
               <div className="image">
                 <div>
-                  <Link href={`/blog/${item.id}`}>
+                  <Link href={{
+                      pathname: '/blog/[id]',
+                      query: { id: item.id },
+                    }}>
                     <a>
                       {item.photos_link &&
                         <img
@@ -81,7 +84,10 @@ const BlogsDesign = () => {
                 </div>
               </div>
               <div className="text-right">
-                <Link href={`/blog/${item.id}`}>
+                <Link href={{
+                    pathname: '/blog/[id]',
+                    query: { id: item.id },
+                  }}>
                   <a>
                     <button
                       type="submit"
