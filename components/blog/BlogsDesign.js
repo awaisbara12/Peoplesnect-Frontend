@@ -88,7 +88,7 @@ const BlogsDesign = () => {
                       type="submit"
                       className=" bg-blue-500 text-sm text-white rounded-br-lg p-3 cursor-pointer"
                     >
-                      Read More
+                      {"Read More"}
                     </button>
                   </a>
                 </Link>
@@ -105,7 +105,7 @@ const BlogsDesign = () => {
               type="submit"
               className="border-2 border-blue-500 text-blue-500 text-md cursor-pointer font-bold py-2 px-4 rounded-full"
             >
-              Show More
+              {"Show More"}
             </button>
           </a>
         </Link>
