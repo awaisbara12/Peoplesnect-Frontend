@@ -1,13 +1,61 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Link from "next/link";
 import Image from "next/image";
-import MainBanner from "../../../peoplesnect-frontend/public/images/main-banner.jpg";
-import ProfileAvatar from "../../../peoplesnect-frontend/public/images/profile-avatar.png";
-import Profileimg from "../../../peoplesnect-frontend/public/images/mira.png";
+import { useRouter } from 'next/router'
 import { PencilIcon, TrashIcon } from "@heroicons/react/outline";
 import { ChevronRightIcon } from "@heroicons/react/solid";
+import ProfileAvatar from "../../public/images/profile-avatar.png";
+import Spinner from "../common/Spinner";
+import { BLOG_POST_USER_API_KEY } from "/pages/config";
 
 function BlogShow() {
+  const [loading, setLoading] = useState(true);
+  const [list, setList] = useState([])
+  const router = useRouter()
+  const { id } = router.query
+
+  if (typeof window !== "undefined") {
+    var authKey = window.localStorage.getItem("keyStore");
+  }
+
+  useEffect(() => {
+    setLoading(true)
+    const getBlogs = async () => {
+      const res = await axios(BLOG_POST_USER_API_KEY+'/'+id, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-type": "application/json; charset=utf-8",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Credentials": true,
+          Authorization: authKey,
+        },
+        credentials: "same-origin",
+      });
+      const result = await res;
+
+      try {
+        if (result.status == 200) {
+          console.log(result)
+          setList(result.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      setLoading(false);
+      return result;
+    };
+    getBlogs();
+  }, [])
+
+  if (loading)
+    return (
+      <div className="mt-8">
+        <Spinner />
+      </div>
+    );
+
   return (
     <div className="px-10 w-[620px] xl:w-full">
       <div className="blogs bg-white rounded-xl my-8 ">
@@ -15,36 +63,29 @@ function BlogShow() {
           <div className="">
             <Link href="/">
               <a>
-                <Image
-                  className="object-cover rounded-lg"
-                  src={MainBanner}
-                  width={900}
-                  height={500}
-                  alt=""
-                />
+                {list.data.photos_link &&
+                  <img
+                    className="object-cover rounded-t-lg"
+                    src={list.data.photos_link[0]}
+                    width={900}
+                    height={500}
+                    alt=""
+                  />
+                }
               </a>
             </Link>
           </div>
         </div>
         <div className=" details p-10">
-          <div className="heading text-2xl font-bold">Title Here....</div>
+          <div className="heading text-2xl font-bold">{list.data.title}</div>
           <div className="caption text-lg mt-4">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry'sLorem Ipsum is simply
-            dummy text of the printing and typesetting industry. Lorem Ipsum has
-            been the industry'Lorem Ipsum has been the industry'sLorem Ipsum is
-            simply dummy text of the printing and typesetting industry Lorem
-            Ipsum has been the industry'sLorem Ipsum is simply dummy text of the
-            printing and typesetting industry Lorem Ipsum has been the
-            industry'sLorem Ipsum is simply dummy text of the printing and
-            typesetting industry Lorem Ipsum has been the industry'sLorem Ipsum
-            is simply dummy text of the printing and typesetting industry
+            {list.data.description}
           </div>
         </div>
       </div>
       <div className="comment-section mt-18">
         <div className="comments-heading text-4xl font-bold">
-          Comments Section...
+          Comments
         </div>
         <div className="bg-white rounded-xl my-8 p-4">
           <div className="comments">
@@ -52,7 +93,7 @@ function BlogShow() {
               <div className="flex justify-between">
                 <Link href="/">
                   <a className="flex gap-4">
-                    <Image src={Profileimg} width={35} height={35} alt="" />
+                    <Image src={ProfileAvatar} width={35} height={35} alt="" />
                     <div className="">
                       <div className="User-Name text-lg font-bold">
                         User Name
@@ -74,14 +115,14 @@ function BlogShow() {
                 </div>
               </div>
               <div className="comment pl-14 text-sm">
-                If you’re like me, you are probably tired of and confused by
+                If youre like me, you are probably tired of and confused by
                 reading and listening to different opinions about the metaverse
                 these days. From Facebook changing their name to Meta to
-                Disney’s CEO saying that Disney+ will be their own metaverse as
+                Disneys CEO saying that Disney+ will be their own metaverse as
                 well as Microsoft paying 70 billion dollars for Activision as
                 part of their metaverse strategy, the list of big tech and media
-                companies investing billions of dollars in the "metaverse
-                category" continues to grow exponentially. So what is the
+                companies investing billions of dollars in the metaverse
+                category continues to grow exponentially. So what is the
                 metaverse? Today,
               </div>
             </div>
