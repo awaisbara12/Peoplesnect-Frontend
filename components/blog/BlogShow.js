@@ -3,8 +3,7 @@ import axios from "axios";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from 'next/router'
-import ProfileAvatar from "../../../../public/images/profile-avatar.png";
-import Profileimg from "../../../../public/images/mira.png";
+import ProfileAvatar from "../../public/images/profile-avatar.png";
 import Spinner from "../common/Spinner";
 import { BLOG_POST_USER_API_KEY } from "/pages/config";
 
@@ -92,7 +91,7 @@ function BlogShow() {
               <div className="flex justify-between">
                 <Link href="/">
                   <a className="flex gap-4">
-                    <Image src={Profileimg} width={35} height={35} alt="" />
+                    <Image src={ProfileAvatar} width={35} height={35} alt="" />
                     <div className="">
                       <div className="User-Name text-xl font-bold">
                         User Name
