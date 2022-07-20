@@ -27,9 +27,6 @@ const BlogsFeed = () => {
             <div className="hidden md:block lg:block">
               <NewsFeedSidebar />
             </div>
-            {/* <div className="h-full bg-zinc-100 md:bg-transparent lg:bg-transparent xl:bg-transparent px-4 md:px-0 lg-px-0 xl:px-0">
-              <BlogPosts />
-            </div> */}
             <div className="h-full bg-zinc-100 mx-auto">
               <BlogsDesign />
             </div>
