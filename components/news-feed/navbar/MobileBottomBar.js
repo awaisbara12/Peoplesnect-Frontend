@@ -6,6 +6,7 @@ import {
   UsersIcon,
   ChatAltIcon,
   BellIcon,
+  LibraryIcon,
 } from "@heroicons/react/solid";
 
 const MobileBottomBar = () => {
@@ -14,36 +15,49 @@ const MobileBottomBar = () => {
       <div className="h-14 px-4 flex justify-between items-center">
         <div className="">
           <Link href="/">
-            <a>
+            <a className="flex flex-col items-center">
               <HomeIcon className="text-gray-900 h-7 w-7" />
+              <div className="">Home</div>
             </a>
           </Link>
         </div>
         <div className="">
           <Link href="/">
-            <a>
+            <a className="flex flex-col items-center">
               <BriefcaseIcon className="h-7 w-7" />
+              <div className="">Jobs</div>
             </a>
           </Link>
         </div>
         <div className="">
           <Link href="/">
-            <a>
+            <a className="flex flex-col items-center">
+              <LibraryIcon className="h-7 w-7" />
+              <div className="">Articles</div>
+            </a>
+          </Link>
+        </div>
+        <div className="">
+          <Link href="/">
+            <a className="flex flex-col items-center">
               <UsersIcon className="h-7 w-7" />
+              <div className="">My Network</div>
             </a>
           </Link>
         </div>
         <div className="">
           <Link href="/">
-            <a>
+            <a className="flex flex-col items-center">
               <ChatAltIcon className="h-7 w-7" />
+              <div className="">Chat</div>
             </a>
           </Link>
         </div>
         <div className="">
           <Link href="/">
-            <a>
+            <a className="flex flex-col items-center">
               <BellIcon className="h-7 w-7" />
+              <div className="">Notifications</div>
             </a>
           </Link>
         </div>

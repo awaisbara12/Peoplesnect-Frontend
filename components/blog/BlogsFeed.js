@@ -9,6 +9,7 @@ import NewsFeedSidebar from "../news-feed/newsfeed/sidebar/NewsFeedSidebar";
 import BlogPosts from "./BlogPosts";
 import BlogsDesign from "./BlogsDesign";
 import AddNewBlog from "./AddNewBlog";
+import MobileBottomBar from "../news-feed//navbar/MobileBottomBar";
 
 const BlogsFeed = () => {
   return (
@@ -18,7 +19,7 @@ const BlogsFeed = () => {
         <meta name="description" content="Connect peoples proffasoinaly" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="pb-10">
+      <div className="pb-20 md:pb-10 lg:pb-10">
         <div className="xl:max-w-[1340px] container mx-auto">
           <div className="">
             <MobileNav />
@@ -42,6 +43,7 @@ const BlogsFeed = () => {
           </div>
         </div>
       </div>
+      <MobileBottomBar />
     </div>
   );
 };
