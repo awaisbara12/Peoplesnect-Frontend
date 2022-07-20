@@ -12,7 +12,7 @@ const MobileNav = () => {
         <div className="">
           <label className="relative block">
             <span className="absolute inset-y-0 left-0 flex items-center pl-4">
-              <Link href="/">
+              <Link href="/news-feed">
                 <a>
                   <SearchIcon className="text-slate-400 h-5 w-5" />
                 </a>
@@ -27,7 +27,7 @@ const MobileNav = () => {
           </label>
         </div>
         <div className="">
-          <Link href="/">
+          <Link href="/news-feed">
             <a>
               <Image src={NavbarLogo} width={26} height={26} alt="" />
             </a>
@@ -35,7 +35,7 @@ const MobileNav = () => {
         </div>
         <div className="flex items-center gap-1">
           <DotsHorizontalIcon className="w-5 h-5" />
-          <Link href="/">
+          <Link href="/news-feed">
             <a>
               <Image src={ProfileAvatar} width={35} height={35} alt="" />
             </a>
