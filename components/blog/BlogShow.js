@@ -27,8 +27,8 @@ function BlogShow() {
           </div>
         </div>
         <div className=" details p-10">
-          <div className="heading text-6xl font-bold">Title Here....</div>
-          <div className="caption text-xl mt-4">
+          <div className="heading text-2xl font-bold">Title Here....</div>
+          <div className="caption text-lg mt-4">
             Lorem Ipsum is simply dummy text of the printing and typesetting
             industry. Lorem Ipsum has been the industry'sLorem Ipsum is simply
             dummy text of the printing and typesetting industry. Lorem Ipsum has
@@ -54,7 +54,7 @@ function BlogShow() {
                   <a className="flex gap-4">
                     <Image src={Profileimg} width={35} height={35} alt="" />
                     <div className="">
-                      <div className="User-Name text-xl font-bold">
+                      <div className="User-Name text-lg font-bold">
                         User Name
                       </div>
                     </div>

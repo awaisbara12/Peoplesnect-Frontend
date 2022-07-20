@@ -76,7 +76,7 @@ const BlogsDesign = () => {
                   </div>
                 </div>
                 <div className="details p-4">
-                  <div className="heading text-2xl font-bold">{item.title}</div>
+                  <div className="heading text-lg font-bold">{item.title}</div>
                   <div className="caption">
                     {item.description && item.description.substring(0, 100)}...
                   </div>
