@@ -53,7 +53,7 @@ const BlogPosts = () => {
       <div className="mb-6">
         <NewPost />
       </div>
-      {getBlog &&
+      {/* {getBlog &&
         getBlog.data.map((item) => (
           <article
             key={item.id}
@@ -70,7 +70,7 @@ const BlogPosts = () => {
               </h1>
             </Link>
           </article>
-        ))}
+        ))} */}
     </div>
   );
 };
