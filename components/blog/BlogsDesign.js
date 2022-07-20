@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Link from "next/link";
 import Image from "next/image";
-import MainBanner from "../../../peoplesnect-frontend/public/images/main-banner.jpg";
-import Second from "../../../peoplesnect-frontend/public/images/post-image.png";
-import bg from "../../../peoplesnect-frontend/public/images/bg.webp";
+import MainBanner from "../../../../public/images/main-banner.jpg";
+import Second from "../../../../public/images/post-image.png";
+import bg from "../../../../public/images/bg.webp";
 import Spinner from "../common/Spinner";
 import { BLOG_POST_USER_API_KEY } from "/pages/config";
 

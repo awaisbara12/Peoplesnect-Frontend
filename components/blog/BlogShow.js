@@ -3,8 +3,8 @@ import axios from "axios";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from 'next/router'
-import ProfileAvatar from "../../../peoplesnect-frontend/public/images/profile-avatar.png";
-import Profileimg from "../../../peoplesnect-frontend/public/images/mira.png";
+import ProfileAvatar from "../../../../public/images/profile-avatar.png";
+import Profileimg from "../../../../public/images/mira.png";
 import Spinner from "../common/Spinner";
 import { BLOG_POST_USER_API_KEY } from "/pages/config";
 
@@ -16,7 +16,6 @@ function BlogShow() {
 
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
-
   }
 
   useEffect(() => {
