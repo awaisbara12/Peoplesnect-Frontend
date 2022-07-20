@@ -65,13 +65,14 @@ const BlogsDesign = () => {
                       query: { id: item.id },
                     }}>
                     <a>
-                      {item.photos_link &&
+                      {item.photos_link ? (
                         <img
                           className="object-cover rounded-t-lg"
                           src={item.photos_link[0]}
                           width={400}
                           height={200}
                         />
+                      ) : ("")
                       }
                     </a>
                   </Link>
@@ -91,7 +92,7 @@ const BlogsDesign = () => {
                   <a>
                     <button
                       type="submit"
-                      className=" bg-blue-500 text-sm text-white rounded-br-lg p-3 cursor-pointer"
+                      className="bg-blue-500 text-sm text-white rounded-br-lg p-3 cursor-pointer"
                     >
                       Read More
                     </button>
