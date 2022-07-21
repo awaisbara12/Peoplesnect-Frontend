@@ -24,6 +24,8 @@ const PrivateRoutes = ({ children }) => {
       router.push("/login");
     } else {
       if(user.error){
+        localStorage.removeItem("keyStore");
+        localStorage.removeItem("userData");
         router.push('/login')
       }
     }
