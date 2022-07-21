@@ -28,6 +28,7 @@ const PrivateRoutes = ({ children }) => {
   }, []);
 
   useEffect(() => {
+    console.log("user test", user)
     if(!user){
       localStorage.removeItem("keyStore");
       localStorage.removeItem("userData");
