@@ -29,7 +29,7 @@ const PrivateRoutes = ({ children }) => {
 
   useEffect(() => {
     console.log("user test", user)
-    if(!user){
+    if(user && user.success == false){
       localStorage.removeItem("keyStore");
       localStorage.removeItem("userData");
       router.push('/login')
