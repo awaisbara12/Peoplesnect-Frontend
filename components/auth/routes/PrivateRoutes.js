@@ -21,13 +21,14 @@ const PrivateRoutes = ({ children }) => {
 
   useEffect(() => {
     if (!authKey) {
+      localStorage.removeItem("keyStore");
+      localStorage.removeItem("userData");
       router.push("/login");
     }
   }, []);
 
   useEffect(() => {
-    console.log(user)
-    if(user.error){
+    if(!user){
       localStorage.removeItem("keyStore");
       localStorage.removeItem("userData");
       router.push('/login')
