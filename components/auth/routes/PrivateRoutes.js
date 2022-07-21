@@ -1,19 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Spinner from "../../common/Spinner";
-import { fetchUser } from "../../../store/userSlice";
-import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { USER_DETAILS_API_KEY } from "../../../pages/config";
 
 const PrivateRoutes = ({ children }) => {
   const router = useRouter();
   const [loader, setLoader] = useState(true);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fetchUser());
-  }, [dispatch]);
-
-  var { data: user } = useSelector((state) => state.user);
 
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
@@ -25,16 +18,24 @@ const PrivateRoutes = ({ children }) => {
       localStorage.removeItem("userData");
       router.push("/login");
     }
+    axios(USER_DETAILS_API_KEY, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-type": "application/json; charset=utf-8",
+        Authorization: authKey,
+      },
+    })
+    .then((response) => response.data)
+    .then((data) => {
+      console.log(data)
+      if(data && data.success == false){
+        localStorage.removeItem("keyStore");
+        localStorage.removeItem("userData");
+        router.push('/login')
+      }
+    });
   }, []);
-
-  useEffect(() => {
-    console.log("user test", user)
-    if(user && user.success == false){
-      localStorage.removeItem("keyStore");
-      localStorage.removeItem("userData");
-      router.push('/login')
-    }
-  }, [user])
 
   useEffect(() => {
     setLoader(false);
