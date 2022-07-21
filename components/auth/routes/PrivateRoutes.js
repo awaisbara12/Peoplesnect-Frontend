@@ -22,15 +22,17 @@ const PrivateRoutes = ({ children }) => {
   useEffect(() => {
     if (!authKey) {
       router.push("/login");
-    } else {
-      console.log(user)
-      if(user.error){
-        localStorage.removeItem("keyStore");
-        localStorage.removeItem("userData");
-        router.push('/login')
-      }
     }
-  }, [user]);
+  }, []);
+
+  useEffect(() => {
+    console.log(user)
+    if(user.error){
+      localStorage.removeItem("keyStore");
+      localStorage.removeItem("userData");
+      router.push('/login')
+    }
+  }, [user])
 
   useEffect(() => {
     setLoader(false);
