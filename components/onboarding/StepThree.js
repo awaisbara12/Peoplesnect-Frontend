@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import Image from "next/image";
 import Logo from "../../public/images/logo.png";
 import { useFormik } from "formik";
@@ -8,6 +8,8 @@ import { useRouter } from "next/router";
 import Spinner from "../common/Spinner";
 import { OnboardingSchemaThree } from "../auth/schemas/OnboardSchema";
 import { ONBOARDING_STEP_THREE_URL } from "../../pages/config";
+import { fetchUser } from "../../store/userSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const StepThree = () => {
   if (typeof window !== "undefined") {
@@ -17,6 +19,13 @@ const StepThree = () => {
   const [spinner, setSpinner] = useState(false);
   const [err, setErr] = useState();
   const [close, setClose] = useState(false);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchUser());
+  }, [dispatch]);
+
+  var { data: user } = useSelector((state) => state.user);
 
   const handleClose = () => {
     setClose(true);
@@ -82,6 +91,16 @@ const StepThree = () => {
     validationSchema: OnboardingSchemaThree,
     onSubmit,
   });
+
+  useEffect(() => {
+    // redirect to home if already onboarded
+    const getUser = () => {
+      if(user.user && user.user.onboarded){
+        router.push('/news-feed')
+      }
+    };
+    getUser();
+  }, [user]);
 
   return (
     <>

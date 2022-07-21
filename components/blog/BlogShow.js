@@ -37,17 +37,15 @@ function BlogShow() {
 
       try {
         if (result.status == 200) {
-          console.log(result)
           setList(result.data);
         }
       } catch (error) {
-        console.log(error);
       }
       setLoading(false);
       return result;
     };
     getBlogs();
-  }, [])
+  }, [id])
 
   if (loading)
     return (
