@@ -23,6 +23,7 @@ const PrivateRoutes = ({ children }) => {
     if (!authKey) {
       router.push("/login");
     } else {
+      console.log("error")
       if(user.error){
         localStorage.removeItem("keyStore");
         localStorage.removeItem("userData");
