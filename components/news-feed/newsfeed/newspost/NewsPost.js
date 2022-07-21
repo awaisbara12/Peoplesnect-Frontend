@@ -256,80 +256,101 @@ const NewsPost = ({ setList }) => {
 
           <div className="flex justify-between">
             <div className="flex items-center gap-6">
-              <div className="relative flex items-center justify-center">
-                <PhotographIcon
-                  width={22}
-                  height={22}
-                  className={
-                    values.eventName || (videoPreview && true)
-                      ? `text-indigo-100`
-                      : `text-indigo-400 cursor-pointer`
-                  }
-                />
-                <input
-                  type={
-                    values.eventName || (videoPreview && true) ? `` : `file`
-                  }
-                  name="image"
-                  id="image"
-                  className="opacity-0 absolute w-6 h-6 -z-0"
-                  onChange={handleImagePost}
-                  title={"Add Image"}
-                  multiple
-                />
-              </div>
-
-              <div className="relative flex items-center justify-center">
-                <VideoCameraIcon
-                  width={22}
-                  height={22}
-                  className={
-                    values.eventName || (postImagePreview && true)
-                      ? `text-indigo-100`
-                      : `text-indigo-400 cursor-pointer`
-                  }
-                />
-
-                <input
-                  type={
-                    postImagePreview || (values.eventName && true) ? `` : `file`
-                  }
-                  name="video"
-                  id="video"
-                  onChange={handleVideo}
-                  title={"Add Video"}
-                  className="opacity-0 absolute w-6 h-6 -z-0"
-                />
-              </div>
-
-              <CalendarIcon
-                width={22}
-                height={22}
-                onClick={
-                  postImagePreview || videoPreview ? closeModal : openModal
-                }
-                className={
-                  postImagePreview || videoPreview
-                    ? `text-indigo-100`
-                    : `text-indigo-400 cursor-pointer`
-                }
-              />
-
-              <div className="icon">
-                <Link href="/post/new">
-                  <NewspaperIcon
+              <div className="relative group border-indigo-500">
+                <div className="relative flex items-center justify-center">
+                  <PhotographIcon
                     width={22}
                     height={22}
-                    className={` ${
-                      values.eventName ||
-                      (postImagePreview && true) ||
-                      videoPreview
-                        ? "text-indigo-100"
-                        : "text-indigo-400 cursor-pointer"
-                    }`}
+                    className={
+                      values.eventName || (videoPreview && true)
+                        ? `text-indigo-100`
+                        : `text-indigo-400 cursor-pointer`
+                    }
                   />
-                </Link>
-                <button className="text-indigo-400 hidden icon-hover:block">add block</button>
+                  <input
+                    type={
+                      values.eventName || (videoPreview && true) ? `` : `file`
+                    }
+                    name="image"
+                    id="image"
+                    className="opacity-0 absolute w-6 h-6 -z-0"
+                    onChange={handleImagePost}
+                    title={""}
+                    multiple
+                  />
+                </div>
+                <p className="text-indigo-400 opacity-0 group-hover:opacity-100 absolute left-4">
+                  Add Image
+                </p>
+              </div>
+              <div className="relative group border-indigo-500">
+                <div className="relative flex items-center justify-center">
+                  <VideoCameraIcon
+                    width={22}
+                    height={22}
+                    className={
+                      values.eventName || (postImagePreview && true)
+                        ? `text-indigo-100`
+                        : `text-indigo-400 cursor-pointer`
+                    }
+                  />
+
+                  <input
+                    type={
+                      postImagePreview || (values.eventName && true)
+                        ? ``
+                        : `file`
+                    }
+                    name="video"
+                    id="video"
+                    onChange={handleVideo}
+                    title={""}
+                    className="opacity-0 absolute w-6 h-6 -z-0"
+                  />
+                </div>
+                <p className="text-indigo-400 opacity-0 group-hover:opacity-100 absolute left-4">
+                  Add Video
+                </p>
+              </div>
+
+              <div className="relative group border-indigo-500">
+                <CalendarIcon
+                  width={22}
+                  height={22}
+                  onClick={
+                    postImagePreview || videoPreview ? closeModal : openModal
+                  }
+                  className={
+                    postImagePreview || videoPreview
+                      ? `text-indigo-100`
+                      : `text-indigo-400 cursor-pointer`
+                  }
+                />
+
+                <p className="text-indigo-400 opacity-0 group-hover:opacity-100 absolute left-4">
+                  Add Blogs
+                </p>
+              </div>
+              <div className="relative group border-indigo-500">
+                <div className="icon relative">
+                  <Link href="/post/new">
+                    <NewspaperIcon
+                      width={22}
+                      height={22}
+                      className={` ${
+                        values.eventName ||
+                        (postImagePreview && true) ||
+                        videoPreview
+                          ? "text-indigo-100"
+                          : "text-indigo-400 cursor-pointer"
+                      }`}
+                    />
+                  </Link>
+                </div>
+
+                <p className="text-indigo-400 opacity-0 group-hover:opacity-100 absolute left-4">
+                  Add Article
+                </p>
               </div>
             </div>
             <button
