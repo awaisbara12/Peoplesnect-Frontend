@@ -30,7 +30,7 @@ const PrivateRoutes = ({ children }) => {
         router.push('/login')
       }
     }
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     setLoader(false);
