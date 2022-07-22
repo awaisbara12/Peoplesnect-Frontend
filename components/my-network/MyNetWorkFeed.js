@@ -6,8 +6,8 @@ import ProfileCard from "../news-feed/profilecard/ProfileCard";
 import EventsCard from "../news-feed/eventcard/EventsCard";
 import MobileNav from "../news-feed/navbar/MobileNav";
 import NewsFeedSidebar from "../news-feed/newsfeed/sidebar/NewsFeedSidebar";
-import BlogsBottomBar from "../news-feed/navbar/BlogsBottomBar";
 import MyNetwork from "./MyNetwork";
+import MobileBottomBar from "../news-feed/navbar/MobileBottomBar";
 
 const MyNetWorkFeed = () => {
   return (
@@ -37,7 +37,7 @@ const MyNetWorkFeed = () => {
           </div>
         </div>
       </div>
-      <BlogsBottomBar />
+      <MobileBottomBar/>
     </div>
   );
 };
