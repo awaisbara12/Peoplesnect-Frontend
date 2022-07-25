@@ -2,7 +2,6 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import ProfileAvatar from "../../public/images/profile-avatar.png";
-import Cover from "../../public/images/main-banner.jpg";
 import { SearchIcon } from "@heroicons/react/solid";
 
 function MyNetwork() {
