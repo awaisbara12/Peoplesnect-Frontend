@@ -29,7 +29,7 @@ const MyConnections = () => {
           </div>
         </a>
       </Link>
-      <Link href="/news-feed" className="">
+      <Link href="/my-network/Followings" className="">
         <a>
           <div className="flex font-normal text-xl items-center gap-3 mt-2">
             <UsersIcon className="h-5 w-5" />
