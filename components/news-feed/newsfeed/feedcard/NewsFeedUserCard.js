@@ -1,6 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
 import Image from "next/image";
-
 import {
   BadgeCheckIcon,
   PlusIcon,
@@ -22,6 +21,8 @@ import PostImage from "../../../../public/images/post-image.png";
 import PostComments from "../comments/PostComments";
 import FilterComments from "../comments/FilterComments";
 import ReplyComments from "../comments/ReplyComments";
+import axios from "axios";
+import { BOOKMARK_NEWSFEED_API_KEY } from "../../../../pages/config";
 // import Spinner from "../../../common/Spinner";
 
 const cardDropdown = [
@@ -48,9 +49,56 @@ const cardDropdown = [
 ];
 
 const NewsFeedUserCard = (list) => {
-  // const [loading, setLoading] = useState(true);
-  // const [feedData, setFeedData] = useState();
+  // const [list, setList] = useState(list);
+  const [bookmark, setBookmark] = useState([]);
   // console.log("test")
+
+  if (typeof window !== "undefined") {
+    var authKey = window.localStorage.getItem("keyStore");
+  }
+
+  function createBookmark(feedId){
+    const dataForm = new FormData();
+    dataForm.append("bookmarks[news_feed_id]", feedId);
+    fetch(BOOKMARK_NEWSFEED_API_KEY, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
+      body: dataForm,
+    })
+    .then((resp) => resp.json())
+    .then((result) => {
+      if (result) {
+        setBookmark(result.data);
+      }
+    })
+    .catch((err) => console.log(err));
+  }
+
+  function deteleBookmark(bookmarkId){
+    const res = axios(BOOKMARK_NEWSFEED_API_KEY+"/"+bookmarkId, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-type": "application/json; charset=utf-8",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true,
+        Authorization: authKey,
+      },
+      credentials: "same-origin",
+    });
+    const result = res;
+
+    try {
+      if (result) {
+        setBookmark(result)
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
 
   // if (loading)
@@ -253,20 +301,30 @@ const NewsFeedUserCard = (list) => {
                   <span className="font-light text-gray-900">14.2k</span>
                 </div>
                 <div className="flex gap-2 items-center">
-                  <DownloadIcon
-                    width={24}
-                    height={24}
-                    className="text-gray-900 cursor-pointer rotate-180"
-                  />
-                  <span className="font-light text-gray-900">14.2k</span>
-                </div>
-                <div className="flex gap-2 items-center">
-                  <BookmarkIcon
-                    width={24}
-                    height={24}
-                    className="text-gray-900 cursor-pointer"
-                  />
-                  <span className="font-light text-gray-900">14.2k</span>
+                  {(bookmark && bookmark.news_feed_id == items.id) || (items.is_bookmark && items.is_bookmark == true) ? (
+                    <>
+                      <BookmarkIcon
+                        width={24}
+                        height={24}
+                        className="text-gray-900 cursor-pointer"
+                        onClick={() => deteleBookmark(bookmark && bookmark.news_feed_id == items.id ? (bookmark.id) : (items.bookmark_id))}
+                      />
+                      <span className="font-light text-gray-900">{bookmark && bookmark.news_feed_id == items.id ? (bookmark.bookmarks_count) : (items.bookmarks_count)}</span>
+                    </>
+                  )
+                  : (
+                    <>
+                      <BookmarkIcon
+                        width={24}
+                        height={24}
+                        className="text-gray-900 cursor-pointer"
+                        onClick={() => createBookmark(items.id)}
+                      />
+                      <span className="font-light text-gray-900">{items.bookmarks_count}</span>
+                    </>
+                  )
+                  }
+
                 </div>
               </div>
               {/* <Fragment>
