@@ -7,6 +7,7 @@ import MobileNav from "../news-feed/navbar/MobileNav";
 import NewsFeedSidebar from "../news-feed/newsfeed/sidebar/NewsFeedSidebar";
 import BlogPosts from "./BlogPosts";
 import BlogsBottomBar from "../news-feed/navbar/BlogsBottomBar";
+import AddNewBlog from "./AddNewBlog";
 
 const AddBlogsFeed = () => {
   return (
@@ -31,12 +32,12 @@ const AddBlogsFeed = () => {
             <div className="w-72 hidden md:block lg:block">
               <NewsSearch />
               <ProfileCard />
-              <EventsCard />
+              <AddNewBlog />
             </div>
           </div>
         </div>
       </div>
-      <BlogsBottomBar/>
+      <BlogsBottomBar />
     </div>
   );
 };

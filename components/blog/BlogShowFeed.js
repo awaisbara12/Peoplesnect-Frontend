@@ -32,7 +32,6 @@ const BlogShowFeed = () => {
             <div className="w-72 hidden md:block lg:block">
               <NewsSearch />
               <ProfileCard />
-              <EventsCard />
               <div className="">
                 <AddNewBlog />
               </div>

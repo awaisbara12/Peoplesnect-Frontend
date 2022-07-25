@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 const AddNewBlog = () => {
   return (
-   <div className="add_new_button text-right">
+   <div className="add_new_button sticky top-16 text-right">
      <Link href="/blog/new-blog" className="">
        <a>
          <button
