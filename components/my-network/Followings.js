@@ -56,7 +56,7 @@ const Followings = () => {
               </div>
               <Menu as="div" className="relative inline-block text-left">
                 <div>
-                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 border-blue-500 px-3 py-2">
+                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 hover:bg-blue-500 hover:text-white border-blue-500 px-3 py-2">
                     Following
                     <ChevronDownIcon
                       className="-mr-1 ml-2 h-5 w-5"
@@ -74,14 +74,14 @@ const Followings = () => {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 border-blue-500">
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white">
                     <div className="py-1">
                       <Menu.Item>
                         {({ active }) => (
                           <a
                             href="#"
                             className={classNames(
-                              active ? "" : "text-blue-500",
+                              active ? "" : "",
                               "block px-4 text-sm"
                             )}
                           >
@@ -114,7 +114,7 @@ const Followings = () => {
               </div>
               <Menu as="div" className="relative inline-block text-left">
                 <div>
-                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 border-blue-500 px-3 py-2">
+                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 hover:bg-blue-500 hover:text-white border-blue-500 px-3 py-2">
                     Following
                     <ChevronDownIcon
                       className="-mr-1 ml-2 h-5 w-5"
@@ -132,14 +132,14 @@ const Followings = () => {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 border-blue-500">
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white">
                     <div className="py-1">
                       <Menu.Item>
                         {({ active }) => (
                           <a
                             href="#"
                             className={classNames(
-                              active ? "" : "text-blue-500",
+                              active ? "" : "",
                               "block px-4 text-sm"
                             )}
                           >
@@ -172,7 +172,7 @@ const Followings = () => {
               </div>
               <Menu as="div" className="relative inline-block text-left">
                 <div>
-                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 border-blue-500 px-3 py-2">
+                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 hover:bg-blue-500 hover:text-white border-blue-500 px-3 py-2">
                     Following
                     <ChevronDownIcon
                       className="-mr-1 ml-2 h-5 w-5"
@@ -190,14 +190,14 @@ const Followings = () => {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 border-blue-500">
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white">
                     <div className="py-1">
                       <Menu.Item>
                         {({ active }) => (
                           <a
                             href="#"
                             className={classNames(
-                              active ? "" : "text-blue-500",
+                              active ? "" : "",
                               "block px-4 text-sm"
                             )}
                           >
@@ -230,7 +230,7 @@ const Followings = () => {
               </div>
               <Menu as="div" className="relative inline-block text-left">
                 <div>
-                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 border-blue-500 px-3 py-2">
+                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 hover:bg-blue-500 hover:text-white border-blue-500 px-3 py-2">
                     Following
                     <ChevronDownIcon
                       className="-mr-1 ml-2 h-5 w-5"
@@ -248,14 +248,14 @@ const Followings = () => {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 border-blue-500">
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white">
                     <div className="py-1">
                       <Menu.Item>
                         {({ active }) => (
                           <a
                             href="#"
                             className={classNames(
-                              active ? "" : "text-blue-500",
+                              active ? "" : "",
                               "block px-4 text-sm"
                             )}
                           >
@@ -288,7 +288,7 @@ const Followings = () => {
               </div>
               <Menu as="div" className="relative inline-block text-left">
                 <div>
-                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 border-blue-500 px-3 py-2">
+                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 hover:bg-blue-500 hover:text-white border-blue-500 px-3 py-2">
                     Following
                     <ChevronDownIcon
                       className="-mr-1 ml-2 h-5 w-5"
@@ -306,14 +306,14 @@ const Followings = () => {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 border-blue-500">
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white">
                     <div className="py-1">
                       <Menu.Item>
                         {({ active }) => (
                           <a
                             href="#"
                             className={classNames(
-                              active ? "" : "text-blue-500",
+                              active ? "" : "",
                               "block px-4 text-sm"
                             )}
                           >
@@ -346,7 +346,7 @@ const Followings = () => {
               </div>
               <Menu as="div" className="relative inline-block text-left">
                 <div>
-                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 border-blue-500 px-3 py-2">
+                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 hover:bg-blue-500 hover:text-white border-blue-500 px-3 py-2">
                     Following
                     <ChevronDownIcon
                       className="-mr-1 ml-2 h-5 w-5"
@@ -364,14 +364,14 @@ const Followings = () => {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 border-blue-500">
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white">
                     <div className="py-1">
                       <Menu.Item>
                         {({ active }) => (
                           <a
                             href="#"
                             className={classNames(
-                              active ? "" : "text-blue-500",
+                              active ? "" : "",
                               "block px-4 text-sm"
                             )}
                           >
@@ -404,7 +404,7 @@ const Followings = () => {
               </div>
               <Menu as="div" className="relative inline-block text-left">
                 <div>
-                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 border-blue-500 px-3 py-2">
+                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 hover:bg-blue-500 hover:text-white border-blue-500 px-3 py-2">
                     Following
                     <ChevronDownIcon
                       className="-mr-1 ml-2 h-5 w-5"
@@ -422,14 +422,14 @@ const Followings = () => {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 border-blue-500">
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white">
                     <div className="py-1">
                       <Menu.Item>
                         {({ active }) => (
                           <a
                             href="#"
                             className={classNames(
-                              active ? "" : "text-blue-500",
+                              active ? "" : "",
                               "block px-4 text-sm"
                             )}
                           >
@@ -462,7 +462,7 @@ const Followings = () => {
               </div>
               <Menu as="div" className="relative inline-block text-left">
                 <div>
-                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 border-blue-500 px-3 py-2">
+                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 hover:bg-blue-500 hover:text-white border-blue-500 px-3 py-2">
                     Following
                     <ChevronDownIcon
                       className="-mr-1 ml-2 h-5 w-5"
@@ -480,14 +480,14 @@ const Followings = () => {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 border-blue-500">
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white">
                     <div className="py-1">
                       <Menu.Item>
                         {({ active }) => (
                           <a
                             href="#"
                             className={classNames(
-                              active ? "" : "text-blue-500",
+                              active ? "" : "",
                               "block px-4 text-sm"
                             )}
                           >
@@ -520,7 +520,7 @@ const Followings = () => {
               </div>
               <Menu as="div" className="relative inline-block text-left">
                 <div>
-                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 border-blue-500 px-3 py-2">
+                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 hover:bg-blue-500 hover:text-white border-blue-500 px-3 py-2">
                     Following
                     <ChevronDownIcon
                       className="-mr-1 ml-2 h-5 w-5"
@@ -538,14 +538,14 @@ const Followings = () => {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 border-blue-500">
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white">
                     <div className="py-1">
                       <Menu.Item>
                         {({ active }) => (
                           <a
                             href="#"
                             className={classNames(
-                              active ? "" : "text-blue-500",
+                              active ? "" : "",
                               "block px-4 text-sm"
                             )}
                           >
@@ -578,7 +578,7 @@ const Followings = () => {
               </div>
               <Menu as="div" className="relative inline-block text-left">
                 <div>
-                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 border-blue-500 px-3 py-2">
+                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 hover:bg-blue-500 hover:text-white border-blue-500 px-3 py-2">
                     Following
                     <ChevronDownIcon
                       className="-mr-1 ml-2 h-5 w-5"
@@ -596,14 +596,14 @@ const Followings = () => {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 border-blue-500">
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white">
                     <div className="py-1">
                       <Menu.Item>
                         {({ active }) => (
                           <a
                             href="#"
                             className={classNames(
-                              active ? "" : "text-blue-500",
+                              active ? "" : "",
                               "block px-4 text-sm"
                             )}
                           >
@@ -636,7 +636,7 @@ const Followings = () => {
               </div>
               <Menu as="div" className="relative inline-block text-left">
                 <div>
-                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 border-blue-500 px-3 py-2">
+                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 hover:bg-blue-500 hover:text-white border-blue-500 px-3 py-2">
                     Following
                     <ChevronDownIcon
                       className="-mr-1 ml-2 h-5 w-5"
@@ -654,14 +654,14 @@ const Followings = () => {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 border-blue-500">
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white">
                     <div className="py-1">
                       <Menu.Item>
                         {({ active }) => (
                           <a
                             href="#"
                             className={classNames(
-                              active ? "" : "text-blue-500",
+                              active ? "" : "",
                               "block px-4 text-sm"
                             )}
                           >
@@ -694,7 +694,7 @@ const Followings = () => {
               </div>
               <Menu as="div" className="relative inline-block text-left">
                 <div>
-                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 border-blue-500 px-3 py-2">
+                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 hover:bg-blue-500 hover:text-white border-blue-500 px-3 py-2">
                     Following
                     <ChevronDownIcon
                       className="-mr-1 ml-2 h-5 w-5"
@@ -712,14 +712,14 @@ const Followings = () => {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 border-blue-500">
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white">
                     <div className="py-1">
                       <Menu.Item>
                         {({ active }) => (
                           <a
                             href="#"
                             className={classNames(
-                              active ? "" : "text-blue-500",
+                              active ? "" : "",
                               "block px-4 text-sm"
                             )}
                           >
@@ -752,7 +752,7 @@ const Followings = () => {
               </div>
               <Menu as="div" className="relative inline-block text-left">
                 <div>
-                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 border-blue-500 px-3 py-2">
+                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 hover:bg-blue-500 hover:text-white border-blue-500 px-3 py-2">
                     Following
                     <ChevronDownIcon
                       className="-mr-1 ml-2 h-5 w-5"
@@ -770,14 +770,420 @@ const Followings = () => {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 border-blue-500">
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white">
                     <div className="py-1">
                       <Menu.Item>
                         {({ active }) => (
                           <a
                             href="#"
                             className={classNames(
-                              active ? "" : "text-blue-500",
+                              active ? "" : "",
+                              "block px-4 text-sm"
+                            )}
+                          >
+                            Unfollow
+                          </a>
+                        )}
+                      </Menu.Item>
+                    </div>
+                  </Menu.Items>
+                </Transition>
+              </Menu>
+            </div>
+          </div>
+          <div className="border-b-1">
+            <div className="Followings-profile flex  px-4 py-10 justify-between items-center">
+              <div className="flex items-center gap-3">
+                <Link href="/news-feed">
+                  <a>
+                    <Image src={ProfileAvatar} width={35} height={35} alt="" />
+                  </a>
+                </Link>
+                <div className="">
+                  <a href="">
+                    <div className="username text-sm font-bold">User Name</div>
+                  </a>
+                  <a href="">
+                    <div className="userfield text-xs">User Belong To</div>
+                  </a>
+                </div>
+              </div>
+              <Menu as="div" className="relative inline-block text-left">
+                <div>
+                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 hover:bg-blue-500 hover:text-white border-blue-500 px-3 py-2">
+                    Following
+                    <ChevronDownIcon
+                      className="-mr-1 ml-2 h-5 w-5"
+                      aria-hidden="true"
+                    />
+                  </Menu.Button>
+                </div>
+
+                <Transition
+                  as={Fragment}
+                  enter="transition ease-out duration-100"
+                  enterFrom="transform opacity-0 scale-95"
+                  enterTo="transform opacity-100 scale-100"
+                  leave="transition ease-in duration-75"
+                  leaveFrom="transform opacity-100 scale-100"
+                  leaveTo="transform opacity-0 scale-95"
+                >
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white">
+                    <div className="py-1">
+                      <Menu.Item>
+                        {({ active }) => (
+                          <a
+                            href="#"
+                            className={classNames(
+                              active ? "" : "",
+                              "block px-4 text-sm"
+                            )}
+                          >
+                            Unfollow
+                          </a>
+                        )}
+                      </Menu.Item>
+                    </div>
+                  </Menu.Items>
+                </Transition>
+              </Menu>
+            </div>
+          </div>
+          <div className="border-b-1">
+            <div className="Followings-profile flex  px-4 py-10 justify-between items-center">
+              <div className="flex items-center gap-3">
+                <Link href="/news-feed">
+                  <a>
+                    <Image src={ProfileAvatar} width={35} height={35} alt="" />
+                  </a>
+                </Link>
+                <div className="">
+                  <a href="">
+                    <div className="username text-sm font-bold">User Name</div>
+                  </a>
+                  <a href="">
+                    <div className="userfield text-xs">User Belong To</div>
+                  </a>
+                </div>
+              </div>
+              <Menu as="div" className="relative inline-block text-left">
+                <div>
+                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 hover:bg-blue-500 hover:text-white border-blue-500 px-3 py-2">
+                    Following
+                    <ChevronDownIcon
+                      className="-mr-1 ml-2 h-5 w-5"
+                      aria-hidden="true"
+                    />
+                  </Menu.Button>
+                </div>
+
+                <Transition
+                  as={Fragment}
+                  enter="transition ease-out duration-100"
+                  enterFrom="transform opacity-0 scale-95"
+                  enterTo="transform opacity-100 scale-100"
+                  leave="transition ease-in duration-75"
+                  leaveFrom="transform opacity-100 scale-100"
+                  leaveTo="transform opacity-0 scale-95"
+                >
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white">
+                    <div className="py-1">
+                      <Menu.Item>
+                        {({ active }) => (
+                          <a
+                            href="#"
+                            className={classNames(
+                              active ? "" : "",
+                              "block px-4 text-sm"
+                            )}
+                          >
+                            Unfollow
+                          </a>
+                        )}
+                      </Menu.Item>
+                    </div>
+                  </Menu.Items>
+                </Transition>
+              </Menu>
+            </div>
+          </div>
+          <div className="border-b-1">
+            <div className="Followings-profile flex  px-4 py-10 justify-between items-center">
+              <div className="flex items-center gap-3">
+                <Link href="/news-feed">
+                  <a>
+                    <Image src={ProfileAvatar} width={35} height={35} alt="" />
+                  </a>
+                </Link>
+                <div className="">
+                  <a href="">
+                    <div className="username text-sm font-bold">User Name</div>
+                  </a>
+                  <a href="">
+                    <div className="userfield text-xs">User Belong To</div>
+                  </a>
+                </div>
+              </div>
+              <Menu as="div" className="relative inline-block text-left">
+                <div>
+                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 hover:bg-blue-500 hover:text-white border-blue-500 px-3 py-2">
+                    Following
+                    <ChevronDownIcon
+                      className="-mr-1 ml-2 h-5 w-5"
+                      aria-hidden="true"
+                    />
+                  </Menu.Button>
+                </div>
+
+                <Transition
+                  as={Fragment}
+                  enter="transition ease-out duration-100"
+                  enterFrom="transform opacity-0 scale-95"
+                  enterTo="transform opacity-100 scale-100"
+                  leave="transition ease-in duration-75"
+                  leaveFrom="transform opacity-100 scale-100"
+                  leaveTo="transform opacity-0 scale-95"
+                >
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white">
+                    <div className="py-1">
+                      <Menu.Item>
+                        {({ active }) => (
+                          <a
+                            href="#"
+                            className={classNames(
+                              active ? "" : "",
+                              "block px-4 text-sm"
+                            )}
+                          >
+                            Unfollow
+                          </a>
+                        )}
+                      </Menu.Item>
+                    </div>
+                  </Menu.Items>
+                </Transition>
+              </Menu>
+            </div>
+          </div>
+          <div className="border-b-1">
+            <div className="Followings-profile flex  px-4 py-10 justify-between items-center">
+              <div className="flex items-center gap-3">
+                <Link href="/news-feed">
+                  <a>
+                    <Image src={ProfileAvatar} width={35} height={35} alt="" />
+                  </a>
+                </Link>
+                <div className="">
+                  <a href="">
+                    <div className="username text-sm font-bold">User Name</div>
+                  </a>
+                  <a href="">
+                    <div className="userfield text-xs">User Belong To</div>
+                  </a>
+                </div>
+              </div>
+              <Menu as="div" className="relative inline-block text-left">
+                <div>
+                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 hover:bg-blue-500 hover:text-white border-blue-500 px-3 py-2">
+                    Following
+                    <ChevronDownIcon
+                      className="-mr-1 ml-2 h-5 w-5"
+                      aria-hidden="true"
+                    />
+                  </Menu.Button>
+                </div>
+
+                <Transition
+                  as={Fragment}
+                  enter="transition ease-out duration-100"
+                  enterFrom="transform opacity-0 scale-95"
+                  enterTo="transform opacity-100 scale-100"
+                  leave="transition ease-in duration-75"
+                  leaveFrom="transform opacity-100 scale-100"
+                  leaveTo="transform opacity-0 scale-95"
+                >
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white">
+                    <div className="py-1">
+                      <Menu.Item>
+                        {({ active }) => (
+                          <a
+                            href="#"
+                            className={classNames(
+                              active ? "" : "",
+                              "block px-4 text-sm"
+                            )}
+                          >
+                            Unfollow
+                          </a>
+                        )}
+                      </Menu.Item>
+                    </div>
+                  </Menu.Items>
+                </Transition>
+              </Menu>
+            </div>
+          </div>
+          <div className="border-b-1">
+            <div className="Followings-profile flex  px-4 py-10 justify-between items-center">
+              <div className="flex items-center gap-3">
+                <Link href="/news-feed">
+                  <a>
+                    <Image src={ProfileAvatar} width={35} height={35} alt="" />
+                  </a>
+                </Link>
+                <div className="">
+                  <a href="">
+                    <div className="username text-sm font-bold">User Name</div>
+                  </a>
+                  <a href="">
+                    <div className="userfield text-xs">User Belong To</div>
+                  </a>
+                </div>
+              </div>
+              <Menu as="div" className="relative inline-block text-left">
+                <div>
+                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 hover:bg-blue-500 hover:text-white border-blue-500 px-3 py-2">
+                    Following
+                    <ChevronDownIcon
+                      className="-mr-1 ml-2 h-5 w-5"
+                      aria-hidden="true"
+                    />
+                  </Menu.Button>
+                </div>
+
+                <Transition
+                  as={Fragment}
+                  enter="transition ease-out duration-100"
+                  enterFrom="transform opacity-0 scale-95"
+                  enterTo="transform opacity-100 scale-100"
+                  leave="transition ease-in duration-75"
+                  leaveFrom="transform opacity-100 scale-100"
+                  leaveTo="transform opacity-0 scale-95"
+                >
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white">
+                    <div className="py-1">
+                      <Menu.Item>
+                        {({ active }) => (
+                          <a
+                            href="#"
+                            className={classNames(
+                              active ? "" : "",
+                              "block px-4 text-sm"
+                            )}
+                          >
+                            Unfollow
+                          </a>
+                        )}
+                      </Menu.Item>
+                    </div>
+                  </Menu.Items>
+                </Transition>
+              </Menu>
+            </div>
+          </div>
+          <div className="border-b-1">
+            <div className="Followings-profile flex  px-4 py-10 justify-between items-center">
+              <div className="flex items-center gap-3">
+                <Link href="/news-feed">
+                  <a>
+                    <Image src={ProfileAvatar} width={35} height={35} alt="" />
+                  </a>
+                </Link>
+                <div className="">
+                  <a href="">
+                    <div className="username text-sm font-bold">User Name</div>
+                  </a>
+                  <a href="">
+                    <div className="userfield text-xs">User Belong To</div>
+                  </a>
+                </div>
+              </div>
+              <Menu as="div" className="relative inline-block text-left">
+                <div>
+                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 hover:bg-blue-500 hover:text-white border-blue-500 px-3 py-2">
+                    Following
+                    <ChevronDownIcon
+                      className="-mr-1 ml-2 h-5 w-5"
+                      aria-hidden="true"
+                    />
+                  </Menu.Button>
+                </div>
+
+                <Transition
+                  as={Fragment}
+                  enter="transition ease-out duration-100"
+                  enterFrom="transform opacity-0 scale-95"
+                  enterTo="transform opacity-100 scale-100"
+                  leave="transition ease-in duration-75"
+                  leaveFrom="transform opacity-100 scale-100"
+                  leaveTo="transform opacity-0 scale-95"
+                >
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white">
+                    <div className="py-1">
+                      <Menu.Item>
+                        {({ active }) => (
+                          <a
+                            href="#"
+                            className={classNames(
+                              active ? "" : "",
+                              "block px-4 text-sm"
+                            )}
+                          >
+                            Unfollow
+                          </a>
+                        )}
+                      </Menu.Item>
+                    </div>
+                  </Menu.Items>
+                </Transition>
+              </Menu>
+            </div>
+          </div>
+          <div className="border-b-1">
+            <div className="Followings-profile flex  px-4 py-10 justify-between items-center">
+              <div className="flex items-center gap-3">
+                <Link href="/news-feed">
+                  <a>
+                    <Image src={ProfileAvatar} width={35} height={35} alt="" />
+                  </a>
+                </Link>
+                <div className="">
+                  <a href="">
+                    <div className="username text-sm font-bold">User Name</div>
+                  </a>
+                  <a href="">
+                    <div className="userfield text-xs">User Belong To</div>
+                  </a>
+                </div>
+              </div>
+              <Menu as="div" className="relative inline-block text-left">
+                <div>
+                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 hover:bg-blue-500 hover:text-white border-blue-500 px-3 py-2">
+                    Following
+                    <ChevronDownIcon
+                      className="-mr-1 ml-2 h-5 w-5"
+                      aria-hidden="true"
+                    />
+                  </Menu.Button>
+                </div>
+
+                <Transition
+                  as={Fragment}
+                  enter="transition ease-out duration-100"
+                  enterFrom="transform opacity-0 scale-95"
+                  enterTo="transform opacity-100 scale-100"
+                  leave="transition ease-in duration-75"
+                  leaveFrom="transform opacity-100 scale-100"
+                  leaveTo="transform opacity-0 scale-95"
+                >
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white">
+                    <div className="py-1">
+                      <Menu.Item>
+                        {({ active }) => (
+                          <a
+                            href="#"
+                            className={classNames(
+                              active ? "" : "",
                               "block px-4 text-sm"
                             )}
                           >
