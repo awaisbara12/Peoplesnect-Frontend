@@ -28,7 +28,6 @@ const PrivateRoutes = ({ children }) => {
     })
     .then((response) => response.data)
     .then((data) => {
-      console.log(data)
       if(data && data.success == false){
         localStorage.removeItem("keyStore");
         localStorage.removeItem("userData");
