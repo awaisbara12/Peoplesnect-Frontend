@@ -113,6 +113,13 @@ const Signup = () => {
     router.prefetch("/onboarding/step-one");
   }, []);
 
+  useEffect(() => {
+    // redirect to home if already logged in
+    if (localStorage.getItem("keyStore")) {
+      router.push('/news-feed');
+    }
+  }, []);
+
   return (
     <Fragment>
       <div className="signUp--background min-h-screen overflow-y-auto">
@@ -151,7 +158,7 @@ const Signup = () => {
                 ) : (
                   ""
                 )}
-                
+
 
                 <form
                   onSubmit={signUpData}

@@ -116,6 +116,13 @@ const Login = () => {
     Router.prefetch("/news-feed");
   }, []);
 
+  useEffect(() => {
+    // redirect to home if already logged in
+    if (localStorage.getItem("keyStore")) {
+      Router.push('/news-feed');
+    }
+  }, []);
+
   return (
     <Fragment>
       <div className="signUp--background min-h-screen overflow-y-auto">

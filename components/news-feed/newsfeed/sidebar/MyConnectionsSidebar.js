@@ -1,17 +1,17 @@
 import React, { Fragment } from "react";
 import NewsFeedNav from "../../navbar/NewsFeedNav";
-import SugestedUser from "../../sugesteduser/SugestedUser";
+import MyConnections from "../../sugesteduser/MyConnections";
 import FooterNewsFeed from "../newsfeedfooter/FooterNewsFeed";
 
-const NewsFeedSidebar = () => {
+const MyConnectionsSidebar = () => {
   return (
-    <div className="z-50">
-      <div className="bg-white w-72 rounded-xl mt-7 p-5">
+    <div className="sticky top-7 z-50">
+      <div className=" bg-white w-72 rounded-xl mt-7 p-5">
         <div>
           <NewsFeedNav />
           <div className="border-1 my-6 w-56 mx-auto text-gray-100"></div>
           <Fragment>
-            <SugestedUser />
+            <MyConnections />
           </Fragment>
         </div>
       </div>
@@ -20,4 +20,4 @@ const NewsFeedSidebar = () => {
   );
 };
 
-export default NewsFeedSidebar;
+export default MyConnectionsSidebar;
