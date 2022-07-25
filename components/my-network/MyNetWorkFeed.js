@@ -8,6 +8,7 @@ import MobileNav from "../news-feed/navbar/MobileNav";
 import NewsFeedSidebar from "../news-feed/newsfeed/sidebar/NewsFeedSidebar";
 import MyNetwork from "./MyNetwork";
 import MobileBottomBar from "../news-feed/navbar/MobileBottomBar";
+import MyConnectionsSidebar from "../news-feed/newsfeed/sidebar/MyConnectionsSidebar";
 
 const MyNetWorkFeed = () => {
   return (
@@ -24,10 +25,10 @@ const MyNetWorkFeed = () => {
           </div>
           <div className="flex xl:px-0 lg:px-4 md:px-8 sm:px-0 gap-[65px] lg:gap-6 md:gap-4 justify-between">
             <div className="hidden md:block lg:block">
-              <NewsFeedSidebar />
+              <MyConnectionsSidebar />
             </div>
             <div className="h-full bg-zinc-100 mx-auto">
-            <MyNetwork/>
+              <MyNetwork />
             </div>
             <div className="w-72 hidden md:block lg:block">
               <NewsSearch />
@@ -37,7 +38,7 @@ const MyNetWorkFeed = () => {
           </div>
         </div>
       </div>
-      <MobileBottomBar/>
+      <MobileBottomBar />
     </div>
   );
 };

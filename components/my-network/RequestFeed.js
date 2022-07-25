@@ -4,16 +4,15 @@ import NewsSearch from "../news-feed/search/NewsSearch";
 import ProfileCard from "../news-feed/profilecard/ProfileCard";
 import EventsCard from "../news-feed/eventcard/EventsCard";
 import MobileNav from "../news-feed/navbar/MobileNav";
-import NewsFeedSidebar from "../news-feed/newsfeed/sidebar/NewsFeedSidebar";
-import BlogShow from "./BlogShow";
-import AddNewBlog from "./AddNewBlog";
-import BlogsBottomBar from "../news-feed/navbar/BlogsBottomBar";
+import MobileBottomBar from "../news-feed/navbar/MobileBottomBar";
+import MyConnectionsSidebar from "../news-feed/newsfeed/sidebar/MyConnectionsSidebar";
+import PeendingRequest from "./PeendingRequest";
 
-const BlogShowFeed = () => {
+const RequestFeed = () => {
   return (
     <div>
       <Head>
-        <title>Blogs Show - Peoples Nect</title>
+        <title>Peeding Request - Peoples Nect</title>
         <meta name="description" content="Connect peoples proffasoinaly" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -24,24 +23,21 @@ const BlogShowFeed = () => {
           </div>
           <div className="flex xl:px-0 lg:px-4 md:px-8 sm:px-0 gap-[65px] lg:gap-6 md:gap-4 justify-between">
             <div className="hidden md:block lg:block">
-              <NewsFeedSidebar />
+              <MyConnectionsSidebar />
             </div>
-            <div className="">
-              <BlogShow />
+            <div className="h-full bg-zinc-100 mx-auto">
+              <PeendingRequest />
             </div>
             <div className="w-72 hidden md:block lg:block">
               <NewsSearch />
               <ProfileCard />
-              <div className="">
-                <AddNewBlog />
-              </div>
+              <EventsCard />
             </div>
           </div>
         </div>
       </div>
-      <BlogsBottomBar/>
+      <MobileBottomBar />
     </div>
   );
 };
-
-export default BlogShowFeed;
+export default RequestFeed;
