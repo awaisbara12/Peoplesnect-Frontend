@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@expo/vector-icons": "^13.0.0",
     "@headlessui/react": "^0.0.0-insiders.90aa478",
     "@heroicons/react": "^1.0.6",
     "@reduxjs/toolkit": "^1.8.2",
@@ -34,5 +35,4 @@
     "postcss": "^8.4.14",
     "tailwindcss": "^3.1.2"
   }
-  
 }

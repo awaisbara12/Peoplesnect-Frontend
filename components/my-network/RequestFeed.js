@@ -1,20 +1,18 @@
 import React from "react";
 import Head from "next/head";
-import Link from "next/link";
 import NewsSearch from "../news-feed/search/NewsSearch";
 import ProfileCard from "../news-feed/profilecard/ProfileCard";
 import EventsCard from "../news-feed/eventcard/EventsCard";
 import MobileNav from "../news-feed/navbar/MobileNav";
-import NewsFeedSidebar from "../news-feed/newsfeed/sidebar/NewsFeedSidebar";
-import MyNetwork from "./MyNetwork";
 import MobileBottomBar from "../news-feed/navbar/MobileBottomBar";
 import MyConnectionsSidebar from "../news-feed/newsfeed/sidebar/MyConnectionsSidebar";
+import PeendingRequest from "./PeendingRequest";
 
-const MyNetWorkFeed = () => {
+const RequestFeed = () => {
   return (
     <div>
       <Head>
-        <title>My Network - Peoples Nect</title>
+        <title>Peeding Request - Peoples Nect</title>
         <meta name="description" content="Connect peoples proffasoinaly" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -28,7 +26,7 @@ const MyNetWorkFeed = () => {
               <MyConnectionsSidebar />
             </div>
             <div className="h-full bg-zinc-100 mx-auto">
-              <MyNetwork />
+              <PeendingRequest />
             </div>
             <div className="w-72 hidden md:block lg:block">
               <NewsSearch />
@@ -42,5 +40,4 @@ const MyNetWorkFeed = () => {
     </div>
   );
 };
-
-export default MyNetWorkFeed;
+export default RequestFeed;
