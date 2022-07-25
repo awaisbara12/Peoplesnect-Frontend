@@ -218,7 +218,7 @@ function MyNetwork() {
                       </a>
                     </Link>
                   </div>
-                  <div className="absolute top-0 right-0">
+                  <div className="absolute top-2 right-1">
                     <Link href="./">
                       <a>
                         <XCircleIcon className="w-5 h-5 hover:w-10 hover:h-10 transition-all text-white" />
@@ -270,7 +270,7 @@ function MyNetwork() {
                       </a>
                     </Link>
                   </div>
-                  <div className="absolute top-0 right-0">
+                  <div className="absolute top-2 right-1">
                     <Link href="./">
                       <a>
                         <XCircleIcon className="w-5 h-5 hover:w-10 hover:h-10 transition-all text-white" />
@@ -322,7 +322,7 @@ function MyNetwork() {
                       </a>
                     </Link>
                   </div>
-                  <div className="absolute top-0 right-0">
+                  <div className="absolute top-2 right-1">
                     <Link href="./">
                       <a>
                         <XCircleIcon className="w-5 h-5 hover:w-10 hover:h-10 transition-all text-white" />
@@ -374,7 +374,7 @@ function MyNetwork() {
                       </a>
                     </Link>
                   </div>
-                  <div className="absolute top-0 right-0">
+                  <div className="absolute top-2 right-1">
                     <Link href="./">
                       <a>
                         <XCircleIcon className="w-5 h-5 hover:w-10 hover:h-10 transition-all text-white" />
@@ -426,7 +426,7 @@ function MyNetwork() {
                       </a>
                     </Link>
                   </div>
-                  <div className="absolute top-0 right-0">
+                  <div className="absolute top-2 right-1">
                     <Link href="./">
                       <a>
                         <XCircleIcon className="w-5 h-5 hover:w-10 hover:h-10 transition-all text-white" />
@@ -478,7 +478,7 @@ function MyNetwork() {
                       </a>
                     </Link>
                   </div>
-                  <div className="absolute top-0 right-0">
+                  <div className="absolute top-2 right-1">
                     <Link href="./">
                       <a>
                         <XCircleIcon className="w-5 h-5 hover:w-10 hover:h-10 transition-all text-white" />
