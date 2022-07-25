@@ -328,7 +328,7 @@ const NewsPost = ({ setList }) => {
                 />
 
                 <p className="text-indigo-400 opacity-0 group-hover:opacity-100 absolute left-4">
-                  Add Blogs
+                  Add event
                 </p>
               </div>
               <div className="relative group border-indigo-500">
