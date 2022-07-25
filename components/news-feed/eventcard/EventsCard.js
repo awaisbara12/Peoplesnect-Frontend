@@ -6,7 +6,7 @@ import Link from "next/link";
 
 const EventsCard = () => {
   return (
-    <div className="bg-white sticky top-[90px] text-sm font-light w-full h-auto mt-6 pt-4 rounded-xl">
+    <div className="bg-white top-[90px] text-sm font-light w-full h-auto mt-6 pt-4 rounded-xl">
       <Link href="/">
         <a>
           <div className="flex justify-between items-center px-4 ">
