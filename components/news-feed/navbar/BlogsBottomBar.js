@@ -1,5 +1,11 @@
 import React from "react";
 import Link from "next/link";
+import { Fragment } from "react";
+import { Menu, Transition } from "@headlessui/react";
+
+function classNames(...classes) {
+  return classes.filter(Boolean).join(" ");
+}
 import {
   HomeIcon,
   BriefcaseIcon,
@@ -8,6 +14,8 @@ import {
   BellIcon,
   LibraryIcon,
   PlusSmIcon,
+  UserGroupIcon,
+  UserAddIcon,
 } from "@heroicons/react/solid";
 
 const BlogsBottomBar = () => {
@@ -38,14 +46,66 @@ const BlogsBottomBar = () => {
             </a>
           </Link>
         </div>
-        <div className="">
-          <Link href="/news-feed">
-            <a className="flex flex-col items-center">
-              <UsersIcon className="h-7 w-7" />
-              <div className="">My Network</div>
-            </a>
-          </Link>
-        </div>
+
+        <Menu as="div" className="relative inline-block text-left">
+          <div>
+            <Menu.Button className="flex flex-col items-center">
+              <UsersIcon className="h-7 w-7" aria-hidden="true" />
+              <div className="">Request</div>
+            </Menu.Button>
+          </div>
+
+          <Transition
+            as={Fragment}
+            enter="transition ease-out duration-100"
+            enterFrom="transform opacity-0 scale-95"
+            enterTo="transform opacity-100 scale-100"
+            leave="transition ease-in duration-75"
+            leaveFrom="transform opacity-100 scale-100"
+            leaveTo="transform opacity-0 scale-95"
+          >
+            <Menu.Items className="absolute -top-24 w-96 -left-36 bg-white border-2 border-blue-500 rounded-full p-3 text-blue-500">
+              <div className="flex gap-3 justify-between items-center">
+                <Menu.Item>
+                  {({ active }) => (
+                    <Link href="/my-network/Peending-Request" className="">
+                      <a>
+                        <div className="flex flex-col items-center">
+                          <UserAddIcon className="h-7 w-7" />
+                          <div className="">Pending Requests</div>
+                        </div>
+                      </a>
+                    </Link>
+                  )}
+                </Menu.Item>
+                <Menu.Item>
+                  {({ active }) => (
+                    <Link href="/my-network" className="">
+                      <a>
+                        <div className="flex flex-col items-center">
+                          <UserGroupIcon className="h-7 w-7" />
+                          <div className="">Connections</div>
+                        </div>
+                      </a>
+                    </Link>
+                  )}
+                </Menu.Item>
+                <Menu.Item>
+                  {({ active }) => (
+                    <Link href="/my-network/Followings" className="">
+                      <a>
+                        <div className="flex flex-col items-center">
+                          <UsersIcon className="h-7 w-7" />
+                          <div className="">Followings</div>
+                        </div>
+                      </a>
+                    </Link>
+                  )}
+                </Menu.Item>
+              </div>
+            </Menu.Items>
+          </Transition>
+        </Menu>
         <div className="">
           <Link href="/news-feed">
             <a className="flex flex-col items-center">
@@ -55,7 +115,7 @@ const BlogsBottomBar = () => {
           </Link>
         </div>
         <div className="">
-          <Link href="/news-feed">
+          <Link href="/Notifications">
             <a className="flex flex-col items-center">
               <BellIcon className="h-7 w-7" />
               <div className="">Notifications</div>

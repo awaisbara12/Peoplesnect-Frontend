@@ -70,7 +70,7 @@ const NewsFeedNav = () => {
             </a>
           </Link>
 
-          <Link href="/news-feed" className="">
+          <Link href="/notifications" className="">
             <a>
               <li className="flex font-normal text-xl items-center gap-3">
                 <div className="relative">

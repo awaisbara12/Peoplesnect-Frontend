@@ -5,9 +5,6 @@ import {
   UserGroupIcon,
   UserAddIcon,
   UsersIcon,
-  ChatAltIcon,
-  BellIcon,
-  NewspaperIcon,
 } from "@heroicons/react/solid";
 
 const MyConnections = () => {
