@@ -17,25 +17,8 @@ const Followings = () => {
       <div className="w-[620px] px-5 md:px-0 lg:px-0">
         <div className="bg-white rounded-xl">
           <div className="flex justify-between items-center border-b-1 p-4">
-            <div className="heading">Total Followings 15</div>
-            <div className="searech-bar relative">
-              <input
-                type="email"
-                name="email"
-                placeholder="Search By Name"
-                className={`w-full border-blue-500 border py-2 px-3 mt-2 rounded-full focus: outline-none focus:drop-shadow-indigo-400 border-red-600"
-                }`}
-              />
-              <div className="absolute top-4 right-2">
-                <button className="text-blue-500">
-                  <Link href="./">
-                    <a>
-                      <SearchIcon className="w-6 h-6" />
-                    </a>
-                  </Link>
-                </button>
-              </div>
-            </div>
+            <div className="heading">Total Followings</div>
+            <div className="">15</div>
           </div>
           <div className="border-b-1">
             <div className="Followings-profile flex  px-4 py-10 justify-between items-center">
