@@ -4,7 +4,7 @@ import { SearchIcon, LockOpenIcon } from "@heroicons/react/outline";
 import { signout } from "../../auth/signout/SignOut";
 import Spinner from "../../common/Spinner";
 
-const NewsSearch = () => {
+const JobsSearch = () => {
   return (
     <div className="sticky top-7 z-50 flex items-center w-full mt-7 gap-4">
       <label className="relative block">
@@ -17,7 +17,7 @@ const NewsSearch = () => {
         </span>
         <input
           className="placeholder:text-slate-400 hover:shadow-xl bg-white placeholder:text-xl w-60 rounded-full py-2 border-none pl-14"
-          placeholder="Search"
+          placeholder="Search Jobs"
           type="text"
           name="search"
         />
@@ -36,4 +36,4 @@ const NewsSearch = () => {
   );
 };
 
-export default NewsSearch;
+export default JobsSearch;

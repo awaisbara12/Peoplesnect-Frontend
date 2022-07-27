@@ -1,11 +1,12 @@
 import React from "react";
 import Head from "next/head";
 import NewsPost from "./NewPost";
-import NewsSearch from "../news-feed/search/NewsSearch";
 import ProfileCard from "../news-feed/profilecard/ProfileCard";
 import EventsCard from "../news-feed/eventcard/EventsCard";
-import MobileNav from "../news-feed/navbar/MobileNav";
+import MobileNav from "../news-feed/navbar/mobile-navbar/MobileNav";
 import NewsFeedSidebar from "../news-feed/newsfeed/sidebar/NewsFeedSidebar";
+import BlogsSearch from "../news-feed/search/BlogsSearch";
+import BlogsNav from "../news-feed/navbar/mobile-navbar/BlogsNav";
 
 const BlogLayout = () => {
   return (
@@ -18,7 +19,7 @@ const BlogLayout = () => {
       <div className="pb-10">
         <div className="xl:max-w-[1340px] container mx-auto">
           <>
-            <MobileNav />
+            <BlogsNav />
           </>
           <div className="flex xl:px-0 lg:px-4 md:px-8 sm:px-0 gap-[65px] lg:gap-6 md:gap-4 justify-between">
             <div className="hidden md:block lg:block">
@@ -28,7 +29,7 @@ const BlogLayout = () => {
               <NewsPost />
             </div>
             <div className="w-72 hidden md:block lg:block">
-              <NewsSearch />
+              <BlogsSearch />
               <ProfileCard />
               <EventsCard />
             </div>

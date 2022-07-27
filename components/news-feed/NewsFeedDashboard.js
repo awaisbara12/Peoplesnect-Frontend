@@ -7,9 +7,9 @@ import NewsFeedSidebar from "./newsfeed/sidebar/NewsFeedSidebar";
 import NewsSearch from "./search/NewsSearch";
 import ProfileCard from "./profilecard/ProfileCard";
 import EventsCard from "./eventcard/EventsCard";
-import MobileNav from "./navbar/MobileNav";
 import MobileBottomBar from "./navbar/MobileBottomBar";
 import { POST_NEWSFEED_API_KEY } from "/pages/config";
+import MobileNav from "./navbar/mobile-navbar/MobileNav";
 
 const NewsFeedDashboard = () => {
   const [list, setList] = useState([])

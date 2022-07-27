@@ -2,10 +2,10 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { SearchIcon, DotsHorizontalIcon } from "@heroicons/react/outline";
-import NavbarLogo from "../../../public/images/logo-circle.png";
-import ProfileAvatar from "../../../public/images/profile-avatar.png";
+import NavbarLogo from "../../../../public/images/logo-circle.png";
+import ProfileAvatar from "../../../../public/images/profile-avatar.png";
 
-const MobileNav = () => {
+const BlogsNav = () => {
   return (
     <div className="block lg:hidden md:hidden">
       <div className="flex justify-between w-[625px] mx-auto h-14 items-center bg-white rounded-b-2xl px-4">
@@ -19,17 +19,17 @@ const MobileNav = () => {
               </Link>
             </span>
             <input
-              className="placeholder:text-slate-400 bg-zinc-100 placeholder:text-xl w-36 h-7 rounded-full py-2 border-none pl-10"
-              placeholder="Search"
+              className="placeholder:text-slate-400 bg-zinc-100 placeholder:text-xl w-48 h-7 rounded-full py-2 border-none pl-10"
+              placeholder="Search Article"
               type="text"
               name="search"
             />
           </label>
         </div>
-        <div className="">
+        <div className="-ml-28">
           <Link href="/news-feed">
             <a>
-              <Image src={NavbarLogo} width={26} height={26} alt="" />
+              <Image src={NavbarLogo} width={35} height={35} alt="" />
             </a>
           </Link>
         </div>
@@ -46,4 +46,4 @@ const MobileNav = () => {
   );
 };
 
-export default MobileNav;
+export default BlogsNav;

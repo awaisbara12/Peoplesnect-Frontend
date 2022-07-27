@@ -3,7 +3,7 @@ import Head from "next/head";
 import NewsSearch from "../news-feed/search/NewsSearch";
 import ProfileCard from "../news-feed/profilecard/ProfileCard";
 import EventsCard from "../news-feed/eventcard/EventsCard";
-import MobileNav from "../news-feed/navbar/MobileNav";
+import MobileNav from "../news-feed/navbar/mobile-navbar/MobileNav";
 import MobileBottomBar from "../news-feed/navbar/MobileBottomBar";
 import MyConnectionsSidebar from "../news-feed/newsfeed/sidebar/MyConnectionsSidebar";
 import Notifications from "./Notifications";
