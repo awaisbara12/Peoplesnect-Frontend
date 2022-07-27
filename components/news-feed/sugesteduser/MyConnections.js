@@ -1,11 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import NavbarLogo from "../../../public/images/logo.png";
-import {
-  UserGroupIcon,
-  UserAddIcon,
-  UsersIcon,
-} from "@heroicons/react/solid";
+import { UserGroupIcon, UserAddIcon, UsersIcon } from "@heroicons/react/solid";
 
 const MyConnections = () => {
   return (
