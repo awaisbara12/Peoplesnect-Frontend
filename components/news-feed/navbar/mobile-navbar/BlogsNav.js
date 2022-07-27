@@ -9,7 +9,14 @@ const BlogsNav = () => {
   return (
     <div className="block lg:hidden md:hidden">
       <div className="flex justify-between w-[625px] mx-auto h-14 items-center bg-white rounded-b-2xl px-4">
-        <div className="">
+        <div className="flex items-center gap-4">
+          <div className="">
+            <Link href="/news-feed">
+              <a>
+                <Image src={NavbarLogo} width={35} height={35} alt="" />
+              </a>
+            </Link>
+          </div>
           <label className="relative block">
             <span className="absolute inset-y-0 left-0 flex items-center pl-4">
               <Link href="/news-feed">
@@ -25,13 +32,6 @@ const BlogsNav = () => {
               name="search"
             />
           </label>
-        </div>
-        <div className="-ml-28">
-          <Link href="/news-feed">
-            <a>
-              <Image src={NavbarLogo} width={35} height={35} alt="" />
-            </a>
-          </Link>
         </div>
         <div className="flex items-center gap-1">
           <DotsHorizontalIcon className="w-5 h-5" />
