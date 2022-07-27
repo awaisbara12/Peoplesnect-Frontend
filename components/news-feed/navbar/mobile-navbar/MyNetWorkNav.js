@@ -9,8 +9,15 @@ const MyNetWorkNav = () => {
   return (
     <div className="block lg:hidden md:hidden">
       <div className="flex sticky top-0 justify-between w-[625px] mx-auto h-14 items-center bg-white rounded-b-2xl px-4">
-        <div className="">
-          <label className="relative">
+      <div className="flex items-center gap-4">
+          <div className="">
+            <Link href="/news-feed">
+              <a>
+                <Image src={NavbarLogo} width={35} height={35} alt="" />
+              </a>
+            </Link>
+          </div>
+          <label className="relative block">
             <span className="absolute inset-y-0 left-0 flex items-center pl-4">
               <Link href="/news-feed">
                 <a>
@@ -19,19 +26,12 @@ const MyNetWorkNav = () => {
               </Link>
             </span>
             <input
-              className="placeholder:text-slate-400 bg-zinc-100 placeholder:text-xl w-52 h-7 rounded-full py-2 border-none pl-10"
+              className="placeholder:text-slate-400 bg-zinc-100 placeholder:text-xl w-48 h-7 rounded-full py-2 border-none pl-10"
               placeholder="Search by Name"
               type="text"
               name="search"
             />
           </label>
-        </div>
-        <div className="-ml-32">
-          <Link href="/news-feed">
-            <a>
-              <Image src={NavbarLogo} width={35} height={35} alt="" />
-            </a>
-          </Link>
         </div>
         <div className="flex items-center gap-1">
           <DotsHorizontalIcon className="w-5 h-5" />
