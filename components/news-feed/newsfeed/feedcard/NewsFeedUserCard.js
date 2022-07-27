@@ -234,9 +234,11 @@ const NewsFeedUserCard = (list) => {
                         </div>
                         <div className="text-gray-900"></div>
                       </div>
-                      <div className="text-sm text-gray-600 cursor-pointer flex items-center border border-gray-100 rounded-full py-1 px-3">
+                      <Link href="/event-view">
+                      <a className="text-sm text-gray-600 cursor-pointer flex items-center border border-gray-100 rounded-full py-1 px-3">
                         View Event
-                      </div>
+                      </a>  
+                      </Link>
                     </div>
                   </div>
                 </div>

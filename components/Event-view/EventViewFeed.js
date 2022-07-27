@@ -1,15 +1,13 @@
 import React from "react";
 import Head from "next/head";
 import ProfileCard from "../news-feed/profilecard/ProfileCard";
-import MobileNav from "../news-feed/navbar/mobile-navbar/MobileNav";
 import NewsFeedSidebar from "../news-feed/newsfeed/sidebar/NewsFeedSidebar";
-import BlogShow from "./BlogShow";
-import AddNewBlog from "./AddNewBlog";
 import BlogsBottomBar from "../news-feed/navbar/BlogsBottomBar";
 import BlogsSearch from "../news-feed/search/BlogsSearch";
 import BlogsNav from "../news-feed/navbar/mobile-navbar/BlogsNav";
+import EventView from "./EventView";
 
-const BlogShowFeed = () => {
+const EventViewFeed = () => {
   return (
     <div>
       <Head>
@@ -27,14 +25,11 @@ const BlogShowFeed = () => {
               <NewsFeedSidebar />
             </div>
             <div className="">
-              <BlogShow />
+              <EventView />
             </div>
             <div className="w-72 hidden md:block lg:block">
               <BlogsSearch />
               <ProfileCard />
-              <div className="">
-                <AddNewBlog />
-              </div>
             </div>
           </div>
         </div>
@@ -44,4 +39,4 @@ const BlogShowFeed = () => {
   );
 };
 
-export default BlogShowFeed;
+export default EventViewFeed;
