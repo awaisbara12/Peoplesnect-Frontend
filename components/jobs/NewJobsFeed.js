@@ -2,12 +2,12 @@ import React from "react";
 import Head from "next/head";
 import NewsSearch from "../news-feed/search/NewsSearch";
 import ProfileCard from "../news-feed/profilecard/ProfileCard";
-import EventsCard from "../news-feed/eventcard/EventsCard";
 import MobileNav from "../news-feed/navbar/MobileNav";
 import MobileBottomBar from "../news-feed/navbar/MobileBottomBar";
-import NewJobs from "./NewJobs";
 import JobsSideBarFeed from "../news-feed/newsfeed/sidebar/JobsSideBarFeed";
 import AddNewJob from "./AddNewJob";
+import RecommendedJobs from "./RecommendedJobs";
+import MostSearchedJobs from "./MostSearchedJobs";
 
 const NewJobsFeed = () => {
   return (
@@ -27,7 +27,8 @@ const NewJobsFeed = () => {
               <JobsSideBarFeed />
             </div>
             <div className="h-full bg-zinc-100 mx-auto">
-              <NewJobs />
+              <RecommendedJobs />
+              <MostSearchedJobs />
             </div>
             <div className="w-72 hidden md:block lg:block">
               <NewsSearch />

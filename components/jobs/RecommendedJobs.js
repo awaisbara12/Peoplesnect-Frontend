@@ -8,16 +8,15 @@ import Compnylogo2 from "../../public/images/logo2.jpeg";
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import {
-  BookmarkAltIcon,
   BookmarkIcon,
   ClipboardCopyIcon,
   DotsHorizontalIcon,
-} from "@heroicons/react/solid";
+} from "@heroicons/react/outline";
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const NewJobs = () => {
+const RecommendedJobs = () => {
   return (
     <div className="mt-8">
       <div className="w-[620px] px-5 md:px-0 lg:px-0">
@@ -25,7 +24,7 @@ const NewJobs = () => {
           <div className="border-b-1 p-4">
             <div className="heading font-bold">Recommended for you</div>
             <div className="font-extralight mt-1">
-              Based on your profile and search history
+              Based on your profile
             </div>
           </div>
           <div className="border-b-1">
@@ -76,12 +75,12 @@ const NewJobs = () => {
                     leaveTo="transform opacity-0 scale-95"
                   >
                     <Menu.Items className="absolute top-6 -left-12">
-                      <div className="flex items-center flex-col gap-2 border-1 rounded-xl p-2">
+                      <div className="flex items-start flex-col gap-2 border-1 rounded-xl p-2">
                         <Menu.Item>
                           {({ active }) => (
                             <a href="#" className={classNames("text-sm flex")}>
                               <BookmarkIcon className="h-5 w-5" />
-                              Saved
+                              Save
                             </a>
                           )}
                         </Menu.Item>
@@ -155,12 +154,12 @@ const NewJobs = () => {
                     leaveTo="transform opacity-0 scale-95"
                   >
                     <Menu.Items className="absolute top-6 -left-12">
-                      <div className="flex items-center flex-col gap-2 border-1 rounded-xl p-2">
+                      <div className="flex items-start flex-col gap-2 border-1 rounded-xl p-2">
                         <Menu.Item>
                           {({ active }) => (
                             <a href="#" className={classNames("text-sm flex")}>
                               <BookmarkIcon className="h-5 w-5" />
-                              Saved
+                              Save
                             </a>
                           )}
                         </Menu.Item>
@@ -234,12 +233,12 @@ const NewJobs = () => {
                     leaveTo="transform opacity-0 scale-95"
                   >
                     <Menu.Items className="absolute top-6 -left-12">
-                      <div className="flex items-center flex-col gap-2 border-1 rounded-xl p-2">
+                      <div className="flex items-start flex-col gap-2 border-1 rounded-xl p-2">
                         <Menu.Item>
                           {({ active }) => (
                             <a href="#" className={classNames("text-sm flex")}>
                               <BookmarkIcon className="h-5 w-5" />
-                              Saved
+                              Save
                             </a>
                           )}
                         </Menu.Item>
@@ -278,4 +277,4 @@ const NewJobs = () => {
   );
 };
 
-export default NewJobs;
+export default RecommendedJobs;
