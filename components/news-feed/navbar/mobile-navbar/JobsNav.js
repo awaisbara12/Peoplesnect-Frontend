@@ -7,6 +7,7 @@ import { signout } from "../../../auth/signout/SignOut";
 import { CogIcon } from "@heroicons/react/outline";
 import { SearchIcon } from "@heroicons/react/solid";
 import { Popover, Transition } from "@headlessui/react";
+import Spinner from "../../../common/Spinner";
 
 const JobsNav = () => {
   return (
