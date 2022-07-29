@@ -104,7 +104,7 @@ const Blogsnav = () => {
                 </Link>
               </div>
               <div>
-                <Link href="">
+                <Link href="/settings">
                   <a className="flex items-center mb-10 gap-2">
                     <CogIcon className="h-7 w-7" />
                     <div className="font-bold">Setting</div>
