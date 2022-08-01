@@ -1,10 +1,14 @@
 import {
   AtSymbolIcon,
   BellIcon,
+  EyeIcon,
   KeyIcon,
   LockClosedIcon,
   LockOpenIcon,
+  RefreshIcon,
+  ShoppingBagIcon,
   UserCircleIcon,
+  UserIcon,
 } from "@heroicons/react/outline";
 import React from "react";
 
@@ -17,34 +21,26 @@ const MainSettings = () => {
             <div className="heading font-bold">Account Settings</div>
           </div>
           <div className="border hover:bg-gray-50 mt-4 p-4 bg-white hover:shadow-lg rounded-xl">
-            <a href="/settings/general-settings">
-              <div className="username flex gap-2 text-lg font-medium">
-                <AtSymbolIcon className="h-7 w-7" />
-                Genral Settings
-              </div>
-            </a>
-          </div>
-          <div className="border hover:bg-gray-50 mt-4 p-4 bg-white hover:shadow-lg rounded-xl">
-            <a href="">
-              <div className="username flex gap-2 text-lg font-medium">
-                <BellIcon className="h-7 w-7" />
-                Notifications Settings
-              </div>
-            </a>
-          </div>
-          <div className="border hover:bg-gray-50 mt-4 p-4 bg-white hover:shadow-lg rounded-xl">
-            <a href="">
+            <a href="settings/contect-info">
               <div className="username flex gap-2 text-lg font-medium">
                 <UserCircleIcon className="h-7 w-7" />
-                Profile Settings
+                Contact Info
               </div>
             </a>
           </div>
           <div className="border hover:bg-gray-50 mt-4 p-4 bg-white hover:shadow-lg rounded-xl">
-            <a href="">
+            <a href="settings/personal-info">
+              <div className="username flex gap-2 text-lg font-medium">
+                <UserIcon className="h-7 w-7" />
+                Personal Info
+              </div>
+            </a>
+          </div>
+          <div className="border hover:bg-gray-50 mt-4 p-4 bg-white hover:shadow-lg rounded-xl">
+            <a href="settings/account-preference">
               <div className="username flex gap-2 text-lg font-medium">
                 <KeyIcon className="h-7 w-7" />
-                Security Settings
+                Account Prefernces
               </div>
             </a>
           </div>
@@ -52,7 +48,23 @@ const MainSettings = () => {
             <a href="">
               <div className="username flex gap-2 text-lg font-medium">
                 <LockClosedIcon className="w-7 h-7" />
-                Privacy Settings
+                Account Security
+              </div>
+            </a>
+          </div>
+          <div className="border hover:bg-gray-50 mt-4 p-4 bg-white hover:shadow-lg rounded-xl">
+            <a href="">
+              <div className="username flex gap-2 text-lg font-medium">
+                <ShoppingBagIcon className="h-7 w-7" />
+                Payments & Subscription
+              </div>
+            </a>
+          </div>
+          <div className="border hover:bg-gray-50 mt-4 p-4 bg-white hover:shadow-lg rounded-xl">
+            <a href="">
+              <div className="username flex gap-2 text-lg font-medium">
+                <RefreshIcon className="h-7 w-7" />
+                Account Manegment
               </div>
             </a>
           </div>

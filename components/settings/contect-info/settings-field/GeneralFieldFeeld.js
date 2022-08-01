@@ -1,14 +1,14 @@
 import React from "react";
 import Head from "next/head";
-import ProfileCard from "../../news-feed/profilecard/ProfileCard";
-import NewsFeedSidebar from "../../news-feed/newsfeed/sidebar/NewsFeedSidebar";
-import BlogsBottomBar from "../../news-feed/navbar/BlogsBottomBar";
-import BlogsSearch from "../../news-feed/search/BlogsSearch";
-import MobileNav from "../../news-feed/navbar/mobile-navbar/MobileNav";
-import EventsCard from "../../news-feed/eventcard/EventsCard";
-import GeneralSettings from "./GeneralSettings";
+import GeneralFields from "./GeneralFields";
+import ProfileCard from "../../../news-feed/profilecard/ProfileCard";
+import NewsFeedSidebar from "../../../news-feed/newsfeed/sidebar/NewsFeedSidebar";
+import BlogsBottomBar from "../../../news-feed/navbar/BlogsBottomBar";
+import BlogsSearch from "../../../news-feed/search/BlogsSearch";
+import MobileNav from "../../../news-feed/navbar/mobile-navbar/MobileNav";
+import EventsCard from "../../../news-feed/eventcard/EventsCard";
 
-const GeneralSettingsFeed = () => {
+const GeneralFieldFeed = () => {
   return (
     <div>
       <Head>
@@ -26,7 +26,7 @@ const GeneralSettingsFeed = () => {
               <NewsFeedSidebar />
             </div>
             <div className="h-full bg-zinc-100 md:bg-transparent lg:bg-transparent xl:bg-transparent px-4 md:px-0 lg-px-0 xl:px-0">
-              <GeneralSettings />
+              <GeneralFields />
             </div>
             <div className="w-72 hidden md:block lg:block">
               <BlogsSearch />
@@ -41,4 +41,4 @@ const GeneralSettingsFeed = () => {
   );
 };
 
-export default GeneralSettingsFeed;
+export default GeneralFieldFeed;

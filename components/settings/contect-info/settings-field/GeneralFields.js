@@ -1,6 +1,6 @@
 import React from "react";
 
-const GeneralSettings = () => {
+const GeneralFields = () => {
   return (
     <div className="mt-8">
       <div className="w-[600px] px-5 md:px-0 lg:px-0">
@@ -116,4 +116,4 @@ const GeneralSettings = () => {
   );
 };
 
-export default GeneralSettings;
+export default GeneralFields;
