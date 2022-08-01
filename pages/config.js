@@ -14,6 +14,7 @@ export const ONBOARDING_STEP_THREE_URL =
   process.env.NEXT_PUBLIC_ONBOARDING_STEP_THREE;
 export const BLOG_POST_USER_API_KEY = process.env.NEXT_PUBLIC_BLOG_POST_API;
 export const BOOKMARK_NEWSFEED_API_KEY = process.env.NEXT_PUBLIC_BOOKMARK_NEWSFEED_API;
+export const REACTION_NEWSFEED_API_KEY = process.env.NEXT_PUBLIC_REACTION_NEWSFEED_API;
 
 function Config() {
   return <></>;

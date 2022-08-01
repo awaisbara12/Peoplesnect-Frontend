@@ -22,7 +22,7 @@ import PostComments from "../comments/PostComments";
 import FilterComments from "../comments/FilterComments";
 import ReplyComments from "../comments/ReplyComments";
 import axios from "axios";
-import { BOOKMARK_NEWSFEED_API_KEY } from "../../../../pages/config";
+import { BOOKMARK_NEWSFEED_API_KEY, REACTION_NEWSFEED_API_KEY } from "../../../../pages/config";
 // import Spinner from "../../../common/Spinner";
 
 const cardDropdown = [
@@ -50,11 +50,30 @@ const cardDropdown = [
 
 const NewsFeedSingle = (singleItem) => {
   const [items, setItems] = useState(singleItem.items);
-  const [bookmark, setBookmark] = useState([]);
-  const [bookmarkCount, setBookmarkCount] = useState()
 
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
+  }
+
+  function addHeart(feedId){
+    const dataForm = new FormData();
+    dataForm.append("reactions[news_feed_id]", feedId);
+    dataForm.append("reactions[reaction_type]", "heart");
+    fetch(REACTION_NEWSFEED_API_KEY, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
+      body: dataForm,
+    })
+    .then((resp) => resp.json())
+    .then((result) => {
+      if (result) {
+        setItems(result.data)
+      }
+    })
+    .catch((err) => console.log(err));
   }
 
   function createBookmark(feedId){
@@ -100,13 +119,29 @@ const NewsFeedSingle = (singleItem) => {
     }
   }
 
+  async function deteleHeart(heartId){
+    const res = await axios(REACTION_NEWSFEED_API_KEY+"/"+heartId, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-type": "application/json; charset=utf-8",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true,
+        Authorization: authKey,
+      },
+      credentials: "same-origin",
+    });
+    const result = await res;
 
-  // if (loading)
-  //   return (
-  //     <div className="mt-8">
-  //       <Spinner />
-  //     </div>
-  //   );
+    try {
+      if (result) {
+        setItems(result.data.data)
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
 
   return (
     <>
@@ -282,12 +317,29 @@ const NewsFeedSingle = (singleItem) => {
 
           <div className="flex justify-between mt-[14px]">
             <div className="flex gap-2 items-center">
-              <HeartIcon
-                width={24}
-                height={24}
-                className="text-gray-900 cursor-pointer"
-              />
-              <span className="font-light text-gray-900">14.2k</span>
+              {(items.is_heart && items.is_heart == true) ? (
+                <>
+                  <HeartIcon
+                    width={24}
+                    height={24}
+                    className="text-gray-900 cursor-pointer"
+                    onClick={() => deteleHeart(items.heart_id)}
+                  />
+                  <span className="font-light text-gray-900">{items.reactions_count}</span>
+                </>
+              )
+              : (
+                <>
+                  <HeartIcon
+                    width={24}
+                    height={24}
+                    className="text-gray-900 cursor-pointer"
+                    onClick={() => addHeart(items.id)}
+                  />
+                  <span className="font-light text-gray-900">{items.reactions_count}</span>
+                </>
+              )
+              }
             </div>
             <div className="flex gap-2 items-center">
               <ChatAltIcon
@@ -321,7 +373,6 @@ const NewsFeedSingle = (singleItem) => {
                 </>
               )
               }
-
             </div>
           </div>
           {/* <Fragment>
