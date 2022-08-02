@@ -1,22 +1,14 @@
-import { ChevronDownIcon } from "@heroicons/react/outline";
 import React from "react";
 
-const AccountPreferences = () => {
+const AccountManagment = () => {
   return (
     <div>
       <div className="mt-8">
         <div className="w-[600px] px-5 md:px-0 lg:px-0">
           <div className="">
-            <div className="heading text-lg font-bold">Account Preference</div>
-            <div className="flex items-center justify-between border bg-white mt-4 p-4 rounded-xl">
-              <div className="">Language</div>
-              <div className="border flex gap-1 rounded-full py-2 px-4">
-                English
-                <ChevronDownIcon className="h-5 w-5" />
-              </div>
-            </div>
-            <div className="flex items-center justify-between border bg-white mt-4 px-4 py-6 rounded-xl">
-              <div className="">Autoplay Videos</div>
+            <div className="heading text-lg font-bold">Account Managment</div>
+            <div className="flex items-center justify-between border bg-white mt-4 px-4 py-5 rounded-xl">
+              <div className="">Deactivate Your Account</div>
               <div className="">
                 <label
                   htmlFor="default-toggle"
@@ -33,7 +25,7 @@ const AccountPreferences = () => {
               </div>
             </div>
             <div className="flex items-center justify-between border bg-white mt-4 px-4 py-6 rounded-xl">
-              <div className="">Cover Photo</div>
+              <div className="">Delete Your Account</div>
               <div className="flex items-center gap-4">
                 <div className="flex items-center">
                   <input
@@ -47,7 +39,7 @@ const AccountPreferences = () => {
                     htmlFor="default-radio-1"
                     className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                   >
-                    Public
+                    Temporary Deactivate
                   </label>
                 </div>
                 <div className="flex items-center">
@@ -63,15 +55,10 @@ const AccountPreferences = () => {
                     htmlFor="default-radio-2"
                     className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                   >
-                    Private
+                    Permanent Delete
                   </label>
                 </div>
               </div>
-            </div>
-            <div className="flex justify-end mt-5">
-              <button className="border-2 border-blue-500 bg-blue-500 p-2 rounded-full text-white font-bold">
-                Changes Done
-              </button>
             </div>
           </div>
         </div>
@@ -80,4 +67,4 @@ const AccountPreferences = () => {
   );
 };
 
-export default AccountPreferences;
+export default AccountManagment;

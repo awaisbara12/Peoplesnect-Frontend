@@ -2,11 +2,11 @@ import React from "react";
 import Head from "next/head";
 import ProfileCard from "../../news-feed/profilecard/ProfileCard";
 import NewsFeedSidebar from "../../news-feed/newsfeed/sidebar/NewsFeedSidebar";
-import BlogsSearch from "../../news-feed/search/BlogsSearch";
 import MobileNav from "../../news-feed/navbar/mobile-navbar/MobileNav";
 import EventsCard from "../../news-feed/eventcard/EventsCard";
 import AccountPreferences from "./AccountPreferences";
 import MobileBottomBar from "../../news-feed/navbar/MobileBottomBar";
+import NewsSearch from "../../news-feed/search/NewsSearch";
 
 const AccountPreferencesFeed = () => {
   return (
@@ -29,7 +29,7 @@ const AccountPreferencesFeed = () => {
               <AccountPreferences />
             </div>
             <div className="w-72 hidden md:block lg:block">
-              <BlogsSearch />
+              <NewsSearch />
               <ProfileCard />
               <EventsCard />
             </div>

@@ -2,17 +2,17 @@ import React from "react";
 import Head from "next/head";
 import ProfileCard from "../../news-feed/profilecard/ProfileCard";
 import NewsFeedSidebar from "../../news-feed/newsfeed/sidebar/NewsFeedSidebar";
-import BlogsSearch from "../../news-feed/search/BlogsSearch";
 import MobileNav from "../../news-feed/navbar/mobile-navbar/MobileNav";
 import EventsCard from "../../news-feed/eventcard/EventsCard";
 import PersonalInfo from "./PersonalInfo";
 import MobileBottomBar from "../../news-feed/navbar/MobileBottomBar";
+import NewsSearch from "../../news-feed/search/NewsSearch";
 
 const PersonalInfoFeed = () => {
   return (
     <div>
       <Head>
-        <title>Personal Info Setting - Peoples Nect</title>
+        <title>Personal Info - Peoples Nect</title>
         <meta name="description" content="Connect peoples proffasoinaly" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -29,7 +29,7 @@ const PersonalInfoFeed = () => {
               <PersonalInfo />
             </div>
             <div className="w-72 hidden md:block lg:block">
-              <BlogsSearch />
+              <NewsSearch />
               <ProfileCard />
               <EventsCard />
             </div>

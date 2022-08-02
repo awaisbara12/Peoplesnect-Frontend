@@ -1,18 +1,18 @@
 import React from "react";
 import Head from "next/head";
-import GeneralFields from "./GeneralFields";
-import ProfileCard from "../../../news-feed/profilecard/ProfileCard";
-import NewsFeedSidebar from "../../../news-feed/newsfeed/sidebar/NewsFeedSidebar";
-import BlogsBottomBar from "../../../news-feed/navbar/BlogsBottomBar";
-import BlogsSearch from "../../../news-feed/search/BlogsSearch";
-import MobileNav from "../../../news-feed/navbar/mobile-navbar/MobileNav";
-import EventsCard from "../../../news-feed/eventcard/EventsCard";
+import ProfileCard from "../../news-feed/profilecard/ProfileCard";
+import NewsFeedSidebar from "../../news-feed/newsfeed/sidebar/NewsFeedSidebar";
+import MobileNav from "../../news-feed/navbar/mobile-navbar/MobileNav";
+import EventsCard from "../../news-feed/eventcard/EventsCard";
+import MobileBottomBar from "../../news-feed/navbar/MobileBottomBar";
+import AccountManagment from "./AccountManagment";
+import NewsSearch from "../../news-feed/search/NewsSearch";
 
-const GeneralFieldFeed = () => {
+const AccountManagmentFeed = () => {
   return (
     <div>
       <Head>
-        <title>General Setting - Peoples Nect</title>
+        <title>Account Security - Peoples Nect</title>
         <meta name="description" content="Connect peoples proffasoinaly" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -26,19 +26,19 @@ const GeneralFieldFeed = () => {
               <NewsFeedSidebar />
             </div>
             <div className="h-full bg-zinc-100 md:bg-transparent lg:bg-transparent xl:bg-transparent px-4 md:px-0 lg-px-0 xl:px-0">
-              <GeneralFields />
+              <AccountManagment />
             </div>
             <div className="w-72 hidden md:block lg:block">
-              <BlogsSearch />
+              <NewsSearch />
               <ProfileCard />
               <EventsCard />
             </div>
           </div>
         </div>
       </div>
-      <BlogsBottomBar />
+      <MobileBottomBar />
     </div>
   );
 };
 
-export default GeneralFieldFeed;
+export default AccountManagmentFeed;
