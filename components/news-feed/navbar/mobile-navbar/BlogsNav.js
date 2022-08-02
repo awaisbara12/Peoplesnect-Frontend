@@ -12,12 +12,12 @@ import {
   UserIcon,
 } from "@heroicons/react/outline";
 import {
-  BookmarkAltIcon,
   SearchIcon,
   UserGroupIcon,
   VideoCameraIcon,
 } from "@heroicons/react/outline";
 import { Popover, Transition } from "@headlessui/react";
+import Spinner from "../../../common/Spinner";
 
 const Blogsnav = () => {
   const [open, setOpen] = useState(true);

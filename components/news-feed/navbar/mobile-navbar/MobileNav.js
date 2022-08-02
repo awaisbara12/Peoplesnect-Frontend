@@ -16,6 +16,7 @@ import {
   UserGroupIcon,
   VideoCameraIcon,
 } from "@heroicons/react/outline";
+import Spinner from "../../../common/Spinner";
 
 const MobileNav = () => {
   const [open, setOpen] = useState(true);
