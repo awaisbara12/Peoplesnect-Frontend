@@ -18,6 +18,7 @@ import {
   VideoCameraIcon,
 } from "@heroicons/react/outline";
 import { Popover, Transition } from "@headlessui/react";
+import Spinner from "../../../common/Spinner";
 
 const JobsNav = () => {
   const [open, setOpen] = useState(true);

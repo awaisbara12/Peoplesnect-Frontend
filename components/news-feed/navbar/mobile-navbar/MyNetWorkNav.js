@@ -16,6 +16,7 @@ import {
   UserGroupIcon,
   VideoCameraIcon,
 } from "@heroicons/react/outline";
+import Spinner from "../../../common/Spinner";
 const MyNetWorkNav = () => {
   const [open, setOpen] = useState(true);
 
