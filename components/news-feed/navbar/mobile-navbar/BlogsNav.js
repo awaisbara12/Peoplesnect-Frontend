@@ -19,10 +19,10 @@ import {
 } from "@heroicons/react/outline";
 import { Popover, Transition } from "@headlessui/react";
 
-const BlogsNav = () => {
+const Blogsnav = () => {
   const [open, setOpen] = useState(true);
   return (
-    <div className="block sticky top-10 lg:hidden md:hidden">
+    <div className="block lg:hidden md:hidden">
       <div className="flex justify-between w-[625px] mx-auto h-14 items-center bg-white rounded-b-2xl px-4">
         <div className="flex items-center gap-4">
           <div className="">
@@ -42,7 +42,7 @@ const BlogsNav = () => {
             </span>
             <input
               className="placeholder:text-slate-400 bg-zinc-100 placeholder:text-xl w-48 h-7 rounded-full py-2 border-none pl-10"
-              placeholder="Search Article"
+              placeholder="Search Blogs"
               type="text"
               name="search"
             />
@@ -59,8 +59,8 @@ const BlogsNav = () => {
           />
           <div
             className={`${
-              open ? "w-56" : "w-0"
-            } absolute h-screen right-0 z-50 overflow-hidden duration-500 rounded-xl bg-white`}
+              open ? "w-0" : "w-96"
+            } absolute h-screen z-50 right-0 overflow-hidden duration-500 rounded-xl bg-white`}
           >
             <div className="p-5">
               <div>
@@ -68,14 +68,6 @@ const BlogsNav = () => {
                   <a className="flex items-center mb-10 gap-2">
                     <UserIcon className="h-7 w-7" />
                     <div className="font-bold">Profile</div>
-                  </a>
-                </Link>
-              </div>
-              <div>
-                <Link href="">
-                  <a className="flex items-center mb-10 gap-2">
-                    <CogIcon className="h-7 w-7" />
-                    <div className="font-bold">Setting</div>
                   </a>
                 </Link>
               </div>
@@ -110,19 +102,27 @@ const BlogsNav = () => {
                     <div className="font-bold">Hashtags</div>
                   </a>
                 </Link>
-                <div className="flex gap-2">
-                  {signout ? (
-                    <a
-                      onClick={() => signout()}
-                      className="flex gap-2 cursor-pointer"
-                    >
-                      <LogoutIcon className="h-5 w-5" />
-                      <div className="font-bold">SignOut</div>
-                    </a>
-                  ) : (
-                    <Spinner />
-                  )}
-                </div>
+              </div>
+              <div>
+                <Link href="/settings">
+                  <a className="flex items-center mb-10 gap-2">
+                    <CogIcon className="h-7 w-7" />
+                    <div className="font-bold">Setting</div>
+                  </a>
+                </Link>
+              </div>
+              <div className="flex gap-2">
+                {signout ? (
+                  <a
+                    onClick={() => signout()}
+                    className="flex gap-2 cursor-pointer"
+                  >
+                    <LogoutIcon className="h-5 w-5" />
+                    <div className="font-bold">SignOut</div>
+                  </a>
+                ) : (
+                  <Spinner />
+                )}
               </div>
             </div>
           </div>
@@ -132,4 +132,4 @@ const BlogsNav = () => {
   );
 };
 
-export default BlogsNav;
+export default Blogsnav;

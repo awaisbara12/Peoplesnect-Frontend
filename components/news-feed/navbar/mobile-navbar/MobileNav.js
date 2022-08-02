@@ -12,12 +12,10 @@ import {
   UserIcon,
 } from "@heroicons/react/outline";
 import {
-  BookmarkAltIcon,
   SearchIcon,
   UserGroupIcon,
   VideoCameraIcon,
 } from "@heroicons/react/outline";
-import { Popover, Transition } from "@headlessui/react";
 
 const MobileNav = () => {
   const [open, setOpen] = useState(true);
@@ -59,7 +57,7 @@ const MobileNav = () => {
           />
           <div
             className={`${
-              open ? "w-56" : "w-0"
+              open ? "w-0" : "w-96"
             } absolute h-screen z-50 right-0 overflow-hidden duration-500 rounded-xl bg-white`}
           >
             <div className="p-5">
@@ -68,14 +66,6 @@ const MobileNav = () => {
                   <a className="flex items-center mb-10 gap-2">
                     <UserIcon className="h-7 w-7" />
                     <div className="font-bold">Profile</div>
-                  </a>
-                </Link>
-              </div>
-              <div>
-                <Link href="">
-                  <a className="flex items-center mb-10 gap-2">
-                    <CogIcon className="h-7 w-7" />
-                    <div className="font-bold">Setting</div>
                   </a>
                 </Link>
               </div>
@@ -110,19 +100,27 @@ const MobileNav = () => {
                     <div className="font-bold">Hashtags</div>
                   </a>
                 </Link>
-                <div className="flex gap-2">
-                  {signout ? (
-                    <a
-                      onClick={() => signout()}
-                      className="flex gap-2 cursor-pointer"
-                    >
-                      <LogoutIcon className="h-5 w-5" />
-                      <div className="font-bold">SignOut</div>
-                    </a>
-                  ) : (
-                    <Spinner />
-                  )}
-                </div>
+              </div>
+              <div>
+                <Link href="/settings">
+                  <a className="flex items-center mb-10 gap-2">
+                    <CogIcon className="h-7 w-7" />
+                    <div className="font-bold">Setting</div>
+                  </a>
+                </Link>
+              </div>
+              <div className="flex gap-2">
+                {signout ? (
+                  <a
+                    onClick={() => signout()}
+                    className="flex gap-2 cursor-pointer"
+                  >
+                    <LogoutIcon className="h-5 w-5" />
+                    <div className="font-bold">SignOut</div>
+                  </a>
+                ) : (
+                  <Spinner />
+                )}
               </div>
             </div>
           </div>
