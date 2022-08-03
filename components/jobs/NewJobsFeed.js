@@ -13,7 +13,7 @@ const NewJobsFeed = () => {
   return (
     <div>
       <Head>
-        <title>My Network - Peoples Nect</title>
+        <title>Jobs - Peoples Nect</title>
         <meta name="description" content="Connect peoples proffasoinaly" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

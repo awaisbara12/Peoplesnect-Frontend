@@ -1,18 +1,18 @@
 import React from "react";
 import Head from "next/head";
-import ProfileCard from "../news-feed/profilecard/ProfileCard";
-import NewsFeedSidebar from "../news-feed/newsfeed/sidebar/NewsFeedSidebar";
-import MobileBottomBar from "../news-feed/navbar/MobileBottomBar";
-import MobileNav from "../news-feed/navbar/mobile-navbar/MobileNav";
-import MainSettings from "./MainSettings";
-import EventsCard from "../news-feed/eventcard/EventsCard";
-import NewsSearch from "../news-feed/search/NewsSearch";
+import ProfileCard from "../../news-feed/profilecard/ProfileCard";
+import NewsFeedSidebar from "../../news-feed/newsfeed/sidebar/NewsFeedSidebar";
+import MobileNav from "../../news-feed/navbar/mobile-navbar/MobileNav";
+import EventsCard from "../../news-feed/eventcard/EventsCard";
+import MobileBottomBar from "../../news-feed/navbar/MobileBottomBar";
+import NewsSearch from "../../news-feed/search/NewsSearch";
+import PaymentSubscriptions from "./PaymentSubscriptions";
 
-const SettingFeed = () => {
+const PaymentSubscriptionFeed = () => {
   return (
     <div>
       <Head>
-        <title>Setting - Peoples Nect</title>
+        <title>Payment & Subscription - Peoples Nect</title>
         <meta name="description" content="Connect peoples proffasoinaly" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -26,7 +26,7 @@ const SettingFeed = () => {
               <NewsFeedSidebar />
             </div>
             <div className="h-full bg-zinc-100 md:bg-transparent lg:bg-transparent xl:bg-transparent px-4 md:px-0 lg-px-0 xl:px-0">
-              <MainSettings />
+              <PaymentSubscriptions />
             </div>
             <div className="w-72 hidden md:block lg:block">
               <NewsSearch />
@@ -41,4 +41,4 @@ const SettingFeed = () => {
   );
 };
 
-export default SettingFeed;
+export default PaymentSubscriptionFeed;

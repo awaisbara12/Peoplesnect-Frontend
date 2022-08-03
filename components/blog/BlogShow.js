@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router";
 import { PencilIcon, TrashIcon } from "@heroicons/react/outline";
 import { ChevronRightIcon } from "@heroicons/react/solid";
 import ProfileAvatar from "../../public/images/profile-avatar.png";
@@ -11,18 +11,18 @@ import { BLOG_POST_USER_API_KEY } from "/pages/config";
 
 function BlogShow() {
   const [loading, setLoading] = useState(true);
-  const [list, setList] = useState([])
-  const router = useRouter()
-  const { id } = router.query
+  const [list, setList] = useState([]);
+  const router = useRouter();
+  const { id } = router.query;
 
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
   }
 
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
     const getBlogs = async () => {
-      const res = await axios(BLOG_POST_USER_API_KEY+'/'+id, {
+      const res = await axios(BLOG_POST_USER_API_KEY + "/" + id, {
         method: "GET",
         headers: {
           Accept: "application/json",
@@ -39,13 +39,12 @@ function BlogShow() {
         if (result.status == 200) {
           setList(result.data);
         }
-      } catch (error) {
-      }
+      } catch (error) {}
       setLoading(false);
       return result;
     };
     getBlogs();
-  }, [id])
+  }, [id]);
 
   if (loading)
     return (
@@ -61,7 +60,7 @@ function BlogShow() {
           <div className="">
             <Link href="/">
               <a>
-                {list.data.photos_link &&
+                {list.data.photos_link && (
                   <img
                     className="object-cover rounded-t-lg"
                     src={list.data.photos_link[0]}
@@ -69,22 +68,18 @@ function BlogShow() {
                     height={500}
                     alt=""
                   />
-                }
+                )}
               </a>
             </Link>
           </div>
         </div>
         <div className=" details p-10">
           <div className="heading text-2xl font-bold">{list.data.title}</div>
-          <div className="caption text-lg mt-4">
-            {list.data.description}
-          </div>
+          <div className="caption text-lg mt-4">{list.data.description}</div>
         </div>
       </div>
       <div className="comment-section mt-18">
-        <div className="comments-heading text-4xl font-bold">
-          Comments
-        </div>
+        <div className="comments-heading text-4xl font-bold">Comments</div>
         <div className="bg-white rounded-xl my-8 p-4">
           <div className="comments">
             <div className="">
@@ -115,10 +110,10 @@ function BlogShow() {
               <div className="comment pl-14 text-sm">
                 If youre like me, you are probably tired of and confused by
                 reading and listening to different opinions about the metaverse
-                these days. From Facebook changing their name to Meta to
-                Disneys CEO saying that Disney+ will be their own metaverse as
-                well as Microsoft paying 70 billion dollars for Activision as
-                part of their metaverse strategy, the list of big tech and media
+                these days. From Facebook changing their name to Meta to Disneys
+                CEO saying that Disney+ will be their own metaverse as well as
+                Microsoft paying 70 billion dollars for Activision as part of
+                their metaverse strategy, the list of big tech and media
                 companies investing billions of dollars in the metaverse
                 category continues to grow exponentially. So what is the
                 metaverse? Today,

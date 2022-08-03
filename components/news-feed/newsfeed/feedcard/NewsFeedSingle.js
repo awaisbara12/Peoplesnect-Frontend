@@ -245,12 +245,12 @@ const NewsFeedSingle = (singleItem) => {
                 <div className="flex justify-between items-center">
                   <div>
                     <div className="text-red-400 text-sm">
-                      <span>{items.items.event.start_time}</span>
-                      <span>-{items.items.event.end_time}</span>&nbsp;
-                      <span>{items.items.event.start_date}</span>&nbsp;
+                      <span>{items.event.start_time}</span>
+                      <span>-{items.event.end_time}</span>&nbsp;
+                      <span>{items.event.start_date}</span>&nbsp;
                     </div>
                     <div className="font-semibold text-lg">
-                      {items.items.event.name}
+                      {items.event.name}
                     </div>
                     <div className="flex items-center gap-2">
                       <CalendarIcon
@@ -259,7 +259,7 @@ const NewsFeedSingle = (singleItem) => {
                         className="text-gray-900"
                       />
                       <span className="text-gray-900 text-sm">
-                        {items.items.event.event_type}
+                        {items.event.event_type}
                       </span>
                     </div>
                     <div className="text-gray-900"></div>
@@ -375,11 +375,11 @@ const NewsFeedSingle = (singleItem) => {
               }
             </div>
           </div>
-          {/* <Fragment>
+          <Fragment>
             <PostComments />
             <FilterComments />
             <ReplyComments />
-          </Fragment> */}
+          </Fragment>
         </div>
       </div>
     </>
