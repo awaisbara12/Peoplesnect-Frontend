@@ -64,7 +64,7 @@ const MobileNav = () => {
             <div className="p-5">
               <div>
                 <Link href="">
-                  <a className="flex items-center mb-10 gap-2">
+                  <a className="flex items-center mb-8 gap-2">
                     <UserIcon className="h-7 w-7" />
                     <div className="font-bold">Profile</div>
                   </a>
@@ -72,7 +72,7 @@ const MobileNav = () => {
               </div>
               <div>
                 <Link href="">
-                  <a className="flex items-center mb-10 gap-2">
+                  <a className="flex items-center mb-8 gap-2">
                     <BookmarkIcon className="h-7 w-7" />
                     <div className="font-bold">Saved Items</div>
                   </a>
@@ -80,7 +80,7 @@ const MobileNav = () => {
               </div>
               <div>
                 <Link href="">
-                  <a className="flex items-center mb-10 gap-2">
+                  <a className="flex items-center mb-8 gap-2">
                     <UserGroupIcon className="h-7 w-7" />
                     <div className="font-bold">Groups</div>
                   </a>
@@ -88,7 +88,7 @@ const MobileNav = () => {
               </div>
               <div>
                 <Link href="">
-                  <a className="flex items-center mb-10 gap-2">
+                  <a className="flex items-center mb-8 gap-2">
                     <VideoCameraIcon className="h-7 w-7" />
                     <div className="font-bold">Pages</div>
                   </a>
@@ -96,7 +96,7 @@ const MobileNav = () => {
               </div>
               <div>
                 <Link href="">
-                  <a className="flex items-center mb-10 gap-2">
+                  <a className="flex items-center mb-8 gap-2">
                     <HashtagIcon className="h-7 w-7" />
                     <div className="font-bold">Hashtags</div>
                   </a>
@@ -104,7 +104,7 @@ const MobileNav = () => {
               </div>
               <div>
                 <Link href="/settings">
-                  <a className="flex items-center mb-10 gap-2">
+                  <a className="flex items-center mb-8 gap-2">
                     <CogIcon className="h-7 w-7" />
                     <div className="font-bold">Setting</div>
                   </a>

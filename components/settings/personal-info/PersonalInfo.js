@@ -9,18 +9,18 @@ const PersonalInfo = () => {
             <div className="heading text-lg font-bold">
               Personal Information
             </div>
-            <div className="border bg-white mt-4 p-10 rounded-xl">
+            <div className="border items-center bg-white mt-4 p-10 rounded-xl">
               <div className="grid grid-cols-3 mt-5">
                 <div className="text-lg font-medium">Name:</div>
                 <div className="flex gap-7">
                   <input
-                    className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-44 placeholder:pl-2 rounded-full placeholder:py-2"
+                    className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-44 xs:w-auto placeholder:pl-2 rounded-full placeholder:py-2"
                     placeholder="First Name"
                     type="text"
                     name="search"
                   />
                   <input
-                    className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-44 placeholder:pl-2 rounded-full placeholder:py-2"
+                    className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-44 xs:w-auto placeholder:pl-2 rounded-full placeholder:py-2"
                     placeholder="Last Name"
                     type="text"
                     name="search"
@@ -31,13 +31,13 @@ const PersonalInfo = () => {
                 <div className="text-lg font-medium">Location:</div>
                 <div className="flex gap-7">
                   <input
-                    className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-44 placeholder:pl-2 rounded-full placeholder:py-2"
+                    className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-44 xs:w-auto placeholder:pl-2 rounded-full placeholder:py-2"
                     placeholder="Country Name"
                     type="text"
                     name="search"
                   />
                   <input
-                    className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-44 placeholder:pl-2 rounded-full placeholder:py-2"
+                    className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-44 xs:w-auto placeholder:pl-2 rounded-full placeholder:py-2"
                     placeholder="City Name"
                     type="text"
                     name="search"
