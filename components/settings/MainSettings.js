@@ -53,7 +53,7 @@ const MainSettings = () => {
             </a>
           </div>
           <div className="border hover:bg-gray-50 mt-4 p-4 bg-white hover:shadow-lg rounded-xl">
-            <a href="">
+            <a href="settings/payment-subscription">
               <div className="username flex gap-2 text-lg font-medium">
                 <ShoppingBagIcon className="h-7 w-7" />
                 Payments & Subscription

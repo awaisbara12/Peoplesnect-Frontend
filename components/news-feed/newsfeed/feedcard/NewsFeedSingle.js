@@ -375,11 +375,11 @@ const NewsFeedSingle = (singleItem) => {
               }
             </div>
           </div>
-          {/* <Fragment>
+          <Fragment>
             <PostComments />
             <FilterComments />
             <ReplyComments />
-          </Fragment> */}
+          </Fragment>
         </div>
       </div>
     </>
