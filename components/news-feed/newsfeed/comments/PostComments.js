@@ -1,4 +1,8 @@
 import React, { useState, Fragment } from "react";
+import dynamic from "next/dynamic";
+import InputEmoji from "react-input-emoji";
+const Picker = dynamic(() => import("emoji-picker-react"), { ssr: false });
+
 import Image from "next/image";
 import ProfileAvatar from "../../../../public/images/profile-avatar.png";
 import {
@@ -26,6 +30,12 @@ const PostComments = () => {
   const [videoSrc, setVideoSrc] = useState([]);
   const [videoPreview, setVideoPreview] = useState();
   let [setIsOpen] = useState(false);
+
+  const [text, setText] = useState("");
+
+  function handleOnEnter(text) {
+    console.log("enter", text);
+  }
 
   const handleImagePost = (e) => {
     setPostImage(e.target.files[0]);
@@ -56,22 +66,26 @@ const PostComments = () => {
   return (
     <Fragment>
       <div className="relative w-full mt-[14px]">
-        <input
-          type="text"
-          className="w-full h-12 placeholder-slate-400 bg-zinc-100 rounded-full border-0 pl-14"
-          placeholder="Your comment"
-        />
-        <div className="absolute top-1 left-2">
+        <div className="w-10/12 ml-10">
+          <InputEmoji
+            type="text"
+            react-emoji="w-{80%}"
+            onChange={setText}
+            cleanOnEnter
+            onEnter={handleOnEnter}
+            placeholder="Your comment"
+          />
+        </div>
+        <div className="absolute top-2 left-0">
           <Image src={ProfileAvatar} width={34} height={34} alt="" />
         </div>
-        <div className="flex gap-1 items-center absolute top-1 right-0">
-          <EmojiHappyIcon className="w-5 h-5" />
+        <div className="flex gap-1 items-center absolute top-3.5 right-0">
           <div className="">
             <div className="relative flex items-center justify-center">
               <PhotographIcon
-                width={22}
-                height={22}
-                className={values.eventName || (videoPreview && true) ? `` : ``}
+                width={28}
+                height={28}
+                className={values.eventName || (videoPreview && true) ? `` : `text-gray-500`}
               />
               <input
                 type={values.eventName || (videoPreview && true) ? `` : `file`}
@@ -84,13 +98,13 @@ const PostComments = () => {
               />
             </div>
           </div>
-          <div className="">
-            <div className="flex gap-2">
-              <button className="bg-transparent px-1 rounded-r-full text-blue-500">
-                <PaperAirplaneIcon className="h-10 w-6 rotate-90" />
+          <a href="">
+            <div className="flex gap-2 z-50">
+              <button className="bg-transparent px-1 rounded-r-full text-gray-500 hover:text-blue-500">
+                <PaperAirplaneIcon className="h-7 w-7 rotate-90" />
               </button>
             </div>
-          </div>
+          </a>
         </div>
       </div>
     </Fragment>
