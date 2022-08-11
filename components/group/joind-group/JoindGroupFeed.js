@@ -1,17 +1,18 @@
 import React from "react";
 import Head from "next/head";
-import ProfileCard from "../news-feed/profilecard/ProfileCard";
-import NewsFeedSidebar from "../news-feed/newsfeed/sidebar/NewsFeedSidebar";
-import GroupsPage from "./GroupsPage";
-import MobileBottomBar from "../news-feed/navbar/MobileBottomBar";
-import MobileNav from "../news-feed/navbar/mobile-navbar/MobileNav";
-import NewsSearch from "../news-feed/search/NewsSearch";
+import ProfileCard from "../../news-feed/profilecard/ProfileCard";
+import NewsFeedSidebar from "../../news-feed/newsfeed/sidebar/NewsFeedSidebar";
+import MobileBottomBar from "../../news-feed/navbar/MobileBottomBar";
+import MobileNav from "../../news-feed/navbar/mobile-navbar/MobileNav";
+import NewsSearch from "../../news-feed/search/NewsSearch";
+import EventsCard from "../../news-feed/eventcard/EventsCard";
+import JoindGroup from "./JoindGroup";
 
-const GroupsPageFeed = () => {
+const JoindGroupFeed = () => {
   return (
     <div>
       <Head>
-        <title>Add Blogs - Peoples Nect</title>
+        <title>Joind Group - Peoples Nect</title>
         <meta name="description" content="Connect peoples proffasoinaly" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -25,11 +26,12 @@ const GroupsPageFeed = () => {
               <NewsFeedSidebar />
             </div>
             <div className="h-full bg-zinc-100 md:bg-transparent lg:bg-transparent xl:bg-transparent px-4 md:px-0 lg-px-0 xl:px-0">
-              <GroupsPage />
+              <JoindGroup />
             </div>
             <div className="w-72 hidden md:block lg:block">
               <NewsSearch />
               <ProfileCard />
+              <EventsCard />
             </div>
           </div>
         </div>
@@ -39,4 +41,4 @@ const GroupsPageFeed = () => {
   );
 };
 
-export default GroupsPageFeed;
+export default JoindGroupFeed;
