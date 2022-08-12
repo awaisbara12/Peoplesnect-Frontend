@@ -204,7 +204,7 @@ const AdminView = (setList, singleItem) => {
                 </a>
               </Link>
             </div>
-            <div class="absolute top-0 z-50 left-0 bg-gray-600 bg-opacity-60 w-full h-0 flex flex-col justify-center items-center opacity-0 group-hover:h-full group-hover:opacity-100 duration-1000">
+            <div className="absolute top-0 z-50 left-0 bg-gray-600 bg-opacity-60 w-full h-0 flex flex-col justify-center items-center opacity-0 group-hover:h-full group-hover:opacity-100 duration-1000">
               <div className="relative flex items-center justify-center">
                 <div className="">
                   <div className="flex cursor-pointer gap-2 items-center p-2 rounded-xl border-2 border-white text-white">
@@ -255,22 +255,28 @@ const AdminView = (setList, singleItem) => {
                   <Menu.Items className="absolute left-1/2 z-10 mt-3 w-48 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-3xl">
                     <div className="flex items-start flex-col gap-2 border-1 bg-white rounded-xl p-3">
                       <Menu.Item className="flex gap-1">
-                        <a href="/group-page/admin-view/group-members">
-                          <UserGroupIcon className="h-5 w-5" />
-                          Members
-                        </a>
+                        <Link href="/group-page/admin-view/group-members">
+                          <a>
+                            <UserGroupIcon className="h-5 w-5" />
+                            Members
+                          </a>
+                        </Link>
                       </Menu.Item>
                       <Menu.Item className="flex gap-1 mt-2">
-                        <a href="/group-page/admin-view/group-setting">
-                          <CogIcon className="w-5 h-5" />
-                          Group Settings
-                        </a>
+                        <Link href="/group-page/admin-view/group-setting">
+                          <a>
+                            <CogIcon className="w-5 h-5" />
+                            Group Settings
+                          </a>
+                        </Link>
                       </Menu.Item>
                       <Menu.Item className="flex gap-1 mt-2">
-                        <a href="/group-page/admin-view/pending-request">
-                          <UserAddIcon className="w-5 h-5" />
-                          Pending Request
-                        </a>
+                        <Link href="/group-page/admin-view/pending-request">
+                          <a>
+                            <UserAddIcon className="w-5 h-5" />
+                            Pending Request
+                          </a>
+                        </Link>
                       </Menu.Item>
                     </div>
                   </Menu.Items>

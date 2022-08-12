@@ -17,12 +17,14 @@ const GroupMembers = () => {
     <div className="mt-8">
       <div className="w-[620px] px-5 md:px-0 lg:px-0">
         <div className="bg-white p-5 hover:bg-gray-100 border rounded-xl">
-          <a href="/group-page/admin-view/group-members/group-admins">
-            <div className="flex items-center justify-between ">
-              <div className="">Group Admins</div>
-              <div className="">5</div>
-            </div>
-          </a>
+          <Link href="/group-page/admin-view/group-members/group-admins">
+            <a>
+              <div className="flex items-center justify-between ">
+                <div className="">Group Admins</div>
+                <div className="">5</div>
+              </div>
+            </a>
+          </Link>
         </div>
         <div className="bg-white rounded-xl mt-8">
           <div className="flex justify-between items-center border-b-1 p-4">
@@ -36,9 +38,11 @@ const GroupMembers = () => {
               type="text"
               name="search"
             />
-            <a href="">
-              <SearchIcon className="w-5 h-5 absolute top-3 right-3" />
-            </a>
+            <Link href="">
+              <a>
+                <SearchIcon className="w-5 h-5 absolute top-3 right-3" />
+              </a>
+            </Link>
           </div>
           <div className="border-b-1">
             <div className="request-profile flex  px-4 py-3 justify-between items-center">
