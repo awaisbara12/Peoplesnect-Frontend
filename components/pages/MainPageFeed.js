@@ -1,19 +1,18 @@
 import React from "react";
 import Head from "next/head";
-import ProfileCard from "../../../news-feed/profilecard/ProfileCard";
-import NewsFeedSidebar from "../../../news-feed/newsfeed/sidebar/NewsFeedSidebar";
-import MobileBottomBar from "../../../news-feed/navbar/MobileBottomBar";
-import MobileNav from "../../../news-feed/navbar/mobile-navbar/MobileNav";
-import NewsSearch from "../../../news-feed/search/NewsSearch";
-import EventsCard from "../../../news-feed/eventcard/EventsCard";
-import GroupMembers from "./GroupMembers";
-import GroupSearch from "../../../news-feed/search/GroupSearch";
+import ProfileCard from "../news-feed/profilecard/ProfileCard";
+import NewsFeedSidebar from "../news-feed/newsfeed/sidebar/NewsFeedSidebar";
+import MobileBottomBar from "../news-feed/navbar/MobileBottomBar";
+import MobileNav from "../news-feed/navbar/mobile-navbar/MobileNav";
+import EventsCard from "../news-feed/eventcard/EventsCard";
+import MainPage from "./MainPage";
+import PageSearch from "../news-feed/search/PageSearch";
 
-const GroupMembersFeed = () => {
+const MainPageFeed = () => {
   return (
     <div>
       <Head>
-        <title>Group Members - Peoples Nect</title>
+        <title>Suggestion - Peoples Nect</title>
         <meta name="description" content="Connect peoples proffasoinaly" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -27,10 +26,10 @@ const GroupMembersFeed = () => {
               <NewsFeedSidebar />
             </div>
             <div className="h-full bg-zinc-100 md:bg-transparent lg:bg-transparent xl:bg-transparent px-4 md:px-0 lg-px-0 xl:px-0">
-              <GroupMembers />
+              <MainPage />
             </div>
             <div className="w-72 hidden md:block lg:block">
-              <GroupSearch />
+              <PageSearch />
               <ProfileCard />
               <EventsCard />
             </div>
@@ -42,4 +41,4 @@ const GroupMembersFeed = () => {
   );
 };
 
-export default GroupMembersFeed;
+export default MainPageFeed;

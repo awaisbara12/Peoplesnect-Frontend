@@ -27,7 +27,7 @@ const EventsCard = () => {
           </div>
         </a>
       </Link>
-      <Link href="/">
+      <Link href="/page-design">
         <a>
           <div className="flex justify-between items-center px-4 mb-4 ">
             <div className="">Pages</div>

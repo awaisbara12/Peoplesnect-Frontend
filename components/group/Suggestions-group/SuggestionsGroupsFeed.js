@@ -5,8 +5,8 @@ import NewsFeedSidebar from "../../news-feed/newsfeed/sidebar/NewsFeedSidebar";
 import GroupsPage from "./SuggestionGroups";
 import MobileBottomBar from "../../news-feed/navbar/MobileBottomBar";
 import MobileNav from "../../news-feed/navbar/mobile-navbar/MobileNav";
-import NewsSearch from "../../news-feed/search/NewsSearch";
 import EventsCard from "../../news-feed/eventcard/EventsCard";
+import GroupSearch from "../../news-feed/search/GroupSearch";
 
 const SuggestionsGroupsFeed = () => {
   return (
@@ -29,7 +29,7 @@ const SuggestionsGroupsFeed = () => {
               <GroupsPage />
             </div>
             <div className="w-72 hidden md:block lg:block">
-              <NewsSearch />
+              <GroupSearch />
               <ProfileCard />
               <EventsCard />
             </div>

@@ -7,6 +7,7 @@ import MobileNav from "../../news-feed/navbar/mobile-navbar/MobileNav";
 import NewsSearch from "../../news-feed/search/NewsSearch";
 import EventsCard from "../../news-feed/eventcard/EventsCard";
 import AdminView from "./AdminView";
+import GroupSearch from "../../news-feed/search/GroupSearch";
 
 const AdminViewFeed = () => {
   return (
@@ -29,7 +30,7 @@ const AdminViewFeed = () => {
               <AdminView />
             </div>
             <div className="w-72 hidden md:block lg:block">
-              <NewsSearch />
+              <GroupSearch/>
               <ProfileCard />
               <EventsCard />
             </div>

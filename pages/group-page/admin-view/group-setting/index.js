@@ -1,6 +1,6 @@
 import React from "react";
 import PrivateRoutes from "../../../../components/auth/routes/PrivateRoutes";
-import GroupSettingsFeed from "../../../../components/group/admin-view/group-settings/GoupSettingsFeed";
+import GroupSettingsFeed from "../../../../components/group/admin-view/group-settings/GroupSettingsFeed";
 
 const index = () => {
   return (

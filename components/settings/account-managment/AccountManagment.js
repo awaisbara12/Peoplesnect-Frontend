@@ -60,7 +60,7 @@ const AccountManagment = () => {
                 </div>
               </div>
             </div>
-            <div className="flex justify-end mt-10">
+            <div className="flex justify-end mt-5">
               <button className="border-2 border-blue-500 bg-blue-500 p-2 rounded-full text-white font-bold">
                 Save Changes
               </button>

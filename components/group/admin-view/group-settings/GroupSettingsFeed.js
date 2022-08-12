@@ -7,6 +7,7 @@ import MobileNav from "../../../news-feed/navbar/mobile-navbar/MobileNav";
 import NewsSearch from "../../../news-feed/search/NewsSearch";
 import EventsCard from "../../../news-feed/eventcard/EventsCard";
 import GroupSettings from "./GroupSettings";
+import GroupSearch from "../../../news-feed/search/GroupSearch";
 
 const GroupSettingsFeed = () => {
   return (
@@ -26,10 +27,10 @@ const GroupSettingsFeed = () => {
               <NewsFeedSidebar />
             </div>
             <div className="h-full bg-zinc-100 md:bg-transparent lg:bg-transparent xl:bg-transparent px-4 md:px-0 lg-px-0 xl:px-0">
-              <GroupSettings/>
+              <GroupSettings />
             </div>
             <div className="w-72 hidden md:block lg:block">
-              <NewsSearch />
+              <GroupSearch />
               <ProfileCard />
               <EventsCard />
             </div>

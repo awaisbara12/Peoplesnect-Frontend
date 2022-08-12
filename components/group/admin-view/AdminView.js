@@ -254,25 +254,25 @@ const AdminView = (setList, singleItem) => {
                 >
                   <Menu.Items className="absolute left-1/2 z-10 mt-3 w-48 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-3xl">
                     <div className="flex items-start flex-col gap-2 border-1 bg-white rounded-xl p-3">
-                      <Menu.Item className="flex gap-1">
+                      <Menu.Item className="">
                         <Link href="/group-page/admin-view/group-members">
-                          <a>
+                          <a className="flex gap-1">
                             <UserGroupIcon className="h-5 w-5" />
                             Members
                           </a>
                         </Link>
                       </Menu.Item>
-                      <Menu.Item className="flex gap-1 mt-2">
+                      <Menu.Item className="">
                         <Link href="/group-page/admin-view/group-setting">
-                          <a>
+                          <a className="flex gap-1 mt-2">
                             <CogIcon className="w-5 h-5" />
                             Group Settings
                           </a>
                         </Link>
                       </Menu.Item>
-                      <Menu.Item className="flex gap-1 mt-2">
+                      <Menu.Item className="">
                         <Link href="/group-page/admin-view/pending-request">
-                          <a>
+                          <a className="flex gap-1 mt-2">
                             <UserAddIcon className="w-5 h-5" />
                             Pending Request
                           </a>

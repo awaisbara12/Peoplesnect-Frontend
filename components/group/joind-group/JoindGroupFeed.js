@@ -4,9 +4,9 @@ import ProfileCard from "../../news-feed/profilecard/ProfileCard";
 import NewsFeedSidebar from "../../news-feed/newsfeed/sidebar/NewsFeedSidebar";
 import MobileBottomBar from "../../news-feed/navbar/MobileBottomBar";
 import MobileNav from "../../news-feed/navbar/mobile-navbar/MobileNav";
-import NewsSearch from "../../news-feed/search/NewsSearch";
 import EventsCard from "../../news-feed/eventcard/EventsCard";
 import JoindGroup from "./JoindGroup";
+import GroupSearch from "../../news-feed/search/GroupSearch";
 
 const JoindGroupFeed = () => {
   return (
@@ -29,7 +29,7 @@ const JoindGroupFeed = () => {
               <JoindGroup />
             </div>
             <div className="w-72 hidden md:block lg:block">
-              <NewsSearch />
+              <GroupSearch/>
               <ProfileCard />
               <EventsCard />
             </div>

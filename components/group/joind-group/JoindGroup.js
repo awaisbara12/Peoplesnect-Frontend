@@ -236,12 +236,6 @@ const JoindGroup = (setList, singleItem) => {
                         </Menu.Item>
                         <Menu.Item className="flex gap-1 mt-2">
                           <a href="">
-                            <ViewGridAddIcon className="h-5 w-5" />
-                            Group Details
-                          </a>
-                        </Menu.Item>
-                        <Menu.Item className="flex gap-1 mt-2">
-                          <a href="">
                             <MailIcon className="h-5 w-5" />
                             Report
                           </a>
