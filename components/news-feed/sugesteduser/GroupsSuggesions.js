@@ -14,9 +14,9 @@ const GroupsSuggesions = () => {
   return (
     <>
       <div className="text-base font-bold leading-5">My Joind Group</div>
-      <Link href="/">
+      <Link href="/group-page/joind-group">
         <a href="">
-          <div className="px-3 py-2 hover:bg-gray-300 rounded-xl flex justify-between items-center mt-4">
+          <div className="px-3 py-2 hover:bg-gray-100 rounded-xl flex justify-between items-center mt-4">
             <div className="flex gap-2 items-center">
               <UserGroupIcon className="w-5 h-5" />
               <p className="text-base font-semibold">Group Name</p>
@@ -24,9 +24,9 @@ const GroupsSuggesions = () => {
           </div>
         </a>
       </Link>
-      <Link href="/">
+      <Link href="/group-page/joind-group">
         <a href="">
-          <div className="px-3 py-2 hover:bg-gray-300 rounded-xl flex justify-between items-center mt-4">
+          <div className="px-3 py-2 hover:bg-gray-100 rounded-xl flex justify-between items-center mt-4">
             <div className="flex gap-2 items-center">
               <UserGroupIcon className="w-5 h-5" />
               <p className="text-base font-semibold">Group Name</p>
@@ -34,9 +34,9 @@ const GroupsSuggesions = () => {
           </div>
         </a>
       </Link>
-      <Link href="/">
+      <Link href="/group-page/joind-group">
         <a href="">
-          <div className="px-3 py-2 hover:bg-gray-300 rounded-xl flex justify-between items-center mt-4">
+          <div className="px-3 py-2 hover:bg-gray-100 rounded-xl flex justify-between items-center mt-4">
             <div className="flex gap-2 items-center">
               <UserGroupIcon className="w-5 h-5" />
               <p className="text-base font-semibold">Group Name</p>
@@ -44,9 +44,10 @@ const GroupsSuggesions = () => {
           </div>
         </a>
       </Link>
-      <Link href="/">
-        <a>
-          <DotsHorizontalIcon className="h-5 w-5 mx-auto mt-5" />
+      <Link href="/group-page/new-group">
+        <a className="mt-2 flex gap-1 border bg-gray-100 justify-center rounded-full p-2">
+          <PlusIcon className="h-5 w-5" />
+          Creat New Group
         </a>
       </Link>
     </>

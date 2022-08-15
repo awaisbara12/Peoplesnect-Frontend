@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import post from "../../public/images/main-banner.jpg";
+import post from "../../../public/images/main-banner.jpg";
 import {
   BookmarkIcon,
   CalendarIcon,

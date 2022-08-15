@@ -264,7 +264,7 @@ const NewsFeedSingle = (singleItem) => {
                     </div>
                     <div className="text-gray-900"></div>
                   </div>
-                  <Link href="/event-view">
+                  <Link href="/events-design/event-view">
                   <a className="text-sm text-gray-600 cursor-pointer flex items-center border border-gray-100 rounded-full py-1 px-3">
                     View Event
                   </a>

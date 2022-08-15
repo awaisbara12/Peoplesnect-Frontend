@@ -1,11 +1,13 @@
 import React from "react";
 import Head from "next/head";
-import ProfileCard from "../news-feed/profilecard/ProfileCard";
-import NewsFeedSidebar from "../news-feed/newsfeed/sidebar/NewsFeedSidebar";
-import BlogsBottomBar from "../news-feed/navbar/BlogsBottomBar";
-import BlogsSearch from "../news-feed/search/BlogsSearch";
-import BlogsNav from "../news-feed/navbar/mobile-navbar/BlogsNav";
+import ProfileCard from "../../news-feed/profilecard/ProfileCard";
+import NewsFeedSidebar from "../../news-feed/newsfeed/sidebar/NewsFeedSidebar";
+import BlogsBottomBar from "../../news-feed/navbar/BlogsBottomBar";
+import BlogsSearch from "../../news-feed/search/BlogsSearch";
+import BlogsNav from "../../news-feed/navbar/mobile-navbar/BlogsNav";
 import EventView from "./EventView";
+import EventsSearch from "../../news-feed/search/EventsSearch";
+import EventsCard from "../../news-feed/eventcard/EventsCard";
 
 const EventViewFeed = () => {
   return (
@@ -28,8 +30,9 @@ const EventViewFeed = () => {
               <EventView />
             </div>
             <div className="w-72 hidden md:block lg:block">
-              <BlogsSearch />
+              <EventsSearch />
               <ProfileCard />
+              <EventsCard />
             </div>
           </div>
         </div>
