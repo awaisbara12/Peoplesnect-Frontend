@@ -1,16 +1,17 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import postimage from "../../../public/images/752126.jpg";
+import postimage from "../../../public/images/groupcover.jpg";
 import postimage1 from "../../../public/images/post-image.png";
 
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
-import ProfileAvatar from "../../../public/images/profile-avatar.png";
+import ProfileAvatar from "../../../public/images/brand.jpeg";
 import {
   BellIcon,
   BookmarkAltIcon,
   BookmarkIcon,
+  ChatAlt2Icon,
   CogIcon,
   DotsHorizontalIcon,
   LockClosedIcon,
@@ -50,11 +51,20 @@ import {
 } from "@heroicons/react/outline";
 import PostComments from "./PostComments";
 import FilterComments from "./FilterComments";
-import { PencilAltIcon, UserCircleIcon } from "@heroicons/react/solid";
+import {
+  PencilAltIcon,
+  ThumbUpIcon,
+  UserCircleIcon,
+} from "@heroicons/react/solid";
 
 // import Spinner from "../../../common/Spinner";
 
 const cardDropdown = [
+  {
+    name: "Edit",
+    href: "#",
+    icon: PencilAltIcon,
+  },
   {
     name: "Save",
     href: "#",
@@ -65,14 +75,9 @@ const cardDropdown = [
     href: "",
     icon: TrashIcon,
   },
-  {
-    name: "Delet And Block User",
-    href: "#",
-    icon: XIcon,
-  },
 ];
 
-const AdminView = (setList, singleItem) => {
+const PageAdmin = (setList, singleItem) => {
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
   }
@@ -225,84 +230,99 @@ const AdminView = (setList, singleItem) => {
                 />
               </div>
             </div>
+            <div className="absolute -bottom-16 left-5">
+              <Image
+                src={ProfileAvatar}
+                className="rounded-full object-cover"
+                width={85}
+                height={85}
+                alt=""
+              />
+            </div>
           </div>
-          <div className=" flex justify-between items-center p-5">
-            <div className="heading text-2xl text-blue-500 font-bold">
-              Group & Company Name
-            </div>
-            <div className="">
-              <Menu as="div" className="relative inline-block text-left">
-                <div>
-                  <Menu.Button className="">
-                    <div className="hover:bg-indigo-100 focus:bg-indigo-100 rounded-full h-8 w-8 flex items-center justify-center">
-                      <DotsHorizontalIcon
-                        className="h-5 w-5"
-                        aria-hidden="true"
-                      />
-                    </div>
-                  </Menu.Button>
-                </div>
+          <div className="p-5 pt-1">
+            <div className=" flex justify-between items-center">
+              <div className="heading ml-28 text-2xl text-blue-500 font-bold">
+                Page & Brand Name
+              </div>
+              <div className="">
+                <Menu as="div" className="relative inline-block text-left">
+                  <div>
+                    <Menu.Button className="">
+                      <div className="hover:bg-indigo-100 focus:bg-indigo-100 rounded-full h-8 w-8 flex items-center justify-center">
+                        <DotsHorizontalIcon
+                          className="h-5 w-5"
+                          aria-hidden="true"
+                        />
+                      </div>
+                    </Menu.Button>
+                  </div>
 
-                <Transition
-                  as={Fragment}
-                  enter="transition ease-out duration-200"
-                  enterFrom="opacity-0 translate-y-1"
-                  enterTo="opacity-100 translate-y-0"
-                  leave="transition ease-in duration-150"
-                  leaveFrom="opacity-100 translate-y-0"
-                  leaveTo="opacity-0 translate-y-1"
-                >
-                  <Menu.Items className="absolute left-1/2 z-10 mt-3 w-48 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-3xl">
-                    <div className="flex items-start flex-col gap-2 border-1 bg-white rounded-xl p-3">
-                      <Menu.Item className="">
-                        <Link href="/group-page/admin-view/group-members">
-                          <a className="flex gap-1">
-                            <UserGroupIcon className="h-5 w-5" />
-                            Members
-                          </a>
-                        </Link>
-                      </Menu.Item>
-                      <Menu.Item className="">
-                        <Link href="/group-page/admin-view/group-setting">
-                          <a className="flex gap-1 mt-2">
-                            <CogIcon className="w-5 h-5" />
-                            Group Settings
-                          </a>
-                        </Link>
-                      </Menu.Item>
-                      <Menu.Item className="">
-                        <Link href="/group-page/admin-view/pending-request">
-                          <a className="flex gap-1 mt-2">
-                            <UserAddIcon className="w-5 h-5" />
-                            Pending Request
-                          </a>
-                        </Link>
-                      </Menu.Item>
-                    </div>
-                  </Menu.Items>
-                </Transition>
-              </Menu>
+                  <Transition
+                    as={Fragment}
+                    enter="transition ease-out duration-200"
+                    enterFrom="opacity-0 translate-y-1"
+                    enterTo="opacity-100 translate-y-0"
+                    leave="transition ease-in duration-150"
+                    leaveFrom="opacity-100 translate-y-0"
+                    leaveTo="opacity-0 translate-y-1"
+                  >
+                    <Menu.Items className="absolute left-1/2 z-10 mt-3 w-48 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-3xl">
+                      <div className="flex items-start flex-col gap-2 border-1 bg-white rounded-xl p-3">
+                        <Menu.Item className="">
+                          <Link href="/page-design/page-admin/page-notifications">
+                            <a className="flex gap-1">
+                              <BellIcon className="h-5 w-5" />
+                              Page Notifications
+                            </a>
+                          </Link>
+                        </Menu.Item>
+                        <Menu.Item className="">
+                          <Link href="">
+                            <a className="flex gap-1 mt-2">
+                              <ChatAlt2Icon className="w-5 h-5" />
+                              Page Messages
+                            </a>
+                          </Link>
+                        </Menu.Item>
+                        <Menu.Item className="">
+                          <Link href="/page-design/page-admin/page-settings">
+                            <a className="flex gap-1 mt-2">
+                              <CogIcon className="w-5 h-5" />
+                              Page Settings
+                            </a>
+                          </Link>
+                        </Menu.Item>
+                      </div>
+                    </Menu.Items>
+                  </Transition>
+                </Menu>
+              </div>
             </div>
-            {/* <Link href="">
-              <a>
-                <div className="border border-blue-500 py-2 px-3 text-blue-500 rounded-full">
-                  Group Details
-                </div>
-              </a>
-            </Link> */}
+            <div className="Details mt-7">
+              <div className="caption mt-4 text-lg font-extralight">
+                Details About Ur Brand
+              </div>
+              <div className="font-extralight">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat
+                <a href="" className="ml-4 font-bold text-blue-500">
+                  Read More...
+                </a>
+              </div>
+              <Link href="">
+                <a className="flex gap-1 mt-2">
+                  <ThumbUpIcon className="h-5 w-5" />
+                  <div className="">14250 Liked</div>
+                </a>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
       <div className="mx-10 mt-7">
-        <div className="border hover:bg-gray-50 mt-4 p-4 bg-white hover:shadow-lg rounded-xl">
-          <a href="" className="flex justify-between text-lg font-medium">
-            <div className="username flex gap-2 items-center">
-              <UserAddIcon className="w-5 h-5" />
-              Post Request
-            </div>
-            <div className="">99+</div>
-          </a>
-        </div>
         <div className="rounded-xl mt-8 bg-white p-[22px]">
           <form onSubmit={postNewsData}>
             <div className="w-full flex justify-start gap-[22px]">
@@ -313,6 +333,7 @@ const AdminView = (setList, singleItem) => {
                   height={42}
                   placeholder="empty"
                   alt="profile-image"
+                  className="rounded-full object-cover"
                 />
               </div>
 
@@ -935,11 +956,17 @@ const AdminView = (setList, singleItem) => {
         <div className="bg-white rounded-xl">
           <div className="flex gap-2 justify-between items-center px-[22px] py-[14px]">
             <div className="flex items-center gap-4">
-              <Image src={ProfileAvatar} width={45} height={45} alt="" />
+              <Image
+                src={ProfileAvatar}
+                className="rounded-full object-cover"
+                width={45}
+                height={45}
+                alt=""
+              />
               <div className="">
                 <div className="flex gap-2">
                   <a href="">
-                    <div className="User-name font-bold">Ibrar Zahid</div>
+                    <div className="User-name font-bold">Page & Brand Name</div>
                   </a>
                   <div className="details font-extralight">
                     Upload a new post
@@ -1042,4 +1069,4 @@ const AdminView = (setList, singleItem) => {
   );
 };
 
-export default AdminView;
+export default PageAdmin;

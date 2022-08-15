@@ -1,23 +1,20 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import postimage from "../../../public/images/752126.jpg";
+import postimage from "../../../public/images/pagecover.jpg";
 import postimage1 from "../../../public/images/post-image.png";
 
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
-import ProfileAvatar from "../../../public/images/profile-avatar.png";
+import ProfileAvatar from "../../../public/images/brand.jpeg";
+import Profileuser from "../../../public/images/profile-avatar.png";
+
 import {
   BellIcon,
-  BookmarkAltIcon,
   BookmarkIcon,
-  CogIcon,
   DotsHorizontalIcon,
-  LockClosedIcon,
   LogoutIcon,
   MailIcon,
-  UserAddIcon,
-  UserGroupIcon,
 } from "@heroicons/react/outline";
 import { Popover } from "@headlessui/react";
 
@@ -45,34 +42,32 @@ import {
   GlobeIcon,
   HeartIcon,
   ChatAltIcon,
-  ShareIcon,
   DocumentReportIcon,
 } from "@heroicons/react/outline";
 import PostComments from "./PostComments";
 import FilterComments from "./FilterComments";
-import { PencilAltIcon, UserCircleIcon } from "@heroicons/react/solid";
+import {
+  ThumbDownIcon,
+  ThumbUpIcon,
+  UserCircleIcon,
+} from "@heroicons/react/solid";
 
 // import Spinner from "../../../common/Spinner";
 
 const cardDropdown = [
   {
+    name: "Turn Off Notifications",
+    href: "",
+    icon: BellIcon,
+  },
+  {
     name: "Save",
     href: "#",
     icon: BookmarkIcon,
   },
-  {
-    name: "Delet Post",
-    href: "",
-    icon: TrashIcon,
-  },
-  {
-    name: "Delet And Block User",
-    href: "#",
-    icon: XIcon,
-  },
 ];
 
-const AdminView = (setList, singleItem) => {
+const LikedPages = (setList, singleItem) => {
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
   }
@@ -190,125 +185,120 @@ const AdminView = (setList, singleItem) => {
     <div className="mt-8">
       <div className="px-10 w-[620px] xl:w-full">
         <div className="blogs bg-white rounded-xl">
-          <div className="group relative w-full">
-            <div className="">
-              <Link href="/">
-                <a>
-                  <Image
-                    src={postimage}
-                    className="object-cover rounded-xl"
-                    width={750}
-                    height={250}
-                    alt=""
-                  />
-                </a>
-              </Link>
-            </div>
-            <div className="absolute top-0 z-50 left-0 bg-gray-600 bg-opacity-60 w-full h-0 flex flex-col justify-center items-center opacity-0 group-hover:h-full group-hover:opacity-100 duration-1000">
-              <div className="relative flex items-center justify-center">
-                <div className="">
-                  <div className="flex cursor-pointer gap-2 items-center p-2 rounded-xl border-2 border-white text-white">
-                    <PhotographIcon width={22} height={22} />
-                    Change Cover Photo
-                  </div>
-                </div>
-                <input
-                  type={
-                    values.eventName || (videoPreview && true) ? `` : `file`
-                  }
-                  name="image"
-                  id="image"
-                  className="opacity-0 absolute w-6 h-6 -z-0"
-                  onChange={handleImagePost}
-                  title={""}
-                  multiple
+          <div className="image relative">
+            <Link href="/">
+              <a>
+                <Image
+                  src={postimage}
+                  className="object-cover rounded-xl"
+                  width={750}
+                  height={250}
+                  alt=""
                 />
-              </div>
+              </a>
+            </Link>
+            <div className="absolute -bottom-16 left-5">
+              <Image
+                src={ProfileAvatar}
+                className="rounded-full object-cover"
+                width={85}
+                height={85}
+                alt=""
+              />
             </div>
           </div>
-          <div className=" flex justify-between items-center p-5">
-            <div className="heading text-2xl text-blue-500 font-bold">
-              Group & Company Name
-            </div>
-            <div className="">
-              <Menu as="div" className="relative inline-block text-left">
-                <div>
-                  <Menu.Button className="">
-                    <div className="hover:bg-indigo-100 focus:bg-indigo-100 rounded-full h-8 w-8 flex items-center justify-center">
-                      <DotsHorizontalIcon
-                        className="h-5 w-5"
-                        aria-hidden="true"
-                      />
-                    </div>
-                  </Menu.Button>
-                </div>
+          <div className="p-5 pt-1">
+            <div className=" flex justify-between items-center">
+              <div className="heading ml-28 text-2xl text-blue-500 font-bold">
+                Page And Brand Name
+              </div>
 
-                <Transition
-                  as={Fragment}
-                  enter="transition ease-out duration-200"
-                  enterFrom="opacity-0 translate-y-1"
-                  enterTo="opacity-100 translate-y-0"
-                  leave="transition ease-in duration-150"
-                  leaveFrom="opacity-100 translate-y-0"
-                  leaveTo="opacity-0 translate-y-1"
-                >
-                  <Menu.Items className="absolute left-1/2 z-10 mt-3 w-48 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-3xl">
-                    <div className="flex items-start flex-col gap-2 border-1 bg-white rounded-xl p-3">
-                      <Menu.Item className="">
-                        <Link href="/group-page/admin-view/group-members">
-                          <a className="flex gap-1">
-                            <UserGroupIcon className="h-5 w-5" />
-                            Members
+              <div className="">
+                <Menu as="div" className="relative inline-block text-left">
+                  <div>
+                    <Menu.Button className="">
+                      <div className="hover:bg-indigo-100 focus:bg-indigo-100 rounded-full h-8 w-8 flex items-center justify-center">
+                        <DotsHorizontalIcon
+                          className="h-5 w-5"
+                          aria-hidden="true"
+                        />
+                      </div>
+                    </Menu.Button>
+                  </div>
+
+                  <Transition
+                    as={Fragment}
+                    enter="transition ease-out duration-200"
+                    enterFrom="opacity-0 translate-y-1"
+                    enterTo="opacity-100 translate-y-0"
+                    leave="transition ease-in duration-150"
+                    leaveFrom="opacity-100 translate-y-0"
+                    leaveTo="opacity-0 translate-y-1"
+                  >
+                    <Menu.Items className="absolute left-1/2 z-10 mt-3 w-48 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-3xl">
+                      <div className="flex items-start flex-col gap-2 border-1 bg-white rounded-xl p-3">
+                        <Menu.Item className="flex gap-1">
+                          <a href="">
+                            <BellIcon className="w-5 h-5" />
+                            Notifications
                           </a>
-                        </Link>
-                      </Menu.Item>
-                      <Menu.Item className="">
-                        <Link href="/group-page/admin-view/group-setting">
-                          <a className="flex gap-1 mt-2">
-                            <CogIcon className="w-5 h-5" />
-                            Group Settings
+                        </Menu.Item>
+                        <Menu.Item className="flex gap-1 mt-2">
+                          <a href="">
+                            <MailIcon className="h-5 w-5" />
+                            Report
                           </a>
-                        </Link>
-                      </Menu.Item>
-                      <Menu.Item className="">
-                        <Link href="/group-page/admin-view/pending-request">
-                          <a className="flex gap-1 mt-2">
-                            <UserAddIcon className="w-5 h-5" />
-                            Pending Request
+                        </Menu.Item>
+                        <Menu.Item className="flex gap-1 mt-2">
+                          <a href="">
+                            <ThumbDownIcon className="h-5 w-5" />
+                            Unlike
                           </a>
-                        </Link>
-                      </Menu.Item>
-                    </div>
-                  </Menu.Items>
-                </Transition>
-              </Menu>
+                        </Menu.Item>
+                        <Menu.Item className="flex gap-1 mt-2">
+                          <Link href="page-admin">
+                            <a className="flex gap-1 mt-2">
+                              <UserCircleIcon className="h-5 w-5" />
+                              View As Admin
+                            </a>
+                          </Link>
+                        </Menu.Item>
+                      </div>
+                    </Menu.Items>
+                  </Transition>
+                </Menu>
+              </div>
             </div>
-            {/* <Link href="">
-              <a>
-                <div className="border border-blue-500 py-2 px-3 text-blue-500 rounded-full">
-                  Group Details
-                </div>
-              </a>
-            </Link> */}
+            <div className="Details">
+              <Link href="">
+                <a className="flex gap-1 mt-2 ml-28">
+                  <ThumbUpIcon className="h-5 w-5" />
+                  <div className="">14250 Liked</div>
+                </a>
+              </Link>
+              <div className="caption mt-4 text-lg font-extralight">
+                Details About Ur Brand
+              </div>
+              <div className="font-extralight">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat
+                <a href="" className="ml-4 font-bold text-blue-500">
+                  Read More...
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
       <div className="mx-10 mt-7">
-        <div className="border hover:bg-gray-50 mt-4 p-4 bg-white hover:shadow-lg rounded-xl">
-          <a href="" className="flex justify-between text-lg font-medium">
-            <div className="username flex gap-2 items-center">
-              <UserAddIcon className="w-5 h-5" />
-              Post Request
-            </div>
-            <div className="">99+</div>
-          </a>
-        </div>
-        <div className="rounded-xl mt-8 bg-white p-[22px]">
+        <div className="rounded-xl bg-white p-[22px]">
           <form onSubmit={postNewsData}>
             <div className="w-full flex justify-start gap-[22px]">
               <div className="w-[42px] h-[42px]">
                 <Image
-                  src={ProfileAvatar}
+                  src={Profileuser}
                   width={42}
                   height={42}
                   placeholder="empty"
@@ -322,7 +312,7 @@ const AdminView = (setList, singleItem) => {
                 value={postText}
                 onChange={(e) => setPostText(e.target.value)}
                 className="w-full pt-0 resize-none border-0 px-0 text-base overflow-y-hidden outline-none focus:outline focus:ring-0"
-                placeholder="Start a post?"
+                placeholder="Want To send Anything To Admin?"
               ></textarea>
             </div>
 
@@ -503,11 +493,11 @@ const AdminView = (setList, singleItem) => {
               <button
                 disabled={postText == 0 ? true : false}
                 type="submit"
-                className={`w-[100px] h-8 rounded-full flex gap-1 items-center justify-center bg-indigo-400 text-white cursor-pointer ${
+                className={`w-[150px] h-10 rounded-full flex gap-1 items-center justify-center bg-indigo-400 text-white cursor-pointer ${
                   postText == 0 ? `bg-indigo-200` : ``
                 }`}
               >
-                {loading ? <Spinner /> : "Post It"}
+                {loading ? <Spinner /> : "Send to Company"}
               </button>
             </div>
           </form>
@@ -935,11 +925,19 @@ const AdminView = (setList, singleItem) => {
         <div className="bg-white rounded-xl">
           <div className="flex gap-2 justify-between items-center px-[22px] py-[14px]">
             <div className="flex items-center gap-4">
-              <Image src={ProfileAvatar} width={45} height={45} alt="" />
+              <Image
+                src={ProfileAvatar}
+                className="rounded-full object-cover"
+                width={45}
+                height={45}
+                alt=""
+              />
               <div className="">
                 <div className="flex gap-2">
                   <a href="">
-                    <div className="User-name font-bold">Ibrar Zahid</div>
+                    <div className="User-name font-bold">
+                      Page OR Brand Name
+                    </div>
                   </a>
                   <div className="details font-extralight">
                     Upload a new post
@@ -1042,4 +1040,4 @@ const AdminView = (setList, singleItem) => {
   );
 };
 
-export default AdminView;
+export default LikedPages;
