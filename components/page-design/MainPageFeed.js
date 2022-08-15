@@ -7,12 +7,13 @@ import MobileNav from "../news-feed/navbar/mobile-navbar/MobileNav";
 import EventsCard from "../news-feed/eventcard/EventsCard";
 import MainPage from "./MainPage";
 import PageSearch from "../news-feed/search/PageSearch";
+import PageSidebar from "../news-feed/newsfeed/sidebar/PageSidebar";
 
 const MainPageFeed = () => {
   return (
     <div>
       <Head>
-        <title>Suggestion - Peoples Nect</title>
+        <title>Pages - Peoples Nect</title>
         <meta name="description" content="Connect peoples proffasoinaly" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -23,7 +24,7 @@ const MainPageFeed = () => {
           </div>
           <div className="flex xl:px-0 lg:px-4 md:px-8 sm:px-0 gap-[65px] lg:gap-6 md:gap-4 justify-between">
             <div className="hidden md:block lg:block">
-              <NewsFeedSidebar />
+              <PageSidebar />
             </div>
             <div className="h-full bg-zinc-100 md:bg-transparent lg:bg-transparent xl:bg-transparent px-4 md:px-0 lg-px-0 xl:px-0">
               <MainPage />

@@ -1,13 +1,12 @@
 import React from "react";
 import Head from "next/head";
 import ProfileCard from "../../news-feed/profilecard/ProfileCard";
-import NewsFeedSidebar from "../../news-feed/newsfeed/sidebar/NewsFeedSidebar";
 import MobileBottomBar from "../../news-feed/navbar/MobileBottomBar";
 import MobileNav from "../../news-feed/navbar/mobile-navbar/MobileNav";
-import NewsSearch from "../../news-feed/search/NewsSearch";
 import EventsCard from "../../news-feed/eventcard/EventsCard";
 import AdminView from "./AdminView";
 import GroupSearch from "../../news-feed/search/GroupSearch";
+import GroupsSidebar from "../../news-feed/newsfeed/sidebar/GroupsSidebar";
 
 const AdminViewFeed = () => {
   return (
@@ -24,13 +23,13 @@ const AdminViewFeed = () => {
           </div>
           <div className="flex xl:px-0 lg:px-4 md:px-8 sm:px-0 gap-[65px] lg:gap-6 md:gap-4 justify-between">
             <div className="hidden md:block lg:block">
-              <NewsFeedSidebar />
+              <GroupsSidebar />
             </div>
             <div className="h-full bg-zinc-100 md:bg-transparent lg:bg-transparent xl:bg-transparent px-4 md:px-0 lg-px-0 xl:px-0">
               <AdminView />
             </div>
             <div className="w-72 hidden md:block lg:block">
-              <GroupSearch/>
+              <GroupSearch />
               <ProfileCard />
               <EventsCard />
             </div>

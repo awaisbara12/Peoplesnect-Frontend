@@ -22,7 +22,7 @@ const MainPage = () => {
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 md:grid-cols-2">
             <div className="profile mt-10 border rounded-xl">
               <div className="relative cover">
-                <Link href="group-page/joind-group">
+                <Link href="page-design/liked-pages">
                   <a>
                     <Image
                       className="object-cover rounded-t-xl"
@@ -34,7 +34,7 @@ const MainPage = () => {
                   </a>
                 </Link>
                 <div className="absolute -bottom-10 left-2">
-                  <Link href="group-page/joind-group">
+                  <Link href="page-design/liked-pages">
                     <a>
                       <Image
                         className="object-cover"
@@ -65,7 +65,7 @@ const MainPage = () => {
                   25,964 Liked
                 </div>
                 <div className="float-right">
-                  <a href="group-page/joind-group">
+                  <a href="page-design/liked-pages">
                     <button className="px-2 bg-blue-500 text-white rounded-xl py-2 hover:text-blue-500 hover:bg-transparent  border-1 border-blue-500 mt-2 mb-4">
                       Show Page
                     </button>
@@ -75,7 +75,7 @@ const MainPage = () => {
             </div>
             <div className="profile mt-10 border rounded-xl">
               <div className="relative cover">
-                <Link href="group-page/joind-group">
+                <Link href="page-design/liked-pages">
                   <a>
                     <Image
                       className="object-cover rounded-t-xl"
@@ -87,7 +87,7 @@ const MainPage = () => {
                   </a>
                 </Link>
                 <div className="absolute -bottom-10 left-2">
-                  <Link href="group-page/joind-group">
+                  <Link href="page-design/liked-pages">
                     <a>
                       <Image
                         className="object-cover"
@@ -118,7 +118,7 @@ const MainPage = () => {
                   25,964 Liked
                 </div>
                 <div className="float-right">
-                  <a href="group-page/joind-group">
+                  <a href="page-design/liked-pages">
                     <button className="px-2 bg-blue-500 text-white rounded-xl py-2 hover:text-blue-500 hover:bg-transparent  border-1 border-blue-500 mt-2 mb-4">
                       Show Page
                     </button>
@@ -128,7 +128,7 @@ const MainPage = () => {
             </div>
             <div className="profile mt-10 border rounded-xl">
               <div className="relative cover">
-                <Link href="group-page/joind-group">
+                <Link href="page-design/liked-pages">
                   <a>
                     <Image
                       className="object-cover rounded-t-xl"
@@ -140,7 +140,7 @@ const MainPage = () => {
                   </a>
                 </Link>
                 <div className="absolute -bottom-10 left-2">
-                  <Link href="group-page/joind-group">
+                  <Link href="page-design/liked-pages">
                     <a>
                       <Image
                         className="object-cover"
@@ -171,7 +171,7 @@ const MainPage = () => {
                   25,964 Liked
                 </div>
                 <div className="float-right">
-                  <a href="group-page/joind-group">
+                  <a href="page-design/liked-pages">
                     <button className="px-2 bg-blue-500 text-white rounded-xl py-2 hover:text-blue-500 hover:bg-transparent  border-1 border-blue-500 mt-2 mb-4">
                       Show Page
                     </button>
@@ -181,7 +181,7 @@ const MainPage = () => {
             </div>
             <div className="profile mt-10 border rounded-xl">
               <div className="relative cover">
-                <Link href="group-page/joind-group">
+                <Link href="page-design/liked-pages">
                   <a>
                     <Image
                       className="object-cover rounded-t-xl"
@@ -193,7 +193,7 @@ const MainPage = () => {
                   </a>
                 </Link>
                 <div className="absolute -bottom-10 left-2">
-                  <Link href="group-page/joind-group">
+                  <Link href="page-design/liked-pages">
                     <a>
                       <Image
                         className="object-cover"
@@ -224,7 +224,7 @@ const MainPage = () => {
                   25,964 Liked
                 </div>
                 <div className="float-right">
-                  <a href="group-page/joind-group">
+                  <a href="page-design/liked-pages">
                     <button className="px-2 bg-blue-500 text-white rounded-xl py-2 hover:text-blue-500 hover:bg-transparent  border-1 border-blue-500 mt-2 mb-4">
                       Show Page
                     </button>
@@ -247,7 +247,7 @@ const MainPage = () => {
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 md:grid-cols-2">
               <div className="profile mt-10 border rounded-xl">
                 <div className="relative cover">
-                  <Link href="group-page/suggest-group">
+                  <Link href="page-design/suggested-pages">
                     <a>
                       <Image
                         className="object-cover rounded-t-xl"
@@ -259,7 +259,7 @@ const MainPage = () => {
                     </a>
                   </Link>
                   <div className="absolute -bottom-8 left-2">
-                    <Link href="group-page/suggest-group">
+                    <Link href="page-design/suggested-pages">
                       <a>
                         <Image
                           className="object-cover"
@@ -280,7 +280,7 @@ const MainPage = () => {
                   </div>
                 </div>
                 <div className="Details px-4 ">
-                  <a href="group-page/suggest-group">
+                  <a href="page-design/suggested-pages">
                     <div className="ml-16">
                       <div className="User-Name font-bold ">Page Title</div>
                     </div>
@@ -301,7 +301,7 @@ const MainPage = () => {
               </div>
               <div className="profile mt-10 border rounded-xl">
                 <div className="relative cover">
-                  <Link href="group-page/suggest-group">
+                  <Link href="page-design/suggested-pages">
                     <a>
                       <Image
                         className="object-cover rounded-t-xl"
@@ -313,7 +313,7 @@ const MainPage = () => {
                     </a>
                   </Link>
                   <div className="absolute -bottom-8 left-2">
-                    <Link href="group-page/suggest-group">
+                    <Link href="page-design/suggested-pages">
                       <a>
                         <Image
                           className="object-cover"
@@ -334,7 +334,7 @@ const MainPage = () => {
                   </div>
                 </div>
                 <div className="Details px-4 ">
-                  <a href="group-page/suggest-group">
+                  <a href="page-design/suggested-pages">
                     <div className="ml-16">
                       <div className="User-Name font-bold ">Page Title</div>
                     </div>
@@ -355,7 +355,7 @@ const MainPage = () => {
               </div>
               <div className="profile mt-10 border rounded-xl">
                 <div className="relative cover">
-                  <Link href="group-page/suggest-group">
+                  <Link href="page-design/suggested-pages">
                     <a>
                       <Image
                         className="object-cover rounded-t-xl"
@@ -367,7 +367,7 @@ const MainPage = () => {
                     </a>
                   </Link>
                   <div className="absolute -bottom-8 left-2">
-                    <Link href="group-page/suggest-group">
+                    <Link href="page-design/suggested-pages">
                       <a>
                         <Image
                           className="object-cover"
@@ -388,7 +388,7 @@ const MainPage = () => {
                   </div>
                 </div>
                 <div className="Details px-4 ">
-                  <a href="group-page/suggest-group">
+                  <a href="page-design/suggested-pages">
                     <div className="ml-16">
                       <div className="User-Name font-bold ">Page Title</div>
                     </div>
