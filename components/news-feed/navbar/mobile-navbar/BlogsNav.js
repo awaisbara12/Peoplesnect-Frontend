@@ -80,7 +80,7 @@ const Blogsnav = () => {
                 </Link>
               </div>
               <div>
-                <Link href="">
+                <Link href="/group-page">
                   <a className="flex items-center mb-8 gap-2">
                     <UserGroupIcon className="h-7 w-7" />
                     <div className="font-bold">Groups</div>
@@ -88,7 +88,7 @@ const Blogsnav = () => {
                 </Link>
               </div>
               <div>
-                <Link href="">
+                <Link href="/page-design">
                   <a className="flex items-center mb-8 gap-2">
                     <VideoCameraIcon className="h-7 w-7" />
                     <div className="font-bold">Pages</div>
@@ -96,7 +96,7 @@ const Blogsnav = () => {
                 </Link>
               </div>
               <div>
-                <Link href="">
+                <Link href="/hashtag-design">
                   <a className="flex items-center mb-8 gap-2">
                     <HashtagIcon className="h-7 w-7" />
                     <div className="font-bold">Hashtags</div>

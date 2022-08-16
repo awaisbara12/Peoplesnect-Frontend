@@ -37,7 +37,7 @@ const EventsCard = () => {
           </div>
         </a>
       </Link>
-      <Link href="/">
+      <Link href="/hashtag-design">
         <a>
           <div className="bg-gray-100 border border-white w-full rounded-b-xl flex px-4 py-3 justify-between items-center">
             <div className="">Explore Hashtags</div>
