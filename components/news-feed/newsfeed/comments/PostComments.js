@@ -66,7 +66,7 @@ const PostComments = () => {
   return (
     <Fragment>
       <div className="relative w-full mt-[14px]">
-        <div className="w-4/5 xl:w-10/12 ml-10">
+        <div className="w-4/5 xl:w-10/12 ml-9">
           <InputEmoji
             type="text"
             react-emoji="w-{80%}"
@@ -79,7 +79,7 @@ const PostComments = () => {
         <div className="absolute top-2 left-0">
           <Image src={ProfileAvatar} width={34} height={34} alt="" />
         </div>
-        <div className="flex gap-2 xl:gap-4 items-center absolute top-3.5 right-0">
+        <div className="flex items-center absolute top-3 right-0">
           <div className="">
             <div className="relative flex items-center justify-center">
               <PhotographIcon
