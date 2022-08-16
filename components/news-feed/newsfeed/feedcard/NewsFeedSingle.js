@@ -22,7 +22,7 @@ import PostComments from "../comments/PostComments";
 import FilterComments from "../comments/FilterComments";
 import ReplyComments from "../comments/ReplyComments";
 import axios from "axios";
-import { BOOKMARK_NEWSFEED_API_KEY, REACTION_NEWSFEED_API_KEY } from "../../../../pages/config";
+import { BOOKMARK_NEWSFEED_API_KEY, REACTION_NEWSFEED_API_KEY, COMMENT_API_KEY, NEWSFEED_COMMENT_POST_KEY } from "../../../../pages/config";
 // import Spinner from "../../../common/Spinner";
 
 const cardDropdown = [
@@ -50,7 +50,8 @@ const cardDropdown = [
 
 const NewsFeedSingle = (singleItem) => {
   const [items, setItems] = useState(singleItem.items);
-
+  const [comments, setComments] = useState([])
+  const [loading, setLoading] = useState(true);
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
   }
@@ -142,6 +143,34 @@ const NewsFeedSingle = (singleItem) => {
     }
   }
 
+  useEffect(() => {
+    setLoading(true)
+    const getFeedComments = async () => {
+      const res = await axios(NEWSFEED_COMMENT_POST_KEY+"/"+items.id+"/comments", {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-type": "application/json; charset=utf-8",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Credentials": true,
+          Authorization: authKey,
+        },
+        credentials: "same-origin",
+      });
+      const result = await res;
+
+      try {
+        if (result.status == 200) {
+          setComments(result.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      setLoading(false);
+      return result;
+    };
+    getFeedComments();
+  }, [])
 
   return (
     <>
@@ -376,9 +405,11 @@ const NewsFeedSingle = (singleItem) => {
             </div>
           </div>
           <Fragment>
-            <PostComments />
-            <FilterComments />
-            <ReplyComments />
+            <PostComments news_feed_id={items.id}/>
+            <FilterComments  />
+            { !loading &&
+              <ReplyComments comments={comments.data} />
+            }
           </Fragment>
         </div>
       </div>

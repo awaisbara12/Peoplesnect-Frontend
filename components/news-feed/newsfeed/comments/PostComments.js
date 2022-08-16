@@ -13,56 +13,76 @@ import {
 } from "@heroicons/react/outline";
 import { useFormik } from "formik";
 import { eventScheema } from "../../../auth/schemas/CreateEventScheema";
-import { POST_NEWSFEED_API_KEY } from "../../../../pages/config";
+import { COMMENT_API_KEY } from "../../../../pages/config";
 
-const PostComments = () => {
+const PostComments = (feedId) => {
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
   }
   const [setLoading] = useState(false);
   const [postText, setPostText] = useState("");
-  const [eventCoverImage, setEventCoverImage] = useState([]);
   const [postImage, setPostImage] = useState([]);
-  const [setpostImagePreview] = useState();
-  const [selectedTimezone] = useState({});
-  const [feedType, setFeedType] = useState("basic");
-  const [eventType] = useState();
-  const [videoSrc, setVideoSrc] = useState([]);
-  const [videoPreview, setVideoPreview] = useState();
-  let [setIsOpen] = useState(false);
+  const [postImagePreview, setpostImagePreview] = useState();
+  const [comments, setComments] = useState([])
 
-  const [text, setText] = useState("");
-
-  function handleOnEnter(text) {
-    console.log("enter", text);
+  function handleOnEnter() {
+    console.log("enter", postText);
   }
 
   const handleImagePost = (e) => {
-    setPostImage(e.target.files[0]);
+    setPostImage(e.target.files);
     if (e.target.files.length !== 0) {
       setpostImagePreview(window.URL.createObjectURL(e.target.files[0]));
     }
-    setFeedType("image_feed");
   };
 
   const { values } = useFormik({
     initialValues: {
-      eventOnline: "online",
-      eventInPerson: "In person",
-      eventName: "",
-      timezone: "",
-      startDate: "",
-      endDate: "",
-      startTime: "",
-      endTime: "",
-      address: "",
-      venue: "",
-      externalLink: "",
-      description: "",
-      speakers: "",
-    },
-    validationSchema: eventScheema,
+      body: '',
+      comment_attachments: [],
+      news_feed_id: ''
+    }
   });
+
+  const onSubmit = () => {
+    resetForm();
+  };
+
+  function postComment(e) {
+    e.preventDefault();
+
+    const dataForm = new FormData();
+    dataForm.append("comments[body]", postText);
+    dataForm.append("comments[news_feed_id]", feedId.news_feed_id);
+
+    if(postImage.length > 0){
+      for (let i = 0; i < postImage.length; i++){
+        dataForm.append("comments[comment_attachments][]", postImage[i]);
+      }
+    }
+    // setLoading(true);
+
+    fetch(COMMENT_API_KEY, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
+      body: dataForm,
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          console.log(result);
+          setComments(result.data);
+          // setLoading(false);
+        }
+      })
+      .catch((err) => console.log(err));
+    setPostText("");
+    setpostImagePreview("");
+    setPostImage('')
+  }
   return (
     <Fragment>
       <div className="relative w-full mt-[14px]">
@@ -70,8 +90,8 @@ const PostComments = () => {
           <InputEmoji
             type="text"
             react-emoji="w-{80%}"
-            onChange={setText}
-            cleanOnEnter
+            value={postText}
+            onChange={setPostText}
             onEnter={handleOnEnter}
             placeholder="Your comment"
           />
@@ -85,14 +105,10 @@ const PostComments = () => {
               <PhotographIcon
                 width={28}
                 height={28}
-                className={
-                  values.eventName || (videoPreview && true)
-                    ? ``
-                    : `text-gray-500`
-                }
+                className="text-gray-500"
               />
               <input
-                type={values.eventName || (videoPreview && true) ? `` : `file`}
+                type="file"
                 name="image"
                 id="image"
                 className="opacity-0 absolute w-6 h-6 -z-0"
@@ -102,13 +118,13 @@ const PostComments = () => {
               />
             </div>
           </div>
-          <a href="">
+
             <div className="flex gap-2 z-50">
               <button className="bg-transparent px-1 rounded-r-full text-gray-500 hover:text-blue-500">
-                <PaperAirplaneIcon className="h-7 w-7 rotate-90" />
+                <PaperAirplaneIcon className="h-7 w-7 rotate-90" onClick={postComment} />
               </button>
             </div>
-          </a>
+
         </div>
       </div>
     </Fragment>
