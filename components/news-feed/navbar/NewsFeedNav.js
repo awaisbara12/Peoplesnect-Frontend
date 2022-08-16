@@ -61,7 +61,7 @@ const NewsFeedNav = () => {
               </li>
             </a>
           </Link>
-          <Link href="/news-feed" className="">
+          <Link href="/messaging-design" className="">
             <a>
               <li className="flex font-normal text-xl items-center my-5 gap-3">
                 <ChatAltIcon className="h-5 w-5" />
