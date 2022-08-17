@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { HeartIcon, ChatIcon } from "@heroicons/react/outline";
 import ProfileAvatar from "../../../../public/images/profile-avatar-2.png";
-import Moment from "react-moment";
+// import Moment from "react-moment";
 
 const ReplyComments = (comments) => {
   return (
@@ -18,7 +18,7 @@ const ReplyComments = (comments) => {
                   {comment.user.first_name} {comment.user.last_name}
                   <div className="w-1 h-1 rounded-full bg-slate-400"></div>
                   <div className="text-gray-400">
-                    {Moment(comment.created_at).fromNow()}
+                    {comment.created_at}
                   </div>
                 </span>
               </Link>
