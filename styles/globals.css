@@ -21,6 +21,7 @@ a {
 
 .signUp--background {
   background-image: url("../public/images/bg.webp");
+  background-image: url('../public/images/bg.webp');
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -33,4 +34,7 @@ a {
   width: 100% !important;
   display: flex;
   justify-content: space-between;
+}
+.kwtwXm img{
+  object-fit: cover !important;
 }
