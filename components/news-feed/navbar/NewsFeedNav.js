@@ -50,7 +50,7 @@ const NewsFeedNav = () => {
             <a>
               <li className="flex font-normal text-xl items-center my-5 gap-3">
                 <BriefcaseIcon className="h-5 w-5" />
-                <div className="">Markeetplace</div>
+                <div className="">Marketplace</div>
               </li>
             </a>
           </Link>

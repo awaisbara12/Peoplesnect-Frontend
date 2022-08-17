@@ -13,7 +13,7 @@ const MarkeetPlaceFeed = () => {
   return (
     <div>
       <Head>
-        <title>MarkeetPlace - Peoples Nect</title>
+        <title>MarketPlace - Peoples Nect</title>
         <meta name="description" content="Connect peoples proffasoinaly" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -22,7 +22,7 @@ const MarkeetPlaceFeed = () => {
           <div className="block md:hidden lg:hidden">
             <MobileNavbar />
           </div>
-          <div className="flex xl:px-0 lg:px-4 md:px-8 sm:px-0 gap-[65px] lg:gap-6 md:gap-4 justify-between">
+          <div className="flex xl:px-0 lg:px-4 md:px-8 sm:px-0 lg:gap-6 md:gap-4 justify-between">
             <div className="hidden md:block lg:block">
               <NewsFeedSidebar />
             </div>

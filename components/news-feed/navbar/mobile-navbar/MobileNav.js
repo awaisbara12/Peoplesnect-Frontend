@@ -15,6 +15,7 @@ import {
   SearchIcon,
   UserGroupIcon,
   VideoCameraIcon,
+  StarIcon,
 } from "@heroicons/react/outline";
 import Spinner from "../../../common/Spinner";
 
@@ -75,6 +76,15 @@ const MobileNav = () => {
                   <a className="flex items-center mb-8 gap-2">
                     <BookmarkIcon className="h-7 w-7" />
                     <div className="font-bold">Saved Items</div>
+                  </a>
+                </Link>
+              </div>
+
+              <div>
+                <Link href="/markeet-place">
+                  <a className="flex items-center mb-8 gap-2">
+                    <StarIcon className="h-7 w-7" />
+                    <div className="font-bold">MarketPlace</div>
                   </a>
                 </Link>
               </div>

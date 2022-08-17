@@ -9,7 +9,7 @@ const MarkeetplaceFeed = () => {
   return (
     <Fragment>
       <Head>
-        <title>Markeetplace - Peoples Nect</title>
+        <title>Marketplace - Peoples Nect</title>
         <meta name="description" content="Connect peoples proffasoinaly" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
