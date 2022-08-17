@@ -3,10 +3,8 @@ import Head from "next/head";
 import ProfileCard from "../../../news-feed/profilecard/ProfileCard";
 import MobileBottomBar from "../../../news-feed/navbar/MobileBottomBar";
 import MobileNav from "../../../news-feed/navbar/mobile-navbar/MobileNav";
-import EventsCard from "../../../news-feed/eventcard/EventsCard";
 import PendingGroupRequest from "./PendingGroupRequest";
 import GroupSearch from "../../../news-feed/search/GroupSearch";
-import GroupsSidebar from "../../../news-feed/newsfeed/sidebar/GroupsSidebar";
 import NewsFeedSidebar from "../../../news-feed/newsfeed/sidebar/NewsFeedSidebar";
 import GroupsSuggesions from "../../../news-feed/sugesteduser/GroupsSuggesions";
 
