@@ -6,7 +6,6 @@ import MobileBottomBar from "../../../news-feed/navbar/MobileBottomBar";
 import MobileNav from "../../../news-feed/navbar/mobile-navbar/MobileNav";
 import GroupSettings from "./GroupSettings";
 import GroupSearch from "../../../news-feed/search/GroupSearch";
-import GroupsSidebar from "../../../news-feed/newsfeed/sidebar/GroupsSidebar";
 import GroupsSuggesions from "../../../news-feed/sugesteduser/GroupsSuggesions";
 
 const GroupSettingsFeed = () => {

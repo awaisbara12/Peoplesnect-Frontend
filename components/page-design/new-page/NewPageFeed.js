@@ -5,7 +5,6 @@ import MobileBottomBar from "../../news-feed/navbar/MobileBottomBar";
 import MobileNav from "../../news-feed/navbar/mobile-navbar/MobileNav";
 import EventsCard from "../../news-feed/eventcard/EventsCard";
 import PageSearch from "../../news-feed/search/PageSearch";
-import PageSidebar from "../../news-feed/newsfeed/sidebar/PageSidebar";
 import NewPage from "./NewPage";
 import NewsFeedSidebar from "../../news-feed/newsfeed/sidebar/NewsFeedSidebar";
 import PageSuggesions from "../../news-feed/sugesteduser/PageSuggestions";
