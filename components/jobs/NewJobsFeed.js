@@ -2,12 +2,13 @@ import React from "react";
 import Head from "next/head";
 import ProfileCard from "../news-feed/profilecard/ProfileCard";
 import MobileBottomBar from "../news-feed/navbar/MobileBottomBar";
-import JobsSideBarFeed from "../news-feed/newsfeed/sidebar/JobsSideBarFeed";
 import AddNewJob from "./AddNewJob";
 import RecommendedJobs from "./RecommendedJobs";
 import MostSearchedJobs from "./MostSearchedJobs";
 import JobsSearch from "../news-feed/search/JobsSearch";
 import JobsNav from "../news-feed/navbar/mobile-navbar/JobsNav";
+import NewsFeedSidebar from "../news-feed/newsfeed/sidebar/NewsFeedSidebar";
+import JobsSideBar from "../news-feed/sugesteduser/JobsSideBar";
 
 const NewJobsFeed = () => {
   return (
@@ -24,7 +25,7 @@ const NewJobsFeed = () => {
           </div>
           <div className="flex xl:px-0 lg:px-4 md:px-8 sm:px-0 gap-[65px] lg:gap-6 md:gap-4 justify-between">
             <div className="hidden md:block lg:block">
-              <JobsSideBarFeed />
+              <NewsFeedSidebar />
             </div>
             <div className="h-full bg-zinc-100 mx-auto">
               <RecommendedJobs />
@@ -33,6 +34,7 @@ const NewJobsFeed = () => {
             <div className="w-72 hidden md:block lg:block">
               <JobsSearch />
               <ProfileCard />
+              <JobsSideBar/>
               <AddNewJob />
             </div>
           </div>

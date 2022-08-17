@@ -3,10 +3,10 @@ import Head from "next/head";
 import ProfileCard from "../../news-feed/profilecard/ProfileCard";
 import NewsFeedSidebar from "../../news-feed/newsfeed/sidebar/NewsFeedSidebar";
 import MobileNav from "../../news-feed/navbar/mobile-navbar/MobileNav";
-import EventsCard from "../../news-feed/eventcard/EventsCard";
 import MobileBottomBar from "../../news-feed/navbar/MobileBottomBar";
 import NewsSearch from "../../news-feed/search/NewsSearch";
 import PaymentSubscriptions from "./PaymentSubscriptions";
+import SugestedUser from "../../news-feed/sugesteduser/SugestedUser";
 
 const PaymentSubscriptionFeed = () => {
   return (
@@ -31,7 +31,7 @@ const PaymentSubscriptionFeed = () => {
             <div className="w-72 hidden md:block lg:block">
               <NewsSearch />
               <ProfileCard />
-              <EventsCard />
+              <SugestedUser />
             </div>
           </div>
         </div>

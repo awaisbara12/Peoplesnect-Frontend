@@ -79,7 +79,7 @@ const PageSettings = () => {
                 </div>
               </div>
 
-              <div className="heading text-lg font-bold">Who Can Message</div>
+              <div className="heading text-lg mt-5 font-bold">Who Can Message</div>
               <div className="border hover:bg-gray-100 mt-4 p-4 bg-gray-50 hover:shadow-lg rounded-xl">
                 <div className="flex items-center justify-between ">
                   <div className="">Who Can Message</div>

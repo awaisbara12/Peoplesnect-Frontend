@@ -2,8 +2,7 @@ import React from "react";
 import Head from "next/head";
 import Signup from "../components/auth/signup/Signup";
 import RootLayout from "../components/layout";
-import NewsFeed from "./NewsFeed";
-import Markeetplace from "./Markeetplace";
+import Markeetplace from "./markeetplace";
 
 export default function Home() {
   return (

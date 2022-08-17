@@ -4,11 +4,10 @@ import ProfileCard from "../../../news-feed/profilecard/ProfileCard";
 import NewsFeedSidebar from "../../../news-feed/newsfeed/sidebar/NewsFeedSidebar";
 import MobileBottomBar from "../../../news-feed/navbar/MobileBottomBar";
 import MobileNav from "../../../news-feed/navbar/mobile-navbar/MobileNav";
-import NewsSearch from "../../../news-feed/search/NewsSearch";
-import EventsCard from "../../../news-feed/eventcard/EventsCard";
 import GroupMembers from "./GroupMembers";
 import GroupSearch from "../../../news-feed/search/GroupSearch";
 import GroupsSidebar from "../../../news-feed/newsfeed/sidebar/GroupsSidebar";
+import GroupsSuggesions from "../../../news-feed/sugesteduser/GroupsSuggesions";
 
 const GroupMembersFeed = () => {
   return (
@@ -33,7 +32,7 @@ const GroupMembersFeed = () => {
             <div className="w-72 hidden md:block lg:block">
               <GroupSearch />
               <ProfileCard />
-              <EventsCard />
+              <GroupsSuggesions />
             </div>
           </div>
         </div>

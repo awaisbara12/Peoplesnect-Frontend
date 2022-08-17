@@ -7,6 +7,7 @@ import EventsCard from "../../../../news-feed/eventcard/EventsCard";
 import MobileBottomBar from "../../../../news-feed/navbar/MobileBottomBar";
 import NewsSearch from "../../../../news-feed/search/NewsSearch";
 import Edit from "./Edit";
+import SugestedUser from "../../../../news-feed/sugesteduser/SugestedUser";
 
 const EditFeed = () => {
   return (
@@ -31,7 +32,7 @@ const EditFeed = () => {
             <div className="w-72 hidden md:block lg:block">
               <NewsSearch />
               <ProfileCard />
-              <EventsCard />
+              <SugestedUser />
             </div>
           </div>
         </div>

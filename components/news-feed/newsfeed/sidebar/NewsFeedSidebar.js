@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
+import EventsCard from "../../eventcard/EventsCard";
 import NewsFeedNav from "../../navbar/NewsFeedNav";
-import SugestedUser from "../../sugesteduser/SugestedUser";
 import FooterNewsFeed from "../newsfeedfooter/FooterNewsFeed";
 
 const NewsFeedSidebar = () => {
@@ -11,7 +11,7 @@ const NewsFeedSidebar = () => {
           <NewsFeedNav />
           <div className="border-1 my-6 w-56 mx-auto text-gray-100"></div>
           <Fragment>
-            <SugestedUser />
+            <EventsCard />
           </Fragment>
         </div>
       </div>

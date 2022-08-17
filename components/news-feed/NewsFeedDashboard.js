@@ -10,15 +10,16 @@ import EventsCard from "./eventcard/EventsCard";
 import MobileBottomBar from "./navbar/MobileBottomBar";
 import { POST_NEWSFEED_API_KEY } from "/pages/config";
 import MobileNav from "./navbar/mobile-navbar/MobileNav";
+import SugestedUser from "./sugesteduser/SugestedUser";
 
 const NewsFeedDashboard = () => {
-  const [list, setList] = useState([])
+  const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
   }
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
     const getNewsFeed = async () => {
       const res = await axios(POST_NEWSFEED_API_KEY, {
         method: "GET",
@@ -44,7 +45,7 @@ const NewsFeedDashboard = () => {
       return result;
     };
     getNewsFeed();
-  }, [])
+  }, []);
 
   return (
     <>
@@ -63,15 +64,13 @@ const NewsFeedDashboard = () => {
               <NewsFeedSidebar />
             </div>
             <div className="h-full bg-zinc-100 md:bg-transparent lg:bg-transparent xl:bg-transparent px-4 md:px-0 lg-px-0 xl:px-0">
-              <NewsPost setList={setList}/>
-              { !loading &&
-                <NewsFeedUserCard list={list.data}/>
-              }
+              <NewsPost setList={setList} />
+              {!loading && <NewsFeedUserCard list={list.data} />}
             </div>
             <div className="w-72 hidden md:block lg:block">
               <NewsSearch />
               <ProfileCard />
-              <EventsCard />
+              <SugestedUser />
             </div>
           </div>
         </div>

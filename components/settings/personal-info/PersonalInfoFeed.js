@@ -3,10 +3,10 @@ import Head from "next/head";
 import ProfileCard from "../../news-feed/profilecard/ProfileCard";
 import NewsFeedSidebar from "../../news-feed/newsfeed/sidebar/NewsFeedSidebar";
 import MobileNav from "../../news-feed/navbar/mobile-navbar/MobileNav";
-import EventsCard from "../../news-feed/eventcard/EventsCard";
 import PersonalInfo from "./PersonalInfo";
 import MobileBottomBar from "../../news-feed/navbar/MobileBottomBar";
 import NewsSearch from "../../news-feed/search/NewsSearch";
+import SugestedUser from "../../news-feed/sugesteduser/SugestedUser";
 
 const PersonalInfoFeed = () => {
   return (
@@ -31,7 +31,7 @@ const PersonalInfoFeed = () => {
             <div className="w-72 hidden md:block lg:block">
               <NewsSearch />
               <ProfileCard />
-              <EventsCard />
+              <SugestedUser />
             </div>
           </div>
         </div>

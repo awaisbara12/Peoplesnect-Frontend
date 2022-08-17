@@ -10,7 +10,6 @@ import { ShoppingCartIcon } from "@heroicons/react/solid";
 import productImage from "../../../public/images/product1.png";
 import productImage2 from "../../../public/images/product2.png";
 import productImage3 from "../../../public/images/product3.png";
-import productImage4 from "../../../public/images/product4.png";
 
 const ProductCetagory = [
   {
@@ -54,18 +53,6 @@ const ProductCard = [
     catIcon: DocumentDuplicateIcon,
     cartIcon: ShoppingCartIcon,
   },
-
-  {
-    image: productImage4,
-    title: "Adidas white soccer shoes set",
-    price: 110,
-    status: "Brand new",
-    catTitle: "Men Shoes",
-    locationtitle: "New York, Usa",
-    mapIcon: LocationMarkerIcon,
-    catIcon: DocumentDuplicateIcon,
-    cartIcon: ShoppingCartIcon,
-  },
 ];
 
 const HomeProducts = () => {
@@ -91,7 +78,7 @@ const HomeProducts = () => {
         </div>
       ))}
       <div className="flex justify-between lg:gap-6 md:gap-4">
-        <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-8 mx-auto">
+        <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-2 grid-cols-1 gap-8 mx-auto">
           {ProductCard.map((product, i) => (
             <div key={i} className="bg-white w-auto h-auto rounded-xl mt-6">
               <div className="relative">
@@ -99,6 +86,7 @@ const HomeProducts = () => {
                   src={product.image}
                   width={326}
                   height={230}
+                  className="object-cover rounded-xl"
                   placeholder="blur"
                 />
                 <div className="absolute top-5 left-5">
