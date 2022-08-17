@@ -7,6 +7,7 @@ import MobileNav from "../news-feed/navbar/mobile-navbar/MobileNav";
 import MainSettings from "./MainSettings";
 import EventsCard from "../news-feed/eventcard/EventsCard";
 import NewsSearch from "../news-feed/search/NewsSearch";
+import SugestedUser from "../news-feed/sugesteduser/SugestedUser";
 
 const SettingFeed = () => {
   return (
@@ -31,7 +32,7 @@ const SettingFeed = () => {
             <div className="w-72 hidden md:block lg:block">
               <NewsSearch />
               <ProfileCard />
-              <EventsCard />
+              <SugestedUser />
             </div>
           </div>
         </div>

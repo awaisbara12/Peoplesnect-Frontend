@@ -1,14 +1,12 @@
 import React from "react";
 import Head from "next/head";
-import Link from "next/link";
 import ProfileCard from "../news-feed/profilecard/ProfileCard";
-import EventsCard from "../news-feed/eventcard/EventsCard";
-import MobileNav from "../news-feed/navbar/mobile-navbar/MobileNav";
 import MyNetwork from "./MyNetwork";
 import MobileBottomBar from "../news-feed/navbar/MobileBottomBar";
-import MyConnectionsSidebar from "../news-feed/newsfeed/sidebar/MyConnectionsSidebar";
 import MyNetwrokSearch from "../news-feed/search/MyNetworkSearch";
 import MyNetWorkNav from "../news-feed/navbar/mobile-navbar/MyNetWorkNav";
+import MyConnections from "../news-feed/sugesteduser/MyConnections";
+import NewsFeedSidebar from "../news-feed/newsfeed/sidebar/NewsFeedSidebar";
 
 const MyNetWorkFeed = () => {
   return (
@@ -25,7 +23,7 @@ const MyNetWorkFeed = () => {
           </div>
           <div className="flex xl:px-0 lg:px-4 md:px-8 sm:px-0 gap-[65px] lg:gap-6 md:gap-4 justify-between">
             <div className="hidden md:block lg:block">
-              <MyConnectionsSidebar />
+              <NewsFeedSidebar />
             </div>
             <div className="h-full bg-zinc-100 mx-auto">
               <MyNetwork />
@@ -33,7 +31,7 @@ const MyNetWorkFeed = () => {
             <div className="w-72 hidden md:block lg:block">
               <MyNetwrokSearch />
               <ProfileCard />
-              <EventsCard />
+              <MyConnections />
             </div>
           </div>
         </div>

@@ -1,11 +1,11 @@
 import React, { Fragment } from "react";
 import Head from "next/head";
-import MarkeetplaceLayout from "../components/markeetplace/layout";
-import MarkeetplaceCategories from "../components/markeetplace/categoriesSlider/Categories";
-import HomeProducts from "../components/markeetplace/products/LatestProducts";
-import MobileNavbar from "../components/markeetplace/navbar/MobileNavbar";
+import MarkeetplaceLayout from "./layout";
+import HomeProducts from "./products/LatestProducts";
+import MobileNavbar from "./navbar/MobileNavbar";
+import MarkeetplaceCategories from "./categoriesSlider/Categories";
 
-const Markeetplace = () => {
+const MarkeetplaceFeed = () => {
   return (
     <Fragment>
       <Head>
@@ -28,4 +28,4 @@ const Markeetplace = () => {
   );
 };
 
-export default Markeetplace;
+export default MarkeetplaceFeed;

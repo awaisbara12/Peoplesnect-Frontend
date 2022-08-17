@@ -45,6 +45,15 @@ const NewsFeedNav = () => {
               </li>
             </a>
           </Link>
+
+          <Link href="/markeet-place" className="">
+            <a>
+              <li className="flex font-normal text-xl items-center my-5 gap-3">
+                <BriefcaseIcon className="h-5 w-5" />
+                <div className="">Markeetplace</div>
+              </li>
+            </a>
+          </Link>
           <Link href="/blog" className="">
             <a>
               <li className="flex font-normal text-xl items-center my-5 gap-3">

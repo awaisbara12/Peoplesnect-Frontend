@@ -7,6 +7,8 @@ import MobileNav from "../news-feed/navbar/mobile-navbar/MobileNav";
 import NewsFeedSidebar from "../news-feed/newsfeed/sidebar/NewsFeedSidebar";
 import BlogsSearch from "../news-feed/search/BlogsSearch";
 import BlogsNav from "../news-feed/navbar/mobile-navbar/BlogsNav";
+import AddNewBlog from "./AddNewBlog";
+import BlogsBottomBar from "../news-feed/navbar/BlogsBottomBar";
 
 const BlogLayout = () => {
   return (
@@ -31,11 +33,12 @@ const BlogLayout = () => {
             <div className="w-72 hidden md:block lg:block">
               <BlogsSearch />
               <ProfileCard />
-              <EventsCard />
+              <AddNewBlog />
             </div>
           </div>
         </div>
       </div>
+      <BlogsBottomBar />
     </div>
   );
 };

@@ -7,8 +7,9 @@ import EventsCard from "../../news-feed/eventcard/EventsCard";
 import MobileBottomBar from "../../news-feed/navbar/MobileBottomBar";
 import AccountSecurity from "./AccountSecurity";
 import NewsSearch from "../../news-feed/search/NewsSearch";
+import SugestedUser from "../../news-feed/sugesteduser/SugestedUser";
 
-const AccountSecurityFeed = () => { 
+const AccountSecurityFeed = () => {
   return (
     <div>
       <Head>
@@ -31,7 +32,7 @@ const AccountSecurityFeed = () => {
             <div className="w-72 hidden md:block lg:block">
               <NewsSearch />
               <ProfileCard />
-              <EventsCard />
+              <SugestedUser />
             </div>
           </div>
         </div>
