@@ -41,17 +41,7 @@ const MarkeetplaceSuggestion = () => {
             </div>
           </a>
         </Link>
-        <Link href="">
-          <a href="">
-            <div className="px-3 py-2 hover:bg-gray-100 rounded-xl flex justify-between items-center mt-4">
-              <div className="flex gap-2 items-center">
-                <ShoppingBagIcon className="w-5 h-5" />
-                <p className="text-base font-semibold">Discounts Products</p>
-              </div>
-            </div>
-          </a>
-        </Link>
-        <Link href="">
+        <Link href="/markeet-place/add-your-items">
           <a className="mt-2 flex gap-1 border bg-gray-100 justify-center rounded-full p-2">
             <PlusIcon className="h-5 w-5" />
             Add your item
