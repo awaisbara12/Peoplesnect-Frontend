@@ -29,7 +29,6 @@ const ProductCard = [
     locationtitle: "New York",
     mapIcon: LocationMarkerIcon,
     catIcon: DocumentDuplicateIcon,
-    cartIcon: ShoppingCartIcon,
   },
   {
     image: productImage2,
@@ -40,7 +39,6 @@ const ProductCard = [
     locationtitle: "New York",
     mapIcon: LocationMarkerIcon,
     catIcon: DocumentDuplicateIcon,
-    cartIcon: ShoppingCartIcon,
   },
   {
     image: productImage3,
@@ -51,7 +49,6 @@ const ProductCard = [
     locationtitle: "New York",
     mapIcon: LocationMarkerIcon,
     catIcon: DocumentDuplicateIcon,
-    cartIcon: ShoppingCartIcon,
   },
 ];
 
@@ -78,7 +75,7 @@ const HomeProducts = () => {
         </div>
       ))}
       <div className="flex justify-between lg:gap-6 md:gap-4">
-        <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-2 grid-cols-1 gap-8 mx-auto">
+        <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-2 grid-cols-2 gap-8 mx-auto">
           {ProductCard.map((product, i) => (
             <div key={i} className="bg-white w-auto h-auto rounded-xl mt-6">
               <div className="relative">
@@ -100,16 +97,9 @@ const HomeProducts = () => {
                   </div>
                 </div>
               </div>
-              <div className="lg:px-3 px-2 mt-4 lg:mb-7 mb-3">
+              <div className="lg:px-3 px-2 mt-4 mb-3">
                 <div className="flex justify-between items-center font-semibold lg:text-base md:text-sm mb-1.5">
                   <div className="">{product.title}</div>
-                  <div className="bg-indigo-400  lg:px-3 py-2 md:px-2  text-white rounded-md">
-                    <Link href="">
-                      <a>
-                        <product.cartIcon className="lg:f-5 lg:w-5 md:h-3 md:w-3" />
-                      </a>
-                    </Link>
-                  </div>
                 </div>
                 <div className="flex md:justify-between lg:gap-3 lg:text-sm text-xs gap-4 leading-4 items-center">
                   <div className="flex items-center lg:gap-2 gap-1">
@@ -125,6 +115,13 @@ const HomeProducts = () => {
                     </a>
                   </Link>
                 </div>
+                <Link href="/markeet-place/marketplace-show">
+                  <a className="flex justify-end">
+                    <div className="border text-xs border-blue-500 text-center text-blue-500 w-22 mt-4 p-2 rounded-full">
+                      Show Details
+                    </div>
+                  </a>
+                </Link>
               </div>
             </div>
           ))}

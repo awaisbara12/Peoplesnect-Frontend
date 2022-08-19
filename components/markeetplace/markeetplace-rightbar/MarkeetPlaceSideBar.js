@@ -40,30 +40,6 @@ const MarkeetPlaceSideBar = () => {
               </li>
             </a>
           </Link>
-          <Link href="/" className="">
-            <a>
-              <li className="flex font-normal text-xl items-center my-5 gap-3">
-                <FilmIcon className="h-5 w-5" />
-                <div className="">Entertainment</div>
-              </li>
-            </a>
-          </Link>
-          <Link href="/" className="">
-            <a>
-              <li className="flex font-normal text-xl items-center gap-3">
-                <TagIcon className="h-5 w-5" />
-                <div className="">Classifieds</div>
-              </li>
-            </a>
-          </Link>
-          <Link href="/" className="">
-            <a>
-              <li className="flex font-normal text-xl items-center mt-5 gap-3">
-                <PuzzleIcon className="h-5 w-5" />
-                <div className="">Toys & Games</div>
-              </li>
-            </a>
-          </Link>
         </ul>
       </div>
 

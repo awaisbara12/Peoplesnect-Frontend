@@ -1,15 +1,14 @@
 import React from "react";
 import Head from "next/head";
-import NewsFeedSidebar from "../news-feed/newsfeed/sidebar/NewsFeedSidebar";
-import MobileBottomBar from "../news-feed/navbar/MobileBottomBar";
-import NewsSearch from "../news-feed/search/NewsSearch";
-import MarkeetPlaceSideBar from "./markeetplace-rightbar/MarkeetPlaceSideBar";
-import HomeProducts from "./products/LatestProducts";
-import MarkeetplaceSuggestion from "../news-feed/sugesteduser/MarkeetplaceSuggestion";
-import PropertyProducts from "./products/PropertyProducts";
-import MarkeetplaceNavbar from "./navbar/MarkeetplaceNavbar";
+import NewsFeedSidebar from "../../news-feed/newsfeed/sidebar/NewsFeedSidebar";
+import MobileBottomBar from "../../news-feed/navbar/MobileBottomBar";
+import NewsSearch from "../../news-feed/search/NewsSearch";
+import MarkeetPlaceSideBar from "../markeetplace-rightbar/MarkeetPlaceSideBar";
+import MarkeetplaceSuggestion from "../../news-feed/sugesteduser/MarkeetplaceSuggestion";
+import MarkeetplaceNavbar from "../navbar/MarkeetplaceNavbar";
+import AddYourItems from "./AddYourItems";
 
-const MarkeetPlaceFeed = () => {
+const AddYourItemsFeed = () => {
   return (
     <div>
       <Head>
@@ -27,10 +26,7 @@ const MarkeetPlaceFeed = () => {
               <NewsFeedSidebar />
             </div>
             <div className="w-[620px] md:w-full lg:w-full mt-8 mx-14 lg:mx-auto md:mx-auto">
-              <HomeProducts />
-              <div className="w-[620px] md:w-full lg:w-full">
-                <PropertyProducts />
-              </div>
+              <AddYourItems />
             </div>
             <div className="mt-8"></div>
             <div className="w-72 hidden md:block lg:block">
@@ -46,4 +42,4 @@ const MarkeetPlaceFeed = () => {
   );
 };
 
-export default MarkeetPlaceFeed;
+export default AddYourItemsFeed;
