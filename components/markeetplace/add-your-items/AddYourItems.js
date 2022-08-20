@@ -15,9 +15,7 @@ const AddYourItems = () => {
                 </label>
                 <input
                   type="text"
-                  name=""
-                  value=""
-                  onChange=""
+                  name="search"
                   placeholder="Type Your Product Category"
                   className="w-96 bg-gray-100 py-2 px-3 mt-2 border-none rounded-xl focus:drop-shadow-indigo-400"
                 />
@@ -28,9 +26,7 @@ const AddYourItems = () => {
                 </label>
                 <input
                   type="text"
-                  name=""
-                  value=""
-                  onChange=""
+                  name="search"
                   placeholder="Add Name"
                   className="w-96 bg-gray-100 py-2 px-3 mt-2 border-none rounded-xl focus:drop-shadow-indigo-400"
                 />
@@ -41,9 +37,7 @@ const AddYourItems = () => {
                 </label>
                 <input
                   type="text"
-                  name=""
-                  value=""
-                  onChange=""
+                  name="search"
                   placeholder="Add Color"
                   className="w-96 bg-gray-100 py-2 px-3 mt-2 border-none rounded-xl focus:drop-shadow-indigo-400"
                 />
@@ -55,8 +49,6 @@ const AddYourItems = () => {
                 <input
                   type="Number"
                   name=""
-                  value=""
-                  onChange=""
                   placeholder="Add Price"
                   className="w-96 bg-gray-100 py-2 px-3 mt-2 border-none rounded-xl focus:drop-shadow-indigo-400"
                 />
@@ -67,9 +59,7 @@ const AddYourItems = () => {
                 </label>
                 <input
                   type="text"
-                  name=""
-                  value=""
-                  onChange=""
+                  name="search"
                   placeholder="Add Features"
                   className="w-96 bg-gray-100 py-2 px-3 mt-2 border-none rounded-xl focus:drop-shadow-indigo-400"
                 />
@@ -82,8 +72,6 @@ const AddYourItems = () => {
                 <input
                   type="Number"
                   name=""
-                  value=""
-                  onChange=""
                   placeholder="Add Your Phone Number"
                   className="w-96 bg-gray-100 py-2 px-3 mt-2 border-none rounded-xl focus:drop-shadow-indigo-400"
                 />
@@ -107,7 +95,7 @@ const AddYourItems = () => {
             <div className="flex justify-between w-full">
               <div className="font-semibold">Add Photos:</div>
               <label
-                for="dropzone-file"
+                htmlFor="dropzone-file"
                 className="flex flex-col justify-center items-center w-96 h-32 bg-gray-50 rounded-lg border-2 border-gray-300 border-dashed cursor-pointer dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
               >
                 <div className="flex flex-col justify-center items-center pt-5 pb-6">

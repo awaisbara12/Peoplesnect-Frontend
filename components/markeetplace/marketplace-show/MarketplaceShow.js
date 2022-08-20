@@ -8,6 +8,23 @@ import productImage3 from "../../../public/images/airpodsprom.webp";
 import productImage4 from "../../../public/images/Apple-AirPods-Pro-12.webp";
 import productImage5 from "../../../public/images/266-hero.jpg";
 
+const Productshow = [
+  {
+    name: "Name",
+    color: "Color",
+    Category: "Category",
+    price: "price",
+  },
+];
+const Productdetails = [
+  {
+    name: "EarPods Pro",
+    color: "silver",
+    Category: "Iphon EarPods",
+    price: "28",
+  },
+];
+
 const MarketplaceShow = () => {
   return (
     <div className="w-[720px] mx-auto">
@@ -54,37 +71,46 @@ const MarketplaceShow = () => {
       <div className="bg-white mt-10 p-5 rounded-xl">
         <div className="font-bold text-lg">Product Details</div>
         <div className="m-3 border rounded-xl">
-          <div class="overflow-x-auto relative">
-            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-              <thead class="text-xs text-gray-900 uppercase dark:text-gray-400">
-                <tr>
-                  <th scope="col" class="py-3 px-6">
-                    Product name
-                  </th>
-                  <th scope="col" class="py-3 px-6">
-                    Color
-                  </th>
-                  <th scope="col" class="py-3 px-6">
-                    Category
-                  </th>
-                  <th scope="col" class="py-3 px-6">
-                    Price
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="bg-white dark:bg-gray-800">
-                  <th
-                    scope="row"
-                    class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap rounded-bl-xl dark:text-white"
-                  >
-                    Apple earpods Pro"
-                  </th>
-                  <td class="py-4 px-6">Sliver</td>
-                  <td class="py-4 px-6">Earpods</td>
-                  <td class="py-4 px-6 rounded-br-xl">$299</td>
-                </tr>
-              </tbody>
+          <div className="overflow-x-auto relative">
+            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+              {Productshow.map((headings, i) => (
+                <thead
+                  key={i}
+                  className="text-xs text-gray-900 uppercase dark:text-gray-400"
+                >
+                  <tr>
+                    <th scope="col" className="py-3 px-6">
+                      {headings.name}
+                    </th>
+                    <th scope="col" className="py-3 px-6">
+                      {headings.color}
+                    </th>
+                    <th scope="col" className="py-3 px-6">
+                      {headings.Category}
+                    </th>
+                    <th scope="col" className="py-3 px-6">
+                      {headings.price}
+                    </th>
+                  </tr>
+                </thead>
+              ))}
+              {Productdetails.map((details, e) => (
+                <tbody key={e}>
+                  <tr className="bg-white dark:bg-gray-800">
+                    <th
+                      scope="row"
+                      className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap rounded-bl-xl dark:text-white"
+                    >
+                      {details.name}
+                    </th>
+                    <td className="py-4 px-6">{details.color}</td>
+                    <td className="py-4 px-6">{details.Category}</td>
+                    <td className="py-4 px-6 rounded-br-xl">
+                      {details.price}$
+                    </td>
+                  </tr>
+                </tbody>
+              ))}
             </table>
           </div>
         </div>
