@@ -22,7 +22,12 @@ import PostComments from "../comments/PostComments";
 import FilterComments from "../comments/FilterComments";
 import ReplyComments from "../comments/ReplyComments";
 import axios from "axios";
-import { BOOKMARK_NEWSFEED_API_KEY, REACTION_NEWSFEED_API_KEY, COMMENT_API_KEY, NEWSFEED_COMMENT_POST_KEY } from "../../../../pages/config";
+import {
+  BOOKMARK_NEWSFEED_API_KEY,
+  REACTION_NEWSFEED_API_KEY,
+  COMMENT_API_KEY,
+  NEWSFEED_COMMENT_POST_KEY,
+} from "../../../../pages/config";
 // import Spinner from "../../../common/Spinner";
 
 const cardDropdown = [
@@ -50,13 +55,13 @@ const cardDropdown = [
 
 const NewsFeedSingle = (singleItem) => {
   const [items, setItems] = useState(singleItem.items);
-  const [comments, setComments] = useState([])
+  const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
   }
 
-  function addHeart(feedId){
+  function addHeart(feedId) {
     const dataForm = new FormData();
     dataForm.append("reactions[news_feed_id]", feedId);
     dataForm.append("reactions[reaction_type]", "heart");
@@ -68,16 +73,16 @@ const NewsFeedSingle = (singleItem) => {
       },
       body: dataForm,
     })
-    .then((resp) => resp.json())
-    .then((result) => {
-      if (result) {
-        setItems(result.data)
-      }
-    })
-    .catch((err) => console.log(err));
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          setItems(result.data);
+        }
+      })
+      .catch((err) => console.log(err));
   }
 
-  function createBookmark(feedId){
+  function createBookmark(feedId) {
     const dataForm = new FormData();
     dataForm.append("bookmarks[news_feed_id]", feedId);
     fetch(BOOKMARK_NEWSFEED_API_KEY, {
@@ -88,17 +93,17 @@ const NewsFeedSingle = (singleItem) => {
       },
       body: dataForm,
     })
-    .then((resp) => resp.json())
-    .then((result) => {
-      if (result) {
-        setItems(result.data)
-      }
-    })
-    .catch((err) => console.log(err));
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          setItems(result.data);
+        }
+      })
+      .catch((err) => console.log(err));
   }
 
-  async function deteleBookmark(bookmarkId){
-    const res = await axios(BOOKMARK_NEWSFEED_API_KEY+"/"+bookmarkId, {
+  async function deteleBookmark(bookmarkId) {
+    const res = await axios(BOOKMARK_NEWSFEED_API_KEY + "/" + bookmarkId, {
       method: "DELETE",
       headers: {
         Accept: "application/json",
@@ -113,15 +118,15 @@ const NewsFeedSingle = (singleItem) => {
 
     try {
       if (result) {
-        setItems(result.data.data)
+        setItems(result.data.data);
       }
     } catch (error) {
       console.log(error);
     }
   }
 
-  async function deteleHeart(heartId){
-    const res = await axios(REACTION_NEWSFEED_API_KEY+"/"+heartId, {
+  async function deteleHeart(heartId) {
+    const res = await axios(REACTION_NEWSFEED_API_KEY + "/" + heartId, {
       method: "DELETE",
       headers: {
         Accept: "application/json",
@@ -136,7 +141,7 @@ const NewsFeedSingle = (singleItem) => {
 
     try {
       if (result) {
-        setItems(result.data.data)
+        setItems(result.data.data);
       }
     } catch (error) {
       console.log(error);
@@ -144,19 +149,22 @@ const NewsFeedSingle = (singleItem) => {
   }
 
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
     const getFeedComments = async () => {
-      const res = await axios(NEWSFEED_COMMENT_POST_KEY+"/"+items.id+"/comments", {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-type": "application/json; charset=utf-8",
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Credentials": true,
-          Authorization: authKey,
-        },
-        credentials: "same-origin",
-      });
+      const res = await axios(
+        NEWSFEED_COMMENT_POST_KEY + "/" + items.id + "/comments",
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-type": "application/json; charset=utf-8",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Credentials": true,
+            Authorization: authKey,
+          },
+          credentials: "same-origin",
+        }
+      );
       const result = await res;
 
       try {
@@ -170,7 +178,7 @@ const NewsFeedSingle = (singleItem) => {
       return result;
     };
     getFeedComments();
-  }, [])
+  }, []);
 
   return (
     <>
@@ -184,7 +192,7 @@ const NewsFeedSingle = (singleItem) => {
                 <BadgeCheckIcon
                   width={14}
                   height={14}
-                  className="text-indigo-400"
+                  className="text-indigo-400" 
                 />
               </h4>
               <div className="font-light text-gray-900 opacity-[0.8]">
@@ -207,9 +215,7 @@ const NewsFeedSingle = (singleItem) => {
                   <>
                     <Popover.Button
                       className={` ${
-                        open
-                          ? ""
-                          : "text-opacity-90 focus-visible:outline-none"
+                        open ? "" : "text-opacity-90 focus-visible:outline-none"
                       }`}
                     >
                       <div className="hover:bg-indigo-100 focus:bg-indigo-100 rounded-full h-8 w-8 flex items-center justify-center">
@@ -294,9 +300,9 @@ const NewsFeedSingle = (singleItem) => {
                     <div className="text-gray-900"></div>
                   </div>
                   <Link href="/events-design/event-view">
-                  <a className="text-sm text-gray-600 cursor-pointer flex items-center border border-gray-100 rounded-full py-1 px-3">
-                    View Event
-                  </a>
+                    <a className="text-sm text-gray-600 cursor-pointer flex items-center border border-gray-100 rounded-full py-1 px-3">
+                      View Event
+                    </a>
                   </Link>
                 </div>
               </div>
@@ -319,10 +325,7 @@ const NewsFeedSingle = (singleItem) => {
           </div>
           {items.feed_type && items.feed_type === "video_feed" ? (
             <>
-              <video
-                controls
-                className="aspect-video w-full rounded-xl my-4"
-              >
+              <video controls className="aspect-video w-full rounded-xl my-4">
                 <source src={items.attachments_link} type="video/mp4" />
               </video>
             </>
@@ -346,7 +349,7 @@ const NewsFeedSingle = (singleItem) => {
 
           <div className="flex justify-between mt-[14px]">
             <div className="flex gap-2 items-center">
-              {(items.is_heart && items.is_heart == true) ? (
+              {items.is_heart && items.is_heart == true ? (
                 <>
                   <HeartIcon
                     width={24}
@@ -354,10 +357,11 @@ const NewsFeedSingle = (singleItem) => {
                     className="text-gray-900 cursor-pointer"
                     onClick={() => deteleHeart(items.heart_id)}
                   />
-                  <span className="font-light text-gray-900">{items.reactions_count}</span>
+                  <span className="font-light text-gray-900">
+                    {items.reactions_count}
+                  </span>
                 </>
-              )
-              : (
+              ) : (
                 <>
                   <HeartIcon
                     width={24}
@@ -365,10 +369,11 @@ const NewsFeedSingle = (singleItem) => {
                     className="text-gray-900 cursor-pointer"
                     onClick={() => addHeart(items.id)}
                   />
-                  <span className="font-light text-gray-900">{items.reactions_count}</span>
+                  <span className="font-light text-gray-900">
+                    {items.reactions_count}
+                  </span>
                 </>
-              )
-              }
+              )}
             </div>
             <div className="flex gap-2 items-center">
               <ChatAltIcon
@@ -379,7 +384,7 @@ const NewsFeedSingle = (singleItem) => {
               <span className="font-light text-gray-900">14.2k</span>
             </div>
             <div className="flex gap-2 items-center">
-              {(items.is_bookmark && items.is_bookmark == true) ? (
+              {items.is_bookmark && items.is_bookmark == true ? (
                 <>
                   <BookmarkIcon
                     width={24}
@@ -387,10 +392,11 @@ const NewsFeedSingle = (singleItem) => {
                     className="text-gray-900 cursor-pointer"
                     onClick={() => deteleBookmark(items.bookmark_id)}
                   />
-                  <span className="font-light text-gray-900">{items.bookmarks_count}</span>
+                  <span className="font-light text-gray-900">
+                    {items.bookmarks_count}
+                  </span>
                 </>
-              )
-              : (
+              ) : (
                 <>
                   <BookmarkIcon
                     width={24}
@@ -398,18 +404,17 @@ const NewsFeedSingle = (singleItem) => {
                     className="text-gray-900 cursor-pointer"
                     onClick={() => createBookmark(items.id)}
                   />
-                  <span className="font-light text-gray-900">{items.bookmarks_count}</span>
+                  <span className="font-light text-gray-900">
+                    {items.bookmarks_count}
+                  </span>
                 </>
-              )
-              }
+              )}
             </div>
           </div>
           <Fragment>
-            <PostComments news_feed_id={items.id}/>
-            <FilterComments  />
-            { !loading &&
-              <ReplyComments comments={comments.data} />
-            }
+            <PostComments news_feed_id={items.id} />
+            <FilterComments />
+            {!loading && <ReplyComments comments={comments.data} />}
           </Fragment>
         </div>
       </div>

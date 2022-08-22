@@ -233,7 +233,7 @@ const PageAdmin = (setList, singleItem) => {
             <div className="absolute -bottom-16 left-5">
               <Image
                 src={ProfileAvatar}
-                className="rounded-full object-cover"
+                className="rounded-full object-cover z-50"
                 width={85}
                 height={85}
                 alt=""
