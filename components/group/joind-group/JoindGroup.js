@@ -1,10 +1,9 @@
-import React from "react";
+import React, { Fragment } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import postimage from "../../../public/images/752126.jpg";
 import postimage1 from "../../../public/images/post-image.png";
 
-import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import ProfileAvatar from "../../../public/images/profile-avatar.png";
 import {

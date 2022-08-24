@@ -44,24 +44,28 @@ const ProfileCard = () => {
     <Fragment>
       <div className="mt-11 mx-auto bg-white rounded-xl w-full h-auto pb-4">
         <div className="">
-          <div className="relative -z-0 ">
-            <Image
-              src={profilebg}
-              width={293}
-              height={93}
-              placeholder="blur"
-              alt="profile-bg"
-            />
-            <div className="absolute z-10 -top-4 left-32">
-              <Image
-                src={profileAvatar}
-                width={42}
-                height={42}
-                placeholder="blur"
-                alt="profile"
-              />
-            </div>
-          </div>
+          <Link href="/profile">
+            <a>
+              <div className="relative -z-0 ">
+                <Image
+                  src={profilebg}
+                  width={293}
+                  height={93}
+                  placeholder="blur"
+                  alt="profile-bg"
+                />
+                <div className="absolute z-10 -top-4 left-32">
+                  <Image
+                    src={profileAvatar}
+                    width={42}
+                    height={42}
+                    placeholder="blur"
+                    alt="profile"
+                  />
+                </div>
+              </div>
+            </a>
+          </Link>
           <div className="font-semibold capitalize text-base text-gray-900 text-center mt-2.5 mb-1.5">
             {userDetails && userDetails.user ? (
               <>
