@@ -23,12 +23,6 @@ const FooterNewsFeed = () => {
           </Link>
         </div>
       </div>
-      <a href="">
-        <div className="bg-gray-100 border border-white w-full rounded-b-xl flex py-3 justify-center items-center">
-          See More
-          <ChevronDownIcon className="h-5 w-5" />
-        </div>
-      </a>
     </div>
   );
 };
