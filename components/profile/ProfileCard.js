@@ -9,10 +9,12 @@ import photos3 from "../../public/images/groupcover.jpg";
 
 import ProfileAvatar from "../../public/images/profile-girl.jpg";
 import {
+  BookmarkAltIcon,
   ChatAlt2Icon,
   CogIcon,
   LocationMarkerIcon,
   PencilIcon,
+  PhoneIcon,
   UserIcon,
   XIcon,
 } from "@heroicons/react/outline";
@@ -30,52 +32,61 @@ const ProfileCard = () => {
   return (
     <div className="mt-8">
       <div className="max-w-[1340px] xl:w-full">
-        <div className="blogs bg-white rounded-xl px-5 py-8">
-          <div className="flex justify-between">
-            <div className="flex gap-24">
-              <div className="relative">
-                <Link href="">
-                  <a>
-                    <Image
-                      src={ProfileAvatar}
-                      width={140}
-                      height={140}
-                      className="object-cover rounded-full"
-                      placeholder="empty"
-                      alt="profile-image"
-                    />
-                  </a>
-                </Link>
-                <div className="absolute top-0 left-0 right-0 bottom-0 w-40 h-40 bg-black bg-opacity-0 flex justify-center items-center opacity-0 rounded-full hover:opacity-100 hover:bg-opacity-70 duration-500">
-                  <div className="flex gap-2 text-white rounded-full  cursor-pointer">
-                    <PencilIcon className="w-4 h-4" />
-                    Edit Profile
+        <div className="blogs bg-white rounded-xl pt-8">
+          <div className="pl-32">
+            <div className="flex justify-between">
+              <div className="mt-5 flex gap-14">
+                <div className="relative">
+                  <Link href="">
+                    <a>
+                      <Image
+                        src={ProfileAvatar}
+                        width={260}
+                        height={350}
+                        className="object-cover"
+                        placeholder="empty"
+                        alt="profile-image"
+                      />
+                    </a>
+                  </Link>
+                  <div className="absolute top-0 left-0 right-0 bottom-0 w-44 h-44 bg-black bg-opacity-0 flex justify-center items-center opacity-0 hover:opacity-100 hover:bg-opacity-70 duration-500">
+                    <div className="flex gap-2 text-white rounded-full  cursor-pointer">
+                      <PencilIcon className="w-4 h-4" />
+                      Edit Profile
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="">
-                <div className="mt-2">
-                  <div className="group relative">
-                    <div className="text-2xl text-blue-500 font-bold">
-                      Profile Name
+                <div className="">
+                  <div className="">
+                    <div className="group relative">
+                      <div className="text-2xl text-blue-500 font-bold">
+                        Javeriya Ibrar
+                      </div>
+                      <div className="absolute right-44 top-2 opacity-0 group-hover:opacity-100 cursor-pointer">
+                        <PencilIcon className="h-4 w-4 text-blue-500" />
+                      </div>
                     </div>
-                    <div className="absolute right-24 top-2 opacity-0 group-hover:opacity-100 cursor-pointer">
-                      <PencilIcon className="h-4 w-4 text-blue-500" />
+                    <Link href="">
+                      <a className="text-gray-500 text-xs font-semibold">
+                        <div className="flex items-center gap-1">
+                          <LocationMarkerIcon className="w-5 h-5" />
+                          Your Location
+                        </div>
+                      </a>
+                    </Link>
+                    <Link href="">
+                      <a className="text-blue-500 text-xs font-semibold">
+                        Recent Job And Position
+                      </a>
+                    </Link>
+                    <div className="mt-2 w-1/2">
+                      Lorem Ipsum is simply dummy text of the printing and
+                      typesetting industry. Lorem Ipsum has been the industry's
+                      standard dummy text ever since the 1500s, when an unknown
+                      printer took a galley of type and scrambled it to make a
+                      type specimen book.
                     </div>
                   </div>
-                  <Link href="">
-                    <a className="text-gray-500 text-xs font-semibold">
-                      <div className="flex items-center gap-1">
-                        <LocationMarkerIcon className="w-5 h-5" />
-                        Your Location
-                      </div>
-                    </a>
-                  </Link>
-                  <Link href="">
-                    <a className="text-blue-500 text-xs font-semibold">
-                      Recent Job And Position
-                    </a>
-                  </Link>
                   <div className="flex gap-2 mt-8">
                     <Link href="">
                       <a className="flex items-center text-blue-500 border border-blue-500 px-2 rounded text-xs font-semibold">
@@ -99,19 +110,18 @@ const ProfileCard = () => {
                 </div>
               </div>
             </div>
-            <BookmarkIcon className="w-5 h-5" />
           </div>
-          <div className="mt-8">
+          <div className="">
             <div className="flex flex-wrap">
               <div className="w-full">
                 <ul
-                  className="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row"
+                  className="flex ml-32 mb-0 list-none flex-wrap pt-3 pb-4 flex-row"
                   role="tablist"
                 >
                   <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
                     <a
                       className={
-                        "flex justify-center gap-2 text-xs font-bold uppercase px-5 py-3 shadow-lg rounded leading-normal " +
+                        "flex justify-center gap-2 text-xs font-bold uppercase px-5 py-3 shadow-lg rounded-xl leading-normal " +
                         (openTab === 1
                           ? "text-white bg-blue-500"
                           : "text-blue-500 bg-gray-100")
@@ -124,13 +134,13 @@ const ProfileCard = () => {
                       href="#link1"
                       role="tablist"
                     >
-                      <UserIcon className="w-4 h-4" /> Profile
+                      <UserIcon className="w-4 h-4" /> About
                     </a>
                   </li>
                   <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
                     <a
                       className={
-                        "flex justify-center gap-2 text-xs font-bold uppercase px-5 py-3 shadow-lg rounded leading-normal " +
+                        "flex justify-center gap-2 text-xs font-bold uppercase px-5 py-3 shadow-lg rounded-xl leading-normal " +
                         (openTab === 2
                           ? "text-white bg-blue-500"
                           : "text-blue-500 bg-gray-100")
@@ -143,13 +153,13 @@ const ProfileCard = () => {
                       href="#link2"
                       role="tablist"
                     >
-                      <CogIcon className="h-4 w-4" /> Settings
+                      <BookmarkIcon className="h-4 w-4" /> Saved Items
                     </a>
                   </li>
                   <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
                     <a
                       className={
-                        "flex justify-center gap-2 text-xs font-bold uppercase px-5 py-3 shadow-lg rounded leading-normal " +
+                        "flex justify-center gap-2 text-xs font-bold uppercase px-5 py-3 shadow-lg rounded-xl leading-normal " +
                         (openTab === 3
                           ? "text-white bg-blue-500"
                           : "text-blue-500 bg-gray-100")
@@ -162,26 +172,111 @@ const ProfileCard = () => {
                       href="#link3"
                       role="tablist"
                     >
-                      <i className="fas fa-briefcase text-base mr-1"></i>{" "}
                       Options
                     </a>
                   </li>
                 </ul>
-                <div className="relative flex flex-col min-w-0 break-words bg-gray-100 w-full mb-6 shadow-lg rounded">
-                  <div className="px-4 py-5 flex-auto">
+                <div className="relative flex flex-col min-w-0 break-words w-full shadow-lg rounded-b-xl">
+                  <div className="flex-auto">
                     <div className="tab-content tab-space">
                       <div
                         className={openTab === 1 ? "block" : "hidden"}
                         id="link1"
                       >
-                        <p>
-                          Collaboratively administrate empowered markets via
-                          plug-and-play networks. Dynamically procrastinate B2C
-                          users after installed base benefits.
-                          <br />
-                          <br /> Dramatically visualize customer directed
-                          convergence without revolutionary ROI.
-                        </p>
+                        <div className="bg-gray-100 rounded-b-xl">
+                          <div className="font-bold text-lg p-5">
+                            User Details
+                          </div>
+                          <div className="grid grid-cols-2">
+                            <div className="px-12 py-5 border-r">
+                              <div className="flex items-center gap-3 my-4">
+                                <div className="font-bold">State Name:</div>
+                                <div className="">Arizona</div>
+                              </div>
+                              <hr />
+                              <div className="flex items-center gap-3 my-4">
+                                <div className="font-bold">City Name:</div>
+                                <div className="">Phoenix</div>
+                              </div>
+                              <hr />
+                              <div className="flex items-center gap-3 my-4">
+                                <div className="font-bold">Company Name:</div>
+                                <div className="">
+                                  <a href="" className="hover:underline">
+                                    Neptune Technologies
+                                  </a>
+                                </div>
+                              </div>
+                              <hr />
+                              <div className="flex items-center gap-3 my-4">
+                                <div className="font-bold">
+                                  Position in Company:
+                                </div>
+                                <div className="">
+                                  <a href="" className="">
+                                    Senior Websits developers
+                                  </a>
+                                </div>
+                              </div>
+                              <hr />
+                              <div className="flex items-center gap-3 my-4">
+                                <div className="font-bold">
+                                  Your Company Adress:
+                                </div>
+                                <div className="">
+                                  <a href="" className="hover:underline">
+                                    2000 East Rio Salado Parkway Phoenix Arizona
+                                  </a>
+                                </div>
+                              </div>
+                              <hr />
+                              <div className="flex items-center gap-3 my-4">
+                                <div className="font-bold">
+                                  Current Job Title:
+                                </div>
+                                <div className="">Rubby and Rails Devolper</div>
+                              </div>
+                              <hr />
+                            </div>
+                            <div className="px-4 py-5">
+                              <div className="flex items-center gap-3 my-4">
+                                <div className="font-bold">Email Adress:</div>
+                                <div className="">abc123@gmail.com</div>
+                              </div>
+                              <hr />
+                              <div className="flex items-center gap-3 my-4">
+                                <div className="font-bold">Phon Number:</div>
+                                <a
+                                  href=""
+                                  className="flex gap-2 hover:underline"
+                                >
+                                  <PhoneIcon className="h-5 w-5" />
+                                  +1 844-962-2802
+                                </a>
+                              </div>
+                              <hr />
+                              <div className="flex items-center gap-3 my-4">
+                                <div className="font-bold">Birthday:</div>
+                                <div className="">25-August-1998</div>
+                              </div>
+                              <hr />
+                              <div className="flex items-center gap-3 my-4">
+                                <div className="font-bold">Your Adress:</div>
+                                <div className="">
+                                  <a href="" className="hover:underline">
+                                    15091 South Komatke Lane Laveen Village,
+                                    Phoenix
+                                  </a>
+                                </div>
+                              </div>
+                              <hr />
+                            </div>
+                          </div>
+                          <div className="flex gap-2 justify-center items-center p-4">
+                            <div className="font-bold">Join PeoplesNect:</div>
+                            <div className="font-normal">2-11-1992</div>
+                          </div>
+                        </div>
                       </div>
                       <div
                         className={openTab === 2 ? "block" : "hidden"}
