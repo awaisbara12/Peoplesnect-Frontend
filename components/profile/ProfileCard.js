@@ -26,6 +26,7 @@ import {
   Tab,
   TabPanel,
 } from "@material-tailwind/react";
+import AboutProfile from "./AboutProfile";
 
 const ProfileCard = () => {
   const [openTab, setOpenTab] = React.useState(1);
@@ -60,7 +61,7 @@ const ProfileCard = () => {
                   <div className="">
                     <div className="group relative">
                       <div className="text-2xl text-blue-500 font-bold">
-                        Javeriya Ibrar
+                        Profile Name
                       </div>
                       <div className="absolute right-44 top-2 opacity-0 group-hover:opacity-100 cursor-pointer">
                         <PencilIcon className="h-4 w-4 text-blue-500" />
@@ -81,7 +82,7 @@ const ProfileCard = () => {
                     </Link>
                     <div className="mt-2 w-1/2">
                       Lorem Ipsum is simply dummy text of the printing and
-                      typesetting industry. Lorem Ipsum has been the industry's
+                      typesetting industry. Lorem Ipsum has been the industrys
                       standard dummy text ever since the 1500s, when an unknown
                       printer took a galley of type and scrambled it to make a
                       type specimen book.
@@ -183,100 +184,7 @@ const ProfileCard = () => {
                         className={openTab === 1 ? "block" : "hidden"}
                         id="link1"
                       >
-                        <div className="bg-gray-100 rounded-b-xl">
-                          <div className="font-bold text-lg p-5">
-                            User Details
-                          </div>
-                          <div className="grid grid-cols-2">
-                            <div className="px-12 py-5 border-r">
-                              <div className="flex items-center gap-3 my-4">
-                                <div className="font-bold">State Name:</div>
-                                <div className="">Arizona</div>
-                              </div>
-                              <hr />
-                              <div className="flex items-center gap-3 my-4">
-                                <div className="font-bold">City Name:</div>
-                                <div className="">Phoenix</div>
-                              </div>
-                              <hr />
-                              <div className="flex items-center gap-3 my-4">
-                                <div className="font-bold">Company Name:</div>
-                                <div className="">
-                                  <a href="" className="hover:underline">
-                                    Neptune Technologies
-                                  </a>
-                                </div>
-                              </div>
-                              <hr />
-                              <div className="flex items-center gap-3 my-4">
-                                <div className="font-bold">
-                                  Position in Company:
-                                </div>
-                                <div className="">
-                                  <a href="" className="">
-                                    Senior Websits developers
-                                  </a>
-                                </div>
-                              </div>
-                              <hr />
-                              <div className="flex items-center gap-3 my-4">
-                                <div className="font-bold">
-                                  Your Company Adress:
-                                </div>
-                                <div className="">
-                                  <a href="" className="hover:underline">
-                                    2000 East Rio Salado Parkway Phoenix Arizona
-                                  </a>
-                                </div>
-                              </div>
-                              <hr />
-                              <div className="flex items-center gap-3 my-4">
-                                <div className="font-bold">
-                                  Current Job Title:
-                                </div>
-                                <div className="">Rubby and Rails Devolper</div>
-                              </div>
-                              <hr />
-                            </div>
-                            <div className="px-4 py-5">
-                              <div className="flex items-center gap-3 my-4">
-                                <div className="font-bold">Email Adress:</div>
-                                <div className="">abc123@gmail.com</div>
-                              </div>
-                              <hr />
-                              <div className="flex items-center gap-3 my-4">
-                                <div className="font-bold">Phon Number:</div>
-                                <a
-                                  href=""
-                                  className="flex gap-2 hover:underline"
-                                >
-                                  <PhoneIcon className="h-5 w-5" />
-                                  +1 844-962-2802
-                                </a>
-                              </div>
-                              <hr />
-                              <div className="flex items-center gap-3 my-4">
-                                <div className="font-bold">Birthday:</div>
-                                <div className="">25-August-1998</div>
-                              </div>
-                              <hr />
-                              <div className="flex items-center gap-3 my-4">
-                                <div className="font-bold">Your Adress:</div>
-                                <div className="">
-                                  <a href="" className="hover:underline">
-                                    15091 South Komatke Lane Laveen Village,
-                                    Phoenix
-                                  </a>
-                                </div>
-                              </div>
-                              <hr />
-                            </div>
-                          </div>
-                          <div className="flex gap-2 justify-center items-center p-4">
-                            <div className="font-bold">Join PeoplesNect:</div>
-                            <div className="font-normal">2-11-1992</div>
-                          </div>
-                        </div>
+                        <AboutProfile />
                       </div>
                       <div
                         className={openTab === 2 ? "block" : "hidden"}
