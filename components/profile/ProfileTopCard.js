@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import postimage from "../../public/images/cover.jpg";
+import postimage from "../../public/images/266-hero.jpg";
 import photos from "../../public/images/pagecover.jpg";
 import photos1 from "../../public/images/brand.jpg";
 import photos2 from "../../public/images/product1.png";
@@ -10,6 +10,7 @@ import photos3 from "../../public/images/groupcover.jpg";
 import ProfileAvatar from "../../public/images/profile-girl.jpg";
 import {
   BookmarkAltIcon,
+  PhotographIcon,
   ChatAlt2Icon,
   CogIcon,
   LocationMarkerIcon,
@@ -17,6 +18,7 @@ import {
   PhoneIcon,
   UserIcon,
   XIcon,
+  StarIcon,
 } from "@heroicons/react/outline";
 import { BookmarkIcon } from "@heroicons/react/solid";
 import {
@@ -26,31 +28,62 @@ import {
   Tab,
   TabPanel,
 } from "@material-tailwind/react";
-import AboutProfile from "./AboutProfile";
+import TabsProfileCard from "./profile-tabs/TabsProfileCard";
 
-const ProfileCard = () => {
+const ProfileTopCard = () => {
   const [openTab, setOpenTab] = React.useState(1);
   return (
     <div className="mt-8">
-      <div className="max-w-[1340px] xl:w-full">
-        <div className="blogs bg-white rounded-xl pt-8">
-          <div className="pl-32">
-            <div className="flex justify-between">
-              <div className="mt-5 flex gap-14">
-                <div className="relative">
+      <div className="px-10 w-[720px] xl:w-full">
+        <div className="blogs bg-white rounded-xl">
+          <div className="group relative w-full">
+            <div className="">
+              <Link href="/">
+                <a>
+                  <Image
+                    src={postimage}
+                    className="object-cover rounded-xl"
+                    width={720}
+                    height={220}
+                    alt=""
+                  />
+                </a>
+              </Link>
+            </div>
+            <div className="absolute top-0 left-0 right-0 bottom-0 w-full rounded-xl h-full bg-black bg-opacity-0 flex justify-center items-center opacity-0 hover:opacity-100 hover:bg-opacity-70 duration-500">
+              <div className="relative flex items-center justify-center">
+                <div className="">
+                  <div className="flex cursor-pointer gap-2 items-center p-2 rounded-xl border-2 border-white text-white">
+                    <PhotographIcon width={22} height={22} />
+                    Change Cover Photo
+                  </div>
+                </div>
+                <input
+                  name="image"
+                  id="image"
+                  className="opacity-0 absolute w-6 h-6 -z-0"
+                  multiple
+                />
+              </div>
+            </div>
+          </div>
+          <div className="pl-10">
+            <div className="">
+              <div className="flex gap-10">
+                <div className="relative -mt-8  border-x h-48 rounded-t-full">
                   <Link href="">
                     <a>
                       <Image
                         src={ProfileAvatar}
-                        width={260}
-                        height={350}
-                        className="object-cover"
+                        width={125}
+                        height={125}
+                        className="object-cover rounded-full z-40"
                         placeholder="empty"
                         alt="profile-image"
                       />
                     </a>
                   </Link>
-                  <div className="absolute top-0 left-0 right-0 bottom-0 w-44 h-44 bg-black bg-opacity-0 flex justify-center items-center opacity-0 hover:opacity-100 hover:bg-opacity-70 duration-500">
+                  <div className="absolute top-0 left-0 right-0 bottom-0 w-36 rounded-full h-36 bg-black bg-opacity-0 z-50 flex justify-center items-center opacity-0 hover:opacity-100 hover:bg-opacity-70 duration-500">
                     <div className="flex gap-2 text-white rounded-full  cursor-pointer">
                       <PencilIcon className="w-4 h-4" />
                       Edit Profile
@@ -58,12 +91,12 @@ const ProfileCard = () => {
                   </div>
                 </div>
                 <div className="">
-                  <div className="">
+                  <div className="mt-4">
                     <div className="group relative">
                       <div className="text-2xl text-blue-500 font-bold">
                         Profile Name
                       </div>
-                      <div className="absolute right-44 top-2 opacity-0 group-hover:opacity-100 cursor-pointer">
+                      <div className="absolute -right-6 top-2 opacity-0 group-hover:opacity-100 cursor-pointer">
                         <PencilIcon className="h-4 w-4 text-blue-500" />
                       </div>
                     </div>
@@ -80,15 +113,8 @@ const ProfileCard = () => {
                         Recent Job And Position
                       </a>
                     </Link>
-                    <div className="mt-2 w-1/2">
-                      Lorem Ipsum is simply dummy text of the printing and
-                      typesetting industry. Lorem Ipsum has been the industrys
-                      standard dummy text ever since the 1500s, when an unknown
-                      printer took a galley of type and scrambled it to make a
-                      type specimen book.
-                    </div>
                   </div>
-                  <div className="flex gap-2 mt-8">
+                  {/* <div className="flex gap-2 mt-8">
                     <Link href="">
                       <a className="flex items-center text-blue-500 border border-blue-500 px-2 rounded text-xs font-semibold">
                         <UserIcon className="w-5 h-5" />
@@ -107,114 +133,7 @@ const ProfileCard = () => {
                         Report User
                       </a>
                     </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="">
-            <div className="flex flex-wrap">
-              <div className="w-full">
-                <ul
-                  className="flex ml-32 mb-0 list-none flex-wrap pt-3 pb-4 flex-row"
-                  role="tablist"
-                >
-                  <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
-                    <a
-                      className={
-                        "flex justify-center gap-2 text-xs font-bold uppercase px-5 py-3 shadow-lg rounded-xl leading-normal " +
-                        (openTab === 1
-                          ? "text-white bg-blue-500"
-                          : "text-blue-500 bg-gray-100")
-                      }
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setOpenTab(1);
-                      }}
-                      data-toggle="tab"
-                      href="#link1"
-                      role="tablist"
-                    >
-                      <UserIcon className="w-4 h-4" /> About
-                    </a>
-                  </li>
-                  <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
-                    <a
-                      className={
-                        "flex justify-center gap-2 text-xs font-bold uppercase px-5 py-3 shadow-lg rounded-xl leading-normal " +
-                        (openTab === 2
-                          ? "text-white bg-blue-500"
-                          : "text-blue-500 bg-gray-100")
-                      }
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setOpenTab(2);
-                      }}
-                      data-toggle="tab"
-                      href="#link2"
-                      role="tablist"
-                    >
-                      <BookmarkIcon className="h-4 w-4" /> Saved Items
-                    </a>
-                  </li>
-                  <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
-                    <a
-                      className={
-                        "flex justify-center gap-2 text-xs font-bold uppercase px-5 py-3 shadow-lg rounded-xl leading-normal " +
-                        (openTab === 3
-                          ? "text-white bg-blue-500"
-                          : "text-blue-500 bg-gray-100")
-                      }
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setOpenTab(3);
-                      }}
-                      data-toggle="tab"
-                      href="#link3"
-                      role="tablist"
-                    >
-                      Options
-                    </a>
-                  </li>
-                </ul>
-                <div className="relative flex flex-col min-w-0 break-words w-full shadow-lg rounded-b-xl">
-                  <div className="flex-auto">
-                    <div className="tab-content tab-space">
-                      <div
-                        className={openTab === 1 ? "block" : "hidden"}
-                        id="link1"
-                      >
-                        <AboutProfile />
-                      </div>
-                      <div
-                        className={openTab === 2 ? "block" : "hidden"}
-                        id="link2"
-                      >
-                        <p>
-                          Completely synergize resource taxing relationships via
-                          premier niche markets. Professionally cultivate
-                          one-to-one customer service with robust ideas.
-                          <br />
-                          <br />
-                          Dynamically innovate resource-leveling customer
-                          service for state of the art customer service.
-                        </p>
-                      </div>
-                      <div
-                        className={openTab === 3 ? "block" : "hidden"}
-                        id="link3"
-                      >
-                        <p>
-                          Efficiently unleash cross-media information without
-                          cross-media value. Quickly maximize timely
-                          deliverables for real-time schemas.
-                          <br />
-                          <br /> Dramatically maintain clicks-and-mortar
-                          solutions without functional solutions.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
@@ -347,9 +266,10 @@ const ProfileCard = () => {
             </div>
           </div> */}
         </div>
+        <TabsProfileCard />
       </div>
     </div>
   );
 };
 
-export default ProfileCard;
+export default ProfileTopCard;
