@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import Link from "next/link";
 import { signout } from "../../auth/signout/SignOut";
-import { CogIcon } from "@heroicons/react/outline";
+import { AdjustmentsIcon, CogIcon } from "@heroicons/react/outline";
 import { SearchIcon } from "@heroicons/react/solid";
 import { Popover, Transition } from "@headlessui/react";
 import Spinner from "../../common/Spinner";
@@ -35,7 +35,7 @@ const GroupSearch = () => {
                   }`}
                 >
                   <div className="">
-                    <CogIcon className="w-7 h-7 text-blue-500" />
+                  <AdjustmentsIcon className="w-7 h-7 rotate-90 text-blue-500" />
                   </div>
                 </Popover.Button>
                 <Transition

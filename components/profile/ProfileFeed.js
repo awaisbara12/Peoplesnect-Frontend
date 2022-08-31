@@ -7,7 +7,7 @@ import ProfileFeedSingle from "./ProfileFeedSingle";
 const ProfileFeed = () => {
   return (
     <div className="mt-8">
-      <div className="px-10 w-[620px] xl:w-full">
+      <div className="px-10 w-[750px] xl:w-full">
         <NewsPostProfile />
         <ProfileFeedSingle />
       </div>
