@@ -39,7 +39,7 @@ const Followings = () => {
               </div>
               <Menu as="div" className="relative inline-block text-left">
                 <div>
-                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 hover:bg-blue-500 hover:text-white border-blue-500 px-3 py-2">
+                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-indigo-400 border-1 hover:bg-indigo-400 hover:text-white border-indigo-400 px-3 py-2">
                     Following
                     <ChevronDownIcon
                       className="-mr-1 ml-2 h-5 w-5"
@@ -57,7 +57,7 @@ const Followings = () => {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white">
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-indigo-400 border-indigo-400 hover:bg-indigo-400 hover:text-white">
                     <div className="py-1">
                       <Menu.Item>
                         {({ active }) => (
@@ -97,7 +97,7 @@ const Followings = () => {
               </div>
               <Menu as="div" className="relative inline-block text-left">
                 <div>
-                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 hover:bg-blue-500 hover:text-white border-blue-500 px-3 py-2">
+                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-indigo-400 border-1 hover:bg-indigo-400 hover:text-white border-indigo-400 px-3 py-2">
                     Following
                     <ChevronDownIcon
                       className="-mr-1 ml-2 h-5 w-5"
@@ -115,7 +115,7 @@ const Followings = () => {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white">
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-indigo-400 border-indigo-400 hover:bg-indigo-400 hover:text-white">
                     <div className="py-1">
                       <Menu.Item>
                         {({ active }) => (
@@ -155,7 +155,7 @@ const Followings = () => {
               </div>
               <Menu as="div" className="relative inline-block text-left">
                 <div>
-                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 hover:bg-blue-500 hover:text-white border-blue-500 px-3 py-2">
+                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-indigo-400 border-1 hover:bg-indigo-400 hover:text-white border-indigo-400 px-3 py-2">
                     Following
                     <ChevronDownIcon
                       className="-mr-1 ml-2 h-5 w-5"
@@ -173,7 +173,7 @@ const Followings = () => {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white">
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-indigo-400 border-indigo-400 hover:bg-indigo-400 hover:text-white">
                     <div className="py-1">
                       <Menu.Item>
                         {({ active }) => (
@@ -213,7 +213,7 @@ const Followings = () => {
               </div>
               <Menu as="div" className="relative inline-block text-left">
                 <div>
-                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 hover:bg-blue-500 hover:text-white border-blue-500 px-3 py-2">
+                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-indigo-400 border-1 hover:bg-indigo-400 hover:text-white border-indigo-400 px-3 py-2">
                     Following
                     <ChevronDownIcon
                       className="-mr-1 ml-2 h-5 w-5"
@@ -231,7 +231,7 @@ const Followings = () => {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white">
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-indigo-400 border-indigo-400 hover:bg-indigo-400 hover:text-white">
                     <div className="py-1">
                       <Menu.Item>
                         {({ active }) => (
@@ -271,7 +271,7 @@ const Followings = () => {
               </div>
               <Menu as="div" className="relative inline-block text-left">
                 <div>
-                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 hover:bg-blue-500 hover:text-white border-blue-500 px-3 py-2">
+                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-indigo-400 border-1 hover:bg-indigo-400 hover:text-white border-indigo-400 px-3 py-2">
                     Following
                     <ChevronDownIcon
                       className="-mr-1 ml-2 h-5 w-5"
@@ -289,7 +289,7 @@ const Followings = () => {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white">
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-indigo-400 border-indigo-400 hover:bg-indigo-400 hover:text-white">
                     <div className="py-1">
                       <Menu.Item>
                         {({ active }) => (
@@ -329,7 +329,7 @@ const Followings = () => {
               </div>
               <Menu as="div" className="relative inline-block text-left">
                 <div>
-                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 hover:bg-blue-500 hover:text-white border-blue-500 px-3 py-2">
+                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-indigo-400 border-1 hover:bg-indigo-400 hover:text-white border-indigo-400 px-3 py-2">
                     Following
                     <ChevronDownIcon
                       className="-mr-1 ml-2 h-5 w-5"
@@ -347,7 +347,7 @@ const Followings = () => {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white">
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-indigo-400 border-indigo-400 hover:bg-indigo-400 hover:text-white">
                     <div className="py-1">
                       <Menu.Item>
                         {({ active }) => (
@@ -387,7 +387,7 @@ const Followings = () => {
               </div>
               <Menu as="div" className="relative inline-block text-left">
                 <div>
-                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 hover:bg-blue-500 hover:text-white border-blue-500 px-3 py-2">
+                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-indigo-400 border-1 hover:bg-indigo-400 hover:text-white border-indigo-400 px-3 py-2">
                     Following
                     <ChevronDownIcon
                       className="-mr-1 ml-2 h-5 w-5"
@@ -405,7 +405,7 @@ const Followings = () => {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white">
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-indigo-400 border-indigo-400 hover:bg-indigo-400 hover:text-white">
                     <div className="py-1">
                       <Menu.Item>
                         {({ active }) => (
@@ -445,7 +445,7 @@ const Followings = () => {
               </div>
               <Menu as="div" className="relative inline-block text-left">
                 <div>
-                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 hover:bg-blue-500 hover:text-white border-blue-500 px-3 py-2">
+                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-indigo-400 border-1 hover:bg-indigo-400 hover:text-white border-indigo-400 px-3 py-2">
                     Following
                     <ChevronDownIcon
                       className="-mr-1 ml-2 h-5 w-5"
@@ -463,7 +463,7 @@ const Followings = () => {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white">
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-indigo-400 border-indigo-400 hover:bg-indigo-400 hover:text-white">
                     <div className="py-1">
                       <Menu.Item>
                         {({ active }) => (
@@ -503,7 +503,7 @@ const Followings = () => {
               </div>
               <Menu as="div" className="relative inline-block text-left">
                 <div>
-                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 hover:bg-blue-500 hover:text-white border-blue-500 px-3 py-2">
+                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-indigo-400 border-1 hover:bg-indigo-400 hover:text-white border-indigo-400 px-3 py-2">
                     Following
                     <ChevronDownIcon
                       className="-mr-1 ml-2 h-5 w-5"
@@ -521,7 +521,7 @@ const Followings = () => {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white">
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-indigo-400 border-indigo-400 hover:bg-indigo-400 hover:text-white">
                     <div className="py-1">
                       <Menu.Item>
                         {({ active }) => (
@@ -561,7 +561,7 @@ const Followings = () => {
               </div>
               <Menu as="div" className="relative inline-block text-left">
                 <div>
-                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 hover:bg-blue-500 hover:text-white border-blue-500 px-3 py-2">
+                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-indigo-400 border-1 hover:bg-indigo-400 hover:text-white border-indigo-400 px-3 py-2">
                     Following
                     <ChevronDownIcon
                       className="-mr-1 ml-2 h-5 w-5"
@@ -579,7 +579,7 @@ const Followings = () => {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white">
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-indigo-400 border-indigo-400 hover:bg-indigo-400 hover:text-white">
                     <div className="py-1">
                       <Menu.Item>
                         {({ active }) => (
@@ -619,7 +619,7 @@ const Followings = () => {
               </div>
               <Menu as="div" className="relative inline-block text-left">
                 <div>
-                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 hover:bg-blue-500 hover:text-white border-blue-500 px-3 py-2">
+                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-indigo-400 border-1 hover:bg-indigo-400 hover:text-white border-indigo-400 px-3 py-2">
                     Following
                     <ChevronDownIcon
                       className="-mr-1 ml-2 h-5 w-5"
@@ -637,7 +637,7 @@ const Followings = () => {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white">
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-indigo-400 border-indigo-400 hover:bg-indigo-400 hover:text-white">
                     <div className="py-1">
                       <Menu.Item>
                         {({ active }) => (
@@ -677,7 +677,7 @@ const Followings = () => {
               </div>
               <Menu as="div" className="relative inline-block text-left">
                 <div>
-                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 hover:bg-blue-500 hover:text-white border-blue-500 px-3 py-2">
+                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-indigo-400 border-1 hover:bg-indigo-400 hover:text-white border-indigo-400 px-3 py-2">
                     Following
                     <ChevronDownIcon
                       className="-mr-1 ml-2 h-5 w-5"
@@ -695,7 +695,7 @@ const Followings = () => {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white">
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-indigo-400 border-indigo-400 hover:bg-indigo-400 hover:text-white">
                     <div className="py-1">
                       <Menu.Item>
                         {({ active }) => (
@@ -735,7 +735,7 @@ const Followings = () => {
               </div>
               <Menu as="div" className="relative inline-block text-left">
                 <div>
-                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 hover:bg-blue-500 hover:text-white border-blue-500 px-3 py-2">
+                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-indigo-400 border-1 hover:bg-indigo-400 hover:text-white border-indigo-400 px-3 py-2">
                     Following
                     <ChevronDownIcon
                       className="-mr-1 ml-2 h-5 w-5"
@@ -753,7 +753,7 @@ const Followings = () => {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white">
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-indigo-400 border-indigo-400 hover:bg-indigo-400 hover:text-white">
                     <div className="py-1">
                       <Menu.Item>
                         {({ active }) => (
@@ -793,7 +793,7 @@ const Followings = () => {
               </div>
               <Menu as="div" className="relative inline-block text-left">
                 <div>
-                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 hover:bg-blue-500 hover:text-white border-blue-500 px-3 py-2">
+                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-indigo-400 border-1 hover:bg-indigo-400 hover:text-white border-indigo-400 px-3 py-2">
                     Following
                     <ChevronDownIcon
                       className="-mr-1 ml-2 h-5 w-5"
@@ -811,7 +811,7 @@ const Followings = () => {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white">
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-indigo-400 border-indigo-400 hover:bg-indigo-400 hover:text-white">
                     <div className="py-1">
                       <Menu.Item>
                         {({ active }) => (
@@ -851,7 +851,7 @@ const Followings = () => {
               </div>
               <Menu as="div" className="relative inline-block text-left">
                 <div>
-                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 hover:bg-blue-500 hover:text-white border-blue-500 px-3 py-2">
+                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-indigo-400 border-1 hover:bg-indigo-400 hover:text-white border-indigo-400 px-3 py-2">
                     Following
                     <ChevronDownIcon
                       className="-mr-1 ml-2 h-5 w-5"
@@ -869,7 +869,7 @@ const Followings = () => {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white">
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-indigo-400 border-indigo-400 hover:bg-indigo-400 hover:text-white">
                     <div className="py-1">
                       <Menu.Item>
                         {({ active }) => (
@@ -909,7 +909,7 @@ const Followings = () => {
               </div>
               <Menu as="div" className="relative inline-block text-left">
                 <div>
-                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 hover:bg-blue-500 hover:text-white border-blue-500 px-3 py-2">
+                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-indigo-400 border-1 hover:bg-indigo-400 hover:text-white border-indigo-400 px-3 py-2">
                     Following
                     <ChevronDownIcon
                       className="-mr-1 ml-2 h-5 w-5"
@@ -927,7 +927,7 @@ const Followings = () => {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white">
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-indigo-400 border-indigo-400 hover:bg-indigo-400 hover:text-white">
                     <div className="py-1">
                       <Menu.Item>
                         {({ active }) => (
@@ -967,7 +967,7 @@ const Followings = () => {
               </div>
               <Menu as="div" className="relative inline-block text-left">
                 <div>
-                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 hover:bg-blue-500 hover:text-white border-blue-500 px-3 py-2">
+                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-indigo-400 border-1 hover:bg-indigo-400 hover:text-white border-indigo-400 px-3 py-2">
                     Following
                     <ChevronDownIcon
                       className="-mr-1 ml-2 h-5 w-5"
@@ -985,7 +985,7 @@ const Followings = () => {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white">
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-indigo-400 border-indigo-400 hover:bg-indigo-400 hover:text-white">
                     <div className="py-1">
                       <Menu.Item>
                         {({ active }) => (
@@ -1025,7 +1025,7 @@ const Followings = () => {
               </div>
               <Menu as="div" className="relative inline-block text-left">
                 <div>
-                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 hover:bg-blue-500 hover:text-white border-blue-500 px-3 py-2">
+                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-indigo-400 border-1 hover:bg-indigo-400 hover:text-white border-indigo-400 px-3 py-2">
                     Following
                     <ChevronDownIcon
                       className="-mr-1 ml-2 h-5 w-5"
@@ -1043,7 +1043,7 @@ const Followings = () => {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white">
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-indigo-400 border-indigo-400 hover:bg-indigo-400 hover:text-white">
                     <div className="py-1">
                       <Menu.Item>
                         {({ active }) => (
@@ -1083,7 +1083,7 @@ const Followings = () => {
               </div>
               <Menu as="div" className="relative inline-block text-left">
                 <div>
-                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 hover:bg-blue-500 hover:text-white border-blue-500 px-3 py-2">
+                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-indigo-400 border-1 hover:bg-indigo-400 hover:text-white border-indigo-400 px-3 py-2">
                     Following
                     <ChevronDownIcon
                       className="-mr-1 ml-2 h-5 w-5"
@@ -1101,7 +1101,7 @@ const Followings = () => {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white">
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-indigo-400 border-indigo-400 hover:bg-indigo-400 hover:text-white">
                     <div className="py-1">
                       <Menu.Item>
                         {({ active }) => (
@@ -1141,7 +1141,7 @@ const Followings = () => {
               </div>
               <Menu as="div" className="relative inline-block text-left">
                 <div>
-                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-blue-500 border-1 hover:bg-blue-500 hover:text-white border-blue-500 px-3 py-2">
+                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-indigo-400 border-1 hover:bg-indigo-400 hover:text-white border-indigo-400 px-3 py-2">
                     Following
                     <ChevronDownIcon
                       className="-mr-1 ml-2 h-5 w-5"
@@ -1159,7 +1159,7 @@ const Followings = () => {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white">
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-indigo-400 border-indigo-400 hover:bg-indigo-400 hover:text-white">
                     <div className="py-1">
                       <Menu.Item>
                         {({ active }) => (

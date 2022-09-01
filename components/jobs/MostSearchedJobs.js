@@ -287,7 +287,7 @@ const MostSearchedJobs = () => {
             <div className="border-b-1 py-4">
               <div className="text-center">
                 <Link className="" href="">
-                  <a className="text-blue-500">Search For More Jobs</a>
+                  <a className="text-indigo-400">Search For More Jobs</a>
                 </Link>
               </div>
             </div>

@@ -14,7 +14,7 @@ const MainPage = () => {
           <div className="justify-between flex items-center">
             <div className="heading font-semibold">Liked Pages</div>
             <div className="all-button">
-              <button className="bg-blue-500 text-white px-3 py-2 rounded-full">
+              <button className="bg-indigo-400 text-white px-3 py-2 rounded-full">
                 Show All
               </button>
             </div>
@@ -66,7 +66,7 @@ const MainPage = () => {
                 </div>
                 <div className="float-right">
                   <a href="page-design/liked-pages">
-                    <button className="px-2 bg-blue-500 text-white rounded-xl py-2 hover:text-blue-500 hover:bg-transparent  border-1 border-blue-500 mt-2 mb-4">
+                    <button className="px-2 bg-indigo-400 text-white rounded-xl py-2 hover:text-indigo-400 hover:bg-transparent  border-1 border-indigo-400 mt-2 mb-4">
                       Show Page
                     </button>
                   </a>
@@ -119,7 +119,7 @@ const MainPage = () => {
                 </div>
                 <div className="float-right">
                   <a href="page-design/liked-pages">
-                    <button className="px-2 bg-blue-500 text-white rounded-xl py-2 hover:text-blue-500 hover:bg-transparent  border-1 border-blue-500 mt-2 mb-4">
+                    <button className="px-2 bg-indigo-400 text-white rounded-xl py-2 hover:text-indigo-400 hover:bg-transparent  border-1 border-indigo-400 mt-2 mb-4">
                       Show Page
                     </button>
                   </a>
@@ -172,7 +172,7 @@ const MainPage = () => {
                 </div>
                 <div className="float-right">
                   <a href="page-design/liked-pages">
-                    <button className="px-2 bg-blue-500 text-white rounded-xl py-2 hover:text-blue-500 hover:bg-transparent  border-1 border-blue-500 mt-2 mb-4">
+                    <button className="px-2 bg-indigo-400 text-white rounded-xl py-2 hover:text-indigo-400 hover:bg-transparent  border-1 border-indigo-400 mt-2 mb-4">
                       Show Page
                     </button>
                   </a>
@@ -225,7 +225,7 @@ const MainPage = () => {
                 </div>
                 <div className="float-right">
                   <a href="page-design/liked-pages">
-                    <button className="px-2 bg-blue-500 text-white rounded-xl py-2 hover:text-blue-500 hover:bg-transparent  border-1 border-blue-500 mt-2 mb-4">
+                    <button className="px-2 bg-indigo-400 text-white rounded-xl py-2 hover:text-indigo-400 hover:bg-transparent  border-1 border-indigo-400 mt-2 mb-4">
                       Show Page
                     </button>
                   </a>
@@ -239,7 +239,7 @@ const MainPage = () => {
             <div className="justify-between flex items-center">
               <div className="heading font-semibold">Suggestions For You</div>
               <div className="all-button">
-                <button className="bg-blue-500 text-white px-3 py-2 rounded-full">
+                <button className="bg-indigo-400 text-white px-3 py-2 rounded-full">
                   Show All
                 </button>
               </div>
@@ -292,7 +292,7 @@ const MainPage = () => {
                     25,964 Liked
                   </div>
                   <a href="" className="flex justify-end">
-                    <button className="w-20 flex gap-2 justify-center bg-blue-500 text-white rounded-xl py-2 hover:text-blue-500 hover:bg-transparent  border-1 border-blue-500 mt-2 mb-4">
+                    <button className="w-20 flex gap-2 justify-center bg-indigo-400 text-white rounded-xl py-2 hover:text-indigo-400 hover:bg-transparent  border-1 border-indigo-400 mt-2 mb-4">
                       <ThumbUpIcon className="w-5 h-5" />
                       <div className="">Like</div>
                     </button>
@@ -346,7 +346,7 @@ const MainPage = () => {
                     25,964 Liked
                   </div>
                   <a href="" className="flex justify-end">
-                    <button className="w-20 flex gap-2 justify-center bg-blue-500 text-white rounded-xl py-2 hover:text-blue-500 hover:bg-transparent  border-1 border-blue-500 mt-2 mb-4">
+                    <button className="w-20 flex gap-2 justify-center bg-indigo-400 text-white rounded-xl py-2 hover:text-indigo-400 hover:bg-transparent  border-1 border-indigo-400 mt-2 mb-4">
                       <ThumbUpIcon className="w-5 h-5" />
                       <div className="">Like</div>
                     </button>
@@ -400,7 +400,7 @@ const MainPage = () => {
                     25,964 Liked
                   </div>
                   <a href="" className="flex justify-end">
-                    <button className="w-20 flex gap-2 justify-center bg-blue-500 text-white rounded-xl py-2 hover:text-blue-500 hover:bg-transparent  border-1 border-blue-500 mt-2 mb-4">
+                    <button className="w-20 flex gap-2 justify-center bg-indigo-400 text-white rounded-xl py-2 hover:text-indigo-400 hover:bg-transparent  border-1 border-indigo-400 mt-2 mb-4">
                       <ThumbUpIcon className="w-5 h-5" />
                       <div className="">Like</div>
                     </button>

@@ -36,7 +36,7 @@ function MyNetwork() {
                 </div>
               </div>
               <div className="Request-button flex items-center gap-2">
-                <button className="border-1 border-blue-500 rounded-full text-blue-500 px-3 py-1 hover:bg-blue-500 hover:text-white">
+                <button className="border-1 border-indigo-400 rounded-full text-indigo-400 px-3 py-1 hover:bg-indigo-400 hover:text-white">
                   Message
                 </button>
                 <button className="text-gray-600 border-1 border-gray-600 rounded-full px-3 py-1 hover:bg-gray-600 hover:text-white">
@@ -68,7 +68,7 @@ function MyNetwork() {
                 </div>
               </div>
               <div className="Request-button flex items-center gap-2">
-                <button className="border-1 border-blue-500 rounded-full text-blue-500 px-3 py-1 hover:bg-blue-500 hover:text-white">
+                <button className="border-1 border-indigo-400 rounded-full text-indigo-400 px-3 py-1 hover:bg-indigo-400 hover:text-white">
                   Message
                 </button>
                 <button className="text-gray-600 border-1 border-gray-600 rounded-full px-3 py-1 hover:bg-gray-600 hover:text-white">
@@ -100,7 +100,7 @@ function MyNetwork() {
                 </div>
               </div>
               <div className="Request-button flex items-center gap-2">
-                <button className="border-1 border-blue-500 rounded-full text-blue-500 px-3 py-1 hover:bg-blue-500 hover:text-white">
+                <button className="border-1 border-indigo-400 rounded-full text-indigo-400 px-3 py-1 hover:bg-indigo-400 hover:text-white">
                   Message
                 </button>
                 <button className="text-gray-600 border-1 border-gray-600 rounded-full px-3 py-1 hover:bg-gray-600 hover:text-white">
@@ -132,7 +132,7 @@ function MyNetwork() {
                 </div>
               </div>
               <div className="Request-button flex items-center gap-2">
-                <button className="border-1 border-blue-500 rounded-full text-blue-500 px-3 py-1 hover:bg-blue-500 hover:text-white">
+                <button className="border-1 border-indigo-400 rounded-full text-indigo-400 px-3 py-1 hover:bg-indigo-400 hover:text-white">
                   Message
                 </button>
                 <button className="text-gray-600 border-1 border-gray-600 rounded-full px-3 py-1 hover:bg-gray-600 hover:text-white">
@@ -164,7 +164,7 @@ function MyNetwork() {
                 </div>
               </div>
               <div className="Request-button flex items-center gap-2">
-                <button className="border-1 border-blue-500 rounded-full text-blue-500 px-3 py-1 hover:bg-blue-500 hover:text-white">
+                <button className="border-1 border-indigo-400 rounded-full text-indigo-400 px-3 py-1 hover:bg-indigo-400 hover:text-white">
                   Message
                 </button>
                 <button className="text-gray-600 border-1 border-gray-600 rounded-full px-3 py-1 hover:bg-gray-600 hover:text-white">
@@ -196,7 +196,7 @@ function MyNetwork() {
                 </div>
               </div>
               <div className="Request-button flex items-center gap-2">
-                <button className="border-1 border-blue-500 rounded-full text-blue-500 px-3 py-1 hover:bg-blue-500 hover:text-white">
+                <button className="border-1 border-indigo-400 rounded-full text-indigo-400 px-3 py-1 hover:bg-indigo-400 hover:text-white">
                   Message
                 </button>
                 <button className="text-gray-600 border-1 border-gray-600 rounded-full px-3 py-1 hover:bg-gray-600 hover:text-white">
@@ -228,7 +228,7 @@ function MyNetwork() {
                 </div>
               </div>
               <div className="Request-button flex items-center gap-2">
-                <button className="border-1 border-blue-500 rounded-full text-blue-500 px-3 py-1 hover:bg-blue-500 hover:text-white">
+                <button className="border-1 border-indigo-400 rounded-full text-indigo-400 px-3 py-1 hover:bg-indigo-400 hover:text-white">
                   Message
                 </button>
                 <button className="text-gray-600 border-1 border-gray-600 rounded-full px-3 py-1 hover:bg-gray-600 hover:text-white">
@@ -260,7 +260,7 @@ function MyNetwork() {
                 </div>
               </div>
               <div className="Request-button flex items-center gap-2">
-                <button className="border-1 border-blue-500 rounded-full text-blue-500 px-3 py-1 hover:bg-blue-500 hover:text-white">
+                <button className="border-1 border-indigo-400 rounded-full text-indigo-400 px-3 py-1 hover:bg-indigo-400 hover:text-white">
                   Message
                 </button>
                 <button className="text-gray-600 border-1 border-gray-600 rounded-full px-3 py-1 hover:bg-gray-600 hover:text-white">
@@ -292,7 +292,7 @@ function MyNetwork() {
                 </div>
               </div>
               <div className="Request-button flex items-center gap-2">
-                <button className="border-1 border-blue-500 rounded-full text-blue-500 px-3 py-1 hover:bg-blue-500 hover:text-white">
+                <button className="border-1 border-indigo-400 rounded-full text-indigo-400 px-3 py-1 hover:bg-indigo-400 hover:text-white">
                   Message
                 </button>
                 <button className="text-gray-600 border-1 border-gray-600 rounded-full px-3 py-1 hover:bg-gray-600 hover:text-white">
@@ -324,7 +324,7 @@ function MyNetwork() {
                 </div>
               </div>
               <div className="Request-button flex items-center gap-2">
-                <button className="border-1 border-blue-500 rounded-full text-blue-500 px-3 py-1 hover:bg-blue-500 hover:text-white">
+                <button className="border-1 border-indigo-400 rounded-full text-indigo-400 px-3 py-1 hover:bg-indigo-400 hover:text-white">
                   Message
                 </button>
                 <button className="text-gray-600 border-1 border-gray-600 rounded-full px-3 py-1 hover:bg-gray-600 hover:text-white">
@@ -356,7 +356,7 @@ function MyNetwork() {
                 </div>
               </div>
               <div className="Request-button flex items-center gap-2">
-                <button className="border-1 border-blue-500 rounded-full text-blue-500 px-3 py-1 hover:bg-blue-500 hover:text-white">
+                <button className="border-1 border-indigo-400 rounded-full text-indigo-400 px-3 py-1 hover:bg-indigo-400 hover:text-white">
                   Message
                 </button>
                 <button className="text-gray-600 border-1 border-gray-600 rounded-full px-3 py-1 hover:bg-gray-600 hover:text-white">
@@ -388,7 +388,7 @@ function MyNetwork() {
                 </div>
               </div>
               <div className="Request-button flex items-center gap-2">
-                <button className="border-1 border-blue-500 rounded-full text-blue-500 px-3 py-1 hover:bg-blue-500 hover:text-white">
+                <button className="border-1 border-indigo-400 rounded-full text-indigo-400 px-3 py-1 hover:bg-indigo-400 hover:text-white">
                   Message
                 </button>
                 <button className="text-gray-600 border-1 border-gray-600 rounded-full px-3 py-1 hover:bg-gray-600 hover:text-white">
@@ -420,7 +420,7 @@ function MyNetwork() {
                 </div>
               </div>
               <div className="Request-button flex items-center gap-2">
-                <button className="border-1 border-blue-500 rounded-full text-blue-500 px-3 py-1 hover:bg-blue-500 hover:text-white">
+                <button className="border-1 border-indigo-400 rounded-full text-indigo-400 px-3 py-1 hover:bg-indigo-400 hover:text-white">
                   Message
                 </button>
                 <button className="text-gray-600 border-1 border-gray-600 rounded-full px-3 py-1 hover:bg-gray-600 hover:text-white">
@@ -452,7 +452,7 @@ function MyNetwork() {
                 </div>
               </div>
               <div className="Request-button flex items-center gap-2">
-                <button className="border-1 border-blue-500 rounded-full text-blue-500 px-3 py-1 hover:bg-blue-500 hover:text-white">
+                <button className="border-1 border-indigo-400 rounded-full text-indigo-400 px-3 py-1 hover:bg-indigo-400 hover:text-white">
                   Message
                 </button>
                 <button className="text-gray-600 border-1 border-gray-600 rounded-full px-3 py-1 hover:bg-gray-600 hover:text-white">
@@ -484,7 +484,7 @@ function MyNetwork() {
                 </div>
               </div>
               <div className="Request-button flex items-center gap-2">
-                <button className="border-1 border-blue-500 rounded-full text-blue-500 px-3 py-1 hover:bg-blue-500 hover:text-white">
+                <button className="border-1 border-indigo-400 rounded-full text-indigo-400 px-3 py-1 hover:bg-indigo-400 hover:text-white">
                   Message
                 </button>
                 <button className="text-gray-600 border-1 border-gray-600 rounded-full px-3 py-1 hover:bg-gray-600 hover:text-white">
@@ -516,7 +516,7 @@ function MyNetwork() {
                 </div>
               </div>
               <div className="Request-button flex items-center gap-2">
-                <button className="border-1 border-blue-500 rounded-full text-blue-500 px-3 py-1 hover:bg-blue-500 hover:text-white">
+                <button className="border-1 border-indigo-400 rounded-full text-indigo-400 px-3 py-1 hover:bg-indigo-400 hover:text-white">
                   Message
                 </button>
                 <button className="text-gray-600 border-1 border-gray-600 rounded-full px-3 py-1 hover:bg-gray-600 hover:text-white">
@@ -548,7 +548,7 @@ function MyNetwork() {
                 </div>
               </div>
               <div className="Request-button flex items-center gap-2">
-                <button className="border-1 border-blue-500 rounded-full text-blue-500 px-3 py-1 hover:bg-blue-500 hover:text-white">
+                <button className="border-1 border-indigo-400 rounded-full text-indigo-400 px-3 py-1 hover:bg-indigo-400 hover:text-white">
                   Message
                 </button>
                 <button className="text-gray-600 border-1 border-gray-600 rounded-full px-3 py-1 hover:bg-gray-600 hover:text-white">
@@ -580,7 +580,7 @@ function MyNetwork() {
                 </div>
               </div>
               <div className="Request-button flex items-center gap-2">
-                <button className="border-1 border-blue-500 rounded-full text-blue-500 px-3 py-1 hover:bg-blue-500 hover:text-white">
+                <button className="border-1 border-indigo-400 rounded-full text-indigo-400 px-3 py-1 hover:bg-indigo-400 hover:text-white">
                   Message
                 </button>
                 <button className="text-gray-600 border-1 border-gray-600 rounded-full px-3 py-1 hover:bg-gray-600 hover:text-white">
@@ -612,7 +612,7 @@ function MyNetwork() {
                 </div>
               </div>
               <div className="Request-button flex items-center gap-2">
-                <button className="border-1 border-blue-500 rounded-full text-blue-500 px-3 py-1 hover:bg-blue-500 hover:text-white">
+                <button className="border-1 border-indigo-400 rounded-full text-indigo-400 px-3 py-1 hover:bg-indigo-400 hover:text-white">
                   Message
                 </button>
                 <button className="text-gray-600 border-1 border-gray-600 rounded-full px-3 py-1 hover:bg-gray-600 hover:text-white">

@@ -57,7 +57,10 @@ const PropertyProducts = () => {
   return (
     <Fragment>
       {ProductCetagory.map((category, i) => (
-        <div key={i} className="flex mt-5 justify-between font-semibold text-xl">
+        <div
+          key={i}
+          className="flex mt-5 justify-between font-semibold text-xl"
+        >
           <Link href="">
             <a>
               <div className="">{category.heading}</div>
@@ -118,7 +121,7 @@ const PropertyProducts = () => {
                 </div>
                 <Link href="/markeet-place/marketplace-show">
                   <a className="flex justify-end">
-                    <div className="border text-xs border-blue-500 text-center text-blue-500 w-22 mt-4 p-2 rounded-full">
+                    <div className="border text-xs border-indigo-400 text-center text-indigo-400 w-22 mt-4 p-2 rounded-full">
                       Show Details
                     </div>
                   </a>

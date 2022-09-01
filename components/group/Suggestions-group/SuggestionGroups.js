@@ -22,19 +22,19 @@ const SuggestionGroups = () => {
             </Link>
           </div>
           <div className=" details p-5">
-            <div className="heading text-2xl text-blue-500 font-bold">
+            <div className="heading text-2xl text-indigo-400 font-bold">
               Group & Company Name
             </div>
             <div className="mt-4">
               Group Type :{" "}
-              <a href="" className="text-blue-500 font-bold">
+              <a href="" className="text-indigo-400 font-bold">
                 {" "}
                 Private
               </a>
             </div>
             <div className="button text-center mt-4">
               <a href="">
-                <div className="bg-blue-500 border border-blue-500 text-white font-bold px-3 py-2 rounded-full hover:bg-transparent hover:text-blue-500">
+                <div className="bg-indigo-400 border border-indigo-400 text-white font-bold px-3 py-2 rounded-full hover:bg-transparent hover:text-indigo-400">
                   Join Group
                 </div>
               </a>
@@ -56,7 +56,7 @@ const SuggestionGroups = () => {
                   do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                   Ut enim ad minim veniam, quis nostrud exercitation ullamco
                   laboris nisi ut aliquip ex ea commodo consequat
-                  <a href="" className="ml-4 font-bold text-blue-500">
+                  <a href="" className="ml-4 font-bold text-indigo-400">
                     Read More...
                   </a>
                 </div>
@@ -64,7 +64,7 @@ const SuggestionGroups = () => {
               <div className="flex justify-between">
                 <div className="Creat-Name mt-5 font-bold">
                   Group Admin Name :{" "}
-                  <span className="text-blue-500 ml-2 cursor-pointer">
+                  <span className="text-indigo-400 ml-2 cursor-pointer">
                     BrainArcs
                   </span>
                 </div>

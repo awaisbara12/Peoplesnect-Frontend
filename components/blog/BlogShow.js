@@ -135,7 +135,7 @@ function BlogShow() {
             />
             <div className="absolute top-0 right-0">
               <div className="flex gap-2">
-                <button className="bg-blue-500 p-2 flex rounded-r-full text-white">
+                <button className="bg-indigo-400 p-2 flex rounded-r-full text-white">
                   <ChevronRightIcon className="h-[25px] w-6" />
                 </button>
               </div>

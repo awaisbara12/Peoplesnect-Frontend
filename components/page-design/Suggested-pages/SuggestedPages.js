@@ -110,25 +110,31 @@ const SuggestedPages = (setList, singleItem) => {
     resetForm();
   };
 
-  const { values, errors, touched, handleBlur, handleChange, resetForm } =
-    useFormik({
-      initialValues: {
-        eventOnline: "online",
-        eventInPerson: "In person",
-        eventName: "",
-        timezone: "",
-        startDate: "",
-        endDate: "",
-        startTime: "",
-        endTime: "",
-        address: "",
-        venue: "",
-        externalLink: "",
-        description: "",
-        speakers: "",
-      },
-      validationSchema: eventScheema,
-    });
+  const {
+    values,
+    errors,
+    touched,
+    handleBlur,
+    handleChange,
+    resetForm,
+  } = useFormik({
+    initialValues: {
+      eventOnline: "online",
+      eventInPerson: "In person",
+      eventName: "",
+      timezone: "",
+      startDate: "",
+      endDate: "",
+      startTime: "",
+      endTime: "",
+      address: "",
+      venue: "",
+      externalLink: "",
+      description: "",
+      speakers: "",
+    },
+    validationSchema: eventScheema,
+  });
 
   function postNewsData(e) {
     e.preventDefault();
@@ -200,7 +206,7 @@ const SuggestedPages = (setList, singleItem) => {
           </div>
           <div className="p-5 pt-1">
             <div className=" flex justify-between items-center">
-              <div className="heading ml-28 text-2xl text-blue-500 font-bold">
+              <div className="heading ml-28 text-2xl text-indigo-400 font-bold">
                 Page And Brand Name
               </div>
 
@@ -254,7 +260,7 @@ const SuggestedPages = (setList, singleItem) => {
                 eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
                 enim ad minim veniam, quis nostrud exercitation ullamco laboris
                 nisi ut aliquip ex ea commodo consequat
-                <a href="" className="ml-4 font-bold text-blue-500">
+                <a href="" className="ml-4 font-bold text-indigo-400">
                   Read More...
                 </a>
               </div>
@@ -262,7 +268,7 @@ const SuggestedPages = (setList, singleItem) => {
             <div className="">
               <Link href="">
                 <a href="" className="flex justify-end">
-                  <button className="w-auto flex gap-2 justify-center bg-blue-500 text-white rounded-xl p-2 hover:text-blue-500 hover:bg-transparent  border-1 border-blue-500 mt-2 mb-1">
+                  <button className="w-auto flex gap-2 justify-center bg-indigo-400 text-white rounded-xl p-2 hover:text-indigo-400 hover:bg-transparent  border-1 border-indigo-400 mt-2 mb-1">
                     <ThumbUpIcon className="w-5 h-5" />
                     <div className="">Like This Page</div>
                   </button>

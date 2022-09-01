@@ -35,7 +35,7 @@ const MyNetwrokSearch = () => {
                   }`}
                 >
                   <div className="">
-                  <AdjustmentsIcon className="w-7 h-7 rotate-90 text-blue-500" />
+                    <AdjustmentsIcon className="w-7 h-7 rotate-90 text-indigo-400" />
                   </div>
                 </Popover.Button>
                 <Transition
@@ -58,13 +58,13 @@ const MyNetwrokSearch = () => {
                           </div>
                         </a>
                         <Link href="/settings">
-                        <a className="flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50">
-                          <div className="flex text-gray-900 gap-2">
-                            <a href="">
-                              <div className="">Settings</div>
-                            </a>
-                          </div>
-                        </a>
+                          <a className="flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50">
+                            <div className="flex text-gray-900 gap-2">
+                              <a href="">
+                                <div className="">Settings</div>
+                              </a>
+                            </div>
+                          </a>
                         </Link>
                         <a className="flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50">
                           <div className="flex text-gray-900 gap-2">

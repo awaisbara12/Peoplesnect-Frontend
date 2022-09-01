@@ -13,7 +13,7 @@ function PeendingRequest() {
           <div className="flex justify-between items-center border-b-1 p-4">
             <div className="heading">Connections Request</div>
             <div className="all-button">
-              <button className="bg-blue-500 text-white p-3 rounded-full">
+              <button className="bg-indigo-400 text-white p-3 rounded-full">
                 See All Request
               </button>
             </div>
@@ -41,7 +41,7 @@ function PeendingRequest() {
                 </div>
               </div>
               <div className="Request-button flex items-center gap-2">
-                <button className="border-1 border-blue-500 rounded-full text-blue-500 px-3 py-1 hover:bg-blue-500 hover:text-white">
+                <button className="border-1 border-indigo-400 rounded-full text-indigo-400 px-3 py-1 hover:bg-indigo-400 hover:text-white">
                   Accept
                 </button>
                 <button className="text-gray-600 border-1 border-gray-600 rounded-full px-3 py-1 hover:bg-gray-600 hover:text-white">
@@ -73,7 +73,7 @@ function PeendingRequest() {
                 </div>
               </div>
               <div className="Request-button flex items-center gap-2">
-                <button className="border-1 border-blue-500 rounded-full text-blue-500 px-3 py-1 hover:bg-blue-500 hover:text-white">
+                <button className="border-1 border-indigo-400 rounded-full text-indigo-400 px-3 py-1 hover:bg-indigo-400 hover:text-white">
                   Accept
                 </button>
                 <button className="text-gray-600 border-1 border-gray-600 rounded-full px-3 py-1 hover:bg-gray-600 hover:text-white">
@@ -105,7 +105,7 @@ function PeendingRequest() {
                 </div>
               </div>
               <div className="Request-button flex items-center gap-2">
-                <button className="border-1 border-blue-500 rounded-full text-blue-500 px-3 py-1 hover:bg-blue-500 hover:text-white">
+                <button className="border-1 border-indigo-400 rounded-full text-indigo-400 px-3 py-1 hover:bg-indigo-400 hover:text-white">
                   Accept
                 </button>
                 <button className="text-gray-600 border-1 border-gray-600 rounded-full px-3 py-1 hover:bg-gray-600 hover:text-white">
@@ -137,7 +137,7 @@ function PeendingRequest() {
                 </div>
               </div>
               <div className="Request-button flex items-center gap-2">
-                <button className="border-1 border-blue-500 rounded-full text-blue-500 px-3 py-1 hover:bg-blue-500 hover:text-white">
+                <button className="border-1 border-indigo-400 rounded-full text-indigo-400 px-3 py-1 hover:bg-indigo-400 hover:text-white">
                   Accept
                 </button>
                 <button className="text-gray-600 border-1 border-gray-600 rounded-full px-3 py-1 hover:bg-gray-600 hover:text-white">
@@ -169,7 +169,7 @@ function PeendingRequest() {
                 </div>
               </div>
               <div className="Request-button flex items-center gap-2">
-                <button className="border-1 border-blue-500 rounded-full text-blue-500 px-3 py-1 hover:bg-blue-500 hover:text-white">
+                <button className="border-1 border-indigo-400 rounded-full text-indigo-400 px-3 py-1 hover:bg-indigo-400 hover:text-white">
                   Accept
                 </button>
                 <button className="text-gray-600 border-1 border-gray-600 rounded-full px-3 py-1 hover:bg-gray-600 hover:text-white">
@@ -186,7 +186,7 @@ function PeendingRequest() {
             <div className="flex justify-between items-center">
               <div className="heading font-semibold">Suggestions</div>
               <div className="all-button">
-                <button className="bg-blue-500 text-white p-2 rounded-full">
+                <button className="bg-indigo-400 text-white p-2 rounded-full">
                   See All
                 </button>
               </div>
@@ -239,7 +239,7 @@ function PeendingRequest() {
                   <div className="followers mt-5 font-extralight">
                     25,964 Followers
                   </div>
-                  <button className="w-full bg-blue-500 text-white rounded-xl py-2 hover:text-blue-500 hover:bg-transparent  border-1 border-blue-500 mt-7 mb-4">
+                  <button className="w-full bg-indigo-400 text-white rounded-xl py-2 hover:text-indigo-400 hover:bg-transparent  border-1 border-indigo-400 mt-7 mb-4">
                     Follow
                   </button>
                 </div>
@@ -291,7 +291,7 @@ function PeendingRequest() {
                   <div className="followers mt-5 font-extralight">
                     25,964 Followers
                   </div>
-                  <button className="w-full bg-blue-500 text-white rounded-xl py-2 hover:text-blue-500 hover:bg-transparent  border-1 border-blue-500 mt-7 mb-4">
+                  <button className="w-full bg-indigo-400 text-white rounded-xl py-2 hover:text-indigo-400 hover:bg-transparent  border-1 border-indigo-400 mt-7 mb-4">
                     Follow
                   </button>
                 </div>
@@ -343,7 +343,7 @@ function PeendingRequest() {
                   <div className="followers mt-5 font-extralight">
                     25,964 Followers
                   </div>
-                  <button className="w-full bg-blue-500 text-white rounded-xl py-2 hover:text-blue-500 hover:bg-transparent  border-1 border-blue-500 mt-7 mb-4">
+                  <button className="w-full bg-indigo-400 text-white rounded-xl py-2 hover:text-indigo-400 hover:bg-transparent  border-1 border-indigo-400 mt-7 mb-4">
                     Follow
                   </button>
                 </div>
@@ -395,7 +395,7 @@ function PeendingRequest() {
                   <div className="followers mt-5 font-extralight">
                     25,964 Followers
                   </div>
-                  <button className="w-full bg-blue-500 text-white rounded-xl py-2 hover:text-blue-500 hover:bg-transparent  border-1 border-blue-500 mt-7 mb-4">
+                  <button className="w-full bg-indigo-400 text-white rounded-xl py-2 hover:text-indigo-400 hover:bg-transparent  border-1 border-indigo-400 mt-7 mb-4">
                     Follow
                   </button>
                 </div>
@@ -447,7 +447,7 @@ function PeendingRequest() {
                   <div className="followers mt-5 font-extralight">
                     25,964 Followers
                   </div>
-                  <button className="w-full bg-blue-500 text-white rounded-xl py-2 hover:text-blue-500 hover:bg-transparent  border-1 border-blue-500 mt-7 mb-4">
+                  <button className="w-full bg-indigo-400 text-white rounded-xl py-2 hover:text-indigo-400 hover:bg-transparent  border-1 border-indigo-400 mt-7 mb-4">
                     Follow
                   </button>
                 </div>
@@ -499,7 +499,7 @@ function PeendingRequest() {
                   <div className="followers mt-5 font-extralight">
                     25,964 Followers
                   </div>
-                  <button className="w-full bg-blue-500 text-white rounded-xl py-2 hover:text-blue-500 hover:bg-transparent  border-1 border-blue-500 mt-7 mb-4">
+                  <button className="w-full bg-indigo-400 text-white rounded-xl py-2 hover:text-indigo-400 hover:bg-transparent  border-1 border-indigo-400 mt-7 mb-4">
                     Follow
                   </button>
                 </div>

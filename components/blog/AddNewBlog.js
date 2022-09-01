@@ -8,7 +8,7 @@ const AddNewBlog = () => {
         <a>
           <button
             type="submit"
-            className="shadow-lg shadow-blue-500 text-white text-md cursor-pointer font-bold p-4 rounded-full mt-6 bg-blue-500 hover:text-white"
+            className="shadow-lg shadow-indigo-400 text-white text-md cursor-pointer font-bold p-4 rounded-full mt-6 bg-indigo-400 hover:text-white"
           >
             Add New Blog
           </button>

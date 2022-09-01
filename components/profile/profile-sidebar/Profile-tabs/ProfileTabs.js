@@ -34,7 +34,7 @@ const ProfileTabs = () => {
                   className={
                     "flex items-center justify-center gap-1 text-xs font-bold uppercase" +
                     (openTab === 1
-                      ? "text-white border-b-1 border-blue-500 pb-2"
+                      ? "text-white border-b-1 border-indigo-400 pb-2"
                       : "")
                   }
                   onClick={(e) => {
@@ -53,7 +53,7 @@ const ProfileTabs = () => {
                   className={
                     "flex items-center justify-center gap-1 text-xs font-bold uppercase" +
                     (openTab === 2
-                      ? "text-white border-b-1 border-blue-500 pb-2"
+                      ? "text-white border-b-1 border-indigo-400 pb-2"
                       : "")
                   }
                   onClick={(e) => {
@@ -72,7 +72,7 @@ const ProfileTabs = () => {
                   className={
                     "flex items-center justify-center gap-1 text-xs font-bold uppercase" +
                     (openTab === 3
-                      ? "text-white border-b-1 border-blue-500 pb-2"
+                      ? "text-white border-b-1 border-indigo-400 pb-2"
                       : "")
                   }
                   onClick={(e) => {

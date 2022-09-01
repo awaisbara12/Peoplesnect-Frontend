@@ -21,7 +21,7 @@ const Notifications = () => {
               <div className="searech-bar">
                 <Menu as="div" className="relative inline-block text-left">
                   <div>
-                    <Menu.Button className="inline-flex justify-center w-full rounded-full bg-blue-500 text-white px-3 py-2">
+                    <Menu.Button className="inline-flex justify-center w-full rounded-full bg-indigo-400 text-white px-3 py-2">
                       Unread
                       <ChevronDownIcon
                         className="-mr-1 ml-2 h-5 w-5"
@@ -39,7 +39,7 @@ const Notifications = () => {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                    <Menu.Items className="origin-top-right absolute left-1 bg-white border border-blue-500 rounded-xl  w-24 mt-1 py-2">
+                    <Menu.Items className="origin-top-right absolute left-1 bg-white border border-indigo-400 rounded-xl  w-24 mt-1 py-2">
                       <div className="">
                         <Menu.Item>
                           {({ active }) => (
@@ -47,8 +47,8 @@ const Notifications = () => {
                               href="#"
                               className={classNames(
                                 active
-                                  ? " bg-blue-500 text-white "
-                                  : "bg-white border-b-1 text-blue-500 border-blue-500 ",
+                                  ? " bg-indigo-400 text-white "
+                                  : "bg-white border-b-1 text-indigo-400 border-indigo-400 ",
                                 "text-center text-white block py-2 text-xs"
                               )}
                             >
@@ -63,8 +63,8 @@ const Notifications = () => {
                               href="#"
                               className={classNames(
                                 active
-                                  ? " bg-blue-500 text-white "
-                                  : "bg-white border-b-1 text-blue-500 border-blue-500 ",
+                                  ? " bg-indigo-400 text-white "
+                                  : "bg-white border-b-1 text-indigo-400 border-indigo-400 ",
                                 "text-center text-white block py-2 text-xs"
                               )}
                             >
@@ -78,8 +78,8 @@ const Notifications = () => {
                               href="#"
                               className={classNames(
                                 active
-                                  ? " bg-blue-500 text-white "
-                                  : "bg-white text-blue-500",
+                                  ? " bg-indigo-400 text-white "
+                                  : "bg-white text-indigo-400",
                                 "text-center text-white block py-2 text-xs"
                               )}
                             >
@@ -114,11 +114,11 @@ const Notifications = () => {
                     </a>
                     <a href="">
                       <div className="userfield text-xs">
-                        <a href="" className="font-bold text-blue-500">
+                        <a href="" className="font-bold text-indigo-400">
                           User Name
                         </a>{" "}
                         Likes your{" "}
-                        <a className="font-bold text-blue-500" href="">
+                        <a className="font-bold text-indigo-400" href="">
                           Article
                         </a>
                       </div>
@@ -149,11 +149,11 @@ const Notifications = () => {
                     </a>
                     <a href="">
                       <div className="userfield text-xs">
-                        <a href="" className="font-bold text-blue-500">
+                        <a href="" className="font-bold text-indigo-400">
                           User Name
                         </a>{" "}
                         Commented on ur{" "}
-                        <a className="font-bold text-blue-500 " href="">
+                        <a className="font-bold text-indigo-400 " href="">
                           Post
                         </a>
                       </div>

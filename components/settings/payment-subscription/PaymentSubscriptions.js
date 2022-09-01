@@ -20,7 +20,7 @@ const PaymentSubscriptions = () => {
               <div className="">
                 <a
                   href=""
-                  className="font-medium text-blue-500 border border-blue-500 hover:bg-blue-500 hover:text-white  p-2 rounded-full"
+                  className="font-medium text-indigo-400 border border-indigo-400 hover:bg-indigo-400 hover:text-white  p-2 rounded-full"
                 >
                   Upgrade
                 </a>

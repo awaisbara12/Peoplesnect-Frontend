@@ -112,7 +112,7 @@ const AddYourItems = () => {
               <input id="dropzone-file" type="file" className="hidden" />
             </div>
             <div className="flex justify-center mt-7">
-              <div className="bg-blue-500 text-white p-3 rounded-xl font-bold">
+              <div className="bg-indigo-400 text-white p-3 rounded-xl font-bold">
                 Post Your Add
               </div>
             </div>

@@ -17,7 +17,7 @@ const MainEvents = () => {
         <div className="flex justify-between items-center">
           <div className="heading font-semibold">Events</div>
           <div className="all-button">
-            <button className="bg-blue-500 text-white p-2 rounded-full">
+            <button className="bg-indigo-400 text-white p-2 rounded-full">
               See All
             </button>
           </div>
@@ -42,7 +42,7 @@ const MainEvents = () => {
                 </div>
                 <div className="Locations mt-2 font-light">
                   Event organized by{" "}
-                  <span className="text-blue-500 cursor-pointer font-bold">
+                  <span className="text-indigo-400 cursor-pointer font-bold">
                     Compny Name
                   </span>
                 </div>
@@ -78,14 +78,14 @@ const MainEvents = () => {
               <div className="flex justify-end gap-3">
                 <Link href="">
                   <a>
-                    <div className="border border-blue-500 font-bold px-4 py-2 bg-blue-500 text-white hover:bg-transparent hover:text-blue-500 rounded-full">
+                    <div className="border border-indigo-400 font-bold px-4 py-2 bg-indigo-400 text-white hover:bg-transparent hover:text-indigo-400 rounded-full">
                       Join
                     </div>
                   </a>
                 </Link>
                 <Link href="/events-design/event-view">
                   <a>
-                    <div className="border border-blue-500 font-bold px-3 py-2 hover:bg-blue-500 hover:text-white text-blue-500 rounded-full">
+                    <div className="border border-indigo-400 font-bold px-3 py-2 hover:bg-indigo-400 hover:text-white text-indigo-400 rounded-full">
                       Details
                     </div>
                   </a>
@@ -112,7 +112,7 @@ const MainEvents = () => {
                 </div>
                 <div className="Locations mt-2 font-light">
                   Event organized by{" "}
-                  <span className="text-blue-500 cursor-pointer font-bold">
+                  <span className="text-indigo-400 cursor-pointer font-bold">
                     Compny Name
                   </span>
                 </div>
@@ -148,14 +148,14 @@ const MainEvents = () => {
               <div className="flex justify-end gap-3">
                 <Link href="">
                   <a>
-                    <div className="border border-blue-500 font-bold px-4 py-2 bg-blue-500 text-white hover:bg-transparent hover:text-blue-500 rounded-full">
+                    <div className="border border-indigo-400 font-bold px-4 py-2 bg-indigo-400 text-white hover:bg-transparent hover:text-indigo-400 rounded-full">
                       Join
                     </div>
                   </a>
                 </Link>
                 <Link href="/events-design/event-view">
                   <a>
-                    <div className="border border-blue-500 font-bold px-3 py-2 hover:bg-blue-500 hover:text-white text-blue-500 rounded-full">
+                    <div className="border border-indigo-400 font-bold px-3 py-2 hover:bg-indigo-400 hover:text-white text-indigo-400 rounded-full">
                       Details
                     </div>
                   </a>
@@ -182,7 +182,7 @@ const MainEvents = () => {
                 </div>
                 <div className="Locations mt-2 font-light">
                   Event organized by{" "}
-                  <span className="text-blue-500 cursor-pointer font-bold">
+                  <span className="text-indigo-400 cursor-pointer font-bold">
                     Compny Name
                   </span>
                 </div>
@@ -218,14 +218,14 @@ const MainEvents = () => {
               <div className="flex justify-end gap-3">
                 <Link href="">
                   <a>
-                    <div className="border border-blue-500 font-bold px-4 py-2 bg-blue-500 text-white hover:bg-transparent hover:text-blue-500 rounded-full">
+                    <div className="border border-indigo-400 font-bold px-4 py-2 bg-indigo-400 text-white hover:bg-transparent hover:text-indigo-400 rounded-full">
                       Join
                     </div>
                   </a>
                 </Link>
                 <Link href="/events-design/event-view">
                   <a>
-                    <div className="border border-blue-500 font-bold px-3 py-2 hover:bg-blue-500 hover:text-white text-blue-500 rounded-full">
+                    <div className="border border-indigo-400 font-bold px-3 py-2 hover:bg-indigo-400 hover:text-white text-indigo-400 rounded-full">
                       Details
                     </div>
                   </a>
@@ -252,7 +252,7 @@ const MainEvents = () => {
                 </div>
                 <div className="Locations mt-2 font-light">
                   Event organized by{" "}
-                  <span className="text-blue-500 cursor-pointer font-bold">
+                  <span className="text-indigo-400 cursor-pointer font-bold">
                     Compny Name
                   </span>
                 </div>
@@ -288,14 +288,14 @@ const MainEvents = () => {
               <div className="flex justify-end gap-3">
                 <Link href="">
                   <a>
-                    <div className="border border-blue-500 font-bold px-4 py-2 bg-blue-500 text-white hover:bg-transparent hover:text-blue-500 rounded-full">
+                    <div className="border border-indigo-400 font-bold px-4 py-2 bg-indigo-400 text-white hover:bg-transparent hover:text-indigo-400 rounded-full">
                       Join
                     </div>
                   </a>
                 </Link>
                 <Link href="/events-design/event-view">
                   <a>
-                    <div className="border border-blue-500 font-bold px-3 py-2 hover:bg-blue-500 hover:text-white text-blue-500 rounded-full">
+                    <div className="border border-indigo-400 font-bold px-3 py-2 hover:bg-indigo-400 hover:text-white text-indigo-400 rounded-full">
                       Details
                     </div>
                   </a>
@@ -322,7 +322,7 @@ const MainEvents = () => {
                 </div>
                 <div className="Locations mt-2 font-light">
                   Event organized by{" "}
-                  <span className="text-blue-500 cursor-pointer font-bold">
+                  <span className="text-indigo-400 cursor-pointer font-bold">
                     Compny Name
                   </span>
                 </div>
@@ -358,14 +358,14 @@ const MainEvents = () => {
               <div className="flex justify-end gap-3">
                 <Link href="">
                   <a>
-                    <div className="border border-blue-500 font-bold px-4 py-2 bg-blue-500 text-white hover:bg-transparent hover:text-blue-500 rounded-full">
+                    <div className="border border-indigo-400 font-bold px-4 py-2 bg-indigo-400 text-white hover:bg-transparent hover:text-indigo-400 rounded-full">
                       Join
                     </div>
                   </a>
                 </Link>
                 <Link href="/events-design/event-view">
                   <a>
-                    <div className="border border-blue-500 font-bold px-3 py-2 hover:bg-blue-500 hover:text-white text-blue-500 rounded-full">
+                    <div className="border border-indigo-400 font-bold px-3 py-2 hover:bg-indigo-400 hover:text-white text-indigo-400 rounded-full">
                       Details
                     </div>
                   </a>
@@ -392,7 +392,7 @@ const MainEvents = () => {
                 </div>
                 <div className="Locations mt-2 font-light">
                   Event organized by{" "}
-                  <span className="text-blue-500 cursor-pointer font-bold">
+                  <span className="text-indigo-400 cursor-pointer font-bold">
                     Compny Name
                   </span>
                 </div>
@@ -428,14 +428,14 @@ const MainEvents = () => {
               <div className="flex justify-end gap-3">
                 <Link href="">
                   <a>
-                    <div className="border border-blue-500 font-bold px-4 py-2 bg-blue-500 text-white hover:bg-transparent hover:text-blue-500 rounded-full">
+                    <div className="border border-indigo-400 font-bold px-4 py-2 bg-indigo-400 text-white hover:bg-transparent hover:text-indigo-400 rounded-full">
                       Join
                     </div>
                   </a>
                 </Link>
                 <Link href="/events-design/event-view">
                   <a>
-                    <div className="border border-blue-500 font-bold px-3 py-2 hover:bg-blue-500 hover:text-white text-blue-500 rounded-full">
+                    <div className="border border-indigo-400 font-bold px-3 py-2 hover:bg-indigo-400 hover:text-white text-indigo-400 rounded-full">
                       Details
                     </div>
                   </a>

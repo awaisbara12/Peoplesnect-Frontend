@@ -46,7 +46,7 @@ const ContectInfo = () => {
                 </div>
               </div>
               <div className="flex justify-end mt-5">
-                <button className="border-2 border-blue-500 bg-blue-500 p-2 rounded-full text-white font-bold">
+                <button className="border-2 border-indigo-400 bg-indigo-400 p-2 rounded-full text-white font-bold">
                   Changes Done
                 </button>
               </div>

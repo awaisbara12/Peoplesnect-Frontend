@@ -31,7 +31,7 @@ const PageSettings = () => {
                 </div>
               </div>
               <div className="flex justify-end mt-5 mr-10">
-                <button className="border-2 border-blue-500 bg-blue-500 p-2 rounded-full text-white font-bold">
+                <button className="border-2 border-indigo-400 bg-indigo-400 p-2 rounded-full text-white font-bold">
                   Save Changes
                 </button>
               </div>
@@ -51,7 +51,7 @@ const PageSettings = () => {
                         type="radio"
                         value=""
                         name="default-radio[1]"
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-indigo-400 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                       />
                       <label
                         htmlFor="default-radio-1"
@@ -66,7 +66,7 @@ const PageSettings = () => {
                         type="radio"
                         value=""
                         name="default-radio[1]"
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-indigo-400 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                       />
                       <label
                         htmlFor="default-radio-2"
@@ -79,7 +79,9 @@ const PageSettings = () => {
                 </div>
               </div>
 
-              <div className="heading text-lg mt-5 font-bold">Who Can Message</div>
+              <div className="heading text-lg mt-5 font-bold">
+                Who Can Message
+              </div>
               <div className="border hover:bg-gray-100 mt-4 p-4 bg-gray-50 hover:shadow-lg rounded-xl">
                 <div className="flex items-center justify-between ">
                   <div className="">Who Can Message</div>
@@ -91,7 +93,7 @@ const PageSettings = () => {
                         type="radio"
                         value=""
                         name="default-radio[2]"
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-indigo-400 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                       />
                       <label
                         htmlFor="default-radio-1"
@@ -106,7 +108,7 @@ const PageSettings = () => {
                         type="radio"
                         value=""
                         name="default-radio[2]"
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-indigo-400 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                       />
                       <label
                         htmlFor="default-radio-2"
