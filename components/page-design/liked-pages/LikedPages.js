@@ -119,25 +119,31 @@ const LikedPages = (setList, singleItem) => {
     resetForm();
   };
 
-  const { values, errors, touched, handleBlur, handleChange, resetForm } =
-    useFormik({
-      initialValues: {
-        eventOnline: "online",
-        eventInPerson: "In person",
-        eventName: "",
-        timezone: "",
-        startDate: "",
-        endDate: "",
-        startTime: "",
-        endTime: "",
-        address: "",
-        venue: "",
-        externalLink: "",
-        description: "",
-        speakers: "",
-      },
-      validationSchema: eventScheema,
-    });
+  const {
+    values,
+    errors,
+    touched,
+    handleBlur,
+    handleChange,
+    resetForm,
+  } = useFormik({
+    initialValues: {
+      eventOnline: "online",
+      eventInPerson: "In person",
+      eventName: "",
+      timezone: "",
+      startDate: "",
+      endDate: "",
+      startTime: "",
+      endTime: "",
+      address: "",
+      venue: "",
+      externalLink: "",
+      description: "",
+      speakers: "",
+    },
+    validationSchema: eventScheema,
+  });
 
   function postNewsData(e) {
     e.preventDefault();
@@ -209,7 +215,7 @@ const LikedPages = (setList, singleItem) => {
           </div>
           <div className="p-5 pt-1">
             <div className=" flex justify-between items-center">
-              <div className="heading ml-28 text-2xl text-blue-500 font-bold">
+              <div className="heading ml-28 text-2xl text-indigo-400 font-bold">
                 Page And Brand Name
               </div>
 
@@ -284,7 +290,7 @@ const LikedPages = (setList, singleItem) => {
                 eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
                 enim ad minim veniam, quis nostrud exercitation ullamco laboris
                 nisi ut aliquip ex ea commodo consequat
-                <a href="" className="ml-4 font-bold text-blue-500">
+                <a href="" className="ml-4 font-bold text-indigo-400">
                   Read More...
                 </a>
               </div>
@@ -908,7 +914,7 @@ const LikedPages = (setList, singleItem) => {
                         <button
                           type="button"
                           onClick={closeModal}
-                          className="w-[100] h-[32px] inline-flex justify-center rounded-md border border-transparent bg-indigo-100 px-4 py-2 text-sm font-medium text-indigo-600 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                          className="w-[100] h-[32px] inline-flex justify-center rounded-md border border-transparent bg-indigo-100 px-4 py-2 text-sm font-medium text-indigo-600 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2"
                         >
                           Continue
                         </button>

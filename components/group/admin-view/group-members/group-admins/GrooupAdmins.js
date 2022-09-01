@@ -34,7 +34,7 @@ const GrooupAdmins = () => {
                 </div>
               </div>
               <div className="Request-button ">
-                <button className="border-1 border-blue-500 rounded-full text-blue-500 px-3 py-1 hover:bg-blue-500 hover:text-white">
+                <button className="border-1 border-indigo-400 rounded-full text-indigo-400 px-3 py-1 hover:bg-indigo-400 hover:text-white">
                   Add Friend
                 </button>
               </div>

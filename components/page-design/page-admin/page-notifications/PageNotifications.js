@@ -40,11 +40,11 @@ const PageNotifications = () => {
                     </a>
                     <Link href="">
                       <div className="userfield text-xs">
-                        <a href="" className="font-bold text-blue-500">
+                        <a href="" className="font-bold text-indigo-400">
                           User Name
                         </a>{" "}
                         Likes your{" "}
-                        <a className="font-bold text-blue-500" href="">
+                        <a className="font-bold text-indigo-400" href="">
                           Post
                         </a>
                       </div>
@@ -75,11 +75,11 @@ const PageNotifications = () => {
                     </a>
                     <Link href="">
                       <div className="userfield text-xs">
-                        <a href="" className="font-bold text-blue-500">
+                        <a href="" className="font-bold text-indigo-400">
                           User Name
                         </a>{" "}
                         Commented on ur{" "}
-                        <a className="font-bold text-blue-500 " href="">
+                        <a className="font-bold text-indigo-400 " href="">
                           Post
                         </a>
                       </div>

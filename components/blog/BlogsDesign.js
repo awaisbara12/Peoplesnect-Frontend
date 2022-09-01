@@ -53,7 +53,10 @@ const BlogsDesign = () => {
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 md:grid-cols-2">
           {list &&
             list.data.map((item) => (
-              <div className="w-full mt-8 blogs bg-white rounded-xl" key={item.id}>
+              <div
+                className="w-full mt-8 blogs bg-white rounded-xl"
+                key={item.id}
+              >
                 <div className="">
                   <div className="image">
                     <div className="">
@@ -93,7 +96,7 @@ const BlogsDesign = () => {
                         <a>
                           <button
                             type="submit"
-                            className=" bg-blue-500 text-sm text-white rounded-br-lg p-3 cursor-pointer"
+                            className=" bg-indigo-400 text-sm text-white rounded-br-lg p-3 cursor-pointer"
                           >
                             Read More
                           </button>
@@ -112,7 +115,7 @@ const BlogsDesign = () => {
           <a>
             <button
               type="submit"
-              className="border-2 border-blue-500 text-blue-500 text-md cursor-pointer font-bold py-2 px-4 rounded-full"
+              className="border-2 border-indigo-400 text-indigo-400 text-md cursor-pointer font-bold py-2 px-4 rounded-full"
             >
               Show More
             </button>

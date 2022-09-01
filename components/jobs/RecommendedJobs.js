@@ -23,9 +23,7 @@ const RecommendedJobs = () => {
         <div className="bg-white rounded-xl">
           <div className="border-b-1 p-4">
             <div className="heading font-bold">Recommended for you</div>
-            <div className="font-extralight mt-1">
-              Based on your profile
-            </div>
+            <div className="font-extralight mt-1">Based on your profile</div>
           </div>
           <div className="border-b-1">
             <div className="jobs-profile px-4 py-10 ">
@@ -267,7 +265,7 @@ const RecommendedJobs = () => {
           <div className="border-b-1 py-4">
             <div className="text-center">
               <Link className="" href="">
-                <a className="text-blue-500">Search For More Jobs</a>
+                <a className="text-indigo-400">Search For More Jobs</a>
               </Link>
             </div>
           </div>

@@ -120,7 +120,7 @@ const PostComments = (feedId) => {
           </div>
 
           <div className="flex gap-2 z-50">
-            <button className="bg-transparent px-1 rounded-r-full text-gray-500 hover:text-blue-500">
+            <button className="bg-transparent px-1 rounded-r-full text-gray-500 hover:text-indigo-400">
               <PaperAirplaneIcon
                 className="h-7 w-7 rotate-90"
                 onClick={postComment}

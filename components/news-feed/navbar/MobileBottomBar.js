@@ -17,7 +17,7 @@ import {
   UserAddIcon,
   BookmarkIcon,
   AcademicCapIcon,
-  ShieldCheckIcon
+  ShieldCheckIcon,
 } from "@heroicons/react/solid";
 
 const MobileBottomBar = () => {
@@ -58,7 +58,7 @@ const MobileBottomBar = () => {
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="absolute -top-24 w-96 -left-36 bg-white border-2 border-blue-500 rounded-full py-3 px-4 text-blue-500">
+            <Menu.Items className="absolute -top-24 w-96 -left-36 bg-white border-2 border-indigo-400 rounded-full py-3 px-4 text-indigo-400">
               <div className="flex justify-between items-center">
                 <Menu.Item>
                   {({ active }) => (
@@ -117,7 +117,7 @@ const MobileBottomBar = () => {
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="absolute -top-24 w-96 -left-36 bg-white border-2 border-blue-500 rounded-full p-3 text-blue-500">
+            <Menu.Items className="absolute -top-24 w-96 -left-36 bg-white border-2 border-indigo-400 rounded-full p-3 text-indigo-400">
               <div className="flex gap-3 justify-between items-center">
                 <Menu.Item>
                   {({ active }) => (

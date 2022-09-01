@@ -93,7 +93,7 @@ const EventView = () => {
             <div className="font-extralight">Online</div>
           </div>
           <div className="flex justify-end">
-            <button className="bg-blue-500 text-white p-3 rounded-full font-bold">
+            <button className="bg-indigo-400 text-white p-3 rounded-full font-bold">
               Reserve Your Seat
             </button>
           </div>

@@ -31,7 +31,7 @@ const TabAboutProfile = () => {
             </div>
           </div>
         </div>
-        <a href="" className="flex ml-auto gap-1 p-5 text-blue-500 underline">
+        <a href="" className="flex ml-auto gap-1 p-5 text-indigo-400 underline">
           Edit
           <PencilIcon className="h-4 w-4 underline" />
         </a>

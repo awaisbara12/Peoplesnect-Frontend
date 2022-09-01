@@ -23,7 +23,7 @@ const PostComments = (feedId) => {
   const [postText, setPostText] = useState("");
   const [postImage, setPostImage] = useState([]);
   const [postImagePreview, setpostImagePreview] = useState();
-  const [comments, setComments] = useState([])
+  const [comments, setComments] = useState([]);
 
   function handleOnEnter() {
     console.log("enter", postText);
@@ -38,10 +38,10 @@ const PostComments = (feedId) => {
 
   const { values } = useFormik({
     initialValues: {
-      body: '',
+      body: "",
       comment_attachments: [],
-      news_feed_id: ''
-    }
+      news_feed_id: "",
+    },
   });
 
   const onSubmit = () => {
@@ -55,8 +55,8 @@ const PostComments = (feedId) => {
     dataForm.append("comments[body]", postText);
     dataForm.append("comments[news_feed_id]", feedId.news_feed_id);
 
-    if(postImage.length > 0){
-      for (let i = 0; i < postImage.length; i++){
+    if (postImage.length > 0) {
+      for (let i = 0; i < postImage.length; i++) {
         dataForm.append("comments[comment_attachments][]", postImage[i]);
       }
     }
@@ -81,7 +81,7 @@ const PostComments = (feedId) => {
       .catch((err) => console.log(err));
     setPostText("");
     setpostImagePreview("");
-    setPostImage('')
+    setPostImage("");
   }
   return (
     <Fragment>
@@ -119,12 +119,14 @@ const PostComments = (feedId) => {
             </div>
           </div>
 
-            <div className="flex gap-2 z-50">
-              <button className="bg-transparent px-1 rounded-r-full text-gray-500 hover:text-blue-500">
-                <PaperAirplaneIcon className="h-7 w-7 rotate-90" onClick={postComment} />
-              </button>
-            </div>
-
+          <div className="flex gap-2 z-50">
+            <button className="bg-transparent px-1 rounded-r-full text-gray-500 hover:text-indigo-400">
+              <PaperAirplaneIcon
+                className="h-7 w-7 rotate-90"
+                onClick={postComment}
+              />
+            </button>
+          </div>
         </div>
       </div>
     </Fragment>

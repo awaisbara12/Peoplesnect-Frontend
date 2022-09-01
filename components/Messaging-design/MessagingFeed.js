@@ -8,6 +8,7 @@ import NewsSearch from "../news-feed/search/NewsSearch";
 import EventsCard from "../news-feed/eventcard/EventsCard";
 import Messaging from "./Messaging";
 import SugestedUser from "../news-feed/sugesteduser/SugestedUser";
+import ChatBox from "./Chat-box/ChatBox";
 
 const MessagingFeed = () => {
   return (
@@ -33,6 +34,7 @@ const MessagingFeed = () => {
               <NewsSearch />
               <ProfileCard />
               <SugestedUser />
+              <ChatBox />
             </div>
           </div>
         </div>

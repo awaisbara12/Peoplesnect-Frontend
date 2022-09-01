@@ -93,11 +93,11 @@ const ProfileTopCard = () => {
                 <div className="">
                   <div className="mt-4">
                     <div className="group relative">
-                      <div className="text-2xl text-blue-500 font-bold">
+                      <div className="text-2xl text-indigo-400 font-bold">
                         Profile Name
                       </div>
                       <div className="absolute -right-6 top-2 opacity-0 group-hover:opacity-100 cursor-pointer">
-                        <PencilIcon className="h-4 w-4 text-blue-500" />
+                        <PencilIcon className="h-4 w-4 text-indigo-400" />
                       </div>
                     </div>
                     <Link href="">
@@ -109,26 +109,26 @@ const ProfileTopCard = () => {
                       </a>
                     </Link>
                     <Link href="">
-                      <a className="text-blue-500 text-xs font-semibold">
+                      <a className="text-indigo-400 text-xs font-semibold">
                         Recent Job And Position
                       </a>
                     </Link>
                   </div>
                   {/* <div className="flex gap-2 mt-8">
                     <Link href="">
-                      <a className="flex items-center text-blue-500 border border-blue-500 px-2 rounded text-xs font-semibold">
+                      <a className="flex items-center text-indigo-400 border border-indigo-400 px-2 rounded text-xs font-semibold">
                         <UserIcon className="w-5 h-5" />
                         440 connections
                       </a>
                     </Link>
                     <Link href="">
-                      <a className="flex items-center bg-blue-500 text-white py-1 px-2 rounded text-xs font-semibold">
+                      <a className="flex items-center bg-indigo-400 text-white py-1 px-2 rounded text-xs font-semibold">
                         <ChatAlt2Icon className="w-5 h-5" />
                         Message
                       </a>
                     </Link>
                     <Link href="">
-                      <a className="flex items-center text-blue-500 border border-blue-500 px-2 rounded text-xs font-semibold">
+                      <a className="flex items-center text-indigo-400 border border-indigo-400 px-2 rounded text-xs font-semibold">
                         <XIcon className="w-5 h-5" />
                         Report User
                       </a>

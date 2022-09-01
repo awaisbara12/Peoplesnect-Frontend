@@ -31,7 +31,7 @@ const TabRecentProfile = () => {
                   <a href="">
                     <div className="userfield text-xs">
                       You Like{" "}
-                      <a className="font-bold text-blue-500" href="">
+                      <a className="font-bold text-indigo-400" href="">
                         Article
                       </a>
                     </div>
@@ -55,8 +55,8 @@ const TabRecentProfile = () => {
                   </a>
                   <a href="">
                     <div className="userfield text-xs">
-                      You Commented on {" "}
-                      <a className="font-bold text-blue-500 " href="">
+                      You Commented on{" "}
+                      <a className="font-bold text-indigo-400 " href="">
                         Post
                       </a>
                     </div>

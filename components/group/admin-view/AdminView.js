@@ -124,25 +124,31 @@ const AdminView = (setList, singleItem) => {
     resetForm();
   };
 
-  const { values, errors, touched, handleBlur, handleChange, resetForm } =
-    useFormik({
-      initialValues: {
-        eventOnline: "online",
-        eventInPerson: "In person",
-        eventName: "",
-        timezone: "",
-        startDate: "",
-        endDate: "",
-        startTime: "",
-        endTime: "",
-        address: "",
-        venue: "",
-        externalLink: "",
-        description: "",
-        speakers: "",
-      },
-      validationSchema: eventScheema,
-    });
+  const {
+    values,
+    errors,
+    touched,
+    handleBlur,
+    handleChange,
+    resetForm,
+  } = useFormik({
+    initialValues: {
+      eventOnline: "online",
+      eventInPerson: "In person",
+      eventName: "",
+      timezone: "",
+      startDate: "",
+      endDate: "",
+      startTime: "",
+      endTime: "",
+      address: "",
+      venue: "",
+      externalLink: "",
+      description: "",
+      speakers: "",
+    },
+    validationSchema: eventScheema,
+  });
 
   function postNewsData(e) {
     e.preventDefault();
@@ -227,7 +233,7 @@ const AdminView = (setList, singleItem) => {
             </div>
           </div>
           <div className=" flex justify-between items-center p-5">
-            <div className="heading text-2xl text-blue-500 font-bold">
+            <div className="heading text-2xl text-indigo-400 font-bold">
               Group & Company Name
             </div>
             <div className="">
@@ -285,7 +291,7 @@ const AdminView = (setList, singleItem) => {
             </div>
             {/* <Link href="">
               <a>
-                <div className="border border-blue-500 py-2 px-3 text-blue-500 rounded-full">
+                <div className="border border-indigo-400 py-2 px-3 text-indigo-400 rounded-full">
                   Group Details
                 </div>
               </a>
@@ -918,7 +924,7 @@ const AdminView = (setList, singleItem) => {
                         <button
                           type="button"
                           onClick={closeModal}
-                          className="w-[100] h-[32px] inline-flex justify-center rounded-md border border-transparent bg-indigo-100 px-4 py-2 text-sm font-medium text-indigo-600 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                          className="w-[100] h-[32px] inline-flex justify-center rounded-md border border-transparent bg-indigo-100 px-4 py-2 text-sm font-medium text-indigo-600 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2"
                         >
                           Continue
                         </button>

@@ -35,7 +35,7 @@ const ProfileSearch = () => {
                   }`}
                 >
                   <div className="">
-                    <CogIcon className="w-7 h-7 text-blue-500" />
+                    <CogIcon className="w-7 h-7 text-indigo-400" />
                   </div>
                 </Popover.Button>
                 <Transition

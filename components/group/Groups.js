@@ -13,7 +13,7 @@ const Groups = () => {
           <div className="justify-between flex items-center">
             <div className="heading font-semibold">Joind Groups</div>
             <div className="all-button">
-              <button className="bg-blue-500 text-white px-3 py-2 rounded-full">
+              <button className="bg-indigo-400 text-white px-3 py-2 rounded-full">
                 Show All
               </button>
             </div>
@@ -65,7 +65,7 @@ const Groups = () => {
                 </div>
                 <div className="float-right">
                   <a href="group-page/joind-group">
-                    <button className="px-2 bg-blue-500 text-white rounded-xl py-2 hover:text-blue-500 hover:bg-transparent  border-1 border-blue-500 mt-2 mb-4">
+                    <button className="px-2 bg-indigo-400 text-white rounded-xl py-2 hover:text-indigo-400 hover:bg-transparent  border-1 border-indigo-400 mt-2 mb-4">
                       Open Group
                     </button>
                   </a>
@@ -118,7 +118,7 @@ const Groups = () => {
                 </div>
                 <div className="float-right">
                   <a href="group-page/joind-group">
-                    <button className="px-2 bg-blue-500 text-white rounded-xl py-2 hover:text-blue-500 hover:bg-transparent  border-1 border-blue-500 mt-2 mb-4">
+                    <button className="px-2 bg-indigo-400 text-white rounded-xl py-2 hover:text-indigo-400 hover:bg-transparent  border-1 border-indigo-400 mt-2 mb-4">
                       Open Group
                     </button>
                   </a>
@@ -171,7 +171,7 @@ const Groups = () => {
                 </div>
                 <div className="float-right">
                   <a href="group-page/joind-group">
-                    <button className="px-2 bg-blue-500 text-white rounded-xl py-2 hover:text-blue-500 hover:bg-transparent  border-1 border-blue-500 mt-2 mb-4">
+                    <button className="px-2 bg-indigo-400 text-white rounded-xl py-2 hover:text-indigo-400 hover:bg-transparent  border-1 border-indigo-400 mt-2 mb-4">
                       Open Group
                     </button>
                   </a>
@@ -224,7 +224,7 @@ const Groups = () => {
                 </div>
                 <div className="float-right">
                   <a href="group-page/joind-group">
-                    <button className="px-2 bg-blue-500 text-white rounded-xl py-2 hover:text-blue-500 hover:bg-transparent  border-1 border-blue-500 mt-2 mb-4">
+                    <button className="px-2 bg-indigo-400 text-white rounded-xl py-2 hover:text-indigo-400 hover:bg-transparent  border-1 border-indigo-400 mt-2 mb-4">
                       Open Group
                     </button>
                   </a>
@@ -238,7 +238,7 @@ const Groups = () => {
             <div className="justify-between flex items-center">
               <div className="heading font-semibold">Suggestions For You</div>
               <div className="all-button">
-                <button className="bg-blue-500 text-white px-3 py-2 rounded-full">
+                <button className="bg-indigo-400 text-white px-3 py-2 rounded-full">
                   Show All
                 </button>
               </div>
@@ -293,11 +293,11 @@ const Groups = () => {
                   <div className="Group-type float-right my-2">
                     Group:{" "}
                     <a href="">
-                      <span className="text-blue-500 font-bold">Private</span>
+                      <span className="text-indigo-400 font-bold">Private</span>
                     </a>
                   </div>
                   <a href="">
-                    <button className="w-full bg-blue-500 text-white rounded-xl py-2 hover:text-blue-500 hover:bg-transparent  border-1 border-blue-500 mt-2 mb-4">
+                    <button className="w-full bg-indigo-400 text-white rounded-xl py-2 hover:text-indigo-400 hover:bg-transparent  border-1 border-indigo-400 mt-2 mb-4">
                       Join Group
                     </button>
                   </a>
@@ -352,11 +352,11 @@ const Groups = () => {
                   <div className="Group-type float-right my-2">
                     Group:{" "}
                     <a href="">
-                      <span className="text-blue-500 font-bold">Private</span>
+                      <span className="text-indigo-400 font-bold">Private</span>
                     </a>
                   </div>
                   <a href="">
-                    <button className="w-full bg-blue-500 text-white rounded-xl py-2 hover:text-blue-500 hover:bg-transparent  border-1 border-blue-500 mt-2 mb-4">
+                    <button className="w-full bg-indigo-400 text-white rounded-xl py-2 hover:text-indigo-400 hover:bg-transparent  border-1 border-indigo-400 mt-2 mb-4">
                       Join Group
                     </button>
                   </a>
@@ -411,11 +411,11 @@ const Groups = () => {
                   <div className="Group-type float-right my-2">
                     Group:{" "}
                     <a href="">
-                      <span className="text-blue-500 font-bold">Private</span>
+                      <span className="text-indigo-400 font-bold">Private</span>
                     </a>
                   </div>
                   <a href="">
-                    <button className="w-full bg-blue-500 text-white rounded-xl py-2 hover:text-blue-500 hover:bg-transparent  border-1 border-blue-500 mt-2 mb-4">
+                    <button className="w-full bg-indigo-400 text-white rounded-xl py-2 hover:text-indigo-400 hover:bg-transparent  border-1 border-indigo-400 mt-2 mb-4">
                       Join Group
                     </button>
                   </a>

@@ -35,7 +35,7 @@ const BlogsSearch = () => {
                   }`}
                 >
                   <div className="">
-                    <AdjustmentsIcon className="w-7 h-7 rotate-90 text-blue-500" />
+                    <AdjustmentsIcon className="w-7 h-7 rotate-90 text-indigo-400" />
                   </div>
                 </Popover.Button>
                 <Transition

@@ -64,7 +64,7 @@ const MarketplaceShow = () => {
       </div>
 
       <div className="-mt-20 mr-3 flex justify-end">
-        <div className="bg-blue-500 rounded-xl w-44 text-center py-3 text-white font-bold">
+        <div className="bg-indigo-400 rounded-xl w-44 text-center py-3 text-white font-bold">
           Contect With Seller
         </div>
       </div>
