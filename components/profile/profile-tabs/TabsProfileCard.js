@@ -29,14 +29,17 @@ const TabsProfileCard = () => {
     <div>
       <div className="">
         <div className="flex flex-wrap">
-          <div className="w-full -mt-7">
-            <ul className="flex gap-6 ml-56" role="tablist">
-              <li className="">
+          <div className="flex w-full">
+            <ul
+              className="flex items-center bg-white rounded-l-xl flex-col border-r-1 w-44"
+              role="tablist"
+            >
+              <li className="border-b border-gray-100 bg-white rounded-t-xl w-full">
                 <a
                   className={
-                    "flex items-center justify-center gap-1 text-xs font-bold uppercase" +
+                    "flex items-center justify-center gap-1 text-xs font-bold uppercase  w-full h-12 rounded-t-xl" +
                     (openTab === 1
-                      ? "text-white border-b-1 border-indigo-400 pb-2"
+                      ? "text-white border-b-1 border-white bg-indigo-400 h-full rounded-tl-xl"
                       : "")
                   }
                   onClick={(e) => {
@@ -50,12 +53,12 @@ const TabsProfileCard = () => {
                   <UserIcon className="w-4 h-4" /> About
                 </a>
               </li>
-              <li className="">
+              <li className="border-b border-gray-100 w-full">
                 <a
                   className={
-                    "flex items-center justify-center gap-1 text-xs font-bold uppercase" +
+                    "flex items-center justify-center gap-1 text-xs font-bold uppercase  w-full h-12 " +
                     (openTab === 2
-                      ? "text-white border-b-1 border-indigo-400 pb-2"
+                      ? "text-white border-b-1 border-white bg-indigo-400 h-full"
                       : "")
                   }
                   onClick={(e) => {
@@ -69,12 +72,12 @@ const TabsProfileCard = () => {
                   <BookmarkIcon className="h-4 w-4" /> Recent Activity
                 </a>
               </li>
-              <li className="">
+              <li className="border-b border-gray-100 w-full">
                 <a
                   className={
-                    "flex items-center justify-center gap-1 text-xs font-bold uppercase" +
+                    "flex items-center justify-center gap-1 text-xs font-bold uppercase  w-full h-12 " +
                     (openTab === 3
-                      ? "text-white border-b-1 border-indigo-400 pb-2"
+                      ? "text-white border-b-1 border-white bg-indigo-400 h-full"
                       : "")
                   }
                   onClick={(e) => {
@@ -90,27 +93,16 @@ const TabsProfileCard = () => {
                 </a>
               </li>
             </ul>
-            <div className="relative flex flex-col min-w-0 break-words w-full rounded-b-xl">
-              <div className="flex-auto">
-                <div className="tab-content tab-space">
-                  <div
-                    className={openTab === 1 ? "block" : "hidden"}
-                    id="link1"
-                  >
-                    <TabAboutProfile />
-                  </div>
-                  <div
-                    className={openTab === 2 ? "block" : "hidden"}
-                    id="link2"
-                  >
-                    <TabRecentProfile />
-                  </div>
-                  <div
-                    className={openTab === 3 ? "block" : "hidden"}
-                    id="link3"
-                  >
-                    <SkillsTabProfile />
-                  </div>
+            <div className="flex-auto">
+              <div className="tab-content tab-space">
+                <div className={openTab === 1 ? "block" : "hidden"} id="link1">
+                  <TabAboutProfile />
+                </div>
+                <div className={openTab === 2 ? "block" : "hidden"} id="link2">
+                  <TabRecentProfile />
+                </div>
+                <div className={openTab === 3 ? "block" : "hidden"} id="link3">
+                  <SkillsTabProfile />
                 </div>
               </div>
             </div>

@@ -8,9 +8,8 @@ import {
 
 const SkillsTabProfile = () => {
   return (
-    <div className="bg-white rounded-b-xl mt-3">
+    <div className="bg-white rounded-r-xl  px-5 pb-5">
       <div className="flex gap-10">
-        <div className="border-x h-40 rounded-b-full w-36 ml-10 mb-5"></div>
         <div className="grid grid-cols-3 gap-12 font-bold p-5">
           <div className="">HTML</div>
           <div className="">Css</div>
