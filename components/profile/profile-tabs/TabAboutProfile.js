@@ -8,9 +8,8 @@ import {
 
 const TabAboutProfile = () => {
   return (
-    <div className="bg-white rounded-b-xl mt-3">
+    <div className="bg-white rounded-r-xl  px-5 pb-5">
       <div className="flex gap-10">
-        <div className="border-x h-40 rounded-b-full w-36 ml-10 mb-5"></div>
         <div className="grid grid-cols-1">
           <div className="">
             <div className="flex items-center gap-3 my-4">

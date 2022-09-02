@@ -12,12 +12,11 @@ import {
 
 const TabRecentProfile = () => {
   return (
-    <div className="bg-white rounded-b-xl mt-3">
-      <div className="flex gap-10">
-        <div className="border-x h-40 rounded-b-full w-36 ml-10 mb-5"></div>
-        <div className="mt-5 w-2/3">
+    <div className="bg-white rounded-r-xl px-5 pb-5">
+      <div className="">
+        <div className="">
           <div className="like-on-article border-b-1">
-            <div className="request-profile flex  px-4 py-3 justify-between items-center">
+            <div className="flex px-4 py-3 justify-between items-center">
               <div className="flex items-center gap-3">
                 <Link href="/news-feed">
                   <a>
@@ -42,7 +41,7 @@ const TabRecentProfile = () => {
             </div>
           </div>
           <div className="Comment-on-post border-b-1">
-            <div className="request-profile flex  px-4 py-3 justify-between items-center">
+            <div className="flex  px-4 py-3 justify-between items-center">
               <div className="flex items-center gap-3">
                 <Link href="/news-feed">
                   <a>
@@ -65,6 +64,34 @@ const TabRecentProfile = () => {
               </div>
               <div className="time font-light text-xs">12:11pm</div>
             </div>
+          </div>
+          <div className="Comment-on-post border-b-1">
+            <div className="flex  px-4 py-3 justify-between items-center">
+              <div className="flex items-center gap-3">
+                <Link href="/news-feed">
+                  <a>
+                    <Image src={ProfileAvatar} width={35} height={35} alt="" />
+                  </a>
+                </Link>
+                <div className="">
+                  <a href="">
+                    <div className="username text-sm font-bold">User Name</div>
+                  </a>
+                  <a href="">
+                    <div className="userfield text-xs">
+                      You Commented on{" "}
+                      <a className="font-bold text-indigo-400 " href="">
+                        Post
+                      </a>
+                    </div>
+                  </a>
+                </div>
+              </div>
+              <div className="time font-light text-xs">12:11pm</div>
+            </div>
+          </div>
+          <div className="border border-indigo-400 rounded-full text-indigo-400 w-32 text-center py-1 ml-auto mt-4">
+            See More
           </div>
         </div>
       </div>
