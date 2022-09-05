@@ -1,18 +1,16 @@
 import React from "react";
 import Head from "next/head";
-import ProfileCard from "../news-feed/profilecard/ProfileCard";
-import NewsFeedSidebar from "../news-feed/newsfeed/sidebar/NewsFeedSidebar";
-import MobileBottomBar from "../news-feed/navbar/MobileBottomBar";
-import MobileNav from "../news-feed/navbar/mobile-navbar/MobileNav";
-import NewsSearch from "../news-feed/search/NewsSearch";
-import EventsCard from "../news-feed/eventcard/EventsCard";
-import Messaging from "./Messaging";
-import SugestedUser from "../news-feed/sugesteduser/SugestedUser";
-import ChatBox from "./Chat-box/ChatBox";
-import Messages from "./Inbox-Feed/Messages";
-import NewMessage from "./NewMessage";
+import ProfileCard from "../../news-feed/profilecard/ProfileCard";
+import NewsFeedSidebar from "../../news-feed/newsfeed/sidebar/NewsFeedSidebar";
+import MobileBottomBar from "../../news-feed/navbar/MobileBottomBar";
+import MobileNav from "../../news-feed/navbar/mobile-navbar/MobileNav";
+import NewsSearch from "../../news-feed/search/NewsSearch";
+import EventsCard from "../../news-feed/eventcard/EventsCard";
+import Messaging from ".././Messaging";
+import SugestedUser from "../../news-feed/sugesteduser/SugestedUser";
+import Messages from "./Messages";
 
-const MessagingFeed = () => {
+const InboxFeed = () => {
   return (
     <div>
       <Head>
@@ -32,14 +30,13 @@ const MessagingFeed = () => {
             <div className="h-full bg-zinc-100 md:bg-transparent lg:bg-transparent xl:bg-transparent px-4 md:px-0 lg-px-0 xl:px-0">
               <div className="flex mt-8">
                 <Messaging />
-                <NewMessage />
+                <Messages />
               </div>
             </div>
             <div className="w-72 hidden md:block lg:block">
               <NewsSearch />
               <ProfileCard />
               <SugestedUser />
-              <ChatBox />
             </div>
           </div>
         </div>
@@ -49,4 +46,4 @@ const MessagingFeed = () => {
   );
 };
 
-export default MessagingFeed;
+export default InboxFeed;

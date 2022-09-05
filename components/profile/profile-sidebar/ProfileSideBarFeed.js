@@ -28,10 +28,11 @@ import {
   Tab,
   TabPanel,
 } from "@material-tailwind/react";
+import TabsProfileCard from "../profile-tabs/TabsProfileCard";
 const ProfileSideBarFeed = () => {
   return (
     <div className="mt-8">
-      <div className="blogs bg-white rounded-xl">
+      <div className="w-full bg-white p-10 rounded-xl">
         <div className="group relative w-full">
           <div className="">
             <Link href="/">
@@ -39,7 +40,7 @@ const ProfileSideBarFeed = () => {
                 <Image
                   src={postimage}
                   className="object-cover rounded-xl"
-                  width={720}
+                  width={1020}
                   height={320}
                   alt=""
                 />
@@ -62,11 +63,9 @@ const ProfileSideBarFeed = () => {
               />
             </div>
           </div>
-        </div>
-        <div className="">
           <div className="">
-            <div className="flex justify-center">
-              <div className="relative -mt-12">
+            <div className="absolute  p-2 -mt-10 ml-14 rounded-full bg-white">
+              <div className="relative">
                 <Link href="">
                   <a>
                     <Image
@@ -87,183 +86,28 @@ const ProfileSideBarFeed = () => {
                 </div>
               </div>
             </div>
-            <div className="">
-              <div className="my-2 flex flex-col items-center gap-1">
-                <div className="group relative">
-                  <div className="text-2xl text-indigo-400 font-bold">
-                    Profile Name
-                  </div>
-                  <div className="absolute right-0 top-2 opacity-0 group-hover:opacity-100 cursor-pointer">
-                    <PencilIcon className="h-4 w-4 text-indigo-400" />
-                  </div>
-                </div>
-                <Link href="" className="">
-                  <a className="text-gray-500 text-xs font-semibold">
-                    <div className="flex justify-center items-center gap-1">
-                      <LocationMarkerIcon className="w-5 h-5" />
-                      Your Location
-                    </div>
-                  </a>
-                </Link>
-                <Link href="">
-                  <a className="text-indigo-400 text-xs font-semibold">
-                    Recent Job And Position
-                  </a>
-                </Link>
-                <Link href="">
-                  <a className="flex items-center justify-center text-indigo-400 w-36 border border-indigo-400 px-2 rounded-full text-xs font-semibold">
-                    <UserIcon className="w-5 h-5" />
-                    440 connections
-                  </a>
-                </Link>
+          </div>
+        </div>
+        <div className="my-2 flex flex-col ml-48 gap-1">
+          <div className="group relative">
+            <div className="text-2xl text-indigo-400 font-bold">
+              Profile Name
+            </div>
+            <div className="absolute left-40 top-2 opacity-0 group-hover:opacity-100 cursor-pointer">
+              <PencilIcon className="h-4 w-4 text-indigo-400" />
+            </div>
+          </div>
+          <Link href="" className="">
+            <a className="text-gray-500 text-xs font-semibold">
+              <div className="flex gap-1 items-center">
+                <LocationMarkerIcon className="w-5 h-5" />
+                Your Location
               </div>
-              {/* <div className="flex gap-2 mt-8">
-                    <Link href="">
-                      <a className="flex items-center text-indigo-400 border border-indigo-400 px-2 rounded text-xs font-semibold">
-                        <UserIcon className="w-5 h-5" />
-                        440 connections
-                      </a>
-                    </Link>
-                    <Link href="">
-                      <a className="flex items-center bg-indigo-400 text-white py-1 px-2 rounded text-xs font-semibold">
-                        <ChatAlt2Icon className="w-5 h-5" />
-                        Message
-                      </a>
-                    </Link>
-                    <Link href="">
-                      <a className="flex items-center text-indigo-400 border border-indigo-400 px-2 rounded text-xs font-semibold">
-                        <XIcon className="w-5 h-5" />
-                        Report User
-                      </a>
-                    </Link>
-                  </div> */}
-            </div>
-          </div>
-        </div>
-        {/* <div className="justify-end flex -mt-20">
-              <Menu as="div" className="relative inline-block text-left">
-                <div>
-                  <Menu.Button className="">
-                    <div className="hover:bg-indigo-100 focus:bg-indigo-100 rounded-full h-8 w-8 flex items-center justify-center">
-                      <DotsHorizontalIcon
-                        className="h-5 w-5"
-                        aria-hidden="true"
-                      />
-                    </div>
-                  </Menu.Button>
-                </div>
-
-                <Transition
-                  as={Fragment}
-                  enter="transition ease-out duration-200"
-                  enterFrom="opacity-0 translate-y-1"
-                  enterTo="opacity-100 translate-y-0"
-                  leave="transition ease-in duration-150"
-                  leaveFrom="opacity-100 translate-y-0"
-                  leaveTo="opacity-0 translate-y-1"
-                >
-                  <Menu.Items className="absolute left-1/2 z-10 mt-3 w-48 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-3xl">
-                    <div className="flex items-start flex-col gap-2 border-1 bg-white rounded-xl p-3">
-                      <Menu.Item className="flex gap-1">
-                        <a href="">
-                          <PencilIcon className="w-5 h-5" />
-                          Edit Profile
-                        </a>
-                      </Menu.Item>
-                      <Menu.Item className="flex gap-1 mt-2">
-                        <a href="">
-                          <CogIcon className="h-5 w-5" />
-                          Profile Settings
-                        </a>
-                      </Menu.Item>
-                      <Menu.Item className="flex gap-1 mt-2">
-                        <a href="admin-view">
-                          <UserCircleIcon className="h-5 w-5" />
-                          View As User
-                        </a>
-                      </Menu.Item>
-                    </div>
-                  </Menu.Items>
-                </Transition>
-              </Menu>
-            </div> */}
-
-        <div className="">
-          <div className="border-t">
-            <div className="flex justify-center font-semibold my-2">Bio</div>
-          </div>
-          <div className="border-t">
-            <div className="p-5 text-center">
-              The following is an excellent collection of profile page design
-              templates and mockups for web designers
-            </div>
-          </div>
-        </div>
-        <div className="">
-          <div className="border-t">
-            <div className="flex justify-center font-semibold my-2">About</div>
-          </div>
-          <div className="border-t">
-            <div className="p-5 text-center">
-              The following is an excellent collection of profile page design
-              templates and mockups for web designers
-            </div>
-          </div>
-        </div>
-        <div className="">
-          <div className="border-t">
-            <div className="flex justify-center font-semibold my-2">Photos</div>
-          </div>
-          <div className="border-t">
-            <div className="p-5 flex justify-center gap-3">
-              <Link href="/">
-                <a>
-                  <Image
-                    src={photos}
-                    className="object-cover rounded-xl"
-                    width={50}
-                    height={70}
-                    alt=""
-                  />
-                </a>
-              </Link>
-              <Link href="/">
-                <a>
-                  <Image
-                    src={photos1}
-                    className="object-cover rounded-xl"
-                    width={50}
-                    height={70}
-                    alt=""
-                  />
-                </a>
-              </Link>
-              <Link href="/">
-                <a>
-                  <Image
-                    src={photos2}
-                    className="object-cover rounded-xl"
-                    width={50}
-                    height={70}
-                    alt=""
-                  />
-                </a>
-              </Link>
-              <Link href="/">
-                <a>
-                  <Image
-                    src={photos3}
-                    className="object-cover rounded-xl"
-                    width={50}
-                    height={70}
-                    alt=""
-                  />
-                </a>
-              </Link>
-            </div>
-          </div>
+            </a>
+          </Link>
         </div>
       </div>
+        <TabsProfileCard />
     </div>
   );
 };

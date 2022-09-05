@@ -28,19 +28,13 @@ const TabsProfileCard = () => {
   return (
     <div>
       <div className="">
-        <div className="flex flex-wrap">
-          <div className="flex w-full">
-            <ul
-              className="flex items-center bg-white rounded-l-xl flex-col border-r-1 w-44"
-              role="tablist"
-            >
-              <li className="border-b border-gray-100 bg-white rounded-t-xl w-full">
+        <div className="flex bg-white rounded-b-xl mb-20 flex-wrap">
+          <div className="w-full pt-10 border-t-1">
+            <ul className="flex gap-4" role="tablist">
+              <li className=" border-gray-100 bg-white w-full">
                 <a
                   className={
-                    "flex items-center justify-center gap-1 text-xs font-bold uppercase  w-full h-12 rounded-t-xl" +
-                    (openTab === 1
-                      ? "text-white border-b-1 border-white bg-indigo-400 h-full rounded-tl-xl"
-                      : "")
+                    "" + (openTab === 1 ? "border-b-1 border-indigo-400" : "")
                   }
                   onClick={(e) => {
                     e.preventDefault();
@@ -50,16 +44,13 @@ const TabsProfileCard = () => {
                   href="#link1"
                   role="tablist"
                 >
-                  <UserIcon className="w-4 h-4" /> About
+                  Profile
                 </a>
               </li>
-              <li className="border-b border-gray-100 w-full">
+              <li className="w-full">
                 <a
                   className={
-                    "flex items-center justify-center gap-1 text-xs font-bold uppercase  w-full h-12 " +
-                    (openTab === 2
-                      ? "text-white border-b-1 border-white bg-indigo-400 h-full"
-                      : "")
+                    "" + (openTab === 2 ? "border-b-1 border-indigo-400" : "")
                   }
                   onClick={(e) => {
                     e.preventDefault();
@@ -69,16 +60,13 @@ const TabsProfileCard = () => {
                   href="#link2"
                   role="tablist"
                 >
-                  <BookmarkIcon className="h-4 w-4" /> Recent Activity
+                  Discription
                 </a>
               </li>
-              <li className="border-b border-gray-100 w-full">
+              <li className="w-full">
                 <a
                   className={
-                    "flex items-center justify-center gap-1 text-xs font-bold uppercase  w-full h-12 " +
-                    (openTab === 3
-                      ? "text-white border-b-1 border-white bg-indigo-400 h-full"
-                      : "")
+                    "" + (openTab === 3 ? "border-b-1 border-indigo-400" : "")
                   }
                   onClick={(e) => {
                     e.preventDefault();
@@ -88,23 +76,72 @@ const TabsProfileCard = () => {
                   href="#link3"
                   role="tablist"
                 >
-                  <StarIcon className="h-4 w-4" />
                   Skills
                 </a>
               </li>
+              <li className="w-full">
+                <a
+                  className={
+                    "" + (openTab === 4 ? "border-b-1 border-indigo-400" : "")
+                  }
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setOpenTab(4);
+                  }}
+                  data-toggle="tab"
+                  href="#link4"
+                  role="tablist"
+                >
+                  Eduction
+                </a>
+              </li>
+
+              <li className="w-full">
+                <a
+                  className={
+                    "" + (openTab === 5 ? "border-b-1 border-indigo-400" : "")
+                  }
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setOpenTab(5);
+                  }}
+                  data-toggle="tab"
+                  href="#link5"
+                  role="tablist"
+                >
+                  Professional Experience
+                </a>
+              </li>
+
+              <li className="w-full">
+                <a
+                  className={
+                    "" + (openTab === 6 ? "border-b-1 border-indigo-400" : "")
+                  }
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setOpenTab(6);
+                  }}
+                  data-toggle="tab"
+                  href="#link6"
+                  role="tablist"
+                >
+                  Recent Activity
+                </a>
+              </li>
             </ul>
-            <div className="flex-auto">
-              <div className="tab-content tab-space">
-                <div className={openTab === 1 ? "block" : "hidden"} id="link1">
-                  <TabAboutProfile />
-                </div>
-                <div className={openTab === 2 ? "block" : "hidden"} id="link2">
-                  <TabRecentProfile />
-                </div>
-                <div className={openTab === 3 ? "block" : "hidden"} id="link3">
-                  <SkillsTabProfile />
-                </div>
-              </div>
+          </div>
+        </div>
+        <div className="flex-auto">
+          <div className="tab-content tab-space">
+            <div className={openTab === 1 ? "block" : "hidden"} id="link1">
+              <TabAboutProfile />
+            </div>
+            <div className={openTab === 2 ? "block" : "hidden"} id="link2">
+              <TabRecentProfile />
+            </div>
+            <div className={openTab === 3 ? "block" : "hidden"} id="link3">
+              <SkillsTabProfile />
             </div>
           </div>
         </div>
