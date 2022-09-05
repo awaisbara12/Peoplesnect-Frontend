@@ -192,7 +192,7 @@ const NewsFeedSingle = (singleItem) => {
                 <BadgeCheckIcon
                   width={14}
                   height={14}
-                  className="text-indigo-400" 
+                  className="text-indigo-400"
                 />
               </h4>
               <div className="font-light text-gray-900 opacity-[0.8]">
@@ -317,7 +317,7 @@ const NewsFeedSingle = (singleItem) => {
             <div className="text-slate-400 text-sm">{items.created_at}</div>
             {items.body.length > 200 ? (
               <a href="#" className="text-indigo-400 text-[15px] ml-3">
-                seemore...
+                see more...
               </a>
             ) : (
               ""
@@ -412,7 +412,7 @@ const NewsFeedSingle = (singleItem) => {
             </div>
           </div>
           <Fragment>
-            <PostComments news_feed_id={items.id} />
+            <PostComments news_feed_id={items.id} setComments={setComments} />
             <FilterComments />
             {!loading && <ReplyComments comments={comments.data} />}
           </Fragment>

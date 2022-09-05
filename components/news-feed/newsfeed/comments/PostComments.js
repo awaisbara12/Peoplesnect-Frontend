@@ -10,24 +10,30 @@ import {
   EmojiHappyIcon,
   ChevronRightIcon,
   PaperAirplaneIcon,
+  TrashIcon
 } from "@heroicons/react/outline";
 import { useFormik } from "formik";
 import { eventScheema } from "../../../auth/schemas/CreateEventScheema";
 import { COMMENT_API_KEY } from "../../../../pages/config";
 
-const PostComments = (feedId) => {
+const PostComments = (props) => {
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
   }
-  const [setLoading] = useState(false);
+  // const [setLoading] = useState(false);
   const [postText, setPostText] = useState("");
   const [postImage, setPostImage] = useState([]);
   const [postImagePreview, setpostImagePreview] = useState();
-  const [comments, setComments] = useState([]);
+  // const [comments, setComments] = useState(props.comments);
 
   function handleOnEnter() {
-    console.log("enter", postText);
+    // postComment()
   }
+
+  const handleCoverReomve = (e) => {
+    setPostImage("")
+    setpostImagePreview(window.URL.revokeObjectURL(e.target.files));
+  };
 
   const handleImagePost = (e) => {
     setPostImage(e.target.files);
@@ -53,7 +59,7 @@ const PostComments = (feedId) => {
 
     const dataForm = new FormData();
     dataForm.append("comments[body]", postText);
-    dataForm.append("comments[news_feed_id]", feedId.news_feed_id);
+    dataForm.append("comments[news_feed_id]", props.news_feed_id);
 
     if (postImage.length > 0) {
       for (let i = 0; i < postImage.length; i++) {
@@ -70,15 +76,13 @@ const PostComments = (feedId) => {
       },
       body: dataForm,
     })
-      .then((resp) => resp.json())
-      .then((result) => {
-        if (result) {
-          console.log(result);
-          setComments(result.data);
-          // setLoading(false);
-        }
-      })
-      .catch((err) => console.log(err));
+    .then((resp) => resp.json())
+    .then((result) => {
+      if (result) {
+        props.setComments(result);
+      }
+    })
+    .catch((err) => console.log(err));
     setPostText("");
     setpostImagePreview("");
     setPostImage("");
@@ -114,7 +118,6 @@ const PostComments = (feedId) => {
                 className="opacity-0 absolute w-6 h-6 -z-0"
                 onChange={handleImagePost}
                 title={""}
-                multiple
               />
             </div>
           </div>
@@ -128,6 +131,27 @@ const PostComments = (feedId) => {
             </button>
           </div>
         </div>
+
+        {postImagePreview ? (
+          <div className="flex my-2 rounded-xl z-10 p-2 w-[240px] h-[120px] ">
+            <div className={`relative`}>
+              <img
+                src={postImagePreview}
+                className="aspect-video object-cover rounded-xl mb-4"
+                alt=""
+              />
+
+              <div
+                onClick={handleCoverReomve}
+                className="bg-indigo-100 absolute top-0 right-0 z-50 w-6 h-6 cursor-pointer flex justify-center items-center rounded-full"
+              >
+                <TrashIcon className="w-4 h-4 text-indigo-600" />
+              </div>
+            </div>
+          </div>
+        ) : (
+          ""
+        )}
       </div>
     </Fragment>
   );
