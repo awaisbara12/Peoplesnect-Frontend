@@ -25,7 +25,7 @@ const ReplyComments = (comments) => {
       {comments.comments &&
         comments.comments.map((comment) => (
           <div className="w-full bg-zinc-100 mt-[14px] p-[16px] rounded-xl" key={comment.id}>
-            <div class="flex justify-between">
+            <div className="flex justify-between">
               <div className="flex items-start  gap-[10px] mb-5">
                 <Image src={ProfileAvatar} width={38} height={38} alt="" />
                 <div>
