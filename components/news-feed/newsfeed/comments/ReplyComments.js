@@ -19,7 +19,6 @@ const cardDropdown = [
 ];
 
 const ReplyComments = (comments) => {
-  console.log(comments)
   return (
     <Fragment>
     <div>

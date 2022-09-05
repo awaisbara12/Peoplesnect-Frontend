@@ -413,7 +413,7 @@ const NewsFeedSingle = (singleItem) => {
           </div>
           <Fragment>
             <PostComments news_feed_id={items.id} setComments={setComments} />
-            <FilterComments />
+            <FilterComments news_feed_id={items.id} setComments={setComments} />
             {!loading && <ReplyComments comments={comments.data} />}
           </Fragment>
         </div>
