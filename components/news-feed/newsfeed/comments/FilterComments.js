@@ -72,7 +72,7 @@ const FilterComments = () => {
           </div>
         </div>
         <Link href="/">
-          <a className="text-slate-400 text-sm">see all</a>
+          <a className="text-slate-400 text-sm">Load More</a>
         </Link>
       </div>
     </Fragment>
