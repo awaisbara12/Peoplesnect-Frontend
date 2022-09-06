@@ -13,27 +13,34 @@ const FilterComments = (props) => {
   const [selected, setSelected] = useState(commentsFilter[0]);
 
   function filterChange(e) {
-    setSelected(e)
-    var sort = ''
-    if (e.name == "Most Recent"){
-      sort = "desc"
+    setSelected(e);
+    var sort = "";
+    if (e.name == "Most Recent") {
+      sort = "desc";
     } else {
-      sort = 'asc'
+      sort = "asc";
     }
-    fetch(NEWSFEED_COMMENT_POST_KEY + "/" + props.news_feed_id + "/comments?sort="+sort, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        Authorization: `${authKey}`,
+    fetch(
+      NEWSFEED_COMMENT_POST_KEY +
+        "/" +
+        props.news_feed_id +
+        "/comments?sort=" +
+        sort,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          Authorization: `${authKey}`,
+        },
       }
-    })
-    .then((resp) => resp.json())
-    .then((result) => {
-      if (result) {
-        props.setComments(result);
-      }
-    })
-    .catch((err) => console.log(err));
+    )
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          props.setComments(result);
+        }
+      })
+      .catch((err) => console.log(err));
   }
   return (
     <Fragment>
@@ -69,7 +76,6 @@ const FilterComments = (props) => {
                           }`
                         }
                         value={person}
-
                       >
                         {({ selected }) => (
                           <>
@@ -98,8 +104,10 @@ const FilterComments = (props) => {
             </Listbox>
           </div>
         </div>
-        <Link href="news-feed" >
-          <span className="text-slate-400 text-sm cursor-pointer">Load More</span>
+        <Link href="news-feed">
+          <span className="text-slate-400 text-sm cursor-pointer">
+            Load More
+          </span>
         </Link>
       </div>
     </Fragment>

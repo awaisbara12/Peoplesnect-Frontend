@@ -19,13 +19,12 @@ import { COMMENT_API_KEY } from "../../../../pages/config";
 import axios from "axios";
 
 const ReplyComments = (props) => {
-
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
   }
 
   const [edit_on, setEditOn] = useState(false);
-  const [editCommentId, setCommentId] = useState("")
+  const [editCommentId, setCommentId] = useState("");
 
   const handleImagePost = (e) => {
     // setPostImage(e.target.files);
@@ -58,13 +57,13 @@ const ReplyComments = (props) => {
   }
 
   function editComment(commentId) {
-    setEditOn(true)
-    setCommentId(commentId)
+    setEditOn(true);
+    setCommentId(commentId);
   }
 
-  function cancelEdit(commentId){
-    setEditOn(false)
-    setCommentId(commentId)
+  function cancelEdit(commentId) {
+    setEditOn(false);
+    setCommentId(commentId);
   }
 
   return (
@@ -72,7 +71,11 @@ const ReplyComments = (props) => {
       <div>
         {props.comments &&
           props.comments.map((comment) => (
-            <div className="w-full bg-zinc-100 mt-[14px] p-[16px] rounded-xl" id={`comment-${comment.id}`} key={comment.id} >
+            <div
+              className="w-full bg-zinc-100 mt-[14px] p-[16px] rounded-xl"
+              id={`comment-${comment.id}`}
+              key={comment.id}
+            >
               <div className="flex justify-between">
                 <div className="flex items-start  gap-[10px] mb-5">
                   <Image src={ProfileAvatar} width={38} height={38} alt="" />
@@ -111,27 +114,35 @@ const ReplyComments = (props) => {
                           leaveFrom="opacity-100 translate-y-0"
                           leaveTo="opacity-0 translate-y-1"
                         >
-                          <Popover.Panel className="absolute left-7 z-10 mt-3 w-36 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-3xl">
+                          <Popover.Panel className="absolute left-7 z-10 top-6 w-36 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-3xl">
                             <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                               <div className="relative bg-white py-1">
-                                <button key="Edit" onClick={() => editComment(comment.id)} className="flex items-center w-full rounded-lg hover:bg-gray-50">
-                                  <div className="flex items-center justify-center text-white sm:h-12 sm:w-12 pl-2">
+                                <button
+                                  key="Edit"
+                                  onClick={() => editComment(comment.id)}
+                                  className="flex items-center w-full rounded-lg hover:bg-gray-50 h-6"
+                                >
+                                  <div className="flex items-center gap-3 justify-center text-white pl-2">
                                     <PencilIcon className="h-4 w-4 text-gray-900" />
-                                  </div>
-                                  <div>
-                                    <p className="text-sm font-medium text-gray-900">
-                                      Edit
-                                    </p>
+                                    <div>
+                                      <p className="text-sm font-medium text-gray-900">
+                                        Edit
+                                      </p>
+                                    </div>
                                   </div>
                                 </button>
-                                <button key="Delete" onClick={() => deteleComment(comment.id)} className="flex items-center w-full rounded-lg hover:bg-gray-50">
-                                  <div className="flex items-center justify-center text-white sm:h-12 sm:w-12 pl-2">
+                                <button
+                                  key="Delete"
+                                  onClick={() => deteleComment(comment.id)}
+                                  className="flex items-center w-full rounded-lg hover:bg-gray-50 h-6"
+                                >
+                                  <div className="flex items-center gap-3 justify-center text-white pl-2">
                                     <TrashIcon className="h-4 w-4 text-gray-900" />
-                                  </div>
-                                  <div>
-                                    <p className="text-sm font-medium text-gray-900">
-                                      Delete
-                                    </p>
+                                    <div>
+                                      <p className="text-sm font-medium text-gray-900">
+                                        Delete
+                                      </p>
+                                    </div>
                                   </div>
                                 </button>
                               </div>
@@ -146,20 +157,23 @@ const ReplyComments = (props) => {
 
               {edit_on && editCommentId == comment.id ? (
                 <>
-                  <div className="relative -ml-5 mr-5">
+                  <div className="relative -ml-5">
                     <InputEmoji
                       value={comment.body}
-                      className="ml-0"
+                      className=""
                       type="text"
                       react-emoji="w-{80%}"
                       placeholder="Edit Your comment"
                     />
                   </div>
                   <div className="flex gap-2 mt-2">
-                    <button onClick={() => cancelEdit(comment.id)} className="bg-transparent border-2 border-indigo-400 text-indigo-400 p-2 rounded-xl">
+                    <button
+                      onClick={() => cancelEdit(comment.id)}
+                      className="bg-transparent border-2 border-indigo-400 text-indigo-400 px-2 py-1 rounded-xl"
+                    >
                       Cancel
                     </button>
-                    <button className="bg-indigo-400 text-white border-2 p-2 rounded-xl">
+                    <button className="bg-indigo-400 text-white border-2  px-2 py-1 rounded-xl">
                       Save
                     </button>
                   </div>
