@@ -1,7 +1,6 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import Image from "next/image";
 import InputEmoji from "react-input-emoji";
-
 import Link from "next/link";
 import {
   HeartIcon,
@@ -16,38 +15,65 @@ import {
 } from "@heroicons/react/outline";
 import ProfileAvatar from "../../../../public/images/profile-avatar-2.png";
 import { Popover, Transition } from "@headlessui/react";
+import { COMMENT_API_KEY } from "../../../../pages/config";
+import axios from "axios";
 
-const cardDropdown = [
-  {
-    name: "EDIT",
-    href: "#",
-    icon: PencilIcon,
-  },
-  {
-    name: "DELETE",
-    href: "#",
-    icon: TrashIcon,
-  },
-];
-const handleImagePost = (e) => {
-  setPostImage(e.target.files);
-  if (e.target.files.length !== 0) {
-    setpostImagePreview(window.URL.createObjectURL(e.target.files[0]));
+const ReplyComments = (props) => {
+
+  if (typeof window !== "undefined") {
+    var authKey = window.localStorage.getItem("keyStore");
   }
-};
 
-const ReplyComments = (comments) => {
-  console.log(comments);
+  const [edit_on, setEditOn] = useState(false);
+  const [editCommentId, setCommentId] = useState("")
+
+  const handleImagePost = (e) => {
+    // setPostImage(e.target.files);
+    // if (e.target.files.length !== 0) {
+    //   setpostImagePreview(window.URL.createObjectURL(e.target.files[0]));
+    // }
+  };
+
+  async function deteleComment(commentId) {
+    const res = await axios(COMMENT_API_KEY + "/" + commentId, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-type": "application/json; charset=utf-8",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true,
+        Authorization: authKey,
+      },
+      credentials: "same-origin",
+    });
+    const result = await res;
+
+    try {
+      if (result) {
+        document.getElementById(`comment-${commentId}`).remove();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  function editComment(commentId) {
+    setEditOn(true)
+    setCommentId(commentId)
+  }
+
+  function cancelEdit(commentId){
+    setEditOn(false)
+    setCommentId(commentId)
+  }
+
   return (
     <Fragment>
       <div>
-        {comments.comments &&
-          comments.comments.map((comment) => (
-            <div
-              className="w-full bg-zinc-100 mt-[14px] p-[16px] rounded-xl"
-              key={comment.id}
-            >
-              <div class="flex justify-between">
+        {props.comments &&
+          props.comments.map((comment) => (
+            <div className="w-full bg-zinc-100 mt-[14px] p-[16px] rounded-xl" id={`comment-${comment.id}`} key={comment.id} >
+              <div className="flex justify-between">
                 <div className="flex items-start  gap-[10px] mb-5">
                   <Image src={ProfileAvatar} width={38} height={38} alt="" />
                   <div>
@@ -88,22 +114,26 @@ const ReplyComments = (comments) => {
                           <Popover.Panel className="absolute left-7 z-10 mt-3 w-36 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-3xl">
                             <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                               <div className="relative bg-white py-1">
-                                {cardDropdown.map((card) => (
-                                  <a
-                                    key={card.name}
-                                    href={card.id}
-                                    className="-m-3 flex items-center rounded-lg p-1 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
-                                  >
-                                    <div className="flex h-10 w-10 shrink-0 items-center justify-center text-white sm:h-12 sm:w-12 pl-2">
-                                      <card.icon className="h-4 w-4 text-gray-900" />
-                                    </div>
-                                    <div>
-                                      <p className="text-sm font-medium text-gray-900">
-                                        {card.name}
-                                      </p>
-                                    </div>
-                                  </a>
-                                ))}
+                                <button key="Edit" onClick={() => editComment(comment.id)} className="flex items-center w-full rounded-lg hover:bg-gray-50">
+                                  <div className="flex items-center justify-center text-white sm:h-12 sm:w-12 pl-2">
+                                    <PencilIcon className="h-4 w-4 text-gray-900" />
+                                  </div>
+                                  <div>
+                                    <p className="text-sm font-medium text-gray-900">
+                                      Edit
+                                    </p>
+                                  </div>
+                                </button>
+                                <button key="Delete" onClick={() => deteleComment(comment.id)} className="flex items-center w-full rounded-lg hover:bg-gray-50">
+                                  <div className="flex items-center justify-center text-white sm:h-12 sm:w-12 pl-2">
+                                    <TrashIcon className="h-4 w-4 text-gray-900" />
+                                  </div>
+                                  <div>
+                                    <p className="text-sm font-medium text-gray-900">
+                                      Delete
+                                    </p>
+                                  </div>
+                                </button>
                               </div>
                             </div>
                           </Popover.Panel>
@@ -113,49 +143,42 @@ const ReplyComments = (comments) => {
                   </Popover>
                 </div>
               </div>
-              {comment.attachments_link ? (
-                <img
-                  src={comment.attachments_link[0]}
-                  className="aspect-video object-cover rounded-xl mb-4"
-                  alt=""
-                />
-              ) : (
-                ""
-              )}
-              <p className="text-gray-900 mt-[6px]">{comment.body}</p>
-              <div className="relative -ml-5 mr-5">
-                <InputEmoji
-                  className="ml-0"
-                  type="text"
-                  react-emoji="w-{80%}"
-                  placeholder="Edit Your comment"
-                />
-                <div className="flex items-center absolute top-3.5 -right-6">
-                  <div className="relative flex items-center justify-center">
-                    <PhotographIcon
-                      width={28}
-                      height={28}
-                      className="text-gray-500"
-                    />
-                    <input
-                      type="file"
-                      name="image"
-                      id="image"
-                      className="opacity-0 absolute w-6 h-6 -z-0"
-                      onChange={handleImagePost}
-                      title={""}
+
+              {edit_on && editCommentId == comment.id ? (
+                <>
+                  <div className="relative -ml-5 mr-5">
+                    <InputEmoji
+                      value={comment.body}
+                      className="ml-0"
+                      type="text"
+                      react-emoji="w-{80%}"
+                      placeholder="Edit Your comment"
                     />
                   </div>
-                </div>
-              </div>
-              <div className="flex gap-2 mt-2">
-                <button className="bg-transparent border-2 border-indigo-400 text-indigo-400 p-2 rounded-xl">
-                  Cancel
-                </button>
-                <button className="bg-indigo-400 text-white border-2 p-2 rounded-xl">
-                  Save
-                </button>
-              </div>
+                  <div className="flex gap-2 mt-2">
+                    <button onClick={() => cancelEdit(comment.id)} className="bg-transparent border-2 border-indigo-400 text-indigo-400 p-2 rounded-xl">
+                      Cancel
+                    </button>
+                    <button className="bg-indigo-400 text-white border-2 p-2 rounded-xl">
+                      Save
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  {comment.attachments_link ? (
+                    <img
+                      src={comment.attachments_link[0]}
+                      className="aspect-video object-cover rounded-xl mb-4"
+                      alt=""
+                    />
+                  ) : (
+                    ""
+                  )}
+                  <p className="text-gray-900 mt-[6px]">{comment.body}</p>
+                </>
+              )}
+
               <div className="flex items-center gap-[14px] mt-[10px]">
                 <HeartIcon className="w-5 h-5" />
                 <div className="w-[0.5px] h-4 bg-gray-900"></div>

@@ -98,8 +98,8 @@ const FilterComments = (props) => {
             </Listbox>
           </div>
         </div>
-        <Link href="/">
-          <a className="text-slate-400 text-sm">Load More</a>
+        <Link href="news-feed" >
+          <span className="text-slate-400 text-sm cursor-pointer">Load More</span>
         </Link>
       </div>
     </Fragment>

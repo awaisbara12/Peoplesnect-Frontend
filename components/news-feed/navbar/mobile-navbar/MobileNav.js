@@ -64,7 +64,7 @@ const MobileNav = () => {
           >
             <div className="p-5">
               <div>
-                <Link href="">
+                <Link href="/news-feed">
                   <a className="flex items-center mb-8 gap-2">
                     <UserIcon className="h-7 w-7" />
                     <div className="font-bold">Profile</div>
@@ -72,7 +72,7 @@ const MobileNav = () => {
                 </Link>
               </div>
               <div>
-                <Link href="">
+                <Link href="/news-feed">
                   <a className="flex items-center mb-8 gap-2">
                     <BookmarkIcon className="h-7 w-7" />
                     <div className="font-bold">Saved Items</div>

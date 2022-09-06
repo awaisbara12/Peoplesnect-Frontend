@@ -353,7 +353,7 @@ const NewsFeedSingle = (singleItem) => {
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
                     fill="Red"
-                    className="w-6 h-6"
+                    className="w-6 h-6 cursor-pointer"
                     onClick={() => deteleHeart(items.heart_id)}
                   >
                     <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
@@ -366,7 +366,6 @@ const NewsFeedSingle = (singleItem) => {
                 <>
                   <HeartIcon
                     width={24}
-                    red
                     height={24}
                     className="text-gray-900 cursor-pointer"
                     onClick={() => addHeart(items.id)}
@@ -392,7 +391,7 @@ const NewsFeedSingle = (singleItem) => {
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
                     fill="currentColor"
-                    className="w-6 h-6 text-indigo-400"
+                    className="w-6 h-6 text-indigo-400 cursor-pointer"
                     onClick={() => deteleBookmark(items.bookmark_id)}
                   >
                     <path
@@ -423,7 +422,7 @@ const NewsFeedSingle = (singleItem) => {
           <Fragment>
             <PostComments news_feed_id={items.id} setComments={setComments} />
             <FilterComments news_feed_id={items.id} setComments={setComments} />
-            {!loading && <ReplyComments comments={comments.data} />}
+            {!loading && <ReplyComments comments={comments.data} setComments={setComments} />}
           </Fragment>
         </div>
       </div>
