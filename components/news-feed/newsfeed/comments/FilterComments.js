@@ -1,20 +1,46 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import Link from "next/link";
 import { Listbox, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/outline";
 import { CheckIcon } from "@heroicons/react/solid";
-
+import { NEWSFEED_COMMENT_POST_KEY } from "../../../../pages/config";
 const commentsFilter = [{ name: "Most Recent" }, { name: "Most Relevant" }];
 
-const FilterComments = () => {
+const FilterComments = (props) => {
+  if (typeof window !== "undefined") {
+    var authKey = window.localStorage.getItem("keyStore");
+  }
   const [selected, setSelected] = useState(commentsFilter[0]);
 
+  function filterChange(e) {
+    setSelected(e)
+    var sort = ''
+    if (e.name == "Most Recent"){
+      sort = "desc"
+    } else {
+      sort = 'asc'
+    }
+    fetch(NEWSFEED_COMMENT_POST_KEY + "/" + props.news_feed_id + "/comments?sort="+sort, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      }
+    })
+    .then((resp) => resp.json())
+    .then((result) => {
+      if (result) {
+        props.setComments(result);
+      }
+    })
+    .catch((err) => console.log(err));
+  }
   return (
     <Fragment>
       <div className="flex items-center justify-between mt-[6px]">
         <div className="flex items-center gap-2 text-sm text-slate-400">
           <div className="w-72">
-            <Listbox value={selected} onChange={setSelected}>
+            <Listbox value={selected} onChange={filterChange}>
               <div className="relative mt-1">
                 <Listbox.Button className="relative  cursor-default rounded-lg bg-transparent py-2 pl-3 pr-10 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-300 sm:text-sm">
                   <span className="block truncate">{selected.name}</span>
@@ -43,6 +69,7 @@ const FilterComments = () => {
                           }`
                         }
                         value={person}
+
                       >
                         {({ selected }) => (
                           <>
