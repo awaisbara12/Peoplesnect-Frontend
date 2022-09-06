@@ -150,10 +150,10 @@ const ReplyComments = (comments) => {
               </div>
               <div className="flex gap-2 mt-2">
                 <button className="bg-transparent border-2 border-indigo-400 text-indigo-400 p-2 rounded-xl">
-                  Cencel
+                  Cancel
                 </button>
                 <button className="bg-indigo-400 text-white border-2 p-2 rounded-xl">
-                  Post
+                  Save
                 </button>
               </div>
               <div className="flex items-center gap-[14px] mt-[10px]">
