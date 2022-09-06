@@ -98,6 +98,9 @@ const FilterComments = (props) => {
             </Listbox>
           </div>
         </div>
+        <Link href="/">
+          <a className="text-slate-400 text-sm">Load More</a>
+        </Link>
       </div>
     </Fragment>
   );
