@@ -29,13 +29,14 @@ import {
   TabPanel,
 } from "@material-tailwind/react";
 import TabsProfileCard from "./profile-tabs/TabsProfileCard";
+import ProfileSideBarFeed from "./profile-sidebar/ProfileSideBarFeed";
 
 const ProfileTopCard = () => {
   const [openTab, setOpenTab] = React.useState(1);
   return (
     <div className="mt-8">
       <div className="px-10 w-[720px] xl:w-full">
-        <TabsProfileCard />
+        <ProfileSideBarFeed />
       </div>
     </div>
   );

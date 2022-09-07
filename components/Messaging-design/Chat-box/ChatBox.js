@@ -47,7 +47,7 @@ const Dropdown = ({ color }) => {
 
   return (
     <>
-      <div className="flex flex-wrap">
+      {/* <div className="flex flex-wrap">
         <div className="absolute bottom-10 right-8">
           <div className="relative inline-flex align-middle w-full">
             <a
@@ -259,7 +259,7 @@ const Dropdown = ({ color }) => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };
