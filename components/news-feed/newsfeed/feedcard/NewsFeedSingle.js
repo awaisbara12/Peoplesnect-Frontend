@@ -382,7 +382,7 @@ const NewsFeedSingle = (singleItem) => {
                 height={24}
                 className="text-gray-900 cursor-pointer"
               />
-              <span className="font-light text-gray-900">14.2k</span>
+              <span className="font-light text-gray-900">{items.comments_count}</span>
             </div>
             <div className="flex gap-2 items-center">
               {items.is_bookmark && items.is_bookmark == true ? (
