@@ -296,7 +296,7 @@ const Groups = () => {
                       <span className="text-indigo-400 font-bold">Private</span>
                     </a>
                   </div>
-                  <a href="">
+                  <a href="group-page/suggest-group">
                     <button className="w-full bg-indigo-400 text-white rounded-xl py-2 hover:text-indigo-400 hover:bg-transparent  border-1 border-indigo-400 mt-2 mb-4">
                       Join Group
                     </button>
@@ -355,7 +355,7 @@ const Groups = () => {
                       <span className="text-indigo-400 font-bold">Private</span>
                     </a>
                   </div>
-                  <a href="">
+                  <a href="group-page/suggest-group">
                     <button className="w-full bg-indigo-400 text-white rounded-xl py-2 hover:text-indigo-400 hover:bg-transparent  border-1 border-indigo-400 mt-2 mb-4">
                       Join Group
                     </button>
@@ -414,7 +414,7 @@ const Groups = () => {
                       <span className="text-indigo-400 font-bold">Private</span>
                     </a>
                   </div>
-                  <a href="">
+                  <a href="group-page/suggest-group">
                     <button className="w-full bg-indigo-400 text-white rounded-xl py-2 hover:text-indigo-400 hover:bg-transparent  border-1 border-indigo-400 mt-2 mb-4">
                       Join Group
                     </button>

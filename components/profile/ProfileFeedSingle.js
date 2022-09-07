@@ -144,7 +144,7 @@ const ProfileFeedSingle = (singleItem) => {
   }
   return (
     <>
-      <div className="w-[720px] pb-4 mt-[14px] bg-white rounded-xl">
+      <div className="w-full pb-4 mt-[14px] bg-white rounded-xl">
         <div className="flex gap-2 justify-between items-center px-[22px] py-[14px]">
           <div className="flex gap-2">
             <Image

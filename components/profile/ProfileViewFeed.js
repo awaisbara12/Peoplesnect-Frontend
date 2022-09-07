@@ -28,7 +28,6 @@ const ProfileViewFeed = () => {
             </div>
             <div className="w-72 hidden md:block lg:block">
               <NewsSearch />
-              <ProfileSideBarFeed />
             </div>
           </div>
         </div>
