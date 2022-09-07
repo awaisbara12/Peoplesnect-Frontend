@@ -24,14 +24,8 @@ const ReplyComments = (props) => {
   }
 
   const [edit_on, setEditOn] = useState(false);
-  const [editCommentId, setCommentId] = useState("");
-
-  const handleImagePost = (e) => {
-    // setPostImage(e.target.files);
-    // if (e.target.files.length !== 0) {
-    //   setpostImagePreview(window.URL.createObjectURL(e.target.files[0]));
-    // }
-  };
+  const [editCommentId, setCommentId] = useState("")
+  const [postText, setPostText] = useState("");
 
   async function deteleComment(commentId) {
     const res = await axios(COMMENT_API_KEY + "/" + commentId, {
@@ -49,7 +43,9 @@ const ReplyComments = (props) => {
 
     try {
       if (result) {
-        document.getElementById(`comment-${commentId}`).remove();
+        if(document.getElementById(`comment-${commentId}`)){
+          document.getElementById(`comment-${commentId}`).classList.add("hidden");
+        }
       }
     } catch (error) {
       console.log(error);
@@ -64,6 +60,39 @@ const ReplyComments = (props) => {
   function cancelEdit(commentId) {
     setEditOn(false);
     setCommentId(commentId);
+  }
+
+  function updateComment(commentId) {
+
+    const dataForm = new FormData();
+    dataForm.append("comments[body]", postText);
+
+    fetch(COMMENT_API_KEY+"/"+commentId, {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
+      body: dataForm,
+    })
+    .then((resp) => resp.json())
+    .then((result) => {
+      if (result) {
+        setEditOn(false)
+        setCommentId(commentId)
+        let ItemsCopy = {data: []}
+        let x = props.comments.map((entry) => {
+          if(entry.id == commentId)
+          {
+            entry.body = result.data.body
+          }
+          ItemsCopy["data"].push(entry)
+        })
+        props.setComments(ItemsCopy);
+      }
+    })
+    .catch((err) => console.log(err));
+    setPostText("");
   }
 
   return (
@@ -160,10 +189,12 @@ const ReplyComments = (props) => {
                   <div className="relative -ml-5">
                     <InputEmoji
                       value={comment.body}
-                      className=""
+                      className="ml-0"
                       type="text"
+                      value={comment.body}
+                      onChange={setPostText}
                       react-emoji="w-{80%}"
-                      placeholder="Edit Your comment"
+                      placeholder={comment.body}
                     />
                   </div>
                   <div className="flex gap-2 mt-2">
@@ -173,7 +204,7 @@ const ReplyComments = (props) => {
                     >
                       Cancel
                     </button>
-                    <button className="bg-indigo-400 text-white border-2  px-2 py-1 rounded-xl">
+                    <button onClick={() => updateComment(comment.id)} className="bg-indigo-400 text-white border-2  px-2 py-1 rounded-xl">
                       Save
                     </button>
                   </div>

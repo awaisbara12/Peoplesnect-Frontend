@@ -30,7 +30,7 @@ const PostComments = (props) => {
     // postComment()
   }
 
-  const handleCoverReomve = (e) => {
+  const handleCoverRemove = (e) => {
     setPostImage("")
     setpostImagePreview(window.URL.revokeObjectURL(e.target.files));
   };
@@ -142,7 +142,7 @@ const PostComments = (props) => {
               />
 
               <div
-                onClick={handleCoverReomve}
+                onClick={handleCoverRemove}
                 className="bg-indigo-100 absolute top-0 right-0 z-50 w-6 h-6 cursor-pointer flex justify-center items-center rounded-full"
               >
                 <TrashIcon className="w-4 h-4 text-indigo-600" />
