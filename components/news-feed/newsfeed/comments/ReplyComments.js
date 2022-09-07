@@ -95,6 +95,9 @@ const ReplyComments = (props) => {
     setPostText("");
   }
 
+  function likeComment(commentId){
+    console.log(commentId)
+  }
   return (
     <Fragment>
       <div>
@@ -224,7 +227,7 @@ const ReplyComments = (props) => {
               )}
 
               <div className="flex items-center gap-[14px] mt-[10px]">
-                <HeartIcon className="w-5 h-5" />
+                <HeartIcon className="w-5 h-5 cursor-pointer" onClick={() => likeComment(comment.id)}/>
                 <div className="w-[0.5px] h-4 bg-gray-900"></div>
                 <ChatIcon className="w-5 h-5" />
               </div>
