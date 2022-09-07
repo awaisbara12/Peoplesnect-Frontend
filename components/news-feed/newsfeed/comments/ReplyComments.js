@@ -191,7 +191,6 @@ const ReplyComments = (props) => {
                       value={comment.body}
                       className="ml-0"
                       type="text"
-                      value={comment.body}
                       onChange={setPostText}
                       react-emoji="w-{80%}"
                       placeholder={comment.body}
