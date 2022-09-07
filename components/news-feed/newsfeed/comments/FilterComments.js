@@ -34,13 +34,39 @@ const FilterComments = (props) => {
         },
       }
     )
-      .then((resp) => resp.json())
-      .then((result) => {
-        if (result) {
-          props.setComments(result);
-        }
-      })
-      .catch((err) => console.log(err));
+    .then((resp) => resp.json())
+    .then((result) => {
+      if (result) {
+        props.setComments(result);
+      }
+    })
+    .catch((err) => console.log(err));
+  }
+
+  function loadMore() {
+    fetch(
+      NEWSFEED_COMMENT_POST_KEY +
+        "/" +
+        props.news_feed_id +
+        "/comments?page=" +
+        props.next_page,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          Authorization: `${authKey}`,
+        },
+      }
+    )
+    .then((resp) => resp.json())
+    .then((result) => {
+      if (result) {
+        let oldComments = {data: props.comments.concat(result.data)}
+        props.setNextPage(result.pages.next_page)
+        props.setComments(oldComments);
+      }
+    })
+    .catch((err) => console.log(err));
   }
   return (
     <Fragment>
@@ -104,11 +130,11 @@ const FilterComments = (props) => {
             </Listbox>
           </div>
         </div>
-        <Link href="news-feed">
-          <span className="text-slate-400 text-sm cursor-pointer">
-            Load More
+        {props.next_page ? (
+          <span className="text-slate-400 text-sm cursor-pointer" onClick={() => loadMore()}>
+          Load More
           </span>
-        </Link>
+        ) : ("")}
       </div>
     </Fragment>
   );

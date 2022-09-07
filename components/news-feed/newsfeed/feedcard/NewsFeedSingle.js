@@ -57,6 +57,7 @@ const NewsFeedSingle = (singleItem) => {
   const [items, setItems] = useState(singleItem.items);
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [nextPage, setNextPage] = useState('')
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
   }
@@ -169,6 +170,7 @@ const NewsFeedSingle = (singleItem) => {
 
       try {
         if (result.status == 200) {
+          setNextPage(result.data.pages.next_page)
           setComments(result.data);
         }
       } catch (error) {
@@ -421,7 +423,7 @@ const NewsFeedSingle = (singleItem) => {
           </div>
           <Fragment>
             <PostComments news_feed_id={items.id} setComments={setComments} />
-            <FilterComments news_feed_id={items.id} setComments={setComments} />
+            <FilterComments news_feed_id={items.id} comments={comments.data} setComments={setComments} next_page={nextPage} setNextPage={setNextPage} />
             {!loading && <ReplyComments comments={comments.data} setComments={setComments} />}
           </Fragment>
         </div>
