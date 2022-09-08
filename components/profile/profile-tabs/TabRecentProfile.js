@@ -5,7 +5,7 @@ import ProfileAvatar from "../../../public/images/profile-avatar.png";
 const TabRecentProfile = () => {
   return (
     <>
-      <div className="bg-white rounded-r-xl px-5 pb-5">
+      <div className="bg-white rounded-xl px-5 pb-5">
         <div className="">
           <div className="like-on-article border-b-1">
             <div className="flex px-4 py-3 justify-between items-center">

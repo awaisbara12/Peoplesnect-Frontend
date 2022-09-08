@@ -8,7 +8,7 @@ import {
 
 const SkillsTabProfile = () => {
   return (
-    <div className="bg-white rounded-r-xl  px-5 pb-5">
+    <div className="bg-white rounded-xl  px-5 pb-5">
       <div className="flex gap-10">
         <div className="grid grid-cols-3 gap-12 font-bold p-5">
           <div className="">HTML</div>

@@ -33,7 +33,7 @@ const ProfileTopCard = () => {
   return (
     <>
       <div className="mt-8">
-        <div className="w-full bg-white p-10 rounded-t-xl">
+        <div className="w-full bg-white p-5 rounded-t-xl">
           <div className="group relative w-full">
             <div className="">
               <Link href="/">
@@ -41,7 +41,7 @@ const ProfileTopCard = () => {
                   <Image
                     src={postimage}
                     className="object-cover rounded-xl"
-                    width={1020}
+                    width={1030}
                     height={320}
                     alt=""
                   />

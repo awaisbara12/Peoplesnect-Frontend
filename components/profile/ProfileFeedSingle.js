@@ -12,12 +12,13 @@ import {
   ShareIcon,
   DocumentReportIcon,
   XCircleIcon,
+  PencilIcon,
 } from "@heroicons/react/outline";
 import { CalendarIcon } from "@heroicons/react/solid";
 import { Popover, Transition } from "@headlessui/react";
 import Link from "next/link";
 import ProfileAvatar from "../../public/images/profile-girl.jpg";
-import PostImage from "../../public/images/post-image.png";
+import postimage from "../../public/images/cover.jpg";
 import FilterComments from "./comments/FilterComments";
 import ReplyComments from "./comments/ReplyComments";
 import axios from "axios";
@@ -32,14 +33,9 @@ import PostComments from "./comments/PostComments";
 
 const cardDropdown = [
   {
-    name: "Save",
+    name: "Edit",
     href: "#",
-    icon: BookmarkIcon,
-  },
-  {
-    name: "Share",
-    href: "#",
-    icon: ShareIcon,
+    icon: PencilIcon,
   },
   {
     name: "Delet",
@@ -191,7 +187,7 @@ const ProfileFeedSingle = (singleItem) => {
                       leaveFrom="opacity-100 translate-y-0"
                       leaveTo="opacity-0 translate-y-1"
                     >
-                      <Popover.Panel className="absolute left-1/2 z-10 mt-3 w-72 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-3xl">
+                      <Popover.Panel className="absolute left-1/2 z-10 mt-3 w-72 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-xl">
                         <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                           <div className="relative bg-white py-2">
                             {cardDropdown.map((card) => (
@@ -220,14 +216,14 @@ const ProfileFeedSingle = (singleItem) => {
             </div>
           </div>
         </div>
-        <div className="border-1 border-gray-100"></div>
-
         <div className="px-[22px] py-[14px]">
           <p>New Post</p>
           <div className="rounded-xl bg-white border border-gray-100 my-2">
-            <img
-              src={PostImage}
-              className="aspect-video object-cover rounded-t-xl"
+            <Image
+              src={postimage}
+              className="object-cover rounded-xl"
+              width={1020}
+              height={320}
               alt=""
             />
             <div className="py-3 px-3">
@@ -258,32 +254,37 @@ const ProfileFeedSingle = (singleItem) => {
             </div>
           </div>
           <div className="flex justify-between mt-[14px]">
-            <div className="flex gap-2 items-center">
-              <HeartIcon
-                width={24}
-                height={24}
-                className="text-gray-900 cursor-pointer"
-              />
-              <span className="font-light text-gray-900">2</span>
-            </div>
-            <div className="flex gap-2 items-center">
-              <ChatAltIcon
-                width={24}
-                height={24}
-                className="text-gray-900 cursor-pointer"
-              />
-              <span className="font-light text-gray-900">14.2k</span>
-            </div>
-            <div className="flex gap-2 items-center">
-              <>
-                <BookmarkIcon
+            <div className="flex gap-6">
+              <div className="flex gap-2 items-center">
+                <HeartIcon
                   width={24}
                   height={24}
-                  className="text-gray-900 cursor-pointer"
-                  onClick={() => createBookmark(items.id)}
+                  className="text-red-600 cursor-pointer"
                 />
-                <span className="font-light text-gray-900">135</span>
-              </>
+                <span className="font-light text-red-600">12</span>
+              </div>
+              <div className="flex gap-2 items-center">
+                <ChatAltIcon
+                  width={24}
+                  height={24}
+                  className="text-red-600 cursor-pointer"
+                />
+                <span className="font-light text-red-600">14.2k</span>
+              </div>
+            </div>
+            <div className="flex gap-2 items-center">
+              <BookmarkIcon
+                width={24}
+                height={24}
+                className="text-indigo-400 cursor-pointer"
+                onClick={() => createBookmark(items.id)}
+              />
+              <ShareIcon
+                width={24}
+                height={24}
+                className="text-indigo-400 cursor-pointer"
+                onClick={() => createBookmark(items.id)}
+              />
             </div>
           </div>
           <Fragment>

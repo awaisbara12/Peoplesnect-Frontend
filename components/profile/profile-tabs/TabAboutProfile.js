@@ -9,7 +9,7 @@ import {
 const TabAboutProfile = () => {
   return (
     <>
-      <div className="bg-white rounded-r-xl  px-5 pb-5">
+      <div className="bg-white rounded-xl  px-5 pb-5">
         <div className="flex gap-10">
           <div className="grid grid-cols-1">
             <div className="">
