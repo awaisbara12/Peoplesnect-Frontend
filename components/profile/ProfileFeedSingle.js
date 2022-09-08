@@ -169,14 +169,6 @@ const ProfileFeedSingle = (singleItem) => {
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <div className="w-[88px] h-[30px] flex gap-1 items-center rounded-full justify-center bg-gray-900 text-white font-light cursor-pointer">
-              <PlusIcon
-                width={16}
-                height={16}
-                className="text-white opacity-100"
-              />
-              Follow
-            </div>
             <div className="">
               <Popover className="relative">
                 {({ open }) => (

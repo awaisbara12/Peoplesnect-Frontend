@@ -49,7 +49,7 @@ const Notifications = () => {
                                 active
                                   ? " bg-indigo-400 text-white "
                                   : "bg-white border-b-1 text-indigo-400 border-indigo-400 ",
-                                "text-center text-white block py-2 text-xs"
+                                "text-center text-indigo-400 block py-2 text-xs"
                               )}
                             >
                               Unread
@@ -65,7 +65,7 @@ const Notifications = () => {
                                 active
                                   ? " bg-indigo-400 text-white "
                                   : "bg-white border-b-1 text-indigo-400 border-indigo-400 ",
-                                "text-center text-white block py-2 text-xs"
+                                "text-center text-indigo-400 block py-2 text-xs"
                               )}
                             >
                               Likes
@@ -80,7 +80,7 @@ const Notifications = () => {
                                 active
                                   ? " bg-indigo-400 text-white "
                                   : "bg-white text-indigo-400",
-                                "text-center text-white block py-2 text-xs"
+                                "text-center text-indigo-400 block py-2 text-xs"
                               )}
                             >
                               Comments
