@@ -19,9 +19,12 @@ import {
   Tab,
   TabPanel,
 } from "@material-tailwind/react";
-import TabAboutProfile from "./TabAboutProfile";
 import TabRecentProfile from "./TabRecentProfile";
 import SkillsTabProfile from "./SkillsTabProfile";
+import TabAboutProfile from "./TabAboutProfile";
+import TabContactProfile from "./TabContactProfile";
+import TabExperienceProfile from "./TabExperienceProfile";
+import TabEducationProfile from "./TabEducationProfile";
 
 const TabsProfileCard = () => {
   const [openTab, setOpenTab] = React.useState(1);
@@ -48,7 +51,7 @@ const TabsProfileCard = () => {
                     href="#link1"
                     role="tablist"
                   >
-                    Profile
+                    About
                   </a>
                 </li>
                 <li className="">
@@ -67,7 +70,7 @@ const TabsProfileCard = () => {
                     href="#link2"
                     role="tablist"
                   >
-                    Discription
+                    Contact Info
                   </a>
                 </li>
                 <li className="">
@@ -124,7 +127,7 @@ const TabsProfileCard = () => {
                     href="#link5"
                     role="tablist"
                   >
-                    Professional Experience
+                    Experience
                   </a>
                 </li>
                 <li className="">
@@ -156,10 +159,19 @@ const TabsProfileCard = () => {
               <TabAboutProfile />
             </div>
             <div className={openTab === 2 ? "block" : "hidden"} id="link2">
-              <TabRecentProfile />
+              <TabContactProfile />
             </div>
             <div className={openTab === 3 ? "block" : "hidden"} id="link3">
               <SkillsTabProfile />
+            </div>
+            <div className={openTab === 4 ? "block" : "hidden"} id="link4">
+              <TabEducationProfile />
+            </div>
+            <div className={openTab === 5 ? "block" : "hidden"} id="link5">
+              <TabExperienceProfile />
+            </div>
+            <div className={openTab === 6 ? "block" : "hidden"} id="link6">
+              <TabRecentProfile />
             </div>
           </div>
         </div>
