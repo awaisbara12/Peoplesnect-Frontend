@@ -144,7 +144,7 @@ const ProfileFeedSingle = (singleItem) => {
   }
   return (
     <>
-      <div className="w-[720px] pb-4 mt-[14px] bg-white rounded-xl">
+      <div className="w-full pb-4 mt-[14px] bg-white rounded-xl">
         <div className="flex gap-2 justify-between items-center px-[22px] py-[14px]">
           <div className="flex gap-2">
             <Image
@@ -169,14 +169,6 @@ const ProfileFeedSingle = (singleItem) => {
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <div className="w-[88px] h-[30px] flex gap-1 items-center rounded-full justify-center bg-gray-900 text-white font-light cursor-pointer">
-              <PlusIcon
-                width={16}
-                height={16}
-                className="text-white opacity-100"
-              />
-              Follow
-            </div>
             <div className="">
               <Popover className="relative">
                 {({ open }) => (
