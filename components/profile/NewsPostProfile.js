@@ -166,7 +166,7 @@ const NewsPostProfile = ({ setList }) => {
     <div className="mt-7 z-50">
       <div className="w-full rounded-xl bg-white p-[22px]">
         <form onSubmit={postNewsData}>
-          <div className="w-full flex justify-start gap-[22px]">
+          <div className="w-full flex gap-[20px]">
             <div className="w-[42px] h-[42px]">
               <Image
                 src={ProfileAvatar}
@@ -261,10 +261,10 @@ const NewsPostProfile = ({ setList }) => {
             ""
           )}
 
-          <div className="flex justify-between">
+          <div className="flex justify-between items-center border-t-1 pt-2">
             <div className="flex items-center gap-6">
-              <div className="relative group border-indigo-500">
-                <div className="relative flex items-center justify-center">
+              <div className="">
+                <div className="relative flex gap-2 items-center justify-center">
                   <PhotographIcon
                     width={22}
                     height={22}
@@ -274,6 +274,7 @@ const NewsPostProfile = ({ setList }) => {
                         : `text-indigo-400 cursor-pointer`
                     }
                   />
+                  <div className="font-extralight">Photo Upload</div>
                   <input
                     type={
                       values.eventName || (videoPreview && true) ? `` : `file`
@@ -286,12 +287,9 @@ const NewsPostProfile = ({ setList }) => {
                     multiple
                   />
                 </div>
-                <p className="text-indigo-400 opacity-0 group-hover:opacity-100 absolute left-0">
-                  Image
-                </p>
               </div>
-              <div className="relative group border-indigo-500">
-                <div className="relative flex items-center justify-center">
+              <div className="">
+                <div className="relative flex gap-2 items-center justify-center">
                   <VideoCameraIcon
                     width={22}
                     height={22}
@@ -301,6 +299,7 @@ const NewsPostProfile = ({ setList }) => {
                         : `text-indigo-400 cursor-pointer`
                     }
                   />
+                  <div className="font-extralight">Video Upload</div>
 
                   <input
                     type={
@@ -315,12 +314,9 @@ const NewsPostProfile = ({ setList }) => {
                     className="opacity-0 absolute w-6 h-6 -z-0"
                   />
                 </div>
-                <p className="text-indigo-400 opacity-0 group-hover:opacity-100 absolute left-0">
-                  Video
-                </p>
               </div>
 
-              <div className="relative group border-indigo-500">
+              <div className="flex gap-2 items-center justify-center border-indigo-500">
                 <CalendarIcon
                   width={22}
                   height={22}
@@ -333,12 +329,9 @@ const NewsPostProfile = ({ setList }) => {
                       : `text-indigo-400 cursor-pointer`
                   }
                 />
-
-                <p className="text-indigo-400 opacity-0 group-hover:opacity-100 absolute left-0">
-                  event
-                </p>
+                <div className="font-extralight">Events</div>
               </div>
-              <div className="relative group border-indigo-500">
+              <div className="flex gap-2 items-center justify-center border-indigo-500">
                 <div className="icon relative">
                   <Link href="/post/new">
                     <NewspaperIcon
@@ -354,10 +347,7 @@ const NewsPostProfile = ({ setList }) => {
                     />
                   </Link>
                 </div>
-
-                <p className="text-indigo-400 opacity-0 group-hover:opacity-100 absolute left-0">
-                  Article
-                </p>
+                <div className="font-extralight"> Article</div>
               </div>
             </div>
             <button

@@ -23,7 +23,7 @@ import {
 const ProfileNavbar = () => {
   return (
     <div className="w-auto">
-      <div className="bg-white px-5 rounded-xl flex justify-between items-center py-4">
+      <div className="bg-white px-5 rounded-xl flex justify-between items-center py-1">
         <div className="flex gap-6">
           <div className="navbar-brand text-center">
             <Link href="/news-feed">
@@ -41,11 +41,11 @@ const ProfileNavbar = () => {
           <ProfileSearch />
         </div>
         <ul>
-          <div className="flex items-center gap-6 lg:gap-12 md:gap-8">
+          <div className="flex items-center gap-4 lg:gap-12 md:gap-2">
             <Link href="/news-feed" className="">
               <a>
                 <li className="flex font-normal text-xl items-center flex-col gap-1">
-                  <HomeIcon className="h-7 w-7" />
+                  <HomeIcon className="h-5 w-5" />
                   <div className="text-sm">Home</div>
                 </li>
               </a>
@@ -53,7 +53,7 @@ const ProfileNavbar = () => {
             <Link href="/jobs" className="">
               <a>
                 <li className="flex font-normal text-xl items-center flex-col gap-1">
-                  <BriefcaseIcon className="h-7 w-7" />
+                  <BriefcaseIcon className="h-5 w-5" />
                   <div className="text-sm">Jobs</div>
                 </li>
               </a>
@@ -62,7 +62,7 @@ const ProfileNavbar = () => {
             <Link href="/markeet-place" className="">
               <a>
                 <li className="flex font-normal text-xl items-center flex-col gap-1">
-                  <BriefcaseIcon className="h-7 w-7" />
+                  <BriefcaseIcon className="h-5 w-5" />
                   <div className="text-sm">Marketplace</div>
                 </li>
               </a>
@@ -70,7 +70,7 @@ const ProfileNavbar = () => {
             <Link href="/blog" className="">
               <a>
                 <li className="flex font-normal text-xl items-center flex-col gap-1">
-                  <NewspaperIcon className="h-7 w-7" />
+                  <NewspaperIcon className="h-5 w-5" />
                   <div className="text-sm">Articles</div>
                 </li>
               </a>
@@ -78,7 +78,7 @@ const ProfileNavbar = () => {
             <Link href="/my-network" className="">
               <a>
                 <li className="flex font-normal text-xl items-center flex-col gap-1">
-                  <UsersIcon className="h-7 w-7" />
+                  <UsersIcon className="h-5 w-5" />
                   <div className="text-sm">My Network</div>
                 </li>
               </a>
@@ -86,7 +86,7 @@ const ProfileNavbar = () => {
             <Link href="/messaging-design" className="">
               <a>
                 <li className="flex font-normal text-xl items-center flex-col gap-1">
-                  <ChatAltIcon className="h-7 w-7" />
+                  <ChatAltIcon className="h-5 w-5" />
                   <div className="text-sm">Messaging</div>
                 </li>
               </a>
@@ -95,7 +95,7 @@ const ProfileNavbar = () => {
               <a>
                 <li className="flex font-normal text-xl items-center flex-col gap-1">
                   <div className="relative">
-                    <BellIcon className="h-7 w-7" />
+                    <BellIcon className="h-5 w-5" />
                     <div className="bg-red-400 h-4 w-4 text-white -top-1 left-3 rounded-full flex justify-center items-center absolute">
                       <p className="text-[8px]">2</p>
                     </div>
@@ -140,7 +140,7 @@ const ProfileNavbar = () => {
                         leaveFrom="opacity-100 translate-y-0"
                         leaveTo="opacity-0 translate-y-1"
                       >
-                        <Popover.Panel className="absolute left-1/2 z-50 mt-3 w-36 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-3xl">
+                        <Popover.Panel className="absolute left-1/2 z-50 mt-3 w-36 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-xl">
                           <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                             <div className="relative bg-white py-2">
                               <a className="flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50">
