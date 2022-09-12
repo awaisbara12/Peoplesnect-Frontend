@@ -1,52 +1,76 @@
 import React from "react";
+import Link from "next/link";
+import Image from "next/image";
+import ProfileAvatar from "../../../public/images/profile-girl.jpg";
+import { PlusCircleIcon } from "@heroicons/react/solid";
+import { ChevronRightIcon, PencilAltIcon } from "@heroicons/react/outline";
 
 const TabEducationProfile = () => {
   return (
-    <div className="">
-      <div className="mt-8 mx-auto bg-white rounded-xl w-full h-auto p-7">
-        <div className="flex justify-between">
-          <div className="font-bold">Education Skills:</div>
-          <div className="text-indigo-400 cursor-pointer">Edit</div>
+    <div className="bg-white rounded-xl p-10">
+      <div className="flex items-center justify-between mb-5">
+        <div className="font-extrabold ">Education</div>
+        <div className="flex ml-auto gap-2">
+          <a href="">
+            <PlusCircleIcon className="h-5 w-5 hover:text-indigo-400" />
+          </a>
+          <a href="">
+            <PencilAltIcon className="h-5 w-5 hover:text-indigo-400" />
+          </a>
         </div>
-        <div className="bg-gray-50 hover:bg-gray-100 hover:shadow-xl p-5 mt-4 rounded-xl">
-          <div className="">
-            <div className="font-bold">M-Phill</div>
-          </div>
-          <div className="flex justify-between items-end">
-            <div className="">
-              <div className="text-sm font-semibold mt-2 ml-3">
-                <div className="text-indigo-400 cursor-pointer underline mb-2">
-                  Punjab University Lahore
+      </div>
+      <div className="px-2">
+        <div className="flex flex-col">
+          <div className="border-b-1 py-5">
+            <div className="flex items-center gap-10">
+              <Link href="">
+                <a>
+                  <Image
+                    src={ProfileAvatar}
+                    width={66}
+                    height={66}
+                    className="object-cover rounded-full"
+                    placeholder="empty"
+                    alt="profile-image"
+                  />
+                </a>
+              </Link>
+              <div className="flex flex-col gap-1">
+                <div className="font-extrabold">
+                  Punjab University Of Lahore punjab Pakistan
                 </div>
-                <div className="font-normal">3.4 (CGPA)</div>
+                <div className="font-light text-sm">M-Phill</div>
+                <div className="font-thin">Session: (2018-2022)</div>
               </div>
             </div>
-            <div className="text-sm font-semibold mt-2 mr-3">
-              <div className="mb-2 font-normal">
-                Session: (<span className="underline">2019-2022</span>)
+          </div>
+          <div className="border-b-1 py-5">
+            <div className="flex items-center gap-10">
+              <Link href="">
+                <a>
+                  <Image
+                    src={ProfileAvatar}
+                    width={66}
+                    height={66}
+                    className="object-cover rounded-full"
+                    placeholder="empty"
+                    alt="profile-image"
+                  />
+                </a>
+              </Link>
+              <div className="flex flex-col gap-1">
+                <div className="font-extrabold">
+                  University Of Central punjab Lahore Pakistan
+                </div>
+                <div className="font-light text-sm">MSc</div>
+                <div className="font-thin">Session: (2016-2018)</div>
               </div>
             </div>
           </div>
         </div>
-        <div className="bg-gray-50 hover:bg-gray-100 hover:shadow-xl p-5 mt-4 rounded-xl">
-          <div className="">
-            <div className="font-bold">MSc</div>
-          </div>
-          <div className="flex justify-between items-end">
-            <div className="">
-              <div className="text-sm font-semibold mt-2 ml-3">
-                <div className="text-indigo-400 cursor-pointer underline mb-2">
-                  Bahauddin Zakariya University Multan
-                </div>
-                <div className="font-normal">2.8 (CGPA)</div>
-              </div>
-            </div>
-            <div className="text-sm font-semibold mt-2 mr-3">
-              <div className="mb-2 font-normal">
-                Session: (<span className="underline">2017-2019</span>)
-              </div>
-            </div>
-          </div>
+        <div className="flex justify-center font-bold items-center mt-10">
+          Show All Skills
+          <ChevronRightIcon className="h-5 w-5" />
         </div>
       </div>
     </div>

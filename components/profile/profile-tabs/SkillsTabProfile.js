@@ -1,28 +1,33 @@
 import React from "react";
-import {
-  CalendarIcon,
-  MailIcon,
-  PencilIcon,
-  PhoneIcon,
-} from "@heroicons/react/outline";
+import { ChevronRightIcon, PencilAltIcon } from "@heroicons/react/outline";
+import { PlusCircleIcon } from "@heroicons/react/solid";
 
 const SkillsTabProfile = () => {
   return (
-    <div className="bg-white rounded-xl  px-5 pb-5">
-      <div className="flex gap-10">
-        <div className="grid grid-cols-3 gap-12 font-bold p-5">
-          <div className="">HTML</div>
-          <div className="">Css</div>
-          <div className="">Tailwind</div>
-          <div className="">Bootstrap</div>
-          <div className="">Ruby On Rails</div>
-          <div className="">React js</div>
-          <div className="">React Native</div>
+    <div className="bg-white rounded-xl p-10">
+      <div className="flex items-center justify-between mb-5">
+        <div className="font-extrabold ">Skills</div>
+        <div className="flex ml-auto gap-2">
+          <a href="">
+            <PlusCircleIcon className="h-5 w-5 hover:text-indigo-400" />
+          </a>
+          <a href="">
+            <PencilAltIcon className="h-5 w-5 hover:text-indigo-400" />
+          </a>
         </div>
-        <a href="" className="flex ml-auto gap-1 p-5 text-indigo-400 underline">
-          Edit
-          <PencilIcon className="h-4 w-4 underline" />
-        </a>
+      </div>
+      <div className="font-bold uppercase px-2">
+        <div className="flex flex-col">
+          <div className="border-b-1 py-5">HTML</div>
+          <div className="border-b-1 py-5 ">Css</div>
+          <div className="border-b-1 py-5">Tailwind</div>
+          <div className="border-b-1 py-5">Bootstrap</div>
+          <div className="border-b-1 py-5">Ruby On Rails</div>
+        </div>
+        <div className="flex justify-center items-center mt-10">
+          Show All Skills
+          <ChevronRightIcon className="h-5 w-5" />
+        </div>
       </div>
     </div>
   );
