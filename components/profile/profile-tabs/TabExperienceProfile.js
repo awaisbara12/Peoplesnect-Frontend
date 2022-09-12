@@ -1,68 +1,88 @@
 import React from "react";
+import Link from "next/link";
+import Image from "next/image";
+import ProfileAvatar from "../../../public/images/profile-girl.jpg";
+import { PlusCircleIcon } from "@heroicons/react/solid";
+import { ChevronRightIcon, PencilAltIcon } from "@heroicons/react/outline";
 
 const TabExperienceProfile = () => {
   return (
-    <div>
-      <div className="">
-        <div className="mt-8 mx-auto bg-white rounded-xl w-full h-auto p-4">
-          <div className="font-bold">Experience:</div>
-          <div className="bg-gray-50 hover:bg-gray-100 hover:shadow-xl p-5 mt-4 rounded-xl">
-            <div className="flex justify-between">
-              <div className="font-bold">Back-End Developer</div>
-              <div className="text-indigo-400 cursor-pointer">Edit</div>
-            </div>
-            <div className="flex justify-between">
-              <div className="">
-                <div className="text-sm font-semibold mt-2 ml-3">
-                  <div className="">Brain Arcs</div>
-                  <div className="">Velancia Town Lahore</div>
-                  <div className="">2 Year</div>
+    <div className="bg-white rounded-xl p-10">
+      <div className="flex items-center justify-between mb-5">
+        <div className="font-extrabold ">Experience</div>
+        <div className="flex ml-auto gap-2">
+          <a href="">
+            <PlusCircleIcon className="h-5 w-5 hover:text-indigo-400" />
+          </a>
+          <a href="">
+            <PencilAltIcon className="h-5 w-5 hover:text-indigo-400" />
+          </a>
+        </div>
+      </div>
+      <div className="px-2">
+        <div className="flex flex-col">
+          <div className="border-b-1 py-10">
+            <div className="flex gap-5">
+              <Link href="">
+                <a>
+                  <Image
+                    src={ProfileAvatar}
+                    width={55}
+                    height={55}
+                    className="object-cover rounded-full"
+                    placeholder="empty"
+                    alt="profile-image"
+                  />
+                </a>
+              </Link>
+              <div className="flex flex-col gap-1">
+                <div className="font-extrabold">Graphic Designer</div>
+                <div className="font-light">Freelance</div>
+                <div className="font-thin">
+                  March 2019 - Present- 3 yrs 7 mos
                 </div>
-              </div>
-              <div className="text-sm text-right font-semibold mt-2 mr-3">
-                <div className="mb-2">Year Start: 2019</div>
-                <div className="">Year End: 2022</div>
+                <div className="mt-2 font-light w-[775px]">
+                  3 Years Ago i start my Career a Website Designer. I have
+                  collaborated with companies brands for online work. Through my
+                  Skills I Accompany the Client In Managing His Ideas...
+                  <span className="text-indigo-400">Seen More</span>
+                </div>
               </div>
             </div>
           </div>
-          <div className="bg-gray-50 hover:bg-gray-100 hover:shadow-xl p-5 mt-4 rounded-xl">
-            <div className="flex justify-between">
-              <div className="font-bold">ROR Developer</div>
-              <div className="text-indigo-400 cursor-pointer">Edit</div>
-            </div>
-            <div className="flex justify-between">
-              <div className="">
-                <div className="text-sm font-semibold mt-2 ml-3">
-                  <div className="">Post In Company</div>
-                  <div className="">Company Name</div>
-                  <div className="">Company Location</div>
+          <div className="border-b-1 py-10">
+            <div className="flex gap-5">
+              <Link href="">
+                <a>
+                  <Image
+                    src={ProfileAvatar}
+                    width={55}
+                    height={55}
+                    className="object-cover rounded-full"
+                    placeholder="empty"
+                    alt="profile-image"
+                  />
+                </a>
+              </Link>
+              <div className="flex flex-col gap-1">
+                <div className="font-extrabold">Graphic Designer</div>
+                <div className="font-light">Freelance</div>
+                <div className="font-thin">
+                  March 2019 - Present- 3 yrs 7 mos
                 </div>
-              </div>
-              <div className="text-sm text-right font-semibold mt-2 mr-3">
-                <div className="">Experience 2 Years</div>
-                <div className="mb-2">Year Start: 2016</div>
-                <div className="">Year End: 2019</div>
+                <div className="mt-2 font-light w-[775px]">
+                  3 Years Ago i start my Career a Website Designer. I have
+                  collaborated with companies brands for online work. Through my
+                  Skills I Accompany the Client In Managing His Ideas...
+                  <span className="text-indigo-400">Seen More</span>
+                </div>
               </div>
             </div>
           </div>
-          <div className="bg-gray-50 hover:bg-gray-100 hover:shadow-xl p-5 mt-4 rounded-xl">
-            <div className="flex justify-between">
-              <div className="font-bold">Job Title</div>
-              <div className="text-indigo-400 cursor-pointer">Edit</div>
-            </div>
-            <div className="flex justify-between">
-              <div className="">
-                <div className="text-sm font-semibold mt-2 ml-3">
-                  <div className="">Back-End Developer</div>
-                  <div className="">2 Year</div>
-                </div>
-              </div>
-              <div className="text-sm text-right font-semibold mt-2 mr-3">
-                <div className="mb-2">Year Start: 2019</div>
-                <div className="">Year End: 2022</div>
-              </div>
-            </div>
-          </div>
+        </div>
+        <div className="flex justify-center font-bold items-center mt-10">
+          Show All Experiences
+          <ChevronRightIcon className="h-5 w-5" />
         </div>
       </div>
     </div>

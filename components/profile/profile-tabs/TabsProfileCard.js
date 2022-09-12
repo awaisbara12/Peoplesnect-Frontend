@@ -21,10 +21,10 @@ import {
 } from "@material-tailwind/react";
 import TabRecentProfile from "./TabRecentProfile";
 import SkillsTabProfile from "./SkillsTabProfile";
-import TabAboutProfile from "./TabAboutProfile";
 import TabContactProfile from "./TabContactProfile";
 import TabExperienceProfile from "./TabExperienceProfile";
 import TabEducationProfile from "./TabEducationProfile";
+import TabProfile from "./TabProfile";
 
 const TabsProfileCard = () => {
   const [openTab, setOpenTab] = React.useState(1);
@@ -51,7 +51,7 @@ const TabsProfileCard = () => {
                     href="#link1"
                     role="tablist"
                   >
-                    About
+                    Profile
                   </a>
                 </li>
                 <li className="">
@@ -127,7 +127,7 @@ const TabsProfileCard = () => {
                     href="#link5"
                     role="tablist"
                   >
-                    Experience
+                    Professional Experience
                   </a>
                 </li>
                 <li className="">
@@ -156,7 +156,7 @@ const TabsProfileCard = () => {
         <div className="flex-auto">
           <div className="tab-content tab-space">
             <div className={openTab === 1 ? "block" : "hidden"} id="link1">
-              <TabAboutProfile />
+              <TabProfile />
             </div>
             <div className={openTab === 2 ? "block" : "hidden"} id="link2">
               <TabContactProfile />
