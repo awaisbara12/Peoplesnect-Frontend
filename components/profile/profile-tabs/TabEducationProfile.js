@@ -40,7 +40,7 @@ const TabEducationProfile = () => {
                   Punjab University Of Lahore punjab Pakistan
                 </div>
                 <div className="font-light text-sm">M-Phill</div>
-                <div className="font-thin">Session: (2018-2022)</div>
+                <div className="font-extralight">Session: (2018-2022)</div>
               </div>
             </div>
           </div>
@@ -63,7 +63,7 @@ const TabEducationProfile = () => {
                   University Of Central punjab Lahore Pakistan
                 </div>
                 <div className="font-light text-sm">MSc</div>
-                <div className="font-thin">Session: (2016-2018)</div>
+                <div className="font-extralight">Session: (2016-2018)</div>
               </div>
             </div>
           </div>

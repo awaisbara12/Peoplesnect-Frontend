@@ -38,7 +38,7 @@ const TabExperienceProfile = () => {
               <div className="flex flex-col gap-1">
                 <div className="font-extrabold">Graphic Designer</div>
                 <div className="font-light">Freelance</div>
-                <div className="font-thin">
+                <div className="font-extralight">
                   March 2019 - Present- 3 yrs 7 mos
                 </div>
                 <div className="mt-2 font-light w-[775px]">
@@ -67,7 +67,7 @@ const TabExperienceProfile = () => {
               <div className="flex flex-col gap-1">
                 <div className="font-extrabold">Graphic Designer</div>
                 <div className="font-light">Freelance</div>
-                <div className="font-thin">
+                <div className="font-extralight">
                   March 2019 - Present- 3 yrs 7 mos
                 </div>
                 <div className="mt-2 font-light w-[775px]">
