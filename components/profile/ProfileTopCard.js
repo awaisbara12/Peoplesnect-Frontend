@@ -79,7 +79,7 @@ const ProfileTopCard = () => {
                       />
                     </a>
                   </Link>
-                  <div className="absolute top-0 left-0 right-0 bottom-0 w-28 rounded-full h-28 bg-black bg-opacity-0 z-50 flex justify-center items-center opacity-0 hover:opacity-100 hover:bg-opacity-70 duration-500">
+                  <div className="absolute top-0 left-0 right-0 bottom-0 w-full rounded-full h-full bg-black bg-opacity-0 z-50 flex justify-center items-center opacity-0 hover:opacity-100 hover:bg-opacity-70 duration-500">
                     <div className="flex gap-1 text-sm text-white rounded-full  cursor-pointer">
                       <PencilIcon className="w-4 h-4" />
                       Edit Profile
