@@ -50,13 +50,15 @@ const GroupSearch = () => {
                   <Popover.Panel className="absolute left-1/2 z-10 mt-3 w-36 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-3xl">
                     <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                       <div className="relative bg-white py-2">
-                        <a className="flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50">
-                          <div className="flex text-gray-900 gap-2">
-                            <a href="">
-                              <div className="">My Profile</div>
-                            </a>
-                          </div>
-                        </a>
+                      <Link href="/profile">
+                          <a className="flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50">
+                            <div className="flex text-gray-900 gap-2">
+                              <a href="">
+                                <div className="">My Profile</div>
+                              </a>
+                            </div>
+                          </a>
+                        </Link>
                         <Link href="/settings">
                           <a className="flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50">
                             <div className="flex text-gray-900 gap-2">

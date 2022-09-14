@@ -10,6 +10,7 @@ import { ShoppingCartIcon } from "@heroicons/react/solid";
 import productImage from "../../../public/images/product1.png";
 import productImage2 from "../../../public/images/product2.png";
 import productImage3 from "../../../public/images/product3.png";
+import productImage4 from "../../../public/images/product4.png";
 
 const ProductCetagory = [
   {
@@ -34,7 +35,7 @@ const ProductCard = [
     image: productImage2,
     title: "Eartrh lotion for smooth skin",
     price: 78,
-    status: "Hot",
+    status: "New",
     catTitle: "Cosmatics",
     locationtitle: "New York",
     mapIcon: LocationMarkerIcon,
@@ -44,7 +45,17 @@ const ProductCard = [
     image: productImage3,
     title: "Adidas white soccer shoes set",
     price: 110,
-    status: "Iphon",
+    status: "New",
+    catTitle: "EarPods",
+    locationtitle: "New York",
+    mapIcon: LocationMarkerIcon,
+    catIcon: DocumentDuplicateIcon,
+  },
+  {
+    image: productImage4,
+    title: "Adidas white soccer shoes set",
+    price: 110,
+    status: "New",
     catTitle: "EarPods",
     locationtitle: "New York",
     mapIcon: LocationMarkerIcon,
@@ -62,20 +73,10 @@ const HomeProducts = () => {
               <div className="">{category.heading}</div>
             </a>
           </Link>
-          <div className="flex gap-1 items-center">
-            <Link href="">
-              <a>{category.moreabout}</a>
-            </Link>
-            <Link href="">
-              <a>
-                <category.dotIcon className="h-5 w-5" />
-              </a>
-            </Link>
-          </div>
         </div>
       ))}
       <div className="flex justify-between lg:gap-6 md:gap-4">
-        <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-2 grid-cols-2 gap-8 mx-auto">
+        <div className="grid lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 grid-cols-2 gap-8 mx-auto">
           {ProductCard.map((product, i) => (
             <div key={i} className="bg-white w-auto h-auto rounded-xl mt-6">
               <div className="relative">

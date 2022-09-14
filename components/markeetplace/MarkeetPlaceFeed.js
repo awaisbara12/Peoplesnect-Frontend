@@ -7,7 +7,7 @@ import MarkeetPlaceSideBar from "./markeetplace-rightbar/MarkeetPlaceSideBar";
 import HomeProducts from "./products/LatestProducts";
 import MarkeetplaceSuggestion from "../news-feed/sugesteduser/MarkeetplaceSuggestion";
 import PropertyProducts from "./products/PropertyProducts";
-import MarkeetplaceNavbar from "./navbar/MarkeetplaceNavbar";
+import MobileNavbar from "./navbar/MobileNavbar";
 
 const MarkeetPlaceFeed = () => {
   return (
@@ -20,7 +20,7 @@ const MarkeetPlaceFeed = () => {
       <div className="pb-20 md:pb-10 lg:pb-10">
         <div className="xl:max-w-[1340px] container mx-auto">
           <div className="block md:hidden lg:hidden">
-            <MarkeetplaceNavbar />
+            <MobileNavbar />
           </div>
           <div className="flex xl:px-0 lg:px-4 md:px-8 sm:px-0 lg:gap-6 md:gap-4 justify-between">
             <div className="hidden md:block lg:block">

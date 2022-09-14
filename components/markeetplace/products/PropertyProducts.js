@@ -10,6 +10,8 @@ import { ShoppingCartIcon } from "@heroicons/react/solid";
 import productImage4 from "../../../public/images/product4.png";
 import productImage5 from "../../../public/images/brand.jpg";
 import productImage6 from "../../../public/images/groupcover.jpg";
+import productImage2 from "../../../public/images/product2.png";
+
 const ProductCetagory = [
   {
     heading: "Best Saler",
@@ -51,6 +53,16 @@ const ProductCard = [
     mapIcon: LocationMarkerIcon,
     catIcon: DocumentDuplicateIcon,
   },
+  {
+    image: productImage2,
+    title: "Colours",
+    price: 10,
+    status: "Brand new",
+    catTitle: "Colur",
+    locationtitle: "uk",
+    mapIcon: LocationMarkerIcon,
+    catIcon: DocumentDuplicateIcon,
+  },
 ];
 
 const PropertyProducts = () => {
@@ -66,20 +78,10 @@ const PropertyProducts = () => {
               <div className="">{category.heading}</div>
             </a>
           </Link>
-          <div className="flex gap-1 items-center">
-            <Link href="">
-              <a>{category.moreabout}</a>
-            </Link>
-            <Link href="">
-              <a>
-                <category.dotIcon className="h-5 w-5" />
-              </a>
-            </Link>
-          </div>
         </div>
       ))}
       <div className="flex justify-between lg:gap-6 md:gap-4">
-        <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-2 grid-cols-2 gap-8 mx-auto">
+        <div className="grid lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-2 grid-cols-2 gap-8 mx-auto">
           {ProductCard.map((product, i) => (
             <div key={i} className="bg-white w-auto h-auto rounded-xl mt-6">
               <div className="relative">
