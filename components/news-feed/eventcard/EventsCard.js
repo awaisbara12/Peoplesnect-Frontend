@@ -1,52 +1,35 @@
+import {
+  CalendarIcon,
+  HashtagIcon,
+  UserGroupIcon,
+  VideoCameraIcon,
+} from "@heroicons/react/outline";
 import React from "react";
-import { UsersIcon, CalendarIcon, HashtagIcon } from "@heroicons/react/outline";
-import { NewspaperIcon } from "@heroicons/react/solid";
-
-import Link from "next/link";
 
 const EventsCard = () => {
   return (
-    <div className="bg-white top-[90px] text-sm font-light w-full h-auto mt-6 pt-4 rounded-xl">
-      <Link href="/group-page">
-        <a>
-          <div className="flex justify-between items-center px-4 ">
-            <div className="">Group</div>
-            <div className="">
-              <UsersIcon className="h-5 w-5" />
-            </div>
+    <div>
+      <div className="">
+        <div className="mt-8 mx-auto bg-white rounded-xl w-full h-auto p-4">
+          <div className="flex justify-between font-light text-sm  border-b-1 pb-4">
+            <div className="">Groups</div>
+            <UserGroupIcon className="w-5 h-5 text-indigo-400" />
           </div>
-        </a>
-      </Link>
-      <Link href="/events-design">
-        <a>
-          <div className="flex justify-between items-center px-4 my-4 ">
-            <div className="">Events</div>
-            <div className="">
-              <CalendarIcon className="h-5 w-5" />
-            </div>
+          <div className="flex justify-between font-light text-sm mt-4 border-b-1 pb-4">
+            <div className="">Event</div>
+            <CalendarIcon className="w-5 h-5 text-indigo-400" />
           </div>
-        </a>
-      </Link>
-      <Link href="/page-design">
-        <a>
-          <div className="flex justify-between items-center px-4 mb-4 ">
+          <div className="flex justify-between font-light text-sm mt-4 border-b-1 pb-4">
             <div className="">Pages</div>
-            <div className="">
-              <NewspaperIcon className="h-5 w-5" />
-            </div>
+            <VideoCameraIcon className="w-5 h-5 text-indigo-400" />
           </div>
-        </a>
-      </Link>
-      <Link href="/hashtag-design">
-        <a>
-          <div className="flex justify-between items-center px-4 mb-4 ">
+
+          <div className="flex justify-between font-light text-sm mt-4">
             <div className="">Explore Hashtags</div>
-            <div className="">
-              <HashtagIcon className="h-5 w-5" />
-            </div>
+            <HashtagIcon className="w-5 h-5 text-indigo-400" />
           </div>
-        </a>
-      </Link>
+        </div>
+      </div>
     </div>
   );
 };

@@ -75,8 +75,8 @@ const HomeProducts = () => {
           </Link>
         </div>
       ))}
-      <div className="flex justify-between lg:gap-6 md:gap-4">
-        <div className="grid lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 grid-cols-2 gap-8 mx-auto">
+      <div className="w-[720px] xl:w-[1050px] lg:w-[780px] md:w-[850px] px-5 md:px-0 lg:px-0">
+        <div className="grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-1 grid-cols-2 gap-8 mx-auto">
           {ProductCard.map((product, i) => (
             <div key={i} className="bg-white w-auto h-auto rounded-xl mt-6">
               <div className="relative">

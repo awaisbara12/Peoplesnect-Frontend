@@ -7,8 +7,8 @@ import { XCircleIcon } from "@heroicons/react/solid";
 
 function PeendingRequest() {
   return (
-    <div className="mt-8">
-      <div className="w-[620px] lg:w-full md:w-full px-5 md:px-0 lg:px-0">
+    <div className="mt-8 w-[620px] xl:w-[1020px] lg:w-[780px] md:w-[850px] px-5 md:px-0 lg:px-0">
+      <div className="">
         <div className="bg-white rounded-xl">
           <div className="flex justify-between items-center border-b-1 p-4">
             <div className="heading">Connections Request</div>
@@ -191,7 +191,7 @@ function PeendingRequest() {
                 </button>
               </div>
             </div>
-            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 md:grid-cols-2">
+            <div className="grid grid-cols-1 gap-6 xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-3">
               <div className="profile mt-10 border rounded-xl">
                 <div className="relative cover">
                   <Link href="/news-feed">

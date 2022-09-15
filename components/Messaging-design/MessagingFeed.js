@@ -11,6 +11,10 @@ import SugestedUser from "../news-feed/sugesteduser/SugestedUser";
 import ChatBox from "./Chat-box/ChatBox";
 import Messages from "./Inbox-Feed/Messages";
 import NewMessage from "./NewMessage";
+import TopNavbar from "../news-feed/navbar/TopNavbar";
+import ProfileSideBar from "../profile/profile-sidebar/ProfileSideBar";
+import ProfileSideBarFeed from "../profile/profile-sidebar/ProfileSideBarFeed";
+import FooterNewsFeed from "../news-feed/newsfeed/newsfeedfooter/FooterNewsFeed";
 
 const MessagingFeed = () => {
   return (
@@ -23,12 +27,10 @@ const MessagingFeed = () => {
       <div className="pb-20 md:pb-10 lg:pb-10">
         <div className="xl:max-w-[1340px] container mx-auto">
           <div className="">
+            <TopNavbar />
             <MobileNav />
           </div>
-          <div className="flex xl:px-0 lg:px-4 md:px-8 sm:px-0 gap-[65px] lg:gap-6 md:gap-4 justify-between">
-            <div className="hidden md:block lg:block">
-              <NewsFeedSidebar />
-            </div>
+          <div className="flex gap-4 md:gap-20 lg:gap-5 justify-between">
             <div className="h-full bg-zinc-100 md:bg-transparent lg:bg-transparent xl:bg-transparent px-4 md:px-0 lg-px-0 xl:px-0">
               <div className="flex mt-8">
                 <Messaging />
@@ -36,10 +38,10 @@ const MessagingFeed = () => {
               </div>
             </div>
             <div className="w-72 hidden md:block lg:block">
-              <NewsSearch />
               <ProfileCard />
-              <SugestedUser />
-              <ChatBox />
+              <EventsCard />
+              <SugestedUser /> 
+              <FooterNewsFeed />
             </div>
           </div>
         </div>

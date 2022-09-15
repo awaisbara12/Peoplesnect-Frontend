@@ -74,9 +74,9 @@ const Messaging = () => {
 
   return (
     <div className="">
-      <div className="w-[240px] ">
-        <div className="border bg-white">
-          <div className="sticky z-50 top-0 bg-white">
+      <div className="w-[240px] lg:w-auto">
+        <div className="border bg-white rounded-l-xl">
+          <div className="sticky z-50 top-0 bg-white rounded-l-xl">
             <div className="flex justify-between p-3 border-b">
               <div className="font-bold flex items-center gap-2 ">
                 Account Name <ChevronDownIcon className="h-5 w-5" />{" "}
