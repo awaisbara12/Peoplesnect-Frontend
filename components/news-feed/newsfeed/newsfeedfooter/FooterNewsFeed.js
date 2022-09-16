@@ -4,24 +4,22 @@ import Link from "next/link";
 
 const FooterNewsFeed = () => {
   return (
-    <div className="bg-white sticky top-5 w-full mt-5 rounded-xl">
-      <div className=" p-5 font-light text-base">
-        <div className=" flex gap-4">
+    <div className="bg-white mt-5 rounded-xl">
+      <div className=" p-5 text-sm font-light">
+        <div className="grid grid-cols-2">
           <Link href="/">
             <a className="">about Us</a>
           </Link>
           <Link href="/">
             <a className="">Privacy & Terms</a>
           </Link>
-        </div>
-        <div className="flex mt-2 gap-5">
           <Link href="/">
             <a className="">Pages</a>
           </Link>
           <Link href="/">
             <a className="">Advertising</a>
           </Link>
-        </div>
+      </div>
       </div>
     </div>
   );

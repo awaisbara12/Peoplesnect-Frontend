@@ -74,7 +74,7 @@ const Messaging = () => {
 
   return (
     <div className="">
-      <div className="w-[240px] lg:w-auto">
+      <div className="w-[240px] xl:w-[280px] lg:w-[300px]">
         <div className="border bg-white rounded-l-xl">
           <div className="sticky z-50 top-0 bg-white rounded-l-xl">
             <div className="flex justify-between p-3 border-b">
