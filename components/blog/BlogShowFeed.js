@@ -11,6 +11,7 @@ import BlogsNav from "../news-feed/navbar/mobile-navbar/BlogsNav";
 import TopNavbar from "../news-feed/navbar/TopNavbar";
 import EventsCard from "../news-feed/eventcard/EventsCard";
 import FooterNewsFeed from "../news-feed/newsfeed/newsfeedfooter/FooterNewsFeed";
+import SugestedUser from "../news-feed/sugesteduser/SugestedUser";
 
 const BlogShowFeed = () => {
   return (
