@@ -1,14 +1,12 @@
 import React, { Fragment } from "react";
 import Link from "next/link";
 import { signout } from "../../auth/signout/SignOut";
-import { AdjustmentsIcon, CogIcon } from "@heroicons/react/outline";
+import { CogIcon } from "@heroicons/react/outline";
 import { SearchIcon } from "@heroicons/react/solid";
-import { Popover, Transition } from "@headlessui/react";
-import Spinner from "../../common/Spinner";
 
-const NewsSearch = () => {
+const TopNavbarSearch = () => {
   return (
-    <div className="sticky top-7 z-50 flex items-center w-full mt-7 gap-2">
+    <div className="flex items-center gap-2">
       <label className="relative block">
         <span className="absolute inset-y-0 left-0 flex items-center pl-7">
           <Link href="/">
@@ -18,7 +16,7 @@ const NewsSearch = () => {
           </Link>
         </span>
         <input
-          className="placeholder:text-slate-400 hover:shadow-xl bg-white placeholder:text-xl w-60 rounded-full py-2 border-none pl-14"
+          className="placeholder:text-slate-400 hover:shadow-xl bg-gray-100 w-62 md:w-56  rounded-xl border-none pl-14"
           placeholder="Search"
           type="text"
           name="search"
@@ -28,4 +26,4 @@ const NewsSearch = () => {
   );
 };
 
-export default NewsSearch;
+export default TopNavbarSearch;

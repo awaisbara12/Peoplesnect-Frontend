@@ -14,17 +14,17 @@ import {
   BellIcon,
   NewspaperIcon,
 } from "@heroicons/react/solid";
-import ProfileSearch from "./ProfileSearch";
 import {
-  ChevronDoubleDownIcon,
   ChevronDownIcon,
 } from "@heroicons/react/outline";
+import TopNavbarSearch from "../search/TopNavbarSearch ";
 
-const ProfileNavbar = () => {
+const TopNavbar = () => {
   return (
+    <div className="sticky top-0 z-50">
     <div className="w-[1100px] lg:w-auto hidden md:block lg:block">
       <div className="bg-white px-5 rounded-xl flex justify-between items-center py-1">
-        <div className="flex gap-6">
+        <div className="flex gap-2">
           <div className="navbar-brand text-center">
             <Link href="/news-feed">
               <a>
@@ -38,10 +38,10 @@ const ProfileNavbar = () => {
               </a>
             </Link>
           </div>
-          <ProfileSearch />
+          <TopNavbarSearch />
         </div>
         <ul className="">
-          <div className="flex items-center gap-4 lg:gap-12 md:gap-5">
+          <div className="flex items-center gap-4 lg:gap-6 md:gap-5">
             <Link href="/news-feed" className="">
               <a>
                 <li className="flex font-normal text-xl items-center flex-col gap-1">
@@ -143,6 +143,7 @@ const ProfileNavbar = () => {
                         <Popover.Panel className="absolute left-1/2 z-50 mt-3 w-36 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-xl">
                           <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                             <div className="relative bg-white py-2">
+                              <Link href="/profile">
                               <a className="flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50">
                                 <div className="flex text-gray-900 gap-2">
                                   <a href="">
@@ -150,6 +151,7 @@ const ProfileNavbar = () => {
                                   </a>
                                 </div>
                               </a>
+                              </Link>
                               <Link href="/settings">
                                 <a className="flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50">
                                   <div className="flex text-gray-900 gap-2">
@@ -188,7 +190,8 @@ const ProfileNavbar = () => {
         </ul>
       </div>
     </div>
+    </div>
   );
 };
 
-export default ProfileNavbar;
+export default TopNavbar;

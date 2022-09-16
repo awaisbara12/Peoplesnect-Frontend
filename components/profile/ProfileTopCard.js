@@ -32,7 +32,7 @@ import TabsProfileCard from "./profile-tabs/TabsProfileCard";
 const ProfileTopCard = () => {
   return (
     <>
-      <div className="mt-8">
+      <div className="mt-8 w-[750px] md:w-auto lg:w-auto">
         <div className="w-full bg-white p-5 rounded-t-xl">
           <div className="group relative w-full">
             <div className="">

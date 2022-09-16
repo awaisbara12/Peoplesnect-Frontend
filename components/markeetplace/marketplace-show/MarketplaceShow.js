@@ -27,36 +27,36 @@ const Productdetails = [
 
 const MarketplaceShow = () => {
   return (
-    <div className="w-[720px] mx-auto">
+    <div className="w-[720px] xl:w-[1050px] lg:w-[780px] md:w-[850px] px-5 md:px-0 lg:px-0">
       <div className="">
         <AliceCarousel>
           <Image
             src={productImage2}
-            width={720}
+            width={1050}
             height={300}
             className="object-cover rounded-xl"
           />
           <Image
             src={productImage1}
-            width={720}
+            width={1050}
             height={300}
             className="object-cover rounded-xl"
           />
           <Image
             src={productImage3}
-            width={720}
+            width={1050}
             height={300}
             className="object-cover rounded-xl"
           />
           <Image
             src={productImage4}
-            width={720}
+            width={1050}
             height={300}
             className="object-cover rounded-xl"
           />
           <Image
             src={productImage5}
-            width={720}
+            width={1050}
             height={300}
             className="object-cover rounded-xl"
           />

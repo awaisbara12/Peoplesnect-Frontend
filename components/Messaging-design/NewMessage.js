@@ -6,8 +6,8 @@ const NewMessage = () => {
   return (
     <div>
       {" "}
-      <div className="w-[480px]  bg-white">
-        <div className="font-bold  h-[740px] flex items-center justify-center">
+      <div className="w-[380px] lg:w-[680px] md:w-[580px] bg-white rounded-r-xl">
+        <div className="font-bold  h-[747px] flex items-center justify-center">
           <Link href="/">
             <a href="" className="flex">
               <PencilAltIcon className="w-5 h-5" />

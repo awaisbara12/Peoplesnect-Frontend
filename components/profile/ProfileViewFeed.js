@@ -6,6 +6,8 @@ import NewsSearch from "../news-feed/search/NewsSearch";
 import ProfileTopCard from "./ProfileTopCard";
 import ProfileSideBarFeed from "./profile-sidebar/ProfileSideBarFeed";
 import ProfileNavbar from "./profile-navbar/ProfileNavbar";
+import NewsFeedNav from "../news-feed/navbar/NewsFeedNav";
+import MobileProfileNav from "./profile-navbar/MobileProfileNav";
 
 const ProfileViewFeed = () => {
   return (
@@ -17,8 +19,9 @@ const ProfileViewFeed = () => {
       </Head>
       <div className="pb-20 md:pb-10 lg:pb-10">
         <div className="xl:max-w-[1340px] container mx-auto">
-          <div className="">
             <ProfileNavbar />
+          <div className="">
+            <MobileProfileNav />
           </div>
           <div className="flex xl:px-0 lg:px-4 md:px-8 sm:px-0 gap-[65px] lg:gap-6 md:gap-4 justify-between">
             <div className="h-full bg-zinc-100 md:bg-transparent lg:bg-transparent xl:bg-transparent px-4 md:px-0 lg-px-0 xl:px-0">

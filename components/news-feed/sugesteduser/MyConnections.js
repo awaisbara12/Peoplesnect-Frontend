@@ -4,7 +4,7 @@ import { UserGroupIcon, UserAddIcon, UsersIcon } from "@heroicons/react/solid";
 
 const MyConnections = () => {
   return (
-    <div className="bg-white p-5 mt-5 rounded-xl">
+    <div className="bg-white w-72 p-5 mt-5 rounded-xl">
       <Link href="/my-network" className="">
         <a>
           <div className="flex font-normal text-xl items-center gap-3 mt-2">

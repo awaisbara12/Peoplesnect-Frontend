@@ -9,6 +9,8 @@ import EventsCard from "../../news-feed/eventcard/EventsCard";
 import Messaging from ".././Messaging";
 import SugestedUser from "../../news-feed/sugesteduser/SugestedUser";
 import Messages from "./Messages";
+import TopNavbar from "../../news-feed/navbar/TopNavbar";
+import FooterNewsFeed from "../../news-feed/newsfeed/newsfeedfooter/FooterNewsFeed";
 
 const InboxFeed = () => {
   return (
@@ -21,12 +23,10 @@ const InboxFeed = () => {
       <div className="pb-20 md:pb-10 lg:pb-10">
         <div className="xl:max-w-[1340px] container mx-auto">
           <div className="">
+            <TopNavbar />
             <MobileNav />
           </div>
-          <div className="flex xl:px-0 lg:px-4 md:px-8 sm:px-0 gap-[65px] lg:gap-6 md:gap-4 justify-between">
-            <div className="hidden md:block lg:block">
-              <NewsFeedSidebar />
-            </div>
+          <div className="flex justify-between">
             <div className="h-full bg-zinc-100 md:bg-transparent lg:bg-transparent xl:bg-transparent px-4 md:px-0 lg-px-0 xl:px-0">
               <div className="flex mt-8">
                 <Messaging />
@@ -34,9 +34,10 @@ const InboxFeed = () => {
               </div>
             </div>
             <div className="w-72 hidden md:block lg:block">
-              <NewsSearch />
               <ProfileCard />
-              <SugestedUser />
+              <EventsCard />
+              <SugestedUser /> 
+              <FooterNewsFeed />
             </div>
           </div>
         </div>

@@ -46,7 +46,7 @@ const ProfileCard = () => {
         <div className="">
           <Link href="/profile">
             <a>
-              <div className="relative -z-0 ">
+              <div className="relative -z-0 flex justify-center">
                 <Image
                   src={profilebg}
                   width={293}
@@ -54,7 +54,7 @@ const ProfileCard = () => {
                   placeholder="blur"
                   alt="profile-bg"
                 />
-                <div className="absolute z-10 -top-4 left-32">
+                <div className="absolute z-10 -top-4">
                   <Image
                     src={profileAvatar}
                     width={42}
@@ -84,7 +84,7 @@ const ProfileCard = () => {
             <Spinner />
           )}
         </div>
-        <div className="border-1 text-gray-100 my-5"></div>
+        {/* <div className="border-1 text-gray-100 my-5"></div>
         <div className="mx-5 flex justify-between items-center">
           <div className="text-sm text-gray-900 leading-4 font-medium">
             Connections
@@ -102,12 +102,12 @@ const ProfileCard = () => {
             <EyeIcon className="h-5 w-5" />
             14
           </div>
-        </div>
+        </div> */}
         <div className="border-1 text-gray-100 my-5"></div>
         <Link href="/">
           <a>
-            <div className="flex justify-center items-center font-light text-base gap-2">
-              <BookmarkIcon className="h-5 w-5" />
+            <div className="flex justify-center items-center font-light text-indigo-400 text-base gap-2">
+              <BookmarkIcon className="h-5  w-5" />
               Saved Items
             </div>
           </a>

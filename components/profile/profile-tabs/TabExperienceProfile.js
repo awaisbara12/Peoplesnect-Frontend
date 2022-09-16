@@ -41,7 +41,7 @@ const TabExperienceProfile = () => {
                 <div className="font-extralight">
                   March 2019 - Present- 3 yrs 7 mos
                 </div>
-                <div className="mt-2 font-light w-[775px]">
+                <div className="mt-2 font-light md:w-[775px]">
                   3 Years Ago i start my Career a Website Designer. I have
                   collaborated with companies brands for online work. Through my
                   Skills I Accompany the Client In Managing His Ideas...
@@ -70,7 +70,7 @@ const TabExperienceProfile = () => {
                 <div className="font-extralight">
                   March 2019 - Present- 3 yrs 7 mos
                 </div>
-                <div className="mt-2 font-light w-[775px]">
+                <div className="mt-2 font-light md:w-[775px]">
                   3 Years Ago i start my Career a Website Designer. I have
                   collaborated with companies brands for online work. Through my
                   Skills I Accompany the Client In Managing His Ideas...
