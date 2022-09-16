@@ -6,7 +6,7 @@ const NewMessage = () => {
   return (
     <div>
       {" "}
-      <div className="w-[380px] lg:w-[680px] md:w-[580px] bg-white rounded-r-xl">
+      <div className="w-[360px] xl:w-[780px] lg:w-[480px] md:w-[580px] bg-white rounded-r-xl">
         <div className="font-bold  h-[747px] flex items-center justify-center">
           <Link href="/">
             <a href="" className="flex">

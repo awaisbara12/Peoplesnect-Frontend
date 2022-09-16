@@ -50,7 +50,7 @@ const Messages = () => {
   };
   return (
     <div>
-      <div className="w-[380px] lg:w-[680px] md:w-[580px] bg-white rounded-r-xl">
+      <div className="w-[360px] xl:w-[780px] lg:w-[480px] md:w-[580px] bg-white rounded-r-xl">
         <div className="flex justify-between bg-white sticky top-0 p-3 z-50 border-b rounded-tr-xl">
           <div className="font-bold flex items-center gap-2 ">User Name</div>
           <Link href="">

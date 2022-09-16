@@ -29,7 +29,7 @@ const MarkeetplaceSuggestion = () => {
             </div>
           </a>
         </Link>
-        <div class="border-b-1 my-3"></div>
+        <div className="border-b-1 my-3"></div>
         <Link href="">
           <a href="">
             <div className="px-3 hover:bg-gray-100 rounded-xl flex justify-between items-center mt-4">
