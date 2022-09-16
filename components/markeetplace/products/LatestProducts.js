@@ -75,15 +75,15 @@ const HomeProducts = () => {
           </Link>
         </div>
       ))}
-      <div className="w-[720px] xl:w-[1050px] lg:w-[780px] md:w-[850px] px-5 md:px-0 lg:px-0">
-        <div className="grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-1 grid-cols-2 gap-8 mx-auto">
+      <div className="w-[720px] xl:w-[1020px] lg:w-[700px] md:w-[760px] px-5 md:px-0 lg:px-0">
+      <div className="grid xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2 grid-cols-1 gap-8 mx-auto">
           {ProductCard.map((product, i) => (
             <div key={i} className="bg-white w-auto h-auto rounded-xl mt-6">
               <div className="relative">
                 <Image
                   src={product.image}
-                  width={326}
-                  height={230}
+                  width={726}
+                  height={530}
                   className="object-cover rounded-xl"
                   placeholder="blur"
                 />
@@ -98,7 +98,7 @@ const HomeProducts = () => {
                   </div>
                 </div>
               </div>
-              <div className="lg:px-3 px-2 mt-4 mb-3">
+              <div className="lg:px-3 md:px-4 px-6 mt-4 mb-3">
                 <div className="flex justify-between items-center font-semibold lg:text-base md:text-sm mb-1.5">
                   <div className="">{product.title}</div>
                 </div>

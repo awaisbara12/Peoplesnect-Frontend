@@ -20,7 +20,7 @@ const MostSearchedJobs = () => {
   return (
     <div>
       <div className="mt-8">
-        <div className="w-[620px] px-5 md:px-0 lg:px-0">
+        <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
           <div className="bg-white rounded-xl">
             <div className="border-b-1 p-4">
               <div className="heading font-bold">Your Searched Jobs</div>

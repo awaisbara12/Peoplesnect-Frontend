@@ -163,8 +163,8 @@ const NewsPost = ({ setList }) => {
   }
 
   return (
-    <div className="mt-7 z-50">
-      <div className="w-[600px] rounded-xl bg-white p-[22px]">
+    <div className="mt-8 z-20">
+      <div className="w-[600px] xl:w-[980px] lg:w-[730px] md:w-[780px] rounded-xl bg-white p-[22px]">
         <form onSubmit={postNewsData}>
           <div className="w-full flex justify-start gap-[22px]">
             <div className="w-[42px] h-[42px]">
@@ -452,7 +452,7 @@ const NewsPost = ({ setList }) => {
                           {previewEventCoverImage ? (
                             <div
                               onClick={handleCoverReomve}
-                              className="bg-indigo-100 absolute top-4 right-4 z-50 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
+                              className="bg-indigo-100 absolute top-4 right-4 z-40 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
                             >
                               <TrashIcon className="w-5 h-5 text-indigo-600 " />
                             </div>

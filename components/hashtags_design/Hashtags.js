@@ -7,7 +7,7 @@ const Hashtags = () => {
   return (
     <div>
       <div className="mt-8">
-        <div className="w-[600px] px-5 md:px-0 lg:px-0">
+      <div className="mt-8 w-[600px] xl:w-[980px] lg:w-[710px] md:w-[780px] px-5 md:px-0 lg:px-0 xl:px-0">
           <div className="">
             <div className="relative">
               <input

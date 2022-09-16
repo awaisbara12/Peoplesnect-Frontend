@@ -12,8 +12,8 @@ import {
 
 const MainEvents = () => {
   return (
-    <div className="w-[620px] mt-8 px-5 md:px-0 lg:px-0">
-      <div className="bg-white rounded-xl p-4">
+    <div className="w-[580px] mt-8 xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
+    <div className="bg-white rounded-xl p-4">
         <div className="flex justify-between items-center">
           <div className="heading font-semibold">Events</div>
           <div className="all-button">

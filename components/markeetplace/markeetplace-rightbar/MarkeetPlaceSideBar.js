@@ -12,7 +12,7 @@ import {
 
 const MarkeetPlaceSideBar = () => {
   return (
-    <div className="w-full bg-white mt-5 p-1 rounded-xl">
+    <div className="w-72 bg-white mt-5 p-1 rounded-xl">
       <div className="font-bold p-2">Marketplace Categories</div>
       <div className="navbar-body px-3">
         <ul>
