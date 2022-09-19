@@ -54,7 +54,7 @@ function BlogShow() {
     );
 
   return (
-    <div className="px-10 w-[620px] xl:w-full">
+    <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
       <div className="blogs bg-white rounded-xl my-8 ">
         <div className="image">
           <div className="">
@@ -62,10 +62,10 @@ function BlogShow() {
               <a>
                 {list.data.photos_link && (
                   <img
-                    className="object-cover rounded-t-lg"
+                    className="object-cover rounded-t-lg h-[400px]"
                     src={list.data.photos_link[0]}
-                    width={900}
-                    height={500}
+                    width={1000}
+                    height={400}
                     alt=""
                   />
                 )}

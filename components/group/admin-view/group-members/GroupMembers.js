@@ -15,12 +15,12 @@ import { DotsHorizontalIcon } from "@heroicons/react/solid";
 const GroupMembers = () => {
   return (
     <div className="mt-8">
-      <div className="w-[620px] px-5 md:px-0 lg:px-0">
+    <div className="w-[600px] xl:w-[980px] lg:w-[710px] md:w-[780px] px-5 md:px-0 lg:px-0 xl:px-0">
         <div className="bg-white p-5 hover:bg-gray-100 border rounded-xl">
           <Link href="/group-page/admin-view/group-members/group-admins">
             <a>
               <div className="flex items-center justify-between ">
-                <div className="">Group Admins</div>
+                <div className="">Group Members</div>
                 <div className="">5</div>
               </div>
             </a>

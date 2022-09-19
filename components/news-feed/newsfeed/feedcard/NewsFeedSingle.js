@@ -190,7 +190,7 @@ const NewsFeedSingle = (singleItem) => {
 
   return (
     <>
-      <div className="w-[600px] pb-4 mt-[14px] bg-white rounded-xl">
+      <div className="w-[600px] xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">
         <div className="flex gap-2 justify-between items-center px-[22px] py-[14px]">
           <div className="flex gap-2">
             <Image src={ProfileAvatar} width={45} height={45} alt="" />
@@ -269,7 +269,7 @@ const NewsFeedSingle = (singleItem) => {
               {items.event.cover_photo_url ? (
                 <img
                   src={items.event.cover_photo_url}
-                  className="aspect-video object-cover rounded-t-xl"
+                  className="aspect-video object-cover rounded-t-xl h-[390px] w-[952px]"
                   alt=""
                 />
               ) : (
@@ -336,17 +336,16 @@ const NewsFeedSingle = (singleItem) => {
             <div className="mt-[14px]">
               <img
                 src={items.attachments_link}
-                width={552}
+                width={952}
                 height={240}
                 layout="responsive"
-                className="aspect-video object-cover rounded-lg"
+                className="aspect-video object-cover rounded-lg mx-auto h-[390px]"
                 alt=""
               />
             </div>
           ) : (
             ""
           )}
-
           <div className="flex justify-between mt-[14px]">
             <div className="flex gap-2 items-center">
               {items.is_heart && items.is_heart == true ? (

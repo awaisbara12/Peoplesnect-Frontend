@@ -72,8 +72,8 @@ const NewPost = () => {
   }
 
   return (
-    <div>
-      <div className="bg-white w-[590px] rounded-xl mt-7 p-5">
+    <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
+      <div className="bg-white rounded-xl mt-7 p-5">
         <form onSubmit={blogPost}>
           <div className="form-group">
             <input
@@ -93,11 +93,11 @@ const NewPost = () => {
           </div>
           <div className="form-group mt-4">
             <div
-              className={`relative bg-zinc-100 aspect-video text-center rounded-sm ${
+              className={`relative flex justify-center items-center bg-zinc-100 aspect-video text-center rounded-sm ${
                 BlogImagePreview ? "hidden" : "visible"
               }`}
             >
-              <div className="absolute left-48 top-32">
+              <div className="absolute">
                 <div className="text-center">
                   <CameraIcon className="w-10 h-10 text-indigo-400 mx-auto" />{" "}
                   Upload Cover Photo

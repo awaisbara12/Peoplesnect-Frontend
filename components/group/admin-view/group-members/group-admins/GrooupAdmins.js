@@ -10,10 +10,10 @@ import { DotsHorizontalIcon } from "@heroicons/react/solid";
 const GrooupAdmins = () => {
   return (
     <div className="mt-8">
-      <div className="w-[620px] px-5 md:px-0 lg:px-0">
+    <div className="w-[600px] xl:w-[980px] lg:w-[710px] md:w-[780px] px-5 md:px-0 lg:px-0 xl:px-0">
         <div className="bg-white rounded-xl mt-8">
           <div className="flex justify-between items-center border-b-1 p-4">
-            <div className="heading">Group Members</div>
+            <div className="heading">Group Admins</div>
             <div className=""> 4</div>
           </div>
           <div className="border-b-1">

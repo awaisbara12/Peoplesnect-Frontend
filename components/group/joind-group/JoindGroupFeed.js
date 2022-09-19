@@ -7,6 +7,9 @@ import JoindGroup from "./JoindGroup";
 import GroupSearch from "../../news-feed/search/GroupSearch";
 import GroupsSuggesions from "../../news-feed/sugesteduser/GroupsSuggesions";
 import NewsFeedSidebar from "../../news-feed/newsfeed/sidebar/NewsFeedSidebar";
+import TopNavbar from "../../news-feed/navbar/TopNavbar";
+import FooterNewsFeed from "../../news-feed/newsfeed/newsfeedfooter/FooterNewsFeed";
+import EventsCard from "../../news-feed/eventcard/EventsCard";
 
 const JoindGroupFeed = () => {
   return (
@@ -18,20 +21,21 @@ const JoindGroupFeed = () => {
       </Head>
       <div className="pb-20 md:pb-10 lg:pb-10">
         <div className="xl:max-w-[1340px] container mx-auto">
-          <div className="">
+          <div className="sticky top-0 z-50">
+            <TopNavbar />
             <MobileNav />
           </div>
-          <div className="flex xl:px-0 lg:px-4 md:px-8 sm:px-0 gap-[65px] lg:gap-6 md:gap-4 justify-between">
-            <div className="hidden md:block lg:block">
-              <NewsFeedSidebar />
-            </div>
+          <div className="flex px-2 xl:px-0 lg:px-4 md:px-4 gap-[65px] md:gap-8 lg:gap-6 justify-between">
             <div className="h-full bg-zinc-100 md:bg-transparent lg:bg-transparent xl:bg-transparent px-4 md:px-0 lg-px-0 xl:px-0">
               <JoindGroup />
             </div>
             <div className="w-72 hidden md:block lg:block">
-              <GroupSearch />
               <ProfileCard />
+              <div className="sticky top-20 z-20">
+              <EventsCard />
               <GroupsSuggesions />
+              <FooterNewsFeed />
+              </div>
             </div>
           </div>
         </div>

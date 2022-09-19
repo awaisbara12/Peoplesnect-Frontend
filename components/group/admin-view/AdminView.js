@@ -1,8 +1,8 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import postimage from "../../../public/images/752126.jpg";
-import postimage1 from "../../../public/images/post-image.png";
+import postimage1 from "../../../public/images/752126.jpg";
+import postimage from "../../../public/images/post-image.png";
 
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
@@ -193,8 +193,8 @@ const AdminView = (setList, singleItem) => {
     var authKey = window.localStorage.getItem("keyStore");
   }
   return (
-    <div className="mt-8">
-      <div className="px-10 w-[620px] xl:w-full">
+    <div className="mt-8 w-[600px] xl:w-[980px] lg:w-[710px] md:w-[780px] px-5 md:px-0 lg:px-0 xl:px-0">
+      <div className="">
         <div className="blogs bg-white rounded-xl">
           <div className="group relative w-full">
             <div className="">
@@ -203,14 +203,14 @@ const AdminView = (setList, singleItem) => {
                   <Image
                     src={postimage}
                     className="object-cover rounded-xl"
-                    width={750}
-                    height={250}
+                    width={1000}
+                    height={350}
                     alt=""
                   />
                 </a>
               </Link>
             </div>
-            <div className="absolute top-0 z-50 left-0 bg-gray-600 bg-opacity-60 w-full h-0 flex flex-col justify-center items-center opacity-0 group-hover:h-full group-hover:opacity-100 duration-1000">
+            <div className="absolute rounded-xl top-0 z-50 left-0 bg-gray-600 bg-opacity-60 w-full h-0 flex flex-col justify-center items-center opacity-0 group-hover:h-full group-hover:opacity-100 duration-1000">
               <div className="relative flex items-center justify-center">
                 <div className="">
                   <div className="flex cursor-pointer gap-2 items-center p-2 rounded-xl border-2 border-white text-white">
@@ -258,7 +258,7 @@ const AdminView = (setList, singleItem) => {
                   leaveFrom="opacity-100 translate-y-0"
                   leaveTo="opacity-0 translate-y-1"
                 >
-                  <Menu.Items className="absolute left-1/2 z-10 mt-3 w-48 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-3xl">
+                  <Menu.Items className="absolute left-1/2 z-10 mt-3 w-64 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-3xl">
                     <div className="flex items-start flex-col gap-2 border-1 bg-white rounded-xl p-3">
                       <Menu.Item className="">
                         <Link href="/group-page/admin-view/group-members">
@@ -299,7 +299,7 @@ const AdminView = (setList, singleItem) => {
           </div>
         </div>
       </div>
-      <div className="mx-10 mt-7">
+      <div className="mt-7">
         <div className="border hover:bg-gray-50 mt-4 p-4 bg-white hover:shadow-lg rounded-xl">
           <a href="" className="flex justify-between text-lg font-medium">
             <div className="username flex gap-2 items-center">
@@ -937,7 +937,7 @@ const AdminView = (setList, singleItem) => {
           </Dialog>
         </Transition>
       </div>
-      <div className="mx-10 mt-8">
+      <div className="mt-8">
         <div className="bg-white rounded-xl">
           <div className="flex gap-2 justify-between items-center px-[22px] py-[14px]">
             <div className="flex items-center gap-4">
@@ -1014,8 +1014,8 @@ const AdminView = (setList, singleItem) => {
               <Image
                 src={postimage1}
                 className="object-cover rounded-xl"
-                width={700}
-                height={250}
+                width={1000}
+                height={350}
                 alt=""
               />
             </div>

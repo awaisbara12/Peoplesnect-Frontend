@@ -4,7 +4,7 @@ const GroupSettings = () => {
   return (
     <div>
       <div className="mt-8">
-        <div className="w-[600px] px-5 md:px-0 lg:px-0">
+      <div className="w-[600px] xl:w-[980px] lg:w-[710px] md:w-[780px] px-5 md:px-0 lg:px-0 xl:px-0">
           <div className="">
             <div className="heading text-lg font-bold">Group Settings</div>
             <div className="border items-center bg-white mt-4 p-10 rounded-xl">

@@ -187,8 +187,8 @@ const JoindGroup = (setList, singleItem) => {
     var authKey = window.localStorage.getItem("keyStore");
   }
   return (
-    <div className="mt-8">
-      <div className="px-10 w-[620px] xl:w-full">
+    <div className="mt-8 w-[600px] xl:w-[980px] lg:w-[710px] md:w-[780px] px-5 md:px-0 lg:px-0 xl:px-0">
+      <div className="">
         <div className="blogs bg-white rounded-xl">
           <div className="image">
             <Link href="/">
@@ -196,8 +196,8 @@ const JoindGroup = (setList, singleItem) => {
                 <Image
                   src={postimage}
                   className="object-cover rounded-xl"
-                  width={750}
-                  height={250}
+                  width={1350}
+                  height={450}
                   alt=""
                 />
               </a>
@@ -383,7 +383,7 @@ const JoindGroup = (setList, singleItem) => {
           </div>
         </div>
       </div>
-      <div className="mx-10 mt-7">
+      <div className="mt-7">
         <div className="rounded-xl bg-white p-[22px]">
           <form onSubmit={postNewsData}>
             <div className="w-full flex justify-start gap-[22px]">
@@ -1012,7 +1012,7 @@ const JoindGroup = (setList, singleItem) => {
           </Dialog>
         </Transition>
       </div>
-      <div className="mx-10 mt-8">
+      <div className="mt-8">
         <div className="bg-white rounded-xl">
           <div className="flex gap-2 justify-between items-center px-[22px] py-[14px]">
             <div className="flex items-center gap-4">
@@ -1089,8 +1089,8 @@ const JoindGroup = (setList, singleItem) => {
               <Image
                 src={postimage1}
                 className="object-cover rounded-xl"
-                width={700}
-                height={250}
+                width={1000}
+                height={350}
                 alt=""
               />
             </div>

@@ -13,8 +13,8 @@ import { Popover, Transition } from "@headlessui/react";
 
 const EventView = () => {
   return (
-    <div className="px-10 w-[620px] xl:w-full">
-      <div className="blogs bg-white rounded-xl my-8 ">
+    <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
+    <div className="blogs bg-white rounded-xl my-8 ">
         <div className="px-10 py-4 flex justify-between">
           <div className="font-bold">Title Of Event</div>
           <div className="">
@@ -67,7 +67,7 @@ const EventView = () => {
           <div className="">
             <Link href="/">
               <a>
-                <Image src={post} width={900} height={500} alt="" />
+                <Image src={post} width={1000} height={500} alt="" />
               </a>
             </Link>
           </div>

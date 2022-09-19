@@ -6,7 +6,7 @@ import postimage from "../../../public/images/752126.jpg";
 const SuggestionGroups = () => {
   return (
     <div className="mt-8">
-      <div className="px-10 w-[620px] xl:w-full">
+    <div className="w-[600px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0 xl:px-0">
         <div className="blogs bg-white rounded-xl">
           <div className="image">
             <Link href="/">
