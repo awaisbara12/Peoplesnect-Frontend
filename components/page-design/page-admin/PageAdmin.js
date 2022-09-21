@@ -199,7 +199,7 @@ const PageAdmin = (setList, singleItem) => {
   }
   return (
     <div className="mt-8">
-      <div className="px-10 w-[620px] xl:w-full">
+    <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
         <div className="blogs bg-white rounded-xl">
           <div className="group relative w-full">
             <div className="">
@@ -208,8 +208,8 @@ const PageAdmin = (setList, singleItem) => {
                   <Image
                     src={postimage}
                     className="object-cover rounded-xl"
-                    width={750}
-                    height={250}
+                    width={1050}
+                    height={300}
                     alt=""
                   />
                 </a>
@@ -327,8 +327,7 @@ const PageAdmin = (setList, singleItem) => {
             </div>
           </div>
         </div>
-      </div>
-      <div className="mx-10 mt-7">
+      <div className="mt-8">
         <div className="rounded-xl mt-8 bg-white p-[22px]">
           <form onSubmit={postNewsData}>
             <div className="w-full flex justify-start gap-[22px]">
@@ -958,7 +957,7 @@ const PageAdmin = (setList, singleItem) => {
           </Dialog>
         </Transition>
       </div>
-      <div className="mx-10 mt-8">
+      <div className="mt-8">
         <div className="bg-white rounded-xl">
           <div className="flex gap-2 justify-between items-center px-[22px] py-[14px]">
             <div className="flex items-center gap-4">
@@ -1041,8 +1040,8 @@ const PageAdmin = (setList, singleItem) => {
               <Image
                 src={postimage1}
                 className="object-cover rounded-xl"
-                width={700}
-                height={250}
+                width={1050}
+                height={300}
                 alt=""
               />
             </div>
@@ -1070,6 +1069,7 @@ const PageAdmin = (setList, singleItem) => {
             </Fragment>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );
