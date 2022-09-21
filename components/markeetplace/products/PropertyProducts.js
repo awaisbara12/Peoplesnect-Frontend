@@ -8,7 +8,7 @@ import {
 } from "@heroicons/react/outline";
 import { ShoppingCartIcon } from "@heroicons/react/solid";
 import productImage4 from "../../../public/images/product4.png";
-import productImage5 from "../../../public/images/brand.jpg";
+import productImage8 from "../../../public/images/pagecover.jpg";
 import productImage6 from "../../../public/images/groupcover.jpg";
 import productImage2 from "../../../public/images/product2.png";
 
@@ -33,7 +33,7 @@ const ProductCard = [
   },
 
   {
-    image: productImage5,
+    image: productImage8,
     title: "Adidas brand new watch",
     price: 110,
     status: "Brand new",
@@ -123,7 +123,7 @@ const PropertyProducts = () => {
                 </div>
                 <Link href="/markeet-place/marketplace-show">
                   <a className="flex justify-end">
-                    <div className="border text-xs border-indigo-400 text-center text-indigo-400 w-22 mt-4 p-2 rounded-full">
+                    <div className="border font-semibold text-xs border-indigo-400 text-center text-indigo-400 w-22 mt-4 p-2 rounded-full">
                       Show Details
                     </div>
                   </a>

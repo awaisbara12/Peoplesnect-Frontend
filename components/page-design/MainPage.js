@@ -9,7 +9,7 @@ import { ThumbUpIcon } from "@heroicons/react/outline";
 const MainPage = () => {
   return (
     <div className="mt-8">
-      <div className="w-[620px] lg:w-full md:w-full px-5 md:px-0 lg:px-0">
+    <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
         <div className="bg-white rounded-xl p-4">
           <div className="justify-between flex items-center">
             <div className="heading font-semibold">Liked Pages</div>
@@ -19,7 +19,7 @@ const MainPage = () => {
               </button>
             </div>
           </div>
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-6 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2">
             <div className="profile mt-10 border rounded-xl">
               <div className="relative cover">
                 <Link href="page-design/liked-pages">
@@ -244,7 +244,7 @@ const MainPage = () => {
                 </button>
               </div>
             </div>
-            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 md:grid-cols-2">
+            <div className="grid grid-cols-1 gap-6 xl:grid-cols-3 lg:grid-cols-2  md:grid-cols-2">
               <div className="profile mt-10 border rounded-xl">
                 <div className="relative cover">
                   <Link href="page-design/suggested-pages">

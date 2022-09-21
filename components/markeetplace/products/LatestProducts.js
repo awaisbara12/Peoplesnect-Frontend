@@ -118,7 +118,7 @@ const HomeProducts = () => {
                 </div>
                 <Link href="/markeet-place/marketplace-show">
                   <a className="flex justify-end">
-                    <div className="border text-xs border-indigo-400 text-center text-indigo-400 w-22 mt-4 p-2 rounded-full">
+                    <div className="border font-semibold text-xs border-indigo-400 text-center text-indigo-400 w-22 mt-4 p-2 rounded-full">
                       Show Details
                     </div>
                   </a>
