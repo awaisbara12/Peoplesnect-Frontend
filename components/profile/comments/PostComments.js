@@ -86,10 +86,10 @@ const PostComments = (feedId) => {
   return (
     <Fragment>
       <div className="relative w-full mt-[14px]">
-        <div className="w-10/12 xl:w-11/12 ml-9">
+      <div className="w-[440px] md:w-[640px] lg:w-[590px] xl:w-[840px] ml-9">
           <InputEmoji
             type="text"
-            react-emoji="w-{90%}"
+            react-emoji="w-{100%}"
             value={postText}
             onChange={setPostText}
             onEnter={handleOnEnter}

@@ -45,7 +45,7 @@ const TopNavbar = () => {
             <Link href="/news-feed" className="">
               <a>
                 <li className="flex font-normal text-xl items-center flex-col gap-1">
-                  <HomeIcon className="h-5 w-5" />
+                  <HomeIcon className="h-5 w-5 text-indigo-400" />
                   <div className="text-sm md:text-xs">Home</div>
                 </li>
               </a>
@@ -53,7 +53,7 @@ const TopNavbar = () => {
             <Link href="/jobs" className="">
               <a>
                 <li className="flex font-normal text-xl items-center flex-col gap-1">
-                  <BriefcaseIcon className="h-5 w-5" />
+                  <BriefcaseIcon className="h-5 w-5 text-indigo-400" />
                   <div className="text-sm md:text-xs">Jobs</div>
                 </li>
               </a>
@@ -62,7 +62,7 @@ const TopNavbar = () => {
             <Link href="/markeet-place" className="">
               <a>
                 <li className="flex font-normal text-xl items-center flex-col gap-1">
-                  <BriefcaseIcon className="h-5 w-5" />
+                  <BriefcaseIcon className="h-5 w-5 text-indigo-400" />
                   <div className="text-sm md:text-xs">Marketplace</div>
                 </li>
               </a>
@@ -70,7 +70,7 @@ const TopNavbar = () => {
             <Link href="/blog" className="">
               <a>
                 <li className="flex font-normal text-xl items-center flex-col gap-1">
-                  <NewspaperIcon className="h-5 w-5" />
+                  <NewspaperIcon className="h-5 w-5 text-indigo-400" />
                   <div className="text-sm md:text-xs">Articles</div>
                 </li>
               </a>
@@ -78,7 +78,7 @@ const TopNavbar = () => {
             <Link href="/my-network" className="">
               <a>
                 <li className="flex font-normal text-xl items-center flex-col gap-1">
-                  <UsersIcon className="h-5 w-5" />
+                  <UsersIcon className="h-5 w-5 text-indigo-400" />
                   <div className="text-sm md:text-xs">My Network</div>
                 </li>
               </a>
@@ -86,7 +86,7 @@ const TopNavbar = () => {
             <Link href="/messaging-design" className="">
               <a>
                 <li className="flex font-normal text-xl items-center flex-col gap-1">
-                  <ChatAltIcon className="h-5 w-5" />
+                  <ChatAltIcon className="h-5 w-5 text-indigo-400" />
                   <div className="text-sm md:text-xs">Messaging</div>
                 </li>
               </a>
@@ -95,7 +95,7 @@ const TopNavbar = () => {
               <a>
                 <li className="flex font-normal text-xl items-center flex-col gap-1">
                   <div className="relative">
-                    <BellIcon className="h-5 w-5" />
+                    <BellIcon className="h-5 w-5 text-indigo-400" />
                     <div className="bg-red-400 h-4 w-4 text-white -top-1 left-3 rounded-full flex justify-center items-center absolute">
                       <p className="text-[8px]">2</p>
                     </div>
@@ -127,7 +127,7 @@ const TopNavbar = () => {
                           />
                           <div className="flex gap-1 items-center">
                             <div className="text-sm md:text-xs">Me</div>
-                            <ChevronDownIcon className="h-3 w-3" />
+                            <ChevronDownIcon className="h-3 w-3 text-indigo-400" />
                           </div>
                         </div>
                       </Popover.Button>

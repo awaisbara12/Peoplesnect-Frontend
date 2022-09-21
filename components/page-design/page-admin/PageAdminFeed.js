@@ -10,6 +10,7 @@ import PageSuggesions from "../../news-feed/sugesteduser/PageSuggestions";
 import NewsFeedSidebar from "../../news-feed/newsfeed/sidebar/NewsFeedSidebar";
 import TopNavbar from "../../news-feed/navbar/TopNavbar";
 import FooterNewsFeed from "../../news-feed/newsfeed/newsfeedfooter/FooterNewsFeed";
+import PagesBottomBar from "../../news-feed/navbar/PagesBottomBar";
 
 const PageAdminFeed = () => {
   return (
@@ -40,7 +41,7 @@ const PageAdminFeed = () => {
           </div>
         </div>
       </div>
-      <MobileBottomBar />
+      <PagesBottomBar />
     </div>
   );
 };

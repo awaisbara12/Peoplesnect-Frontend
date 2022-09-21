@@ -10,6 +10,7 @@ import GroupsSuggesions from "../news-feed/sugesteduser/GroupsSuggesions";
 import EventsCard from "../news-feed/eventcard/EventsCard";
 import TopNavbar from "../news-feed/navbar/TopNavbar";
 import FooterNewsFeed from "../news-feed/newsfeed/newsfeedfooter/FooterNewsFeed";
+import GroupsBottomBar from "../news-feed/navbar/GroupsBottomBar";
 
 const GroupsFeed = () => {
   return (
@@ -40,7 +41,7 @@ const GroupsFeed = () => {
           </div>
         </div>
       </div>
-      <MobileBottomBar />
+      <GroupsBottomBar />
     </div>
   );
 };
