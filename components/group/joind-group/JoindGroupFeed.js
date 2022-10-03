@@ -10,6 +10,7 @@ import NewsFeedSidebar from "../../news-feed/newsfeed/sidebar/NewsFeedSidebar";
 import TopNavbar from "../../news-feed/navbar/TopNavbar";
 import FooterNewsFeed from "../../news-feed/newsfeed/newsfeedfooter/FooterNewsFeed";
 import EventsCard from "../../news-feed/eventcard/EventsCard";
+import GroupsBottomBar from "../../news-feed/navbar/GroupsBottomBar";
 
 const JoindGroupFeed = () => {
   return (
@@ -40,7 +41,7 @@ const JoindGroupFeed = () => {
           </div>
         </div>
       </div>
-      <MobileBottomBar />
+      <GroupsBottomBar />
     </div>
   );
 };

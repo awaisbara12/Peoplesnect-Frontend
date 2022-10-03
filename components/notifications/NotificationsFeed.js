@@ -26,7 +26,7 @@ const NotificationsFeed = () => {
               <TopNavbar />
               <MobileNav />
             </div>
-            <div className="flex px-2 xl:px-0 lg:px-4 md:px-4 gap-[65px] md:gap-8 lg:gap-6 justify-between">
+            <div className="flex px-2 xl:px-0 md:px-4 gap-[65px] md:gap-8 lg:gap-6 justify-between">
               <div className="h-full bg-zinc-100 mx-auto">
                 <Notifications />
               </div>

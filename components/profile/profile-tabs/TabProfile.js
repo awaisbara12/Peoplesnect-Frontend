@@ -12,8 +12,8 @@ const TabProfile = () => {
             <PencilAltIcon className="h-5 w-5 underline" />
           </a>
         </div>
-        <div className="md:w-[775px] ">
-          <div className="my-4 leading-8 font-extralight">
+        <div className="w-auto">
+          <div className="my-4 leading-8 text-justify font-extralight">
             Lorem Ipsum is simply dummy text of the printing and typesetting
             industry. Lorem Ipsum has been the industrys standard dummy text
             ever since the 1500s, when an unknown printer took a galley of type

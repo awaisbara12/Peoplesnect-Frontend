@@ -25,6 +25,7 @@ import TabContactProfile from "./TabContactProfile";
 import TabExperienceProfile from "./TabExperienceProfile";
 import TabEducationProfile from "./TabEducationProfile";
 import TabProfile from "./TabProfile";
+import TabSavedProfile from "./TabSavedProfile";
 
 const TabsProfileCard = () => {
   const [openTab, setOpenTab] = React.useState(1);
@@ -33,7 +34,7 @@ const TabsProfileCard = () => {
       <div className="">
         <div className="flex bg-white rounded-b-xl px-8 mb-8 flex-wrap">
           <div className="border-t-1 w-full">
-            <div className="w-full md:w-4/5  lg:w-4/5  pt-8 pb-7">
+            <div className="w-full md:w-full xl:w-5/6 pt-8 pb-7 text-sm">
               <ul className="flex justify-between" role="tablist">
                 <li className="">
                   <a
@@ -149,6 +150,25 @@ const TabsProfileCard = () => {
                     Recent Activity
                   </a>
                 </li>
+                <li className="">
+                  <a
+                    className={
+                      "" +
+                      (openTab === 7
+                        ? "border-b-2 font-bold pb-6 text-indigo-400 border-indigo-400"
+                        : "")
+                    }
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setOpenTab(7);
+                    }}
+                    data-toggle="tab"
+                    href="#link7"
+                    role="tablist"
+                  >
+                    Saved Items
+                  </a>
+                </li>
               </ul>
             </div>
           </div>
@@ -172,6 +192,9 @@ const TabsProfileCard = () => {
             </div>
             <div className={openTab === 6 ? "block" : "hidden"} id="link6">
               <TabRecentProfile />
+            </div>
+            <div className={openTab === 7 ? "block" : "hidden"} id="link7">
+              <TabSavedProfile />
             </div>
           </div>
         </div>

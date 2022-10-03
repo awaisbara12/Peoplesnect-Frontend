@@ -10,30 +10,23 @@ import {
   EmojiHappyIcon,
   ChevronRightIcon,
   PaperAirplaneIcon,
-  TrashIcon
 } from "@heroicons/react/outline";
 import { useFormik } from "formik";
-import { eventScheema } from "../../../auth/schemas/CreateEventScheema";
 import { COMMENT_API_KEY } from "../../../../pages/config";
 
-const PostComments = (props) => {
+const PostComments = (feedId) => {
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
   }
-  // const [setLoading] = useState(false);
+  const [setLoading] = useState(false);
   const [postText, setPostText] = useState("");
   const [postImage, setPostImage] = useState([]);
   const [postImagePreview, setpostImagePreview] = useState();
-  // const [comments, setComments] = useState(props.comments);
+  const [comments, setComments] = useState([]);
 
   function handleOnEnter() {
-    // postComment()
+    console.log("enter", postText);
   }
-
-  const handleCoverRemove = (e) => {
-    setPostImage("")
-    setpostImagePreview(window.URL.revokeObjectURL(e.target.files));
-  };
 
   const handleImagePost = (e) => {
     setPostImage(e.target.files);
@@ -59,7 +52,7 @@ const PostComments = (props) => {
 
     const dataForm = new FormData();
     dataForm.append("comments[body]", postText);
-    dataForm.append("comments[news_feed_id]", props.news_feed_id);
+    dataForm.append("comments[news_feed_id]", feedId.news_feed_id);
 
     if (postImage.length > 0) {
       for (let i = 0; i < postImage.length; i++) {
@@ -76,13 +69,15 @@ const PostComments = (props) => {
       },
       body: dataForm,
     })
-    .then((resp) => resp.json())
-    .then((result) => {
-      if (result) {
-        props.setComments(result);
-      }
-    })
-    .catch((err) => console.log(err));
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          console.log(result);
+          setComments(result.data);
+          // setLoading(false);
+        }
+      })
+      .catch((err) => console.log(err));
     setPostText("");
     setpostImagePreview("");
     setPostImage("");
@@ -90,10 +85,10 @@ const PostComments = (props) => {
   return (
     <Fragment>
       <div className="relative w-full mt-[14px]">
-        <div className="w-4/5 xl:w-10/12 ml-9">
+        <div className="w-[460px] md:w-[640px] lg:md:w-[590px] xl:w-[840px] ml-9">
           <InputEmoji
             type="text"
-            react-emoji="w-{80%}"
+            react-emoji="w-{100%}"
             value={postText}
             onChange={setPostText}
             onEnter={handleOnEnter}
@@ -103,7 +98,7 @@ const PostComments = (props) => {
         <div className="absolute top-2 left-0">
           <Image src={ProfileAvatar} width={34} height={34} alt="" />
         </div>
-        <div className="flex items-center absolute top-3 right-0">
+        <div className="flex items-center absolute top-3 right-0 ">
           <div className="">
             <div className="relative flex items-center justify-center">
               <PhotographIcon
@@ -118,6 +113,7 @@ const PostComments = (props) => {
                 className="opacity-0 absolute w-6 h-6 -z-0"
                 onChange={handleImagePost}
                 title={""}
+                multiple
               />
             </div>
           </div>
@@ -131,27 +127,6 @@ const PostComments = (props) => {
             </button>
           </div>
         </div>
-
-        {postImagePreview ? (
-          <div className="flex my-2 rounded-xl z-10 p-2 w-[240px] h-[120px] ">
-            <div className={`relative`}>
-              <img
-                src={postImagePreview}
-                className="aspect-video object-cover rounded-xl mb-4"
-                alt=""
-              />
-
-              <div
-                onClick={handleCoverRemove}
-                className="bg-indigo-100 absolute top-0 right-0 z-50 w-6 h-6 cursor-pointer flex justify-center items-center rounded-full"
-              >
-                <TrashIcon className="w-4 h-4 text-indigo-600" />
-              </div>
-            </div>
-          </div>
-        ) : (
-          ""
-        )}
       </div>
     </Fragment>
   );

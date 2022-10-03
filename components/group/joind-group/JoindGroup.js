@@ -187,7 +187,7 @@ const JoindGroup = (setList, singleItem) => {
     var authKey = window.localStorage.getItem("keyStore");
   }
   return (
-    <div className="mt-8 w-[600px] xl:w-[980px] lg:w-[710px] md:w-[780px] px-5 md:px-0 lg:px-0 xl:px-0">
+    <div className="mt-8 w-[600px] xl:w-[980px] lg:w-[710px] md:w-[780px] px-auto md:px-0 lg:px-0 xl:px-0">
       <div className="">
         <div className="blogs bg-white rounded-xl">
           <div className="image">
