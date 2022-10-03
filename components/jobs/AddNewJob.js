@@ -327,7 +327,7 @@ const AddNewJob = (setList, singleItem) => {
                               as="div"
                               className="relative z-50"
                               static={true}
-                              onClose={closeModal}
+                              onClose={closeModal1}
                             >
                               <Transition.Child
                                 as={Fragment}
@@ -403,7 +403,7 @@ const AddNewJob = (setList, singleItem) => {
                                             as="div"
                                             className="relative z-50"
                                             static={true}
-                                            onClose={closeModal}
+                                            onClose={closeModal2}
                                           >
                                         <Transition.Child
                                           as={Fragment}
