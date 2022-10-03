@@ -261,26 +261,26 @@ const AddNewJob = (setList, singleItem) => {
                     </div>
                       <div className="">
                         <div className="mt-8 bg-white px-12 py-5 rounded-xl">
-                          <form class="w-full">
-                              <div class="">
-                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
+                          <form className="w-full">
+                              <div className="">
+                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmfor="grid-first-name">
                                   Job Title
                                 </label>
-                                <input class="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="text" placeholder="Job Title"/>
+                                <input className="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="text" placeholder="Job Title"/>
                               </div>
-                              <div class="grid grid-cols-2 gap-4 mt-8">
-                              <div class="">
-                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
+                              <div className="grid grid-cols-2 gap-4 mt-8">
+                              <div className="">
+                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmfor="grid-last-name">
                                   Company Name
                                 </label>
-                                <input class="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Company Name"/>
+                                <input className="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Company Name"/>
                               </div>
-                              <div class="">
-                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+                              <div className="">
+                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmfor="grid-state">
                                   Workplace Type
                                 </label>
-                                <div class="relative">
-                                  <select class="block appearance-none w-full bg-zinc-100 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                                <div className="relative">
+                                  <select className="block appearance-none w-full bg-zinc-100 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
                                     <option>Hybrid</option>
                                     <option>On Site</option>
                                     <option>Remote</option>
@@ -288,19 +288,19 @@ const AddNewJob = (setList, singleItem) => {
                                 </div>
                               </div>
                             </div>
-                            <div class="grid grid-cols-2 gap-4 mt-8">
-                              <div class="">
-                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
+                            <div className="grid grid-cols-2 gap-4 mt-8">
+                              <div className="">
+                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmfor="grid-last-name">
                                   Job Location
                                 </label>
-                                <input class="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Job Location"/>
+                                <input className="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Job Location"/>
                               </div>
-                              <div class="">
-                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+                              <div className="">
+                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmfor="grid-state">
                                   Employment Type
                                 </label>
-                                <div class="relative">
-                                  <select class="block appearance-none w-full bg-zinc-100 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                                <div className="relative">
+                                  <select className="block appearance-none w-full bg-zinc-100 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
                                     <option>Internship</option>
                                     <option>Temporary</option>
                                     <option>Full Time</option>
@@ -367,9 +367,9 @@ const AddNewJob = (setList, singleItem) => {
                                       </div>
                                       <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
                                         <div className="mt-8 bg-white px-12 py-5 rounded-xl">
-                                        <form class="w-full">
-                                            <div class="">
-                                              <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
+                                        <form className="w-full">
+                                            <div className="">
+                                              <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmfor="grid-first-name">
                                                 Add a Description
                                               </label>
                                               <textarea
@@ -443,19 +443,19 @@ const AddNewJob = (setList, singleItem) => {
                                                 </div>
                                                 <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
                                                   <div className="bg-white px-12 py-5 rounded-xl">
-                                                  <form class="w-full">
-                                                      <div class="">
-                                                        <div class="">
-                                                          <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
+                                                  <form className="w-full">
+                                                      <div className="">
+                                                        <div className="">
+                                                          <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmfor="grid-last-name">
                                                             Email
                                                           </label>
-                                                          <input class="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="email" placeholder="Email"/>
+                                                          <input className="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="email" placeholder="Email"/>
                                                         </div>
-                                                        <div class="mt-8">
-                                                          <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
+                                                        <div className="mt-8">
+                                                          <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmfor="grid-last-name">
                                                             Add Your Question
                                                           </label>
-                                                          <input class="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Add Your Question"/>
+                                                          <input className="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Add Your Question"/>
                                                         </div>
                                                       </div>
                                                   </form>
