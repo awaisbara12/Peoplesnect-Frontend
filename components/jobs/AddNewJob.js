@@ -247,20 +247,35 @@ const AddNewJob = (setList, singleItem) => {
                   leaveTo="opacity-0 scale-95"
                 >
                   <Dialog.Panel className="w-[620px] bg-white rounded-xl xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0 py-4 text-left align-middle shadow-xl transition-all">
-                    <div className="flex justify-between items-center mx-4">
-                      <Dialog.Title
-                        as="h3"
-                        className="text-lg font-medium leading-6 text-gray-900"
-                      >
-                        Add New Job
-                      </Dialog.Title>
+                    <div className="flex justify-end items-center mx-4">
                       <XIcon
                         onClick={closeModal}
                         className="w-5 h-5 cursor-pointer"
                       />
                     </div>
+                    <div>
+                    <div className="w-full flex flex-row items-center justify-center px-24 py-6">
+                      <div className="stepper-item w-8 h-8 font-medium border-2 rounded-full bg-indigo-400 text-white flex justify-center items-center">
+                        <a href="">1</a>
+                      </div>
+                      <div className="flex-auto border-t-2"></div>
+                      <div className="stepper-item w-8 h-8 text-center font-medium border-2 rounded-full flex justify-center items-center">
+                        2
+                      </div>
+                      <div className="flex-auto border-t-2"></div>
+                      <div className="stepper-item w-8 h-8 text-center font-medium border-2 rounded-full flex justify-center items-center">
+                        3
+                      </div>
+                    </div>
+                  </div>
+                    <Dialog.Title
+                        as="h3"
+                        className="text-lg font-medium leading-6 text-gray-900 px-8"
+                      >
+                        Add New Job
+                      </Dialog.Title>
                       <div className="">
-                        <div className="mt-8 bg-white px-12 py-5 rounded-xl">
+                        <div className="bg-white px-12 py-5 rounded-xl">
                           <form className="w-full">
                               <div className="">
                                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmfor="grid-first-name">
@@ -353,20 +368,37 @@ const AddNewJob = (setList, singleItem) => {
                                     leaveTo="opacity-0 scale-95"
                                   >
                                     <Dialog.Panel className="w-[620px] bg-white rounded-xl xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0 py-4 text-left align-middle shadow-xl transition-all">
-                                      <div className="flex justify-between items-center mx-4">
-                                        <Dialog.Title
-                                          as="h3"
-                                          className="text-lg font-medium leading-6 text-gray-900"
-                                        >
-                                          Step 2
-                                        </Dialog.Title>
-                                        <XIcon
+                                    <div className="flex justify-end items-center mx-4">
+                        `            <XIcon
+                                      onClick={closeModal1}
+                                      className="w-5 h-5 cursor-pointer"
+                                    />
+                                    </div>
+                                    <div>
+                                      <div className="w-full flex flex-row items-center justify-center px-24 py-6">
+                                        <div className="stepper-item w-8 h-8 font-medium border-2 rounded-full flex justify-center items-center">
+                                          <button
                                           onClick={closeModal1}
-                                          className="w-5 h-5 cursor-pointer"
-                                        />
+                                          >1</button>
+                                        </div>
+                                        <div className="flex-auto border-t-2"></div>
+                                        <div className="stepper-item w-8 h-8 text-center font-medium border-2  bg-indigo-400 text-white  rounded-full flex justify-center items-center">
+                                          2
+                                        </div>
+                                        <div className="flex-auto border-t-2"></div>
+                                        <div className="stepper-item w-8 h-8 text-center font-medium border-2 rounded-full flex justify-center items-center">
+                                          3
+                                        </div>
                                       </div>
-                                      <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
-                                        <div className="mt-8 bg-white px-12 py-5 rounded-xl">
+                                    </div>
+                                    <Dialog.Title
+                                      as="h3"
+                                      className="text-lg font-medium leading-6 text-gray-900 px-8"
+                                    >
+                                      Step Two
+                                    </Dialog.Title>
+                                    <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
+                                      <div className="mt-8 bg-white px-12 py-5 rounded-xl">
                                         <form className="w-full">
                                             <div className="">
                                               <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmfor="grid-first-name">
@@ -429,18 +461,35 @@ const AddNewJob = (setList, singleItem) => {
                                               leaveTo="opacity-0 scale-95"
                                             >
                                               <Dialog.Panel className="w-[620px] bg-white rounded-xl xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0 py-4 text-left align-middle shadow-xl transition-all">
-                                                <div className="flex justify-between items-center mx-4">
-                                                  <Dialog.Title
-                                                    as="h3"
-                                                    className="text-lg font-medium leading-6 text-gray-900"
-                                                  >
-                                                    Step 3
-                                                  </Dialog.Title>
-                                                  <XIcon
-                                                    onClick={closeModal2}
-                                                    className="w-5 h-5 cursor-pointer"
-                                                  />
+                                              <div className="flex justify-end items-center mx-4">
+                                    `            <XIcon
+                                                  onClick={closeModal2}
+                                                  className="w-5 h-5 cursor-pointer"
+                                                />
                                                 </div>
+                                                <div>
+                                                  <div className="w-full flex flex-row items-center justify-center px-24 py-6">
+                                                    <div className="stepper-item w-8 h-8 font-medium border-2 rounded-full flex justify-center items-center">
+                                                      1
+                                                    </div>
+                                                    <div className="flex-auto border-t-2"></div>
+                                                    <div className="stepper-item w-8 h-8 text-center font-medium border-2 rounded-full flex justify-center items-center">
+                                                    <button
+                                                      onClick={closeModal2}
+                                                      >2</button>
+                                                    </div>
+                                                    <div className="flex-auto border-t-2"></div>
+                                                    <div className="stepper-item w-8 h-8 text-center font-medium border-2 rounded-full  bg-indigo-400 text-white flex justify-center items-center">
+                                                      3
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <Dialog.Title
+                                                  as="h3"
+                                                  className="text-lg font-medium leading-6 text-gray-900 px-8"
+                                                >
+                                                  Last Step
+                                                </Dialog.Title>
                                                 <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
                                                   <div className="bg-white px-12 py-5 rounded-xl">
                                                   <form className="w-full">
@@ -485,7 +534,7 @@ const AddNewJob = (setList, singleItem) => {
                                     </Transition>
                                         </div>
                                         </div>
-                                      </div>
+                                    </div>
                                     </Dialog.Panel>
                                   </Transition.Child>
                                   
