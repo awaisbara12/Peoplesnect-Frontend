@@ -260,7 +260,7 @@ const NewsFeedSingle = (singleItem) => {
             </div>
           </div>
         </div>
-        <div className="border-1 border-gray-100"></div>
+        {/* <div className="border-1 border-gray-100"></div> */}
 
         <div className="px-[22px] py-[14px]">
           <p>{items.body ? items.body : ""}</p>
@@ -275,7 +275,6 @@ const NewsFeedSingle = (singleItem) => {
               ) : (
                 ""
               )}
-
               <div className="py-3 px-3">
                 <div className="flex justify-between items-center">
                   <div>
@@ -310,19 +309,6 @@ const NewsFeedSingle = (singleItem) => {
           ) : (
             ""
           )}
-
-          <div className="flex gap-1 items-center mt-3">
-            <GlobeIcon width={14} height={14} className="text-slate-400" />
-            <div className="w-1 h-1 rounded-full bg-slate-400"></div>
-            <div className="text-slate-400 text-sm">{items.created_at}</div>
-            {items.body.length > 200 ? (
-              <a href="#" className="text-indigo-400 text-[15px] ml-3">
-                see more...
-              </a>
-            ) : (
-              ""
-            )}
-          </div>
           {items.feed_type && items.feed_type === "video_feed" ? (
             <>
               <video controls className="aspect-video w-full rounded-xl my-4">
@@ -347,77 +333,89 @@ const NewsFeedSingle = (singleItem) => {
             ""
           )}
           <div className="flex justify-between mt-[14px]">
-            <div className="flex gap-2 items-center">
-              {items.is_heart && items.is_heart == true ? (
-                <>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="Red"
-                    className="w-6 h-6 cursor-pointer"
-                    onClick={() => deteleHeart(items.heart_id)}
-                  >
-                    <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
-                  </svg>
-                  <span className="font-light text-gray-900">
-                    {items.reactions_count}
-                  </span>
-                </>
-              ) : (
-                <>
-                  <HeartIcon
-                    width={24}
-                    height={24}
-                    className="text-gray-900 cursor-pointer"
-                    onClick={() => addHeart(items.id)}
-                  />
-                  <span className="font-light text-gray-900">
-                    {items.reactions_count}
-                  </span>
-                </>
-              )}
-            </div>
-            <div className="flex gap-2 items-center">
-              <ChatAltIcon
-                width={24}
-                height={24}
-                className="text-gray-900 cursor-pointer"
-              />
-              <span className="font-light text-gray-900">{items.comments_count}</span>
-            </div>
-            <div className="flex gap-2 items-center">
-              {items.is_bookmark && items.is_bookmark == true ? (
-                <>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    className="w-6 h-6 text-indigo-400 cursor-pointer"
-                    onClick={() => deteleBookmark(items.bookmark_id)}
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M6.32 2.577a49.255 49.255 0 0111.36 0c1.497.174 2.57 1.46 2.57 2.93V21a.75.75 0 01-1.085.67L12 18.089l-7.165 3.583A.75.75 0 013.75 21V5.507c0-1.47 1.073-2.756 2.57-2.93z"
-                      clipRule="evenodd"
+            <div className="flex gap-6">
+              <div className="flex gap-2 items-center">
+                {items.is_heart && items.is_heart == true ? (
+                  <>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="Red"
+                      className="w-6 h-6 cursor-pointer"
+                      onClick={() => deteleHeart(items.heart_id)}
+                    >
+                      <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
+                    </svg>
+                    <span className="font-light text-gray-900">
+                      {items.reactions_count}
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <HeartIcon
+                      width={24}
+                      height={24}
+                      className="text-gray-600 cursor-pointer"
+                      onClick={() => addHeart(items.id)}
                     />
-                  </svg>
-                  <span className="font-light text-gray-900">
-                    {items.bookmarks_count}
-                  </span>
-                </>
-              ) : (
-                <>
-                  <BookmarkIcon
-                    width={24}
-                    height={24}
-                    className="text-gray-900 cursor-pointer"
-                    onClick={() => createBookmark(items.id)}
-                  />
-                  <span className="font-light text-gray-900">
-                    {items.bookmarks_count}
-                  </span>
-                </>
-              )}
+                    <span className="font-light text-gray-600 cursor-pointer">
+                      {items.reactions_count}
+                    </span>
+                  </>
+                )}
+              </div>
+              <div className="flex gap-2 items-center">
+                <ChatAltIcon
+                  width={24}
+                  height={24}
+                  className="text-gray-600 cursor-pointer"
+                />
+                <span className="font-light text-red-600 cursor-pointer">{items.comments_count}</span>
+              </div>
+            </div>
+            <div className="flex gap-6">
+              <div className="flex gap-2 items-center">
+                {items.is_bookmark && items.is_bookmark == true ? (
+                  <>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      className="w-6 h-6 text-indigo-400 cursor-pointer"
+                      onClick={() => deteleBookmark(items.bookmark_id)}
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M6.32 2.577a49.255 49.255 0 0111.36 0c1.497.174 2.57 1.46 2.57 2.93V21a.75.75 0 01-1.085.67L12 18.089l-7.165 3.583A.75.75 0 013.75 21V5.507c0-1.47 1.073-2.756 2.57-2.93z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                    <span className="font-light text-indigo-400">
+                      {items.bookmarks_count}
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <BookmarkIcon
+                      width={24}
+                      height={24}
+                      className="text-indigo-400 cursor-pointer"
+                      onClick={() => createBookmark(items.id)}
+                    />
+                    <span className="font-light text-indigo-400">
+                      {items.bookmarks_count}
+                    </span>
+                  </>
+                )}
+              </div>
+              <div>
+                <ShareIcon
+                  width={24}
+                  height={24}
+                  className="text-indigo-400 cursor-pointer"
+                  onClick={() => createBookmark(items.id)}
+                />
+              </div>
             </div>
           </div>
           <Fragment>
