@@ -321,7 +321,6 @@ const AddNewJob = (setList, singleItem) => {
                                     <option>Full Time</option>
                                     <option>Part Time</option>
                                     <option>Contract</option>
-
                                   </select>
                                 </div>
                               </div>
