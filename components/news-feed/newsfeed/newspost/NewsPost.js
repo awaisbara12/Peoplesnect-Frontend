@@ -260,9 +260,9 @@ const NewsPost = ({ setList }) => {
             ""
           )}
 
-          <div className="flex justify-between">
-            <div className="flex items-center gap-6">
-              <div className="relative group border-indigo-500">
+          <div className="flex justify-between items-center border-t-1 pt-2">
+            <div className="flex items-center gap-3 md:gap-6">
+              <div className="relative flex gap-1 md:gap-2 items-center justify-center">
                 <div className="relative flex items-center justify-center">
                   <PhotographIcon
                     width={22}
@@ -285,11 +285,9 @@ const NewsPost = ({ setList }) => {
                     multiple
                   />
                 </div>
-                <p className="text-indigo-400 opacity-0 group-hover:opacity-100 absolute left-4">
-                  Add Image
-                </p>
+                <div className="font-extralight">Photo Upload</div>
               </div>
-              <div className="relative group border-indigo-500">
+              <div className="relative flex gap-1 md:gap-2 items-center justify-center">
                 <div className="relative flex items-center justify-center">
                   <VideoCameraIcon
                     width={22}
@@ -314,12 +312,10 @@ const NewsPost = ({ setList }) => {
                     className="opacity-0 absolute w-6 h-6 -z-0"
                   />
                 </div>
-                <p className="text-indigo-400 opacity-0 group-hover:opacity-100 absolute left-4">
-                  Add Video
-                </p>
+                <div className="font-extralight">Video Upload</div>
               </div>
 
-              <div className="relative group border-indigo-500">
+              <div className="flex gap-1 md:gap-2 items-center justify-center border-indigo-500">
                 <CalendarIcon
                   width={22}
                   height={22}
@@ -332,12 +328,9 @@ const NewsPost = ({ setList }) => {
                       : `text-indigo-400 cursor-pointer`
                   }
                 />
-
-                <p className="text-indigo-400 opacity-0 group-hover:opacity-100 absolute left-4">
-                  Add event
-                </p>
+                <div className="font-extralight">Events</div>
               </div>
-              <div className="relative group border-indigo-500">
+              <div className="flex gap-1 md:gap-2 items-center justify-center border-indigo-500">
                 <div className="icon relative">
                   <Link href="/post/new">
                     <NewspaperIcon
@@ -353,10 +346,7 @@ const NewsPost = ({ setList }) => {
                     />
                   </Link>
                 </div>
-
-                <p className="text-indigo-400 opacity-0 group-hover:opacity-100 absolute left-4">
-                  Add Article
-                </p>
+                <div className="font-extralight"> Article</div>
               </div>
             </div>
             <button
@@ -371,7 +361,6 @@ const NewsPost = ({ setList }) => {
           </div>
         </form>
       </div>
-
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog
           as="div"

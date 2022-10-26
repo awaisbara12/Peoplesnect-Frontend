@@ -32,7 +32,7 @@ return (
           <PropertyProducts />
         </div>
         <div className="w-72 hidden md:block lg:block">
-          <div className="sticky top-20 z-50">
+          <div className="sticky top-20 z-20">
             <MarkeetPlaceSideBar />
             <MarkeetplaceSuggestion />
             <FooterNewsFeed />

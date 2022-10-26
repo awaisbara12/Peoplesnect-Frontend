@@ -5,48 +5,49 @@ const AccountSecurity = () => {
   return (
     <div>
       <div className="mt-8">
-        <div className="w-[600px] px-5 md:px-0 lg:px-0">
+      <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
           <div className="">
             <div className="heading text-lg font-bold">Account Security</div>
+            <div>
             <div className="border bg-white mt-4 p-10 rounded-xl">
-              <div className="grid  relative  items-center grid-cols-3 mt-5 ">
+              <div className="flex justify-center gap-10 items-center mt-5 ">
                 <div className="text-lg font-medium">Current Password:</div>
-                <div className="">
+                <div className="relative ">
                   <input
-                    className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-96 placeholder:pl-2 rounded-full placeholder:py-2"
+                    className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none md:w-96 w-auto placeholder:pl-2 rounded-full placeholder:py-2"
                     placeholder="Enter Current Your Password"
                     type="Password"
                     name="search"
                   />
+                <EyeIcon className="absolute right-4 top-2 h-5 w-5" />
                 </div>
-                <EyeIcon className="absolute right-6 top-2 h-5 w-5" />
               </div>
-              <div className="grid  relative items-center  grid-cols-3 mt-5 ">
+              <div className="flex justify-center gap-10 items-center mt-5 ">
                 <div className="text-lg font-medium">Update Password:</div>
-                <div className="">
+                <div className="relative">
                   <input
-                    className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-96 placeholder:pl-2 rounded-full placeholder:py-2"
+                    className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none md:w-96 w-auto placeholder:pl-2 rounded-full placeholder:py-2"
                     placeholder="Enter New Password"
                     type="Password"
                     name="search"
                   />
+                <EyeIcon className="absolute right-4 top-2 h-5 w-5" />
                 </div>
-                <EyeIcon className="absolute right-6 top-2 h-5 w-5" />
               </div>
-              <div className="grid  relative items-center grid-cols-3 mt-5 ">
+              <div className="flex justify-center gap-10 items-center mt-5 ">
                 <div className="text-lg font-medium">Cofirm Password:</div>
-                <div className="">
+                <div className="relative">
                   <input
-                    className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-96 placeholder:pl-2 rounded-full placeholder:py-2"
+                    className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none md:w-96 w-auto placeholder:pl-2 rounded-full placeholder:py-2"
                     placeholder="Confirm Your Password"
                     type="Password"
                     name="search"
                   />
+                <EyeIcon className="absolute right-4 top-2 h-5 w-5" />
                 </div>
-                <EyeIcon className="absolute right-6 top-2 h-5 w-5" />
               </div>
-              <div className="mt-10">
-                <div className="flex items-center justify-between border bg-white mt-4 px-4 py-4 rounded-xl">
+              <div className="mt-5 flex justify-center">
+                <div className="flex items-center justify-between w-[580px] border bg-white px-4 py-4 rounded-xl">
                   <div className="">Two Step Verification</div>
                   <div className="">
                     <label
@@ -64,11 +65,12 @@ const AccountSecurity = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex justify-end mt-10">
+              <div className="flex justify-end mt-8">
                 <button className="border-2 border-indigo-400 bg-indigo-400 p-2 rounded-full text-white font-bold">
                   Save Changes
                 </button>
               </div>
+            </div>
             </div>
           </div>
         </div>

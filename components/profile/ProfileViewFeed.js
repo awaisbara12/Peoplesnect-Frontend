@@ -13,7 +13,7 @@ const ProfileViewFeed = () => {
   return (
     <div>
       <Head>
-        <title>Suggestion - Peoples Nect</title>
+        <title>Profile - Peoples Nect</title>
         <meta name="description" content="Connect peoples proffasoinaly" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -28,7 +28,7 @@ const ProfileViewFeed = () => {
               <ProfileTopCard />
             </div>
             <div className="w-72 hidden md:block lg:block">
-              <div className=" sticky top-20">
+              <div className=" sticky top-20 z-20">
               <ProfileSideBarFeed />
               </div>
             </div>
