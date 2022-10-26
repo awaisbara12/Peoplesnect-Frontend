@@ -177,7 +177,6 @@ const NewsPostProfile = ({ setList }) => {
                 className="rounded-full"
               />
             </div>
-
             <textarea
               type="text"
               name="post-text"

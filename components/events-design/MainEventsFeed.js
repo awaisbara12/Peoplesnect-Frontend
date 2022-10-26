@@ -30,7 +30,7 @@ const MainEventsFeed = () => {
             </div>
             <div className="w-72 hidden md:block lg:block">
               <ProfileCard />
-              <div className="sticky top-20 z-50">
+              <div className="sticky top-20">
               <EventsCard/>
               <SugestedUser />
               </div>

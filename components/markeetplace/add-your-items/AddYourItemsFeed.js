@@ -29,7 +29,7 @@ const AddYourItemsFeed = () => {
               <AddYourItems />
             </div>
             <div className="w-72 hidden md:block lg:block">
-            <div className="sticky top-20">
+            <div className="sticky top-20 z-20">
               <MarkeetPlaceSideBar />
               <MarkeetplaceSuggestion />
               <FooterNewsFeed />
