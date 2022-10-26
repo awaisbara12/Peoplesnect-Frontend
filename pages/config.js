@@ -16,6 +16,7 @@ export const COMMENT_API_KEY = process.env.NEXT_PUBLIC_COMMENTS_API;
 export const NEWSFEED_COMMENT_POST_KEY = process.env.NEXT_PUBLIC_NEWSFEED_COMMENTS_POST_API;
 export const SUGGESTED_USER_API = process.env.NEXT_PUBLIC_SUGGESTED_USERS;
 export const FOLLOW_USER_API = process.env.NEXT_PUBLIC_FOLLOW_API;
+export const FOLLOW_REQUEST_USER_API = process.env.NEXT_PUBLIC_FOLLOW_REQUEST_API;
 
 function Config() {
   return <></>;

@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-
+import { TagsInput } from "react-tag-input-component";
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 
@@ -64,6 +64,7 @@ const AddNewJob = (setList, singleItem) => {
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
   }
+  const [Skills, setSkills] = useState(["papaya"]);
   const [loading, setLoading] = useState(false);
   const [postText, setPostText] = useState("");
   const [eventCoverImage, setEventCoverImage] = useState([]);
@@ -76,6 +77,15 @@ const AddNewJob = (setList, singleItem) => {
   const [feedType, setFeedType] = useState("basic");
   const [eventType, setEventType] = useState();
   const [videoSrc, setVideoSrc] = useState([]);
+  const [items, setItems] = useState(singleItem.items);
+  const [Job_Title, setJob_Title] = useState();
+  const [Company_Name, setCompany_Name] = useState();
+  const [Workplace_Type, setWorkplace_Type] = useState("Hybrid");
+  const [Job_Location, setJob_Location] = useState();
+  const [Employment_Type, setEmployment_Type] = useState("Internship")
+  const [Description, setDescription] = useState()
+  const [Email, setEmail] = useState()
+  const [Question, setQuestion] = useState()
   const [videoPreview, setVideoPreview] = useState();
   let [isOpen, setIsOpen] = useState(false);
   let [isOpen1, setIsOpen1] = useState(false);
@@ -170,8 +180,8 @@ const AddNewJob = (setList, singleItem) => {
     setVideoPreview("");
     onSubmit();
   }
+  
 //**********/ Modals **********//
-
   function closeModal() {
     setIsOpen(false);
   }
@@ -179,6 +189,7 @@ const AddNewJob = (setList, singleItem) => {
   function openModal() {
     setIsOpen(true);
   }
+
   function closeModal1() {
     setIsOpen1(false);
   }
@@ -195,14 +206,11 @@ const AddNewJob = (setList, singleItem) => {
     setIsOpen2(true);
   }
 
-
-//**********/ Modals **********//
-
-  const [items, setItems] = useState(singleItem.items);
-
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
   }
+  
+   
   return (
     <div className="add_new_button sticky top-16 text-right">
       <Link href="" className="">
@@ -266,21 +274,26 @@ const AddNewJob = (setList, singleItem) => {
                                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmfor="grid-first-name">
                                   Job Title
                                 </label>
-                                <input className="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="text" placeholder="Job Title"/>
+                                <input className="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name"
+                                  type="text" placeholder="Job Title"
+                                  onChange={e=>setJob_Title(e.target.value)}/>
                               </div>
                               <div className="grid grid-cols-2 gap-4 mt-8">
                               <div className="">
                                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmfor="grid-last-name">
                                   Company Name
                                 </label>
-                                <input className="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Company Name"/>
+                                <input className="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" 
+                                type="text" placeholder="Company Name"
+                                onChange={e=>setCompany_Name(e.target.value)}/>
                               </div>
                               <div className="">
                                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmfor="grid-state">
                                   Workplace Type
                                 </label>
                                 <div className="relative">
-                                  <select className="block appearance-none w-full bg-zinc-100 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                                  <select className="block appearance-none w-full bg-zinc-100 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
+                                  id="grid-state" onChange={e=>setWorkplace_Type(e.target.value)}>
                                     <option>Hybrid</option>
                                     <option>On Site</option>
                                     <option>Remote</option>
@@ -293,14 +306,17 @@ const AddNewJob = (setList, singleItem) => {
                                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmfor="grid-last-name">
                                   Job Location
                                 </label>
-                                <input className="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Job Location"/>
+                                <input className="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name"
+                                 type="text" placeholder="Job Location"
+                                 onChange={e=>setJob_Location(e.target.value)}/>
                               </div>
                               <div className="">
                                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmfor="grid-state">
                                   Employment Type
                                 </label>
                                 <div className="relative">
-                                  <select className="block appearance-none w-full bg-zinc-100 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                                  <select className="block appearance-none w-full bg-zinc-100 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                   id="grid-state" onChange={e=>setEmployment_Type(e.target.value)}>
                                     <option>Internship</option>
                                     <option>Temporary</option>
                                     <option>Full Time</option>
@@ -375,11 +391,21 @@ const AddNewJob = (setList, singleItem) => {
                                               <textarea
                                                 rows={5}
                                                 cols={80}
+                                                onChange={e=>setDescription(e.target.value)}
                                                 className="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                               />
                                               </div>
                                               <div className="mt-8">
-                                                <ApplyJob />
+                                              <div>
+                                                  <h1 className="mb-2">Add Skills</h1>
+                                                  <TagsInput
+                                                    value={Skills}
+                                                    onChange={setSkills}
+                                                    name="skills"
+                                                    placeHolder="Add Skills"
+                                                  />
+                                                  <em>press enter to add new Skill</em>
+                                                </div>
                                               </div>
                                         </form>
                                         <div className="flex gap-4 justify-end">
@@ -449,13 +475,17 @@ const AddNewJob = (setList, singleItem) => {
                                                           <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmfor="grid-last-name">
                                                             Email
                                                           </label>
-                                                          <input className="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="email" placeholder="Email"/>
+                                                          <input className="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                                           id="grid-last-name" type="email" placeholder="Email"
+                                                           onChange={e=>setEmail(e.target.value)}/>
                                                         </div>
                                                         <div className="mt-8">
                                                           <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmfor="grid-last-name">
                                                             Add Your Question
                                                           </label>
-                                                          <input className="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Add Your Question"/>
+                                                          <input className="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
+                                                          id="grid-last-name" type="text" placeholder="Add Your Question"
+                                                          onChange={e=>setQuestion(e.target.value)}/>
                                                         </div>
                                                       </div>
                                                   </form>
