@@ -341,7 +341,6 @@ const Signup = () => {
                   <button
                     type="submit"
                     className="bg-indigo-400 flex gap-2 items-center justify-center text-white text-xl text-center cursor-pointer font-semibold w-full py-2 rounded-full mt-6"
-
                   >
                     Join Now {spinner && true ? <Spinner /> : ""}
                   </button>
