@@ -11,7 +11,8 @@ import dynamic from 'next/dynamic'
 import { 
   FOLLOW_USER_API, 
   SUGGESTED_USER_API,
-  FOLLOW_REQUEST_USER_API
+  FOLLOW_REQUEST_USER_API,
+  CURENT_USER_LOGIN_API
 } from "../../pages/config";
 
 function PeendingRequest() {
@@ -20,28 +21,50 @@ function PeendingRequest() {
   const { data: user } = useSelector((state) => state.user);
   const [userDetails, setUserDetails] = useState();
   if (typeof window !== "undefined") {
-    var authKey = window.localStorage.getItem("keyStore");
-    //var userId = window.localStorage.setItem("userData", JSON.stringify(user));
+    // Bareer Key
+    var authKey = window.localStorage.getItem("keyStore"); 
   }
-  const Current_User_Details=()=>{
+  //Get Current User Detail
+  const Current_User=async()=>{    
    
-      localStorage.setItem("userData", JSON.stringify(user));
-      setUserDetails(JSON.parse(localStorage.getItem("userData")));
-      console.log("Current_User", JSON.parse(localStorage.getItem("userData")));
-      
-    
+    await fetch(CURENT_USER_LOGIN_API, {
+      method: "GET",
+       headers: {
+        Accept: "application/json", 
+         Authorization: `${authKey}`,
+       },
+    })
+       .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          setUserDetails(result.data.id);  
+          //console.log("Current Userss",result.data.id)
+        }
+      })
+      .catch((err) => console.log(err)); 
   }
-  const SendFollow=async(userId)=>
-  {      alert(userId);
-    const requestOptions = {
-      method: 'POST',
-      headers:{Accept: "application/json", Authorization: `${authKey}`},
-    };
-    const response = await fetch(`${FOLLOW_REQUEST_USER_API}?follow_requests[receiver_id]=${userId}`,requestOptions);
-    const data = await response.json();
-    console.log( data );
-  }
-  
+   // Show All PeopleNeact's Users 
+   const ShowUsers=async()=>
+   {   
+     await fetch(SUGGESTED_USER_API, {
+       method: "GET",
+       headers: {
+         Accept: "application/json", 
+         Authorization: `${authKey}`,
+       },
+     })
+       .then((resp) => resp.json())
+       .then((result) => {
+         if (result) {
+           setUserList(result.data);  
+           console.log("All Users",result)
+         }
+       })
+       .catch((err) => console.log(err));
+ 
+       
+   } 
+    //Show All Pending Follow Request
   const PendingFollowRequest=async()=>
   {   
     await fetch(FOLLOW_REQUEST_USER_API, {
@@ -55,46 +78,43 @@ function PeendingRequest() {
       .then((result) => {
         if (result) {
           setUser_Request(result.data);
-         // console.log("Requests check",result.data);  
+         console.log("Requests check",result.data);  
           //console.log(UserList)
                    
         }
       })
       .catch((err) => console.log('err ha'));      
   } 
-
-  const ShowUsers=async()=>
-  {   
-    await fetch(SUGGESTED_USER_API, {
-      method: "GET",
-      headers: {
-        Accept: "application/json", 
-        Authorization: `${authKey}`,
-      },
-    })
-      .then((resp) => resp.json())
-      .then((result) => {
-        if (result) {
-          setUserList(result.userlists);  
-          console.log("All Users",UserList)
-        }
-      })
-      .catch((err) => console.log(err));
-
-      
-  } 
-
+ // Send Follow Request
+  const SendFollow=async(userId)=>
+  {      
+    const requestOptions = {
+      method: 'POST',
+      headers:{Accept: "application/json", Authorization: `${authKey}` },
+    };
+    const response = await fetch(`${FOLLOW_REQUEST_USER_API}?follow_requests[receiver_id]=${userId}`,requestOptions);
+    const data = await response.json();
+    console.log("Send", data );
+    PendingFollowRequest();
+    ShowUsers();
+    alert("Send Follow Request");
+  }
+  //Ignore & Accept Follow Request
+  const ActionOnFollowRequest=async(id,status)=>{
+    const requestOptions = {
+      method: 'PATCH',
+      headers:{Accept: "application/json", Authorization: `${authKey}`},
+    };
+    const response = await fetch(`${FOLLOW_REQUEST_USER_API}/${id}?follow_requests[status]=${status}`,requestOptions);
+    PendingFollowRequest(); // update Pending Request
+    //console.log( "Id ha yeh", user_request  )
+  }
  
   useEffect(() => {
-    // Update the document title using the browser API
-    
-    
-    Current_User_Details();
-    ShowUsers();
-    PendingFollowRequest()
-    
-   
-  },[2]);
+    Current_User(); // Get Current User
+    ShowUsers();            // Show All User
+    PendingFollowRequest()  // Show Pending Request
+  },[]);
   
   return (
     <div className="mt-8">
@@ -108,13 +128,13 @@ function PeendingRequest() {
               </button>
             </div>
           </div>
-          {
+          {  // Show all Follow request
             Object.values(user_request).map((items)=>{
-              if(userDetails.user)
-              {  if(userDetails.user.id!=items.sender.id)
+              if(userDetails)
+              {  if(userDetails!=items.sender.id && items.status=="pending")
                 {
               return(
-              <div className="border-b-1">
+              <div className="border-b-1"key="{items.id}">
               <div className="request-profile flex  px-4 py-3 justify-between items-center">
                 <div className="flex items-center gap-3">
                   <Link href="/news-feed">
@@ -137,10 +157,12 @@ function PeendingRequest() {
                   </div>
                 </div>
                 <div className="Request-button flex items-center gap-2">
-                  <button className="border-1 border-indigo-400 rounded-full text-indigo-400 px-3 py-1 hover:bg-indigo-400 hover:text-white">
+                  <button className="border-1 border-indigo-400 rounded-full text-indigo-400 px-3 py-1 hover:bg-indigo-400 hover:text-white"
+                    onClick={()=>ActionOnFollowRequest(items.id,"accepted")}>
                     Accept
                   </button>
-                  <button className="text-gray-600 border-1 border-gray-600 rounded-full px-3 py-1 hover:bg-gray-600 hover:text-white">
+                  <button className="text-gray-600 border-1 border-gray-600 rounded-full px-3 py-1 hover:bg-gray-600 hover:text-white"
+                    onClick={()=>ActionOnFollowRequest(items.id,"cancelled")}>
                     Ignore
                   </button>
                 </div>
@@ -151,102 +173,7 @@ function PeendingRequest() {
             })
           }
           
-          {/* <div className="border-b-1">
-            <div className="request-profile flex  px-4 py-3 justify-between items-center">
-              <div className="flex items-center gap-3">
-                <Link href="/news-feed">
-                  <a>
-                    <Image src={ProfileAvatar} width={35} height={35} alt="" />
-                  </a>
-                </Link>
-                <div className="">
-                  <a href="">
-                    <div className="username text-sm font-bold">User Name</div>
-                  </a>
-                  <a href="">
-                    <div className="userfield text-xs">User Belong To</div>
-                  </a>
-                  <a href="">
-                    <div className="mutual-followers text-xs">
-                      Matual Friends +3
-                    </div>
-                  </a>
-                </div>
-              </div>
-              <div className="Request-button flex items-center gap-2">
-                <button className="border-1 border-indigo-400 rounded-full text-indigo-400 px-3 py-1 hover:bg-indigo-400 hover:text-white">
-                  Accept
-                </button>
-                <button className="text-gray-600 border-1 border-gray-600 rounded-full px-3 py-1 hover:bg-gray-600 hover:text-white">
-                  Ignore
-                </button>
-              </div>
-            </div>
-          </div>
-          <div className="border-b-1">
-            <div className="request-profile flex  px-4 py-3 justify-between items-center">
-              <div className="flex items-center gap-3">
-                <Link href="/news-feed">
-                  <a>
-                    <Image src={ProfileAvatar} width={35} height={35} alt="" />
-                  </a>
-                </Link>
-                <div className="">
-                  <a href="">
-                    <div className="username text-sm font-bold">User Name</div>
-                  </a>
-                  <a href="">
-                    <div className="userfield text-xs">User Belong To</div>
-                  </a>
-                  <a href="">
-                    <div className="mutual-followers text-xs">
-                      Matual Friends +3
-                    </div>
-                  </a>
-                </div>
-              </div>
-              <div className="Request-button flex items-center gap-2">
-                <button className="border-1 border-indigo-400 rounded-full text-indigo-400 px-3 py-1 hover:bg-indigo-400 hover:text-white">
-                  Accept
-                </button>
-                <button className="text-gray-600 border-1 border-gray-600 rounded-full px-3 py-1 hover:bg-gray-600 hover:text-white">
-                  Ignore
-                </button>
-              </div>
-            </div>
-          </div>
-          <div className="border-b-1">
-            <div className="request-profile flex  px-4 py-3 justify-between items-center">
-              <div className="flex items-center gap-3">
-                <Link href="/news-feed">
-                  <a>
-                    <Image src={ProfileAvatar} width={35} height={35} alt="" />
-                  </a>
-                </Link>
-                <div className="">
-                  <a href="">
-                    <div className="username text-sm font-bold">User Name</div>
-                  </a>
-                  <a href="">
-                    <div className="userfield text-xs">User Belong To</div>
-                  </a>
-                  <a href="">
-                    <div className="mutual-followers text-xs">
-                      Matual Friends +3
-                    </div>
-                  </a>
-                </div>
-              </div>
-              <div className="Request-button flex items-center gap-2">
-                <button className="border-1 border-indigo-400 rounded-full text-indigo-400 px-3 py-1 hover:bg-indigo-400 hover:text-white">
-                  Accept
-                </button>
-                <button className="text-gray-600 border-1 border-gray-600 rounded-full px-3 py-1 hover:bg-gray-600 hover:text-white">
-                  Ignore
-                </button>
-              </div>
-            </div>
-          </div>
+          {/*   Follow Request show Demo
           <div className="border-b-1">
             <div className="request-profile flex  px-4 py-3 justify-between items-center">
               <div className="flex items-center gap-3">
@@ -291,16 +218,19 @@ function PeendingRequest() {
               </div>
             </div>
             <div className="grid grid-cols-1 gap-6 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2">
-
               {
               Object.values(UserList).map((e)=>
                  { if(!e.recent_company)
                      {
                       e.recent_company="Not Available"
                      }
+                     if(!e.followers_count)
+                     {
+                      e.followers_count="0"
+                     }
                      //if(e.first_name=="Friend")
                   return(
-                    <div className="profile mt-10 border rounded-xl">
+                    <div className="profile mt-10 border rounded-xl" key = {e.id}>
                     <div className="relative cover">
                       <Link href="/news-feed">
                         <a>
@@ -336,7 +266,7 @@ function PeendingRequest() {
                     </div>
                     <div className="Details px-4 ">
                       <div className="ml-24">
-                        <div className="User-Name font-bold ">{e.first_name}</div>
+                        <div className="User-Name font-bold ">{e.first_name} {e.last_name}</div>
                         <div className="Locations font-extralight">
                            {e.recent_company}
                         </div>
@@ -355,11 +285,8 @@ function PeendingRequest() {
                     </div>
                  );}
                   
-              )
-              }
-              
-              
-              
+              )}
+           
             </div>
           </div>
         </div>
