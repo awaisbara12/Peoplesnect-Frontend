@@ -172,7 +172,7 @@ const PagesBottomBar = () => {
           <Link href="/notifications">
             <a className="flex flex-col items-center">
             <div className="relative">
-                  <BellIcon className="h-5 w-5" />
+                  <BellIcon className="h-7 w-7" />
                   <div className="bg-red-400 h-4 w-4 text-white -top-1 left-3 rounded-full flex justify-center items-center absolute">
                     <p className="text-[8px]">2</p>
                   </div>

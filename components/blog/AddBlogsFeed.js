@@ -10,6 +10,7 @@ import BlogsNav from "../news-feed/navbar/mobile-navbar/BlogsNav";
 import EventsCard from "../news-feed/eventcard/EventsCard";
 import FooterNewsFeed from "../news-feed/newsfeed/newsfeedfooter/FooterNewsFeed";
 import TopNavbar from "../news-feed/navbar/TopNavbar";
+import NewPost from "./NewPost";
 
 const AddBlogsFeed = () => {
   return (
@@ -27,12 +28,11 @@ const AddBlogsFeed = () => {
           </div>
           <div className="flex xl:px-0 lg:px-4 md:px-8 sm:px-0 gap-[65px] lg:gap-6 md:gap-4 justify-between">
             <div className="h-full bg-zinc-100 md:bg-transparent lg:bg-transparent xl:bg-transparent px-4 md:px-0 lg-px-0 xl:px-0">
-              <BlogPosts />
+              <NewPost />
             </div>
             <div className="w-72 hidden md:block lg:block">
               <EventsCard />
               <FooterNewsFeed />
-              <AddNewBlog />
             </div>
           </div>
         </div>

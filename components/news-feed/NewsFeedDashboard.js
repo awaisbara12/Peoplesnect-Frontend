@@ -68,7 +68,7 @@ const NewsFeedDashboard = () => {
             </div>
             <div className="w-72 md:w-64 hidden md:block lg:block">
               <ProfileCard />
-              <div className="sticky top-20">
+              <div className="sticky top-20 z-20">
               <EventsCard />
               <SugestedUser />
               </div>

@@ -4,6 +4,7 @@ import Image from "next/image";
 import { TagsInput } from "react-tag-input-component";
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
+import Spinner from "../../components/common/Spinner";
 
 import {
   BellIcon,
@@ -61,32 +62,16 @@ const cardDropdown = [
 ];
 
 const AddNewJob = (setList, singleItem) => {
-  if (typeof window !== "undefined") {
-    var authKey = window.localStorage.getItem("keyStore");
-  }
-  const [Skills, setSkills] = useState(["papaya"]);
-  const [loading, setLoading] = useState(false);
-  const [postText, setPostText] = useState("");
-  const [eventCoverImage, setEventCoverImage] = useState([]);
-  const [previewEventCoverImage, setPreviewEventCoverImage] = useState();
-  const [postImage, setPostImage] = useState([]);
-  const [postImagePreview, setpostImagePreview] = useState();
-  const [selectedTimezone, setSelectedTimezone] = useState({});
-  const [inPerson, setInPerson] = useState(false);
-  const [online, setOnline] = useState(false);
-  const [feedType, setFeedType] = useState("basic");
-  const [eventType, setEventType] = useState();
-  const [videoSrc, setVideoSrc] = useState([]);
-  const [items, setItems] = useState(singleItem.items);
-  const [Job_Title, setJob_Title] = useState();
-  const [Company_Name, setCompany_Name] = useState();
-  const [Workplace_Type, setWorkplace_Type] = useState("Hybrid");
-  const [Job_Location, setJob_Location] = useState();
-  const [Employment_Type, setEmployment_Type] = useState("Internship")
-  const [Description, setDescription] = useState()
-  const [Email, setEmail] = useState()
-  const [Question, setQuestion] = useState()
-  const [videoPreview, setVideoPreview] = useState();
+  const [spinner, setSpinner] = useState(false);
+  const [Title, setTitle] = useState();
+  const [Company, setCompany] = useState();
+  const [Workplace, setWorkplace] = useState();
+  const [Location, setLocation] = useState();
+  const [Type, setType] = useState();
+  const [Discripation, setDiscripation] = useState();
+  const [Email, setEmail] = useState();
+
+
   let [isOpen, setIsOpen] = useState(false);
   let [isOpen1, setIsOpen1] = useState(false);
   let [isOpen2, setIsOpen2] = useState(false);
@@ -184,10 +169,16 @@ const AddNewJob = (setList, singleItem) => {
 //**********/ Modals **********//
   function closeModal() {
     setIsOpen(false);
+    
   }
 
   function openModal() {
     setIsOpen(true);
+    setTitle('');
+    setCompany ('');
+    setLocation ('');
+    setWorkplace ('');
+    setType ('');
   }
 
   function closeModal1() {
@@ -255,45 +246,71 @@ const AddNewJob = (setList, singleItem) => {
                   leaveTo="opacity-0 scale-95"
                 >
                   <Dialog.Panel className="w-[620px] bg-white rounded-xl xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0 py-4 text-left align-middle shadow-xl transition-all">
-                    <div className="flex justify-between items-center mx-4">
-                      <Dialog.Title
-                        as="h3"
-                        className="text-lg font-medium leading-6 text-gray-900"
-                      >
-                        Add New Job
-                      </Dialog.Title>
+                    <div className="flex justify-end items-center mx-4">
                       <XIcon
                         onClick={closeModal}
                         className="w-5 h-5 cursor-pointer"
                       />
                     </div>
+                    <div>
+                    <div className="w-full flex flex-row items-center justify-center px-24 py-6">
+                      <div className="stepper-item w-8 h-8 font-medium border-2 rounded-full bg-indigo-400 text-white flex justify-center items-center">
+                        <a href="">1</a>
+                      </div>
+                      <div className="flex-auto border-t-2"></div>
+                      <div className="stepper-item w-8 h-8 text-center font-medium border-2 rounded-full flex justify-center items-center">
+                        2
+                      </div>
+                      <div className="flex-auto border-t-2"></div>
+                      <div className="stepper-item w-8 h-8 text-center font-medium border-2 rounded-full flex justify-center items-center">
+                        3
+                      </div>
+                    </div>
+                  </div>
+                    <Dialog.Title
+                        as="h3"
+                        className="text-lg font-medium leading-6 text-gray-900 px-8"
+                      >
+                        Add New Job
+                      </Dialog.Title>
                       <div className="">
-                        <div className="mt-8 bg-white px-12 py-5 rounded-xl">
+                        <div className="bg-white px-12 py-5 rounded-xl">
                           <form className="w-full">
                               <div className="">
                                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmfor="grid-first-name">
                                   Job Title
                                 </label>
-                                <input className="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name"
-                                  type="text" placeholder="Job Title"
-                                  onChange={e=>setJob_Title(e.target.value)}/>
+                                <input className="" 
+                                id="grid-first-name" 
+                                type="text" 
+                                
+                                
+                                onChange={(e)=>setTitle(e.target.value)}
+                                placeholder="Job Title"
+                                className="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                />
                               </div>
                               <div className="grid grid-cols-2 gap-4 mt-8">
                               <div className="">
-                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmfor="grid-last-name">
+                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmfor="grid-last-name"
+                                
+                                >
                                   Company Name
                                 </label>
-                                <input className="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" 
-                                type="text" placeholder="Company Name"
-                                onChange={e=>setCompany_Name(e.target.value)}/>
+                                <input className="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                 id="grid-last-name" type="text" placeholder="Company Name"
+                                 
+                                 onChange={(e)=>setCompany(e.target.value)}/>
                               </div>
                               <div className="">
                                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmfor="grid-state">
                                   Workplace Type
                                 </label>
                                 <div className="relative">
-                                  <select className="block appearance-none w-full bg-zinc-100 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
-                                  id="grid-state" onChange={e=>setWorkplace_Type(e.target.value)}>
+                                  <select className="block appearance-none w-full bg-zinc-100 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                onChange={(e)=>setWorkplace(e.target.value)}
+                                  id="grid-state">
+                                    <option></option>
                                     <option>Hybrid</option>
                                     <option>On Site</option>
                                     <option>Remote</option>
@@ -306,9 +323,9 @@ const AddNewJob = (setList, singleItem) => {
                                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmfor="grid-last-name">
                                   Job Location
                                 </label>
-                                <input className="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name"
-                                 type="text" placeholder="Job Location"
-                                 onChange={e=>setJob_Location(e.target.value)}/>
+                                <input className="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                onChange={(e)=>setLocation(e.target.value)}
+                                id="grid-last-name" type="text" placeholder="Job Location"/>
                               </div>
                               <div className="">
                                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmfor="grid-state">
@@ -316,28 +333,40 @@ const AddNewJob = (setList, singleItem) => {
                                 </label>
                                 <div className="relative">
                                   <select className="block appearance-none w-full bg-zinc-100 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                   id="grid-state" onChange={e=>setEmployment_Type(e.target.value)}>
+                                 onChange={(e)=>setType(e.target.value)}
+                                  id="grid-state">
+                                    <option></option>
                                     <option>Internship</option>
                                     <option>Temporary</option>
                                     <option>Full Time</option>
                                     <option>Part Time</option>
                                     <option>Contract</option>
-
                                   </select>
                                 </div>
                               </div>
                             </div>
                           </form>
                           <div className="flex justify-end">
-                          <Link href="">
-                          <button
-                                onClick={openModal1}
-                                type="submit"
-                                className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
-                              >
-                                Next
-                          </button>
-                          </Link>
+                            {
+                               Title && Company && Workplace && Location && Type?(
+                                <Link href="">
+                                <button
+                                      onClick={openModal1}
+                                      type="submit"
+                                      className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
+                                    >
+                                      Next
+                                </button>
+                                </Link>   
+                               ):(
+                                <button
+                                      type="submit"
+                                      className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-200 cursor-not-allowed"
+                                    >
+                                      Next
+                                </button>
+                               )
+                            }
                           <Transition appear show={isOpen1} as={Fragment}>
                             <Dialog
                               as="div"
@@ -369,20 +398,37 @@ const AddNewJob = (setList, singleItem) => {
                                     leaveTo="opacity-0 scale-95"
                                   >
                                     <Dialog.Panel className="w-[620px] bg-white rounded-xl xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0 py-4 text-left align-middle shadow-xl transition-all">
-                                      <div className="flex justify-between items-center mx-4">
-                                        <Dialog.Title
-                                          as="h3"
-                                          className="text-lg font-medium leading-6 text-gray-900"
-                                        >
-                                          Step 2
-                                        </Dialog.Title>
-                                        <XIcon
+                                    <div className="flex justify-end items-center mx-4">
+                                    <XIcon
+                                      onClick={closeModal1}
+                                      className="w-5 h-5 cursor-pointer"
+                                    />
+                                    </div>
+                                    <div>
+                                      <div className="w-full flex flex-row items-center justify-center px-24 py-6">
+                                        <div className="stepper-item w-8 h-8 font-medium border-2 rounded-full flex justify-center items-center">
+                                          <button
                                           onClick={closeModal1}
-                                          className="w-5 h-5 cursor-pointer"
-                                        />
+                                          >1</button>
+                                        </div>
+                                        <div className="flex-auto border-t-2"></div>
+                                        <div className="stepper-item w-8 h-8 text-center font-medium border-2  bg-indigo-400 text-white  rounded-full flex justify-center items-center">
+                                          2
+                                        </div>
+                                        <div className="flex-auto border-t-2"></div>
+                                        <div className="stepper-item w-8 h-8 text-center font-medium border-2 rounded-full flex justify-center items-center">
+                                          3
+                                        </div>
                                       </div>
-                                      <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
-                                        <div className="mt-8 bg-white px-12 py-5 rounded-xl">
+                                    </div>
+                                    <Dialog.Title
+                                      as="h3"
+                                      className="text-lg font-medium leading-6 text-gray-900 px-8"
+                                    >
+                                      Step Two
+                                    </Dialog.Title>
+                                    <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
+                                      <div className="mt-8 bg-white px-12 py-5 rounded-xl">
                                         <form className="w-full">
                                             <div className="">
                                               <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmfor="grid-first-name">
@@ -391,7 +437,7 @@ const AddNewJob = (setList, singleItem) => {
                                               <textarea
                                                 rows={5}
                                                 cols={80}
-                                                onChange={e=>setDescription(e.target.value)}
+                                                onChange={(e)=>setDiscripation(e.target.value)}
                                                 className="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                               />
                                               </div>
@@ -399,8 +445,8 @@ const AddNewJob = (setList, singleItem) => {
                                               <div>
                                                   <h1 className="mb-2">Add Skills</h1>
                                                   <TagsInput
-                                                    value={Skills}
-                                                    onChange={setSkills}
+                                                    //value={Skills}
+                                                    //onChange={setSkills}
                                                     name="skills"
                                                     placeHolder="Add Skills"
                                                   />
@@ -417,13 +463,26 @@ const AddNewJob = (setList, singleItem) => {
                                             >
                                               Back
                                         </button>
-                                        <button
-                                              onClick={openModal2}
-                                              type="submit"
-                                              className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
-                                            >
-                                              Next
-                                        </button>
+                                        {
+                                          Discripation?(
+                                            <Link href="">
+                                            <button
+                                                  onClick={openModal2}
+                                                  type="submit"
+                                                  className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
+                                                >
+                                                  Next
+                                            </button>
+                                            </Link>   
+                                          ):(
+                                            <button
+                                                  type="submit"
+                                                  className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-200 cursor-not-allowed"
+                                                >
+                                                  Next
+                                            </button>
+                                          )
+                                        }
                                         <Transition appear show={isOpen2} as={Fragment}>
                                           <Dialog
                                             as="div"
@@ -455,18 +514,35 @@ const AddNewJob = (setList, singleItem) => {
                                               leaveTo="opacity-0 scale-95"
                                             >
                                               <Dialog.Panel className="w-[620px] bg-white rounded-xl xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0 py-4 text-left align-middle shadow-xl transition-all">
-                                                <div className="flex justify-between items-center mx-4">
-                                                  <Dialog.Title
-                                                    as="h3"
-                                                    className="text-lg font-medium leading-6 text-gray-900"
-                                                  >
-                                                    Step 3
-                                                  </Dialog.Title>
-                                                  <XIcon
-                                                    onClick={closeModal2}
-                                                    className="w-5 h-5 cursor-pointer"
-                                                  />
+                                              <div className="flex justify-end items-center mx-4">
+                                                <XIcon
+                                                  onClick={closeModal2}
+                                                  className="w-5 h-5 cursor-pointer"
+                                                />
                                                 </div>
+                                                <div>
+                                                  <div className="w-full flex flex-row items-center justify-center px-24 py-6">
+                                                    <div className="stepper-item w-8 h-8 font-medium border-2 rounded-full flex justify-center items-center">
+                                                      1
+                                                    </div>
+                                                    <div className="flex-auto border-t-2"></div>
+                                                    <div className="stepper-item w-8 h-8 text-center font-medium border-2 rounded-full flex justify-center items-center">
+                                                    <button
+                                                      onClick={closeModal2}
+                                                      >2</button>
+                                                    </div>
+                                                    <div className="flex-auto border-t-2"></div>
+                                                    <div className="stepper-item w-8 h-8 text-center font-medium border-2 rounded-full  bg-indigo-400 text-white flex justify-center items-center">
+                                                      3
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <Dialog.Title
+                                                  as="h3"
+                                                  className="text-lg font-medium leading-6 text-gray-900 px-8"
+                                                >
+                                                  Last Step
+                                                </Dialog.Title>
                                                 <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
                                                   <div className="bg-white px-12 py-5 rounded-xl">
                                                   <form className="w-full">
@@ -475,9 +551,9 @@ const AddNewJob = (setList, singleItem) => {
                                                           <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmfor="grid-last-name">
                                                             Email
                                                           </label>
-                                                          <input className="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                                           id="grid-last-name" type="email" placeholder="Email"
-                                                           onChange={e=>setEmail(e.target.value)}/>
+                                                          <input
+                                                        onChange={(e)=>setEmail(e.target.value)}
+                                                          className="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="email" placeholder="Email"/>
                                                         </div>
                                                         <div className="mt-8">
                                                           <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmfor="grid-last-name">
@@ -485,7 +561,8 @@ const AddNewJob = (setList, singleItem) => {
                                                           </label>
                                                           <input className="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
                                                           id="grid-last-name" type="text" placeholder="Add Your Question"
-                                                          onChange={e=>setQuestion(e.target.value)}/>
+                                                          //onChange={e=>setQuestion(e.target.value)}
+                                                          />
                                                         </div>
                                                       </div>
                                                   </form>
@@ -497,12 +574,25 @@ const AddNewJob = (setList, singleItem) => {
                                                       >
                                                         Back
                                                   </button>
-                                                  <button
-                                                        type="submit"
-                                                        className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
-                                                      >
-                                                        Save
-                                                  </button>
+                                                  {
+                                          Email?(
+                                            <Link href="">
+                                            <button
+                                                  type="submit"
+                                                  className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
+                                                >
+                                                  Save
+                                            </button>
+                                            </Link>   
+                                          ):(
+                                            <button
+                                                  type="submit"
+                                                  className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-200 cursor-not-allowed"
+                                                >
+                                                  Save
+                                            </button>
+                                          )
+                                        }
                                                   </div>
                                                   </div>
                                                 </div>
@@ -515,7 +605,7 @@ const AddNewJob = (setList, singleItem) => {
                                     </Transition>
                                         </div>
                                         </div>
-                                      </div>
+                                    </div>
                                     </Dialog.Panel>
                                   </Transition.Child>
                                   
