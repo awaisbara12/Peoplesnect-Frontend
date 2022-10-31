@@ -109,7 +109,7 @@ const ReplyComments = (props) => {
               key={comment.id}
             >
               <div className="flex justify-between">
-                <div className="flex items-start  gap-[10px] mb-5">
+                <div className="flex items-start  gap-[10px]">
                   <Image src={ProfileAvatar} width={38} height={38} alt="" />
                   <div>
                     <span className="text-slate-900 flex gap-[6px] items-center">

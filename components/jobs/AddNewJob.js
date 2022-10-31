@@ -4,6 +4,7 @@ import Image from "next/image";
 
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
+import Spinner from "../../components/common/Spinner";
 
 import {
   BellIcon,
@@ -61,123 +62,34 @@ const cardDropdown = [
 ];
 
 const AddNewJob = (setList, singleItem) => {
-  if (typeof window !== "undefined") {
-    var authKey = window.localStorage.getItem("keyStore");
-  }
-  const [loading, setLoading] = useState(false);
-  const [postText, setPostText] = useState("");
-  const [eventCoverImage, setEventCoverImage] = useState([]);
-  const [previewEventCoverImage, setPreviewEventCoverImage] = useState();
-  const [postImage, setPostImage] = useState([]);
-  const [postImagePreview, setpostImagePreview] = useState();
-  const [selectedTimezone, setSelectedTimezone] = useState({});
-  const [inPerson, setInPerson] = useState(false);
-  const [online, setOnline] = useState(false);
-  const [feedType, setFeedType] = useState("basic");
-  const [eventType, setEventType] = useState();
-  const [videoSrc, setVideoSrc] = useState([]);
-  const [videoPreview, setVideoPreview] = useState();
+  const [spinner, setSpinner] = useState(false);
+  const [Title, setTitle] = useState();
+  const [Company, setCompany] = useState();
+  const [Workplace, setWorkplace] = useState();
+  const [Location, setLocation] = useState();
+  const [Type, setType] = useState();
+  const [Discripation, setDiscripation] = useState();
+  const [Email, setEmail] = useState();
+
+
   let [isOpen, setIsOpen] = useState(false);
   let [isOpen1, setIsOpen1] = useState(false);
   let [isOpen2, setIsOpen2] = useState(false);
 
-
-
-  const handleImageSelect = (e) => {
-    setEventCoverImage(e.target.files[0]);
-    if (e.target.files.length !== 0) {
-      setPreviewEventCoverImage(window.URL.createObjectURL(e.target.files[0]));
-    }
-  };
-
-  const handleImagePost = (e) => {
-    setPostImage(e.target.files[0]);
-    if (e.target.files.length !== 0) {
-      setpostImagePreview(window.URL.createObjectURL(e.target.files[0]));
-    }
-    setFeedType("image_feed");
-  };
-
-  const handleCoverReomve = (e) => {
-    setpostImagePreview(window.URL.revokeObjectURL(e.target.files));
-    setPreviewEventCoverImage(window.URL.revokeObjectURL(e.target.files));
-    setVideoPreview(window.URL.revokeObjectURL(e.target.files));
-  };
-
-  const handleVideo = (e) => {
-    setFeedType("video_feed");
-    setVideoSrc(e.target.files[0]);
-    if (e.target.files.length !== 0) {
-      setVideoPreview(URL.createObjectURL(e.target.files[0]));
-    }
-  };
-
-  const onSubmit = () => {
-    resetForm();
-  };
-
-  const {
-    values,
-    errors,
-    touched,
-    handleBlur,
-    handleChange,
-    resetForm,
-  } = useFormik({
-    initialValues: {
-      eventOnline: "online",
-      eventInPerson: "In person",
-      eventName: "",
-      timezone: "",
-      startDate: "",
-      endDate: "",
-      startTime: "",
-      endTime: "",
-      address: "",
-      venue: "",
-      externalLink: "",
-      description: "",
-      speakers: "",
-    },
-    validationSchema: eventScheema,
-  });
-
-  function postNewsData(e) {
-    e.preventDefault();
-
-    setLoading(true);
-    fetch(POST_NEWSFEED_API_KEY, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        Authorization: `${authKey}`,
-      },
-      body: dataForm,
-    })
-      .then((resp) => resp.json())
-      .then((result) => {
-        if (result) {
-          setList(result);
-          setLoading(false);
-        }
-      })
-      .catch((err) => console.log(err));
-    setFeedType("basic");
-    setPostText("");
-    setpostImagePreview("");
-    setEventCoverImage("");
-    setVideoSrc("");
-    setVideoPreview("");
-    onSubmit();
-  }
 //**********/ Modals **********//
 
   function closeModal() {
     setIsOpen(false);
+    
   }
 
   function openModal() {
     setIsOpen(true);
+    setTitle('');
+    setCompany ('');
+    setLocation ('');
+    setWorkplace ('');
+    setType ('');
   }
   function closeModal1() {
     setIsOpen1(false);
@@ -281,21 +193,37 @@ const AddNewJob = (setList, singleItem) => {
                                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmfor="grid-first-name">
                                   Job Title
                                 </label>
-                                <input className="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="text" placeholder="Job Title"/>
+                                <input className="" 
+                                id="grid-first-name" 
+                                type="text" 
+                                
+                                
+                                onChange={(e)=>setTitle(e.target.value)}
+                                placeholder="Job Title"
+                                className="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                />
                               </div>
                               <div className="grid grid-cols-2 gap-4 mt-8">
                               <div className="">
-                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmfor="grid-last-name">
+                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmfor="grid-last-name"
+                                
+                                >
                                   Company Name
                                 </label>
-                                <input className="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Company Name"/>
+                                <input className="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                 id="grid-last-name" type="text" placeholder="Company Name"
+                                 
+                                 onChange={(e)=>setCompany(e.target.value)}/>
                               </div>
                               <div className="">
                                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmfor="grid-state">
                                   Workplace Type
                                 </label>
                                 <div className="relative">
-                                  <select className="block appearance-none w-full bg-zinc-100 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                                  <select className="block appearance-none w-full bg-zinc-100 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                onChange={(e)=>setWorkplace(e.target.value)}
+                                  id="grid-state">
+                                    <option></option>
                                     <option>Hybrid</option>
                                     <option>On Site</option>
                                     <option>Remote</option>
@@ -308,14 +236,19 @@ const AddNewJob = (setList, singleItem) => {
                                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmfor="grid-last-name">
                                   Job Location
                                 </label>
-                                <input className="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Job Location"/>
+                                <input className="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                onChange={(e)=>setLocation(e.target.value)}
+                                id="grid-last-name" type="text" placeholder="Job Location"/>
                               </div>
                               <div className="">
                                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmfor="grid-state">
                                   Employment Type
                                 </label>
                                 <div className="relative">
-                                  <select className="block appearance-none w-full bg-zinc-100 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                                  <select className="block appearance-none w-full bg-zinc-100 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                 onChange={(e)=>setType(e.target.value)}
+                                  id="grid-state">
+                                    <option></option>
                                     <option>Internship</option>
                                     <option>Temporary</option>
                                     <option>Full Time</option>
@@ -327,15 +260,26 @@ const AddNewJob = (setList, singleItem) => {
                             </div>
                           </form>
                           <div className="flex justify-end">
-                          <Link href="">
-                          <button
-                                onClick={openModal1}
-                                type="submit"
-                                className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
-                              >
-                                Next
-                          </button>
-                          </Link>
+                            {
+                               Title && Company && Workplace && Location && Type?(
+                                <Link href="">
+                                <button
+                                      onClick={openModal1}
+                                      type="submit"
+                                      className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
+                                    >
+                                      Next
+                                </button>
+                                </Link>   
+                               ):(
+                                <button
+                                      type="submit"
+                                      className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-200 cursor-not-allowed"
+                                    >
+                                      Next
+                                </button>
+                               )
+                            }
                           <Transition appear show={isOpen1} as={Fragment}>
                             <Dialog
                               as="div"
@@ -368,7 +312,7 @@ const AddNewJob = (setList, singleItem) => {
                                   >
                                     <Dialog.Panel className="w-[620px] bg-white rounded-xl xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0 py-4 text-left align-middle shadow-xl transition-all">
                                     <div className="flex justify-end items-center mx-4">
-                        `            <XIcon
+                                    <XIcon
                                       onClick={closeModal1}
                                       className="w-5 h-5 cursor-pointer"
                                     />
@@ -406,6 +350,7 @@ const AddNewJob = (setList, singleItem) => {
                                               <textarea
                                                 rows={5}
                                                 cols={80}
+                                                onChange={(e)=>setDiscripation(e.target.value)}
                                                 className="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                               />
                                               </div>
@@ -422,13 +367,26 @@ const AddNewJob = (setList, singleItem) => {
                                             >
                                               Back
                                         </button>
-                                        <button
-                                              onClick={openModal2}
-                                              type="submit"
-                                              className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
-                                            >
-                                              Next
-                                        </button>
+                                        {
+                                          Discripation?(
+                                            <Link href="">
+                                            <button
+                                                  onClick={openModal2}
+                                                  type="submit"
+                                                  className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
+                                                >
+                                                  Next
+                                            </button>
+                                            </Link>   
+                                          ):(
+                                            <button
+                                                  type="submit"
+                                                  className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-200 cursor-not-allowed"
+                                                >
+                                                  Next
+                                            </button>
+                                          )
+                                        }
                                         <Transition appear show={isOpen2} as={Fragment}>
                                           <Dialog
                                             as="div"
@@ -461,7 +419,7 @@ const AddNewJob = (setList, singleItem) => {
                                             >
                                               <Dialog.Panel className="w-[620px] bg-white rounded-xl xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0 py-4 text-left align-middle shadow-xl transition-all">
                                               <div className="flex justify-end items-center mx-4">
-                                    `            <XIcon
+                                                <XIcon
                                                   onClick={closeModal2}
                                                   className="w-5 h-5 cursor-pointer"
                                                 />
@@ -497,7 +455,9 @@ const AddNewJob = (setList, singleItem) => {
                                                           <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmfor="grid-last-name">
                                                             Email
                                                           </label>
-                                                          <input className="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="email" placeholder="Email"/>
+                                                          <input
+                                                        onChange={(e)=>setEmail(e.target.value)}
+                                                          className="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="email" placeholder="Email"/>
                                                         </div>
                                                         <div className="mt-8">
                                                           <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmfor="grid-last-name">
@@ -515,12 +475,25 @@ const AddNewJob = (setList, singleItem) => {
                                                       >
                                                         Back
                                                   </button>
-                                                  <button
-                                                        type="submit"
-                                                        className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
-                                                      >
-                                                        Save
-                                                  </button>
+                                                  {
+                                          Email?(
+                                            <Link href="">
+                                            <button
+                                                  type="submit"
+                                                  className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
+                                                >
+                                                  Save
+                                            </button>
+                                            </Link>   
+                                          ):(
+                                            <button
+                                                  type="submit"
+                                                  className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-200 cursor-not-allowed"
+                                                >
+                                                  Save
+                                            </button>
+                                          )
+                                        }
                                                   </div>
                                                   </div>
                                                 </div>
