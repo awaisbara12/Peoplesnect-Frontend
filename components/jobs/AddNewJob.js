@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-
+import { TagsInput } from "react-tag-input-component";
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import Spinner from "../../components/common/Spinner";
@@ -76,8 +76,97 @@ const AddNewJob = (setList, singleItem) => {
   let [isOpen1, setIsOpen1] = useState(false);
   let [isOpen2, setIsOpen2] = useState(false);
 
-//**********/ Modals **********//
 
+
+  const handleImageSelect = (e) => {
+    setEventCoverImage(e.target.files[0]);
+    if (e.target.files.length !== 0) {
+      setPreviewEventCoverImage(window.URL.createObjectURL(e.target.files[0]));
+    }
+  };
+
+  const handleImagePost = (e) => {
+    setPostImage(e.target.files[0]);
+    if (e.target.files.length !== 0) {
+      setpostImagePreview(window.URL.createObjectURL(e.target.files[0]));
+    }
+    setFeedType("image_feed");
+  };
+
+  const handleCoverReomve = (e) => {
+    setpostImagePreview(window.URL.revokeObjectURL(e.target.files));
+    setPreviewEventCoverImage(window.URL.revokeObjectURL(e.target.files));
+    setVideoPreview(window.URL.revokeObjectURL(e.target.files));
+  };
+
+  const handleVideo = (e) => {
+    setFeedType("video_feed");
+    setVideoSrc(e.target.files[0]);
+    if (e.target.files.length !== 0) {
+      setVideoPreview(URL.createObjectURL(e.target.files[0]));
+    }
+  };
+
+  const onSubmit = () => {
+    resetForm();
+  };
+
+  const {
+    values,
+    errors,
+    touched,
+    handleBlur,
+    handleChange,
+    resetForm,
+  } = useFormik({
+    initialValues: {
+      eventOnline: "online",
+      eventInPerson: "In person",
+      eventName: "",
+      timezone: "",
+      startDate: "",
+      endDate: "",
+      startTime: "",
+      endTime: "",
+      address: "",
+      venue: "",
+      externalLink: "",
+      description: "",
+      speakers: "",
+    },
+    validationSchema: eventScheema,
+  });
+
+  function postNewsData(e) {
+    e.preventDefault();
+
+    setLoading(true);
+    fetch(POST_NEWSFEED_API_KEY, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
+      body: dataForm,
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          setList(result);
+          setLoading(false);
+        }
+      })
+      .catch((err) => console.log(err));
+    setFeedType("basic");
+    setPostText("");
+    setpostImagePreview("");
+    setEventCoverImage("");
+    setVideoSrc("");
+    setVideoPreview("");
+    onSubmit();
+  }
+  
+//**********/ Modals **********//
   function closeModal() {
     setIsOpen(false);
     
@@ -91,6 +180,7 @@ const AddNewJob = (setList, singleItem) => {
     setWorkplace ('');
     setType ('');
   }
+
   function closeModal1() {
     setIsOpen1(false);
   }
@@ -107,14 +197,11 @@ const AddNewJob = (setList, singleItem) => {
     setIsOpen2(true);
   }
 
-
-//**********/ Modals **********//
-
-  const [items, setItems] = useState(singleItem.items);
-
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
   }
+  
+   
   return (
     <div className="add_new_button sticky top-16 text-right">
       <Link href="" className="">
@@ -355,7 +442,16 @@ const AddNewJob = (setList, singleItem) => {
                                               />
                                               </div>
                                               <div className="mt-8">
-                                                <ApplyJob />
+                                              <div>
+                                                  <h1 className="mb-2">Add Skills</h1>
+                                                  <TagsInput
+                                                    //value={Skills}
+                                                    //onChange={setSkills}
+                                                    name="skills"
+                                                    placeHolder="Add Skills"
+                                                  />
+                                                  <em>press enter to add new Skill</em>
+                                                </div>
                                               </div>
                                         </form>
                                         <div className="flex gap-4 justify-end">
@@ -463,7 +559,10 @@ const AddNewJob = (setList, singleItem) => {
                                                           <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmfor="grid-last-name">
                                                             Add Your Question
                                                           </label>
-                                                          <input className="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Add Your Question"/>
+                                                          <input className="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
+                                                          id="grid-last-name" type="text" placeholder="Add Your Question"
+                                                          //onChange={e=>setQuestion(e.target.value)}
+                                                          />
                                                         </div>
                                                       </div>
                                                   </form>

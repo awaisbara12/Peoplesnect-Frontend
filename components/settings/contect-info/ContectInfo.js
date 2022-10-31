@@ -1,5 +1,11 @@
 import React from "react";
-
+import {
+  POST_NEWSFEED_API_KEY,
+  BOOKMARK_NEWSFEED_API_KEY,
+  REACTION_NEWSFEED_API_KEY,
+  COMMENT_API_KEY,
+  NEWSFEED_COMMENT_POST_KEY,
+} from "../../../pages/config";
 const ContectInfo = () => {
   return (
     <div>
