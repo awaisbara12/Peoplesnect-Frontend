@@ -4,7 +4,7 @@ import React, { useState, useEffect, Fragment } from "react";
 import { useRouter } from "next/router";
 import TimezoneSelect, { allTimezones } from "react-timezone-select";
 import Image from "next/image";
-import ProfileAvatar from "../../public/images/profile-girl.jpg";
+import ProfileAvatar from "../../public/images/profile-avatar.png";
 import {
   PhotographIcon,
   VideoCameraIcon,
@@ -25,7 +25,6 @@ import ImageUpload from "image-upload-react";
 import Link from "next/link";
 import Spinner from "../common/Spinner";
 import axios from "axios";
-import NewsFeedUserCard from "../news-feed/newsfeed/feedcard/NewsFeedUserCard";
 
 const NewsPostProfile = ({ setList }) => {
   if (typeof window !== "undefined") {
@@ -163,10 +162,10 @@ const NewsPostProfile = ({ setList }) => {
   }
 
   return (
-    <div className="mt-7 z-50">
-      <div className="w-full rounded-xl bg-white p-[22px]">
+    <div className="mt-8 z-20">
+      <div className="w-[600px] xl:w-[980px] lg:w-[730px] md:w-[780px] rounded-xl bg-white p-[22px]">
         <form onSubmit={postNewsData}>
-          <div className="w-full flex gap-[20px]">
+          <div className="w-full flex justify-start gap-[22px]">
             <div className="w-[42px] h-[42px]">
               <Image
                 src={ProfileAvatar}
@@ -174,9 +173,9 @@ const NewsPostProfile = ({ setList }) => {
                 height={42}
                 placeholder="empty"
                 alt="profile-image"
-                className="rounded-full"
               />
             </div>
+
             <textarea
               type="text"
               name="post-text"
@@ -261,9 +260,9 @@ const NewsPostProfile = ({ setList }) => {
           )}
 
           <div className="flex justify-between items-center border-t-1 pt-2">
-            <div className="flex items-center gap-6">
-              <div className="">
-                <div className="relative flex gap-2 items-center justify-center">
+            <div className="flex items-center gap-3 md:gap-6">
+              <div className="relative flex gap-1 md:gap-2 items-center justify-center">
+                <div className="relative flex items-center justify-center">
                   <PhotographIcon
                     width={22}
                     height={22}
@@ -273,7 +272,6 @@ const NewsPostProfile = ({ setList }) => {
                         : `text-indigo-400 cursor-pointer`
                     }
                   />
-                  <div className="font-extralight">Photo Upload</div>
                   <input
                     type={
                       values.eventName || (videoPreview && true) ? `` : `file`
@@ -286,9 +284,10 @@ const NewsPostProfile = ({ setList }) => {
                     multiple
                   />
                 </div>
+                <div className="font-extralight">Photo Upload</div>
               </div>
-              <div className="">
-                <div className="relative flex gap-2 items-center justify-center">
+              <div className="relative flex gap-1 md:gap-2 items-center justify-center">
+                <div className="relative flex items-center justify-center">
                   <VideoCameraIcon
                     width={22}
                     height={22}
@@ -298,7 +297,6 @@ const NewsPostProfile = ({ setList }) => {
                         : `text-indigo-400 cursor-pointer`
                     }
                   />
-                  <div className="font-extralight">Video Upload</div>
 
                   <input
                     type={
@@ -313,9 +311,10 @@ const NewsPostProfile = ({ setList }) => {
                     className="opacity-0 absolute w-6 h-6 -z-0"
                   />
                 </div>
+                <div className="font-extralight">Video Upload</div>
               </div>
 
-              <div className="flex gap-2 items-center justify-center border-indigo-500">
+              <div className="flex gap-1 md:gap-2 items-center justify-center border-indigo-500">
                 <CalendarIcon
                   width={22}
                   height={22}
@@ -330,7 +329,7 @@ const NewsPostProfile = ({ setList }) => {
                 />
                 <div className="font-extralight">Events</div>
               </div>
-              <div className="flex gap-2 items-center justify-center border-indigo-500">
+              <div className="flex gap-1 md:gap-2 items-center justify-center border-indigo-500">
                 <div className="icon relative">
                   <Link href="/post/new">
                     <NewspaperIcon
@@ -361,7 +360,6 @@ const NewsPostProfile = ({ setList }) => {
           </div>
         </form>
       </div>
-
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog
           as="div"
@@ -442,7 +440,7 @@ const NewsPostProfile = ({ setList }) => {
                           {previewEventCoverImage ? (
                             <div
                               onClick={handleCoverReomve}
-                              className="bg-indigo-100 absolute top-4 right-4 z-50 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
+                              className="bg-indigo-100 absolute top-4 right-4 z-40 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
                             >
                               <TrashIcon className="w-5 h-5 text-indigo-600 " />
                             </div>
