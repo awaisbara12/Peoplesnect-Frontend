@@ -10,14 +10,6 @@ const TabEducationProfile = () => {
     <div className="bg-white rounded-xl p-10">
       <div className="flex items-center justify-between mb-5">
         <div className="font-extrabold ">Education</div>
-        <div className="flex ml-auto gap-2">
-          <a href="">
-            <PlusCircleIcon className="h-5 w-5 hover:text-indigo-400" />
-          </a>
-          <a href="">
-            <PencilAltIcon className="h-5 w-5 hover:text-indigo-400" />
-          </a>
-        </div>
       </div>
       <div className="px-2">
         <div className="flex flex-col">

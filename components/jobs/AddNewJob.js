@@ -193,14 +193,12 @@ const AddNewJob = (setList, singleItem) => {
                                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmfor="grid-first-name">
                                   Job Title
                                 </label>
-                                <input className="" 
+                                <input 
                                 id="grid-first-name" 
                                 type="text" 
-                                
-                                
-                                onChange={(e)=>setTitle(e.target.value)}
-                                placeholder="Job Title"
                                 className="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                onChange={(e)=>setTitle(e.target.value)}
+                                placeholder="Job Title" 
                                 />
                               </div>
                               <div className="grid grid-cols-2 gap-4 mt-8">
