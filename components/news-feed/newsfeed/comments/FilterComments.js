@@ -42,7 +42,36 @@ const FilterComments = (props) => {
     })
     .catch((err) => console.log(err));
   }
+  function filterSChange() {
+   
+    var sort = "asc";
+    
+    fetch(
+      NEWSFEED_COMMENT_POST_KEY +
+        "/" +
+        props.news_feed_id +
+        "/comments?sort=" +
+        sort,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          Authorization: `${authKey}`,
+        },
+      }
+    )
+    .then((resp) => resp.json())
+    .then((result) => {
+      if (result) {
+        props.setComments(result);
+      }
+    })
+    .catch((err) => console.log(err));
+  }
 
+  useEffect(() => {
+    filterSChange();
+  });
   function loadMore() {
     fetch(
       NEWSFEED_COMMENT_POST_KEY +
