@@ -11,7 +11,7 @@ import {
   PhoneIcon,
 } from "@heroicons/react/outline";
 
-const TabContactProfile = () => {
+const TabContactProfile = (props) => {
   let [isOpen, setIsOpen] = useState(false);
   function closeModal() {
     setIsOpen(false);
@@ -124,17 +124,27 @@ const TabContactProfile = () => {
         </div>
         <div className="p-2 grid grid-cols-1">
           <div className="font-bold flex flex-col gap-4">
+          {props.email?(
             <div className="flex items-center gap-3 my-4">
-              <MailIcon className="h-5 w-5" />
-              <div className="hover:underline">abc123@gmail.com</div>
-            </div>
-            <div className="border-1"></div>
-            <div className="flex items-center gap-3 my-4">
-              <PhoneIcon className="h-5 w-5" />
-              <a href="" className="hover:underline">
-                +1 844-962-2802
-              </a>
-            </div>
+            <MailIcon className="h-5 w-5" />
+            <div className="hover:underline">{props.email}</div>
+          </div>
+          ):("")}
+            
+            { props.phone?(
+              <div>
+                <div className="border-1"></div>
+                <div className="flex items-center gap-3 my-4">
+                  <PhoneIcon className="h-5 w-5" />
+                  <a href="" className="hover:underline">
+                    {props.phone}
+                  </a>
+                </div>
+              </div>
+            ):("")
+            
+            }
+            
             <div className="border-1"></div>
             <div className="flex items-center gap-3 my-4">
               <CalendarIcon className="h-5 w-5" />

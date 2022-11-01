@@ -12,69 +12,73 @@ import {
   ShareIcon,
   DocumentReportIcon,
   XCircleIcon,
-  PencilIcon,
+  PencilAltIcon,
+  TrashIcon,
 } from "@heroicons/react/outline";
 import { CalendarIcon } from "@heroicons/react/solid";
 import { Popover, Transition } from "@headlessui/react";
 import Link from "next/link";
-import ProfileAvatar from "../../public/images/profile-girl.jpg";
-import postimage from "../../public/images/cover.jpg";
-import FilterComments from "./comments/FilterComments";
-import ReplyComments from "./comments/ReplyComments";
+import ProfileAvatar from "../../public/images/profile-avatar.png";
+import PostImage from "../../public/images/post-image.png";
 import axios from "axios";
 import {
-  POST_NEWSFEED_API_KEY,
   BOOKMARK_NEWSFEED_API_KEY,
   REACTION_NEWSFEED_API_KEY,
-  COMMENT_API_KEY,
   NEWSFEED_COMMENT_POST_KEY,
 } from "../../pages/config";
 import PostComments from "./comments/PostComments";
+import FilterComments from "./comments/FilterComments";
+import ReplyComments from "./comments/ReplyComments";
 // import Spinner from "../common/Spinner";
 
 const cardDropdown = [
   {
     name: "Edit",
     href: "#",
-    icon: PencilIcon,
+    icon: PencilAltIcon,
   },
   {
     name: "Delet",
     href: "#",
-    icon: XCircleIcon,
+    icon: TrashIcon,
   },
+  
 ];
 
-const ProfileFeedSingle = (singleItem) => {
-  const [items, setItems] = useState(singleItem.items);
+const ProfileFeedSingle = (singleItems) => {
+  const [items, setItems] = useState(singleItems.lists);
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [newsFeed, setnewsFeed] = useState([]);
- 
+  const [nextPage, setNextPage] = useState('')
+   // console.log("i =>", singleItems)
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
   }
-   
-  // Get Data from  News_Feed Api
-  function NewsFeed_GetData()
-  {
-    fetch(POST_NEWSFEED_API_KEY, {
+  const getNewsFeed = async () => {
+    const res = await axios(POST_NEWSFEED_API_KEY, {
       method: "GET",
       headers: {
         Accept: "application/json",
-        Authorization: `${authKey}`,
+        "Content-type": "application/json; charset=utf-8",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true,
+        Authorization: authKey,
       },
-    })
-      .then((resp) => resp.json())
-      .then((result) => {
-        if (result) {
-          setnewsFeed(result.data);
-          console.log(newsFeed);
-        }
-      })
-      .catch((err) => console.log(err));
-  }
- 
+      credentials: "same-origin",
+    });
+    const result = await res;
+
+    try {
+      if (result.status == 200) {
+        setList(result.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    setLoading(false);
+    return result;
+  };
+
   function addHeart(feedId) {
     const dataForm = new FormData();
     dataForm.append("reactions[news_feed_id]", feedId);
@@ -91,8 +95,6 @@ const ProfileFeedSingle = (singleItem) => {
       .then((result) => {
         if (result) {
           setItems(result.data);
-          alert('yes')
-          console.log(items)
         }
       })
       .catch((err) => console.log(err));
@@ -163,174 +165,284 @@ const ProfileFeedSingle = (singleItem) => {
       console.log(error);
     }
   }
+  
+  useEffect(() => {
+   //console.log("yes")
+    setLoading(true);
+    const getFeedComments = async () => {
+      const res = await axios(
+        NEWSFEED_COMMENT_POST_KEY + "/" + items.id + "/comments",
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-type": "application/json; charset=utf-8",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Credentials": true,
+            Authorization: authKey,
+          },
+          credentials: "same-origin",
+        }
+      );
+      const result = await res;
 
-  useEffect(()=> {
-    NewsFeed_GetData()
-   
-  });
+      try {
+        if (result.status == 200) {
+          setNextPage(result.data.pages.next_page)
+          setComments(result.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      setLoading(false);
+      return result;
+    };
+    getFeedComments();
+  }, []);
 
+  const [isActive, setIsActive] = useState(false);
+
+  const handleClick = () => {
+    setIsActive((current) => !current);
+  };
 
   return (
     <>
-    {
-      newsFeed.map((e)=>
-        <div className="w-full pb-4 mt-8 bg-white rounded-xl">
-      <div className="flex gap-2 justify-between items-center px-[22px] py-[14px]">
-        <div className="flex gap-2">
-          <Image
-            src={ProfileAvatar}
-            width={45}
-            height={45}
-            alt=""
-            className="rounded-full"
-          />
-          <div>
-            <h4 className="flex gap-[6px] items-center font-medium text-gray-900">
-              {e.user.first_name} {e.user.last_name}
-              <BadgeCheckIcon
-                width={14}
-                height={14}
-                className="text-indigo-400"
-              />
-            </h4>
-            <div className="font-light text-gray-900 opacity-[0.8]">
-              Front End Devolper
-            </div>
-          </div>
-        </div>
-        <div className="flex items-center gap-3">
-          <div className="">
-            <Popover className="relative">
-              {({ open }) => (
-                <>
-                  <Popover.Button
-                    className={` ${
-                      open ? "" : "text-opacity-90 focus-visible:outline-none"
-                    }`}
-                  >
-                    <div className="hover:bg-indigo-100 focus:bg-indigo-100 rounded-full h-8 w-8 flex items-center justify-center">
-                      <DotsHorizontalIcon className="w-5 h-5" />
-                    </div>
-                  </Popover.Button>
-                  <Transition
-                    as={Fragment}
-                    enter="transition ease-out duration-200"
-                    enterFrom="opacity-0 translate-y-1"
-                    enterTo="opacity-100 translate-y-0"
-                    leave="transition ease-in duration-150"
-                    leaveFrom="opacity-100 translate-y-0"
-                    leaveTo="opacity-0 translate-y-1"
-                  >
-                    <Popover.Panel className="absolute left-1/2 z-10 mt-3 w-72 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-xl">
-                      <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
-                        <div className="relative bg-white py-2">
-                          {cardDropdown.map((card) => (
-                            <a
-                              key={card.name}
-                              href={card.id}
-                              className="-m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
-                            >
-                              <div className="flex h-10 w-10 shrink-0 items-center justify-center text-white sm:h-12 sm:w-12 pl-2">
-                                <card.icon className="h-6 w-6 text-gray-900" />
-                              </div>
-                              <div>
-                                <p className="text-sm font-medium text-gray-900">
-                                  {card.name}
-                                </p>
-                              </div>
-                            </a>
-                          ))}
-                        </div>
-                      </div>
-                    </Popover.Panel>
-                  </Transition>
-                </>
-              )}
-            </Popover>
-          </div>
-        </div>
-      </div>
-      <div className="px-[22px] py-[14px]">
-        <p>{e.body}</p>
-        <div className="rounded-xl bg-white border border-gray-100 my-2">
-          <Image
-            src={postimage}
-            className="object-cover rounded-xl"
-            width={1020}
-            height={320}
-            alt=""
-          />
-          <div className="py-3 px-3">
-            <div className="flex justify-between items-center">
-              <div>
-                <div className="text-red-400 text-sm">
-                  <span>{e.created_at}</span><br></br>
-                  <span>5:15pm</span>&nbsp;
-                  <span>22.08.2023</span>&nbsp;
-                </div>
-                <div className="font-semibold text-lg">Chill Party</div>
-                <div className="flex items-center gap-2">
-                  <CalendarIcon
-                    width={16}
-                    height={16}
-                    className="text-gray-900"
-                  />
-                  <span className="text-gray-900 text-sm">Dinner</span>
-                </div>
-                <div className="text-gray-900"></div>
+     <div className="w-[600px] xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">
+        <div className="flex gap-2 justify-between items-center px-[22px] py-[14px]">
+          <div className="flex gap-2">
+            <Image src={ProfileAvatar} width={45} height={45} alt="" />
+            <div>
+              <h4 className="flex gap-[6px] items-center font-medium text-gray-900">
+               {items.user.first_name} {items.user.last_name}
+                <BadgeCheckIcon
+                  width={14}
+                  height={14}
+                  className="text-indigo-400"
+                />
+              </h4>
+              <div className="font-light text-gray-900 opacity-[0.8]">
+                {items.user.recent_job}
               </div>
-              <Link href="/events-design/event-view">
-                <a className="text-sm text-gray-600 cursor-pointer flex items-center border border-gray-100 rounded-full py-1 px-3">
-                  View Event
-                </a>
-              </Link>
+            </div>
+          </div>
+          <div className="">
+            <div className="">
+              <Popover className="relative">
+                {({ open }) => (
+                  <>
+                    <Popover.Button
+                      className={` ${
+                        open ? "" : "text-opacity-90 focus-visible:outline-none"
+                      }`}
+                    >
+                      <div className="hover:bg-indigo-100 focus:bg-indigo-100 rounded-full h-8 w-8 flex items-center justify-center">
+                        <DotsHorizontalIcon className="w-5 h-5" />
+                      </div>
+                    </Popover.Button>
+                    <Transition
+                      as={Fragment}
+                      enter="transition ease-out duration-200"
+                      enterFrom="opacity-0 translate-y-1"
+                      enterTo="opacity-100 translate-y-0"
+                      leave="transition ease-in duration-150"
+                      leaveFrom="opacity-100 translate-y-0"
+                      leaveTo="opacity-0 translate-y-1"
+                    >
+                      <Popover.Panel className="absolute left-1/2 z-10 mt-3 w-72 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-3xl">
+                        <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                          <div className="relative bg-white py-2">
+                            {cardDropdown.map((card) => (
+                              <a
+                                key={card.name}
+                                href={card.id}
+                                className="-m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
+                              >
+                                <div className="flex h-10 w-10 shrink-0 items-center justify-center text-white sm:h-12 sm:w-12 pl-2">
+                                  <card.icon className="h-6 w-6 text-gray-900" />
+                                </div>
+                                <div>
+                                  <p className="text-sm font-medium text-gray-900">
+                                    {card.name}
+                                  </p>
+                                </div>
+                              </a>
+                            ))}
+                          </div>
+                        </div>
+                      </Popover.Panel>
+                    </Transition>
+                  </>
+                )}
+              </Popover>
             </div>
           </div>
         </div>
-        <div className="flex justify-between mt-[14px]">
-          <div className="flex gap-6">
-            <div className="flex gap-2 items-center">
-              <HeartIcon
-                
-                width={24}
-                height={24}
-                className="text-red-600 cursor-pointer"
-              />
-              <span className="font-light text-red-600">12</span>
+        {/* <div className="border-1 border-gray-100"></div> */}
+
+        <div className="px-[22px] py-[14px]">
+          <p>{items.body ? items.body : ""}</p>
+          {items.event && items.event ? (
+            <div className="rounded-xl bg-white border border-gray-100 my-2">
+              {items.event.cover_photo_url ? (
+                <img
+                  src={items.event.cover_photo_url}
+                  className="aspect-video object-cover rounded-t-xl h-[390px] w-[952px]"
+                  alt=""
+                />
+              ) : (
+                ""
+              )}
+              <div className="py-3 px-3">
+                <div className="flex justify-between items-center">
+                  <div>
+                    <div className="text-red-400 text-sm">
+                      <span>{items.event.start_time}</span>
+                      <span>-{items.event.end_time}</span>&nbsp;
+                      <span>{items.event.start_date}</span>&nbsp;
+                    </div>
+                    <div className="font-semibold text-lg">
+                      {items.event.name}
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <CalendarIcon
+                        width={16}
+                        height={16}
+                        className="text-gray-900"
+                      />
+                      <span className="text-gray-900 text-sm">
+                        {items.event.event_type}
+                      </span>
+                    </div>
+                    <div className="text-gray-900"></div>
+                  </div>
+                  <Link href="/events-design/event-view">
+                    <a className="text-sm text-gray-600 cursor-pointer flex items-center border border-gray-100 rounded-full py-1 px-3">
+                      View Event
+                    </a>
+                  </Link>
+                </div>
+              </div>
             </div>
-            <div className="flex gap-2 items-center">
-              <ChatAltIcon
-                width={24}
-                height={24}
-                className="text-red-600 cursor-pointer"
+          ) : (
+            ""
+          )}
+          {items.feed_type && items.feed_type === "video_feed" ? (
+            <>
+              <video controls className="aspect-video w-full rounded-xl my-4">
+                <source src={items.attachments_link} type="video/mp4" />
+              </video>
+            </>
+          ) : (
+            ""
+          )}
+          {items.attachments_link && items.feed_type === "image_feed" ? (
+            <div className="mt-[14px]">
+              <img
+                src={items.attachments_link}
+                width={952}
+                height={240}
+                layout="responsive"
+                className="aspect-video object-cover rounded-lg mx-auto h-[390px]"
+                alt=""
               />
-              <span className="font-light text-red-600">14.2k</span>
+            </div>
+          ) : (
+            ""
+          )}
+          <div className="flex justify-between mt-[14px]">
+            <div className="flex gap-6">
+              <div className="flex gap-2 items-center">
+                {items.is_heart && items.is_heart == true ? (
+                  <>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="Red"
+                      className="w-6 h-6 cursor-pointer"
+                      onClick={() => deteleHeart(items.heart_id)}
+                    >
+                      <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
+                    </svg>
+                    <span className="font-light text-gray-900">
+                      {items.reactions_count}
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <HeartIcon
+                      width={24}
+                      height={24}
+                      className="text-gray-600 cursor-pointer"
+                      onClick={() => addHeart(items.id)}
+                    />
+                    <span className="font-light text-gray-600 cursor-pointer">
+                      {items.reactions_count}
+                    </span>
+                  </>
+                )}
+              </div>
+              <div className="flex gap-2 items-center">
+                <ChatAltIcon
+                  width={24}
+                  height={24}
+                  className="text-gray-600 cursor-pointer"
+                />
+                <span className="font-light text-red-600 cursor-pointer">{items.comments_count}</span>
+              </div>
+            </div>
+            <div className="flex gap-6">
+              <div className="flex gap-2 items-center">
+                {items.is_bookmark && items.is_bookmark == true ? (
+                  <>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      className="w-6 h-6 text-indigo-400 cursor-pointer"
+                      onClick={() => deteleBookmark(items.bookmark_id)}
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M6.32 2.577a49.255 49.255 0 0111.36 0c1.497.174 2.57 1.46 2.57 2.93V21a.75.75 0 01-1.085.67L12 18.089l-7.165 3.583A.75.75 0 013.75 21V5.507c0-1.47 1.073-2.756 2.57-2.93z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                    <span className="font-light text-indigo-400">
+                      {items.bookmarks_count}
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <BookmarkIcon
+                      width={24}
+                      height={24}
+                      className="text-indigo-400 cursor-pointer"
+                      onClick={() => createBookmark(items.id)}
+                    />
+                    <span className="font-light text-indigo-400">
+                      {items.bookmarks_count}
+                    </span>
+                  </>
+                )}
+              </div>
+              <div>
+                <ShareIcon
+                  width={24}
+                  height={24}
+                  className="text-indigo-400 cursor-pointer"
+                  onClick={() => createBookmark(items.id)}
+                />
+              </div>
             </div>
           </div>
-          <div className="flex gap-2 items-center">
-            <BookmarkIcon
-              width={24}
-              height={24}
-              className="text-indigo-400 cursor-pointer"
-              onClick={() => createBookmark(items.id)}
-            />
-            <ShareIcon
-              width={24}
-              height={24}
-              className="text-indigo-400 cursor-pointer"
-              onClick={() => createBookmark(items.id)}
-            />
-          </div>
+          <Fragment>
+            <PostComments news_feed_id={items.id} setComments={setComments} />
+            <FilterComments news_feed_id={items.id} comments={comments.data} setComments={setComments} next_page={nextPage} setNextPage={setNextPage} />
+            {!loading && <ReplyComments comments={comments.data} setComments={setComments} />}
+          </Fragment>
         </div>
-        <Fragment>
-          <PostComments />
-          <FilterComments />
-          {!loading && <ReplyComments comments={comments.data} />}
-        </Fragment>
       </div>
-        </div> 
-      )
-    } 
     </>
   );
 };

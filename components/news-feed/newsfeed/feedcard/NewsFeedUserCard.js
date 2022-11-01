@@ -8,7 +8,9 @@ const NewsFeedUserCard = (list) => {
     <div>
       {list &&
         list.list.map((items) => (
+        
           <NewsFeedSingle items={items} key={items.id} />
+         
         ))}
     </div>
   );
