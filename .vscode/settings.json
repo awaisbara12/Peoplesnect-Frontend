@@ -1,0 +1,6 @@
+{
+    "editor.fontSize": 12,
+    "editor.fontWeight": "normal",
+    "diffEditor.maxFileSize": 100,
+    "editor.minimap.maxColumn": 120
+}

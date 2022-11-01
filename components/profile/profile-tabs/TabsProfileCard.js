@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   BookmarkAltIcon,
   PhotographIcon,
@@ -26,9 +26,42 @@ import TabExperienceProfile from "./TabExperienceProfile";
 import TabEducationProfile from "./TabEducationProfile";
 import TabProfile from "./TabProfile";
 import TabSavedProfile from "./TabSavedProfile";
-
+import {    
+  CURENT_USER_LOGIN_API
+} from "../../../pages/config";
 const TabsProfileCard = () => {
   const [openTab, setOpenTab] = React.useState(1);
+  const [userDetails, setUserDetails] = React.useState(1);
+ 
+  // Bareer Key
+  if (typeof window !== "undefined") {
+    // Bareer Key
+    var authKey = window.localStorage.getItem("keyStore"); 
+  }
+
+  //current User
+  const Current_User=async()=>{    
+   
+    await fetch(CURENT_USER_LOGIN_API, {
+      method: "GET",
+       headers: {
+        Accept: "application/json", 
+         Authorization: `${authKey}`,
+       },
+    })
+       .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          setUserDetails(result.data);  
+          //console.log("Current Userss",result.data.id)
+        }
+      })
+      .catch((err) => console.log(err)); 
+  }
+  useEffect(()=>{
+    Current_User(); 
+  },[])
+   console.log("==>",userDetails);
   return (
     <>
       <div className="">
@@ -176,10 +209,10 @@ const TabsProfileCard = () => {
         <div className="flex-auto">
           <div className="tab-content tab-space">
             <div className={openTab === 1 ? "block" : "hidden"} id="link1">
-              <TabProfile />
+              <TabProfile about={userDetails.description}/>
             </div>
             <div className={openTab === 2 ? "block" : "hidden"} id="link2">
-              <TabContactProfile />
+              <TabContactProfile email={userDetails.email} phone={userDetails.phone_number}/>
             </div>
             <div className={openTab === 3 ? "block" : "hidden"} id="link3">
               <SkillsTabProfile />

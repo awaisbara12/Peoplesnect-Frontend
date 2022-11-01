@@ -61,7 +61,7 @@ const NewsFeedSingle = (singleItem) => {
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
   }
-
+  
   function addHeart(feedId) {
     const dataForm = new FormData();
     dataForm.append("reactions[news_feed_id]", feedId);
@@ -187,7 +187,7 @@ const NewsFeedSingle = (singleItem) => {
   const handleClick = () => {
     setIsActive((current) => !current);
   };
-
+ 
   return (
     <>
       <div className="w-[600px] xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">

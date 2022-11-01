@@ -139,8 +139,9 @@ const NewsPostProfile = ({ setList }) => {
       .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-          setList(result);
+         setList(result.data);
           setLoading(false);
+         // console.log(setList);
         }
       })
       .catch((err) => console.log(err));
@@ -151,6 +152,7 @@ const NewsPostProfile = ({ setList }) => {
     setVideoSrc("");
     setVideoPreview("");
     onSubmit();
+   
   }
 
   function closeModal() {
@@ -410,6 +412,7 @@ const NewsPostProfile = ({ setList }) => {
                           type="file"
                           name="image"
                           id="image"
+                          required="{image}"
                           className="absolute top-0 left-0 w-full h-[270px] opacity-0"
                           onChange={handleImageSelect}
                         />
@@ -460,6 +463,7 @@ const NewsPostProfile = ({ setList }) => {
                               name="event-radio"
                               id="online"
                               value="online"
+                              required
                               onChange={() => {
                                 setOnline(true);
                                 setInPerson(false);
@@ -759,13 +763,24 @@ const NewsPostProfile = ({ setList }) => {
                       </Link>
                     </div>
                     <div className="flex justify-end mt-6">
-                      <button
-                        type="button"
-                        onClick={closeModal}
-                        className="w-[100] h-[32px] inline-flex justify-center rounded-md border border-transparent bg-indigo-100 px-4 py-2 text-sm font-medium text-indigo-600 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2"
-                      >
-                        Continue
-                      </button>
+                      {
+                        previewEventCoverImage && values.eventName && values.startTime  && selectedTimezone.label && values.endTime?(
+                        <button
+                          type="button"
+                          onClick={closeModal}
+                          className="w-[100] h-[32px] inline-flex justify-center rounded-md border border-transparent bg-indigo-100 px-4 py-2 text-sm font-medium text-indigo-600 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2"
+                          >
+                          Continue
+                        </button>
+                        ):(
+                        <button
+                          type="disable"
+                          className="w-[100] cursor-not-allowed h-[32px] inline-flex justify-center rounded-md border border-transparent bg-indigo-100 px-4 py-2 text-sm font-medium text-indigo-400">
+                           Continue
+                        </button>)
+                      
+                      }
+                      
                     </div>
                   </div>
                 </Dialog.Panel>
