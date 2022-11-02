@@ -10,9 +10,14 @@ import {
   PencilIcon,
   PhoneIcon,
 } from "@heroicons/react/outline";
+import {    
+  CURENT_USER_LOGIN_API
+} from "../../../pages/config";
 
-const TabContactProfile = (props) => {
+const TabContactProfile = () => {
   let [isOpen, setIsOpen] = useState(false);
+  const [userDetails, setUserDetails] = useState(1);
+
   function closeModal() {
     setIsOpen(false);
     
@@ -21,6 +26,35 @@ const TabContactProfile = (props) => {
   function openModal() {
     setIsOpen(true);
   }
+  // Bareer Key
+  if (typeof window !== "undefined") {
+    // Bareer Key
+    var authKey = window.localStorage.getItem("keyStore"); 
+  }
+
+  //current User
+  const Current_User=async()=>{    
+   
+    await fetch(CURENT_USER_LOGIN_API, {
+      method: "GET",
+       headers: {
+        Accept: "application/json", 
+         Authorization: `${authKey}`,
+       },
+    })
+       .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          setUserDetails(result.data);  
+          //console.log("Current Userss",result.data.id)
+        }
+      })
+      .catch((err) => console.log(err)); 
+  }
+  useEffect(()=>{
+    Current_User(); 
+  },[])
+   console.log("==>",userDetails);
   return (
     <>
       <div className="bg-white rounded-xl  p-10">
@@ -124,20 +158,20 @@ const TabContactProfile = (props) => {
         </div>
         <div className="p-2 grid grid-cols-1">
           <div className="font-bold flex flex-col gap-4">
-          {props.email?(
+          {userDetails.email?(
             <div className="flex items-center gap-3 my-4">
             <MailIcon className="h-5 w-5" />
-            <div className="hover:underline">{props.email}</div>
+            <div className="hover:underline">{userDetails.email}</div>
           </div>
           ):("")}
             
-            { props.phone?(
+            { userDetails.phone_number?(
               <div>
                 <div className="border-1"></div>
                 <div className="flex items-center gap-3 my-4">
                   <PhoneIcon className="h-5 w-5" />
                   <a href="" className="hover:underline">
-                    {props.phone}
+                    {userDetails.phone_number}
                   </a>
                 </div>
               </div>
@@ -148,7 +182,9 @@ const TabContactProfile = (props) => {
             <div className="border-1"></div>
             <div className="flex items-center gap-3 my-4">
               <CalendarIcon className="h-5 w-5" />
-              <div className="">25-August-1998</div>
+              <a href="" className="hover:underline">
+                {userDetails.DOB}
+              </a>
             </div>
           </div>
         </div>

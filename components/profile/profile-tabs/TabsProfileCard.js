@@ -209,19 +209,19 @@ const TabsProfileCard = () => {
         <div className="flex-auto">
           <div className="tab-content tab-space">
             <div className={openTab === 1 ? "block" : "hidden"} id="link1">
-              <TabProfile about={userDetails.description}/>
+              <TabProfile />
             </div>
             <div className={openTab === 2 ? "block" : "hidden"} id="link2">
-              <TabContactProfile email={userDetails.email} phone={userDetails.phone_number}/>
+              <TabContactProfile />
             </div>
             <div className={openTab === 3 ? "block" : "hidden"} id="link3">
-              <SkillsTabProfile />
+              <SkillsTabProfile uskill={userDetails.skills}/>
             </div>
             <div className={openTab === 4 ? "block" : "hidden"} id="link4">
-              <TabEducationProfile />
+              <TabEducationProfile usereducations = {userDetails.educations}/>
             </div>
             <div className={openTab === 5 ? "block" : "hidden"} id="link5">
-              <TabExperienceProfile />
+              <TabExperienceProfile userexperiences = {userDetails.work_experiences}/>
             </div>
             <div className={openTab === 6 ? "block" : "hidden"} id="link6">
               <TabRecentProfile />

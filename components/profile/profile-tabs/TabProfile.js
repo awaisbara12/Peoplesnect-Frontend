@@ -4,10 +4,13 @@ import ProfileFeed from "../ProfileFeed";
 import { Menu, Transition } from "@headlessui/react";
 import { Dialog } from "@headlessui/react";
 import Link from "next/link";
+import {    
+  CURENT_USER_LOGIN_API
+} from "../../../pages/config";
 
-
-const TabProfile = (props) => {
+const TabProfile = () => {
   let [isOpen, setIsOpen] = useState(false);
+  const [userDetails, setUserDetails] = useState(1);
   function closeModal() {
     setIsOpen(false);
     
@@ -16,6 +19,36 @@ const TabProfile = (props) => {
   function openModal() {
     setIsOpen(true);
   }
+
+  // Bareer Key
+  if (typeof window !== "undefined") {
+    // Bareer Key
+    var authKey = window.localStorage.getItem("keyStore"); 
+  }
+
+  //current User
+  const Current_User=async()=>{    
+   
+    await fetch(CURENT_USER_LOGIN_API, {
+      method: "GET",
+       headers: {
+        Accept: "application/json", 
+         Authorization: `${authKey}`,
+       },
+    })
+       .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          setUserDetails(result.data);  
+          //console.log("Current Userss",result.data.id)
+        }
+      })
+      .catch((err) => console.log(err)); 
+  }
+  useEffect(()=>{
+    Current_User(); 
+  },[])
+   console.log("==>",userDetails);
   return (
     <>
       <div className="bg-white rounded-xl p-10">
@@ -105,10 +138,10 @@ const TabProfile = (props) => {
           </Dialog>
         </Transition>
       </div>
-       {props.about?(
+       {userDetails.description?(
        <div className="w-auto">
           <div className="my-4 leading-8 text-justify font-extralight">
-            {props.about}
+            {userDetails.description}
             <span className="text-indigo-400 cursor-pointer ml-2 font-bold">
               Read More
             </span>
