@@ -79,36 +79,33 @@ const MostSearchedJobs = () => {
                       leaveFrom="transform opacity-100 scale-100"
                       leaveTo="transform opacity-0 scale-95"
                     >
-                      <Menu.Items className="absolute top-6 -left-12">
-                        <div className="flex items-start flex-col gap-2 border-1 rounded-xl p-2">
-                          <Menu.Item>
-                            {({ active }) => (
-                              <a
-                                href="#"
-                                className={classNames("text-sm flex")}
-                              >
-                                <BookmarkIcon className="h-5 w-5" />
-                                save
-                              </a>
-                            )}
-                          </Menu.Item>
+                  <Menu.Items className="absolute top-6 w-48 right-0">
+                      <div className="flex items-start flex-col gap-2 border-1 rounded-xl p-2">
+                        <Menu.Item>
+                          {({ active }) => (
+                            <a href="#" className={classNames("text-sm flex gap-2 py-2")}>
+                              <BookmarkIcon className="h-5 w-5" />
+                              Save
+                            </a>
+                          )}
+                        </Menu.Item>
 
-                          <Menu.Item>
-                            {({ active }) => (
-                              <a
-                                href="#"
-                                className={classNames(
-                                  active ? "" : "",
-                                  "text-sm flex"
-                                )}
-                              >
-                                <ClipboardCopyIcon className="h-5 w-5" />
-                                Share
-                              </a>
-                            )}
-                          </Menu.Item>
-                        </div>
-                      </Menu.Items>
+                        <Menu.Item>
+                          {({ active }) => (
+                            <a
+                              href="#"
+                              className={classNames(
+                                active ? "" : "",
+                                "text-sm flex gap-2"
+                              )}
+                            >
+                              <ClipboardCopyIcon className="h-5 w-5" />
+                              Share
+                            </a>
+                          )}
+                        </Menu.Item>
+                      </div>
+                    </Menu.Items>
                     </Transition>
                   </Menu>
                 </div>
@@ -162,36 +159,33 @@ const MostSearchedJobs = () => {
                       leaveFrom="transform opacity-100 scale-100"
                       leaveTo="transform opacity-0 scale-95"
                     >
-                      <Menu.Items className="absolute top-6 -left-12">
-                        <div className="flex items-start flex-col gap-2 border-1 rounded-xl p-2">
-                          <Menu.Item>
-                            {({ active }) => (
-                              <a
-                                href="#"
-                                className={classNames("text-sm flex")}
-                              >
-                                <BookmarkIcon className="h-5 w-5" />
-                                save
-                              </a>
-                            )}
-                          </Menu.Item>
+                  <Menu.Items className="absolute top-6 w-48 right-0">
+                      <div className="flex items-start flex-col gap-2 border-1 rounded-xl p-2">
+                        <Menu.Item>
+                          {({ active }) => (
+                            <a href="#" className={classNames("text-sm flex gap-2 py-2")}>
+                              <BookmarkIcon className="h-5 w-5" />
+                              Save
+                            </a>
+                          )}
+                        </Menu.Item>
 
-                          <Menu.Item>
-                            {({ active }) => (
-                              <a
-                                href="#"
-                                className={classNames(
-                                  active ? "" : "",
-                                  "text-sm flex"
-                                )}
-                              >
-                                <ClipboardCopyIcon className="h-5 w-5" />
-                                Share
-                              </a>
-                            )}
-                          </Menu.Item>
-                        </div>
-                      </Menu.Items>
+                        <Menu.Item>
+                          {({ active }) => (
+                            <a
+                              href="#"
+                              className={classNames(
+                                active ? "" : "",
+                                "text-sm flex gap-2"
+                              )}
+                            >
+                              <ClipboardCopyIcon className="h-5 w-5" />
+                              Share
+                            </a>
+                          )}
+                        </Menu.Item>
+                      </div>
+                    </Menu.Items>
                     </Transition>
                   </Menu>
                 </div>
@@ -249,36 +243,33 @@ const MostSearchedJobs = () => {
                       leaveFrom="transform opacity-100 scale-100"
                       leaveTo="transform opacity-0 scale-95"
                     >
-                      <Menu.Items className="absolute top-6 -left-12">
-                        <div className="flex items-start flex-col gap-2 border-1 rounded-xl p-2">
-                          <Menu.Item>
-                            {({ active }) => (
-                              <a
-                                href="#"
-                                className={classNames("text-sm flex")}
-                              >
-                                <BookmarkIcon className="h-5 w-5" />
-                                save
-                              </a>
-                            )}
-                          </Menu.Item>
+                  <Menu.Items className="absolute top-6 w-48 right-0">
+                      <div className="flex items-start flex-col gap-2 border-1 rounded-xl p-2">
+                        <Menu.Item>
+                          {({ active }) => (
+                            <a href="#" className={classNames("text-sm flex gap-2 py-2")}>
+                              <BookmarkIcon className="h-5 w-5" />
+                              Save
+                            </a>
+                          )}
+                        </Menu.Item>
 
-                          <Menu.Item>
-                            {({ active }) => (
-                              <a
-                                href="#"
-                                className={classNames(
-                                  active ? "" : "",
-                                  "text-sm flex"
-                                )}
-                              >
-                                <ClipboardCopyIcon className="h-5 w-5" />
-                                Share
-                              </a>
-                            )}
-                          </Menu.Item>
-                        </div>
-                      </Menu.Items>
+                        <Menu.Item>
+                          {({ active }) => (
+                            <a
+                              href="#"
+                              className={classNames(
+                                active ? "" : "",
+                                "text-sm flex gap-2"
+                              )}
+                            >
+                              <ClipboardCopyIcon className="h-5 w-5" />
+                              Share
+                            </a>
+                          )}
+                        </Menu.Item>
+                      </div>
+                    </Menu.Items>
                     </Transition>
                   </Menu>
                 </div>

@@ -21,8 +21,8 @@ const Notifications = () => {
               <div className="searech-bar">
                 <Menu as="div" className="relative inline-block text-left">
                   <div>
-                    <Menu.Button className="inline-flex justify-center w-full rounded-full bg-indigo-400 text-white px-3 py-2">
-                      Unread
+                    <Menu.Button className="inline-flex justify-center w-full rounded text-indigo-400 border-indigo-400 border px-3 py-2">
+                      Filter
                       <ChevronDownIcon
                         className="-mr-1 ml-2 h-5 w-5"
                         aria-hidden="true"
@@ -39,7 +39,7 @@ const Notifications = () => {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                    <Menu.Items className="origin-top-right absolute left-1 bg-white border border-indigo-400 rounded-xl  w-24 mt-1 py-2">
+                    <Menu.Items className="origin-top-right absolute right-0 bg-white border w-40 mt-1">
                       <div className="">
                         <Menu.Item>
                           {({ active }) => (
@@ -48,8 +48,8 @@ const Notifications = () => {
                               className={classNames(
                                 active
                                   ? " bg-indigo-400 text-white "
-                                  : "bg-white border-b-1 text-indigo-400 border-indigo-400 ",
-                                "text-center text-indigo-400 block py-2 text-xs"
+                                  : "bg-white",
+                                "block p-2 text-xs"
                               )}
                             >
                               Unread
@@ -64,8 +64,8 @@ const Notifications = () => {
                               className={classNames(
                                 active
                                   ? " bg-indigo-400 text-white "
-                                  : "bg-white border-b-1 text-indigo-400 border-indigo-400 ",
-                                "text-center text-indigo-400 block py-2 text-xs"
+                                  : "",
+                                "block p-2 text-xs"
                               )}
                             >
                               Likes
@@ -78,9 +78,9 @@ const Notifications = () => {
                               href="#"
                               className={classNames(
                                 active
-                                  ? " bg-indigo-400 text-white "
-                                  : "bg-white text-indigo-400",
-                                "text-center text-indigo-400 block py-2 text-xs"
+                                  ? "bg-indigo-400 text-white"
+                                  : "",
+                                "block p-2 text-xs"
                               )}
                             >
                               Comments
@@ -153,7 +153,7 @@ const Notifications = () => {
                           User Name
                         </a>{" "}
                         Commented on ur{" "}
-                        <a className="font-bold text-indigo-400 " href="">
+                        <a className="font-bold " href="">
                           Post
                         </a>
                       </div>
