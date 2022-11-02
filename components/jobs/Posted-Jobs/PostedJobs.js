@@ -1,29 +1,28 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import Compnylogo from "../../public/images/compny-logo.png";
-import Compnylogo1 from "../../public/images/logo1.jpeg";
-import Compnylogo2 from "../../public/images/logo2.jpeg";
+import Compnylogo from "../../../public/images/compny-logo.png";
+import Compnylogo1 from "../../../public/images/logo1.jpeg";
+import Compnylogo2 from "../../../public/images/logo2.jpeg";
 
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import {
-  BookmarkIcon,
   ClipboardCopyIcon,
   DotsHorizontalIcon,
 } from "@heroicons/react/outline";
+import { BriefcaseIcon, Lock, LockClosedIcon } from "@heroicons/react/solid";
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const RecommendedJobs = () => {
+const PostedJobs = () => {
   return (
     <div className="mt-8">
       <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 xl:px-0 lg:px-0">
         <div className="bg-white rounded-xl">
           <div className="border-b-1 p-4">
-            <div className="heading font-bold">Recommended for you</div>
-            <div className="font-extralight mt-1">Based on your profile</div>
+            <div className="heading font-bold">My Posted Jobs</div>
           </div>
           <div className="border-b-1">
             <div className="jobs-profile px-4 py-10 ">
@@ -72,17 +71,16 @@ const RecommendedJobs = () => {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                  <Menu.Items className="absolute top-6 w-48 right-0">
+                    <Menu.Items className="absolute top-6 w-48 right-0">
                       <div className="flex items-start flex-col gap-2 border-1 rounded-xl p-2">
                         <Menu.Item>
                           {({ active }) => (
-                            <a href="#" className={classNames("text-sm flex gap-2 py-2")}>
-                              <BookmarkIcon className="h-5 w-5" />
-                              Save
+                            <a href="#" className={classNames("text-sm flex py-2 gap-2")}>
+                              <BriefcaseIcon className="h-5 w-5" />
+                              Manage Job
                             </a>
                           )}
                         </Menu.Item>
-
                         <Menu.Item>
                           {({ active }) => (
                             <a
@@ -92,8 +90,8 @@ const RecommendedJobs = () => {
                                 "text-sm flex gap-2"
                               )}
                             >
-                              <ClipboardCopyIcon className="h-5 w-5" />
-                              Share
+                              <LockClosedIcon className="h-5 w-5" />
+                              Stop Hiring
                             </a>
                           )}
                         </Menu.Item>
@@ -151,28 +149,27 @@ const RecommendedJobs = () => {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                  <Menu.Items className="absolute top-6 w-48 right-0">
+                    <Menu.Items className="absolute top-6 w-48 right-0">
                       <div className="flex items-start flex-col gap-2 border-1 rounded-xl p-2">
                         <Menu.Item>
                           {({ active }) => (
-                            <a href="#" className={classNames("text-sm flex gap-2 py-2")}>
-                              <BookmarkIcon className="h-5 w-5" />
-                              Save
+                            <a href="#" className={classNames("text-sm flex py-2 gap-2")}>
+                              <BriefcaseIcon className="h-5 w-5" />
+                              Manage Job
                             </a>
                           )}
                         </Menu.Item>
-
                         <Menu.Item>
                           {({ active }) => (
                             <a
                               href="#"
                               className={classNames(
                                 active ? "" : "",
-                                "text-sm flex gap-2"
+                                "text-sm flex  pb-2 gap-2"
                               )}
                             >
-                              <ClipboardCopyIcon className="h-5 w-5" />
-                              Share
+                              <LockClosedIcon className="h-5 w-5" />
+                              Stop Hiring
                             </a>
                           )}
                         </Menu.Item>
@@ -230,17 +227,16 @@ const RecommendedJobs = () => {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                  <Menu.Items className="absolute top-6 w-48 right-0">
+                    <Menu.Items className="absolute top-6 w-48 right-0">
                       <div className="flex items-start flex-col gap-2 border-1 rounded-xl p-2">
                         <Menu.Item>
                           {({ active }) => (
-                            <a href="#" className={classNames("text-sm flex gap-2 py-2")}>
-                              <BookmarkIcon className="h-5 w-5" />
-                              Save
+                            <a href="#" className={classNames("text-sm flex py-2 gap-2")}>
+                              <BriefcaseIcon className="h-5 w-5" />
+                              Manage Job
                             </a>
                           )}
                         </Menu.Item>
-
                         <Menu.Item>
                           {({ active }) => (
                             <a
@@ -251,7 +247,7 @@ const RecommendedJobs = () => {
                               )}
                             >
                               <ClipboardCopyIcon className="h-5 w-5" />
-                              Share
+                              Copy Link To Share
                             </a>
                           )}
                         </Menu.Item>
@@ -265,7 +261,7 @@ const RecommendedJobs = () => {
           <div className="border-b-1 py-4">
             <div className="text-center">
               <Link className="" href="">
-                <a className="text-indigo-400">Search For More Jobs</a>
+                <a className="text-indigo-400">Load More</a>
               </Link>
             </div>
           </div>
@@ -275,4 +271,4 @@ const RecommendedJobs = () => {
   );
 };
 
-export default RecommendedJobs;
+export default PostedJobs;

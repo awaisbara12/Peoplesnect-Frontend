@@ -43,10 +43,9 @@ const JobsSideBar = () => {
                 <div className="">
                   <Menu.Item>
                     {({ active }) => (
-                      <Link href="/jobs" className="">
+                      <Link href="/jobs/posted-jobs" className="">
                         <a>
-                          <div className="flex items-center gap-2 my-2">
-                            <BookmarkIcon className="h-7 w-7" />
+                          <div className="flex items-center gap-2 py-2 border-b-1">
                             <div className="">Posted Jobs</div>
                           </div>
                         </a>
@@ -55,10 +54,9 @@ const JobsSideBar = () => {
                   </Menu.Item>
                   <Menu.Item>
                     {({ active }) => (
-                      <Link href="/jobs" className="">
+                      <Link href="/jobs/saved-jobs" className="">
                         <a>
                           <div className="flex items-center gap-2 my-2">
-                            <BookmarkIcon className="h-7 w-7" />
                             <div className="">Saved Jobs</div>
                           </div>
                         </a>
@@ -70,7 +68,7 @@ const JobsSideBar = () => {
             </Transition>
           </Menu>
         </div>
-        <Link href="/jobs" className="">
+        <Link href="/jobs/applied-jobs" className="">
           <a>
             <div className="flex font-normal text-xl items-center gap-3 mt-2">
               <ShieldCheckIcon className="h-5 w-5" />
