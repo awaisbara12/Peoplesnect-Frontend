@@ -1,7 +1,71 @@
 import { ChevronDownIcon } from "@heroicons/react/outline";
-import React from "react";
-
+import React,{useState,useEffect} from "react";
+import {
+  ACCOUNT_PREFERENCE_SETTING,
+  CURENT_USER_LOGIN_API
+} from "../../../pages/config";
 const AccountPreferences = () => {
+  const [userDetails, setUserDetails] = useState();
+  const [coverphoto, setcoverphoto] = useState();
+  const [vedioautoplay, setvedioauto] = useState(false);
+  const [language, setlanguage] = useState();
+  
+   // Bareer Key
+  if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore"); }
+  
+  // for Vedio auto play
+  const toggler =(e)=>{ vedioautoplay? setvedioauto(false) : setvedioauto(true)}
+  
+  // for Update Account-Prefrernce
+  const UpdateAccountPreference=async()=>{
+    await fetch(`${ACCOUNT_PREFERENCE_SETTING}?users[auto_play_videos]=${vedioautoplay}&users[cover_photo_privacy]=${coverphoto}&users[language]=${language}`, {
+    method: "PUT",
+     headers: {
+      Accept: "application/json", 
+       Authorization: `${authKey}`,
+     },
+  })
+     .then((resp) => resp.json())
+    .then((result) => {
+      if (result) {
+        setUserDetails(result.data); 
+        console.log("chec in",result);
+        Current_User();
+        alert("Your Information has been Updated! ") 
+      }
+    })
+    .catch((err) => console.log(err));
+   
+  }
+  
+  //For Current User
+  const Current_User=async()=>{    
+   
+    await fetch(CURENT_USER_LOGIN_API, {
+      method: "GET",
+       headers: {
+        Accept: "application/json", 
+         Authorization: `${authKey}`,
+       },
+    })
+       .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          setUserDetails(result.data.id);  
+          setvedioauto(result.data.auto_play_videos);
+           setcoverphoto(result.data.cover_photo_privacy);
+           setlanguage(result.data.language);
+          //console.log("user",result.data)
+        }
+      })
+      .catch((err) => console.log(err)); 
+  }
+
+  
+  useEffect(()=>{
+    Current_User();
+  },[])
+  
   return (
     <div>
       <div className="mt-8">
@@ -24,8 +88,10 @@ const AccountPreferences = () => {
                 >
                   <input
                     type="checkbox"
-                    value=""
+                    checked={vedioautoplay===true}
+                    onChange={toggler}
                     id="default-toggle"
+                    
                     className="sr-only peer"
                   />
                   <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
@@ -39,7 +105,9 @@ const AccountPreferences = () => {
                   <input
                     id="default-radio-1"
                     type="radio"
-                    value=""
+                    value="public"
+                    checked={coverphoto==="public"}
+                    onChange={(e)=>setcoverphoto(e.target.value)}
                     name="default-radio"
                     className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-indigo-400 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                   />
@@ -52,10 +120,12 @@ const AccountPreferences = () => {
                 </div>
                 <div className="flex items-center">
                   <input
-                    checked
-                    id="default-radio-2"
+                    
+                    id="default-radio-1"
                     type="radio"
-                    value=""
+                    value="private"
+                    checked={coverphoto==="private"}
+                    onChange={(e)=>setcoverphoto(e.target.value)}
                     name="default-radio"
                     className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-indigo-400 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                   />
@@ -69,7 +139,8 @@ const AccountPreferences = () => {
               </div>
             </div>
             <div className="flex justify-end mt-5">
-              <button className="border-2 border-indigo-400 bg-indigo-400 p-2 rounded-full text-white font-bold">
+              <button className="border-2 border-indigo-400 bg-indigo-400 p-2 rounded-full text-white font-bold"
+                onClick={UpdateAccountPreference}>
                 Changes Done
               </button>
             </div>
