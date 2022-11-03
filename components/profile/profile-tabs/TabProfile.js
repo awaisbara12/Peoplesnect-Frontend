@@ -5,15 +5,17 @@ import { Menu, Transition } from "@headlessui/react";
 import { Dialog } from "@headlessui/react";
 import Link from "next/link";
 import {    
-  CURENT_USER_LOGIN_API
+  CURENT_USER_LOGIN_API,
+  UPDATE_PERSONAL_INFO
 } from "../../../pages/config";
 
 const TabProfile = () => {
   let [isOpen, setIsOpen] = useState(false);
-  const [userDetails, setUserDetails] = useState(1);
+  const [userDetails, setUserDetails] = useState();
+  const [about, setUserabout] = useState();
   function closeModal() {
     setIsOpen(false);
-    
+
   }
 
   function openModal() {
@@ -40,7 +42,28 @@ const TabProfile = () => {
       .then((result) => {
         if (result) {
           setUserDetails(result.data);  
-          //console.log("Current Userss",result.data.id)
+          //console.log("Current Userss",result.data)
+          setUserabout(result.data.description)
+        }
+      })
+      .catch((err) => console.log(err)); 
+  }
+  const Update_about=async()=>{    
+  
+    await fetch(`${UPDATE_PERSONAL_INFO}?users[description]=${about}`, {
+      method: "Put",
+       headers: {
+        Accept: "application/json", 
+         Authorization: `${authKey}`,
+       },
+    })
+       .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          closeModal();
+          setUserDetails(result.data);  
+          //console.log("Current",result.data)
+          setUserabout(result.data.description)
         }
       })
       .catch((err) => console.log(err)); 
@@ -48,7 +71,7 @@ const TabProfile = () => {
   useEffect(()=>{
     Current_User(); 
   },[])
-   console.log("==>",userDetails);
+   //console.log("==>",userDetails);
   return (
     <>
       <div className="bg-white rounded-xl p-10">
@@ -111,6 +134,8 @@ const TabProfile = () => {
                                   placeholder="Write Your Description Here....."
                                   type="textarea"
                                   name="search"
+                                  value={about}
+                                  onChange = {(e)=>setUserabout(e.target.value)}
                                   rows={5}
                                   cols={10}
                                 />
@@ -123,6 +148,7 @@ const TabProfile = () => {
                 <button
                       type="submit"
                       className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
+                      onClick={Update_about}
                     >
                       Save Changes
                 </button>
@@ -138,10 +164,10 @@ const TabProfile = () => {
           </Dialog>
         </Transition>
       </div>
-       {userDetails.description?(
+       {about?(
        <div className="w-auto">
           <div className="my-4 leading-8 text-justify font-extralight">
-            {userDetails.description}
+            {about}
             <span className="text-indigo-400 cursor-pointer ml-2 font-bold">
               Read More
             </span>

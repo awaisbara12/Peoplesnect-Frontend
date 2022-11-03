@@ -6,10 +6,17 @@ import Image from "next/image";
 import ProfileAvatar from "../../../public/images/profile-girl.jpg";
 import { PlusCircleIcon } from "@heroicons/react/solid";
 import { ChevronRightIcon, XIcon, PencilAltIcon } from "@heroicons/react/outline";
+import {    
+  CURENT_USER_LOGIN_API
+} from "../../../pages/config";
 
-const TabEducationProfile = (props) => {
+const TabEducationProfile = () => {
 let [isOpen, setIsOpen] = useState(false);
-const [education, setusereducation] = useState();
+const [userDetails, setUserDetails] = useState();
+const [education, setUsereducation] = useState();
+const [update_education, setUserUpdateeducation] = useState();
+
+
 function closeModal() {
   setIsOpen(false);
 }
@@ -17,10 +24,42 @@ function closeModal() {
 function openModal() {
   setIsOpen(true);
 }
+
+function seteducation(s){
+  openModal();
+  console.log("Current Userskdgvs",s);
+  setUserUpdateeducation(s);
+}
+// Bareer Key
+if (typeof window !== "undefined") {
+  // Bareer Key
+  var authKey = window.localStorage.getItem("keyStore"); 
+}
+
+//current User
+const Current_User=async()=>{    
+ 
+  await fetch(CURENT_USER_LOGIN_API, {
+    method: "GET",
+     headers: {
+      Accept: "application/json", 
+       Authorization: `${authKey}`,
+     },
+  })
+     .then((resp) => resp.json())
+    .then((result) => {
+      if (result) {
+        setUserDetails(result.data);  
+        //console.log("Current Userskdgvs",result.data.id)
+        setUsereducation(result.data.educations)
+      }
+    })
+    .catch((err) => console.log(err)); 
+}
 useEffect(()=>{
-  setusereducation(props.usereducations)
-})
-console.log("education", education)
+  Current_User(); 
+},[])
+ console.log("==>",userDetails);
 return (
 <div className="bg-white rounded-xl p-10">
   <div className="flex items-center justify-between mb-5">
@@ -29,7 +68,8 @@ return (
       <a>
         <PlusCircleIcon onClick={openModal} className="h-5 w-5 hover:text-indigo-400" />
       </a>
-      <Transition appear show={isOpen} as={Fragment}>
+      {update_education?(
+        <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-50" static={true} onClose={closeModal}>
           <Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0" enterTo="opacity-100"
             leave="ease-in duration-200" leaveFrom="opacity-100" leaveTo="opacity-0">
@@ -53,20 +93,39 @@ return (
                       <div className="">
                         <input
                           className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full placeholder:pl-2 rounded-full placeholder:py-2"
-                          placeholder="University Name" type="text" name="search" />
+                          placeholder="University Name" type="text" name="search" 
+                          value={update_education.institution}/>
                       </div>
                       <div className="mt-5 ">
                         <div className="">
                           <input
                             className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full placeholder:pl-2 rounded-full placeholder:py-2"
-                            placeholder="Degree Name" type="text" name="search" />
+                            placeholder="Degree Title" type="text" name="search" 
+                            value={update_education.degree}/>
                         </div>
                       </div>
                       <div className="mt-5">
                         <div className="">
                           <input
                             className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full placeholder:pl-2 rounded-full placeholder:py-2"
-                            placeholder="Session" type="text" name="search" />
+                            placeholder="Degree Type" type="text" name="search"
+                            value={update_education.degree_type} />
+                        </div>
+                      </div>
+                      <div className="mt-5">
+                        <div className="">
+                          <input
+                            className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full placeholder:pl-2 rounded-full placeholder:py-2"
+                            placeholder="Starting From" type="text" name="search"
+                            value={update_education.study_from} />
+                        </div>
+                      </div>
+                      <div className="mt-5">
+                        <div className="">
+                          <input
+                            className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full placeholder:pl-2 rounded-full placeholder:py-2"
+                            placeholder="Ended To" type="text" name="search" 
+                            value={update_education.study_to}/>
                         </div>
                       </div>
                       <div className="flex gap-4 justify-end">
@@ -85,6 +144,7 @@ return (
           </div>
         </Dialog>
       </Transition>
+      ):('')}
     </div>
   </div>
   <div className="px-2">
@@ -94,7 +154,7 @@ return (
       <div className="border-b-1 py-5">
         <div className="flex justify-end">
           <a className="hover:text-indigo-400">
-            <PencilAltIcon onClick={openModal} className="h-5 w-5 underline" />
+            <PencilAltIcon onClick={()=>seteducation(s)} className="h-5 w-5 underline" />
           </a>
         </div>
 
@@ -110,6 +170,7 @@ return (
               {s.institution}
             </div>
             <div className="font-light text-sm"> {s.degree}</div>
+            <div className="font-light text-sm"> {s.degree_type}</div>
             <div className="font-extralight">Started From: {s.study_from}</div>
             <div className="font-extralight">Ended to: {s.study_to}</div>
           </div>

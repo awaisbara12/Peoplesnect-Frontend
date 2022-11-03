@@ -142,7 +142,7 @@ const TabsProfileCard = () => {
                     href="#link4"
                     role="tablist"
                   >
-                    Eduction
+                    Education
                   </a>
                 </li>
                 <li className="">
@@ -218,7 +218,7 @@ const TabsProfileCard = () => {
               <SkillsTabProfile uskill={userDetails.skills}/>
             </div>
             <div className={openTab === 4 ? "block" : "hidden"} id="link4">
-              <TabEducationProfile usereducations = {userDetails.educations}/>
+              <TabEducationProfile />
             </div>
             <div className={openTab === 5 ? "block" : "hidden"} id="link5">
               <TabExperienceProfile userexperiences = {userDetails.work_experiences}/>

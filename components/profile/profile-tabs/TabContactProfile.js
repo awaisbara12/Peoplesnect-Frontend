@@ -11,12 +11,15 @@ import {
   PhoneIcon,
 } from "@heroicons/react/outline";
 import {    
-  CURENT_USER_LOGIN_API
+  CURENT_USER_LOGIN_API,UPDATE_CONTACT_INFO
 } from "../../../pages/config";
 
 const TabContactProfile = () => {
   let [isOpen, setIsOpen] = useState(false);
   const [userDetails, setUserDetails] = useState(1);
+  const [email, setUseremail] = useState();
+  const [phone_number, setUserphone] = useState();
+  const [DOB, setUserDOB] = useState();
 
   function closeModal() {
     setIsOpen(false);
@@ -46,7 +49,32 @@ const TabContactProfile = () => {
       .then((result) => {
         if (result) {
           setUserDetails(result.data);  
-          //console.log("Current Userss",result.data.id)
+          //console.log("Current Userskdgvs",result.data.id)
+          setUseremail(result.data.email)
+          setUserphone(result.data.phone_number)
+          setUserDOB(result.data.DOB)
+        }
+      })
+      .catch((err) => console.log(err)); 
+  }
+  const Update_contact_info=async()=>{    
+  
+    await fetch(`${UPDATE_CONTACT_INFO}?users[email]=${email}&users[DOB]=${DOB}&users[phone_number]=${phone_number}`, {
+      method: "Put",
+       headers: {
+        Accept: "application/json", 
+         Authorization: `${authKey}`,
+       },
+    })
+       .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          closeModal();
+          setUserDetails(result.data);  
+          //console.log("Curhngnrent",result.data)
+          setUseremail(result.data.email)
+          setUserphone(result.data.phone_number)
+          setUserDOB(result.data.DOB)
         }
       })
       .catch((err) => console.log(err)); 
@@ -112,6 +140,8 @@ const TabContactProfile = () => {
                   <input
                     className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full placeholder:pl-2 rounded-full placeholder:py-2"
                     placeholder="Email Adress"
+                    value={email}
+                    onChange = {(e)=>setUseremail(e.target.value)}
                     type="Email"
                     name="search"
                   />
@@ -121,7 +151,9 @@ const TabContactProfile = () => {
                     <input
                       className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full placeholder:pl-2 rounded-full placeholder:py-2"
                       placeholder="Change Your Number"
-                      type="Number"
+                      value={phone_number}
+                      onChange = {(e)=>setUserphone(e.target.value)}
+                      type="text"
                       name="search"
                     />
                   </div>
@@ -131,6 +163,8 @@ const TabContactProfile = () => {
                     <input
                       className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full placeholder:pl-2 rounded-full placeholder:py-2"
                       placeholder="Date Of Birth"
+                      value={DOB}
+                      onChange = {(e)=>setUserDOB(e.target.value)}
                       type="text"
                       name="search"
                     />
@@ -141,6 +175,7 @@ const TabContactProfile = () => {
                 <button
                       type="submit"
                       className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
+                      onClick={Update_contact_info}
                     >
                       Save Changes
                 </button>
@@ -161,7 +196,7 @@ const TabContactProfile = () => {
           {userDetails.email?(
             <div className="flex items-center gap-3 my-4">
             <MailIcon className="h-5 w-5" />
-            <div className="hover:underline">{userDetails.email}</div>
+            <div className="hover:underline">{email}</div>
           </div>
           ):("")}
             
@@ -171,7 +206,7 @@ const TabContactProfile = () => {
                 <div className="flex items-center gap-3 my-4">
                   <PhoneIcon className="h-5 w-5" />
                   <a href="" className="hover:underline">
-                    {userDetails.phone_number}
+                    {phone_number}
                   </a>
                 </div>
               </div>
@@ -183,7 +218,7 @@ const TabContactProfile = () => {
             <div className="flex items-center gap-3 my-4">
               <CalendarIcon className="h-5 w-5" />
               <a href="" className="hover:underline">
-                {userDetails.DOB}
+                {DOB}
               </a>
             </div>
           </div>
