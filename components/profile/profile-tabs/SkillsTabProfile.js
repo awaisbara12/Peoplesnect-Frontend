@@ -20,7 +20,7 @@ const SkillsTabProfile = () => {
   // Bareer Key
   if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore"); } 
   // for close modal
-  function closeModal() { setIsOpen(false); }
+  function closeModal() { setIsOpen(false); setuserskill("")}
   // for Open modal
   function openModal() { setIsOpen(true);}
   // for Close  Edit-modal
