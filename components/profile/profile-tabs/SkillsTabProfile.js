@@ -21,7 +21,7 @@ const SkillsTabProfile = (props) => {
   useEffect(()=>{
     setuserskill(props.uskill)
   })
-   console.log("skills",skill);
+   //console.log("skills",skill);
   return (
     <div className="bg-white rounded-xl p-10">
       <div className="flex items-center justify-between mb-5">
