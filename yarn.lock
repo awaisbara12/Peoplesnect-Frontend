@@ -3533,10 +3533,10 @@ react-switch@^7.0.0:
   dependencies:
     prop-types "^15.7.2"
 
-react-tag-input-component@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/react-tag-input-component/-/react-tag-input-component-2.0.0.tgz#892416ece62e919586c70c38c8e04d29b960a648"
-  integrity sha512-gjcG12//D0SBIlNpN07YF14WXDA93j6ltzthG8tibdLvXvThYJ7aho4HTxLGQBf1vZEB9Chbixtzr5ulkH0LXA==
+react-tag-input-component@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/react-tag-input-component/-/react-tag-input-component-2.0.2.tgz#f62f013c6a535141dd1c6c3a88858223170150f1"
+  integrity sha512-dydI9luVwwv9vrjE5u1TTnkcOVkOVL6mhFti8r6hLi78V2F2EKWQOLptURz79UYbDHLSk6tnbvGl8FE+sMpADg==
 
 react-timezone-select@^1.3.2:
   version "1.3.2"

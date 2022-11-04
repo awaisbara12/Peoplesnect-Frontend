@@ -6,9 +6,10 @@ import { ChevronRightIcon, PencilAltIcon, XIcon } from "@heroicons/react/outline
 import { PlusCircleIcon } from "@heroicons/react/solid";
 import { TagsInput } from "react-tag-input-component";
 
-const SkillsTabProfile = () => {
+const SkillsTabProfile = (props) => {
   const [selected, setSelected] = useState();
   let [isOpen, setIsOpen] = useState(false);
+  const [skill, setuserskill] = useState();
   function closeModal() {
     setIsOpen(false);
     
@@ -17,6 +18,10 @@ const SkillsTabProfile = () => {
   function openModal() {
     setIsOpen(true);
   }
+  useEffect(()=>{
+    setuserskill(props.uskill)
+  })
+   console.log("skills",skill);
   return (
     <div className="bg-white rounded-xl p-10">
       <div className="flex items-center justify-between mb-5">
@@ -103,33 +108,19 @@ const SkillsTabProfile = () => {
       </div>
       <div className="font-bold uppercase px-2">
         <div className="flex flex-col">
-          <div className="border-b-1 py-5">
-            <div className="flex justify-between items-center">
-              <div className="">HTML</div>
-              <a className="hover:text-indigo-400">
-                <PencilAltIcon onClick={openModal}
-                  className="h-5 w-5 underline" />
-              </a>
-            </div>
-          </div>
-          <div className="border-b-1 py-5">
-            <div className="flex justify-between items-center">
-              <div className="">Css</div>
-              <a className="hover:text-indigo-400">
-                <PencilAltIcon onClick={openModal}
-                  className="h-5 w-5 underline" />
-              </a>
-            </div>
-          </div>
-          <div className="border-b-1 py-5">
-            <div className="flex justify-between items-center">
-              <div className="">Bootstrp</div>
-              <a className="hover:text-indigo-400">
-                <PencilAltIcon onClick={openModal}
-                  className="h-5 w-5 underline" />
-              </a>
-            </div>
-          </div>
+          { skill?(
+            skill.map((s) => (
+              <div className="border-b-1 py-5">
+                <div className="flex justify-between items-center">
+                  <div className="">{s.title}</div>
+                  <a className="hover:text-indigo-400">
+                    <PencilAltIcon onClick={openModal}
+                      className="h-5 w-5 underline" />
+                  </a>
+                </div>
+              </div>
+            ))
+          ):("")} 
         </div>
         <div className="flex justify-center items-center mt-10">
           Show All Skills

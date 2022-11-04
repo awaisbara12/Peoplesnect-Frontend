@@ -10,9 +10,17 @@ import {
   PencilIcon,
   PhoneIcon,
 } from "@heroicons/react/outline";
+import {    
+  CURENT_USER_LOGIN_API,UPDATE_CONTACT_INFO
+} from "../../../pages/config";
 
-const TabContactProfile = (props) => {
+const TabContactProfile = () => {
   let [isOpen, setIsOpen] = useState(false);
+  const [userDetails, setUserDetails] = useState(1);
+  const [email, setUseremail] = useState();
+  const [phone_number, setUserphone] = useState();
+  const [DOB, setUserDOB] = useState();
+
   function closeModal() {
     setIsOpen(false);
     
@@ -21,6 +29,60 @@ const TabContactProfile = (props) => {
   function openModal() {
     setIsOpen(true);
   }
+  // Bareer Key
+  if (typeof window !== "undefined") {
+    // Bareer Key
+    var authKey = window.localStorage.getItem("keyStore"); 
+  }
+
+  //current User
+  const Current_User=async()=>{    
+   
+    await fetch(CURENT_USER_LOGIN_API, {
+      method: "GET",
+       headers: {
+        Accept: "application/json", 
+         Authorization: `${authKey}`,
+       },
+    })
+       .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          setUserDetails(result.data);  
+          //console.log("Current Userskdgvs",result.data.id)
+          setUseremail(result.data.email)
+          setUserphone(result.data.phone_number)
+          setUserDOB(result.data.DOB)
+        }
+      })
+      .catch((err) => console.log(err)); 
+  }
+  const Update_contact_info=async()=>{    
+  
+    await fetch(`${UPDATE_CONTACT_INFO}?users[email]=${email}&users[DOB]=${DOB}&users[phone_number]=${phone_number}`, {
+      method: "Put",
+       headers: {
+        Accept: "application/json", 
+         Authorization: `${authKey}`,
+       },
+    })
+       .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          closeModal();
+          setUserDetails(result.data);  
+          //console.log("Curhngnrent",result.data)
+          setUseremail(result.data.email)
+          setUserphone(result.data.phone_number)
+          setUserDOB(result.data.DOB)
+        }
+      })
+      .catch((err) => console.log(err)); 
+  }
+  useEffect(()=>{
+    Current_User(); 
+  },[])
+   console.log("==>",userDetails);
   return (
     <>
       <div className="bg-white rounded-xl  p-10">
@@ -78,6 +140,8 @@ const TabContactProfile = (props) => {
                   <input
                     className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full placeholder:pl-2 rounded-full placeholder:py-2"
                     placeholder="Email Adress"
+                    value={email}
+                    onChange = {(e)=>setUseremail(e.target.value)}
                     type="Email"
                     name="search"
                   />
@@ -87,7 +151,9 @@ const TabContactProfile = (props) => {
                     <input
                       className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full placeholder:pl-2 rounded-full placeholder:py-2"
                       placeholder="Change Your Number"
-                      type="Number"
+                      value={phone_number}
+                      onChange = {(e)=>setUserphone(e.target.value)}
+                      type="text"
                       name="search"
                     />
                   </div>
@@ -97,6 +163,8 @@ const TabContactProfile = (props) => {
                     <input
                       className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full placeholder:pl-2 rounded-full placeholder:py-2"
                       placeholder="Date Of Birth"
+                      value={DOB}
+                      onChange = {(e)=>setUserDOB(e.target.value)}
                       type="text"
                       name="search"
                     />
@@ -107,6 +175,7 @@ const TabContactProfile = (props) => {
                 <button
                       type="submit"
                       className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
+                      onClick={Update_contact_info}
                     >
                       Save Changes
                 </button>
@@ -124,20 +193,20 @@ const TabContactProfile = (props) => {
         </div>
         <div className="p-2 grid grid-cols-1">
           <div className="font-bold flex flex-col gap-4">
-          {props.email?(
+          {userDetails.email?(
             <div className="flex items-center gap-3 my-4">
             <MailIcon className="h-5 w-5" />
-            <div className="hover:underline">{props.email}</div>
+            <div className="hover:underline">{email}</div>
           </div>
           ):("")}
             
-            { props.phone?(
+            { userDetails.phone_number?(
               <div>
                 <div className="border-1"></div>
                 <div className="flex items-center gap-3 my-4">
                   <PhoneIcon className="h-5 w-5" />
                   <a href="" className="hover:underline">
-                    {props.phone}
+                    {phone_number}
                   </a>
                 </div>
               </div>
@@ -148,7 +217,9 @@ const TabContactProfile = (props) => {
             <div className="border-1"></div>
             <div className="flex items-center gap-3 my-4">
               <CalendarIcon className="h-5 w-5" />
-              <div className="">25-August-1998</div>
+              <a href="" className="hover:underline">
+                {DOB}
+              </a>
             </div>
           </div>
         </div>
