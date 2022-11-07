@@ -61,7 +61,7 @@ const TabsProfileCard = () => {
   useEffect(()=>{
     Current_User(); 
   },[])
-   console.log("==>",userDetails);
+   //console.log("==>",userDetails);
   return (
     <>
       <div className="">
@@ -221,7 +221,7 @@ const TabsProfileCard = () => {
               <TabEducationProfile />
             </div>
             <div className={openTab === 5 ? "block" : "hidden"} id="link5">
-              <TabExperienceProfile userexperiences = {userDetails.work_experiences}/>
+              <TabExperienceProfile />
             </div>
             <div className={openTab === 6 ? "block" : "hidden"} id="link6">
               <TabRecentProfile />

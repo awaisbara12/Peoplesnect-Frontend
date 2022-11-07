@@ -82,7 +82,7 @@ const TabContactProfile = () => {
   useEffect(()=>{
     Current_User(); 
   },[])
-   console.log("==>",userDetails);
+   //console.log("==>",userDetails);
   return (
     <>
       <div className="bg-white rounded-xl  p-10">
