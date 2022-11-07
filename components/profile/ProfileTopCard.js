@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState} from "react";
 import Link from "next/link";
 import Image from "next/image";
 import postimage from "../../public/images/266-hero.jpg";
@@ -29,7 +29,77 @@ import {
   TabPanel,
 } from "@material-tailwind/react";
 import TabsProfileCard from "./profile-tabs/TabsProfileCard";
+import {    
+  CURENT_USER_LOGIN_API, UPDATE_PERSONAL_INFO
+} from "../../pages/config";
+
 const ProfileTopCard = () => {
+  const [openTab, setOpenTab] = React.useState(1);
+  const [userDetails, setUserDetails] = React.useState(1);
+  const [image, setImage] = useState();
+  const [coverimage, setcoverimage] = useState([]);
+
+  const onImageChange = (event) => {
+    // if (event.target.files && event.target.files[0]) {
+      setImage(window.URL.createObjectURL(event.target.files[0]));
+      setcoverimage(event.target.files[0]);
+      console.log(coverimage);
+      UpdatePersonal();
+    // }
+  }
+
+  const UpdatePersonal =async()=>{
+    const dataForm = new FormData();
+    dataForm.append("users[cover_photo]", coverimage);
+    await fetch(UPDATE_PERSONAL_INFO, {
+    method: "PUT",
+     headers: {
+      Accept: "application/json", 
+       Authorization: `${authKey}`,
+     },
+     body: dataForm,
+  })
+     .then((resp) => resp.json())
+    .then((result) => {
+      if (result) {
+        setUserDetails(result.data.id); 
+        alert("Your Information has been Updated! ");
+        setcoverimage(result.data.cover_photo);
+      }
+    })
+    .catch((err) => console.log(err));
+  }
+ 
+  // Bareer Key
+  if (typeof window !== "undefined") {
+    // Bareer Key
+    var authKey = window.localStorage.getItem("keyStore"); 
+  }
+
+  //current User
+  const Current_User=async()=>{    
+   
+    await fetch(CURENT_USER_LOGIN_API, {
+      method: "GET",
+       headers: {
+        Accept: "application/json", 
+         Authorization: `${authKey}`,
+       },
+    })
+       .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          setUserDetails(result.data);  
+          // console.log("Current Users Profile",result.data.id);
+          setcoverimage(result.data.cover_photo);
+          console.log(coverimage);
+        }
+      })
+      .catch((err) => console.log(err)); 
+  }
+  useEffect(()=>{
+    Current_User(); 
+  },[])
   return (
     <>
     <div className="mt-8 w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
@@ -38,13 +108,24 @@ const ProfileTopCard = () => {
             <div className="">
               <Link href="/">
                 <a>
-                  <Image
-                    src={postimage}
-                    className="object-cover rounded-xl"
-                    width={1030}
-                    height={320}
-                    alt=""
-                  />
+                  {image? (
+                    <Image
+                      src={image}
+                      className="object-cover rounded-xl"
+                      width={1030}
+                      height={320}
+                      alt=""
+                    />
+                  ):
+                  (
+                    <Image
+                      src={postimage}
+                      className="object-cover rounded-xl"
+                      width={1030}
+                      height={320}
+                      alt=""
+                    />
+                  )}
                 </a>
               </Link>
             </div>
@@ -54,14 +135,17 @@ const ProfileTopCard = () => {
                   <div className="flex cursor-pointer gap-1 text-sm items-center p-2 rounded-xl border-1 border-white text-white">
                     <PhotographIcon className="w-5 h-5" />
                     Change Cover Photo
+                    <input
+                      type="file"
+                      name="image"
+                      id="image"
+                      onChange={onImageChange}
+                      className="opacity-0 absolute w-6 h-6 -z-0"
+                      title={""}
+                      multiple
+                    />
                   </div>
                 </div>
-                <input
-                  name="image"
-                  id="image"
-                  className="opacity-0 absolute w-6 h-6 -z-0"
-                  multiple
-                />
               </div>
             </div>
             <div className="">
