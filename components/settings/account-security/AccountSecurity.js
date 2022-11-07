@@ -1,7 +1,56 @@
 import { EyeIcon } from "@heroicons/react/outline";
-import React from "react";
-
+import React,{useEffect,useState} from "react";
+import {
+  SET_PASSWORD_API
+} from "../../../pages/config";
 const AccountSecurity = () => {
+  const [userDetails, setUserDetails] = useState();
+  const [dbpass, setdbpass] = useState();
+  const [password, setpassword] = useState();
+  const [conpass, setconpass] = useState();
+  const [type1, settype1] = useState("password");
+  const [type2, settype2] = useState("password");
+  const [type3, settype3] = useState("password");
+   // Bareer Key
+  if (typeof window !== "undefined"){var authKey = window.localStorage.getItem("keyStore"); }
+  
+  // for update Password
+  const UpdatePassword=async()=>{     
+    if (dbpass && password && conpass )
+    {
+      await fetch(`${SET_PASSWORD_API}?users[current_password]=${dbpass}&users[password]=${password}&users[password-confirmation]=${conpass}`, {
+        method: "PUT",
+        headers: {
+          Accept: "application/json", 
+          Authorization: `${authKey}`,
+        },
+      }).then((resp) => resp.json())
+        .then((result) => {
+          if (result) { setUserDetails(result.data);alert("Your Password has been reset"); }
+        }).catch((err) => console.log(err)); 
+    }else{alert("Please Enter Password");}
+    
+  }
+  
+  // for hide/show password to user
+  const show=(a)=>{ 
+    if(a =="type1")
+    {
+     if(type1== "password"){settype1("text")}
+     else{settype1("password")}
+    }
+    else if(a =="type2")
+    {
+     if(type2== "password"){settype2("text")}
+     else{settype2("password")}
+    }
+    else if(a =="type3")
+    {
+     if(type3== "password"){settype3("text")}
+     else{settype3("password")}
+    }
+  }
+
   return (
     <div>
       <div className="mt-8">
@@ -16,10 +65,11 @@ const AccountSecurity = () => {
                   <input
                     className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none md:w-96 w-auto placeholder:pl-2 rounded-full placeholder:py-2"
                     placeholder="Enter Current Your Password"
-                    type="Password"
+                    type={type1}
+                    onChange={(e)=>setdbpass(e.target.value)}
                     name="search"
                   />
-                <EyeIcon className="absolute right-4 top-2 h-5 w-5" />
+                <EyeIcon className="absolute right-4 top-2 h-5 w-5"  onClick={()=>show("type1")}/>
                 </div>
               </div>
               <div className="flex justify-center gap-10 items-center mt-5 ">
@@ -28,10 +78,11 @@ const AccountSecurity = () => {
                   <input
                     className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none md:w-96 w-auto placeholder:pl-2 rounded-full placeholder:py-2"
                     placeholder="Enter New Password"
-                    type="Password"
+                    type={type2}
+                    onChange={(e)=>setpassword(e.target.value)}
                     name="search"
                   />
-                <EyeIcon className="absolute right-4 top-2 h-5 w-5" />
+                <EyeIcon className="absolute right-4 top-2 h-5 w-5" onClick={()=>show("type2")}/>
                 </div>
               </div>
               <div className="flex justify-center gap-10 items-center mt-5 ">
@@ -40,10 +91,11 @@ const AccountSecurity = () => {
                   <input
                     className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none md:w-96 w-auto placeholder:pl-2 rounded-full placeholder:py-2"
                     placeholder="Confirm Your Password"
-                    type="Password"
+                    type={type3}
+                    onChange={(e)=>setconpass(e.target.value)}
                     name="search"
                   />
-                <EyeIcon className="absolute right-4 top-2 h-5 w-5" />
+                <EyeIcon className="absolute right-4 top-2 h-5 w-5" onClick={()=>show("type3")} />
                 </div>
               </div>
               <div className="mt-5 flex justify-center">
@@ -66,7 +118,8 @@ const AccountSecurity = () => {
                 </div>
               </div>
               <div className="flex justify-end mt-8">
-                <button className="border-2 border-indigo-400 bg-indigo-400 p-2 rounded-full text-white font-bold">
+                <button className="border-2 border-indigo-400 bg-indigo-400 p-2 rounded-full text-white font-bold"
+                 onClick={UpdatePassword}>
                   Save Changes
                 </button>
               </div>

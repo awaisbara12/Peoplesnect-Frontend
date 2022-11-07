@@ -84,6 +84,16 @@ const ProfileCard = () => {
             <Spinner />
           )}
         </div>
+        <div className="font-light px-5 text-base text-gray-900 leading-5 text-center">
+         Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
+        </div>
+        <div className="text-center">
+          <a href="/profile">
+            <button className="mt-4 border-indigo-400 border text-indigo-400 px-3 py-2 rounded-full font-medium">
+              Show Profile
+            </button>
+          </a>
+        </div>
         {/* <div className="border-1 text-gray-100 my-5"></div>
         <div className="mx-5 flex justify-between items-center">
           <div className="text-sm text-gray-900 leading-4 font-medium">
@@ -103,15 +113,6 @@ const ProfileCard = () => {
             14
           </div>
         </div> */}
-        <div className="border-1 text-gray-100 my-5"></div>
-        <Link href="/">
-          <a>
-            <div className="flex justify-center items-center font-light text-indigo-400 text-base gap-2">
-              <BookmarkIcon className="h-5  w-5" />
-              Saved Items
-            </div>
-          </a>
-        </Link>
       </div>
     </Fragment>
   );

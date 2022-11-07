@@ -1,6 +1,41 @@
-import React from "react";
+import React,{useEffect,useState} from "react";
+import {
+  CURENT_USER_LOGIN_API,
+  ACCOUNT_DEACTIVATE
+} from "../../../pages/config";
 
 const AccountManagment = () => {
+  const [defaultvalue, setdefaultvalue] = useState();
+  // Bareer Key
+  if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore"); }
+    // confirmation 
+  const Accountmang=()=>{
+    if(defaultvalue){
+      const a=confirm("are u sure")
+    if (a===true){UpdateAccountPreference()}
+    if (a===false){console.log("confirm",a)}
+    }else{alert("your changes are not updated")}
+      
+  }
+  //  for acc# deactivation
+  const UpdateAccountPreference=async()=>{
+    await fetch(`${ACCOUNT_DEACTIVATE}?value=${defaultvalue}`, {
+    method: "PUT",
+     headers: {
+      Accept: "application/json", 
+       Authorization: `${authKey}`,
+     },
+  })
+     .then((resp) => resp.json())
+    .then((result) => {
+      if (result) {
+        alert("Your Information has been Updated! ") 
+      }
+    })
+    .catch((err) => console.log(err));
+   
+  }
+
   return (
     <div>
       <div className="mt-8">
@@ -26,12 +61,14 @@ const AccountManagment = () => {
             </div>
             <div className="flex items-center justify-between border bg-white mt-4 px-4 py-6 rounded-xl">
               <div className="">Delete Your Account</div>
+              
               <div className="flex items-center gap-4">
                 <div className="flex items-center">
                   <input
+                    
                     id="default-radio-1"
                     type="radio"
-                    value=""
+                    onChange={(e)=>setdefaultvalue("temporary")}
                     name="default-radio"
                     className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-indigo-400 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                   />
@@ -44,10 +81,10 @@ const AccountManagment = () => {
                 </div>
                 <div className="flex items-center">
                   <input
-                    checked
-                    id="default-radio-2"
+                    
+                    id="default-radio-1"
                     type="radio"
-                    value=""
+                    onChange={(e)=>setdefaultvalue("permanent")}
                     name="default-radio"
                     className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-indigo-400 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                   />
@@ -59,9 +96,11 @@ const AccountManagment = () => {
                   </label>
                 </div>
               </div>
+              
             </div>
             <div className="flex justify-end mt-5">
-              <button className="border-2 border-indigo-400 bg-indigo-400 p-2 rounded-full text-white font-bold">
+              <button className="border-2 border-indigo-400 bg-indigo-400 p-2 rounded-full text-white font-bold"
+              onClick={Accountmang}>
                 Save Changes
               </button>
             </div>

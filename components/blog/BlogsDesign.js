@@ -49,10 +49,27 @@ const BlogsDesign = () => {
     );
   return (
     <div className="w-[600px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
-      <div className="">
-        <div className="grid grid-cols-1 gap-6 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2">
-          {list &&
+    {list &&
             list.data.map((item) => (
+      <div className="">
+        <div>
+          <div className="flex justify-between align-item-center mt-12">
+          <div className="text-lg font-bold">My Articles</div>
+          <div className="add_new_button text-center">
+            <Link href="/blog" className="">
+              <a href="/Show-All-Blogs">
+                <button
+                  type="submit"
+                  className="border-2 border-indigo-400 text-indigo-400 text-md cursor-pointer font-bold py-2 px-4 rounded-full"
+                >
+                  Show More
+                </button>
+              </a>
+            </Link>
+          </div>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 gap-6 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2">
               <div
                 className="w-full mt-8 blogs bg-white rounded-xl"
                 key={item.id}
@@ -106,22 +123,9 @@ const BlogsDesign = () => {
                   </div>
                 </div>
               </div>
-            ))}
         </div>
       </div>
-
-      <div className="add_new_button text-center mt-12">
-        <Link href="/blog" className="">
-          <a>
-            <button
-              type="submit"
-              className="border-2 border-indigo-400 text-indigo-400 text-md cursor-pointer font-bold py-2 px-4 rounded-full"
-            >
-              Show More
-            </button>
-          </a>
-        </Link>
-      </div>
+    ))}
     </div>
   );
 };
