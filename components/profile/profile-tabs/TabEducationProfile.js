@@ -5,9 +5,9 @@ import Link from "next/link";
 import Image from "next/image";
 import ProfileAvatar from "../../../public/images/profile-girl.jpg";
 import { PlusCircleIcon } from "@heroicons/react/solid";
-import { ChevronRightIcon, XIcon, PencilAltIcon } from "@heroicons/react/outline";
+import { ChevronRightIcon, XIcon, PencilAltIcon,TrashIcon } from "@heroicons/react/outline";
 import {    
-  CURENT_USER_LOGIN_API,UPDATE_USER_EDUCATION,CREATE_USER_EDUCATION
+  CURENT_USER_LOGIN_API,USER_EDUCATION
 } from "../../../pages/config";
 
 const TabEducationProfile = () => {
@@ -59,7 +59,7 @@ const TabEducationProfile = () => {
 
   const CreateEducation=async()=>{  // CreateEducation
 
-    await fetch(`${CREATE_USER_EDUCATION}?educations[institution]=${education_institution}&educations[degree]=${education_degree}&educations[degree_type]=${education_degree_type}&educations[study_from]=${education_study_from}&educations[study_to]=${education_study_to}`, {
+    await fetch(`${USER_EDUCATION}?educations[institution]=${education_institution}&educations[degree]=${education_degree}&educations[degree_type]=${education_degree_type}&educations[study_from]=${education_study_from}&educations[study_to]=${education_study_to}`, {
       method: "Post",
        headers: {
         Accept: "application/json", 
@@ -77,10 +77,32 @@ const TabEducationProfile = () => {
       .catch((err) => console.log(err));
       Current_User();
   }
-
+  const deletEducation=async(delID)=>{  // UpdateEducation
+     if(delID)
+     {
+      let a=confirm("Are you sure?")
+      if(a==true)
+      {
+        await fetch(`${USER_EDUCATION}/${delID}`, {
+          method: "DELETE",
+           headers: {
+            Accept: "application/json", 
+             Authorization: `${authKey}`,
+           },
+        }).then((resp) => resp.json())
+          .then((result) => {
+            if (result) {
+              closeModal();
+              Current_User();
+            }
+          })
+          .catch((err) => console.log(err)); 
+      }
+     }    
+  }
   const UpdateEducation=async()=>{  // UpdateEducation
 
-    await fetch(`${UPDATE_USER_EDUCATION}/${education_id}?educations[institution]=${education_institution}&educations[degree]=${education_degree}&educations[degree_type]=${education_degree_type}&educations[study_from]=${education_study_from}&educations[study_to]=${education_study_to}`, {
+    await fetch(`${USER_EDUCATION}/${education_id}?educations[institution]=${education_institution}&educations[degree]=${education_degree}&educations[degree_type]=${education_degree_type}&educations[study_from]=${education_study_from}&educations[study_to]=${education_study_to}`, {
       method: "Put",
        headers: {
         Accept: "application/json", 
@@ -181,27 +203,36 @@ const TabEducationProfile = () => {
                             </div>
                           </div>
                           <div className="mt-5">
-                            <div className="">
-                              <input
-                                className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full placeholder:pl-2 rounded-full placeholder:py-2"
-                                placeholder="Starting From" type="text" name="search"
-                                value={education_study_from} 
-                                onChange = {(e)=>setUsereducation_study_from(e.target.value)}/>
+                            <div className="flex">
+                            <div style={{width:'100%'}}>
+                            <label style={{margin:15, color:'#8e8e8e'}}>Start Date</label>
+                            <input
+                              className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full placeholder:pl-2 rounded-full placeholder:py-2"
+                              type="date"
+                              name="startDate"
+                              value={education_study_from} 
+                              onChange = {(e)=>setUsereducation_study_from(e.target.value)}
+                              placeholderColor="#8e8e8e"
+                            />
+                            </div>
+                            <div style={{width:'100%'}}>
+                            <label style={{margin:15, color:'#8e8e8e'}}>End Date</label>
+                            <input
+                              className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full placeholder:pl-2 rounded-full placeholder:py-2"
+                              type="date"
+                              name="startDate"
+                              value={education_study_to} 
+                              onChange = {(e)=>setUsereducation_study_to(e.target.value)}
+                              placeholderColor="#8e8e8e"
+                            />
+                            </div>
                             </div>
                           </div>
-                          <div className="mt-5">
-                            <div className="">
-                              <input
-                                className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full placeholder:pl-2 rounded-full placeholder:py-2"
-                                placeholder="Ended To" type="text" name="search" 
-                                value={education_study_to} 
-                                onChange = {(e)=>setUsereducation_study_to(e.target.value)}/>
-                            </div>
-                          </div>
+                          
                           <div className="flex gap-4 justify-end">
                             <Link href="">
                             <button type="submit" className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
-                             onClick={UpdateEducation}>
+                              onClick={UpdateEducation}>
                               Save Changes
                             </button>
                             </Link>
@@ -262,29 +293,39 @@ const TabEducationProfile = () => {
                                 onChange = {(e)=>setUsereducation_degree_type(e.target.value)}/>
                             </div>
                           </div>
+                         
                           <div className="mt-5">
-                            <div className="">
-                              <input
-                                className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full placeholder:pl-2 rounded-full placeholder:py-2"
-                                placeholder="Starting From" type="text" name="search"
-                                value={education_study_from} 
-                                onChange = {(e)=>setUsereducation_study_from(e.target.value)}/>
+                            <div className="flex">
+                            <div style={{width:'100%'}}>
+                            <label style={{margin:15, color:'#8e8e8e'}}>Starting Date</label>
+                            <input
+                              type="date"
+                              name="startDate"
+                              value={education_study_to}
+                              placeholderColor="#8e8e8e"
+                              onChange = {(e)=>setUsereducation_study_to(e.target.value)}
+                              className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full placeholder:pl-2 rounded-full placeholder:py-2"
+                              />
                             </div>
-                          </div>
-                          <div className="mt-5">
-                            <div className="">
-                              <input
-                                className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full placeholder:pl-2 rounded-full placeholder:py-2"
-                                placeholder="Ended To" type="text" name="search" 
-                                value={education_study_to} 
-                                onChange = {(e)=>setUsereducation_study_to(e.target.value)}/>
+                            <div style={{width:'100%'}}>
+                            <label style={{margin:15, color:'#8e8e8e'}}>End Date</label>
+                            <input
+                              type="date"
+                              name="startDate"
+                              value={education_study_from} 
+                              onChange = {(e)=>setUsereducation_study_from(e.target.value)}
+                              className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full placeholder:pl-2 rounded-full placeholder:py-2"
+                              />
                             </div>
+                             
+                            </div>
+
                           </div>
                           <div className="flex gap-4 justify-end">
                             <Link href="">
                             <button type="submit" className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
                              onClick={CreateEducation}>
-                              Save Changes
+                             Add Education
                             </button>
                             </Link>
                           </div>
@@ -308,6 +349,10 @@ const TabEducationProfile = () => {
               <a className="hover:text-indigo-400">
                 <PencilAltIcon onClick={()=>seteducation(s)} className="h-5 w-5 underline" />
               </a>
+              <a className="hover:text-indigo-400">
+               <TrashIcon onClick={()=>deletEducation(s.id)} className="h-5 w-5 underline" />
+              </a>
+              
             </div>
 
             <div className="flex items-center gap-10">
