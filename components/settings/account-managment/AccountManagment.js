@@ -3,19 +3,21 @@ import {
   CURENT_USER_LOGIN_API,
   ACCOUNT_DEACTIVATE
 } from "../../../pages/config";
+
 const AccountManagment = () => {
   const [defaultvalue, setdefaultvalue] = useState();
-  
-    // Bareer Key
+  // Bareer Key
   if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore"); }
-  
+    // confirmation 
   const Accountmang=()=>{
-    const a=confirm("are u sure")
+    if(defaultvalue){
+      const a=confirm("are u sure")
     if (a===true){UpdateAccountPreference()}
-    if (a===false){console.log("confirm",a)}  
+    if (a===false){console.log("confirm",a)}
+    }else{alert("your changes are not updated")}
+      
   }
-  
-
+  //  for acc# deactivation
   const UpdateAccountPreference=async()=>{
     await fetch(`${ACCOUNT_DEACTIVATE}?value=${defaultvalue}`, {
     method: "PUT",
@@ -27,8 +29,6 @@ const AccountManagment = () => {
      .then((resp) => resp.json())
     .then((result) => {
       if (result) {
-       
-        console.log("Update",result.data.is_deleted);
         alert("Your Information has been Updated! ") 
       }
     })
@@ -36,8 +36,6 @@ const AccountManagment = () => {
    
   }
 
-
-console.log("value",defaultvalue);
   return (
     <div>
       <div className="mt-8">
