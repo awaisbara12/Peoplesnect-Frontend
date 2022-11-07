@@ -590,8 +590,9 @@ const TabExperienceProfile = () => {
                 <div className="flex flex-col gap-1">
                   <div className="font-extrabold">{s.company_name}</div>
                   <div className="font-light">{s.job_title}</div>
-                  <div className="font-light">{s.starting}/{s.current_work?(<p>continue</p>):(<p>{s.ending}</p>)}</div>
-                  <div className="font-extralight">
+                  <div className="font-light">
+                    {s.current_work?(<p className="font-extralight"> {s.starting} <b>To</b> continue </p>):(<p className="font-extralight">{s.starting} <b>To</b> {s.ending} </p>)}</div>
+                  {/* <div className="font-extralight">
                     March 2019 - Present- 3 yrs 7 mos
                   </div>
                   <div className="mt-2 font-light md:w-[775px]">
@@ -599,7 +600,7 @@ const TabExperienceProfile = () => {
                     collaborated with companies brands for online work. Through my
                     Skills I Accompany the Client In Managing His Ideas...
                     <span className="text-indigo-400">Seen More</span>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
