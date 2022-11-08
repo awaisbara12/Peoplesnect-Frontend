@@ -196,7 +196,7 @@ const TabContactProfile = () => {
         </div>
         <div className="p-2 grid grid-cols-1">
           <div className="font-bold flex flex-col gap-4">
-          {userDetails.email?(
+          {userDetails?(
             <div className="flex items-center gap-3 my-4">
             <MailIcon className="h-5 w-5" />
             <div className="hover:underline">{email}</div>

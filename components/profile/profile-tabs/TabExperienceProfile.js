@@ -270,7 +270,7 @@ const TabExperienceProfile = () => {
                               onChange = {(e)=>setusercity(e.target.value)}
                             />
                           </div>
-                          <div className="mt-5">
+                          {/* <div className="mt-5">
                           <select className="block appearance-none w-full bg-zinc-100 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded-full leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                               id="grid-state" onClick={(e)=>setuserjob_type(e.target.value)}>
                               <option>{job_type}</option>
@@ -278,7 +278,7 @@ const TabExperienceProfile = () => {
                               <option value="On Site">On Site</option>
                               <option value="Remote">Remote</option>
                             </select>
-                          </div>
+                          </div> */}
                         </div>
                         <div className="grid grid-cols-2 gap-5">
                           <div className="mt-8">
@@ -442,7 +442,7 @@ const TabExperienceProfile = () => {
                               onChange = {(e)=>setusercity(e.target.value)}
                             />
                           </div>
-                          <div className="mt-5">
+                          {/* <div className="mt-5">
                             <select className="block appearance-none w-full bg-zinc-100 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded-full leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                               id="grid-state"  onClick={(e)=>setuserjob_type(e.target.value)}>
                               <option></option>
@@ -450,7 +450,7 @@ const TabExperienceProfile = () => {
                               <option value="On Site">On Site</option>
                               <option value="Remote">Remote</option>
                             </select>
-                          </div>
+                          </div> */}
                         </div>
                         <div className="grid grid-cols-2 gap-5">
                           <div className="mt-8">
