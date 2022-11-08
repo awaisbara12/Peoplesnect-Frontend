@@ -548,7 +548,8 @@ const TabExperienceProfile = () => {
                   <div className="font-extrabold">{s.company_name}</div>
                   <div className="font-light">{s.job_title}</div>
                   <div className="font-light">
-                    {s.current_work?(<p className="font-extralight"> {s.starting} <b>To</b> continue </p>):(<p className="font-extralight">{s.starting} <b>To</b> {s.ending} </p>)}</div>
+                    {s.current_work?(<p className="font-extralight"> {s.starting} <b>To</b> Present </p>):(<p className="font-extralight">{s.starting} <b>To</b> {s.ending} </p>)}</div>
+                    <div className="font-light">{s.city}, {s.state}, {s.country}</div>
                   {/* <div className="font-extralight">
                     March 2019 - Present- 3 yrs 7 mos
                   </div>
