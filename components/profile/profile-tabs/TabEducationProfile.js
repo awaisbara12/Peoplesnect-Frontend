@@ -430,7 +430,7 @@ const TabEducationProfile = () => {
                 </div>
                 <div className="font-light text-sm"> {s.degree}</div>
                 <div className="font-light text-sm"> {s.degree_type}</div>               
-                <div className="font-extralight">{s.continue?(<p>{s.study_from} <b>To</b> Continue</p>):(<p>{s.study_from} <b>To</b> {s.study_to}</p>)}</div>
+                <div className="font-extralight">{s.continue?(<p>{s.study_from} <b>To</b> Present</p>):(<p>{s.study_from} <b>To</b> {s.study_to}</p>)}</div>
               </div>
             </div>
           </div>

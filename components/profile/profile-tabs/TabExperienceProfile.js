@@ -270,15 +270,16 @@ const TabExperienceProfile = () => {
                               onChange = {(e)=>setusercity(e.target.value)}
                             />
                           </div>
-                          {/* <div className="mt-5">
+                          <div className="mt-5">
                           <select className="block appearance-none w-full bg-zinc-100 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded-full leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                              id="grid-state" onClick={(e)=>setuserjob_type(e.target.value)}>
+                              id="grid-state"  onClick={(e)=>setuserjob_type(e.target.value)}>
                               <option>{job_type}</option>
-                              <option value="Hybrid">Hybrid</option>
-                              <option value="On Site">On Site</option>
-                              <option value="Remote">Remote</option>
+                              <option value="Full Time">Full Time</option>
+                              <option value="Part Time">Part Time</option>
+                              <option value="Contract">Contract</option>
+                              <option value="Temporary">Temporary</option>
                             </select>
-                          </div> */}
+                          </div>
                         </div>
                         <div className="grid grid-cols-2 gap-5">
                           <div className="mt-8">
@@ -442,15 +443,16 @@ const TabExperienceProfile = () => {
                               onChange = {(e)=>setusercity(e.target.value)}
                             />
                           </div>
-                          {/* <div className="mt-5">
+                          <div className="mt-5">
                             <select className="block appearance-none w-full bg-zinc-100 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded-full leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                               id="grid-state"  onClick={(e)=>setuserjob_type(e.target.value)}>
                               <option></option>
-                              <option value="Hybrid">Hybrid</option>
-                              <option value="On Site">On Site</option>
-                              <option value="Remote">Remote</option>
+                              <option value="Full Time">Full Time</option>
+                              <option value="Part Time">Part Time</option>
+                              <option value="Contract">Contract</option>
+                              <option value="Temporary">Temporary</option>
                             </select>
-                          </div> */}
+                          </div>
                         </div>
                         <div className="grid grid-cols-2 gap-5">
                           <div className="mt-8">
@@ -546,9 +548,10 @@ const TabExperienceProfile = () => {
                 </Link>
                 <div className="flex flex-col gap-1">
                   <div className="font-extrabold">{s.company_name}</div>
-                  <div className="font-light">{s.job_title}</div>
+                  <div className="font-light"><b>{s.job_title} - {s.job_type}</b></div>
                   <div className="font-light">
-                    {s.current_work?(<p className="font-extralight"> {s.starting} <b>To</b> continue </p>):(<p className="font-extralight">{s.starting} <b>To</b> {s.ending} </p>)}</div>
+                    {s.current_work?(<p className="font-light"> {s.starting} <b>To</b> Present </p>):(<p className="font-extralight">{s.starting} <b>To</b> {s.ending} </p>)}</div>
+                    <div className="font-extralight">{s.city}, {s.state}, {s.country}</div>
                   {/* <div className="font-extralight">
                     March 2019 - Present- 3 yrs 7 mos
                   </div>
