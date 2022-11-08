@@ -88,11 +88,13 @@ const ProfileCard = () => {
          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
         </div>
         <div className="text-center">
-          <a href="/profile">
-            <button className="mt-4 border-indigo-400 border text-indigo-400 px-3 py-2 rounded-full font-medium">
-              Show Profile
-            </button>
-          </a>
+        <Link href="/profile">
+        <a>
+          <button className="mt-4 border-indigo-400 border text-indigo-400 px-3 py-2 rounded-full font-medium">
+             Show Profile
+          </button>
+        </a>
+        </Link>
         </div>
         {/* <div className="border-1 text-gray-100 my-5"></div>
         <div className="mx-5 flex justify-between items-center">

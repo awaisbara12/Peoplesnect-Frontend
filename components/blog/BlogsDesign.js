@@ -51,7 +51,7 @@ const BlogsDesign = () => {
     <div className="w-[600px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
     {list &&
             list.data.map((item) => (
-      <div className="">
+      <div className="" key="items.id">
         <div>
           <div className="flex justify-between align-item-center mt-12">
           <div className="text-lg font-bold">My Articles</div>

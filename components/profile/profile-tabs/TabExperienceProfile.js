@@ -522,7 +522,7 @@ const TabExperienceProfile = () => {
         <div className="">
         { work_experiences?(
           work_experiences.map((s) => (
-            <div className="border-b-1 py-10">
+            <div className="border-b-1 py-10" key={s.id}>
             <div className="flex justify-end">
             <a className="hover:text-indigo-400">
               <PencilAltIcon onClick={()=>set_work_experience(s)} className="h-5 w-5 underline" />

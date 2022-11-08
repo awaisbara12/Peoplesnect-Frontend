@@ -407,7 +407,7 @@ const TabEducationProfile = () => {
         <div className="flex flex-col">
         { education?(
           education.map((s) => (
-          <div className="border-b-1 py-5">
+          <div className="border-b-1 py-5" key={s.id}>
             <div className="flex justify-end">
               <a className="hover:text-indigo-400">
                 <PencilAltIcon onClick={()=>seteducation(s)} className="h-5 w-5 underline" />
