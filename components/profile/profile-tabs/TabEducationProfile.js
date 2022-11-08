@@ -248,7 +248,7 @@ const TabEducationProfile = () => {
                             )
 
                             }
-                           
+                            </div>
                             <div className="mt-5">
                             <input
                               checked={current_study}
@@ -262,10 +262,9 @@ const TabEducationProfile = () => {
                               htmlFor="default-radio-2"
                               className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                             >
-                              Current Working here
+                              Persuing
                             </label>
                           </div>
-                            </div>
                           </div> 
                           <div className="flex gap-4 justify-end">
                             <Link href="">
@@ -380,7 +379,7 @@ const TabEducationProfile = () => {
                               htmlFor="default-radio-2"
                               className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                             >
-                              Current Working here
+                              Persuing
                             </label>
                           </div>
                           </div>
