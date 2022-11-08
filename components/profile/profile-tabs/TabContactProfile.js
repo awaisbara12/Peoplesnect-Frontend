@@ -160,14 +160,17 @@ const TabContactProfile = () => {
               </div>
               <div className="mt-5">
                   <div className="">
-                    <input
-                      className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full placeholder:pl-2 rounded-full placeholder:py-2"
-                      placeholder="Date Of Birth"
-                      value={DOB}
-                      onChange = {(e)=>setUserDOB(e.target.value)}
-                      type="text"
-                      name="search"
-                    />
+                  <div style={{width:'100%'}}>
+                     <label style={{margin:15, color:'#8e8e8e'}}>Date Of Birth</label>
+                     <input
+                     type="date"
+                     name="endDate"
+                     value={DOB} 
+                     onChange = {(e)=>setUserDOB(e.target.value)}
+                     className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full placeholder:pl-2 rounded-full placeholder:py-2"
+                     />
+                   </div>
+                
                   </div>
               </div>
                       <div className="flex gap-4 justify-end">

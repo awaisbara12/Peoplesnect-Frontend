@@ -119,6 +119,7 @@ const SkillsTabProfile = () => {
             className="h-5 w-5 hover:text-indigo-400" />
           </a>
 
+           {/* Add Moda */}
           <Transition appear show={isOpen} as={Fragment}>
             <Dialog
               as="div"
@@ -159,7 +160,7 @@ const SkillsTabProfile = () => {
                       as="h3"
                       className="text-lg font-medium leading-6 text-gray-900 px-8"
                     >
-                      Skills
+                     Add Skills
                     </Dialog.Title>
                   <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
                     <div className="bg-white px-12 py-5 rounded-xl">
@@ -190,6 +191,8 @@ const SkillsTabProfile = () => {
             </div>
           </Dialog>
           </Transition>
+
+          {/* Update Modal */}
           <Transition appear show={editOpen} as={Fragment}>
             <Dialog
               as="div"
@@ -230,12 +233,13 @@ const SkillsTabProfile = () => {
                       as="h3"
                       className="text-lg font-medium leading-6 text-gray-900 px-8"
                     >
-                      Skills
+                      Edit Skills
                     </Dialog.Title>
                   <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
                     <div className="bg-white px-12 py-5 rounded-xl">
                       <div>
                         <input
+                          className="placeholder:text-md hover:shadow-lg bg-gray-100 placeholder:rounded-full border-none w-full pl-2 rounded-full py-2 "      
                           value={editskill}
                           onChange={(e)=>seteditskill(e.target.value)}
                           name="skills"
