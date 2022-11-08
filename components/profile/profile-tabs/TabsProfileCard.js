@@ -29,6 +29,7 @@ import TabSavedProfile from "./TabSavedProfile";
 import {    
   CURENT_USER_LOGIN_API
 } from "../../../pages/config";
+
 const TabsProfileCard = () => {
   const [openTab, setOpenTab] = React.useState(1);
   const [userDetails, setUserDetails] = React.useState(1);
@@ -215,7 +216,7 @@ const TabsProfileCard = () => {
               <TabContactProfile />
             </div>
             <div className={openTab === 3 ? "block" : "hidden"} id="link3">
-              <SkillsTabProfile uskill={userDetails.skills}/>
+              <SkillsTabProfile />
             </div>
             <div className={openTab === 4 ? "block" : "hidden"} id="link4">
               <TabEducationProfile />
