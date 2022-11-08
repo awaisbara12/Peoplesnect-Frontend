@@ -137,11 +137,11 @@ const ProfileTopCard = () => {
                 </a>
               </Link>
             </div>
-            <div className="absolute top-0 left-0 right-0 bottom-0 w-full rounded-xl h-full bg-black bg-opacity-0 flex justify-center items-center opacity-0 hover:opacity-100 hover:bg-opacity-70 duration-500">
+            <div className="absolute top-0 left-0 right-0 bottom-0 w-full rounded-xl h-full bg-black bg-opacity-0 flex justify-center items-center opacity-0 hover:opacity-100 hover:bg-opacity-90 duration-500">
               <div className="relative flex items-center justify-center">
                 <div className="">
-                  <div className="flex cursor-pointer gap-1 text-sm items-center p-2 rounded-xl border-1 border-white text-white">
-                    <PhotographIcon className="w-5 h-5" />
+                  <div className="flex gap-1 text-sm items-center p-2 rounded-xl border-1 border-white text-white">
+                    <PhotographIcon className="w-5 h-5"/>
                     Change Cover Photo
                     <input
                       type="file"
@@ -204,7 +204,7 @@ const ProfileTopCard = () => {
                 {userDetails.first_name} {userDetails.last_name}
               </div>
               <div className="absolute left-40 top-2 opacity-0 group-hover:opacity-100 cursor-pointer">
-                <PencilIcon className="h-4 w-4 text-indigo-400" />
+                {/* <PencilIcon className="h-4 w-4 text-indigo-400" /> */}
               </div>
             </div>
             <Link href="" className="">
