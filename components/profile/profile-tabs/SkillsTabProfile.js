@@ -269,7 +269,7 @@ const SkillsTabProfile = () => {
             <div className="border-b-1 py-5">
               <div className="flex justify-between items-center">
                 <div className="">{i.title}</div>
-                <div class="flex justify-end">
+                <div className="flex justify-end">
                   <a className="hover:text-indigo-400">
                     <PencilAltIcon onClick={()=>openeditModal(i)}
                       className="h-5 w-5 underline" />
