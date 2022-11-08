@@ -243,7 +243,7 @@ const SkillsTabProfile = () => {
       <div className="font-bold uppercase px-2">
         {c_user?(
           c_user.map((i)=>(
-            <div className="flex flex-col">       
+            <div className="flex flex-col" key={i.id}>       
             <div className="border-b-1 py-5">
               <div className="flex justify-between items-center">
                 <div className="">{i.title}</div>

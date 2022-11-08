@@ -96,7 +96,7 @@ const PersonalInfo = () => {
                   <option value={country}>{country}</option>
                   {
                     Country.getAllCountries().map((item)=>(
-                      <option value={item.isoCode}>{item.name}</option>
+                      <option value={item.isoCode} key={item.isoCode}>{item.name}</option>
                     ))  
                   }
                 </select>
@@ -104,7 +104,7 @@ const PersonalInfo = () => {
                   <option value={city}>{city}</option>
                   {
                     City.getCitiesOfCountry(country).map((item)=>(
-                      <option value={item.name}>{item.name}</option>
+                      <option value={item.name} key={item.name}>{item.name}</option>
                     ))  
                   }
                 </select>
