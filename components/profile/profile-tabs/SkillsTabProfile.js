@@ -3,7 +3,7 @@ import { Menu, Transition } from "@headlessui/react";
 import { Dialog } from "@headlessui/react";
 import Link from "next/link";
 import { ChevronRightIcon, PencilAltIcon, XIcon } from "@heroicons/react/outline";
-import { PlusCircleIcon } from "@heroicons/react/solid";
+import { PlusCircleIcon,TrashIcon } from "@heroicons/react/solid";
 import { TagsInput } from "react-tag-input-component";
 import {    
   CURENT_USER_LOGIN_API,
@@ -27,6 +27,26 @@ const SkillsTabProfile = () => {
   function closeeditModal() { seteditOpen(false); }
   // for Open  Edit-modal
   function openeditModal(i) { seteditOpen(true);seteditskill(i.title);seteditskillid(i.id)}
+  const delSkill=async(delId)=>{
+    let a=confirm("Are you sure");
+    if (delId && a==true){
+      await fetch(`${ADD_SKILLS}/${delId}`, {
+        method: "DELETE",
+         headers: {
+          Accept: "application/json", 
+           Authorization: `${authKey}`,
+         },
+        }).then((resp) => resp.json())
+        .then((result) => {
+          if (result) { 
+            seteditOpen(false); 
+            Current_User();
+          }
+        })
+        .catch((err) => console.log(err));
+    }else{alert ("Enter Your Skills");}
+   
+  }
   // for Update skills
   const UpdateSkill=async()=>{
     if (editskill){
@@ -98,6 +118,8 @@ const SkillsTabProfile = () => {
             onClick={openModal}
             className="h-5 w-5 hover:text-indigo-400" />
           </a>
+
+           {/* Add Moda */}
           <Transition appear show={isOpen} as={Fragment}>
             <Dialog
               as="div"
@@ -138,13 +160,14 @@ const SkillsTabProfile = () => {
                       as="h3"
                       className="text-lg font-medium leading-6 text-gray-900 px-8"
                     >
-                      Skills
+                     Add Skills
                     </Dialog.Title>
                   <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
                     <div className="bg-white px-12 py-5 rounded-xl">
                       <div>
                         <input
-                          value={skill}
+                          className="placeholder:text-md hover:shadow-lg bg-gray-100 placeholder:rounded-full border-none w-full pl-2 rounded-full py-2 "      
+                         value={skill}
                           onChange={(e)=>setuserskill(e.target.value)}
                           name="skills"
                           placeHolder="Add Skills"
@@ -155,7 +178,7 @@ const SkillsTabProfile = () => {
                         <Link href="">
                           <button className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
                             type="submit" onClick={AddSkill}  >
-                                Save Skills
+                             Save Skills
                           </button>
                         </Link>
                       </div>
@@ -168,6 +191,8 @@ const SkillsTabProfile = () => {
             </div>
           </Dialog>
           </Transition>
+
+          {/* Update Modal */}
           <Transition appear show={editOpen} as={Fragment}>
             <Dialog
               as="div"
@@ -208,12 +233,13 @@ const SkillsTabProfile = () => {
                       as="h3"
                       className="text-lg font-medium leading-6 text-gray-900 px-8"
                     >
-                      Skills
+                      Edit Skills
                     </Dialog.Title>
                   <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
                     <div className="bg-white px-12 py-5 rounded-xl">
                       <div>
                         <input
+                          className="placeholder:text-md hover:shadow-lg bg-gray-100 placeholder:rounded-full border-none w-full pl-2 rounded-full py-2 "      
                           value={editskill}
                           onChange={(e)=>seteditskill(e.target.value)}
                           name="skills"
@@ -243,14 +269,20 @@ const SkillsTabProfile = () => {
       <div className="font-bold uppercase px-2">
         {c_user?(
           c_user.map((i)=>(
-            <div className="flex flex-col">       
+            <div className="flex flex-col" key={i.id}>       
             <div className="border-b-1 py-5">
               <div className="flex justify-between items-center">
                 <div className="">{i.title}</div>
-                <a className="hover:text-indigo-400">
-                  <PencilAltIcon onClick={()=>openeditModal(i)}
-                    className="h-5 w-5 underline" />
-                </a>
+                <div className="flex justify-end">
+                  <a className="hover:text-indigo-400">
+                    <PencilAltIcon onClick={()=>openeditModal(i)}
+                      className="h-5 w-5 underline" />
+                  </a>
+                  <a className="hover:text-indigo-400">
+                <TrashIcon onClick={()=>delSkill(i.id)} className="h-5 w-5 underline" />
+                  </a>
+                </div>
+               
               </div>
             </div>
            </div>
