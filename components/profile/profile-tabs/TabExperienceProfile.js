@@ -288,18 +288,7 @@ const TabExperienceProfile = () => {
                     />
                   </div>
               </div>
-              <div className="mt-5 ">
-                  <div className="">
-                    <input
-                      className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full placeholder:pl-2 rounded-full placeholder:py-2"
-                      placeholder="Currently Work"
-                      type="text"
-                      name="search"
-                      value={current_work} 
-                      onChange = {(e)=>setusercurrent_work(e.target.value)}
-                    />
-                  </div>
-              </div>
+             
               <div className="mt-5 ">
                   <div className="">
                   <div style={{width:'100%'}}>
