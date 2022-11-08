@@ -37,20 +37,31 @@ const ProfileTopCard = () => {
   const [openTab, setOpenTab] = React.useState(1);
   const [userDetails, setUserDetails] = React.useState(1);
   const [image, setImage] = useState();
-  const [coverimage, setcoverimage] = useState([]);
+  const [coverimage, setcoverimage] = useState();
+  const [profileimage, setprofileimage] = useState();
 
   const onImageChange = (event) => {
-    // if (event.target.files && event.target.files[0]) {
+    if (event.target.files.length !== 0) {
       setImage(window.URL.createObjectURL(event.target.files[0]));
-      setcoverimage(event.target.files[0]);
-      console.log(coverimage);
-      UpdatePersonal();
-    // }
+      UpdatePersonal(event.target.files[0],"cover");
+    }
+  }
+  const onProfileChange = (event) => {
+    if (event.target.files.length !== 0) {
+      setImage(window.URL.createObjectURL(event.target.files[0]));
+      UpdatePersonal(event.target.files[0],"profile");
+    }
   }
 
-  const UpdatePersonal =async()=>{
+  const UpdatePersonal =async(e, type)=>{
     const dataForm = new FormData();
-    dataForm.append("users[cover_photo]", coverimage);
+    if(type=="cover")
+    {
+      dataForm.append("users[cover_photo]", e);
+    }
+    else{
+      dataForm.append("users[display_photo]", e);
+    }
     await fetch(UPDATE_PERSONAL_INFO, {
     method: "PUT",
      headers: {
@@ -62,9 +73,9 @@ const ProfileTopCard = () => {
      .then((resp) => resp.json())
     .then((result) => {
       if (result) {
-        setUserDetails(result.data.id); 
-        alert("Your Information has been Updated! ");
-        setcoverimage(result.data.cover_photo);
+        setUserDetails(result.data); 
+        setcoverimage(result.data.cover_photo_url);
+        setprofileimage(result.data.display_photo_url);
       }
     })
     .catch((err) => console.log(err));
@@ -90,9 +101,8 @@ const ProfileTopCard = () => {
       .then((result) => {
         if (result) {
           setUserDetails(result.data);  
-          // console.log("Current Users Profile",result.data.id);
-          setcoverimage(result.data.cover_photo);
-          console.log(coverimage);
+          setcoverimage(result.data.cover_photo_url);
+          setprofileimage(result.data.display_photo_url);
         }
       })
       .catch((err) => console.log(err)); 
@@ -108,19 +118,17 @@ const ProfileTopCard = () => {
             <div className="">
               <Link href="/">
                 <a>
-                  {image? (
-                    <Image
-                      src={image}
-                      className="object-cover rounded-xl"
-                      width={1030}
-                      height={320}
+                  {coverimage? (
+                    <img
+                      src={coverimage}
+                      className="object-cover rounded-xl h-[320px] w-[1030px]"
                       alt=""
                     />
                   ):
                   (
                     <Image
                       src={postimage}
-                      className="object-cover rounded-xl"
+                      className="object-cover rounded-xl" 
                       width={1030}
                       height={320}
                       alt=""
@@ -153,7 +161,14 @@ const ProfileTopCard = () => {
                 <div className="relative">
                   <Link href="">
                     <a>
-                      <Image
+                      {profileimage?(
+                        <img
+                        src={profileimage}
+                        className="object-cover rounded-full z-40 h-[96px] w-[96px]"
+                        alt=""
+                      />
+                      ):(
+                        <Image
                         src={ProfileAvatar}
                         width={96}
                         height={96}
@@ -161,12 +176,22 @@ const ProfileTopCard = () => {
                         placeholder="empty"
                         alt="profile-image"
                       />
+                      )}
                     </a>
                   </Link>
                   <div className="absolute top-0 left-0 right-0 bottom-0 w-full rounded-full h-full bg-black bg-opacity-0 z-50 flex justify-center items-center opacity-0 hover:opacity-100 hover:bg-opacity-70 duration-500">
                     <div className="flex gap-1 text-sm text-white rounded-full  cursor-pointer">
                       <PencilIcon className="w-4 h-4" />
                       Edit Profile
+                      <input
+                      type="file"
+                      name="image"
+                      id="image"
+                      onChange={onProfileChange}
+                      className="opacity-0 absolute w-6 h-6 -z-0"
+                      title={""}
+                      multiple
+                    />
                     </div>
                   </div>
                 </div>
@@ -176,7 +201,7 @@ const ProfileTopCard = () => {
           <div className="my-2 flex flex-col ml-48 gap-1">
             <div className="group relative">
               <div className="text-2xl text-indigo-400 font-bold">
-                Profile Name
+                {userDetails.first_name} {userDetails.last_name}
               </div>
               <div className="absolute left-40 top-2 opacity-0 group-hover:opacity-100 cursor-pointer">
                 <PencilIcon className="h-4 w-4 text-indigo-400" />
@@ -186,7 +211,7 @@ const ProfileTopCard = () => {
               <a className="text-gray-500 text-xs font-semibold">
                 <div className="flex gap-1 items-center">
                   <LocationMarkerIcon className="w-5 h-5" />
-                  Your Location
+                  {userDetails.city}, {userDetails.country}
                 </div>
               </a>
             </Link>
