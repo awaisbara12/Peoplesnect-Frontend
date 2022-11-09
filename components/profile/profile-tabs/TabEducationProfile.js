@@ -214,8 +214,8 @@ const TabEducationProfile = () => {
                               <option value="Middle School">Middle School</option>
                               <option value="High School">High School</option>
                               <option value="Intermediate">Intermediate</option>
-                              <option value="Bachelor's">Bachelor's</option>
-                              <option value="Master's">Master's</option>
+                              <option value="Bachelor's">Bachelors</option>
+                              <option value="Master's">Masters</option>
                               <option value="Other">Other</option>
                             </select> 
                             </div>
@@ -331,8 +331,8 @@ const TabEducationProfile = () => {
                               <option value="Middle School">Middle School</option>
                               <option value="High School">High School</option>
                               <option value="Intermediate">Intermediate</option>
-                              <option value="Bachelor's">Bachelor's</option>
-                              <option value="Master's">Master's</option>
+                              <option value="Bachelor">Bachelor</option>
+                              <option value="Master">Master</option>
                               <option value="Other">Other</option>
                             </select>     
                             </div>
