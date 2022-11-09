@@ -37,6 +37,7 @@ const ProfileTopCard = () => {
   const [openTab, setOpenTab] = React.useState(1);
   const [userDetails, setUserDetails] = React.useState(1);
   const [image, setImage] = useState();
+  const [coverpreview, setcoverpreview] = useState();
   const [coverimage, setcoverimage] = useState();
   const [profileimage, setprofileimage] = useState();
 
@@ -48,7 +49,7 @@ const ProfileTopCard = () => {
   }
   const onProfileChange = (event) => {
     if (event.target.files.length !== 0) {
-      setImage(window.URL.createObjectURL(event.target.files[0]));
+      setcoverpreview(window.URL.createObjectURL(event.target.files[0]));
       UpdatePersonal(event.target.files[0],"profile");
     }
   }
@@ -118,21 +119,31 @@ const ProfileTopCard = () => {
             <div className="">
               <Link href="/">
                 <a>
-                  {coverimage? (
-                    <img
-                      src={coverimage}
-                      className="object-cover rounded-xl h-[320px] w-[1030px]"
-                      alt=""
-                    />
-                  ):
-                  (
+                  {image?(
                     <Image
-                      src={postimage}
-                      className="object-cover rounded-xl" 
-                      width={1030}
-                      height={320}
-                      alt=""
-                    />
+                    src={image}
+                    className="object-cover rounded-xl" 
+                    width={1030}
+                    height={320}
+                    alt=""
+                  />
+                  ):(
+                    coverimage? (
+                      <img
+                        src={coverimage}
+                        className="object-cover rounded-xl h-[320px] w-[1030px]"
+                        alt=""
+                      />
+                    ):
+                    (
+                      <Image
+                        src={postimage}
+                        className="object-cover rounded-xl" 
+                        width={1030}
+                        height={320}
+                        alt=""
+                      />
+                    )
                   )}
                 </a>
               </Link>
@@ -161,21 +172,32 @@ const ProfileTopCard = () => {
                 <div className="relative">
                   <Link href="">
                     <a>
-                      {profileimage?(
-                        <img
-                        src={profileimage}
-                        className="object-cover rounded-full z-40 h-[96px] w-[96px]"
-                        alt=""
-                      />
-                      ):(
+                      {coverpreview? (
                         <Image
-                        src={ProfileAvatar}
-                        width={96}
-                        height={96}
-                        className="object-cover rounded-full z-40"
-                        placeholder="empty"
-                        alt="profile-image"
-                      />
+                          src={coverpreview}
+                          width={96}
+                          height={96}
+                          className="object-cover rounded-full z-40"
+                          placeholder="empty"
+                          alt="profile-image"
+                        />
+                      ):(
+                        profileimage?(
+                          <img
+                          src={profileimage}
+                          className="object-cover rounded-full z-40 h-[96px] w-[96px]"
+                          alt=""
+                        />
+                        ):(
+                          <Image
+                          src={ProfileAvatar}
+                          width={96}
+                          height={96}
+                          className="object-cover rounded-full z-40"
+                          placeholder="empty"
+                          alt="profile-image"
+                        />
+                        )
                       )}
                     </a>
                   </Link>
