@@ -208,7 +208,7 @@ const TabContactProfile = () => {
                 <div className="border-1"></div>
                 <div className="flex items-center gap-3 my-4">
                   <PhoneIcon className="h-5 w-5" />
-                  <a href="" className="hover:underline">
+                  <a className="hover:underline">
                     {phone_number}
                   </a>
                 </div>
@@ -220,7 +220,7 @@ const TabContactProfile = () => {
             <div className="border-1"></div>
             <div className="flex items-center gap-3 my-4">
               <CalendarIcon className="h-5 w-5" />
-              <a href="" className="hover:underline">
+              <a className="hover:underline">
                 {DOB}
               </a>
             </div>
