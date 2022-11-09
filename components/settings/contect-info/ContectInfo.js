@@ -89,7 +89,7 @@ const ContectInfo = () => {
                     <input
                       className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-96 placeholder:pl-2 rounded-full placeholder:py-2"
                       placeholder="Change Your Number"
-                      type="Number"
+                      type="text"
                       value={phone}
                       onChange={(e)=>setphone(e.target.value)}
                       name="search"
@@ -103,8 +103,8 @@ const ContectInfo = () => {
                   <div className="">
                     <input
                       className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-96 placeholder:pl-2 rounded-full placeholder:py-2"
-                      placeholder="Change Your Adress"
-                      type="text"
+                      placeholder="Change Your Date Of Birth"
+                      type="date"
                       value={DOB}
                       onChange={(e)=>setDOB(e.target.value)}
                       name="search"
