@@ -6,7 +6,7 @@ import {
 } from "../../../pages/config";
 const AccountPreferences = () => {
   const [userDetails, setUserDetails] = useState();
-  const [coverphoto, setcoverphoto] = useState();
+  const [profile_type, setprofile_type] = useState();
   const [vedioautoplay, setvedioauto] = useState(false);
   const [language, setlanguage] = useState();
   
@@ -18,7 +18,7 @@ const AccountPreferences = () => {
   
   // for Update Account-Prefrernce
   const UpdateAccountPreference=async()=>{
-    await fetch(`${ACCOUNT_PREFERENCE_SETTING}?users[auto_play_videos]=${vedioautoplay}&users[cover_photo_privacy]=${coverphoto}&users[language]=${language}`, {
+    await fetch(`${ACCOUNT_PREFERENCE_SETTING}?users[auto_play_videos]=${vedioautoplay}&users[profile_type]=${profile_type}&users[language]=${language}`, {
     method: "PUT",
      headers: {
       Accept: "application/json", 
@@ -53,7 +53,7 @@ const AccountPreferences = () => {
         if (result) {
           setUserDetails(result.data.id);  
           setvedioauto(result.data.auto_play_videos);
-           setcoverphoto(result.data.cover_photo_privacy);
+           setprofile_type(result.data.profile_type);
            setlanguage(result.data.language);
           //console.log("user",result.data)
         }
@@ -99,18 +99,18 @@ const AccountPreferences = () => {
               </div>
             </div>
             <div className="flex items-center justify-between border bg-white mt-4 px-4 py-6 rounded-xl">
-              <div className="">Cover Photo</div>
+              <div className="">Account Privacy</div>
               <div className="flex items-center gap-4">
                 <div className="flex items-center">
                   <input
                     id="default-radio-1"
                     type="radio"
-                    value="public"
-                    checked={coverphoto==="public"}
-                    onChange={(e)=>setcoverphoto(e.target.value)}
+                    value="public_profile"
+                    checked={profile_type==="public_profile"}
+                    onChange={(e)=>setprofile_type(e.target.value)}
                     name="default-radio"
                     className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-indigo-400 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                  />
+                  /> 
                   <label
                     htmlFor="default-radio-1"
                     className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
@@ -123,9 +123,9 @@ const AccountPreferences = () => {
                     
                     id="default-radio-1"
                     type="radio"
-                    value="private"
-                    checked={coverphoto==="private"}
-                    onChange={(e)=>setcoverphoto(e.target.value)}
+                    value="private_profile"
+                    checked={profile_type==="private_profile"}
+                    onChange={(e)=>setprofile_type(e.target.value)}
                     name="default-radio"
                     className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-indigo-400 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                   />
