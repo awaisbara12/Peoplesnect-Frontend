@@ -234,25 +234,43 @@ function PeendingRequest() {
                     <div className="relative cover">
                       <Link href="/news-feed">
                         <a>
-                          <Image
-                            className="object-cover rounded-t-xl"
-                            src={Cover}
-                            width={620}
-                            height={200}
+                        {e.cover_photo_url?(
+                          <img
+                            src={e.cover_photo_url}
+                            className="object-cover rounded-t-xl h-[96px] w-[620px]"
                             alt=""
                           />
+                          ):(
+                            <Image
+                              className="object-cover rounded-t-xl"
+                              src={Cover}
+                              width={620}
+                              height={200}
+                              alt=""
+                            />
+                          )
+                        }
                         </a>
                       </Link>
                       <div className="absolute -bottom-12 left-2">
                         <Link href="/news-feed">
                           <a>
-                            <Image
-                              className="object-cover"
-                              src={ProfileAvatar}
-                              width={85}
-                              height={85}
+                          {e.display_photo_url?(
+                            <img
+                              src={e.display_photo_url}
+                              className="object-cover rounded-full z-40 h-[85px] w-[85px]"
                               alt=""
                             />
+                            ):(
+                              <Image
+                                className="object-cover"
+                                src={ProfileAvatar}
+                                width={85}
+                                height={85}
+                                alt=""
+                              />
+                            )
+                          }
                           </a>
                         </Link>
                       </div>
@@ -268,7 +286,7 @@ function PeendingRequest() {
                       <div className="ml-24">
                         <div className="User-Name font-bold ">{e.first_name} {e.last_name}</div>
                         <div className="Locations font-extralight">
-                           {e.recent_company}
+                           {e.city}, {e.country}
                         </div>
                       </div>
                       <div className="details mt-5 font-light">
@@ -277,10 +295,19 @@ function PeendingRequest() {
                       <div className="followers mt-5 font-extralight">
                         {e.followers_count} Followers
                       </div>
-                      <button className="w-full bg-indigo-400 text-white rounded-xl py-2 hover:text-indigo-400 hover:bg-transparent
-                        border-1 border-indigo-400 mt-7 mb-4 "onClick={()=>SendFollow(e.id)}>
-                        Follow
-                      </button>
+                     
+                      {e.profile_type === "public_profile"?(
+                        <button className="w-full bg-indigo-400 text-white rounded-xl py-2 hover:text-indigo-400 hover:bg-transparent
+                          border-1 border-indigo-400 mt-7 mb-4 "onClick={()=>SendFollow(e.id)}>
+                          Follow
+                        </button>
+                      ):(
+                        <button className="w-full bg-indigo-400 text-white rounded-xl py-2 hover:text-indigo-400 hover:bg-transparent
+                          border-1 border-indigo-400 mt-7 mb-4 "onClick={()=>SendFollow(e.id)}>
+                          Connect
+                        </button>
+                      )}
+                      
                     </div>
                     </div>
                  );}
