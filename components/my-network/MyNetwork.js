@@ -12,6 +12,7 @@ function MyNetwork() {
   const [userDetails, setUserDetails] = useState();
   const [connections_count, setConnections_count] = useState();
   const [userConnections, setUserConnections] = useState();
+  const [userid, setUserId] = useState();
 
   // Bareer Key
   if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore"); }
@@ -25,15 +26,38 @@ function MyNetwork() {
          Authorization: `${authKey}`,
        },
     })
-       .then((resp) => resp.json())
-      .then((result) => {
-        if (result) {
-          setUserConnections(result.data)
-          console.log("hello",result.data)
-          // setConnections_count(result.data.connections_count)
-        }
-      })
-      .catch((err) => console.log(err)); 
+      .then((resp) => resp.json())
+    .then((result) => {
+      if (result) {
+        setUserConnections(result.data)
+        // console.log("hello",result.data)
+        // setConnections_count(result.data.connections_count)
+      }
+    })
+    .catch((err) => console.log(err)); 
+  }
+  const RemoveConnection=async(delId)=>{
+    let a=confirm("Are you sure");
+    if (delId && a==true){
+      await fetch(`${GET_CONNECTIONS}/${delId}`, {
+        method: "DELETE",
+         headers: {
+          Accept: "application/json", 
+           Authorization: `${authKey}`,
+         },
+        }).then((resp) => resp.json())
+        .then((result) => {
+          if (result) { 
+            alert ("You successfully Remove Connection");
+          }
+        })
+        .catch((err) => console.log(err));
+        Current_User();
+        User_Connections();
+    }else{
+      alert ("You cancel your Remove Request");
+    }
+
   }
 
   //For Current User
@@ -76,7 +100,24 @@ function MyNetwork() {
                 <div className="flex items-center gap-3">
                   <Link href="/news-feed">
                     <a>
-                      <Image src={ProfileAvatar} width={35} height={35} alt="" />
+                      {user.display_photo_url?(
+                          <img
+                            src={user.display_photo_url}
+                            className="object-cover rounded-full z-40 h-[35px] w-[35px]"
+                            alt=""
+                          />
+                        ):(
+                          <Image
+                            src={ProfileAvatar}
+                            width={35}
+                            height={35}
+                            className="object-cover rounded-full z-40"
+                            placeholder="empty"
+                            alt="profile-image"
+                          />
+                        )
+                      }
+                      {/* <Image src={ProfileAvatar} width={35} height={35} alt="" /> */}
                     </a>
                   </Link>
                   <div className="">
@@ -97,7 +138,8 @@ function MyNetwork() {
                   <button className="border-1 border-indigo-400 rounded-full text-indigo-400 px-3 py-1 hover:bg-indigo-400 hover:text-white">
                     Message
                   </button>
-                  <button className="text-gray-600 border-1 border-gray-600 rounded-full px-3 py-1 hover:bg-gray-600 hover:text-white">
+                  <button className="text-gray-600 border-1 border-gray-600 rounded-full px-3 py-1 hover:bg-gray-600 hover:text-white"
+                    onClick={()=>RemoveConnection(user.id)} >
                     Remove
                   </button>
                 </div>
