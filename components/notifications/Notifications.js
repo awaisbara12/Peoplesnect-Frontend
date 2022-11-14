@@ -137,7 +137,7 @@ const Notifications = () => {
                       </a>
                     </Link>
                     <div className="">
-                      <a href="">
+                        <a href="">
                         <div className="username text-sm font-bold">
                           {i.user.first_name} {i.user.last_name}
                         </div>
