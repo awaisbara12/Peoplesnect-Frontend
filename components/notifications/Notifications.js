@@ -1,16 +1,44 @@
-import React from "react";
+import React,{useEffect,useState}from "react";
 import Link from "next/link";
 import Image from "next/image";
 import ProfileAvatar from "../../public/images/profile-avatar.png";
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
-
+import { GET_NOTIFICATIONS } from "../../pages/config.js";
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 const Notifications = () => {
+  const [notify, setnotify] = useState();
+
+   
+  // Bareer Key
+  if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore");  }
+
+  // get all notifications 
+  const allNotifications=async()=>{    
+    await fetch(GET_NOTIFICATIONS, {
+      method: "GET",
+       headers: {
+        Accept: "application/json", 
+         Authorization: `${authKey}`,
+       },
+    })
+       .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          console.log("===",result.data);
+          setnotify(result.data);  
+          //console.log("Current Userss",result.data.id)
+        }
+      })
+      .catch((err) => console.log(err)); 
+  }
+  useEffect(()=>{
+    allNotifications();
+  },[])
   return (
     <div>
       <div className="mt-8">
@@ -93,42 +121,51 @@ const Notifications = () => {
                 </Menu>
               </div>
             </div>
-            <div className="like-on-article border-b-1">
-              <div className="request-profile flex  px-4 py-3 justify-between items-center">
-                <div className="flex items-center gap-3">
-                  <Link href="/news-feed">
-                    <a>
-                      <Image
-                        src={ProfileAvatar}
-                        width={35}
-                        height={35}
-                        alt=""
-                      />
-                    </a>
-                  </Link>
-                  <div className="">
-                    <a href="">
-                      <div className="username text-sm font-bold">
-                        User Name
-                      </div>
-                    </a>
-                    <a href="">
-                      <div className="userfield text-xs">
-                        <a href="" className="font-bold text-indigo-400">
-                          User Name
-                        </a>{" "}
-                        Likes your{" "}
-                        <a className="font-bold text-indigo-400" href="">
-                          Article
-                        </a>
-                      </div>
-                    </a>
+            {notify?(
+               notify.map((i)=>(
+                <div className="like-on-article border-b-1" key={i.id}>
+                <div className="request-profile flex  px-4 py-3 justify-between items-center">
+                  <div className="flex items-center gap-3">
+                    <Link href="/news-feed">
+                      <a>
+                        <Image
+                          src={ProfileAvatar}
+                          width={35}
+                          height={35}
+                          alt=""
+                        />
+                      </a>
+                    </Link>
+                    <div className="">
+                        <a href="">
+                        <div className="username text-sm font-bold">
+                          {i.user.first_name} {i.user.last_name}
+                        </div>
+                      </a>
+                      <a href="">
+                        <div className="userfield text-xs">
+                          {/* <a href="" className="font-bold text-indigo-400">
+                            User Name
+                          </a>{" "} */}
+                          {i.body}
+                          {/* Likes your{" "} */}
+                          {/* <a className="font-bold text-indigo-400" href="">
+                            Article
+                          </a> */}
+                        </div>
+                      </a>
+                    </div>
                   </div>
+                  <div className="time font-light text-xs">12:11pm</div>
                 </div>
-                <div className="time font-light text-xs">12:11pm</div>
-              </div>
-            </div>
-            <div className="Comment-on-post border-b-1">
+                </div>
+               ))
+               
+            ):('')
+
+            }
+            
+            {/* <div className="Comment-on-post border-b-1">
               <div className="request-profile flex  px-4 py-3 justify-between items-center">
                 <div className="flex items-center gap-3">
                   <Link href="/news-feed">
@@ -162,7 +199,7 @@ const Notifications = () => {
                 </div>
                 <div className="time font-light text-xs">12:11pm</div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
