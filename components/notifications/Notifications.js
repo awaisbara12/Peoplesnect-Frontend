@@ -12,6 +12,7 @@ function classNames(...classes) {
 
 const Notifications = () => {
   const [notify, setnotify] = useState();
+  // const [notify, setpro] = useState();
 
    
   // Bareer Key
@@ -31,7 +32,7 @@ const Notifications = () => {
         if (result) {
           console.log("===",result.data);
           setnotify(result.data);  
-          //console.log("Current Userss",result.data.id)
+          console.log("Current Userss",result.data.id)
         }
       })
       .catch((err) => console.log(err)); 
@@ -46,7 +47,7 @@ const Notifications = () => {
           <div className="bg-white rounded-xl">
             <div className="flex justify-between items-center border-b-1 p-4">
               <div className="heading">Notifications</div>
-              <div className="searech-bar">
+              {/* <div className="searech-bar">
                 <Menu as="div" className="relative inline-block text-left">
                   <div>
                     <Menu.Button className="inline-flex justify-center w-full rounded text-indigo-400 border-indigo-400 border px-3 py-2">
@@ -119,7 +120,7 @@ const Notifications = () => {
                     </Menu.Items>
                   </Transition>
                 </Menu>
-              </div>
+              </div> */}
             </div>
             {notify?(
                notify.map((i)=>(
@@ -128,18 +129,42 @@ const Notifications = () => {
                   <div className="flex items-center gap-3">
                     <Link href="/news-feed">
                       <a>
-                        <Image
+                        {i.sender.display_photo_url?(
+                          <img
+                            src={i.sender.display_photo_url}
+                            className="object-cover rounded-full z-40 h-[35px] w-[35px]"
+                            alt=""
+                          />
+                          ):(
+                            <Image
+                              src={ProfileAvatar}
+                              width={35}
+                              height={35}
+                              alt=""
+                            />
+                          )
+                        }
+                        
+                        {/* <Image
                           src={ProfileAvatar}
                           width={35}
                           height={35}
                           alt=""
-                        />
+                        /> */}
                       </a>
                     </Link>
                     <div className="">
                         <a href="">
                         <div className="username text-sm font-bold">
-                          {i.user.first_name} {i.user.last_name}
+                          {i.sender?(
+                            i.sender.first_name+' '+i.sender.last_name
+                          ):(
+                            i.follower?(
+                              i.sender.first_name+' '+i.sender.last_name
+                            ):
+                            ('')
+                          )}
+                          
                         </div>
                       </a>
                       <a href="">
@@ -156,7 +181,7 @@ const Notifications = () => {
                       </a>
                     </div>
                   </div>
-                  <div className="time font-light text-xs">12:11pm</div>
+                  <div className="time font-light text-xs">{i.date} {i.time}</div>
                 </div>
                 </div>
                ))
