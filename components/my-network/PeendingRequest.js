@@ -20,10 +20,9 @@ function PeendingRequest() {
   const [user_request, setUser_Request] = useState([]);
   const { data: user } = useSelector((state) => state.user);
   const [userDetails, setUserDetails] = useState();
-  if (typeof window !== "undefined") {
-    // Bareer Key
-    var authKey = window.localStorage.getItem("keyStore"); 
-  }
+  
+  // Bareer Key
+  if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore"); }
   //Get Current User Detail
   const Current_User=async()=>{    
    
@@ -43,28 +42,28 @@ function PeendingRequest() {
       })
       .catch((err) => console.log(err)); 
   }
-   // Show All PeopleNeact's Users 
-   const ShowUsers=async()=>
-   {   
-     await fetch(SUGGESTED_USER_API, {
-       method: "GET",
-       headers: {
-         Accept: "application/json", 
-         Authorization: `${authKey}`,
-       },
-     })
-       .then((resp) => resp.json())
-       .then((result) => {
-         if (result) {
-           setUserList(result.data);  
-           console.log("All Users",result)
-         }
-       })
-       .catch((err) => console.log(err));
- 
-       
-   } 
-    //Show All Pending Follow Request
+  // Show All PeopleNeact's Users 
+  const ShowUsers=async()=>
+  {   
+    await fetch(SUGGESTED_USER_API, {
+      method: "GET",
+      headers: {
+        Accept: "application/json", 
+        Authorization: `${authKey}`,
+      },
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          setUserList(result.data);  
+          //console.log("All Users",result)
+        }
+      })
+      .catch((err) => console.log(err));
+
+      
+  } 
+  //Show All Pending Follow Request
   const PendingFollowRequest=async()=>
   {   
     await fetch(FOLLOW_REQUEST_USER_API, {
@@ -78,15 +77,29 @@ function PeendingRequest() {
       .then((result) => {
         if (result) {
           setUser_Request(result.data);
-         console.log("Requests check",result.data);  
+         //console.log("Requests check",result.data);  
           //console.log(UserList)
                    
         }
       })
       .catch((err) => console.log('err ha'));      
   } 
- // Send Follow Request
-  const SendFollow=async(userId)=>
+  // Create Follower
+  const CreateFollower=async(userId)=>
+  {      
+    const requestOptions = {
+      method: 'POST',
+      headers:{Accept: "application/json", Authorization: `${authKey}` },
+    };
+    const response = await fetch(`${FOLLOW_USER_API}?followers[followee_id]=${userId}`,requestOptions);
+    const data = await response.json();
+    console.log("Send", data );
+    PendingFollowRequest();
+    ShowUsers();
+    alert("Send Follow Request");
+  }
+  // Send Connection Request
+  const ConnectionRequest=async(userId)=>
   {      
     const requestOptions = {
       method: 'POST',
@@ -228,11 +241,14 @@ function PeendingRequest() {
                      {
                       e.followers_count="0"
                      }
-                     //if(e.first_name=="Friend")
                   return(
                     <div className="profile mt-10 border rounded-xl" key = {e.id}>
                     <div className="relative cover">
-                      <Link href="/news-feed">
+                      <Link 
+                        href={{
+                        pathname: "/User-Profile/",
+                        query: e.id, // the data
+                      }}>
                         <a>
                         {e.cover_photo_url?(
                           <img
@@ -253,7 +269,11 @@ function PeendingRequest() {
                         </a>
                       </Link>
                       <div className="absolute -bottom-12 left-2">
-                        <Link href="/news-feed">
+                        <Link 
+                         href={{
+                          pathname: "/User-Profile/",
+                          query: e.id, // the data
+                        }}>
                           <a>
                           {e.display_photo_url?(
                             <img
@@ -298,12 +318,12 @@ function PeendingRequest() {
                      
                       {e.profile_type === "public_profile"?(
                         <button className="w-full bg-indigo-400 text-white rounded-xl py-2 hover:text-indigo-400 hover:bg-transparent
-                          border-1 border-indigo-400 mt-7 mb-4 "onClick={()=>SendFollow(e.id)}>
+                          border-1 border-indigo-400 mt-7 mb-4 "onClick={()=>CreateFollower(e.id)}>
                           Follow
                         </button>
                       ):(
                         <button className="w-full bg-indigo-400 text-white rounded-xl py-2 hover:text-indigo-400 hover:bg-transparent
-                          border-1 border-indigo-400 mt-7 mb-4 "onClick={()=>SendFollow(e.id)}>
+                          border-1 border-indigo-400 mt-7 mb-4 "onClick={()=>ConnectionRequest(e.id)}>
                           Connect
                         </button>
                       )}

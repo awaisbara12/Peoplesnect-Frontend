@@ -20,7 +20,7 @@ import { XCircleIcon } from "@heroicons/react/solid";
 import { useFormik } from "formik";
 import { eventScheema } from "../auth/schemas/CreateEventScheema";
 import { Dialog, Popover, Transition } from "@headlessui/react";
-import { POST_NEWSFEED_API_KEY } from "../../pages/config";
+import { POST_NEWSFEED_API_KEY , CURENT_USER_LOGIN_API} from "../../pages/config";
 import ImageUpload from "image-upload-react";
 import Link from "next/link";
 import Spinner from "../common/Spinner";
@@ -43,8 +43,29 @@ const NewsPostProfile = ({ setList }) => {
   const [eventType, setEventType] = useState();
   const [videoSrc, setVideoSrc] = useState([]);
   const [videoPreview, setVideoPreview] = useState();
+  const [userDetails, setUserDetails] = useState();
   let [isOpen, setIsOpen] = useState(false);
-
+  
+ // Bareer Key
+ if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore");}
+ // Current User
+  const Current_User=async()=>{     
+    await fetch(CURENT_USER_LOGIN_API, {
+      method: "GET",
+       headers: {
+        Accept: "application/json", 
+         Authorization: `${authKey}`,
+       },
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          setUserDetails(result.data);  
+          //console.log("Current Userss",result.data)
+        }
+      })
+      .catch((err) => console.log(err)); 
+  }
   const handleImageSelect = (e) => {
     setEventCoverImage(e.target.files[0]);
     if (e.target.files.length !== 0) {
@@ -162,20 +183,34 @@ const NewsPostProfile = ({ setList }) => {
   function openModal() {
     setIsOpen(true);
   }
-
+  useEffect(()=>{
+    Current_User(); 
+  },[])
   return (
     <div className="mt-8 z-20">
       <div className="w-[600px] xl:w-[980px] lg:w-[730px] md:w-[780px] rounded-xl bg-white p-[22px]">
         <form onSubmit={postNewsData}>
           <div className="w-full flex justify-start gap-[22px]">
             <div className="w-[42px] h-[42px]">
-              <Image
+             {userDetails && userDetails.display_photo_url?(
+               <img
+               src={userDetails.display_photo_url}
+               className="rounded-full w-[42px] h-[42px] object-cover"
+               width={42}
+               height={42}
+               placeholder="empty"
+               alt="profile-image"
+             />
+             ):(
+                <Image
                 src={ProfileAvatar}
                 width={42}
                 height={42}
                 placeholder="empty"
                 alt="profile-image"
               />
+             )}
+             
             </div>
 
             <textarea

@@ -1,8 +1,9 @@
 import { PencilAltIcon } from "@heroicons/react/outline";
-import React from "react";
+import React,{useState} from "react";
 import NewsPostProfile from "../NewsPostProfile";
 
-const TabProfile = () => {
+const TabProfile = (props) => {
+  console.log(props.user)
   return (
     <>
       <div className="bg-white rounded-xl p-10">
@@ -10,19 +11,29 @@ const TabProfile = () => {
           <div className="font-extrabold">About</div>
         </div>
         <div className="w-auto">
-          <div className="my-4 leading-8 text-justify font-extralight">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industrys standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book. It has survived not
-            only five centuries....
-            <span className="text-indigo-400 cursor-pointer ml-2 font-bold">
-              Read More
-            </span>
-          </div>
+          {props.user && props.user.description?(
+             <div className="my-4 leading-8 text-justify font-extralight">
+              <p>{props.user.description}</p> 
+             <span className="text-indigo-400 cursor-pointer ml-2 font-bold">
+               Read More
+             </span>
+           </div>
+          ):(
+             <div className="my-4 leading-8 text-justify font-extralight">
+             No Description is Available
+             <span className="text-indigo-400 cursor-pointer ml-2 font-bold">
+               Read More
+             </span>
+           </div>
+          )}
+         
         </div>
       </div>
-      <NewsPostProfile />
+       {props.user && props.user.profile_type=="private_profile"?(
+         <NewsPostProfile />
+       ):(
+        <p>Public Account</p>
+       )} 
     </>
   );
 };

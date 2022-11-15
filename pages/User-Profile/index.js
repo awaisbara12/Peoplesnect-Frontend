@@ -1,11 +1,16 @@
 import React from "react";
 import PrivateRoutes from "../../components/auth/routes/PrivateRoutes";
 import UserProfileViewFeed from "../../components/User-Profile/UserProfileViewFeed";
-
+import { useRouter } from "next/router";
 const index = () => {
+   
+const router = useRouter();
+const data = router.asPath;
+const myArray = data.split("?");
+
   return (
     <PrivateRoutes>
-      <UserProfileViewFeed />
+      <UserProfileViewFeed id={myArray[1]}/>
     </PrivateRoutes>
   );
 };

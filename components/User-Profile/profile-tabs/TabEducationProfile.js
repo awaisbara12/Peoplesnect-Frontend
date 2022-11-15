@@ -5,7 +5,8 @@ import ProfileAvatar from "../../../public/images/profile-girl.jpg";
 import { PlusCircleIcon } from "@heroicons/react/solid";
 import { ChevronRightIcon, PencilAltIcon } from "@heroicons/react/outline";
 
-const TabEducationProfile = () => {
+const TabEducationProfile = (props) => {
+  
   return (
     <div className="bg-white rounded-xl p-10">
       <div className="flex items-center justify-between mb-5">
@@ -13,7 +14,9 @@ const TabEducationProfile = () => {
       </div>
       <div className="px-2">
         <div className="flex flex-col">
-          <div className="border-b-1 py-5">
+         {props.user && props.user.educations?(
+          props.user.educations.map((i)=>(
+            <div className="border-b-1 py-5" key={i.id}>
             <div className="flex items-center gap-10">
               <Link href="">
                 <a>
@@ -29,14 +32,28 @@ const TabEducationProfile = () => {
               </Link>
               <div className="flex flex-col gap-1">
                 <div className="font-extrabold">
-                  Punjab University Of Lahore punjab Pakistan
+                  {i.institution}
+                  {/* Punjab University Of Lahore punjab Pakistan */}
                 </div>
-                <div className="font-light text-sm">M-Phill</div>
-                <div className="font-extralight">Session: (2018-2022)</div>
+                <div className="font-light text-sm">{i.degree_type}</div>
+                <div className="font-light text-sm">{i.degree}</div>
+                {i.continue?(
+                  <div className="font-extralight">Session: ({i.study_from} <b>To</b> Present)</div>
+                ):(
+                  <div className="font-extralight">Session: ({i.study_from} <b>To</b> {i.study_to})</div>
+                )
+               }
+                
               </div>
             </div>
-          </div>
-          <div className="border-b-1 py-5">
+           </div>
+          ))
+          
+         ):('')
+
+         }
+          
+          {/* <div className="border-b-1 py-5">
             <div className="flex items-center gap-10">
               <Link href="">
                 <a>
@@ -58,7 +75,7 @@ const TabEducationProfile = () => {
                 <div className="font-extralight">Session: (2016-2018)</div>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
         <div className="flex justify-center font-bold items-center mt-10">
           Show All Skills
