@@ -1,10 +1,13 @@
-import React from "react";
+import React,{useState} from "react";
 import SkillsTabProfile from "./SkillsTabProfile";
 import TabExperienceProfile from "./TabExperienceProfile";
 import TabEducationProfile from "./TabEducationProfile";
 import TabProfile from "./TabProfile";
 
-const TabsProfileCard = () => {
+const TabsProfileCard = (props) => {
+  const [des, setdes] = useState(props.user);
+  //setdes();
+  
   const [openTab, setOpenTab] = React.useState(1);
   return (
     <>
@@ -95,17 +98,18 @@ const TabsProfileCard = () => {
         </div>
         <div className="flex-auto">
           <div className="tab-content tab-space">
+           
             <div className={openTab === 1 ? "block" : "hidden"} id="link1">
-              <TabProfile />
+              <TabProfile user={props.user} />
             </div>
             <div className={openTab === 3 ? "block" : "hidden"} id="link3">
-              <SkillsTabProfile />
+              <SkillsTabProfile user={props.user} />
             </div>
             <div className={openTab === 4 ? "block" : "hidden"} id="link4">
-              <TabEducationProfile />
+              <TabEducationProfile user={props.user}/>
             </div>
             <div className={openTab === 5 ? "block" : "hidden"} id="link5">
-              <TabExperienceProfile />
+              <TabExperienceProfile user={props.user} />
             </div>
           </div>
         </div>

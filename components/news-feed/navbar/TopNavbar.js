@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState} from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { signout } from "../../auth/signout/SignOut";
@@ -18,8 +18,34 @@ import {
   ChevronDownIcon,
 } from "@heroicons/react/outline";
 import TopNavbarSearch from "../search/TopNavbarSearch ";
+import { POST_NEWSFEED_API_KEY , CURENT_USER_LOGIN_API} from "../../../pages/config";
+
 
 const TopNavbar = () => {
+  const [userDetails, setUserDetails] = useState();
+  // Bareer Key
+   if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore");}
+  // Current user
+   const Current_User=async()=>{    
+    await fetch(CURENT_USER_LOGIN_API, {
+      method: "GET",
+       headers: {
+        Accept: "application/json", 
+         Authorization: `${authKey}`,
+       },
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          setUserDetails(result.data);  
+          //console.log("Current Userss",result.data)
+        }
+      })
+      .catch((err) => console.log(err)); 
+  }
+  useEffect(()=>{
+    Current_User(); 
+  },[])
   return (
     <div className="sticky top-0 z-50">
     <div className="w-[1100px] lg:w-auto hidden md:block lg:block">
@@ -97,7 +123,12 @@ const TopNavbar = () => {
                   <div className="relative">
                     <BellIcon className="h-5 w-5 text-indigo-400" />
                     <div className="bg-red-400 h-4 w-4 text-white -top-1 left-3 rounded-full flex justify-center items-center absolute">
-                      <p className="text-[8px]">2</p>
+                      {userDetails?(
+                        <p className="text-[8px]">{userDetails.notifications_count}</p>
+                      ):('')
+
+                      }
+                      
                     </div>
                   </div>
                   <div className="text-sm md:text-xs">Notifications</div>
@@ -117,14 +148,23 @@ const TopNavbar = () => {
                         }`}
                       >
                         <div className="">
-                          <Image
+                          {userDetails && userDetails.display_photo_url?( <img
+                            src={ userDetails.display_photo_url}
+                            width={30}
+                            height={30}
+                            placeholder="blur"
+                            className="object-fit rounded-full w-[30px] h-[30px]"
+                            alt=""
+                          />):( <Image
                             src={ProfileLogo}
                             width={30}
                             height={30}
                             placeholder="blur"
                             className="object-fit rounded-full"
                             alt=""
-                          />
+                          />)
+                          }
+                         
                           <div className="flex gap-1 items-center">
                             <div className="text-sm md:text-xs">Me</div>
                             <ChevronDownIcon className="h-3 w-3 text-indigo-400" />

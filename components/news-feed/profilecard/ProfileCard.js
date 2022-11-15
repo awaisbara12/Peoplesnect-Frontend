@@ -39,7 +39,6 @@ const ProfileCard = () => {
         <Spinner />
       </div>
     );
-
   return (
     <Fragment>
       <div className="mt-11 mx-auto bg-white rounded-xl w-full h-auto pb-4">
@@ -47,22 +46,50 @@ const ProfileCard = () => {
           <Link href="/profile">
             <a>
               <div className="relative -z-0 flex justify-center">
+              {userDetails && userDetails.user && userDetails.user.cover_photo_url ? (
+                <div className="relative -z-0 flex justify-center">
+                <img
+                src={userDetails.user.cover_photo_url}
+                className="rounded-top w-[293px] h-[93px] object-cover"
+                placeholder="blur"
+                alt="profile-bg"
+              />
+              </div>
+              ):(
                 <Image
-                  src={profilebg}
-                  width={293}
-                  height={93}
+                 src={profilebg}
+                 width={293}
+                 height={93}
+                 placeholder="blur"
+                 alt="profile-bg"
+               />
+              )}
+               
+               
+                {userDetails && userDetails.user && userDetails.user.display_photo_url? (
+                  <div className="absolute z-10 -top-8">
+                  <img
+                  src={userDetails.user.display_photo_url}
+                  width={42}
+                  height={42}
                   placeholder="blur"
-                  alt="profile-bg"
+                  alt="profile"
+                  className="rounded-full object-cover w-[52px] h-[52px] border-4 border-white"
                 />
-                <div className="absolute z-10 -top-4">
-                  <Image
-                    src={profileAvatar}
-                    width={42}
-                    height={42}
-                    placeholder="blur"
-                    alt="profile"
-                  />
                 </div>
+                ):(
+                  <div className="absolute z-10 -top-4">
+                  <Image
+                  src={profileAvatar}
+                  width={42}
+                  height={42}
+                  placeholder="blur"
+                  alt="profile"
+                />
+                </div>
+                )}
+                  
+               
               </div>
             </a>
           </Link>
@@ -85,7 +112,13 @@ const ProfileCard = () => {
           )}
         </div>
         <div className="font-light px-5 text-base text-gray-900 leading-5 text-center">
-         Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
+        {userDetails && userDetails.user ? (
+            <> {userDetails.user.description}</>
+          ) : (
+            <Spinner />
+          )}
+        {/* {userDetails.user.description} */}
+         {/* Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum */}
         </div>
         <div className="text-center">
         <Link href="/profile">
