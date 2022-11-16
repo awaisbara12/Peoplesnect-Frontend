@@ -1,6 +1,7 @@
 import { PencilAltIcon } from "@heroicons/react/outline";
 import React,{useState} from "react";
 import NewsPostProfile from "../NewsPostProfile";
+import ProfileFeed from "../ProfileFeed";
 
 const TabProfile = (props) => {
   console.log(props.user)
@@ -32,7 +33,7 @@ const TabProfile = (props) => {
        {props.user && props.user.profile_type=="private_profile"?(
          <NewsPostProfile />
        ):(
-        <p>Public Account</p>
+        <ProfileFeed />
        )} 
     </>
   );

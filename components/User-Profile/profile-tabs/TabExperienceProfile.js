@@ -14,7 +14,7 @@ const TabExperienceProfile = (props) => {
       <div className="px-2">
         <div className="flex flex-col">
           <div className="border-b-1 py-10">
-            {props.user?(
+            {props.user && props.user.work_experiences?(
               props.user.work_experiences.map((i)=>(
               <div className="flex gap-5" key={i.id}>
               <Link href="">
