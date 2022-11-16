@@ -6,7 +6,7 @@ import NewsFeedUserCard from "./newsfeed/feedcard/NewsFeedUserCard";
 import ProfileCard from "./profilecard/ProfileCard";
 import EventsCard from "./eventcard/EventsCard";
 import MobileBottomBar from "./navbar/MobileBottomBar";
-import { POST_NEWSFEED_API_KEY } from "/pages/config";
+import { GET_CONNECTION_AND_FOLLOWING_NEWS_FEEDS } from "/pages/config";
 import MobileNav from "./navbar/mobile-navbar/MobileNav";
 import SugestedUser from "./sugesteduser/SugestedUser";
 import TopNavbar from "./navbar/TopNavbar";
@@ -20,7 +20,7 @@ const NewsFeedDashboard = () => {
   useEffect(() => {
     setLoading(true);
     const getNewsFeed = async () => {
-      const res = await axios(POST_NEWSFEED_API_KEY, {
+      const res = await axios(GET_CONNECTION_AND_FOLLOWING_NEWS_FEEDS, {
         method: "GET",
         headers: {
           Accept: "application/json",
