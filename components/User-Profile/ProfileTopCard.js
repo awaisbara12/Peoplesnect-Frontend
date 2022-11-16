@@ -36,12 +36,13 @@ import {
 
 const ProfileTopCard = (props) => {
   const [userDetails, setUserDetails] = useState();
+  const [btn1, setbtn1] = useState(true);
 // Bareer Key
   if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore"); }
   
    // Create Follower
    const CreateFollower=async(userId)=>
-   {      
+   {   setbtn1(false);   
      const requestOptions = {
        method: 'POST',
        headers:{Accept: "application/json", Authorization: `${authKey}` },
@@ -52,14 +53,14 @@ const ProfileTopCard = (props) => {
    }
    // Send Connection Request
    const ConnectionRequest=async(userId)=>
-   {      
+   {   setbtn1(false);   
      const requestOptions = {
        method: 'POST',
        headers:{Accept: "application/json", Authorization: `${authKey}` },
      };
      const response = await fetch(`${FOLLOW_REQUEST_USER_API}?follow_requests[receiver_id]=${userId}`,requestOptions);
      const data = await response.json();
-     console.log("Send", data );
+     //console.log("Send", data );
      alert("Send Follow Request");
    }
   //show User-Profile data
@@ -164,15 +165,17 @@ const ProfileTopCard = (props) => {
                 </span>
             </div>
             <div>
-              {userDetails && userDetails.profile_type=="private_profile"?(
+            
+              {btn1 && userDetails && userDetails.profile_type=="private_profile"?(
                 <Button className="bg-indigo-400 mt-4" onClick={()=>ConnectionRequest(userDetails.id)}>
                 Connect
-              </Button>
-              ):( 
+              </Button>)
+              :('') }
+              {btn1 && userDetails && userDetails.profile_type=="public_profile"?(
               <Button className="bg-indigo-400 mt-4" onClick={()=>CreateFollower(userDetails.id)}>
                 Follow
-              </Button>
-              )}
+              </Button>):('')}
+              
               
             </div>
           </div>

@@ -311,7 +311,10 @@ const ProfileFeedSingle = (singleItems) => {
                         className="text-gray-900"
                       />
                       <span className="text-gray-900 text-sm">
-                        {items.event.event_type}
+                        {items.event.event_type=== "in_person"?(
+                          'In Person'
+                        ):(items.event.event_type)}
+                       
                       </span>
                     </div>
                     <div className="text-gray-900"></div>

@@ -109,7 +109,7 @@ const NewsPostProfile = ({ setList }) => {
   } = useFormik({
     initialValues: {
       eventOnline: "online",
-      eventInPerson: "In person",
+      eventInPerson: "in_person",
       eventName: "",
       timezone: "",
       startDate: "",
@@ -512,7 +512,7 @@ const NewsPostProfile = ({ setList }) => {
                               type="radio"
                               name="event-radio"
                               id="in-person"
-                              value="I Person"
+                              value="in_person"
                               onChange={() => {
                                 setInPerson(true);
                                 setOnline(false);

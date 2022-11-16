@@ -49,7 +49,6 @@ const Followings = () => {
     setfollowee(data.data);
   }
   useEffect(() => {
-     // Show Following
      ShowFollowing();
   },[]);
   return (
@@ -58,7 +57,7 @@ const Followings = () => {
         <div className="bg-white rounded-xl">
           <div className="flex justify-between items-center border-b-1 p-4">
             <div className="heading">Total Followings</div>
-            <div className="">15</div>
+            <div className="">{followee?(followee.length):('')}</div>
           </div>
 
           {followee?(
@@ -70,11 +69,14 @@ const Followings = () => {
                    <Link href="/news-feed">
                    <a>
                      <img 
-                     src={Proi.followee.display_photo_urlfileAvatar}
+                     src={i.followee.display_photo_url}
                      className="object-cover rounded-full z-40 h-[35px] w-[35px]"        
+                    
+                     width={35} 
+                     height={35} 
                      alt="" />
                    </a>
-                 </Link>
+                   </Link>
                 ):(
                    <Link href="/news-feed">
                    <a>

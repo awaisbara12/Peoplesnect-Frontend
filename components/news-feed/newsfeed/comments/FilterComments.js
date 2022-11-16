@@ -71,7 +71,7 @@ const FilterComments = (props) => {
 
   useEffect(() => {
     filterSChange();
-  });
+  },[]);
   function loadMore() {
     fetch(
       NEWSFEED_COMMENT_POST_KEY +
