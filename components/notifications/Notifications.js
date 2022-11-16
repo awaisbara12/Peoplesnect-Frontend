@@ -129,7 +129,7 @@ const Notifications = () => {
                   <div className="flex items-center gap-3">
                     <Link href="/news-feed">
                       <a>
-                        {i.sender.display_photo_url?(
+                        {i.sender && i.sender.display_photo_url?(
                           <img
                             src={i.sender.display_photo_url}
                             className="object-cover rounded-full z-40 h-[35px] w-[35px]"
