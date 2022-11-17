@@ -110,7 +110,16 @@ const ReplyComments = (props) => {
             >
               <div className="flex justify-between">
                 <div className="flex items-start  gap-[10px]">
-                  <Image src={ProfileAvatar} width={38} height={38} alt="" />
+                  {comment.user.display_photo_url?(
+                    <img
+                      src={comment.user.display_photo_url}
+                      className="object-cover rounded-full z-40 h-[38px] w-[38px]"
+                      alt=""
+                    />
+                  ):(
+                    <Image src={ProfileAvatar} width={38} height={38} alt="" />
+                  )}
+                  
                   <div>
                     <span className="text-slate-900 flex gap-[6px] items-center">
                       {comment.user.first_name} {comment.user.last_name}
@@ -118,7 +127,7 @@ const ReplyComments = (props) => {
                       <div className="text-gray-400">{comment.created_at}</div>
                     </span>
                     <div className="text-gray-900 text-sm">
-                      {comment.user.recent_job}
+                      {comment.user.city}, {comment.user.country}
                     </div>
                   </div>
                 </div>
