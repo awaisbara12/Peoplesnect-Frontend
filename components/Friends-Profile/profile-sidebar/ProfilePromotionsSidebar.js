@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import ProfileLogo from "../../../public/images/profile-girl.jpg";
+import ProfileLogo from "../../../public/images/profile-avatar.png";
 import { DotsHorizontalIcon } from "@heroicons/react/outline";
 
 const ProfilePromotionsSidebar = () => {

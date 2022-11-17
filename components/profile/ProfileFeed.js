@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import NewsPostProfile from "./NewsPostProfile";
-import ProfileAvatar from "../../public/images/profile-girl.jpg";
+import ProfileAvatar from "../../public/images/profile-avatar.png";
 import ProfileFeedSingle from "./ProfileFeedSingle";
 import axios from "axios";
 import { POST_NEWSFEED_API_KEY } from "/pages/config";

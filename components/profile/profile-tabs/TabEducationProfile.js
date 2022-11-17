@@ -3,7 +3,7 @@ import { Menu, Transition } from "@headlessui/react";
 import { Dialog } from "@headlessui/react";
 import Link from "next/link";
 import Image from "next/image";
-import ProfileAvatar from "../../../public/images/profile-girl.jpg";
+import ProfileAvatar from "../../../public/images/profile-avatar.png";
 import { PlusCircleIcon } from "@heroicons/react/solid";
 import { ChevronRightIcon, XIcon, PencilAltIcon,TrashIcon } from "@heroicons/react/outline";
 import {    

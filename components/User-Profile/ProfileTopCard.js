@@ -7,7 +7,7 @@ import photos1 from "../../public/images/brand.jpg";
 import photos2 from "../../public/images/product1.png";
 import photos3 from "../../public/images/groupcover.jpg";
 
-import ProfileAvatar from "../../public/images/profile-girl.jpg";
+import ProfileAvatar from "../../public/images/profile-avatar.png";
 import {
   BookmarkAltIcon,
   PhotographIcon,
@@ -167,12 +167,12 @@ const ProfileTopCard = (props) => {
             <div>
             
               {btn1 && userDetails && userDetails.profile_type=="private_profile"?(
-                <Button className="bg-indigo-400 mt-4" onClick={()=>ConnectionRequest(userDetails.id)}>
+                <Button className="bg-indigo-400 rounded-full mt-4" onClick={()=>ConnectionRequest(userDetails.id)}>
                 Connect
               </Button>)
               :('') }
               {btn1 && userDetails && userDetails.profile_type=="public_profile"?(
-              <Button className="bg-indigo-400 mt-4" onClick={()=>CreateFollower(userDetails.id)}>
+              <Button className="bg-indigo-400 rounded-full mt-4" onClick={()=>CreateFollower(userDetails.id)}>
                 Follow
               </Button>):('')}
               

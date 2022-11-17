@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import NewsPostProfile from "./NewsPostProfile";
-import ProfileAvatar from "../../public/images/profile-girl.jpg";
+import ProfileAvatar from "../../public/images/profile-avatar.png";
 import ProfileFeedSingle from "./ProfileFeedSingle";
 
 const ProfileFeed = () => {

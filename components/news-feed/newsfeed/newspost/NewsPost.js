@@ -170,6 +170,7 @@ const NewsPost = ({ setList }) => {
             <div className="w-[42px] h-[42px]">
               <Image
                 src={ProfileAvatar}
+                className="rounded-full"
                 width={42}
                 height={42}
                 placeholder="empty"

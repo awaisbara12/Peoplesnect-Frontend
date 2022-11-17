@@ -205,13 +205,28 @@ const ProfileFeedSingle = (singleItems) => {
   const handleClick = () => {
     setIsActive((current) => !current);
   };
-
+  
   return (
     <>
      <div className="w-[600px] xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">
         <div className="flex gap-2 justify-between items-center px-[22px] py-[14px]">
           <div className="flex gap-2">
-            <Image src={ProfileAvatar} width={45} height={45} alt="" />
+           {items && items.user && items.user.display_photo_url?
+            (
+             <img 
+              src={items.user.display_photo_url} 
+              className="object-cover rounded-full z-40 h-[42px] w-[42px]" 
+              alt=""
+             />
+            ):(
+             <Image 
+              src={ProfileAvatar} 
+              width={45} 
+              height={45} 
+              alt=""
+             />
+            )}
+            
             <div>
               <h4 className="flex gap-[6px] items-center font-medium text-gray-900">
                {items.user.first_name} {items.user.last_name}
