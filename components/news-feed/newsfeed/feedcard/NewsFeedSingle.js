@@ -61,9 +61,7 @@ const NewsFeedSingle = (singleItem) => {
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
   }
-  const feedDropdown=(select_name)=>{
-        alert(select_name)
-  }
+  
   function addHeart(feedId) {
     const dataForm = new FormData();
     dataForm.append("reactions[news_feed_id]", feedId);
@@ -189,26 +187,15 @@ const NewsFeedSingle = (singleItem) => {
   const handleClick = () => {
     setIsActive((current) => !current);
   };
- console.log("1 feed",items)
+ 
   return (
     <>
       <div className="w-[600px] xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">
         <div className="flex gap-2 justify-between items-center px-[22px] py-[14px]">
           <div className="flex gap-2">
-            {items && items.user && items.user.display_photo_url?(
-              <img 
-              src={items.user.display_photo_url}
-              className="object-cover rounded-full z-40 h-[42px] w-[42px]" 
-              alt="" />
-            ):(
-              <Image 
-              src={ProfileAvatar} 
-              width={45} 
-              height={45} a
-              lt="" />
-            )}
+            <Image src={ProfileAvatar} width={45} height={45} alt="" />
             <div>
-              <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
+              <h4 className="flex gap-[6px] items-center font-medium text-gray-900">
                 {items.user.first_name} {items.user.last_name}
                 <BadgeCheckIcon
                   width={14}
@@ -217,7 +204,7 @@ const NewsFeedSingle = (singleItem) => {
                 />
               </h4>
               <div className="font-light text-gray-900 opacity-[0.8]">
-                {items.user.created_at}
+                {items.user.recent_job}
               </div>
             </div>
           </div>
@@ -249,7 +236,6 @@ const NewsFeedSingle = (singleItem) => {
                           <div className="relative bg-white py-2">
                             {cardDropdown.map((card) => (
                               <a
-                                onClick={()=>feedDropdown(card.name)}
                                 key={card.name}
                                 href={card.id}
                                 className="-m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
