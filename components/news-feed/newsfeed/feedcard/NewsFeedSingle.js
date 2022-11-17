@@ -64,8 +64,9 @@ const NewsFeedSingle = (singleItem) => {
   
   function addHeart(feedId) {
     const dataForm = new FormData();
-    dataForm.append("reactions[news_feed_id]", feedId);
-    dataForm.append("reactions[reaction_type]", "heart");
+    dataForm.append("reactionable_id", feedId);
+    dataForm.append("reaction_type", "heart");
+    dataForm.append("reactionable_type", "NewsFeed");
     fetch(REACTION_NEWSFEED_API_KEY, {
       method: "POST",
       headers: {
@@ -85,7 +86,8 @@ const NewsFeedSingle = (singleItem) => {
 
   function createBookmark(feedId) {
     const dataForm = new FormData();
-    dataForm.append("bookmarks[news_feed_id]", feedId);
+    dataForm.append("bookmarkable_id", feedId);
+    dataForm.append("bookmarkable_type", "NewsFeed");
     fetch(BOOKMARK_NEWSFEED_API_KEY, {
       method: "POST",
       headers: {
@@ -172,6 +174,7 @@ const NewsFeedSingle = (singleItem) => {
         if (result.status == 200) {
           setNextPage(result.data.pages.next_page)
           setComments(result.data);
+          // console.log("Hello",result.data);
         }
       } catch (error) {
         console.log(error);
@@ -421,7 +424,7 @@ const NewsFeedSingle = (singleItem) => {
           <Fragment>
             <PostComments news_feed_id={items.id} setComments={setComments} />
             <FilterComments news_feed_id={items.id} comments={comments.data} setComments={setComments} next_page={nextPage} setNextPage={setNextPage} />
-            {!loading && <ReplyComments comments={comments.data} setComments={setComments} />}
+            {!loading && <ReplyComments news_feed_id={items.id} comments={comments.data} setComments={setComments} />}
           </Fragment>
         </div>
       </div>

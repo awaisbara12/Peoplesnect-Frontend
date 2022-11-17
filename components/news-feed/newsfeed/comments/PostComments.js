@@ -12,9 +12,10 @@ import {
   PaperAirplaneIcon,
 } from "@heroicons/react/outline";
 import { useFormik } from "formik";
-import { COMMENT_API_KEY } from "../../../../pages/config";
+import { COMMENT_API_KEY, NEWSFEED_COMMENT_POST_KEY } from "../../../../pages/config";
+import axios from "axios";
 
-const PostComments = (feedId) => {
+const PostComments = (props) => {
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
   }
@@ -52,7 +53,8 @@ const PostComments = (feedId) => {
 
     const dataForm = new FormData();
     dataForm.append("comments[body]", postText);
-    dataForm.append("comments[news_feed_id]", feedId.news_feed_id);
+    dataForm.append("comments[commentable_id]", props.news_feed_id);
+    dataForm.append("comments[commentable_type]", "NewsFeed");
 
     if (postImage.length > 0) {
       for (let i = 0; i < postImage.length; i++) {
@@ -72,9 +74,35 @@ const PostComments = (feedId) => {
       .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-          console.log(result);
           setComments(result.data);
-          // setLoading(false);
+          async function getFeedComments (){
+            const res = await axios(
+              NEWSFEED_COMMENT_POST_KEY + "/" + props.news_feed_id + "/comments",
+              {
+                method: "GET",
+                headers: {
+                  Accept: "application/json",
+                  "Content-type": "application/json; charset=utf-8",
+                  "Access-Control-Allow-Origin": "*",
+                  "Access-Control-Allow-Credentials": true,
+                  Authorization: authKey,
+                },
+                credentials: "same-origin",
+              }
+            );
+            const result = await res;
+      
+            try {
+              if (result.status == 200) {
+                props.setComments(result.data);
+              }
+            } catch (error) {
+              console.log(error);
+            }
+            
+            return result;
+          };
+          getFeedComments();
         }
       })
       .catch((err) => console.log(err));
