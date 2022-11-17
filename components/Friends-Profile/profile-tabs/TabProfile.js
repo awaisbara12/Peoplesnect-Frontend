@@ -2,7 +2,8 @@ import { PencilAltIcon } from "@heroicons/react/outline";
 import React from "react";
 import ProfileFeed from "../ProfileFeed";
 
-const TabProfile = () => {
+const TabProfile = (props) => {
+  
   return (
     <>
       <div className="bg-white rounded-xl p-10">
@@ -10,7 +11,15 @@ const TabProfile = () => {
           <div className="font-extrabold">About</div>
         </div>
         <div className="w-auto">
-          <div className="my-4 leading-8 text-justify font-extralight">
+          {props.user && props.user.description?(
+            <div className="my-4 leading-8 text-justify font-extralight">
+            {props.user.description}
+            <span className="text-indigo-400 cursor-pointer ml-2 font-bold">
+              Read More
+            </span>
+          </div>
+          ):(
+            <div className="my-4 leading-8 text-justify font-extralight">
             Lorem Ipsum is simply dummy text of the printing and typesetting
             industry. Lorem Ipsum has been the industrys standard dummy text
             ever since the 1500s, when an unknown printer took a galley of type
@@ -20,6 +29,8 @@ const TabProfile = () => {
               Read More
             </span>
           </div>
+          )}
+          
         </div>
       </div>
       <ProfileFeed />

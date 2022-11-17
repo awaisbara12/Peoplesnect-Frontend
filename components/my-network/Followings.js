@@ -64,41 +64,32 @@ const Followings = () => {
             followee.map((i)=>(
             <div className="border-b-1" key={i.id}>
             <div className="Followings-profile flex  px-4 py-10 justify-between items-center">
+            <Link 
+              href={{
+              pathname: "/Friends-Profile",
+              query: i.followee.id,
+            }}>
+            <a>
               <div className="flex items-center gap-3">
                 {i.followee.display_photo_url?(
-                   <Link href="/news-feed">
-                   <a>
                      <img 
                      src={i.followee.display_photo_url}
                      className="object-cover rounded-full z-40 h-[35px] w-[35px]"        
-                    
-                     width={35} 
-                     height={35} 
                      alt="" />
-                   </a>
-                   </Link>
                 ):(
-                   <Link href="/news-feed">
-                   <a>
-                     <Image 
+                <Image 
                      src={ProfileAvatar}
                      width={35} 
                      height={35} 
                      alt="" />
-                   </a>
-                   </Link>
                 )}
-               
                 <div className="">
-                  <a href="">
-                    <div className="username text-sm font-bold">{i.followee.first_name} {i.followee.last_name}</div>
-                  </a>
-                  <a href="">
-                    <div className="userfield text-xs">{i.followee.city}, {i.followee.country}</div>
-                  </a>
+                 <div className="username text-sm font-bold capitalize">{i.followee.first_name} {i.followee.last_name}</div>
+                 <div className="userfield text-xs">{i.followee.city}, {i.followee.country}</div>
                 </div>
               </div>
-              
+            </a>
+            </Link> 
               <Menu as="div" className="relative inline-block text-left">
                 <div>
                   <Menu.Button className="inline-flex justify-center w-full rounded-full  text-indigo-400 border-1 hover:bg-indigo-400 hover:text-white border-indigo-400 px-3 py-2">
