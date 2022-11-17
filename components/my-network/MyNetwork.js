@@ -97,9 +97,13 @@ function MyNetwork() {
             userConnections.map((user) => (
               <div className="border-b-1" key={user.id}>
               <div className="request-profile flex  px-4 py-3 justify-between items-center">
+              <Link 
+                     href={{
+                      pathname: "/Friends-Profile/",
+                      query: user.id, // the data
+              }}>
+              <a>
                 <div className="flex items-center gap-3">
-                  <Link href="/news-feed">
-                    <a>
                       {user.display_photo_url?(
                           <img
                             src={user.display_photo_url}
@@ -118,22 +122,17 @@ function MyNetwork() {
                         )
                       }
                       {/* <Image src={ProfileAvatar} width={35} height={35} alt="" /> */}
-                    </a>
-                  </Link>
+                   
                   <div className="">
-                    <a href="">
                       <div className="username text-sm font-bold">{user.first_name} {user.last_name}</div>
-                    </a>
-                    <a href="">
                       <div className="userfield text-xs">{user.city},{user.country}</div>
-                    </a>
-                    <a href="">
                       <div className="mutual-followers text-xs">
                         Matual Friends +3
                       </div>
-                    </a>
                   </div>
                 </div>
+              </a>
+              </Link> 
                 <div className="Request-button flex items-center gap-2">
                   <button className="border-1 border-indigo-400 rounded-full text-indigo-400 px-3 py-1 hover:bg-indigo-400 hover:text-white">
                     Message
@@ -143,6 +142,7 @@ function MyNetwork() {
                     Remove
                   </button>
                 </div>
+              
               </div>
             </div>
             ))
