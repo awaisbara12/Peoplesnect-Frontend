@@ -27,7 +27,7 @@ import Spinner from "../common/Spinner";
 import axios from "axios";
 import NewsFeedUserCard from "../news-feed/newsfeed/feedcard/NewsFeedUserCard";
 
-const NewsPostProfile = ({ setList }) => {
+const PrivateAccount = ({ setList }) => {
   return (
     <div className="mt-7 z-50">
       <div className="w-full rounded-xl bg-white p-[22px]">
@@ -39,4 +39,4 @@ const NewsPostProfile = ({ setList }) => {
     </div>
   );
 };
-export default NewsPostProfile;
+export default PrivateAccount;

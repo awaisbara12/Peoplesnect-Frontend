@@ -166,8 +166,9 @@ const SkillsTabProfile = () => {
                     <div className="bg-white px-12 py-5 rounded-xl">
                       <div>
                         <input
-                          className="placeholder:text-md hover:shadow-lg bg-gray-100 placeholder:rounded-full border-none w-full pl-2 rounded-full py-2 "      
+                          className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full placeholder:pl-2 rounded-full placeholder:py-2"      
                          value={skill}
+                         type="text"
                           onChange={(e)=>setuserskill(e.target.value)}
                           name="skills"
                           placeHolder="Add Skills"
@@ -178,7 +179,7 @@ const SkillsTabProfile = () => {
                         <Link href="">
                           <button className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
                             type="submit" onClick={AddSkill}  >
-                             Save Skills
+                             Save Skill
                           </button>
                         </Link>
                       </div>
@@ -243,6 +244,7 @@ const SkillsTabProfile = () => {
                           value={editskill}
                           onChange={(e)=>seteditskill(e.target.value)}
                           name="skills"
+                          type="text"
                           placeHolder="Edit"
                         />
                         {/* <em>press enter to add new Skill</em> */}
@@ -251,7 +253,7 @@ const SkillsTabProfile = () => {
                         <Link href="">
                           <button className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
                             type="submit" onClick={UpdateSkill} >
-                                Update Skills
+                                Update Skill
                           </button>
                         </Link>
                       </div>

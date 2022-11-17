@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 
 import ProfileAvatar from "../../public/images/profile-avatar.png";
 import ProfileAvatar2 from "../../public/images/mira.png";
-import ProfileAvatar3 from "../../public/images/profile-girl.jpg";
+import ProfileAvatar3 from "../../public/images/profile-avatar.png";
 
 import InputEmoji from "react-input-emoji";
 const Picker = dynamic(() => import("emoji-picker-react"), { ssr: false });

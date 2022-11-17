@@ -17,7 +17,7 @@ import {
 import { CalendarIcon } from "@heroicons/react/solid";
 import { Popover, Transition } from "@headlessui/react";
 import Link from "next/link";
-import ProfileAvatar from "../../public/images/profile-girl.jpg";
+import ProfileAvatar from "../../public/images/profile-avatar.png";
 import postimage from "../../public/images/cover.jpg";
 import FilterComments from "./comments/FilterComments";
 import ReplyComments from "./comments/ReplyComments";

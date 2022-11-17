@@ -50,7 +50,7 @@ const ProfileCard = () => {
                 <div className="relative -z-0 flex justify-center">
                 <img
                 src={userDetails.user.cover_photo_url}
-                className="rounded-top w-[293px] h-[93px] object-cover"
+                className="rounded-t-xl w-[293px] h-[93px] object-cover"
                 placeholder="blur"
                 alt="profile-bg"
               />
@@ -70,20 +70,17 @@ const ProfileCard = () => {
                   <div className="absolute z-10 -top-8">
                   <img
                   src={userDetails.user.display_photo_url}
-                  width={42}
-                  height={42}
-                  placeholder="blur"
                   alt="profile"
-                  className="rounded-full object-cover w-[52px] h-[52px] border-4 border-white"
+                  className="rounded-full object-cover w-[62px] h-[62px] border-4 border-white"
                 />
                 </div>
                 ):(
-                  <div className="absolute z-10 -top-4">
+                  <div className="absolute z-10 -top-8">
                   <Image
                   src={profileAvatar}
-                  width={42}
-                  height={42}
-                  placeholder="blur"
+                  className="rounded-full"
+                  width={62}
+                  height={62}
                   alt="profile"
                 />
                 </div>
@@ -111,7 +108,7 @@ const ProfileCard = () => {
             <Spinner />
           )}
         </div>
-        <div className="font-light px-5 text-base text-gray-900 leading-5 text-center">
+        <div className="font-light max-h-[40px] overflow-hidden px-5 text-base text-gray-900 leading-5 text-center">
         {userDetails && userDetails.user ? (
             <> {userDetails.user.description}</>
           ) : (

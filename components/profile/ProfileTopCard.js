@@ -7,7 +7,7 @@ import photos1 from "../../public/images/brand.jpg";
 import photos2 from "../../public/images/product1.png";
 import photos3 from "../../public/images/groupcover.jpg";
 
-import ProfileAvatar from "../../public/images/profile-girl.jpg";
+import ProfileAvatar from "../../public/images/profile-avatar.png";
 import {
   BookmarkAltIcon,
   PhotographIcon,

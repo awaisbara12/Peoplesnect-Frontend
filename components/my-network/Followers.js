@@ -15,7 +15,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const Followings = () => {
+const Followers = () => {
   const [followee, setfollowee] = useState();
    // Bareer Key
    if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore"); }
@@ -56,7 +56,7 @@ const Followings = () => {
       <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
         <div className="bg-white rounded-b-xl">
           <div className="flex justify-between items-center border-b-1 p-4">
-            <div className="heading">Total Followings</div>
+            <div className="heading">Total Followers</div>
             <div className="">{followee?(followee.length):('')}</div>
           </div>
 
@@ -151,4 +151,4 @@ const Followings = () => {
   );
 };
 
-export default Followings;
+export default Followers;

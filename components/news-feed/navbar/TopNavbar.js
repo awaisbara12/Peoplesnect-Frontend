@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { signout } from "../../auth/signout/SignOut";
 import NavbarLogo from "../../../public/images/logo-circle.png";
-import ProfileLogo from "../../../public/images/profile-girl.jpg";
+import ProfileLogo from "../../../public/images/profile-avatar.png";
 import { Popover, Transition } from "@headlessui/react";
 import Spinner from "../../common/Spinner";
 import {
@@ -122,7 +122,7 @@ const TopNavbar = () => {
                 <li className="flex font-normal text-xl items-center flex-col gap-1">
                   <div className="relative">
                     <BellIcon className="h-5 w-5 text-indigo-400" />
-                    <div className="bg-red-400 h-4 w-4 text-white -top-1 left-3 rounded-full flex justify-center items-center absolute">
+                    <div className="bg-red-400 h-3 w-3 text-white -top-1 left-3 rounded-full flex justify-center items-center absolute">
                       {userDetails?(
                         <p className="text-[8px]">{userDetails.notifications_count}</p>
                       ):('')

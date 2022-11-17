@@ -10,6 +10,7 @@ import MyConnections from "../news-feed/sugesteduser/MyConnections";
 import FooterNewsFeed from "../news-feed/newsfeed/newsfeedfooter/FooterNewsFeed";
 import EventsCard from "../news-feed/eventcard/EventsCard";
 import TopNavbar from "../news-feed/navbar/TopNavbar";
+import FollowingsTabs from "./FollowingsTabs";
 
 const FollowingsFeed = () => {
   return (
@@ -28,7 +29,7 @@ const FollowingsFeed = () => {
             </div>
             <div className="flex px-2 xl:px-0 lg:px-4 md:px-4 gap-[65px] md:gap-8 lg:gap-6 justify-between">
               <div className="h-full bg-zinc-100 mx-auto">
-                <Followings />
+                <FollowingsTabs />
               </div>
               <div className="w-72 hidden md:block lg:block">
               <ProfileCard />

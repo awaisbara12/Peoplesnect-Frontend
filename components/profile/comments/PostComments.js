@@ -97,7 +97,11 @@ const PostComments = (feedId) => {
           />
         </div>
         <div className="absolute top-2 left-0">
-          <Image src={ProfileAvatar} width={34} height={34} alt="" />
+          <Image 
+          src={ProfileAvatar} 
+          width={34} 
+          height={34} 
+          alt="" />
         </div>
         <div className="flex items-center absolute top-3 right-0">
           <div className="">

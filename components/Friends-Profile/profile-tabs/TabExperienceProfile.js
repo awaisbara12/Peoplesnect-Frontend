@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import ProfileAvatar from "../../../public/images/profile-girl.jpg";
+import ProfileAvatar from "../../../public/images/profile-avatar.png";
 import { PlusCircleIcon } from "@heroicons/react/solid";
 import { ChevronRightIcon, PencilAltIcon } from "@heroicons/react/outline";
 

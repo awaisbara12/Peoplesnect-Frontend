@@ -238,7 +238,7 @@ function PeendingRequest() {
                         }
                         </a>
                       </Link>
-                      <div className="absolute -bottom-12 left-2">
+                      <div className="absolute -bottom-12 border-3 rounded-full border-white left-2">
                         <Link 
                          href={{
                           pathname: "/User-Profile/",
@@ -248,15 +248,16 @@ function PeendingRequest() {
                           {e.display_photo_url?(
                             <img
                               src={e.display_photo_url}
-                              className="object-cover rounded-full z-40 h-[85px] w-[85px]"
+                              className="object-cover rounded-full z-40 h-[70px] w-[70px]"
                               alt=""
                             />
                             ):(
                               <Image
-                                className="object-cover"
+                                className="object-cover rounded-full"
                                 src={ProfileAvatar}
-                                width={85}
-                                height={85}
+
+                                width={65}
+                                height={65}
                                 alt=""
                               />
                             )
@@ -273,27 +274,27 @@ function PeendingRequest() {
                       </div>
                     </div>
                     <div className="Details px-4 ">
-                      <div className="ml-24">
-                        <div className="User-Name font-bold ">{e.first_name} {e.last_name}</div>
+                      <div className="ml-20 mt-2">
+                        <div className="User-Name font-bold capitalize">{e.first_name} {e.last_name}</div>
                         <div className="Locations font-extralight">
                            {e.city}, {e.country}
                         </div>
                       </div>
-                      <div className="details mt-5 font-light">
-                        Hearing Jobs And Products and Employs Details here
+                      <div className="details mt-3 font-light block max-h-[40px] overflow-hidden">
+                        {e.description}
                       </div>
-                      <div className="followers mt-5 font-extralight">
+                      <div className="followers mt-3 font-extralight">
                         {e.followers_count} Followers
                       </div>
                      
                       {e.profile_type === "public_profile"?(
                         <button className="w-full bg-indigo-400 text-white rounded-xl py-2 hover:text-indigo-400 hover:bg-transparent
-                          border-1 border-indigo-400 mt-7 mb-4 "onClick={()=>CreateFollower(e.id)}>
+                          border-1 border-indigo-400 mt-5 mb-4 "onClick={()=>CreateFollower(e.id)}>
                           Follow
                         </button>
                       ):(
                         <button className="w-full bg-indigo-400 text-white rounded-xl py-2 hover:text-indigo-400 hover:bg-transparent
-                          border-1 border-indigo-400 mt-7 mb-4 "onClick={()=>ConnectionRequest(e.id)}>
+                          border-1 border-indigo-400 mt-5 mb-4 "onClick={()=>ConnectionRequest(e.id)}>
                           Connect
                         </button>
                       )}
