@@ -75,6 +75,7 @@ const PostComments = (props) => {
       .then((result) => {
         if (result) {
           setComments(result.data);
+
           async function getFeedComments (){
             const res = await axios(
               NEWSFEED_COMMENT_POST_KEY + "/" + props.news_feed_id + "/comments",
@@ -95,6 +96,9 @@ const PostComments = (props) => {
             try {
               if (result.status == 200) {
                 props.setComments(result.data);
+                props.setComments_count(result.data.data[0].news_feed.comments_count)
+                setComments(result.data);
+                props.setIs_deleted(1);
               }
             } catch (error) {
               console.log(error);

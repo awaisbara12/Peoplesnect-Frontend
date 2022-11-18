@@ -15,7 +15,7 @@ import {
 } from "@heroicons/react/outline";
 import ProfileAvatar from "../../../../public/images/profile-avatar-2.png";
 import { Popover, Transition } from "@headlessui/react";
-import { COMMENT_API_KEY } from "../../../../pages/config";
+import { COMMENT_API_KEY, NEWSFEED_COMMENT_POST_KEY } from "../../../../pages/config";
 import axios from "axios";
 
 const ReplyComments = (props) => {
@@ -45,6 +45,42 @@ const ReplyComments = (props) => {
       if (result) {
         if(document.getElementById(`comment-${commentId}`)){
           document.getElementById(`comment-${commentId}`).classList.add("hidden");
+          
+          async function getFeedComments (){
+            const res = await axios(
+              NEWSFEED_COMMENT_POST_KEY + "/" + props.news_feed_id + "/comments",
+              {
+                method: "GET",
+                headers: {
+                  Accept: "application/json",
+                  "Content-type": "application/json; charset=utf-8",
+                  "Access-Control-Allow-Origin": "*",
+                  "Access-Control-Allow-Credentials": true,
+                  Authorization: authKey,
+                },
+                credentials: "same-origin",
+              }
+            );
+            const result = await res;
+            try {
+              if (result.status == 200) {
+                props.setComments(result.data);
+                props.setIs_deleted(1);
+                if (!result.data.data[0]){
+                  props.setComments_count(0);
+                }
+                else
+                {
+                  props.setComments_count(result.data.data[0].news_feed.comments_count);
+                }
+              }
+            } catch (error) {
+              console.log(error);
+            }
+            
+            return result;
+          };
+          getFeedComments();
         }
       }
     } catch (error) {
@@ -225,7 +261,7 @@ const ReplyComments = (props) => {
                   {comment.attachments_link ? (
                     <img
                       src={comment.attachments_link[0]}
-                      className="aspect-video object-cover rounded-xl mb-4"
+                      className="aspect-video object-cover rounded-xl mb-4 h-[110px] w-[100px]"
                       alt=""
                     />
                   ) : (
