@@ -2,7 +2,7 @@ import React from "react";
 import PrivateRoutes from "../../components/auth/routes/PrivateRoutes";
 import FriendsProfileViewFeed from "../../components/Friends-Profile/FriendsProfileViewFeed";
 import { useRouter } from "next/router";
-const index = () => {
+const Index = () => {
 const router = useRouter();
 const data = router.asPath;
 const myArray = data.split("?");
@@ -13,4 +13,4 @@ const myArray = data.split("?");
   );
 };
 
-export default index;
+export default Index;
