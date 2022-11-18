@@ -38,7 +38,7 @@ const cardDropdown = [
     icon: PencilAltIcon,
   },
   {
-    name: "Delet",
+    name: "Delete",
     href: "#",
     icon: TrashIcon,
   },
@@ -48,6 +48,8 @@ const cardDropdown = [
 const ProfileFeedSingle = (singleItems) => {
   const [items, setItems] = useState(singleItems.lists);
   const [comments, setComments] = useState([]);
+  const [comments_count, setComments_count] = useState([]);
+  const [is_deleted, setIs_deleted] = useState(0);
   const [loading, setLoading] = useState(true);
   const [nextPage, setNextPage] = useState('')
    // console.log("i =>", singleItems)
@@ -81,8 +83,9 @@ const ProfileFeedSingle = (singleItems) => {
 
   function addHeart(feedId) {
     const dataForm = new FormData();
-    dataForm.append("reactions[news_feed_id]", feedId);
-    dataForm.append("reactions[reaction_type]", "heart");
+    dataForm.append("reactionable_id", feedId);
+    dataForm.append("reaction_type", "heart");
+    dataForm.append("reactionable_type", "NewsFeed");
     fetch(REACTION_NEWSFEED_API_KEY, {
       method: "POST",
       headers: {
@@ -102,7 +105,8 @@ const ProfileFeedSingle = (singleItems) => {
 
   function createBookmark(feedId) {
     const dataForm = new FormData();
-    dataForm.append("bookmarks[news_feed_id]", feedId);
+    dataForm.append("bookmarkable_id", feedId);
+    dataForm.append("bookmarkable_type", "NewsFeed");
     fetch(BOOKMARK_NEWSFEED_API_KEY, {
       method: "POST",
       headers: {
@@ -190,6 +194,7 @@ const ProfileFeedSingle = (singleItems) => {
         if (result.status == 200) {
           setNextPage(result.data.pages.next_page)
           setComments(result.data);
+          setIs_deleted(false);
         }
       } catch (error) {
         console.log(error);
@@ -406,7 +411,7 @@ const ProfileFeedSingle = (singleItems) => {
                   height={24}
                   className="text-gray-600 cursor-pointer"
                 />
-                <span className="font-light text-red-600 cursor-pointer">{items.comments_count}</span>
+                <span className="font-light text-gray-600 cursor-pointer">{comments_count>=0 && is_deleted==true?(comments_count):(items.comments_count==0?(0):(items.comments_count))}</span>
               </div>
             </div>
             <div className="flex gap-6">
@@ -450,14 +455,15 @@ const ProfileFeedSingle = (singleItems) => {
                   height={24}
                   className="text-indigo-400 cursor-pointer"
                   onClick={() => createBookmark(items.id)}
+                  // onClick={() => {navigator.clipboard.writeText(NEWSFEED_COMMENT_POST_KEY + "/" + items.id)}}
                 />
               </div>
             </div>
           </div>
           <Fragment>
-            <PostComments news_feed_id={items.id} setComments={setComments} />
-            <FilterComments news_feed_id={items.id} comments={comments.data} setComments={setComments} next_page={nextPage} setNextPage={setNextPage} />
-            {!loading && <ReplyComments comments={comments.data} setComments={setComments} />}
+            <PostComments news_feed_id={items.id} setComments={setComments} setComments_count={setComments_count} setIs_deleted={setIs_deleted}/>
+            <FilterComments news_feed_id={items.id} comments={comments.data} setComments_count={setComments_count} setComments={setComments} next_page={nextPage} setNextPage={setNextPage} />
+            {!loading && <ReplyComments news_feed_id={items.id} comments={comments.data} comments_count={comments_count} setComments_count={setComments_count} setComments={setComments} setIs_deleted={setIs_deleted}/>}
           </Fragment>
         </div>
       </div>

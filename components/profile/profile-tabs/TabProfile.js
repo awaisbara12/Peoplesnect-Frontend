@@ -9,6 +9,24 @@ import {
   UPDATE_PERSONAL_INFO
 } from "../../../pages/config";
 
+const ReadMore = ({ children }) => {
+  const text = children;
+  const [isReadMore, setIsReadMore] = useState(true);
+  const toggleReadMore = () => {
+    setIsReadMore(!isReadMore);
+  };
+  return (
+    <p className="text">
+      {isReadMore ? text.slice(0, 300) + (text.length > 300?("......"):('')) : text}
+      {text.length > 300?(
+        <span onClick={toggleReadMore} className="text-indigo-400 cursor-pointer ml-2 font-bold">
+          {isReadMore ? "Read more" : "Show less"}
+        </span>
+      ):('')}
+    </p>
+  );
+};
+
 const TabProfile = () => {
   let [isOpen, setIsOpen] = useState(false);
   const [userDetails, setUserDetails] = useState();
@@ -167,10 +185,9 @@ const TabProfile = () => {
        {about?(
        <div className="w-auto">
           <div className="my-4 leading-8 text-justify font-extralight">
-            {about}
-            <span className="text-indigo-400 cursor-pointer ml-2 font-bold">
-              Read More
-            </span>
+            <ReadMore>
+              {about}
+            </ReadMore>
           </div>
        </div>
        ):("")}
