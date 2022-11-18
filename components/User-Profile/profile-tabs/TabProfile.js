@@ -4,7 +4,6 @@ import NewsPostProfile from "../NewsPostProfile";
 import ProfileFeed from "../ProfileFeed";
 
 const TabProfile = (props) => {
-  console.log(props.user)
   return (
     <>
       <div className="bg-white rounded-xl p-10">
@@ -33,7 +32,7 @@ const TabProfile = (props) => {
        {props.user && props.user.profile_type=="private_profile"?(
          <NewsPostProfile />
        ):(
-        <ProfileFeed />
+        <ProfileFeed/>
        )} 
     </>
   );
