@@ -6,7 +6,7 @@ import { PlusCircleIcon } from "@heroicons/react/solid";
 import { ChevronRightIcon, PencilAltIcon } from "@heroicons/react/outline";
 
 const TabExperienceProfile = (props) => {
-  console.log(props.user)
+  //console.log(props.user)
   return (
     <div className="bg-white rounded-xl p-10">
       <div className="flex items-center justify-between mb-5">

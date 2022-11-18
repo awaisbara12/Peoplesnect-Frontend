@@ -27,15 +27,107 @@ import {
   TabsBody,
   Tab,
   TabPanel,
+  Button,
 } from "@material-tailwind/react";
 import TabsProfileCard from "./profile-tabs/TabsProfileCard";
-import { SHOW_USER_PROFILE } from "../../pages/config";
+import { FOLLOW_REQUEST_USER_API, FOLLOW_USER_API, GET_CONNECTIONS, SHOW_USER_PROFILE } from "../../pages/config";
 const ProfileTopCard = (props) => {
   const [userDetails, setUserDetails] = useState();
-  const [btn1, setbtn1] = useState(true);
-// Bareer Key
+  const [btn1, setbtn1] = useState();
+  const [btn2, setbtn2] = useState(true);
+  // Bareer Key
   if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore"); }
-  
+  // Remove connection
+   // Remove Connection
+   const RemoveConnection=async(id)=>{
+    const requestOptions = {
+      method: 'DELETE',
+      headers:{Accept: "application/json", Authorization: `${authKey}`},
+    };
+    const response = await fetch(`${FOLLOW_REQUEST_USER_API}/${id}`,requestOptions);
+    CheckConnection(); // update Pending Request
+    //console.log( "Id ha yeh", user_request  )
+  }
+  // Send Connection Request
+   const ConnectionRequest=async(userId)=>
+   {     
+     const requestOptions = {
+       method: 'POST',
+       headers:{Accept: "application/json", Authorization: `${authKey}` },
+     };
+     const response = await fetch(`${FOLLOW_REQUEST_USER_API}?follow_requests[receiver_id]=${userId}`,requestOptions);
+     const data = await response.json();
+     //console.log("Send", data );
+     CheckConnection();
+     alert("Send Follow Request");
+   }
+
+  // Create Follower
+  const CreateFollower=async(userId)=>
+  {      
+    const requestOptions = {
+      method: 'POST',
+      headers:{Accept: "application/json", Authorization: `${authKey}` },
+    };
+    const response = await fetch(`${FOLLOW_USER_API}?followers[followee_id]=${userId}`,requestOptions);
+    const data = await response.json();
+    setbtn1('');
+    CheckFollower();
+    alert("Send Follow Request");
+  }
+  //UnFollow 
+  const UnFollow=async(userId)=>
+  {      
+    const requestOptions = {
+      method: 'DELETE',
+      headers:{Accept: "application/json", Authorization: `${authKey}` },
+    };
+    const response = await fetch(`${FOLLOW_USER_API}/${userId}`,requestOptions);
+    const data = await response.json();
+    //console.log("DElet Follower", data.data );
+    CheckFollower();
+  }
+
+
+
+   //Check Connection Request
+   const CheckConnection=async()=>
+    {   
+      await fetch(`${FOLLOW_REQUEST_USER_API}/${props.id}`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json", 
+          Authorization: `${authKey}`,
+        },
+      })
+        .then((resp) => resp.json())
+        .then((result) => {
+          if (result) {
+           setbtn2(result.data);
+           console.log("Requests check",result.data);  
+            //console.log(UserList)
+          }
+        })
+        .catch((err) => console.log('error ha'));      
+   }
+   // Check Folower
+   const CheckFollower=async()=>{      
+    await fetch(`${FOLLOW_USER_API}/${props.id}`, {
+      method: "GET",
+       headers: {
+        Accept: "application/json", 
+         Authorization: `${authKey}`,
+       },
+    })
+       .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          setbtn1(result.data);
+        }
+      })
+      .catch((err) => console.log(err)); 
+  }
+  //Show User 
   const Show_User=async()=>{      
     await fetch(`${SHOW_USER_PROFILE}/${props.id}`, {
       method: "GET",
@@ -53,8 +145,9 @@ const ProfileTopCard = (props) => {
       })
       .catch((err) => console.log(err)); 
   }
-
   useEffect(() => {
+    CheckConnection();
+    CheckFollower();
     Show_User(); // Get Current User
   },[]);
 
@@ -114,6 +207,7 @@ const ProfileTopCard = (props) => {
               </div>
             </div>
           </div>
+          <div className="flex justify-between">
           <div className="my-2 flex flex-col ml-48 gap-1">
             <div className="group relative">
               
@@ -122,7 +216,7 @@ const ProfileTopCard = (props) => {
                 {userDetails.first_name} {userDetails.last_name}
                 </div>
                 ):(<div className="text-2xl text-indigo-400 font-bold">
-                 Profile Name
+                 No Name
                 </div>)}
               
             </div>
@@ -140,6 +234,31 @@ const ProfileTopCard = (props) => {
               </a>
             </Link>
           </div>
+           {btn2 && btn2.length==1 && userDetails && userDetails.profile_type=="private_profile"?(
+              <Button className="bg-indigo-400 rounded-full mt-6" onClick={()=>RemoveConnection(btn2[0].id)}>
+                Remove Connection
+              </Button>)
+              :('') }
+
+           {btn2 && btn2.length==0 && userDetails && userDetails.profile_type=="private_profile"?(
+              <Button className="bg-indigo-400 rounded-full mt-6" onClick={()=>ConnectionRequest(userDetails.id)}>
+                Connection
+              </Button>)
+              :('') }
+              
+              
+              
+              { btn1 && btn1.length==1 && userDetails && userDetails.profile_type=="public_profile"?(
+              <Button className="bg-indigo-400 rounded-full mt-6" onClick={()=>UnFollow(btn1[0].id)}>
+                Un Follow
+              </Button>):('')}
+
+              {btn1 && btn1.length==0 && userDetails && userDetails.profile_type=="public_profile"?(
+              <Button className="bg-indigo-400 rounded-full mt-6" onClick={()=>CreateFollower(userDetails.id)}>
+                Follow
+              </Button>):('')}
+          </div>
+         
         </div>
         <div className="">
           <TabsProfileCard user={userDetails} />

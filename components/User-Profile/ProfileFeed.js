@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ProfileFeedSingle from "../profile/ProfileFeedSingle";
-import { POST_NEWSFEED_API_KEY } from "../../pages/config";
+import { Show_USER_NEWS_FEEDS } from "../../pages/config";
+import { useRouter } from "next/router";
 
 const ProfileFeed = () => {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
-  if (typeof window !== "undefined") {
-    var authKey = window.localStorage.getItem("keyStore");
-  }
+  
+  const router = useRouter();
+  const data = router.asPath;
+  const myArray = data.split("?");
+  // bareer key
+  if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore");}
+  // ShowUser NewFeed
   const getNewsFeed = async () => {
-    const res = await axios(POST_NEWSFEED_API_KEY, {
+    const res = await axios(`${Show_USER_NEWS_FEEDS}?user_id=${myArray[1]}`, {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -34,8 +39,9 @@ const ProfileFeed = () => {
     return result;
   };
   useEffect(() => {
+   
     setLoading(false);
-   getNewsFeed();
+    getNewsFeed();
   },[]);
  
   return (

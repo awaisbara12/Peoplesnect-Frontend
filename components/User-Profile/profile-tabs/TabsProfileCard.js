@@ -6,8 +6,6 @@ import TabProfile from "./TabProfile";
 
 const TabsProfileCard = (props) => {
   const [des, setdes] = useState(props.user);
-  //setdes();
-  
   const [openTab, setOpenTab] = React.useState(1);
   return (
     <>
