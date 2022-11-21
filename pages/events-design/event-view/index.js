@@ -1,11 +1,11 @@
 import React from "react";
 import PrivateRoutes from "../../../components/auth/routes/PrivateRoutes";
-import EventViewFeed from "../../../components/events-design/Event-view/EventViewFeed";
+import PostViewFeed from "../../../components/post-view/PostViewFeed";
 
 const index = () => {
   return (
     <PrivateRoutes>
-      <EventViewFeed />
+      <PostViewFeed/>
     </PrivateRoutes>
   );
 };
