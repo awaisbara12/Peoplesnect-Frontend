@@ -7,8 +7,8 @@ import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import { 
-  FOLLOW_USER_API, 
-  CURENT_USER_LOGIN_API
+  GET_USER_FOLLOWEES, 
+  FOLLOW_USER_API
 } from "../../pages/config";
 import { Button } from "@material-tailwind/react";
 function classNames(...classes) {
@@ -16,7 +16,7 @@ function classNames(...classes) {
 }
 
 const Followers = () => {
-  const [followee, setfollowee] = useState();
+  const [follower, setfollower] = useState();
    // Bareer Key
    if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore"); }
    const confirmation=(userId)=>{
@@ -33,7 +33,7 @@ const Followers = () => {
     const response = await fetch(`${FOLLOW_USER_API}/${userId}`,requestOptions);
     const data = await response.json();
     console.log("DElet Follower", data.data );
-    setfollowee(data.data);
+    setfollower(data.data);
     ShowFollowing();
   }
   // Show Following
@@ -43,10 +43,10 @@ const Followers = () => {
       method: 'GET',
       headers:{Accept: "application/json", Authorization: `${authKey}` },
     };
-    const response = await fetch(`${FOLLOW_USER_API}`,requestOptions);
+    const response = await fetch(`${GET_USER_FOLLOWEES}`,requestOptions);
     const data = await response.json();
-    console.log("Total Follower", data.data );
-    setfollowee(data.data);
+    console.log("Total Followeee", data.data );
+    setfollower(data.data);
   }
   useEffect(() => {
      ShowFollowing();
@@ -57,19 +57,19 @@ const Followers = () => {
         <div className="bg-white rounded-b-xl">
           <div className="flex justify-between items-center border-b-1 p-4">
             <div className="heading">Total Followers</div>
-            <div className="">{followee?(followee.length):('')}</div>
+            <div className="">{follower?(follower.length):('')}</div>
           </div>
 
-          {followee?(
-            followee.map((i)=>(
+          {follower?(
+            follower.map((i)=>(
             <div className="border-b-1" key={i.id}>
             <div className="Followings-profile flex  px-4 py-10 justify-between items-center">
               <div className="flex items-center gap-3">
-                {i.followee.display_photo_url?(
+                {i.follower.display_photo_url?(
                    <Link href="/news-feed">
                    <a>
                      <img 
-                     src={i.followee.display_photo_url}
+                     src={i.follower.display_photo_url}
                      className="object-cover rounded-full z-40 h-[35px] w-[35px]"        
                     
                      width={35} 
@@ -91,10 +91,10 @@ const Followers = () => {
                
                 <div className="">
                   <a href="">
-                    <div className="username text-sm font-bold">{i.followee.first_name} {i.followee.last_name}</div>
+                    <div className="username text-sm font-bold">{i.follower.first_name} {i.follower.last_name}</div>
                   </a>
                   <a href="">
-                    <div className="userfield text-xs">{i.followee.city}, {i.followee.country}</div>
+                    <div className="userfield text-xs">{i.follower.city}, {i.follower.country}</div>
                   </a>
                 </div>
               </div>
@@ -102,7 +102,7 @@ const Followers = () => {
               <Menu as="div" className="relative inline-block text-left">
                 <div>
                   <Menu.Button className="inline-flex justify-center w-full rounded-full  text-indigo-400 border-1 hover:bg-indigo-400 hover:text-white border-indigo-400 px-3 py-2">
-                    Following
+                    Follower
                     <ChevronDownIcon
                       className="-mr-1 ml-2 h-5 w-5"
                       aria-hidden="true"
@@ -131,7 +131,7 @@ const Followers = () => {
                             )}
                             onClick={()=>confirmation(i.id)}
                           >
-                            Unfollow
+                            Remove
                           </a>
                         )}
                       </Menu.Item>
