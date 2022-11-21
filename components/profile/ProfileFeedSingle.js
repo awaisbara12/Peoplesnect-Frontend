@@ -135,7 +135,7 @@ const ProfileFeedSingle = (singleItems) => {
       .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-          singleItems.setItems(result.data);
+          setItems(result.data);
         }
       })
       .catch((err) => console.log(err));
