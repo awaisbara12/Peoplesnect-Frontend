@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, setState } from "react";
+import React, { Fragment, useEffect, useState, setState, useId } from "react";
 import Image from "next/image";
 import {
   BadgeCheckIcon,
@@ -25,6 +25,7 @@ import {
   BOOKMARK_NEWSFEED_API_KEY,
   REACTION_NEWSFEED_API_KEY,
   NEWSFEED_COMMENT_POST_KEY,
+  POST_NEWSFEED_API_KEY,
 } from "../../pages/config";
 import PostComments from "./comments/PostComments";
 import FilterComments from "./comments/FilterComments";
@@ -56,6 +57,7 @@ const ProfileFeedSingle = (singleItems) => {
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
   }
+   // Get NewsFeed for the updation Lists
   const getNewsFeed = async () => {
     const res = await axios(POST_NEWSFEED_API_KEY, {
       method: "GET",
@@ -72,13 +74,49 @@ const ProfileFeedSingle = (singleItems) => {
 
     try {
       if (result.status == 200) {
-        setList(result.data);
+        singleItems.setList(result.data.data);
       }
     } catch (error) {
       console.log(error);
     }
     setLoading(false);
     return result;
+  };
+ // delete user newsfeed's post
+  const DeleteNewsFeed = async (uid) => {
+    const res = await axios(POST_NEWSFEED_API_KEY + "/" + uid, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-type": "application/json; charset=utf-8",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true,
+        Authorization: authKey,
+      },
+      credentials: "same-origin",
+    });
+    const result = await res;
+
+    try {
+      if (result.status == 200) {
+        getNewsFeed();
+        alert("Record Deleted Succefully");
+        
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    setLoading(false);
+    return result;
+  };
+  // update user newsfeed's post
+ const EditFeed=(uid)=>{
+   alert(" ues"+uid);
+  };
+  // Confirmation Edit Or Delete
+  const optionConfirm=(uid,name)=>{
+    if (name=="Delete"){DeleteNewsFeed(uid);}
+    if (name=="Edit"){EditFeed(uid);}
   };
 
   function addHeart(feedId) {
@@ -97,7 +135,7 @@ const ProfileFeedSingle = (singleItems) => {
       .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-          setItems(result.data);
+          singleItems.setItems(result.data);
         }
       })
       .catch((err) => console.log(err));
@@ -275,6 +313,7 @@ const ProfileFeedSingle = (singleItems) => {
                             {cardDropdown.map((card) => (
                               <a
                                 key={card.name}
+                                onClick={()=>optionConfirm(items.id,card.name)}
                                 href={card.id}
                                 className="-m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
                               >

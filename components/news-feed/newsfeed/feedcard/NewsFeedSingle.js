@@ -198,7 +198,20 @@ const NewsFeedSingle = (singleItem) => {
       <div className="w-[600px] xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">
         <div className="flex gap-2 justify-between items-center px-[22px] py-[14px]">
           <div className="flex gap-2">
-            <Image src={ProfileAvatar} width={45} height={45} alt="" />
+          {items && items.user && items.user.display_photo_url?(
+             <img
+             src={items.user.display_photo_url} 
+             className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
+                  
+             width={45} 
+             height={45} 
+             alt="" />
+          ):(<Image 
+            src={ProfileAvatar} 
+            width={45} 
+            height={45} 
+            alt="" />)}
+           
             <div>
               <h4 className="flex gap-[6px] items-center font-medium text-gray-900">
                 {items.user.first_name} {items.user.last_name}
@@ -303,7 +316,12 @@ const NewsFeedSingle = (singleItem) => {
                     </div>
                     <div className="text-gray-900"></div>
                   </div>
-                  <Link href="/events-design/event-view">
+                  <Link 
+                    href={{
+                    pathname: "/events-design/event-view",
+                    query: items.id,
+                  }}
+                   >
                     <a className="text-sm text-gray-600 cursor-pointer flex items-center border border-gray-100 rounded-full py-1 px-3">
                       View Event
                     </a>
@@ -424,7 +442,7 @@ const NewsFeedSingle = (singleItem) => {
             </div>
           </div>
           <Fragment>
-            <PostComments news_feed_id={items.id} setComments={setComments} setComments_count={setComments_count} setIs_deleted={setIs_deleted}/>
+            <PostComments news_feed_id={items.id} setComments={setComments} setComments_count={setComments_count} setIs_deleted={setIs_deleted} dp={items.user.display_photo_url}/>
             <FilterComments news_feed_id={items.id} comments={comments.data} setComments_count={setComments_count} setComments={setComments} next_page={nextPage} setNextPage={setNextPage} />
             {!loading && <ReplyComments news_feed_id={items.id} comments={comments.data} comments_count={comments_count} setComments_count={setComments_count} setComments={setComments} setIs_deleted={setIs_deleted}/>}
           </Fragment>

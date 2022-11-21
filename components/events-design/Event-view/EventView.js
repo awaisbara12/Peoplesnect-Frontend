@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect,useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import post from "../../../public/images/main-banner.jpg";
@@ -10,8 +10,44 @@ import {
 } from "@heroicons/react/outline";
 import { DotsHorizontalIcon, VideoCameraIcon } from "@heroicons/react/solid";
 import { Popover, Transition } from "@headlessui/react";
+import { POST_NEWSFEED_API_KEY } from "../../../pages/config";
+import axios from "axios";
 
 const EventView = () => {
+  const [posts, setPost] = useState();
+  
+  if (typeof window !== "undefined") {
+    var authKey = window.localStorage.getItem("keyStore");
+  }
+  
+  const getNewsFeed = async () => {
+    const res = await axios(POST_NEWSFEED_API_KEY +"/5636a13a-9d7e-4bb4-b786-616a02f612c0" , {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-type": "application/json; charset=utf-8",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true,
+        Authorization: authKey,
+      },
+      credentials: "same-origin",
+    });
+    const result = await res;
+
+    try {
+      if (result.status == 200) {
+        setPost(result.data.data);
+        console.log("uff",result.data.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+   ;
+  };
+  useEffect(() => {
+    getNewsFeed();
+  },[]);
+
   return (
     <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
     <div className="blogs bg-white rounded-xl my-8 ">
@@ -66,31 +102,45 @@ const EventView = () => {
         <div className="image">
           <div className="">
             <Link href="/">
-              <a>
-                <Image src={post} width={1000} height={500} alt="" />
-              </a>
+              {posts && posts.event && posts.event.cover_photo_url?(
+                   <a>
+                   <img 
+                   src={posts.event.cover_photo_url} 
+                   width={1000} 
+                   height={500} 
+                   alt="" />
+                 </a>
+              ):( <a>
+                <Image
+                src={post} 
+                width={1000} 
+                height={500} 
+                alt="" />
+              </a>)}
+             
             </Link>
           </div>
         </div>
-        <div className=" details p-10">
-          <div className="heading text-2xl font-bold">Event Type Here</div>
+        {posts && posts.event?(
+          <div className=" details p-10">
+          <div className="heading text-2xl font-bold">{posts.event.name}</div>
           <div className="caption text-lg font-extralight">
             Event Organizer{" "}
             <b>
-              <a href="">Name</a>
+              <a href="">name</a>
             </b>
           </div>
           <div className="flex gap-3 mt-2">
             <CalendarIcon className="h-5 w-5" />
             <div className="event-time flex gap-2 font-extralight">
               <div className="day">Monday,</div>
-              <div className="date">25 July 2022,</div>
-              <div className="time">21:00 (Your Local time )</div>
+              <div className="date">{posts.event.start_date}, {posts.event.start_time}</div>
+              <div className="time"><b>-</b> {posts.event.end_date}, {posts.event.end_time} ( {posts.event.event_timezone} )</div>
             </div>
           </div>
           <div className="flex gap-3 mt-2">
             <VideoCameraIcon className="w-5 h-5" />
-            <div className="font-extralight">Online</div>
+            <div className="font-extralight">{posts.event.event_type}</div>
           </div>
           <div className="flex justify-end">
             <button className="bg-indigo-400 text-white p-3 rounded-full font-bold">
@@ -98,7 +148,9 @@ const EventView = () => {
             </button>
           </div>
         </div>
-      </div>
+        ):('')}
+        
+    </div>
     </div>
   );
 };

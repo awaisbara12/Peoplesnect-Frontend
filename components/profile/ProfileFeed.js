@@ -49,7 +49,7 @@ const ProfileFeed = () => {
           
           {list&&
             list.map((item) => (
-              <ProfileFeedSingle lists={item} key={item.id} />        
+              <ProfileFeedSingle lists={item} setList={setList} key={item.id} />        
             )
             )
           }

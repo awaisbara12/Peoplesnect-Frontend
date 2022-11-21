@@ -128,7 +128,20 @@ const PostComments = (props) => {
           />
         </div>
         <div className="absolute top-2 left-0">
-          <Image src={ProfileAvatar} width={34} height={34} alt="" />
+          {props.dp?(
+             <img
+             src={props.dp}
+             className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
+              
+             width={34} 
+             height={34} alt="" />
+          ):(
+             <Image 
+             src={ProfileAvatar} 
+             width={34} 
+             height={34} alt="" />
+          )}
+         
         </div>
         <div className="flex items-center absolute top-3 right-0 ">
           <div className="">
