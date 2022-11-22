@@ -68,10 +68,7 @@ const FilterComments = (props) => {
     })
     .catch((err) => console.log(err));
   }
-
-  useEffect(() => {
-    filterSChange();
-  },[]);
+  
   function loadMore() {
     fetch(
       NEWSFEED_COMMENT_POST_KEY +
@@ -97,6 +94,11 @@ const FilterComments = (props) => {
     })
     .catch((err) => console.log(err));
   }
+
+  useEffect(() => {
+    filterSChange();
+  },[]);
+  
   return (
     <Fragment>
       <div className="flex items-center justify-between mt-[6px]">

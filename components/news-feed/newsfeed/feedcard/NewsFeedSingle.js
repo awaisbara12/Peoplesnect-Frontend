@@ -60,10 +60,17 @@ const NewsFeedSingle = (singleItem) => {
   const [is_deleted, setIs_deleted] = useState(0);
   const [loading, setLoading] = useState(true);
   const [nextPage, setNextPage] = useState('')
-  if (typeof window !== "undefined") {
-    var authKey = window.localStorage.getItem("keyStore");
-  }
-  
+  // Bareer key
+  if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore");}
+  // copy link to clipboard
+  const copylink=(postid)=>{
+    alert("Link Copied to your Clipboard");    
+    const links=window.location.href        // get Full Link
+    const links1=window.location.pathname   // get link after localhost
+    const copylink = links.split(links1)    // get link domain like(localhost..etc)
+    navigator.clipboard.writeText(copylink[0]+"/events-design/event-view?"+postid)
+  } 
+  // Add Heart
   function addHeart(feedId) {
     const dataForm = new FormData();
     dataForm.append("reactionable_id", feedId);
@@ -85,7 +92,7 @@ const NewsFeedSingle = (singleItem) => {
       })
       .catch((err) => console.log(err));
   }
-
+  // Create Bookmark
   function createBookmark(feedId) {
     const dataForm = new FormData();
     dataForm.append("bookmarkable_id", feedId);
@@ -106,7 +113,7 @@ const NewsFeedSingle = (singleItem) => {
       })
       .catch((err) => console.log(err));
   }
-
+  // delete Bookmark
   async function deteleBookmark(bookmarkId) {
     const res = await axios(BOOKMARK_NEWSFEED_API_KEY + "/" + bookmarkId, {
       method: "DELETE",
@@ -129,7 +136,7 @@ const NewsFeedSingle = (singleItem) => {
       console.log(error);
     }
   }
-
+  // delete heart
   async function deteleHeart(heartId) {
     const res = await axios(REACTION_NEWSFEED_API_KEY + "/" + heartId, {
       method: "DELETE",
@@ -226,6 +233,7 @@ const NewsFeedSingle = (singleItem) => {
               </div>
             </div>
           </div>
+         
           <div className="">
             <div className="">
               <Popover className="relative">
@@ -281,8 +289,23 @@ const NewsFeedSingle = (singleItem) => {
         {/* <div className="border-1 border-gray-100"></div> */}
 
         <div className="px-[22px] py-[14px]">
+        <Link 
+            href={{
+            pathname: "/events-design/event-view",
+            query: items.id,
+          }} > 
+          <a>
           <p>{items.body ? items.body : ""}</p>
+          </a>
+          
+            </Link>
           {items.event && items.event ? (
+            <Link 
+            href={{
+            pathname: "/events-design/event-view",
+            query: items.id,
+          }} > 
+          <a>
             <div className="rounded-xl bg-white border border-gray-100 my-2">
               {items.event.cover_photo_url ? (
                 <img
@@ -329,19 +352,33 @@ const NewsFeedSingle = (singleItem) => {
                 </div>
               </div>
             </div>
+            </a>
+            </Link>
           ) : (
             ""
           )}
           {items.feed_type && items.feed_type === "video_feed" ? (
-            <>
+            <Link 
+            href={{
+            pathname: "/events-design/event-view",
+            query: items.id,
+          }} > 
+          <a>
               <video controls className="aspect-video w-full rounded-xl my-4">
                 <source src={items.attachments_link} type="video/mp4" />
               </video>
-            </>
+          </a>
+          </Link>
           ) : (
             ""
           )}
           {items.attachments_link && items.feed_type === "image_feed" ? (
+            <Link 
+            href={{
+            pathname: "/events-design/event-view",
+            query: items.id,
+          }} > 
+          <a>
             <div className="mt-[14px]">
               <img
                 src={items.attachments_link}
@@ -352,6 +389,8 @@ const NewsFeedSingle = (singleItem) => {
                 alt=""
               />
             </div>
+            </a>
+            </Link>
           ) : (
             ""
           )}
@@ -436,7 +475,7 @@ const NewsFeedSingle = (singleItem) => {
                   width={24}
                   height={24}
                   className="text-indigo-400 cursor-pointer"
-                  onClick={() => createBookmark(items.id)}
+                  onClick={() => copylink(items.id)}
                 />
               </div>
             </div>
