@@ -27,10 +27,12 @@ const ReadMore = ({ children }) => {
   );
 };
 
-const TabProfile = () => {
+const TabProfile = (props) => {
   let [isOpen, setIsOpen] = useState(false);
   const [userDetails, setUserDetails] = useState();
   const [about, setUserabout] = useState();
+  const [bookmarks, setBookmarks] = useState(props.bookmarks);
+
   function closeModal() {
     setIsOpen(false);
 
@@ -192,7 +194,7 @@ const TabProfile = () => {
        </div>
        ):("")}
       </div>
-      <ProfileFeed />
+      <ProfileFeed bookmarks={props.bookmarks} setBookmarks={props.setBookmarks}/>
     </>
   );
 };

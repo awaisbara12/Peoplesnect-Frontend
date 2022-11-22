@@ -6,9 +6,11 @@ import ProfileFeedSingle from "./ProfileFeedSingle";
 import axios from "axios";
 import { POST_NEWSFEED_API_KEY } from "/pages/config";
 
-const ProfileFeed = () => {
+const ProfileFeed = (props) => {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [bookmarks, setBookmarks] = useState(props.bookmarks);
+
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
   }
@@ -38,18 +40,18 @@ const ProfileFeed = () => {
   };
   useEffect(() => {
     setLoading(false);
-   getNewsFeed();
+    getNewsFeed();
   },[]);
  
   return (
     <div className="mt-8">
       <div className="w-[750px] md:w-full xl:w-full">
-        <NewsPostProfile setList={setList}/>
+        <NewsPostProfile setList={setList} bookmarks={props.bookmarks} setBookmarks={props.setBookmarks}/>
         <div>
           
           {list&&
             list.map((item) => (
-              <ProfileFeedSingle lists={item} setList={setList} key={item.id} />        
+              <ProfileFeedSingle lists={item} setList={setList} key={item.id} bookmarks={props.bookmarks} setBookmarks={props.setBookmarks}/>        
             )
             )
           }

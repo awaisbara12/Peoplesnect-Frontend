@@ -26,6 +26,7 @@ import {
   REACTION_NEWSFEED_API_KEY,
   NEWSFEED_COMMENT_POST_KEY,
   POST_NEWSFEED_API_KEY,
+  GET_USER_BOOKMARKS
 } from "../../pages/config";
 import PostComments from "./comments/PostComments";
 import FilterComments from "./comments/FilterComments";
@@ -52,9 +53,11 @@ const ProfileFeedSingle = (singleItems) => {
   const [comments_count, setComments_count] = useState([]);
   const [is_deleted, setIs_deleted] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [nextPage, setNextPage] = useState('')
+  const [nextPage, setNextPage] = useState('');
+  const [bookmarks, setBookmarks] = useState(singleItems.bookmarks);
    // console.log("i =>", singleItems)
   if (typeof window !== "undefined") {
+    // console.log("ju",singleItems);
     var authKey = window.localStorage.getItem("keyStore");
   }
    // Get NewsFeed for the updation Lists
@@ -141,6 +144,29 @@ const ProfileFeedSingle = (singleItems) => {
       .catch((err) => console.log(err));
   }
 
+  const UserBookmarks=async()=>{    //current User
+  
+    await fetch(GET_USER_BOOKMARKS, {
+      method: "GET",
+      headers: {
+        Accept: "application/json", 
+        Authorization: `${authKey}`,
+      },
+    })
+    .then((resp) => resp.json())
+    .then((result) => {
+      if (result) {
+        singleItems.setBookmarks(result.data);
+        singleItems.setBookmarks(result.data);
+        // console.log("after",singleItems.bookmarks);
+      }
+    })
+    .catch((err) => console.log(err)); 
+  }
+  // console.log("before",singleItems.bookmarks);
+
+  console.log("before",singleItems.bookmarks);
+
   function createBookmark(feedId) {
     const dataForm = new FormData();
     dataForm.append("bookmarkable_id", feedId);
@@ -157,6 +183,7 @@ const ProfileFeedSingle = (singleItems) => {
       .then((result) => {
         if (result) {
           setItems(result.data);
+          UserBookmarks();
         }
       })
       .catch((err) => console.log(err));
@@ -179,6 +206,7 @@ const ProfileFeedSingle = (singleItems) => {
     try {
       if (result) {
         setItems(result.data.data);
+        UserBookmarks();
       }
     } catch (error) {
       console.log(error);
