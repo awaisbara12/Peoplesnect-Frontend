@@ -13,7 +13,8 @@ import {
 } from "@heroicons/react/outline";
 import { useFormik } from "formik";
 import { eventScheema } from "../../auth/schemas/CreateEventScheema";
-import { COMMENT_API_KEY } from "../../../pages/config";
+import { COMMENT_API_KEY, NEWSFEED_COMMENT_POST_KEY } from "../../../pages/config";
+import axios from "axios";
 
 const PostComments = (feedId) => {
   if (typeof window !== "undefined") {
@@ -47,21 +48,52 @@ const PostComments = (feedId) => {
   const onSubmit = () => {
     resetForm();
   };
+  
+  const getFeedComments = async () => {
+    const res = await axios(
+      NEWSFEED_COMMENT_POST_KEY + "/" + feedId.news_feed_id  + "/comments",
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-type": "application/json; charset=utf-8",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Credentials": true,
+          Authorization: authKey,
+        },
+        credentials: "same-origin",
+      }
+    );
+    const result = await res;
 
-  function postComment(e) {
+    try {
+      if (result.status == 200) {
+        
+        feedId.setComments(result.data);
+        feedId.setComments_count(result.data.data[0].news_feed.comments_count);
+        feedId.setNextPage(result.data.pages.next_page)
+       // setIs_deleted(false);
+        //console.log("NewsFeed's Page", result.data.pages.next_page);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+   // setLoading(false);
+    return result;
+  };
+
+   function postComment(e) {
     e.preventDefault();
-
     const dataForm = new FormData();
     dataForm.append("comments[body]", postText);
-    dataForm.append("comments[news_feed_id]", feedId.news_feed_id);
-
+    dataForm.append("comments[commentable_id]", feedId.news_feed_id);
+    dataForm.append("comments[commentable_type]", "NewsFeed");
     if (postImage.length > 0) {
       for (let i = 0; i < postImage.length; i++) {
         dataForm.append("comments[comment_attachments][]", postImage[i]);
       }
     }
     // setLoading(true);
-
     fetch(COMMENT_API_KEY, {
       method: "POST",
       headers: {
@@ -73,15 +105,15 @@ const PostComments = (feedId) => {
       .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-          console.log(result);
+          getFeedComments();
           setComments(result.data);
-          // setLoading(false);
+          
         }
       })
       .catch((err) => console.log(err));
-    setPostText("");
-    setpostImagePreview("");
-    setPostImage("");
+      setPostText("");
+      setpostImagePreview("");
+      setPostImage("");
   }
   return (
     <Fragment>
