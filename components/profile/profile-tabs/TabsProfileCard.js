@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   BookmarkAltIcon,
   PhotographIcon,
@@ -27,17 +27,36 @@ import TabEducationProfile from "./TabEducationProfile";
 import TabProfile from "./TabProfile";
 import TabSavedProfile from "./TabSavedProfile";
 import {    
-  CURENT_USER_LOGIN_API
+  CURENT_USER_LOGIN_API, GET_USER_BOOKMARKS
 } from "../../../pages/config";
 
 const TabsProfileCard = () => {
   const [openTab, setOpenTab] = React.useState(1);
   const [userDetails, setUserDetails] = React.useState(1);
+  const [bookmarks, setBookmarks] = useState([]);
  
   // Bareer Key
   if (typeof window !== "undefined") {
     // Bareer Key
     var authKey = window.localStorage.getItem("keyStore"); 
+  }
+  const UserBookmarks=async()=>{    //current User
+  
+    await fetch(GET_USER_BOOKMARKS, {
+      method: "GET",
+      headers: {
+        Accept: "application/json", 
+        Authorization: `${authKey}`,
+      },
+    })
+    .then((resp) => resp.json())
+    .then((result) => {
+      if (result) {
+        setBookmarks(result.data);
+
+      }
+    })
+    .catch((err) => console.log(err)); 
   }
 
   //current User
@@ -53,16 +72,16 @@ const TabsProfileCard = () => {
        .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-          setUserDetails(result.data);  
-          //console.log("Current Userss",result.data.id)
+          setUserDetails(result.data);
         }
       })
       .catch((err) => console.log(err)); 
   }
   useEffect(()=>{
     Current_User(); 
+    UserBookmarks();
   },[])
-   //console.log("==>",userDetails);
+  
   return (
     <>
       <div className="">
@@ -210,7 +229,7 @@ const TabsProfileCard = () => {
         <div className="flex-auto">
           <div className="tab-content tab-space">
             <div className={openTab === 1 ? "block" : "hidden"} id="link1">
-              <TabProfile />
+              <TabProfile bookmarks={bookmarks} setBookmarks={setBookmarks}/>
             </div>
             <div className={openTab === 2 ? "block" : "hidden"} id="link2">
               <TabContactProfile />
@@ -228,7 +247,7 @@ const TabsProfileCard = () => {
               <TabRecentProfile />
             </div>
             <div className={openTab === 7 ? "block" : "hidden"} id="link7">
-              <TabSavedProfile />
+              <TabSavedProfile  bookmarks={bookmarks} setBookmarks={setBookmarks}/>
             </div>
           </div>
         </div>
