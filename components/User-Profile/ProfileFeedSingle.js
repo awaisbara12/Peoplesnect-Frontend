@@ -54,7 +54,6 @@ const ProfileFeedSingle = (singleItems) => {
   const [is_deleted, setIs_deleted] = useState(0);
   const [loading, setLoading] = useState(true);
   const [nextPage, setNextPage] = useState('');
-  const [bookmarks, setBookmarks] = useState(singleItems.bookmarks);
    // console.log("i =>", singleItems)
   if (typeof window !== "undefined") {
     // console.log("ju",singleItems);
@@ -65,8 +64,8 @@ const ProfileFeedSingle = (singleItems) => {
     alert("Link Copied to your Clipboard");    
     const links=window.location.href        // get Full Link
     const links1=window.location.pathname   // get link after localhost
-    const copylink1 = links.split(links1)    // get link domain like(localhost..etc)
-    navigator.clipboard.writeText(copylink1[0]+"/events-design/event-view?"+postid)
+    const copylink = links.split(links1)    // get link domain like(localhost..etc)
+    navigator.clipboard.writeText(copylink[0]+"/events-design/event-view?"+postid)
   }
    // Get NewsFeed for the updation Lists
   const getNewsFeed = async () => {
@@ -169,17 +168,6 @@ const ProfileFeedSingle = (singleItems) => {
       }
     })
     .catch((err) => console.log(err)); 
-  }
-
-  function is_bookmark(item_id)
-  {
-    for(var i=0; i < singleItems.bookmarks.length; i++){
-     if (singleItems.bookmarks[i].news_feed.id == item_id)
-     {
-      return true;
-     }
-    }
-    return false;
   }
 
   function createBookmark(feedId) {
@@ -498,7 +486,7 @@ const ProfileFeedSingle = (singleItems) => {
             </div>
             <div className="flex gap-6">
               <div className="flex gap-2 items-center">
-                {is_bookmark(items.id) == true ? (
+                {items.is_bookmark && items.is_bookmark == true ? (
                   <>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
