@@ -63,12 +63,12 @@ const NewsFeedSingle = (singleItem) => {
   // Bareer key
   if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore");}
   // copy link to clipboard
-  const copylink=(postid)=>{
-    alert("Link Copied to your Clipboard");    
+  const copylink=(postid)=>{    
     const links=window.location.href        // get Full Link
     const links1=window.location.pathname   // get link after localhost
     const copylink = links.split(links1)    // get link domain like(localhost..etc)
-    navigator.clipboard.writeText(copylink[0]+"/events-design/event-view?"+postid)
+    navigator.clipboard.writeText(copylink[0]+"/events-design/event-view?"+postid);
+    alert("Link Copied to your Clipboard");
   } 
   // Add Heart
   function addHeart(feedId) {
@@ -483,7 +483,7 @@ const NewsFeedSingle = (singleItem) => {
           <Fragment>
             <PostComments news_feed_id={items.id} setComments={setComments} setComments_count={setComments_count} setIs_deleted={setIs_deleted} dp={items.user.display_photo_url}/>
             <FilterComments news_feed_id={items.id} comments={comments.data} setComments_count={setComments_count} setComments={setComments} next_page={nextPage} setNextPage={setNextPage} />
-            {!loading && <ReplyComments news_feed_id={items.id} comments={comments.data} comments_count={comments_count} setComments_count={setComments_count} setComments={setComments} setIs_deleted={setIs_deleted}/>}
+            {!loading && <ReplyComments news_feed_id={items.id} comments={comments.data} comments_count={comments_count} setComments_count={setComments_count} setComments={setComments} setIs_deleted={setIs_deleted} items={items}/>}
           </Fragment>
         </div>
       </div>
