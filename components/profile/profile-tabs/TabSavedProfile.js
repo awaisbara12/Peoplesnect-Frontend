@@ -284,7 +284,27 @@ const TabSavedProfile = (props) => {
                     </div>
                   </div>
                 ) : (
-                  ""
+                  <div className="py-5" key={items.id}>
+                    <div className="flex flex-col justify-between gap-3">
+                      <div className="">
+                        <Link href="">
+                          <a href="" >
+                          <div className="h-[300px]  border p-2 w-[435px] capitalize overflow-hidden">{items.news_feed.body}</div>
+                          </a>
+                        </Link>
+                      </div>
+                      <div className="flex justify-between items-center">
+                          <div></div>
+                          <div className="flex gap-2 font-light text-sm">
+                            <div>Saved</div>
+                            <BookmarkIcon 
+                              className="w-5 h-5 text-indigo-400"
+                              onClick={() => deteleBookmark(items.id)}
+                            />
+                          </div>
+                      </div>
+                  </div>
+                </div>
                 )
               )
             )
