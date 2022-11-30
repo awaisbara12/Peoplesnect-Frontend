@@ -1,12 +1,23 @@
-import React, { Fragment,useState,useEffect } from "react";
+import React, { Fragment, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { HeartIcon, ChatIcon, DotsHorizontalIcon, PencilIcon, TrashIcon } from "@heroicons/react/outline";
+import {
+  HeartIcon,
+  ChatIcon,
+  DotsHorizontalIcon,
+  PencilIcon,
+  DocumentReportIcon,
+  XCircleIcon,
+  TrashIcon,
+  PhotographIcon,
+  PaperAirplaneIcon,
+} from "@heroicons/react/outline";
 import ProfileAvatar from "../../../public/images/profile-avatar-2.png";
+import { COMMENT_API_KEY, NEWSFEED_COMMENT_POST_KEY } from "../../../pages/config";
 import { Popover, Transition } from "@headlessui/react";
 import InputEmoji from "react-input-emoji";
-import { COMMENT_API_KEY, NEWSFEED_COMMENT_POST_KEY } from "../../../pages/config";
 import axios from "axios";
+
 const ReplyComments = (props) => {
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
@@ -16,8 +27,8 @@ const ReplyComments = (props) => {
   const [editCommentId, setCommentId] = useState("")
   const [postText, setPostText] = useState("");
 
-  function deteleComment(commentId) {
-    const res =  axios(COMMENT_API_KEY + "/" + commentId, {
+  async function deteleComment(commentId) {
+    const res = await axios(COMMENT_API_KEY + "/" + commentId, {
       method: "DELETE",
       headers: {
         Accept: "application/json",
@@ -28,7 +39,7 @@ const ReplyComments = (props) => {
       },
       credentials: "same-origin",
     });
-    const result =  res;
+    const result = await res;
 
     try {
       if (result) {

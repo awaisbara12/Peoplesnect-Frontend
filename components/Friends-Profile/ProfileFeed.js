@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import ProfileFeedSingle from "../profile/ProfileFeedSingle";
+import ProfileFeedSingle from "./ProfileFeedSingle";
 import { Show_USER_NEWS_FEEDS } from "../../pages/config";
 import { useRouter } from "next/router";
 

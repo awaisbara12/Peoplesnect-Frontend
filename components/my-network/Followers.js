@@ -66,7 +66,10 @@ const Followers = () => {
             <div className="Followings-profile flex  px-4 py-10 justify-between items-center">
               <div className="flex items-center gap-3">
                 {i.follower.display_photo_url?(
-                   <Link href="/news-feed">
+                   <Link 
+                   href={{
+                    pathname: "/Friends-Profile",
+                    query: i.follower.id}}>
                    <a>
                      <img 
                      src={i.follower.display_photo_url}
@@ -78,7 +81,9 @@ const Followers = () => {
                    </a>
                    </Link>
                 ):(
-                   <Link href="/news-feed">
+                   <Link href={{
+                    pathname: "/Friends-Profile",
+                    query: i.follower.id}}>
                    <a>
                      <Image 
                      src={ProfileAvatar}
@@ -90,12 +95,14 @@ const Followers = () => {
                 )}
                
                 <div className="">
-                  <a href="">
-                    <div className="username text-sm font-bold">{i.follower.first_name} {i.follower.last_name}</div>
-                  </a>
-                  <a href="">
-                    <div className="userfield text-xs">{i.follower.city}, {i.follower.country}</div>
-                  </a>
+                 <Link href={{
+                    pathname: "/Friends-Profile",
+                    query: i.follower.id}}>
+                    <a>
+                      <div className="username text-sm font-bold">{i.follower.first_name} {i.follower.last_name}</div>
+                      <div className="userfield text-xs">{i.follower.city}, {i.follower.country}</div>
+                    </a>
+                  </Link>
                 </div>
               </div>
               

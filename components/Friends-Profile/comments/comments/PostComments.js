@@ -13,8 +13,8 @@ import {
 } from "@heroicons/react/outline";
 import { useFormik } from "formik";
 import { eventScheema } from "../../auth/schemas/CreateEventScheema";
-import axios from "axios";
 import { COMMENT_API_KEY, NEWSFEED_COMMENT_POST_KEY } from "../../../pages/config";
+import axios from "axios";
 
 const PostComments = (props) => {
   if (typeof window !== "undefined") {
