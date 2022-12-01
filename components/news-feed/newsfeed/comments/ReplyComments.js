@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import Image from "next/image";
 import InputEmoji from "react-input-emoji";
 import Link from "next/link";
@@ -15,9 +15,8 @@ import {
 } from "@heroicons/react/outline";
 import ProfileAvatar from "../../../../public/images/profile-avatar-2.png";
 import { Popover, Transition } from "@headlessui/react";
-import { COMMENT_API_KEY, COMMENT_REPLY, NEWSFEED_COMMENT_POST_KEY, REACTION_NEWSFEED_API_KEY } from "../../../../pages/config";
+import { COMMENT_API_KEY, COMMENT_REPLY, CURENT_USER_LOGIN_API, NEWSFEED_COMMENT_POST_KEY, REACTION_NEWSFEED_API_KEY } from "../../../../pages/config";
 import axios from "axios";
-
 const ReplyComments = (props) => {
   const [reply_on, setReplyOn] = useState(false);              // For show or hide Reply's Input
   const [edit_on, setEditOn] = useState(false);                // For show or hide Comment's Edit Input
@@ -28,10 +27,34 @@ const ReplyComments = (props) => {
   const [showBut, setshowBut] = useState('Load All Replies');  // Show Label of all replies
   const [editCommentId, setCommentId] = useState("");
   const [is_heart, setIsHeart] = useState(false);
-  const [postText, setPostText] = useState("");                // For Edit Comment Body
-  
+  const [postText, setPostText] = useState(""); 
+  const [currentUser, setCurrentUser] = useState();                // For Edit Comment Body
+  console.log("props1",props)
   //Bareer Key
   if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore");}
+  useEffect(()=>{
+    Current_User(); 
+  },[])
+  const Current_User=async()=>{    
+   
+    await fetch(CURENT_USER_LOGIN_API, {
+      method: "GET",
+       headers: {
+        Accept: "application/json", 
+         Authorization: `${authKey}`,
+       },
+    })
+       .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          
+          setCurrentUser(result.data.id);
+          console.log("user",result.data.id)
+        }
+      })
+      .catch((err) => console.log(err)); 
+  }
+ 
 
     // Edit Comment Input Field Show
   function editComment(commentId) {
@@ -217,8 +240,7 @@ const ReplyComments = (props) => {
   }
   
   
-  // Replies Functions
-  
+        // Replies Functions
     // For remove & Show Reply's Input
   function comentReplies(commentId) {
     if (reply_on){setReplyOn(false);}
@@ -382,21 +404,25 @@ const ReplyComments = (props) => {
                           <Popover.Panel className="absolute left-7 z-10 top-6 w-36 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-3xl">
                             <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                               <div className="relative bg-white py-1">
-                                <button
-                                  key="Edit"
-                                  onClick={() => editComment(comment.id)}
-                                  className="flex items-center w-full rounded-lg hover:bg-gray-50 h-6"
-                                >
-                                  <div className="flex items-center gap-3 justify-center text-white pl-2">
-                                    <PencilIcon className="h-4 w-4 text-gray-900" />
-                                    <div>
-                                      <p className="text-sm font-medium text-gray-900">
-                                        Edit
-                                      </p>
-                                    </div>
-                                  </div>
-                                </button>
-                                <button
+                                {currentUser==comment.user.id?(
+                                   <button
+                                   key="Edit"
+                                   onClick={() => editComment(comment.id)}
+                                   className="flex items-center w-full rounded-lg hover:bg-gray-50 h-6"
+                                 >
+                                   <div className="flex items-center gap-3 justify-center text-white pl-2">
+                                     <PencilIcon className="h-4 w-4 text-gray-900" />
+                                     <div>
+                                       <p className="text-sm font-medium text-gray-900">
+                                         Edit
+                                       </p>
+                                     </div>
+                                   </div>
+                                 </button>
+                                ):('')}
+                                
+                                {currentUser==comment.user.id ||currentUser==props.items.user.id?(
+                                  <button
                                   key="Delete"
                                   onClick={() => deteleComment(comment.id)}
                                   className="flex items-center w-full rounded-lg hover:bg-gray-50 h-6"
@@ -410,6 +436,9 @@ const ReplyComments = (props) => {
                                     </div>
                                   </div>
                                 </button>
+                                ):('')}
+                                        
+                                
                               </div>
                             </div>
                           </Popover.Panel>
@@ -582,34 +611,40 @@ const ReplyComments = (props) => {
                                   <Popover.Panel className="absolute left-7 z-10 top-6 w-36 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-3xl">
                                     <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                                       <div className="relative bg-white py-1">
-                                        <button
-                                          key="Edit"
-                                          onClick={() => replyEdit(i.id)}
-                                          className="flex items-center w-full rounded-lg hover:bg-gray-50 h-6"
-                                        >
-                                          <div className="flex items-center gap-3 justify-center text-white pl-2">
-                                            <PencilIcon className="h-4 w-4 text-gray-900" />
-                                            <div>
-                                              <p className="text-sm font-medium text-gray-900">
-                                                Edit
-                                              </p>
+                                        {currentUser==i.user.id?(
+                                          <button
+                                            key="Edit"
+                                            onClick={() => replyEdit(i.id)}
+                                            className="flex items-center w-full rounded-lg hover:bg-gray-50 h-6"
+                                          >
+                                            <div className="flex items-center gap-3 justify-center text-white pl-2">
+                                              <PencilIcon className="h-4 w-4 text-gray-900" />
+                                              <div>
+                                                <p className="text-sm font-medium text-gray-900">
+                                                  Edit
+                                                </p>
+                                              </div>
                                             </div>
-                                          </div>
-                                        </button>
-                                        <button
-                                          key="Delete"
-                                          onClick={() => deleteReply(i.id)}
-                                          className="flex items-center w-full rounded-lg hover:bg-gray-50 h-6"
-                                        >
-                                          <div className="flex items-center gap-3 justify-center text-white pl-2">
-                                            <TrashIcon className="h-4 w-4 text-gray-900" />
-                                            <div>
-                                              <p className="text-sm font-medium text-gray-900">
-                                                Delete
-                                              </p>
+                                          </button>
+                                        ):('')}
+                                        
+                                        {currentUser==i.user.id ||currentUser==props.items.user.id?(
+                                            <button
+                                            key="Delete"
+                                            onClick={() => deleteReply(i.id)}
+                                            className="flex items-center w-full rounded-lg hover:bg-gray-50 h-6"
+                                          >
+                                            <div className="flex items-center gap-3 justify-center text-white pl-2">
+                                              <TrashIcon className="h-4 w-4 text-gray-900" />
+                                              <div>
+                                                <p className="text-sm font-medium text-gray-900">
+                                                  Delete
+                                                </p>
+                                              </div>
                                             </div>
-                                          </div>
-                                        </button>
+                                          </button>
+                                        ):('')}
+                                       
                                       </div>
                                     </div>
                                   </Popover.Panel>

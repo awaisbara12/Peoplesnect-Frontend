@@ -3,6 +3,24 @@ import React,{useState} from "react";
 import NewsPostProfile from "../NewsPostProfile";
 import ProfileFeed from "../ProfileFeed";
 
+const ReadMore = ({ children }) => {
+  const text = children;
+  const [isReadMore, setIsReadMore] = useState(true);
+  const toggleReadMore = () => {
+    setIsReadMore(!isReadMore);
+  };
+  return (
+    <p className="text">
+      {isReadMore ? text.slice(0, 300) + (text.length > 300?("......"):('')) : text}
+      {text.length > 300?(
+        <span onClick={toggleReadMore} className="text-indigo-400 cursor-pointer ml-2 font-bold">
+          {isReadMore ? "Read more" : "Show less"}
+        </span>
+      ):('')}
+    </p>
+  );
+};
+
 const TabProfile = (props) => {
   return (
     <>
@@ -13,18 +31,14 @@ const TabProfile = (props) => {
         <div className="w-auto">
           {props.user && props.user.description?(
              <div className="my-4 leading-8 text-justify font-extralight">
-              <p>{props.user.description}</p> 
-             <span className="text-indigo-400 cursor-pointer ml-2 font-bold">
-               Read More
-             </span>
+              <ReadMore>
+              {props.user.description}
+            </ReadMore>
            </div>
           ):(
              <div className="my-4 leading-8 text-justify font-extralight">
-             No Description is Available
-             <span className="text-indigo-400 cursor-pointer ml-2 font-bold">
-               Read More
-             </span>
-           </div>
+               No Description is Available
+             </div>
           )}
          
         </div>

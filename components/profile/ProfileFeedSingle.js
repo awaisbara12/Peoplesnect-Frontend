@@ -311,7 +311,7 @@ const ProfileFeedSingle = (singleItems) => {
             )}
             
             <div>
-              <h4 className="flex gap-[6px] items-center font-medium text-gray-900">
+              <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
                {items.user.first_name} {items.user.last_name}
                 <BadgeCheckIcon
                   width={14}

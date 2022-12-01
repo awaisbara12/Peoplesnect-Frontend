@@ -295,20 +295,22 @@ const ProfileFeedSingle = (singleItems) => {
               alt=""
              />
             )}
-            
-            <div>
-              <h4 className="flex gap-[6px] items-center font-medium text-gray-900">
-               {items.user.first_name} {items.user.last_name}
-                <BadgeCheckIcon
-                  width={14}
-                  height={14}
-                  className="text-indigo-400"
-                />
-              </h4>
-              <div className="font-light text-gray-900 opacity-[0.8]">
-                {items.user.recent_job}
-              </div>
-            </div>
+            {items && items.user?(
+              <div>
+               <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
+                {items.user.first_name} {items.user.last_name}
+                 <BadgeCheckIcon
+                   width={14}
+                   height={14}
+                   className="text-indigo-400"
+                 />
+               </h4>
+               <div className="font-light text-gray-900 opacity-[0.8]">
+               {items.user.city} {items.user.country}
+               </div>
+             </div>
+            ):('')}
+           
           </div>
           <div className="">
             <div className="">
@@ -424,7 +426,7 @@ const ProfileFeedSingle = (singleItems) => {
           ) : (
             ""
           )}
-          {items.attachments_link && items.feed_type === "image_feed" ? (
+          {items && items.attachments_link && items.feed_type === "image_feed" ? (
             <div className="mt-[14px]">
               <img
                 src={items.attachments_link}
