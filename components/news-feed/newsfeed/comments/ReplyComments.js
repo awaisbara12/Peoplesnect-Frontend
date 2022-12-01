@@ -15,7 +15,7 @@ import {
 } from "@heroicons/react/outline";
 import ProfileAvatar from "../../../../public/images/profile-avatar-2.png";
 import { Popover, Transition } from "@headlessui/react";
-import { COMMENT_API_KEY, COMMENT_REPLY, NEWSFEED_COMMENT_POST_KEY } from "../../../../pages/config";
+import { COMMENT_API_KEY, COMMENT_REPLY, NEWSFEED_COMMENT_POST_KEY, REACTION_NEWSFEED_API_KEY } from "../../../../pages/config";
 import axios from "axios";
 
 const ReplyComments = (props) => {
@@ -26,7 +26,8 @@ const ReplyComments = (props) => {
   const [edit_reply, setEditReply] = useState();               // for Edit Reply Body
   const [replyShow, setreplyShow] = useState(2);               // set length of Replies 
   const [showBut, setshowBut] = useState('Load All Replies');  // Show Label of all replies
-  const [editCommentId, setCommentId] = useState("")
+  const [editCommentId, setCommentId] = useState("");
+  const [is_heart, setIsHeart] = useState(false);
   const [postText, setPostText] = useState("");                // For Edit Comment Body
   
   //Bareer Key
@@ -121,7 +122,7 @@ const ReplyComments = (props) => {
     .then((result) => {
       if (result) {
         setEditOn(false)
-        setCommentId(commentId)
+        setCommentId(commentId);
         let ItemsCopy = {data: []}
         let x = props.comments.map((entry) => {
           if(entry.id == commentId)
@@ -163,6 +164,57 @@ const ReplyComments = (props) => {
     }
     return result;
   };
+
+  // console.log("propsderer", props.comments);
+  function addHeart(type,commentId) {
+    const dataForm = new FormData();
+    dataForm.append("reactionable_id", commentId);
+    dataForm.append("reaction_type", "heart");
+    if (type == "Comment"){
+      dataForm.append("reactionable_type", "Comment");
+    }
+    if (type == "ReplyComment"){
+      dataForm.append("reactionable_type", "ReplyComment");
+    }
+    fetch(REACTION_NEWSFEED_API_KEY, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
+      body: dataForm,
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          getFeedComments();
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+
+  async function deteleHeart(heartId) {
+    const res = await axios(REACTION_NEWSFEED_API_KEY + "/" + heartId, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-type": "application/json; charset=utf-8",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true,
+        Authorization: authKey,
+      },
+      credentials: "same-origin",
+    });
+    const result = await res;
+
+    try {
+      if (result) {
+        getFeedComments();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
   
   
   // Replies Functions
@@ -296,7 +348,7 @@ const ReplyComments = (props) => {
                     <span className="text-slate-900 flex gap-[6px] items-center">
                       {comment.user.first_name} {comment.user.last_name}
                       <div className="w-1 h-1 rounded-full bg-slate-400"></div>
-                      <div className="text-gray-400">{comment.created_at}</div>
+                      <div className="text-gray-400">{comment.created_at} | {comment.time}</div>
                     </span>
                     <div className="text-gray-900 text-sm">
                       {comment.user.city}, {comment.user.country}
@@ -406,7 +458,37 @@ const ReplyComments = (props) => {
                 </>
               )}
               <div className="flex items-center gap-[14px] mt-[10px]">
-                <HeartIcon className="w-5 h-5 cursor-pointer" onClick={() => likeComment(comment.id)}/>
+                {/* <HeartIcon className="w-5 h-5 cursor-pointer" onClick={() => likeComment(comment.id)}/> */}
+                <div className="flex gap-2 items-center">
+                  {comment.is_heart && comment.is_heart == true ? (
+                    <>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="Red"
+                        className="w-6 h-6 cursor-pointer"
+                        onClick={() => deteleHeart(comment.heart_id)}
+                      >
+                        <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
+                      </svg>
+                      <span className="font-light text-gray-900">
+                        {comment.reactions_count}
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <HeartIcon
+                        width={24}
+                        height={24}
+                        className="text-gray-600 cursor-pointer"
+                        onClick={() => addHeart("Comment",comment.id)}
+                      />
+                      <span className="font-light text-gray-600 cursor-pointer">
+                        {comment.reactions_count}
+                      </span>
+                    </>
+                  )}
+                </div>
                 <div className="w-[0.5px] h-4 bg-gray-900"></div>
                 <div className="flex gap-[4px]">
                   <ChatIcon className="w-5 h-5" onClick={() => comentReplies(comment.id)}/>
@@ -466,7 +548,7 @@ const ReplyComments = (props) => {
                             <span className="text-slate-900 flex gap-[6px] items-center">
                               {i.user.first_name} {i.user.last_name}
                               <div className="w-1 h-1 rounded-full bg-slate-400"></div>
-                              <div className="text-gray-400">{i.created_at}</div>
+                              <div className="text-gray-400">{i.created_at} | {i.time}</div>
                             </span>
                             <div className="text-gray-900 text-sm ">
                               {i.user.city}, {i.user.country}
@@ -574,16 +656,44 @@ const ReplyComments = (props) => {
                             ""
                           )}
                           <p className="text-gray-900 mt-[2px] text-sm">{i.body}</p>
+                          <div className="flex items-center gap-[14px] mt-[10px]">
+                            {/* <HeartIcon className="w-5 h-5 cursor-pointer" onClick={() => likeComment(comment.id)}/> */}
+                            <div className="flex gap-2 items-center">
+                              {i.is_heart && i.is_heart == true ? (
+                                <>
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    fill="Red"
+                                    className="w-6 h-6 cursor-pointer"
+                                    onClick={() => deteleHeart(i.heart_id)}
+                                  >
+                                    <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
+                                  </svg>
+                                  <span className="font-light text-gray-900">
+                                    {i.reactions_count}
+                                  </span>
+                                </>
+                              ) : (
+                                <>
+                                  <HeartIcon
+                                    width={24}
+                                    height={24}
+                                    className="text-gray-600 cursor-pointer"
+                                    onClick={() => addHeart("ReplyComment",i.id)}
+                                  />
+                                  <span className="font-light text-gray-600 cursor-pointer">
+                                    {i.reactions_count}
+                                  </span>
+                                </>
+                              )}
+                            </div>
+                          </div>
                         </>
-                      )}
-        
-                      <div className="flex items-center gap-[14px] mt-[4px]">
-                        <HeartIcon className="w-5 h-5 cursor-pointer" onClick={() => likeComment(i.id)}/>
                         
-                      </div>
+                      )}
                     </div>
                     ))
-
                 ):('')}
 
 
