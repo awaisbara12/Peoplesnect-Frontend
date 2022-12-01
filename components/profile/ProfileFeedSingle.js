@@ -55,20 +55,17 @@ const ProfileFeedSingle = (singleItems) => {
   const [loading, setLoading] = useState(true);
   const [nextPage, setNextPage] = useState('');
   const [bookmarks, setBookmarks] = useState(singleItems.bookmarks);
-   // console.log("i =>", singleItems)
-  if (typeof window !== "undefined") {
-    // console.log("ju",singleItems);
-    var authKey = window.localStorage.getItem("keyStore");
-  }
-
+  // Bareer Key
+  if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore");}
+  // Copy Link
   const copylink=(postid)=>{
-    alert("Link Copied to your Clipboard");    
     const links=window.location.href        // get Full Link
     const links1=window.location.pathname   // get link after localhost
-    const copylink1 = links.split(links1)    // get link domain like(localhost..etc)
-    navigator.clipboard.writeText(copylink1[0]+"/events-design/event-view?"+postid)
+    const copylink1 = links.split(links1)    
+    navigator.clipboard.writeText(copylink1[0]+"/events-design/event-view?"+postid);    // get link domain like(localhost..etc)
+    alert("Link Copied to your Clipboard");
   }
-   // Get NewsFeed for the updation Lists
+  // Get NewsFeed for the updation Lists
   const getNewsFeed = async () => {
     const res = await axios(POST_NEWSFEED_API_KEY, {
       method: "GET",
@@ -93,7 +90,7 @@ const ProfileFeedSingle = (singleItems) => {
     setLoading(false);
     return result;
   };
- // delete user newsfeed's post
+  // delete user newsfeed's post
   const DeleteNewsFeed = async (uid) => {
     const res = await axios(POST_NEWSFEED_API_KEY + "/" + uid, {
       method: "DELETE",
@@ -542,9 +539,9 @@ const ProfileFeedSingle = (singleItems) => {
             </div>
           </div>
           <Fragment>
-            <PostComments news_feed_id={items.id} setComments={setComments} setComments_count={setComments_count} setIs_deleted={setIs_deleted}/>
+            <PostComments news_feed_id={items.id} setComments={setComments} setComments_count={setComments_count} setIs_deleted={setIs_deleted} dp={items.user.display_photo_url}/>
             <FilterComments news_feed_id={items.id} comments={comments.data} setComments_count={setComments_count} setComments={setComments} next_page={nextPage} setNextPage={setNextPage} />
-            {!loading && <ReplyComments news_feed_id={items.id} comments={comments.data} comments_count={comments_count} setComments_count={setComments_count} setComments={setComments} setIs_deleted={setIs_deleted}/>}
+            {!loading && <ReplyComments news_feed_id={items.id} comments={comments.data} comments_count={comments_count} setComments_count={setComments_count} setComments={setComments} setIs_deleted={setIs_deleted} items={items}/>}
           </Fragment>
         </div>
       </div>
