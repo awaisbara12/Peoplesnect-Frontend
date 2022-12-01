@@ -390,7 +390,7 @@ const ReplyComments = (props) => {
                     Cancel
                   </button>
                   <button onClick={() => updateComment(comment.id)} className="bg-indigo-400 text-white border-2  px-2 py-1 rounded-xl">
-                    Save
+                    Update
                   </button>
                 </div>
               </>

@@ -37,7 +37,15 @@ const PostView = () => {
   const router = useRouter();
   const data = router.asPath;
   const myArray = data.split("?");
-  console.log(items)
+  
+   // CopyLink
+   const copylink=(postid)=>{    
+    const links=window.location.href        // get Full Link
+    const links1=window.location.pathname   // get link after localhost
+    const copylink1 = links.split(links1)    // get link domain like(localhost..etc)
+    navigator.clipboard.writeText(copylink1[0]+"/events-design/event-view?"+postid);
+    alert("Link Copied to your Clipboard");
+  }
   function addHeart(feedId) {
     const dataForm = new FormData();
     dataForm.append("reactionable_id", feedId);
@@ -442,7 +450,7 @@ const PostView = () => {
                 height={24}
                 className="text-indigo-400 cursor-pointer"
                 //onClick={() => createBookmark(items.id)}
-                onClick={() => {navigator.clipboard.writeText(window.location.href)}}
+                onClick={() => copylink(items.id)}
               />
             </div>
           </div>
@@ -450,7 +458,7 @@ const PostView = () => {
 
        {items?(
           <div className="comments px-5">
-         <Fragment>
+          <Fragment>
             <PostComments news_feed_id={items.id} setComments={setComments} setComments_count={setComments_count} setIs_deleted={setIs_deleted} dp={items.user.display_photo_url}/>
             <FilterComments news_feed_id={items.id} comments={comments.data} setComments_count={setComments_count} setComments={setComments} next_page={nextPage} setNextPage={setNextPage} />
             {!loading && <ReplyComments news_feed_id={items.id} comments={comments.data} comments_count={comments_count} setComments_count={setComments_count} setComments={setComments} setIs_deleted={setIs_deleted} items={items}/>}
