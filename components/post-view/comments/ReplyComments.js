@@ -384,7 +384,8 @@ const ReplyComments = (props) => {
                             <DotsHorizontalIcon className="w-5 h-5" />
                           </div>
                         </Popover.Button>
-                        <Transition
+                        {currentUser==comment.user.id ||currentUser==props.items.user.id?(
+                          <Transition
                           as={Fragment}
                           enter="transition ease-out duration-200"
                           enterFrom="opacity-0 translate-y-1"
@@ -434,7 +435,9 @@ const ReplyComments = (props) => {
                               </div>
                             </div>
                           </Popover.Panel>
-                        </Transition>
+                          </Transition>
+                        ):('')}
+                        
                       </>
                     )}
                   </Popover>
@@ -576,6 +579,7 @@ const ReplyComments = (props) => {
                             </div>
                           </div>
                         </div>
+                        {/* Reply poper */}
                         <div className="">
                           <Popover className="relative">
                             {({ open }) => (
@@ -591,56 +595,59 @@ const ReplyComments = (props) => {
                                     <DotsHorizontalIcon className="w-5 h-5" />
                                   </div>
                                 </Popover.Button>
-                                <Transition
-                                  as={Fragment}
-                                  enter="transition ease-out duration-200"
-                                  enterFrom="opacity-0 translate-y-1"
-                                  enterTo="opacity-100 translate-y-0"
-                                  leave="transition ease-in duration-150"
-                                  leaveFrom="opacity-100 translate-y-0"
-                                  leaveTo="opacity-0 translate-y-1"
-                                >
-                                  <Popover.Panel className="absolute left-7 z-10 top-6 w-36 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-3xl">
-                                    <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
-                                      <div className="relative bg-white py-1">
-                                        {currentUser==i.user.id?(
-                                          <button
-                                            key="Edit"
-                                            onClick={() => replyEdit(i.id)}
-                                            className="flex items-center w-full rounded-lg hover:bg-gray-50 h-6"
-                                          >
-                                            <div className="flex items-center gap-3 justify-center text-white pl-2">
-                                              <PencilIcon className="h-4 w-4 text-gray-900" />
-                                              <div>
-                                                <p className="text-sm font-medium text-gray-900">
-                                                  Edit
-                                                </p>
-                                              </div>
-                                            </div>
-                                          </button>
-                                        ):('')}
+                                {currentUser==i.user.id ||currentUser==props.items.user.id || currentUser==comment.user.id?(
+                                   <Transition
+                                   as={Fragment}
+                                   enter="transition ease-out duration-200"
+                                   enterFrom="opacity-0 translate-y-1"
+                                   enterTo="opacity-100 translate-y-0"
+                                   leave="transition ease-in duration-150"
+                                   leaveFrom="opacity-100 translate-y-0"
+                                   leaveTo="opacity-0 translate-y-1"
+                                 >
+                                   <Popover.Panel className="absolute left-7 z-10 top-6 w-36 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-3xl">
+                                     <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                                       <div className="relative bg-white py-1">
+                                         {currentUser==i.user.id?(
+                                           <button
+                                             key="Edit"
+                                             onClick={() => replyEdit(i.id)}
+                                             className="flex items-center w-full rounded-lg hover:bg-gray-50 h-6"
+                                           >
+                                             <div className="flex items-center gap-3 justify-center text-white pl-2">
+                                               <PencilIcon className="h-4 w-4 text-gray-900" />
+                                               <div>
+                                                 <p className="text-sm font-medium text-gray-900">
+                                                   Edit
+                                                 </p>
+                                               </div>
+                                             </div>
+                                           </button>
+                                         ):('')}
+                                         
+                                         {currentUser==i.user.id ||currentUser==props.items.user.id || currentUser==comment.user.id?(
+                                             <button
+                                             key="Delete"
+                                             onClick={() => deleteReply(i.id)}
+                                             className="flex items-center w-full rounded-lg hover:bg-gray-50 h-6"
+                                           >
+                                             <div className="flex items-center gap-3 justify-center text-white pl-2">
+                                               <TrashIcon className="h-4 w-4 text-gray-900" />
+                                               <div>
+                                                 <p className="text-sm font-medium text-gray-900">
+                                                   Delete
+                                                 </p>
+                                               </div>
+                                             </div>
+                                           </button>
+                                         ):('')}
                                         
-                                        {currentUser==i.user.id ||currentUser==props.items.user.id?(
-                                            <button
-                                            key="Delete"
-                                            onClick={() => deleteReply(i.id)}
-                                            className="flex items-center w-full rounded-lg hover:bg-gray-50 h-6"
-                                          >
-                                            <div className="flex items-center gap-3 justify-center text-white pl-2">
-                                              <TrashIcon className="h-4 w-4 text-gray-900" />
-                                              <div>
-                                                <p className="text-sm font-medium text-gray-900">
-                                                  Delete
-                                                </p>
-                                              </div>
-                                            </div>
-                                          </button>
-                                        ):('')}
-                                       
-                                      </div>
-                                    </div>
-                                  </Popover.Panel>
-                                </Transition>
+                                       </div>
+                                     </div>
+                                   </Popover.Panel>
+                                 </Transition>
+                                ):('')}
+                               
                               </>
                             )}
                           </Popover>
