@@ -11,33 +11,33 @@ const BlogsDesign = () => {
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
   }
+  // Get All Blogs
+  const getBlogs = async () => {
+    const res = await axios(BLOG_POST_USER_API_KEY, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-type": "application/json; charset=utf-8",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true,
+        Authorization: authKey,
+      },
+      credentials: "same-origin",
+    });
+    const result = await res;
 
+    try {
+      if (result.status == 200) {
+        setList(result.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    setLoading(false);
+    return result;
+  };
   useEffect(() => {
     setLoading(true);
-    const getBlogs = async () => {
-      const res = await axios(BLOG_POST_USER_API_KEY, {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-type": "application/json; charset=utf-8",
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Credentials": true,
-          Authorization: authKey,
-        },
-        credentials: "same-origin",
-      });
-      const result = await res;
-
-      try {
-        if (result.status == 200) {
-          setList(result.data);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-      setLoading(false);
-      return result;
-    };
     getBlogs();
   }, []);
 
@@ -57,7 +57,7 @@ const BlogsDesign = () => {
           <div className="text-lg font-bold">My Articles</div>
           <div className="add_new_button text-center">
             <Link href="/blog" className="">
-              <a href="/Show-All-Blogs">
+              <a href="">
                 <button
                   type="submit"
                   className="border-2 border-indigo-400 text-indigo-400 text-md cursor-pointer font-bold py-2 px-4 rounded-full"
@@ -79,8 +79,8 @@ const BlogsDesign = () => {
                     <div className="">
                       <Link
                         href={{
-                          pathname: "/blog/[id]",
-                          query: { id: item.id },
+                          pathname: "/blog",
+                          query:item.id
                         }}
                       >
                         <a>
