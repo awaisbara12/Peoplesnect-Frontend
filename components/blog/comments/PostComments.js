@@ -4,17 +4,17 @@ import InputEmoji from "react-input-emoji";
 const Picker = dynamic(() => import("emoji-picker-react"), { ssr: false });
 
 import Image from "next/image";
-import ProfileAvatar from "../../../../public/images/profile-avatar.png";
+import ProfileAvatar from "../../../public/images/profile-avatar.png";
 import {
   PhotographIcon,
   EmojiHappyIcon,
   ChevronRightIcon,
   PaperAirplaneIcon,
-  TrashIcon,
 } from "@heroicons/react/outline";
 import { useFormik } from "formik";
-import { COMMENT_API_KEY, NEWSFEED_COMMENT_POST_KEY } from "../../../../pages/config";
+import { eventScheema } from "../../auth/schemas/CreateEventScheema";
 import axios from "axios";
+import { COMMENT_API_KEY, NEWSFEED_COMMENT_POST_KEY } from "../../../pages/config";
 
 const PostComments = (props) => {
   if (typeof window !== "undefined") {
@@ -25,17 +25,16 @@ const PostComments = (props) => {
   const [postImage, setPostImage] = useState([]);
   const [postImagePreview, setpostImagePreview] = useState();
   const [comments, setComments] = useState([]);
- 
+
   function handleOnEnter() {
     console.log("enter", postText);
   }
-  
+
   const handleImagePost = (e) => {
     setPostImage(e.target.files);
     if (e.target.files.length !== 0) {
       setpostImagePreview(window.URL.createObjectURL(e.target.files[0]));
     }
-
   };
 
   const { values } = useFormik({
@@ -49,19 +48,18 @@ const PostComments = (props) => {
   const onSubmit = () => {
     resetForm();
   };
- 
+
   function postComment(e) {
     e.preventDefault();
 
     const dataForm = new FormData();
     dataForm.append("comments[body]", postText);
     dataForm.append("comments[commentable_id]", props.news_feed_id);
-    dataForm.append("comments[commentable_type]", "NewsFeed");
+    dataForm.append("comments[commentable_type]", "Blogs");
 
     if (postImage.length > 0) {
       for (let i = 0; i < postImage.length; i++) {
         dataForm.append("comments[comment_attachments][]", postImage[i]);
-       
       }
     }
     // setLoading(true);
@@ -117,11 +115,6 @@ const PostComments = (props) => {
     setpostImagePreview("");
     setPostImage("");
   }
-
-  const clearPic =()=>{
-    setpostImagePreview('');
-    setPostImage('');
-  }
   return (
     <Fragment>
       <div className="relative w-full mt-[14px]">
@@ -134,35 +127,9 @@ const PostComments = (props) => {
             onEnter={handleOnEnter}
             placeholder="Your comment"
           />
-            {postImagePreview?(
-              <div className="relative w-1/4 mt-2">
-                <img
-                src={postImagePreview}
-                className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
-                alt=""/>
-                
-                <div className="bg-indigo-100 absolute top-4 right-0 z-10 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
-                onClick={clearPic} >
-                  <TrashIcon className="w-5 h-5 text-indigo-600" />
-                </div>
-              </div>
-              ):('')}
         </div>
         <div className="absolute top-2 left-0">
-          {props.dp?(
-             <img
-             src={props.dp}
-             className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
-              
-             width={34} 
-             height={34} alt="" />
-          ):(
-             <Image 
-             src={ProfileAvatar} 
-             width={34} 
-             height={34} alt="" />
-          )}
-         
+          <Image src={ProfileAvatar} width={34} height={34} alt="" />
         </div>
         <div className="flex items-center absolute top-3 right-0 ">
           <div className="">
@@ -191,7 +158,7 @@ const PostComments = (props) => {
                 onClick={postComment}
               />
             </button>
-          </div>         
+          </div>
         </div>
       </div>
     </Fragment>

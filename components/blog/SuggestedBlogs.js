@@ -55,7 +55,7 @@ const SuggestedBlogs = () => {
           <div className="flex justify-between align-item-center mt-12">
           <div className="text-lg font-bold">Suggested Articles</div>
           <div className="add_new_button text-center">
-            <Link href="/blog//Show-All-Blogs" className="">
+            <Link href="/blog/Show-All-Blogs" className="">
             <a href="">
                 <button
                   type="submit"
