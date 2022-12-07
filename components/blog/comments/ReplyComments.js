@@ -329,8 +329,8 @@ const ReplyComments = (props) => {
     } catch (error) {
       console.log(error);
     }
-  }currentUserog(commentId)
   }
+
   return (
     <Fragment>
       <div>
