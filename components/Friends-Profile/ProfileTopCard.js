@@ -30,7 +30,7 @@ import {
   Button,
 } from "@material-tailwind/react";
 import TabsProfileCard from "./profile-tabs/TabsProfileCard";
-import { FOLLOW_REQUEST_USER_API, FOLLOW_USER_API, GET_CONNECTIONS, SHOW_USER_PROFILE } from "../../pages/config";
+import { FOLLOW_REQUEST_USER_API, FOLLOW_USER_API, VIEW_CONNECTION, SHOW_USER_PROFILE } from "../../pages/config";
 const ProfileTopCard = (props) => {
   const [userDetails, setUserDetails] = useState();
   const [btn1, setbtn1] = useState();
@@ -93,7 +93,7 @@ const ProfileTopCard = (props) => {
    //Check Connection Request
    const CheckConnection=async()=>
     {   
-      await fetch(`${FOLLOW_REQUEST_USER_API}/${props.id}`, {
+      await fetch(`${VIEW_CONNECTION}?${props.id}`, {
         method: "GET",
         headers: {
           Accept: "application/json", 

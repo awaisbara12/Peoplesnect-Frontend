@@ -288,13 +288,20 @@ function PeendingRequest() {
                       </div>
                      
                       {e.profile_type === "public_profile"?(
-                        <button className="w-full bg-indigo-400 text-white rounded-xl py-2 hover:text-indigo-400 hover:bg-transparent
-                          border-1 border-indigo-400 mt-5 mb-4 "onClick={()=>CreateFollower(e.id)}>
-                          Follow
-                        </button>
+                        <div>
+                          <button className="w-full bg-indigo-400 text-white rounded-xl py-2 hover:text-indigo-400 hover:bg-transparent
+                            border-1 border-indigo-400 mt-5 mb-2 "onClick={()=>CreateFollower(e.id)}>
+                            Follow
+                          </button>
+                          <button className="w-full bg-indigo-400 text-white rounded-xl py-2 hover:text-indigo-400 hover:bg-transparent
+                            border-1 border-indigo-400 mb-4 " onClick={()=>ConnectionRequest(e.id)}>
+                            Connect
+                          </button>
+                        </div>
+                        
                       ):(
                         <button className="w-full bg-indigo-400 text-white rounded-xl py-2 hover:text-indigo-400 hover:bg-transparent
-                          border-1 border-indigo-400 mt-5 mb-4 "onClick={()=>ConnectionRequest(e.id)}>
+                          border-1 border-indigo-400 mt-10 mb-5 "onClick={()=>ConnectionRequest(e.id)}>
                           Connect
                         </button>
                       )}
