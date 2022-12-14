@@ -5,14 +5,27 @@ import ProfileAvatar from "../../public/images/profile-avatar.png";
 import Cover from "../../public/images/main-banner.jpg";
 import { XCircleIcon } from "@heroicons/react/solid";
 import { ThumbUpIcon } from "@heroicons/react/outline";
-import { PAGES_API } from "../../pages/config";
+import { LIKE_PAGES_API, PAGES_API } from "../../pages/config";
 
 const MainPage = () => {
   const [joingPages,setJoinPages] = useState();
   // Bareer Key
   if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore"); }
-  console.log(joingPages)
-  
+   // page like function
+   const PageLikeFun =(ID)=>{
+    const res = fetch(LIKE_PAGES_API +"?page_id="+ID, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      Authorization: `${authKey}`,
+    },
+    })
+    .then((resp) => resp.json())
+    .then((result) => {
+      console.log(result.data);
+      SuggestedPages();
+    })
+  }
   // suggested Group
   const SuggestedPages =()=>{
       const res = fetch(PAGES_API, {
@@ -336,7 +349,7 @@ const MainPage = () => {
                       )}                     
                       {/* <a href="group-page/suggest-group"> */}
                       <div className="flex justify-end">
-                      <button onClick={()=>alert(i.id)} 
+                      <button onClick={()=>PageLikeFun(i.id)} 
                         className="w-20 flex gap-2 justify-center bg-indigo-400 text-white rounded-xl py-2 hover:text-indigo-400 hover:bg-transparent  border-1 border-indigo-400 mt-2 mb-4">
                         <ThumbUpIcon className="w-5 h-5" />
                         <div className="">Like</div>
