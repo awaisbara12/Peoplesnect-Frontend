@@ -1,6 +1,61 @@
-import React from "react";
+import React, { useState } from "react";
+import { GROUP_API } from "../../../pages/config";
 
 const NewGroup = () => {
+  const [name,setname] = useState();
+  const [des,setdes] = useState();
+  const [dp,setdp] = useState([]);
+  const [dppreview,setdppreview] = useState();
+  const [coverphoto,setcoverphoto] = useState([]);
+  const [coverpreview,setcoverpreview] = useState();
+  const [type,settype] = useState();
+  const [canpost,setcanpost] = useState();
+  
+  // Bareer Key
+  if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore"); }
+  //for dp
+  const handledp = (e) => {
+    setdp(e.target.files[0]);
+    if (e.target.files.length !== 0) {
+      setdppreview(window.URL.createObjectURL(e.target.files[0]));
+    }
+  };
+  //for cover photo
+  const handlecover = (e) => {
+    setcoverphoto(e.target.files[0]);
+    if (e.target.files.length !== 0) {
+      setcoverpreview(window.URL.createObjectURL(e.target.files[0]));
+    }
+  };
+  // Create Group
+  const CreateGroup =()=>{
+    const dataForm = new FormData();
+    dataForm.append("groups[title]", name);
+    dataForm.append("groups[description]", des);
+    dataForm.append("groups[group_type]", type);
+    dataForm.append("groups[display_image]", dp);
+    dataForm.append("groups[cover_image]", coverphoto);
+      const res = fetch(GROUP_API, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
+      body: dataForm,
+      })
+      .then((resp) => resp.json())
+      .then((result) => {
+        setname('');
+        setdes('');
+        setdp([]);
+        setdppreview('');
+        setcoverphoto([]);
+        setcoverpreview('');
+        settype('');
+        setcanpost('');
+      })
+  }
+
   return (
     <div>
       <div className="mt-8">
@@ -15,6 +70,8 @@ const NewGroup = () => {
                   placeholder="Write Group Name"
                   type="text"
                   name="search"
+                  value={name}
+                  onChange={(e)=>setname(e.target.value)}
                 />
               </div>
               <div className="flex justify-center gap-7 mt-10 ">
@@ -27,6 +84,8 @@ const NewGroup = () => {
                     name="search"
                     rows={5}
                     cols={10}
+                    value={des}
+                    onChange={(e)=>setdes(e.target.value)}
                   />
                 </div>
               </div>
@@ -34,10 +93,24 @@ const NewGroup = () => {
             <div className=" border bg-white mt-4 px-4 py-6 rounded-xl">
               <div className="heading text-lg font-bold">Disply or Cover</div>
               <div className="flex items-center justify-center gap-10 mt-5">
+                <div className="text-lg font-medium">Select Display Photo:</div>
+                <input className="" 
+                  type="file" 
+                  name="search" 
+                  onChange={handledp}
+                />
+              </div>
+              <div className="flex items-center justify-center gap-10 mt-5">
                 <div className="text-lg font-medium">Select Cover Photo:</div>
-                <input className="" type="file" name="search" />
+                <input 
+                className="" 
+                type="file" 
+                name="search"
+                onChange={handlecover} 
+                />
               </div>
             </div>
+            
             <div className=" border bg-white mt-4 px-4 py-6 rounded-xl">
               <div className="heading text-lg font-bold">Group Type</div>
               <div className="border hover:bg-gray-100 mt-4 p-4 bg-gray-50 hover:shadow-lg rounded-xl">
@@ -46,10 +119,12 @@ const NewGroup = () => {
                   <div className="flex items-center gap-4">
                     <div className="flex items-center">
                       <input
-                        checked
+                        
                         id="default-radio-1"
                         type="radio"
-                        value=""
+                        value="public_group"
+                        checked={type==="public_group"}
+                        onChange={(e)=>settype(e.target.value)}
                         name="default-radio1"
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-indigo-400 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                       />
@@ -64,9 +139,11 @@ const NewGroup = () => {
                       <input
                         id="default-radio-2"
                         type="radio"
-                        value=""
                         name="default-radio1"
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-indigo-400 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        value="private_group"
+                        checked={type==="private_group"}
+                        onChange={(e)=>settype(e.target.value)}
                       />
                       <label
                         htmlFor="default-radio-2"
@@ -87,12 +164,13 @@ const NewGroup = () => {
                   <div className="flex items-center gap-4">
                     <div className="flex items-center">
                       <input
-                        checked
                         id="default-radio-1"
                         type="radio"
-                        value=""
                         name="default-radio"
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-indigo-400 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        value="all"
+                        checked={canpost==="all"}
+                        onChange={(e)=>setcanpost(e.target.value)}                        
                       />
                       <label
                         htmlFor="default-radio-1"
@@ -105,9 +183,11 @@ const NewGroup = () => {
                       <input
                         id="default-radio-2"
                         type="radio"
-                        value=""
                         name="default-radio"
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-indigo-400 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        value="admin"
+                        checked={canpost==="admin"}
+                        onChange={(e)=>setcanpost(e.target.value)}
                       />
                       <label
                         htmlFor="default-radio-2"
@@ -123,7 +203,9 @@ const NewGroup = () => {
           </div>
 
           <div className="flex justify-end mt-5">
-            <button className="border-2 border-indigo-400 bg-indigo-400 p-2 rounded-full text-white font-bold">
+            <button 
+              className="border-2 border-indigo-400 bg-indigo-400 p-2 rounded-full text-white font-bold"
+              onClick={()=>CreateGroup()}>
               Creat New Group
             </button>
           </div>

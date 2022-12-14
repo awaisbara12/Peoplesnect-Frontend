@@ -35,6 +35,7 @@ export const GET_USER_FOLLOWEES= process.env.NEXT_PUBLIC_GET_FOLLOWEES
 export const GET_USER_BOOKMARKS= process.env.NEXT_PUBLIC_USER_BOOKMARKS
 export const COMMENT_REPLY= process.env.NEXT_PUBLIC_COMMENT_REPLY
 export const VIEW_CONNECTION= process.env.NEXT_PUBLIC_VIEW_CONNECTION
+export const GROUP_API= process.env.NEXT_PUBLIC_GROUP
 
 function Config() {
   return <></>;
