@@ -1,6 +1,61 @@
-import React from "react";
+import React, { useState } from "react";
+import { PAGES_API } from "../../../pages/config";
 
 const NewPAge = () => {
+  const [name,setname] = useState();
+  const [des,setdes] = useState();
+  const [dp,setdp] = useState([]);
+  const [dppreview,setdppreview] = useState();
+  const [coverphoto,setcoverphoto] = useState([]);
+  const [coverpreview,setcoverpreview] = useState();
+  const [cancomment,setcancomment] = useState();
+  const [canmessage,setcanmessage] = useState();
+  // Bareer Key
+  if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore"); }
+  //for dp
+  const handledp = (e) => {
+    setdp(e.target.files[0]);
+    if (e.target.files.length !== 0) {
+      setdppreview(window.URL.createObjectURL(e.target.files[0]));
+    }
+  };
+  //for cover photo
+  const handlecover = (e) => {
+    setcoverphoto(e.target.files[0]);
+    if (e.target.files.length !== 0) {
+      setcoverpreview(window.URL.createObjectURL(e.target.files[0]));
+    }
+  };
+   // Create Group
+   const CreatePage =()=>{
+    const dataForm = new FormData();
+    dataForm.append("pages[name]", name);
+    dataForm.append("pages[description]", des);
+    dataForm.append("pages[can_comment]", cancomment);
+    dataForm.append("pages[can_message]", canmessage);
+    dataForm.append("pages[display_photo]", dp);
+     dataForm.append("pages[cover_photo]", coverphoto);
+      const res = fetch(PAGES_API, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
+      body: dataForm,
+      })
+      .then((resp) => resp.json())
+      .then((result) => {
+        setname('');
+        setdes('');
+        setdp([]);
+        setdppreview('');
+        setcoverphoto([]);
+        setcoverpreview('');
+        setcancomment('');
+        setcanmessage('');
+        alert("Page Created!")
+      })
+  }
   return (
     <div>
       <div className="mt-8">
@@ -15,6 +70,8 @@ const NewPAge = () => {
                   placeholder="Change Page Name"
                   type="text"
                   name="search"
+                  value={name}
+                  onChange={(e)=>setname(e.target.value)}
                 />
               </div>
               <div className="flex justify-center gap-7 mt-10 ">
@@ -27,6 +84,8 @@ const NewPAge = () => {
                     name="search"
                     rows={5}
                     cols={10}
+                    value={des}
+                    onChange={(e)=>setdes(e.target.value)}
                   />
                 </div>
               </div>
@@ -37,11 +96,11 @@ const NewPAge = () => {
               </div>
               <div className="flex items-center justify-center gap-10 mt-10">
                 <div className="text-lg font-medium">Select Profile Photo:</div>
-                <input className="" type="file" name="search" />
+                <input className="" type="file" name="search" onChange={handledp}/>
               </div>
               <div className="flex items-center justify-center gap-10 mt-10">
                 <div className="text-lg font-medium">Select Cover Photo:</div>
-                <input className="" type="file" name="search" />
+                <input className="" type="file" name="search" onChange={handlecover} />
               </div>
             </div>
             <div className=" border bg-white mt-4 px-4 py-6 rounded-xl">
@@ -54,10 +113,11 @@ const NewPAge = () => {
                   <div className="flex items-center gap-4">
                     <div className="flex items-center">
                       <input
-                        checked
                         id="default-radio-1"
                         type="radio"
-                        value=""
+                        value="all_member"
+                        checked={cancomment==="all_member"}
+                        onChange={(e)=>setcancomment(e.target.value)}
                         name="default-radio[1]"
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-indigo-400 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                       />
@@ -72,7 +132,9 @@ const NewPAge = () => {
                       <input
                         id="default-radio-2"
                         type="radio"
-                        value=""
+                        value="admin"
+                        checked={cancomment==="admin"}
+                        onChange={(e)=>setcancomment(e.target.value)}
                         name="default-radio[1]"
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-indigo-400 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                       />
@@ -96,10 +158,11 @@ const NewPAge = () => {
                   <div className="flex items-center gap-4">
                     <div className="flex items-center">
                       <input
-                        checked
                         id="default-radio-1"
                         type="radio"
-                        value=""
+                        value="everyone"
+                        checked={canmessage==="everyone"}
+                        onChange={(e)=>setcanmessage(e.target.value)}
                         name="default-radio[2]"
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-indigo-400 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                       />
@@ -114,7 +177,9 @@ const NewPAge = () => {
                       <input
                         id="default-radio-2"
                         type="radio"
-                        value=""
+                        value="only_admin"
+                        checked={canmessage==="only_admin"}
+                        onChange={(e)=>setcanmessage(e.target.value)}
                         name="default-radio[2]"
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-indigo-400 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                       />
@@ -132,7 +197,8 @@ const NewPAge = () => {
           </div>
 
           <div className="flex justify-end mt-5">
-            <button className="border-2 border-indigo-400 bg-indigo-400 p-2 rounded-full text-white font-bold">
+            <button onClick={()=>CreatePage()}
+              className="border-2 border-indigo-400 bg-indigo-400 p-2 rounded-full text-white font-bold">
               Creat New Page
             </button>
           </div>

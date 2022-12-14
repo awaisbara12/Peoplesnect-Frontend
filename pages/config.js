@@ -39,6 +39,7 @@ export const GROUP_API= process.env.NEXT_PUBLIC_GROUP
 export const JOIN_GROUP_API= process.env.NEXT_PUBLIC_JOIN_GROUP
 export const JOINED_GROUP_LISTS_API= process.env.NEXT_PUBLIC_JOINED_GROUP_LISTS
 
+export const PAGES_API= process.env.NEXT_PUBLIC_PAGES
 
 function Config() {
   return <></>;
