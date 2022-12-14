@@ -36,6 +36,7 @@ export const GET_USER_BOOKMARKS= process.env.NEXT_PUBLIC_USER_BOOKMARKS
 export const COMMENT_REPLY= process.env.NEXT_PUBLIC_COMMENT_REPLY
 export const VIEW_CONNECTION= process.env.NEXT_PUBLIC_VIEW_CONNECTION
 export const GROUP_API= process.env.NEXT_PUBLIC_GROUP
+export const PAGES_API= process.env.NEXT_PUBLIC_PAGES
 
 function Config() {
   return <></>;
