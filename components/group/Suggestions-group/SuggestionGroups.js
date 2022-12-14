@@ -1,25 +1,49 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import postimage from "../../../public/images/752126.jpg";
+import { GROUP_API } from "../../../pages/config";
+import { useRouter } from "next/router";
 
 const SuggestionGroups = () => {
+  const [groupDetail,setgroupDetail] = useState();
+  const router = useRouter();
+  const data = router.asPath;
+  const myArray = data.split("?");
+  console.log(myArray[1])
+  // Bareer Key
+  if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore"); }
+
+  const GroupDetail =()=>{
+    const res = fetch(GROUP_API +"/"+myArray[1], {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      Authorization: `${authKey}`,
+    },
+    })
+    .then((resp) => resp.json())
+    .then((result) => {
+      setgroupDetail(result.data)
+      console.log(result.data)
+    })
+  }
+  useEffect(() => {
+    GroupDetail();
+  },[])
   return (
     <div className="mt-8">
     <div className="w-[600px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0 xl:px-0">
         <div className="blogs bg-white rounded-xl">
+        
           <div className="image">
-            <Link href="/">
-              <a>
-                <Image
-                  src={postimage}
-                  className="object-cover rounded-xl"
-                  width={700}
-                  height={250}
-                  alt=""
-                />
-              </a>
-            </Link>
+            <Image
+              src={postimage}
+              className="object-cover rounded-xl"
+              width={700}
+              height={250}
+              alt=""
+            />     
           </div>
           <div className=" details p-5">
             <div className="heading text-2xl text-indigo-400 font-bold">

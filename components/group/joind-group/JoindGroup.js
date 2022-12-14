@@ -188,6 +188,7 @@ const JoindGroup = (setList, singleItem) => {
   }
   return (
     <div className="mt-8 w-[600px] xl:w-[980px] lg:w-[710px] md:w-[780px] px-auto md:px-0 lg:px-0 xl:px-0">
+      {/* Group Profile */}
       <div className="">
         <div className="blogs bg-white rounded-xl">
           <div className="image">
@@ -208,7 +209,6 @@ const JoindGroup = (setList, singleItem) => {
               <div className="heading text-2xl text-indigo-400 font-bold">
                 Group & Company Name
               </div>
-
               <div className="">
                 <Menu as="div" className="relative inline-block text-left">
                   <div>
@@ -262,7 +262,7 @@ const JoindGroup = (setList, singleItem) => {
                   </Transition>
                 </Menu>
               </div>
-              {/* <div className="">
+              <div className="">
                 <Menu as="div" className="relative inline-block text-left">
                   <div>
                     <Menu.Button className="">
@@ -357,14 +357,14 @@ const JoindGroup = (setList, singleItem) => {
                     </Menu.Items>
                   </Transition>
                 </Menu>
-              </div> */}
-              {/* <Link href="">
+              </div>
+              <Link href="">
               <a>
                 <div className="border border-indigo-400 py-2 px-3 text-indigo-400 rounded-full">
                   Group Details
                 </div>
               </a>
-            </Link> */}
+              </Link>
             </div>
             <div className="Details mt-5">
               <div className="caption text-lg font-extralight">
@@ -383,9 +383,11 @@ const JoindGroup = (setList, singleItem) => {
           </div>
         </div>
       </div>
+      {/* Group Post */}
       <div className="mt-7">
         <div className="rounded-xl bg-white p-[22px]">
-          <form onSubmit={postNewsData}>
+          {/* onSubmit={postNewsData} */}
+          <form >
             <div className="w-full flex justify-start gap-[22px]">
               <div className="w-[42px] h-[42px]">
                 <Image
@@ -1012,6 +1014,7 @@ const JoindGroup = (setList, singleItem) => {
           </Dialog>
         </Transition>
       </div>
+      {/* Gropus Feed */}
       <div className="mt-8">
         <div className="bg-white rounded-xl">
           <div className="flex gap-2 justify-between items-center px-[22px] py-[14px]">
