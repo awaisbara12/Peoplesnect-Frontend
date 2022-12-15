@@ -11,6 +11,7 @@ import SuggestionGroups from "./SuggestionGroups";
 import GroupsBottomBar from "../../news-feed/navbar/GroupsBottomBar";
 
 const SuggestionsGroupsFeed = () => {
+ 
   return (
     <div>
       <Head>
