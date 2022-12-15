@@ -35,7 +35,7 @@ import {
 import { useFormik } from "formik";
 import { eventScheema } from "../../auth/schemas/CreateEventScheema";
 import { Dialog } from "@headlessui/react";
-import { POST_NEWSFEED_API_KEY } from "../../../pages/config";
+import { GROUP_API, POST_NEWSFEED_API_KEY } from "../../../pages/config";
 import Spinner from "../../common/Spinner";
 
 function classNames(...classes) {
@@ -51,6 +51,7 @@ import {
 import PostComments from "./PostComments";
 import FilterComments from "./FilterComments";
 import { PencilAltIcon, UserCircleIcon } from "@heroicons/react/solid";
+import { useRouter } from "next/router";
 
 // import Spinner from "../../../common/Spinner";
 
@@ -73,15 +74,13 @@ const cardDropdown = [
 ];
 
 const AdminView = (setList, singleItem) => {
-  if (typeof window !== "undefined") {
-    var authKey = window.localStorage.getItem("keyStore");
-  }
   const [loading, setLoading] = useState(false);
   const [postText, setPostText] = useState("");
   const [eventCoverImage, setEventCoverImage] = useState([]);
   const [previewEventCoverImage, setPreviewEventCoverImage] = useState();
-  const [postImage, setPostImage] = useState([]);
-  const [postImagePreview, setpostImagePreview] = useState();
+  const [postImage, setPostImage] = useState([]);              // cover Post Image
+  const [postImagePreview, setpostImagePreview] = useState();  // Cover Preview photo
+  const [GroupData, setGroupData] = useState({});              // Group Data
   const [selectedTimezone, setSelectedTimezone] = useState({});
   const [inPerson, setInPerson] = useState(false);
   const [online, setOnline] = useState(false);
@@ -90,20 +89,45 @@ const AdminView = (setList, singleItem) => {
   const [videoSrc, setVideoSrc] = useState([]);
   const [videoPreview, setVideoPreview] = useState();
   let [isOpen, setIsOpen] = useState(false);
-
-  const handleImageSelect = (e) => {
-    setEventCoverImage(e.target.files[0]);
-    if (e.target.files.length !== 0) {
-      setPreviewEventCoverImage(window.URL.createObjectURL(e.target.files[0]));
-    }
-  };
-
+  
+  const router = useRouter();
+  const data = router.asPath;
+  const myArray = data.split("?");
+  // Bareer Key
+  if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore");}
+  
+  // Cover Photo
   const handleImagePost = (e) => {
     setPostImage(e.target.files[0]);
     if (e.target.files.length !== 0) {
       setpostImagePreview(window.URL.createObjectURL(e.target.files[0]));
     }
-    setFeedType("image_feed");
+  };
+  // Get Group
+  const GetGroupDetails =()=>{
+      const res = fetch(GROUP_API +"/"+myArray[1] , {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
+      })
+      .then((resp) => resp.json())
+      .then((result) => {
+        console.log("Data=>", result.data)
+        setGroupData(result.data)
+        setPostImage('');
+        setpostImagePreview('')
+      })
+  }
+  useEffect(() => {
+    GetGroupDetails();
+  },[])
+  const handleImageSelect = (e) => {
+    setEventCoverImage(e.target.files[0]);
+    if (e.target.files.length !== 0) {
+      setPreviewEventCoverImage(window.URL.createObjectURL(e.target.files[0]));
+    }
   };
 
   const handleCoverReomve = (e) => {
@@ -188,18 +212,30 @@ const AdminView = (setList, singleItem) => {
   }
 
   const [items, setItems] = useState(singleItem.items);
-
-  if (typeof window !== "undefined") {
-    var authKey = window.localStorage.getItem("keyStore");
-  }
   return (
     <div className="mt-8 w-[600px] xl:w-[980px] lg:w-[710px] md:w-[780px] px-5 md:px-0 lg:px-0 xl:px-0">
       <div className="">
         <div className="blogs bg-white rounded-xl">
           <div className="group relative w-full">
-            <div className="">
-              <Link href="/">
-                <a>
+                {postImagePreview?(
+                  <img
+                    src={postImagePreview}
+                    className="object-cover rounded-xl h-[350px] w-[1030px]"
+                    width={1000}
+                    height={350}
+                    alt=""
+                  />      
+                ):(
+                  <span>
+                  {GroupData && GroupData.cover_image_url?(
+                  <img
+                    src={GroupData.cover_image_url}
+                    className="object-cover rounded-xl h-[350px] w-[1030px]"
+                    width={1000}
+                    height={350}
+                    alt=""
+                  /> 
+                  ):(
                   <Image
                     src={postimage}
                     className="object-cover rounded-xl"
@@ -207,9 +243,9 @@ const AdminView = (setList, singleItem) => {
                     height={350}
                     alt=""
                   />
-                </a>
-              </Link>
-            </div>
+                  )}
+                  </span>
+                )}
             <div className="absolute rounded-xl top-0 z-50 left-0 bg-gray-600 bg-opacity-60 w-full h-0 flex flex-col justify-center items-center opacity-0 group-hover:h-full group-hover:opacity-100 duration-1000">
               <div className="relative flex items-center justify-center">
                 <div className="">
@@ -219,9 +255,10 @@ const AdminView = (setList, singleItem) => {
                   </div>
                 </div>
                 <input
-                  type={
-                    values.eventName || (videoPreview && true) ? `` : `file`
-                  }
+                  // type={
+                  //   values.eventName || (videoPreview && true) ? `` : `file`
+                  // }
+                  type="file"
                   name="image"
                   id="image"
                   className="opacity-0 absolute w-6 h-6 -z-0"
@@ -232,10 +269,18 @@ const AdminView = (setList, singleItem) => {
               </div>
             </div>
           </div>
+          {/* Name and optio */}
           <div className=" flex justify-between items-center p-5">
-            <div className="heading text-2xl text-indigo-400 font-bold">
-              Group & Company Name
-            </div>
+            {GroupData && GroupData.title?(
+              <div className="heading text-2xl text-indigo-400 font-bold">
+                {GroupData.title}
+              </div>
+            ):(
+             <div className="heading text-2xl text-indigo-400 font-bold">
+                No Name
+             </div>
+            )}
+            
             <div className="">
               <Menu as="div" className="relative inline-block text-left">
                 <div>
@@ -269,33 +314,30 @@ const AdminView = (setList, singleItem) => {
                         </Link>
                       </Menu.Item>
                       <Menu.Item className="">
-                        <Link href="/group-page/admin-view/group-setting">
+                        {/* <Link href="/group-page/admin-view/group-setting"> */}
+                        <Link href={{pathname: "/group-page/admin-view/group-setting", query: myArray[1],}}>
                           <a className="flex gap-1 mt-2">
                             <CogIcon className="w-5 h-5" />
                             Group Settings
                           </a>
                         </Link>
                       </Menu.Item>
+                      {GroupData && GroupData.group_type=="private_group"?(
                       <Menu.Item className="">
-                        <Link href="/group-page/admin-view/pending-request">
-                          <a className="flex gap-1 mt-2">
-                            <UserAddIcon className="w-5 h-5" />
-                            Pending Request
-                          </a>
+                      <Link href={{pathname: "/group-page/admin-view/pending-request", query: myArray[1],}}>
+                        <a className="flex gap-1 mt-2">
+                          <UserAddIcon className="w-5 h-5" />
+                          Pending Request
+                        </a>
                         </Link>
                       </Menu.Item>
+                      ):('')}
+                      
                     </div>
                   </Menu.Items>
                 </Transition>
               </Menu>
             </div>
-            {/* <Link href="">
-              <a>
-                <div className="border border-indigo-400 py-2 px-3 text-indigo-400 rounded-full">
-                  Group Details
-                </div>
-              </a>
-            </Link> */}
           </div>
         </div>
       </div>
@@ -309,7 +351,9 @@ const AdminView = (setList, singleItem) => {
             <div className="">99+</div>
           </a>
         </div>
-        <div className="rounded-xl mt-8 bg-white p-[22px]">
+       
+        {/* Post Create view */}
+        {/* <div className="rounded-xl mt-8 bg-white p-[22px]">
           <form onSubmit={postNewsData}>
             <div className="w-full flex justify-start gap-[22px]">
               <div className="w-[42px] h-[42px]">
@@ -517,7 +561,7 @@ const AdminView = (setList, singleItem) => {
               </button>
             </div>
           </form>
-        </div>
+        </div> */}
 
         <Transition appear show={isOpen} as={Fragment}>
           <Dialog
@@ -937,6 +981,11 @@ const AdminView = (setList, singleItem) => {
           </Dialog>
         </Transition>
       </div>
+      
+      
+      
+      
+      {/* Show Post */}
       <div className="mt-8">
         <div className="bg-white rounded-xl">
           <div className="flex gap-2 justify-between items-center px-[22px] py-[14px]">

@@ -10,6 +10,7 @@ const NewGroup = () => {
   const [coverpreview,setcoverpreview] = useState();
   const [type,settype] = useState();
   const [canpost,setcanpost] = useState();
+  const [removergroup,setremovergroup] = useState();
   
   // Bareer Key
   if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore"); }
@@ -33,8 +34,8 @@ const NewGroup = () => {
     dataForm.append("groups[title]", name);
     dataForm.append("groups[description]", des);
     dataForm.append("groups[group_type]", type);
-    dataForm.append("groups[display_image]", dp);
-    dataForm.append("groups[cover_image]", coverphoto);
+    if(dp){dataForm.append("groups[display_image]", dp);}
+    if(coverphoto){dataForm.append("groups[cover_image]", coverphoto);}
       const res = fetch(GROUP_API, {
       method: "POST",
       headers: {
