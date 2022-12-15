@@ -84,6 +84,24 @@ function PeendingRequest() {
       })
       .catch((err) => console.log('err ha'));      
   } 
+  const hideUser=async(id)=>
+  {
+    await fetch(SUGGESTED_USER_API+"?id="+id, {
+      method: "GET",
+      headers: {
+        Accept: "application/json", 
+        Authorization: `${authKey}`,
+      },
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          setUserList(result.data);  
+          //console.log("All Users",result)
+        }
+      })
+      .catch((err) => console.log(err));
+  }
   // Create Follower
   const CreateFollower=async(userId)=>
   {      
@@ -266,10 +284,10 @@ function PeendingRequest() {
                         </Link>
                       </div>
                       <div className="absolute top-2 right-1">
-                        <Link href="./">
-                          <a>
-                            <XCircleIcon className="w-5 h-5 hover:w-10 hover:h-10 transition-all text-white" />
-                          </a>
+                        <Link href="">
+                        <a>
+                          <XCircleIcon className="w-5 h-5 hover:w-10 hover:h-10 transition-all text-white" onClick={ () =>hideUser(e.id)}/>
+                        </a> 
                         </Link>
                       </div>
                     </div>
