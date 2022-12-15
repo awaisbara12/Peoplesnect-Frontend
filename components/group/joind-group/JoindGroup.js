@@ -45,6 +45,7 @@ import {
 import PostComments from "./PostComments";
 import FilterComments from "./FilterComments";
 import { UserCircleIcon } from "@heroicons/react/solid";
+import { useRouter } from "next/router";
 
 // import Spinner from "../../../common/Spinner";
 
@@ -84,6 +85,11 @@ const JoindGroup = (setList, singleItem) => {
   const [videoSrc, setVideoSrc] = useState([]);
   const [videoPreview, setVideoPreview] = useState();
   let [isOpen, setIsOpen] = useState(false);
+   
+
+  const router = useRouter();
+  const data = router.asPath;
+  const myArray = data.split("?");
 
   const handleImageSelect = (e) => {
     setEventCoverImage(e.target.files[0]);
@@ -252,17 +258,19 @@ const JoindGroup = (setList, singleItem) => {
                           </a>
                         </Menu.Item>
                         <Menu.Item className="flex gap-1 mt-2">
-                          <a href="admin-view">
+                        <Link href={{pathname: "/group-page/admin-view", query: myArray[1]}} onClick={()=>alert("yes")}>      
+                          <a className="flex">
                             <UserCircleIcon className="h-5 w-5" />
                             View As Admin
                           </a>
+                        </Link>
                         </Menu.Item>
                       </div>
                     </Menu.Items>
                   </Transition>
                 </Menu>
               </div>
-              <div className="">
+              {/* <div className="">
                 <Menu as="div" className="relative inline-block text-left">
                   <div>
                     <Menu.Button className="">
@@ -341,8 +349,9 @@ const JoindGroup = (setList, singleItem) => {
                         </Menu.Item>
                         <Menu.Item className="flex gap-1 mt-2">
                           {({ active }) => (
+                             <Link href={{pathname: "/group-page/admin-view", query: myArray[1]}}>
                             <a
-                              href="admin-view"
+                              // href="admin-view"
                               className={classNames(
                                 active ? "" : "",
                                 "text-sm flex gap-2"
@@ -351,13 +360,14 @@ const JoindGroup = (setList, singleItem) => {
                               <UserCircleIcon className="h-5 w-5" />
                               View As Admin
                             </a>
+                            </Link>
                           )}
                         </Menu.Item>
                       </div>
                     </Menu.Items>
                   </Transition>
                 </Menu>
-              </div>
+              </div> */}
               <Link href="">
               <a>
                 <div className="border border-indigo-400 py-2 px-3 text-indigo-400 rounded-full">
