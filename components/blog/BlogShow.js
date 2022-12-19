@@ -19,8 +19,7 @@ function BlogShow() {
   const [commentEditOn, setcommentEditOn] = useState(false); // show & remove comment Input
   const [commentEditId, setcommentEditId] = useState();// CommentId where want to show Comment's input
   const [currentUser, setCurrentUser] = useState();
-  setCurrentUser
-  console.log("yess",showComment)  
+  // console.log("yess",showComment)  
   const router = useRouter();
   const data = router.asPath;
   const myArray = data.split("/");

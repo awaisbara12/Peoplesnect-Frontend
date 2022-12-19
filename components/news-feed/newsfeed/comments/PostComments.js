@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import dynamic from "next/dynamic";
 import InputEmoji from "react-input-emoji";
 const Picker = dynamic(() => import("emoji-picker-react"), { ssr: false });
@@ -13,7 +13,7 @@ import {
   TrashIcon,
 } from "@heroicons/react/outline";
 import { useFormik } from "formik";
-import { COMMENT_API_KEY, NEWSFEED_COMMENT_POST_KEY } from "../../../../pages/config";
+import { COMMENT_API_KEY, NEWSFEED_COMMENT_POST_KEY, CURENT_USER_LOGIN_API } from "../../../../pages/config";
 import axios from "axios";
 
 const PostComments = (props) => {
@@ -25,6 +25,7 @@ const PostComments = (props) => {
   const [postImage, setPostImage] = useState([]);
   const [postImagePreview, setpostImagePreview] = useState();
   const [comments, setComments] = useState([]);
+  const [currentUser, setCurrentUser] = useState();
  
   function handleOnEnter() {
     console.log("enter", postText);
@@ -49,6 +50,25 @@ const PostComments = (props) => {
   const onSubmit = () => {
     resetForm();
   };
+
+  const Current_User=async()=>{    
+   
+    await fetch(CURENT_USER_LOGIN_API, {
+      method: "GET",
+       headers: {
+        Accept: "application/json", 
+         Authorization: `${authKey}`,
+       },
+    })
+       .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          setCurrentUser(result.data);
+          // console.log("user",result.data);
+        }
+      })
+      .catch((err) => console.log(err)); 
+  }
  
   function postComment(e) {
     e.preventDefault();
@@ -122,6 +142,9 @@ const PostComments = (props) => {
     setpostImagePreview('');
     setPostImage('');
   }
+  useEffect(() => {
+    Current_User();
+  },[])
   return (
     <Fragment>
       <div className="relative w-full mt-[14px]">
@@ -149,19 +172,21 @@ const PostComments = (props) => {
               ):('')}
         </div>
         <div className="absolute top-2 left-0">
-          {props.dp?(
-             <img
-             src={props.dp}
-             className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
-              
-             width={34} 
-             height={34} alt="" />
-          ):(
-             <Image 
+          {currentUser? (
+            currentUser.display_photo_url?(
+              <img
+              src={currentUser.display_photo_url}
+              className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
+              width={34} 
+              height={34} alt="" />
+            ):(
+              <Image 
              src={ProfileAvatar} 
              width={34} 
              height={34} alt="" />
-          )}
+            )
+          ):("")}
+          
          
         </div>
         <div className="flex items-center absolute top-3 right-0 ">

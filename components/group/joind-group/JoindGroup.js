@@ -30,7 +30,7 @@ import {
 import { useFormik } from "formik";
 import { eventScheema } from "../../auth/schemas/CreateEventScheema";
 import { Dialog } from "@headlessui/react";
-import { GROUP_API, POST_NEWSFEED_API_KEY } from "../../../pages/config";
+import { GROUP_API, POST_NEWSFEED_API_KEY, CURENT_USER_LOGIN_API } from "../../../pages/config";
 import Spinner from "../../common/Spinner";
 
 function classNames(...classes) {
@@ -68,6 +68,24 @@ const cardDropdown = [
   },
 ];
 
+const ReadMore = ({ children }) => {
+  const text = children;
+  const [isReadMore, setIsReadMore] = useState(true);
+  const toggleReadMore = () => {
+    setIsReadMore(!isReadMore);
+  };
+  return (
+    <p className="text">
+      {isReadMore ? text.slice(0, 355) + (text.length > 355?("......"):('')) : text}
+      {text.length > 355?(
+        <span onClick={toggleReadMore} className="text-indigo-400 cursor-pointer ml-2 font-bold">
+          {isReadMore ? "Read more" : "Show less"}
+        </span>
+      ):('')}
+    </p>
+  );
+};
+
 const JoindGroup = (setList, singleItem) => {
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
@@ -85,6 +103,7 @@ const JoindGroup = (setList, singleItem) => {
   const [eventType, setEventType] = useState();
   const [videoSrc, setVideoSrc] = useState([]);
   const [videoPreview, setVideoPreview] = useState();
+  const [currentUser, setCurrentUser] = useState();
   let [isOpen, setIsOpen] = useState(false);
 
   const [group, setgroup] = useState();
@@ -94,7 +113,6 @@ const JoindGroup = (setList, singleItem) => {
   const data = router.asPath;
   const myArray = data.split("?");
   // console.log(myArray[1]);
-
   const handleImageSelect = (e) => {
     setEventCoverImage(e.target.files[0]);
     if (e.target.files.length !== 0) {
@@ -196,7 +214,39 @@ const JoindGroup = (setList, singleItem) => {
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
   }
-  const CreateGroup =()=>{
+  const Current_User=async()=>{    
+   
+    await fetch(CURENT_USER_LOGIN_API, {
+      method: "GET",
+       headers: {
+        Accept: "application/json", 
+         Authorization: `${authKey}`,
+       },
+    })
+       .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          setCurrentUser(result.data);
+          // console.log("user",result.data);
+        }
+      })
+      .catch((err) => console.log(err)); 
+  }
+
+  const LeaveGroup =()=>{
+    const res = fetch(GROUP_API +"/leave_group?id="+myArray[1] , {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      Authorization: `${authKey}`,
+    },
+    })
+    .then((resp) => resp.json())
+    .then((result) => {
+      router.push("/group-page");
+    })
+  }
+  const GetGroup =()=>{
     const res = fetch(GROUP_API +"/"+myArray[1] , {
     method: "GET",
     headers: {
@@ -206,12 +256,13 @@ const JoindGroup = (setList, singleItem) => {
     })
     .then((resp) => resp.json())
     .then((result) => {
-      console.log("Data=>", result.data)
+      // console.log("Group Data=>", result.data)
       setgroup(result.data);
     })
   }
   useEffect(() => {
-    CreateGroup();
+    Current_User();
+    GetGroup();
   },[])
 
   return (
@@ -277,32 +328,38 @@ const JoindGroup = (setList, singleItem) => {
                   >
                     <Menu.Items className="absolute left-1/2 z-10 mt-3 w-48 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-3xl">
                       <div className="flex items-start flex-col gap-2 border-1 bg-white rounded-xl p-3">
-                        <Menu.Item className="flex gap-1">
+                        {/* <Menu.Item className="flex gap-1">
                           <a href="">
                             <BellIcon className="w-5 h-5" />
                             Notifications
                           </a>
-                        </Menu.Item>
+                        </Menu.Item> */}
                         <Menu.Item className="flex gap-1 mt-2">
                           <a href="">
                             <MailIcon className="h-5 w-5" />
                             Report
                           </a>
                         </Menu.Item>
-                        <Menu.Item className="flex gap-1 mt-2">
-                          <a href="">
-                            <LogoutIcon className="h-5 w-5" />
-                            Leave
-                          </a>
-                        </Menu.Item>
-                        <Menu.Item className="flex gap-1 mt-2">
-                        <Link href={{pathname: "/group-page/admin-view", query: myArray[1]}} onClick={()=>alert("yes")}>      
-                          <a className="flex">
-                            <UserCircleIcon className="h-5 w-5" />
-                            View As Admin
-                          </a>
-                        </Link>
-                        </Menu.Item>
+                        { currentUser ?(currentUser.id != group.owner.id ? (
+                          <Menu.Item className="flex gap-1 mt-2">
+                            
+                              <a onClick={()=>LeaveGroup()}>
+                                <LogoutIcon className="h-5 w-5" />
+                                Leave
+                              </a>
+                            
+                          </Menu.Item>
+                        ):(
+                          <Menu.Item className="flex gap-1 mt-2">
+                            <Link href={{pathname: "/group-page/admin-view", query: myArray[1]}} onClick={()=>alert("yes")}>      
+                              <a className="flex">
+                                <UserCircleIcon className="h-5 w-5" />
+                                View As Admin
+                              </a>
+                            </Link>
+                          </Menu.Item>
+                        )):("")
+                        }
                       </div>
                     </Menu.Items>
                   </Transition>
@@ -417,10 +474,9 @@ const JoindGroup = (setList, singleItem) => {
             <div className="Details mt-5">
               
               <div className="font-extralight">
-              {group?(group.description):('')}
-                <a href="" className="ml-4 font-bold text-indigo-400">
-                  Read More...
-                </a>
+                <ReadMore>
+                  {group?(group.description):('')}
+                </ReadMore>
               </div>
             </div>
           </div>

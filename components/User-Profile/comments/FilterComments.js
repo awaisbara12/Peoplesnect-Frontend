@@ -4,7 +4,6 @@ import { Listbox, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/outline";
 import { CheckIcon } from "@heroicons/react/solid";
 import { NEWSFEED_COMMENT_POST_KEY } from "../../../pages/config";
-
 const commentsFilter = [{ name: "Most Recent" }, { name: "Most Relevant" }];
 
 const FilterComments = (props) => {
@@ -69,10 +68,7 @@ const FilterComments = (props) => {
     })
     .catch((err) => console.log(err));
   }
-
-  useEffect(() => {
-    filterSChange();
-  },[]);
+  
   function loadMore() {
     fetch(
       NEWSFEED_COMMENT_POST_KEY +
@@ -98,6 +94,11 @@ const FilterComments = (props) => {
     })
     .catch((err) => console.log(err));
   }
+
+  useEffect(() => {
+    filterSChange();
+  },[]);
+  
   return (
     <Fragment>
       <div className="flex items-center justify-between mt-[6px]">
@@ -169,6 +170,5 @@ const FilterComments = (props) => {
     </Fragment>
   );
 };
-
 
 export default FilterComments;

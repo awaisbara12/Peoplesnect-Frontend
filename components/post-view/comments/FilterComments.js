@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import Link from "next/link";
 import { Listbox, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/outline";
@@ -68,6 +68,7 @@ const FilterComments = (props) => {
     })
     .catch((err) => console.log(err));
   }
+  
   function loadMore() {
     fetch(
       NEWSFEED_COMMENT_POST_KEY +
@@ -93,6 +94,7 @@ const FilterComments = (props) => {
     })
     .catch((err) => console.log(err));
   }
+
   useEffect(() => {
     filterSChange();
   },[]);

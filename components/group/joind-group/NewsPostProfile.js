@@ -127,7 +127,7 @@ const NewsPostProfile = ({ setList }) => {
   const router = useRouter();
   const data = router.asPath;
   const myArray = data.split("?");
-  console.log("jsskds", myArray[1]);
+  // console.log("jsskds", myArray[1]);
 
   function postNewsData(e) {
     e.preventDefault();

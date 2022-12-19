@@ -125,7 +125,7 @@ const TabEducationProfile = () => {
         if (result) {
           closeModal();
           setUserUpdateeducation(result.data)
-          console.log("User Education",result.data)
+          // console.log("User Education",result.data)
         }
       })
       .catch((err) => console.log(err));
