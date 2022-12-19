@@ -23,7 +23,6 @@ const Groups = () => {
     })
     .then((resp) => resp.json())
     .then((result) => {
-      console.log(result.data);
       SuggestedGroups();
     })
   }
@@ -39,7 +38,6 @@ const Groups = () => {
     .then((resp) => resp.json())
     .then((result) => {
       setJoinedGroupsLists(result.data)
-      console.log(result.data)
     })
 }
   // suggested Group
