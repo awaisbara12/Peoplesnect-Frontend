@@ -40,7 +40,7 @@ const ReplyComments = (props) => {
         if (result) {
           
           setCurrentUser(result.data.id);
-          console.log("user",result.data.id)
+          // console.log("user",result.data.id)
         }
       })
       .catch((err) => console.log(err)); 

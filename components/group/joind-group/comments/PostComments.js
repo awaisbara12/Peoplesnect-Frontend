@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import dynamic from "next/dynamic";
 import InputEmoji from "react-input-emoji";
 const Picker = dynamic(() => import("emoji-picker-react"), { ssr: false });
@@ -10,9 +10,10 @@ import {
   EmojiHappyIcon,
   ChevronRightIcon,
   PaperAirplaneIcon,
+  TrashIcon,
 } from "@heroicons/react/outline";
 import { useFormik } from "formik";
-import { COMMENT_API_KEY, NEWSFEED_COMMENT_POST_KEY } from "../../../../pages/config";
+import { COMMENT_API_KEY, NEWSFEED_COMMENT_POST_KEY, CURENT_USER_LOGIN_API } from "../../../../pages/config";
 import axios from "axios";
 
 const PostComments = (props) => {
@@ -24,16 +25,18 @@ const PostComments = (props) => {
   const [postImage, setPostImage] = useState([]);
   const [postImagePreview, setpostImagePreview] = useState();
   const [comments, setComments] = useState([]);
-
+  const [currentUser, setCurrentUser] = useState();
+ 
   function handleOnEnter() {
     console.log("enter", postText);
   }
-
+  
   const handleImagePost = (e) => {
     setPostImage(e.target.files);
     if (e.target.files.length !== 0) {
       setpostImagePreview(window.URL.createObjectURL(e.target.files[0]));
     }
+
   };
 
   const { values } = useFormik({
@@ -48,6 +51,25 @@ const PostComments = (props) => {
     resetForm();
   };
 
+  const Current_User=async()=>{    
+   
+    await fetch(CURENT_USER_LOGIN_API, {
+      method: "GET",
+       headers: {
+        Accept: "application/json", 
+         Authorization: `${authKey}`,
+       },
+    })
+       .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          setCurrentUser(result.data);
+          // console.log("user",result.data);
+        }
+      })
+      .catch((err) => console.log(err)); 
+  }
+ 
   function postComment(e) {
     e.preventDefault();
 
@@ -59,6 +81,7 @@ const PostComments = (props) => {
     if (postImage.length > 0) {
       for (let i = 0; i < postImage.length; i++) {
         dataForm.append("comments[comment_attachments][]", postImage[i]);
+       
       }
     }
     // setLoading(true);
@@ -114,6 +137,14 @@ const PostComments = (props) => {
     setpostImagePreview("");
     setPostImage("");
   }
+
+  const clearPic =()=>{
+    setpostImagePreview('');
+    setPostImage('');
+  }
+  useEffect(() => {
+    Current_User();
+  },[])
   return (
     <Fragment>
       <div className="relative w-full mt-[14px]">
@@ -126,9 +157,37 @@ const PostComments = (props) => {
             onEnter={handleOnEnter}
             placeholder="Your comment"
           />
+            {postImagePreview?(
+              <div className="relative w-1/4 mt-2">
+                <img
+                src={postImagePreview}
+                className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
+                alt=""/>
+                
+                <div className="bg-indigo-100 absolute top-4 right-0 z-10 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
+                onClick={clearPic} >
+                  <TrashIcon className="w-5 h-5 text-indigo-600" />
+                </div>
+              </div>
+              ):('')}
         </div>
         <div className="absolute top-2 left-0">
-          <Image src={ProfileAvatar} width={34} height={34} alt="" />
+          {currentUser? (
+            currentUser.display_photo_url?(
+              <img
+              src={currentUser.display_photo_url}
+              className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
+              width={34} 
+              height={34} alt="" />
+            ):(
+              <Image 
+             src={ProfileAvatar} 
+             width={34} 
+             height={34} alt="" />
+            )
+          ):("")}
+          
+         
         </div>
         <div className="flex items-center absolute top-3 right-0 ">
           <div className="">
@@ -157,7 +216,7 @@ const PostComments = (props) => {
                 onClick={postComment}
               />
             </button>
-          </div>
+          </div>         
         </div>
       </div>
     </Fragment>
