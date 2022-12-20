@@ -16,6 +16,7 @@ import { useRouter } from "next/router";
 
 const GroupMembers = () => {
   const [member,setmember] = useState();
+  const [count,setcount] = useState();
 
   const router = useRouter();
   const data = router.asPath;
@@ -48,9 +49,27 @@ const GroupMembers = () => {
     .then((resp) => resp.json())
     .then((result) => {
       setmember(result.data);
-      console.log(result.data)
+      if(result.data){
+        setcount(result.data.length)
+        }
     })
   }
+  // Make admin
+  const makeAdmin =(id,type,name)=>{
+    const res = fetch(GROUP_API +"/add_remove_admin?id="+id+"&member_type="+type , {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      Authorization: `${authKey}`,
+    },
+    })
+    .then((resp) => resp.json())
+    .then((result) => {
+      GetMember();
+      alert("Now "+name+" is Group Admin");
+    })
+  }
+
   useEffect(() => {
     GetMember();
   },[])
@@ -60,7 +79,11 @@ const GroupMembers = () => {
         <div className="bg-white rounded-xl mt-8">
           <div className="flex justify-between items-center border-b-1 p-4">
             <div className="heading">Group Members</div>
-            <div className=""> 148</div>
+            {count?(
+              <div className="">{count}</div>  
+            ):(
+              <div className="">0</div>
+            )}
           </div>
           <div className="relative text-gray-500 flex justify-end mt-5 mr-5">
             <input
@@ -77,7 +100,9 @@ const GroupMembers = () => {
           </div>
           <div className="border-b-1">
             {member?(
-              member.map((i)=>(
+              member.map((i)=>{
+                if(i.member_type=="member")
+                return(
                 <div className="request-profile flex  px-4 py-3 justify-between items-center" key={i.id}>
                   <div className="flex items-center gap-3">
                     {i.group_member && i.group_member.display_photo_url?(
@@ -144,266 +169,17 @@ const GroupMembers = () => {
                               <a>Block This Member</a>
                             </Menu.Item>
                             <Menu.Item className="flex gap-1 mt-2">
-                              <a>Make Admin</a>
+                              <a onClick={()=>makeAdmin(i.id,"admin",i.group_member.first_name )}>Make Admin</a>
                             </Menu.Item>
                           </div>
                         </Menu.Items>
                       </Transition>
                     </Menu>
                   </div>
-            </div>
-              ))
+                </div>
+              )})
             ):('')}
-            
           </div>
-          {/* <div className="border-b-1">
-            <div className="request-profile flex  px-4 py-3 justify-between items-center">
-              <div className="flex items-center gap-3">
-                <Link href="/news-feed">
-                  <a>
-                    <Image src={ProfileAvatar} width={35} height={35} alt="" />
-                  </a>
-                </Link>
-                <div className="">
-                  <a href="">
-                    <div className="username text-sm font-bold">User Name</div>
-                  </a>
-                  <a href="">
-                    <div className="userfield text-xs">User Added by</div>
-                  </a>
-                  <a href="">
-                    <div className="mutual-followers text-xs">
-                      Friends Add in Group
-                    </div>
-                  </a>
-                </div>
-              </div>
-              <div className="">
-                <Menu as="div" className="relative inline-block text-left">
-                  <div>
-                    <Menu.Button className="">
-                      <div className="hover:bg-indigo-100 focus:bg-indigo-100 rounded-full h-8 w-8 flex items-center justify-center">
-                        <DotsHorizontalIcon
-                          className="h-5 w-5"
-                          aria-hidden="true"
-                        />
-                      </div>
-                    </Menu.Button>
-                  </div>
-
-                  <Transition
-                    as={Fragment}
-                    enter="transition ease-out duration-200"
-                    enterFrom="opacity-0 translate-y-1"
-                    enterTo="opacity-100 translate-y-0"
-                    leave="transition ease-in duration-150"
-                    leaveFrom="opacity-100 translate-y-0"
-                    leaveTo="opacity-0 translate-y-1"
-                  >
-                    <Menu.Items className="absolute left-1/2 z-10 mt-3 w-48 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-3xl">
-                      <div className="flex items-start flex-col gap-2 border-1 bg-white rounded-xl p-3">
-                        <Menu.Item className="flex gap-1">
-                          <a href="">Remove This Member</a>
-                        </Menu.Item>
-                        <Menu.Item className="flex gap-1 mt-2">
-                          <a href="">Block This Member</a>
-                        </Menu.Item>
-                        <Menu.Item className="flex gap-1 mt-2">
-                          <a href="">Make Admin</a>
-                        </Menu.Item>
-                      </div>
-                    </Menu.Items>
-                  </Transition>
-                </Menu>
-              </div>
-            </div>
-          </div>
-          <div className="border-b-1">
-            <div className="request-profile flex  px-4 py-3 justify-between items-center">
-              <div className="flex items-center gap-3">
-                <Link href="/news-feed">
-                  <a>
-                    <Image src={ProfileAvatar} width={35} height={35} alt="" />
-                  </a>
-                </Link>
-                <div className="">
-                  <a href="">
-                    <div className="username text-sm font-bold">User Name</div>
-                  </a>
-                  <a href="">
-                    <div className="userfield text-xs">User Added by</div>
-                  </a>
-                  <a href="">
-                    <div className="mutual-followers text-xs">
-                      Friends Add in Group
-                    </div>
-                  </a>
-                </div>
-              </div>
-              <div className="">
-                <Menu as="div" className="relative inline-block text-left">
-                  <div>
-                    <Menu.Button className="">
-                      <div className="hover:bg-indigo-100 focus:bg-indigo-100 rounded-full h-8 w-8 flex items-center justify-center">
-                        <DotsHorizontalIcon
-                          className="h-5 w-5"
-                          aria-hidden="true"
-                        />
-                      </div>
-                    </Menu.Button>
-                  </div>
-
-                  <Transition
-                    as={Fragment}
-                    enter="transition ease-out duration-200"
-                    enterFrom="opacity-0 translate-y-1"
-                    enterTo="opacity-100 translate-y-0"
-                    leave="transition ease-in duration-150"
-                    leaveFrom="opacity-100 translate-y-0"
-                    leaveTo="opacity-0 translate-y-1"
-                  >
-                    <Menu.Items className="absolute left-1/2 z-10 mt-3 w-48 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-3xl">
-                      <div className="flex items-start flex-col gap-2 border-1 bg-white rounded-xl p-3">
-                        <Menu.Item className="flex gap-1">
-                          <a href="">Remove This Member</a>
-                        </Menu.Item>
-                        <Menu.Item className="flex gap-1 mt-2">
-                          <a href="">Block This Member</a>
-                        </Menu.Item>
-                        <Menu.Item className="flex gap-1 mt-2">
-                          <a href="">Make Admin</a>
-                        </Menu.Item>
-                      </div>
-                    </Menu.Items>
-                  </Transition>
-                </Menu>
-              </div>
-            </div>
-          </div>
-          <div className="border-b-1">
-            <div className="request-profile flex  px-4 py-3 justify-between items-center">
-              <div className="flex items-center gap-3">
-                <Link href="/news-feed">
-                  <a>
-                    <Image src={ProfileAvatar} width={35} height={35} alt="" />
-                  </a>
-                </Link>
-                <div className="">
-                  <a href="">
-                    <div className="username text-sm font-bold">User Name</div>
-                  </a>
-                  <a href="">
-                    <div className="userfield text-xs">User Added by</div>
-                  </a>
-                  <a href="">
-                    <div className="mutual-followers text-xs">
-                      Friends Add in Group
-                    </div>
-                  </a>
-                </div>
-              </div>
-              <div className="">
-                <Menu as="div" className="relative inline-block text-left">
-                  <div>
-                    <Menu.Button className="">
-                      <div className="hover:bg-indigo-100 focus:bg-indigo-100 rounded-full h-8 w-8 flex items-center justify-center">
-                        <DotsHorizontalIcon
-                          className="h-5 w-5"
-                          aria-hidden="true"
-                        />
-                      </div>
-                    </Menu.Button>
-                  </div>
-
-                  <Transition
-                    as={Fragment}
-                    enter="transition ease-out duration-200"
-                    enterFrom="opacity-0 translate-y-1"
-                    enterTo="opacity-100 translate-y-0"
-                    leave="transition ease-in duration-150"
-                    leaveFrom="opacity-100 translate-y-0"
-                    leaveTo="opacity-0 translate-y-1"
-                  >
-                    <Menu.Items className="absolute left-1/2 z-10 mt-3 w-48 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-3xl">
-                      <div className="flex items-start flex-col gap-2 border-1 bg-white rounded-xl p-3">
-                        <Menu.Item className="flex gap-1">
-                          <a href="">Remove This Member</a>
-                        </Menu.Item>
-                        <Menu.Item className="flex gap-1 mt-2">
-                          <a href="">Block This Member</a>
-                        </Menu.Item>
-                        <Menu.Item className="flex gap-1 mt-2">
-                          <a href="">Make Admin</a>
-                        </Menu.Item>
-                      </div>
-                    </Menu.Items>
-                  </Transition>
-                </Menu>
-              </div>
-            </div>
-          </div>
-          <div className="border-b-1">
-            <div className="request-profile flex  px-4 py-3 justify-between items-center">
-              <div className="flex items-center gap-3">
-                <Link href="/news-feed">
-                  <a>
-                    <Image src={ProfileAvatar} width={35} height={35} alt="" />
-                  </a>
-                </Link>
-                <div className="">
-                  <a href="">
-                    <div className="username text-sm font-bold">User Name</div>
-                  </a>
-                  <a href="">
-                    <div className="userfield text-xs">User Added by</div>
-                  </a>
-                  <a href="">
-                    <div className="mutual-followers text-xs">
-                      Friends Add in Group
-                    </div>
-                  </a>
-                </div>
-              </div>
-              <div className="">
-                <Menu as="div" className="relative inline-block text-left">
-                  <div>
-                    <Menu.Button className="">
-                      <div className="hover:bg-indigo-100 focus:bg-indigo-100 rounded-full h-8 w-8 flex items-center justify-center">
-                        <DotsHorizontalIcon
-                          className="h-5 w-5"
-                          aria-hidden="true"
-                        />
-                      </div>
-                    </Menu.Button>
-                  </div>
-
-                  <Transition
-                    as={Fragment}
-                    enter="transition ease-out duration-200"
-                    enterFrom="opacity-0 translate-y-1"
-                    enterTo="opacity-100 translate-y-0"
-                    leave="transition ease-in duration-150"
-                    leaveFrom="opacity-100 translate-y-0"
-                    leaveTo="opacity-0 translate-y-1"
-                  >
-                    <Menu.Items className="absolute left-1/2 z-10 mt-3 w-48 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-3xl">
-                      <div className="flex items-start flex-col gap-2 border-1 bg-white rounded-xl p-3">
-                        <Menu.Item className="flex gap-1">
-                          <a href="">Remove This Member</a>
-                        </Menu.Item>
-                        <Menu.Item className="flex gap-1 mt-2">
-                          <a href="">Block This Member</a>
-                        </Menu.Item>
-                        <Menu.Item className="flex gap-1 mt-2">
-                          <a href="">Make Admin</a>
-                        </Menu.Item>
-                      </div>
-                    </Menu.Items>
-                  </Transition>
-                </Menu>
-              </div>
-            </div>
-          </div> */}
         </div>
       </div>
     </div>

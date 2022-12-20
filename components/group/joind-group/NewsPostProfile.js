@@ -60,8 +60,7 @@ const NewsPostProfile = ({ setList }) => {
       .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-          setUserDetails(result.data);  
-          //console.log("Current Userss",result.data)
+          setUserDetails(result.data);
         }
       })
       .catch((err) => console.log(err)); 
@@ -356,7 +355,7 @@ const NewsPostProfile = ({ setList }) => {
                 <div className="font-extralight">Video Upload</div>
               </div>
 
-              <div className="flex gap-1 md:gap-2 items-center justify-center border-indigo-500">
+              {/* <div className="flex gap-1 md:gap-2 items-center justify-center border-indigo-500">
                 <CalendarIcon
                   width={22}
                   height={22}
@@ -370,8 +369,8 @@ const NewsPostProfile = ({ setList }) => {
                   }
                 />
                 <div className="font-extralight">Events</div>
-              </div>
-              <div className="flex gap-1 md:gap-2 items-center justify-center border-indigo-500">
+              </div> */}
+              {/* <div className="flex gap-1 md:gap-2 items-center justify-center border-indigo-500">
                 <div className="icon relative">
                   <Link href="/post/new">
                     <NewspaperIcon
@@ -388,7 +387,7 @@ const NewsPostProfile = ({ setList }) => {
                   </Link>
                 </div>
                 <div className="font-extralight"> Article</div>
-              </div>
+              </div> */}
             </div>
             <button
               disabled={postText == 0 ? true : false}
