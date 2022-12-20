@@ -57,7 +57,8 @@ const ProfileFeedSingle = (singleItems) => {
   const [is_deleted, setIs_deleted] = useState(0);
   const [loading, setLoading] = useState(true);
   const [nextPage, setNextPage] = useState('');
-  const [bookmarks, setBookmarks] = useState(singleItems.bookmarks);
+  const [bookmarks, setBookmarks] = useState();
+  console.log("hello",singleItems.lists)
   // Bareer Key
   if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore");}
   // Copy Link
@@ -192,8 +193,8 @@ const ProfileFeedSingle = (singleItems) => {
     .then((resp) => resp.json())
     .then((result) => {
       if (result) {
-        singleItems.setBookmarks(result.data);
-        singleItems.setBookmarks(result.data);
+        setBookmarks(result.data);
+        setBookmarks(result.data);
       }
     })
     .catch((err) => console.log(err)); 
@@ -520,7 +521,7 @@ const ProfileFeedSingle = (singleItems) => {
             </div>
             <div className="flex gap-6">
               <div className="flex gap-2 items-center">
-                {is_bookmark(items.id) == true ? (
+                {items.is_bookmark && items.is_bookmark == true ? (
                   <>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
