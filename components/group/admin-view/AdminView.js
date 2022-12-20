@@ -205,7 +205,7 @@ const AdminView = (setList, singleItem) => {
               </div>
             </div>
           </div>
-          <div className="absolute  p-2 -mt-10 ml-14 rounded-full bg-white">
+          <div className="absolute  p-2 -mt-11 ml-14 rounded-full bg-white">
             <div className="relative">
               <Link href="">
                 <a>
@@ -259,10 +259,10 @@ const AdminView = (setList, singleItem) => {
             </div>
           </div>
           {/* Name and option */}
-          <div className=" flex justify-between items-center p-5 ">
-            <div></div>
+          <div className=" flex justify-between items-center p-5 mt-0 ml-28">
+            
             {GroupData && GroupData.title?(
-              <div className="heading text-2xl text-indigo-400 font-bold">
+              <div className="heading text-2xl text-indigo-400 font-bold ml-14">
                 {GroupData.title}
               </div>
             ):(
@@ -270,7 +270,6 @@ const AdminView = (setList, singleItem) => {
                 No Name
              </div>
             )}
-            <div></div>
             <div className="">
               <Menu as="div" className="relative inline-block text-left">
                 <div>
