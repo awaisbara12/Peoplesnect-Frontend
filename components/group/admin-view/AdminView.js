@@ -205,7 +205,7 @@ const AdminView = (setList, singleItem) => {
               </div>
             </div>
           </div>
-          <div className="absolute  p-2 -mt-10 ml-14 rounded-full bg-white">
+          <div className="absolute  p-2 -mt-11 ml-14 rounded-full bg-white">
             <div className="relative">
               <Link href="">
                 <a>
@@ -259,10 +259,10 @@ const AdminView = (setList, singleItem) => {
             </div>
           </div>
           {/* Name and option */}
-          <div className=" flex justify-between items-center p-5 ">
-            <div></div>
+          <div className=" flex justify-between items-center p-5 mt-0 ml-28">
+            
             {GroupData && GroupData.title?(
-              <div className="heading text-2xl text-indigo-400 font-bold">
+              <div className="heading text-2xl text-indigo-400 font-bold ml-14">
                 {GroupData.title}
               </div>
             ):(
@@ -270,7 +270,6 @@ const AdminView = (setList, singleItem) => {
                 No Name
              </div>
             )}
-            <div></div>
             <div className="">
               <Menu as="div" className="relative inline-block text-left">
                 <div>
@@ -312,6 +311,14 @@ const AdminView = (setList, singleItem) => {
                           </a>
                         </Link>
                       </Menu.Item>
+                      <Menu.Item className="">
+                      <Link href={{pathname: "/group-page/admin-view/group-members/group-admins", query: myArray[1],}}>
+                        <a className="flex gap-1 mt-2">
+                          <UserAddIcon className="w-5 h-5" />
+                          Admin
+                        </a>
+                        </Link>
+                    </Menu.Item>
                       {GroupData && GroupData.group_type=="private_group"?(
                       <Menu.Item className="">
                       <Link href={{pathname: "/group-page/admin-view/pending-request", query: myArray[1],}}>
@@ -323,6 +330,7 @@ const AdminView = (setList, singleItem) => {
                       </Menu.Item>
                       ):('')}
                     </div>
+                    
                   </Menu.Items>
                 </Transition>
               </Menu>
