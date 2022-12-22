@@ -14,7 +14,8 @@ const Groups = () => {
   if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore"); }
   
   // join group function
-  const GroupJoinFun =(ID)=>{
+  const GroupJoinFun =(ID)=>event=>{
+    event.currentTarget.disabled = true;
     const res = fetch(JOIN_GROUP_API +"?id="+ID, {
     method: "GET",
     headers: {
@@ -429,7 +430,7 @@ const Groups = () => {
                       </Link>
                       <button 
                         className="w-full bg-indigo-400 text-white rounded-xl py-2 hover:text-indigo-400 hover:bg-transparent  border-1 border-indigo-400 mt-2 mb-4"
-                        onClick={()=>GroupJoinFun(i.id)}>
+                        onClick={GroupJoinFun(i.id)}>
                           Join Group
                       </button>
                       {/* </a> */}

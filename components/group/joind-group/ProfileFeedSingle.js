@@ -58,7 +58,7 @@ const ProfileFeedSingle = (singleItems) => {
   const [loading, setLoading] = useState(true);
   const [nextPage, setNextPage] = useState('');
   const [bookmarks, setBookmarks] = useState();
-  console.log("hello",singleItems.lists)
+  // console.log("hello",singleItems.lists)
   // Bareer Key
   if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore");}
   // Copy Link
