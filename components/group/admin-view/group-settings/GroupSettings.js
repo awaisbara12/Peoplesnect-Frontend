@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { GROUP_API } from "../../../../pages/config";
+import { GROUP_API, CURENT_USER_LOGIN_API } from "../../../../pages/config";
 
 const GroupSettings = () => {
   const [name,setname] = useState();
@@ -12,6 +12,8 @@ const GroupSettings = () => {
   const [type,settype] = useState();
   const [canpost,setcanpost] = useState();
   const [deletegroup,setdeletegroup] = useState(false);
+  const [currentUser, setCurrentUser] = useState();
+  const [group, setgroup] = useState();
   
   const router = useRouter();
   const data = router.asPath;
@@ -78,12 +80,13 @@ const GroupSettings = () => {
     })
     .then((resp) => resp.json())
     .then((result) => {
-      setname(result.data.title)
-      setdes(result.data.description)
+      setgroup(result.data);
+      setname(result.data.title);
+      setdes(result.data.description);
       settype(result.data.group_type);
-      setcanpost(result.data.can_post)
-      setdp('')
-      setcoverphoto('')
+      setcanpost(result.data.can_post);
+      setdp('');
+      setcoverphoto('');
     })
   }
   // Delete Group
@@ -104,9 +107,28 @@ const GroupSettings = () => {
 
       if(deletegroup) {setdeletegroup(false)}
   }
-useEffect(() => {
-  GetGroupDetails();
-},[])
+  const Current_User=async()=>{    
+   
+    await fetch(CURENT_USER_LOGIN_API, {
+      method: "GET",
+       headers: {
+        Accept: "application/json", 
+         Authorization: `${authKey}`,
+       },
+    })
+       .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          setCurrentUser(result.data);
+        }
+      })
+      .catch((err) => console.log(err)); 
+  }
+
+  useEffect(() => {
+    GetGroupDetails();
+    Current_User();
+  },[])
   return (
     <div>
       <div className="mt-8">
@@ -261,32 +283,34 @@ useEffect(() => {
             </button>
             </div>
             {/* Delete */}
-            <div className=" border bg-white mt-4 px-4 py-6 rounded-xl">
-              <div className="heading text-lg font-bold">
-                Permanent Delet Your Group
-              </div>
-              <div className="border hover:bg-gray-100 mt-4 p-4 bg-gray-50 hover:shadow-lg rounded-xl">
-                <div className="flex items-center justify-between ">
-                  <div className="">Delet Your Group</div>
-                  <div className="">
-                    <label
-                      htmlFor="default-toggle"
-                      className="inline-flex relative items-center cursor-pointer"
-                    >
-                      <input
-                        type="checkbox"
-                        id="default-toggle"
-                        className="sr-only peer"
-                        checked={deletegroup===true}
-                        onChange={toggler}
-                    
-                      />
-                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
+            {currentUser && currentUser.id == group.owner.id ? (
+               <div className=" border bg-white mt-4 px-4 py-6 rounded-xl">
+               <div className="heading text-lg font-bold">
+                 Permanent Delete Your Group
+               </div>
+               <div className="border hover:bg-gray-100 mt-4 p-4 bg-gray-50 hover:shadow-lg rounded-xl">
+                 <div className="flex items-center justify-between ">
+                   <div className="">Delete Your Group</div>
+                   <div className="">
+                     <label
+                       htmlFor="default-toggle"
+                       className="inline-flex relative items-center cursor-pointer"
+                     >
+                       <input
+                         type="checkbox"
+                         id="default-toggle"
+                         className="sr-only peer"
+                         checked={deletegroup===true}
+                         onChange={toggler}
+                     
+                       />
+                       <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                     </label>
+                   </div>
+                 </div>
+               </div>
+             </div>
+            ):("")}
           </div>
         </div>
       </div>

@@ -35,7 +35,7 @@ import {
 import { useFormik } from "formik";
 import { eventScheema } from "../../auth/schemas/CreateEventScheema";
 import { Dialog } from "@headlessui/react";
-import { GROUP_API, POST_NEWSFEED_API_KEY } from "../../../pages/config";
+import { GROUP_API, CURENT_USER_LOGIN_API } from "../../../pages/config";
 import Spinner from "../../common/Spinner";
 
 function classNames(...classes) {
@@ -82,6 +82,8 @@ const AdminView = (setList, singleItem) => {
   const [GroupData, setGroupData] = useState({});              // Group Data
   const [postdp, setPostdp] = useState([]);                    // dp Post Image
   const [postdpPreview, setpostdpPreview] = useState();        // dp Preview photo
+  const [currentUser, setCurrentUser] = useState();
+  const [admins,setadmins] = useState();
 
   const router = useRouter();
   const data = router.asPath;
@@ -147,8 +149,42 @@ const AdminView = (setList, singleItem) => {
         
       })
   }
+  const Current_User=async()=>{    
+   
+    await fetch(CURENT_USER_LOGIN_API, {
+      method: "GET",
+       headers: {
+        Accept: "application/json", 
+         Authorization: `${authKey}`,
+       },
+    })
+       .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          setCurrentUser(result.data);
+          // console.log("user",result.data);
+        }
+      })
+      .catch((err) => console.log(err)); 
+  }
+
+  const GetAdmins =()=>{
+    fetch(GROUP_API +"/get_group_admin?group_id="+myArray[1] , {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      Authorization: `${authKey}`,
+    },
+    })
+    .then((resp) => resp.json())
+    .then((result) => {
+      setadmins(result.data);
+    })
+  };
   useEffect(() => {
+    Current_User();
     GetGroupDetails();
+    GetAdmins();
   },[])
   const [items, setItems] = useState(singleItem.items);
   return (
@@ -349,7 +385,9 @@ const AdminView = (setList, singleItem) => {
           </a>
         </div>
       </div> */}
-      <ProfileFeed/>
+     {currentUser && GroupData ?(
+        <ProfileFeed currentUser={currentUser} group={GroupData} admins={admins}/>
+      ):("")}
     </div>
   );
 };
