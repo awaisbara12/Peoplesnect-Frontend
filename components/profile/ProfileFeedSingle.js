@@ -70,7 +70,6 @@ const ProfileFeedSingle = (singleItems) => {
   const [event_type, setevent_type] = useState();       // Event type
   const [EditText, setEditText] = useState(singleItems.lists.body);  // get text for editing
   const [bookmarks, setBookmarks] = useState(singleItems.bookmarks);
-
   const [spinner, setSpinner] = useState(false);
   
   // Bareer Key
@@ -174,6 +173,7 @@ const ProfileFeedSingle = (singleItems) => {
       setUP_pic(window.URL.createObjectURL(e.target.files[0]));
     }
   };
+  //Edited vedio
   const handleVideo = (e) => {
     setUP_pic('');
     setU_pic(e.target.files[0]);
@@ -182,31 +182,27 @@ const ProfileFeedSingle = (singleItems) => {
     //  console.log("Check",URL.createObjectURL(U_pic))
     }
   };
+  //  remover preview
   const handleCoverReomve = (e) => {
     setUP_pic(window.URL.revokeObjectURL(e.target.files));
   };
-
-
+  // Update feed
   function UpdateFeed(id, feedType) {
     setEditOn('');
-    setUP_pic('');
+    //  setUP_pic('');
     const dataForm = new FormData();
     dataForm.append("news_feeds[body]", EditText);
     // dataForm.append("news_feeds[feed_type]", feedType);
     if (feedType === "event_feed") {
       dataForm.append("events[name]", eventame);
       dataForm.append("events[event_type]", event_type);
-      
       if(U_pic){dataForm.append("events[cover_photo]", U_pic);}
       // dataForm.append("events[event_timezone]", selectedTimezone.label);
       dataForm.append("events[start_date]", S_date);
       dataForm.append("events[end_date]", E_date);
       dataForm.append("events[start_time]", S_time);
       dataForm.append("events[end_time]", E_time);
-      // dataForm.append("events[event_link]", values.externalLink);
-      // dataForm.append("events[description]", values.description);
-      // dataForm.append("events[address]", values.address);
-      // dataForm.append("events[venue]", values.venue);
+      
     }
     else{
       if(U_pic){dataForm.append("news_feeds[feed_attachments][]", U_pic);}
@@ -224,10 +220,8 @@ const ProfileFeedSingle = (singleItems) => {
       .then((result) => {
         if (result) {
           console.log("update",result)
-          //  setItems(result.data)
           setItems(result.data);
-          // setUP_pic(window.URL.revokeObjectURL(U_pic));
-           getNewsFeed();
+          //getNewsFeed();
         }
       })
       .catch((err) => console.log(err));
@@ -395,7 +389,7 @@ const ProfileFeedSingle = (singleItems) => {
   const handleClick = () => {
     setIsActive((current) => !current);
   };
-  
+ 
   return (
     <>
      <div className="w-[600px] xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">
@@ -752,11 +746,11 @@ const ProfileFeedSingle = (singleItems) => {
             ):(
             <>
               <video controls className="aspect-video w-full rounded-xl my-4">
-                <source src={items.attachments_link} type="video/mp4" />
+                <source src={UP_pic? UP_pic : items.attachments_link} type="video/mp4" />
               </video>
             </>)
           ) : ("")}
-          {UP_pic && items.feed_type && items.feed_type === "video_feed"?(
+          {EditOn && UP_pic && items.feed_type && items.feed_type === "video_feed"?(
             <>
               <div className="relative">
                 <video autoPlay="autoplay" controls className="aspect-video rounded-xl mb-4">
