@@ -5,7 +5,6 @@ import postimage from "../../../public/images/752126.jpg";
 import { GROUP_API,JOIN_GROUP_API, GROUP_MEMBER_Request } from "../../../pages/config";
 import { useRouter } from "next/router";
 import Spinner from "../../../components/common/Spinner";
-import { useHistory } from "react-router-dom";
 
 
 const ReadMore = ({ children }) => {
