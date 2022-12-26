@@ -196,7 +196,8 @@ const ProfileFeedSingle = (singleItems) => {
     if (feedType === "event_feed") {
       dataForm.append("events[name]", eventame);
       dataForm.append("events[event_type]", event_type);
-      dataForm.append("events[cover_photo]", U_pic);
+      
+      if(U_pic){dataForm.append("events[cover_photo]", U_pic);}
       // dataForm.append("events[event_timezone]", selectedTimezone.label);
       dataForm.append("events[start_date]", S_date);
       dataForm.append("events[end_date]", E_date);
@@ -651,7 +652,6 @@ const ProfileFeedSingle = (singleItems) => {
                               placeholder="dd-mm-yyyy"
                               className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
                               id="startTime"
-                              required="required"
                             />
                           </>
                           <>
@@ -666,7 +666,6 @@ const ProfileFeedSingle = (singleItems) => {
                               placeholder="Event Name"
                               className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
                               id="startTime"
-                              required="required"
                             />
                           </>
                         </div>
