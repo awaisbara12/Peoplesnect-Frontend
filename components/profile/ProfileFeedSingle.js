@@ -219,7 +219,6 @@ const ProfileFeedSingle = (singleItems) => {
       .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-          console.log("update",result)
           setItems(result.data);
           //getNewsFeed();
         }
