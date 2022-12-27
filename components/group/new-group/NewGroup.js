@@ -15,7 +15,6 @@ const NewGroup = () => {
   const router = useRouter();
   const [spinner, setSpinner] = useState(false);
   const [disabled, setdisabled] = useState(false);
-  
   // Bareer Key
   if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore"); }
   //for dp
@@ -40,6 +39,7 @@ const NewGroup = () => {
     dataForm.append("groups[title]", name);
     dataForm.append("groups[description]", des);
     dataForm.append("groups[group_type]", type);
+    dataForm.append("groups[can_post]", canpost);
     if(dp){dataForm.append("groups[display_image]", dp);}
     if(coverphoto){dataForm.append("groups[cover_image]", coverphoto);}
       const res = fetch(GROUP_API, {
@@ -62,11 +62,9 @@ const NewGroup = () => {
         setcanpost('');
         setSpinner(false);
         setdisabled(false);
-        alert("You have created group " + result.data.title);
         router.push('/group-page/joind-group?'+result.data.id);
       })
   }
-
   return (
     <div>
       <div className="mt-8">
@@ -179,8 +177,8 @@ const NewGroup = () => {
                         type="radio"
                         name="default-radio"
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-indigo-400 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                        value="all"
-                        checked={canpost==="all"}
+                        value="all_member"
+                        checked={canpost==="all_member"}
                         onChange={(e)=>setcanpost(e.target.value)}                        
                       />
                       <label
@@ -211,15 +209,25 @@ const NewGroup = () => {
                 </div>
               </div>
             </div>
-          </div>
-
-          <div className="flex justify-end mt-5">
+          </div> 
+          {name && des && dp.length!=0 && coverphoto.length!=0 && type && canpost?(
+            <div className="flex justify-end mt-5">
             <button 
               className="border-2 border-indigo-400 bg-indigo-400 p-2 rounded-full text-white font-bold"
               onClick={()=>CreateGroup()} disabled={disabled}>
               Create New Group {spinner && true ? <Spinner /> : ""}
             </button>
           </div>
+          ):(
+            <div className="flex justify-end mt-5">
+            <button 
+              className="border-2 border-indigo-100 bg-indigo-0 p-2 rounded-full text-white font-bold"
+               disabled={true}>
+              Create New Group {spinner && true ? <Spinner /> : ""}
+            </button>
+          </div>
+          )}
+          
         </div>
       </div>
     </div>
