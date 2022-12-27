@@ -70,6 +70,7 @@ const ProfileFeedSingle = (singleItems) => {
   const [event_type, setevent_type] = useState();       // Event type
   const [EditText, setEditText] = useState(singleItems.lists.body);  // get text for editing
   const [bookmarks, setBookmarks] = useState(singleItems.bookmarks);
+  const [hidebutton, sethidebutton] = useState(true);
 
   const [spinner, setSpinner] = useState(false);
   
@@ -140,6 +141,7 @@ const ProfileFeedSingle = (singleItems) => {
  const EditFeed=(uid)=>{
    alert("ues"+uid);
    setEditOn(uid);
+   sethidebutton(true);
   };
   // Confirmation Edit Or Delete
   const optionConfirm=(uid,name,item)=>{
@@ -181,15 +183,18 @@ const ProfileFeedSingle = (singleItems) => {
      setUP_pic(URL.createObjectURL(e.target.files[0]));
     //  console.log("Check",URL.createObjectURL(U_pic))
     }
+    // sethidebutton(false);
   };
   const handleCoverReomve = (e) => {
     setUP_pic(window.URL.revokeObjectURL(e.target.files));
+    // sethidebutton(false);
   };
 
 
   function UpdateFeed(id, feedType) {
     setEditOn('');
-    setUP_pic('');
+    // setUP_pic('');
+    sethidebutton(false);
     const dataForm = new FormData();
     dataForm.append("news_feeds[body]", EditText);
     // dataForm.append("news_feeds[feed_type]", feedType);
@@ -750,11 +755,12 @@ const ProfileFeedSingle = (singleItems) => {
                 )}
               </>
             ):(
+              UP_pic?(""):(
             <>
               <video controls className="aspect-video w-full rounded-xl my-4">
                 <source src={items.attachments_link} type="video/mp4" />
               </video>
-            </>)
+            </>))
           ) : ("")}
           {UP_pic && items.feed_type && items.feed_type === "video_feed"?(
             <>
@@ -762,11 +768,13 @@ const ProfileFeedSingle = (singleItems) => {
                 <video autoPlay="autoplay" controls className="aspect-video rounded-xl mb-4">
                   <source src={UP_pic} type="video/mp4" />
                 </video>
+                {hidebutton ? (
                 <div onClick={handleCoverReomve} className="bg-indigo-100 absolute top-4 right-4 z-50 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full">
                   <TrashIcon className="w-5 h-5 text-indigo-600" />
-                </div>
+                </div>):("")}
               </div>
-              <div className="flex gap-5">
+              {hidebutton ? (
+                <div className="flex gap-5">
                 <div className="relative flex gap-1 md:gap-2 items-center justify-center">
                   <div className="relative flex items-center justify-center">
                     <VideoCameraIcon
@@ -790,6 +798,7 @@ const ProfileFeedSingle = (singleItems) => {
                   Update {spinner && true ? <Spinner /> : ""}
                 </button>
               </div>
+              ):("")}
             </>
           ):(
           ""           
