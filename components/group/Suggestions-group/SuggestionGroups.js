@@ -49,10 +49,11 @@ const SuggestionGroups = () => {
     .then((resp) => resp.json())
     .then((result) => {
       if(groupDetail && groupDetail.group_type != "private_group"){
-        router.push('/group-page');
-      }else{
         setjoin(true);
-        router.push('/group-page');
+        router.push('/group-page/joind-group?'+myArray[1]);
+      }else{
+        // setjoin(true);
+        // router.push('/group-page');
         GetMemberRequest();
       }
       
