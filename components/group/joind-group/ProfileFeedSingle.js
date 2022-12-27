@@ -140,7 +140,6 @@ const ProfileFeedSingle = (singleItems) => {
   };
   // update user newsfeed's post
  const EditFeed=(uid)=>{
-   alert("ues"+uid);
    setEditOn(uid);
   };
   // Confirmation Edit Or Delete
