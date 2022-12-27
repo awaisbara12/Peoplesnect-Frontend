@@ -42,6 +42,7 @@ export const PAGES_API= process.env.NEXT_PUBLIC_PAGES
 export const LIKE_PAGES_API= process.env.NEXT_PUBLIC_LIKED_PAGES
 export const PAGE_REQUEST_API= process.env.NEXT_PUBLIC_PAGE_REQUEST
 export const GROUP_MEMBERS_API= process.env.NEXT_PUBLIC_GROUP_MEMBER
+export const GROUP_MEMBER_Request= process.env.NEXT_PUBLIC_GROUP_MEMBER_Request
 
 function Config() {
   return <></>;

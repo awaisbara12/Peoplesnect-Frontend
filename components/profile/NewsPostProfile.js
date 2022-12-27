@@ -92,9 +92,6 @@ const NewsPostProfile = ({ setList }) => {
     setVideoSrc(e.target.files[0]);
     if (e.target.files.length !== 0) {
       setVideoPreview(URL.createObjectURL(e.target.files[0]));
-      console.log("post",URL.createObjectURL(e.target.files[0]))
-      console.log("post uplod",e.target.files[0])
-    
     }
   };
 

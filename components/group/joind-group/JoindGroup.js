@@ -107,12 +107,15 @@ const JoindGroup = (setList, singleItem) => {
   let [isOpen, setIsOpen] = useState(false);
 
   const [group, setgroup] = useState();
-   
+  const [admins,setadmins] = useState();
 
   const router = useRouter();
   const data = router.asPath;
   const myArray = data.split("?");
-  // console.log(myArray[1]);
+  console.log(admins);
+  console.log(currentUser);
+  console.log(group);
+
   const handleImageSelect = (e) => {
     setEventCoverImage(e.target.files[0]);
     if (e.target.files.length !== 0) {
@@ -227,7 +230,6 @@ const JoindGroup = (setList, singleItem) => {
       .then((result) => {
         if (result) {
           setCurrentUser(result.data);
-          // console.log("user",result.data);
         }
       })
       .catch((err) => console.log(err)); 
@@ -260,9 +262,37 @@ const JoindGroup = (setList, singleItem) => {
       setgroup(result.data);
     })
   }
+
+  function isadmin(admin,user_id)
+  {
+    // console.log("hrllo");
+    for(var i=0; i < admin.length; i++){
+     if (admin[i].group_member.id == user_id)
+     {
+      return true;
+     }
+    }
+    return false;
+  }
+
+
+  const GetAdmins =()=>{
+    fetch(GROUP_API +"/get_group_admin?group_id="+myArray[1] , {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      Authorization: `${authKey}`,
+    },
+    })
+    .then((resp) => resp.json())
+    .then((result) => {
+      setadmins(result.data);
+    })
+  };
   useEffect(() => {
     Current_User();
     GetGroup();
+    GetAdmins();
   },[])
 
   return (
@@ -353,37 +383,47 @@ const JoindGroup = (setList, singleItem) => {
                             Notifications
                           </a>
                         </Menu.Item> */}
-                        <Menu.Item className="flex gap-1 mt-2">
-                          <a href="">
-                            <MailIcon className="h-5 w-5" />
-                            Report
-                          </a>
-                        </Menu.Item>
-                        { currentUser ?(currentUser.id != group.owner.id ? (
-                          <Menu.Item className="flex gap-1 mt-2">
-                            
-                              <a onClick={()=>LeaveGroup()}>
-                                <LogoutIcon className="h-5 w-5" />
-                                Leave
+                        { currentUser ?(!(admins && isadmin(admins,currentUser.id)) && currentUser.id != group.owner.id ? (
+                          <div>
+                            <Menu.Item className="flex gap-1 mt-2">
+                              <a href="">
+                                <MailIcon className="h-5 w-5" />
+                                Report
                               </a>
-                            
-                          </Menu.Item>
+                            </Menu.Item> 
+                            <Menu.Item className="flex gap-1 mt-2">
+                              
+                                <a onClick={()=>LeaveGroup()}>
+                                  <LogoutIcon className="h-5 w-5" />
+                                  Leave
+                                </a>
+                              
+                            </Menu.Item>
+                          </div>
                         ):(
-                          <Menu.Item className="flex gap-1 mt-2">
-                            <Link href={{pathname: "/group-page/admin-view", query: myArray[1]}} onClick={()=>alert("yes")}>      
-                              <a className="flex">
-                                <UserCircleIcon className="h-5 w-5" />
-                                View As Admin
-                              </a>
-                            </Link>
-                          </Menu.Item>
+                         ""
                         )):("")
+                        }
+                        {
+                          currentUser && group?(
+                            (admins && isadmin(admins,currentUser.id)) || group.owner.id == currentUser.id?(
+                              <Menu.Item className="flex gap-1 mt-2">
+                              <Link href={{pathname: "/group-page/admin-view", query: myArray[1]}} onClick={()=>alert("yes")}>      
+                                <a className="flex">
+                                  <UserCircleIcon className="h-5 w-5" />
+                                  View As Admin
+                                </a>
+                              </Link>
+                            </Menu.Item>
+                            ):("")
+                          ):("")
                         }
                       </div>
                     </Menu.Items>
                   </Transition>
                 </Menu>
               </div>
+              {currentUser && group ? (!(admins && isadmin(admins,currentUser.id)) && group.owner.id != currentUser.id?(
               <Link href={{pathname: "/group-page/joind-group/group-members", query: myArray[1]}}>
               <a>
                 <div className="border border-indigo-400 py-2 px-3 text-indigo-400 rounded-full">
@@ -391,6 +431,7 @@ const JoindGroup = (setList, singleItem) => {
                 </div>
               </a>
               </Link>
+              ):("")):("")}
             </div>
             <div className="Details mt-5">
               <div className="font-extralight">
@@ -402,7 +443,9 @@ const JoindGroup = (setList, singleItem) => {
           </div>
         </div>
       </div>
-      <ProfileFeed />
+      {currentUser && group ?(
+        <ProfileFeed currentUser={currentUser} group={group} admins={admins}/>
+      ):("")}
     </div>
   );
 };
