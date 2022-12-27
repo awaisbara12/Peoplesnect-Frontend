@@ -265,7 +265,7 @@ const JoindGroup = (setList, singleItem) => {
 
   function isadmin(admin,user_id)
   {
-    console.log("hrllo");
+    // console.log("hrllo");
     for(var i=0; i < admin.length; i++){
      if (admin[i].group_member.id == user_id)
      {
@@ -383,21 +383,23 @@ const JoindGroup = (setList, singleItem) => {
                             Notifications
                           </a>
                         </Menu.Item> */}
-                        <Menu.Item className="flex gap-1 mt-2">
-                          <a href="">
-                            <MailIcon className="h-5 w-5" />
-                            Report
-                          </a>
-                        </Menu.Item>
-                        { currentUser ?(currentUser.id != group.owner.id ? (
-                          <Menu.Item className="flex gap-1 mt-2">
-                            
-                              <a onClick={()=>LeaveGroup()}>
-                                <LogoutIcon className="h-5 w-5" />
-                                Leave
+                        { currentUser ?(!(admins && isadmin(admins,currentUser.id)) && currentUser.id != group.owner.id ? (
+                          <div>
+                            <Menu.Item className="flex gap-1 mt-2">
+                              <a href="">
+                                <MailIcon className="h-5 w-5" />
+                                Report
                               </a>
-                            
-                          </Menu.Item>
+                            </Menu.Item> 
+                            <Menu.Item className="flex gap-1 mt-2">
+                              
+                                <a onClick={()=>LeaveGroup()}>
+                                  <LogoutIcon className="h-5 w-5" />
+                                  Leave
+                                </a>
+                              
+                            </Menu.Item>
+                          </div>
                         ):(
                          ""
                         )):("")
@@ -421,6 +423,7 @@ const JoindGroup = (setList, singleItem) => {
                   </Transition>
                 </Menu>
               </div>
+              {currentUser && group ? (!(admins && isadmin(admins,currentUser.id)) && group.owner.id != currentUser.id?(
               <Link href={{pathname: "/group-page/joind-group/group-members", query: myArray[1]}}>
               <a>
                 <div className="border border-indigo-400 py-2 px-3 text-indigo-400 rounded-full">
@@ -428,6 +431,7 @@ const JoindGroup = (setList, singleItem) => {
                 </div>
               </a>
               </Link>
+              ):("")):("")}
             </div>
             <div className="Details mt-5">
               <div className="font-extralight">
