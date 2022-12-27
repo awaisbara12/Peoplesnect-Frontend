@@ -55,6 +55,8 @@ const ProfileFeedSingle = (singleItems) => {
   const [loading, setLoading] = useState(true);
   const [nextPage, setNextPage] = useState('');
   const [bookmarks, setBookmarks] = useState(singleItems.bookmarks);
+  const [spinner, setSpinner] = useState(false);
+  
   // Bareer Key
   if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore");}
   // Copy Link
@@ -124,8 +126,89 @@ const ProfileFeedSingle = (singleItems) => {
   // Confirmation Edit Or Delete
   const optionConfirm=(uid,name)=>{
     if (name=="Delete"){DeleteNewsFeed(uid);}
-    if (name=="Edit"){EditFeed(uid);}
+    if (name=="Edit")
+    { 
+      if(item && item.event)
+      {
+        EditFeed(uid);
+        setEditPic(item.event.cover_photo_url);
+        setS_time(item.event.start_time)
+        setE_time(item.event.end_time)
+        setS_date(item.event.start_date)
+        setE_date(item.event.end_date)
+        setevent_type(item.event.event_type)
+        seteventname(item.event.name)
+      }
+      else if(item && item.attachments_link){
+        EditFeed(uid);
+        setEditPic(item.attachments_link);
+      }
+      else if(item){
+        EditFeed(uid);
+      }
+    }
+    
   };
+  //Edited image
+  const handleImage = (e) => {
+    setU_pic(e.target.files[0]);
+    if (e.target.files.length !== 0) {
+      setUP_pic(window.URL.createObjectURL(e.target.files[0]));
+    }
+  };
+  //Edited vedio
+  const handleVideo = (e) => {
+    setUP_pic('');
+    setU_pic(e.target.files[0]);
+    if (e.target.files.length !== 0) {
+     setUP_pic(URL.createObjectURL(e.target.files[0]));
+    //  console.log("Check",URL.createObjectURL(U_pic))
+    }
+  };
+  //  remover preview
+  const handleCoverReomve = (e) => {
+    setUP_pic(window.URL.revokeObjectURL(e.target.files));
+  };
+  // Update feed
+  function UpdateFeed(id, feedType) {
+    setEditOn('');
+    //  setUP_pic('');
+    const dataForm = new FormData();
+    dataForm.append("news_feeds[body]", EditText);
+    // dataForm.append("news_feeds[feed_type]", feedType);
+    if (feedType === "event_feed") {
+      dataForm.append("events[name]", eventame);
+      dataForm.append("events[event_type]", event_type);
+      if(U_pic){dataForm.append("events[cover_photo]", U_pic);}
+      // dataForm.append("events[event_timezone]", selectedTimezone.label);
+      dataForm.append("events[start_date]", S_date);
+      dataForm.append("events[end_date]", E_date);
+      dataForm.append("events[start_time]", S_time);
+      dataForm.append("events[end_time]", E_time);
+      
+    }
+    else{
+      if(U_pic){dataForm.append("news_feeds[feed_attachments][]", U_pic);}
+    }
+    // setLoading(true);
+    fetch(POST_NEWSFEED_API_KEY+"/"+id, {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
+      body: dataForm,
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          setItems(result.data);
+          //getNewsFeed();
+        }
+      })
+      .catch((err) => console.log(err));
+      setSpinner(false)
+  }
 
   function addHeart(feedId) {
     const dataForm = new FormData();
@@ -288,7 +371,7 @@ const ProfileFeedSingle = (singleItems) => {
   const handleClick = () => {
     setIsActive((current) => !current);
   };
-  
+ 
   return (
     <>
      <div className="w-[600px] xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">
@@ -432,8 +515,44 @@ const ProfileFeedSingle = (singleItems) => {
           {items.feed_type && items.feed_type === "video_feed" ? (
             <>
               <video controls className="aspect-video w-full rounded-xl my-4">
-                <source src={items.attachments_link} type="video/mp4" />
+                <source src={UP_pic? UP_pic : items.attachments_link} type="video/mp4" />
               </video>
+            </>)
+          ) : ("")}
+          {EditOn && UP_pic && items.feed_type && items.feed_type === "video_feed"?(
+            <>
+              <div className="relative">
+                <video autoPlay="autoplay" controls className="aspect-video rounded-xl mb-4">
+                  <source src={UP_pic} type="video/mp4" />
+                </video>
+                <div onClick={handleCoverReomve} className="bg-indigo-100 absolute top-4 right-4 z-50 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full">
+                  <TrashIcon className="w-5 h-5 text-indigo-600" />
+                </div>
+              </div>
+              <div className="flex gap-5">
+                <div className="relative flex gap-1 md:gap-2 items-center justify-center">
+                  <div className="relative flex items-center justify-center">
+                    <VideoCameraIcon
+                      width={22}
+                      height={22}
+                      className="text-indigo-400"
+                    />
+                    <input
+                      type={`file`}
+                      name="video"
+                      id="video"
+                      onChange={handleVideo}
+                      title={""}
+                      className="opacity-0 absolute w-6 h-6 -z-0"
+                    />
+                  </div>
+                  <div className="font-extralight">Video Upload</div>
+                </div>
+                <button className={`w-[100px] h-8 rounded-full flex gap-1 items-center justify-center bg-indigo-400 text-white cursor-pointer`}
+                  onClick={()=>UpdateFeed(items.id,items.feed_type )}>
+                  Update {spinner && true ? <Spinner /> : ""}
+                </button>
+              </div>
             </>
           ) : (
             ""
