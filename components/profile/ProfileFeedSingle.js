@@ -14,14 +14,11 @@ import {
   XCircleIcon,
   PencilAltIcon,
   TrashIcon,
-  VideoCameraIcon,
-  PhotographIcon,
 } from "@heroicons/react/outline";
 import { CalendarIcon } from "@heroicons/react/solid";
 import { Popover, Transition } from "@headlessui/react";
 import Link from "next/link";
 import ProfileAvatar from "../../public/images/profile-avatar.png";
-
 import PostImage from "../../public/images/post-image.png";
 import axios from "axios";
 import {
@@ -34,7 +31,6 @@ import {
 import PostComments from "./comments/PostComments";
 import FilterComments from "./comments/FilterComments";
 import ReplyComments from "./comments/ReplyComments";
-import Spinner from "../common/Spinner";
 // import Spinner from "../common/Spinner";
 
 const cardDropdown = [
@@ -58,22 +54,7 @@ const ProfileFeedSingle = (singleItems) => {
   const [is_deleted, setIs_deleted] = useState(0);
   const [loading, setLoading] = useState(true);
   const [nextPage, setNextPage] = useState('');
-  const [EditOn, setEditOn] = useState();     // for on/off edit moode
-  const [EditPic, setEditPic] = useState();   // get orignal post pic/vedio
-  const [UP_pic, setUP_pic] = useState();     // Upload Preview image
-  const [U_pic, setU_pic] = useState();       // Upload image
-  const [S_time, setS_time] = useState();       // Event Start time
-  const [E_time, setE_time] = useState();       // Event End time
-  const [E_date, setE_date] = useState();       // Event End date
-  const [S_date, setS_date] = useState();       // Event start date
-  const [eventame, seteventname] = useState();       // Event name
-  const [event_type, setevent_type] = useState();       // Event type
-  const [EditText, setEditText] = useState(singleItems.lists.body);  // get text for editing
   const [bookmarks, setBookmarks] = useState(singleItems.bookmarks);
-  const [hidebutton, sethidebutton] = useState(true);
-
-  const [spinner, setSpinner] = useState(false);
-  
   // Bareer Key
   if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore");}
   // Copy Link
@@ -102,7 +83,6 @@ const ProfileFeedSingle = (singleItems) => {
     try {
       if (result.status == 200) {
         singleItems.setList(result.data.data);
-        console.log(singleItems.lists)
       }
     } catch (error) {
       console.log(error);
@@ -139,105 +119,13 @@ const ProfileFeedSingle = (singleItems) => {
   };
   // update user newsfeed's post
  const EditFeed=(uid)=>{
-   alert("ues"+uid);
-   setEditOn(uid);
-   sethidebutton(true);
+   alert(" ues"+uid);
   };
   // Confirmation Edit Or Delete
-  const optionConfirm=(uid,name,item)=>{
+  const optionConfirm=(uid,name)=>{
     if (name=="Delete"){DeleteNewsFeed(uid);}
-    if (name=="Edit")
-    { 
-      if(item && item.event)
-      {
-        EditFeed(uid);
-        setEditPic(item.event.cover_photo_url);
-        setS_time(item.event.start_time)
-        setE_time(item.event.end_time)
-        setS_date(item.event.start_date)
-        setE_date(item.event.end_date)
-        setevent_type(item.event.event_type)
-        seteventname(item.event.name)
-      }
-      else if(item && item.attachments_link){
-        EditFeed(uid);
-        setEditPic(item.attachments_link);
-      }
-      else if(item){
-        EditFeed(uid);
-      }
-    }
-    
+    if (name=="Edit"){EditFeed(uid);}
   };
-  //Edited image
-  const handleImage = (e) => {
-    setU_pic(e.target.files[0]);
-    if (e.target.files.length !== 0) {
-      setUP_pic(window.URL.createObjectURL(e.target.files[0]));
-    }
-  };
-  const handleVideo = (e) => {
-    setUP_pic('');
-    setU_pic(e.target.files[0]);
-    if (e.target.files.length !== 0) {
-     setUP_pic(URL.createObjectURL(e.target.files[0]));
-    //  console.log("Check",URL.createObjectURL(U_pic))
-    }
-    // sethidebutton(false);
-  };
-  const handleCoverReomve = (e) => {
-    setUP_pic(window.URL.revokeObjectURL(e.target.files));
-    // sethidebutton(false);
-  };
-
-
-  function UpdateFeed(id, feedType) {
-    setEditOn('');
-    // setUP_pic('');
-    sethidebutton(false);
-    const dataForm = new FormData();
-    dataForm.append("news_feeds[body]", EditText);
-    // dataForm.append("news_feeds[feed_type]", feedType);
-    if (feedType === "event_feed") {
-      dataForm.append("events[name]", eventame);
-      dataForm.append("events[event_type]", event_type);
-      
-      if(U_pic){dataForm.append("events[cover_photo]", U_pic);}
-      // dataForm.append("events[event_timezone]", selectedTimezone.label);
-      dataForm.append("events[start_date]", S_date);
-      dataForm.append("events[end_date]", E_date);
-      dataForm.append("events[start_time]", S_time);
-      dataForm.append("events[end_time]", E_time);
-      // dataForm.append("events[event_link]", values.externalLink);
-      // dataForm.append("events[description]", values.description);
-      // dataForm.append("events[address]", values.address);
-      // dataForm.append("events[venue]", values.venue);
-    }
-    else{
-      if(U_pic){dataForm.append("news_feeds[feed_attachments][]", U_pic);}
-    }
-    // setLoading(true);
-    fetch(POST_NEWSFEED_API_KEY+"/"+id, {
-      method: "PUT",
-      headers: {
-        Accept: "application/json",
-        Authorization: `${authKey}`,
-      },
-      body: dataForm,
-    })
-      .then((resp) => resp.json())
-      .then((result) => {
-        if (result) {
-          console.log("update",result)
-          //  setItems(result.data)
-          setItems(result.data);
-          // setUP_pic(window.URL.revokeObjectURL(U_pic));
-           getNewsFeed();
-        }
-      })
-      .catch((err) => console.log(err));
-      setSpinner(false)
-  }
 
   function addHeart(feedId) {
     const dataForm = new FormData();
@@ -445,7 +333,6 @@ const ProfileFeedSingle = (singleItems) => {
                       className={` ${
                         open ? "" : "text-opacity-90 focus-visible:outline-none"
                       }`}
-                      // onClick={()=>setEditOn('')}
                     >
                       <div className="hover:bg-indigo-100 focus:bg-indigo-100 rounded-full h-8 w-8 flex items-center justify-center">
                         <DotsHorizontalIcon className="w-5 h-5" />
@@ -466,7 +353,7 @@ const ProfileFeedSingle = (singleItems) => {
                             {cardDropdown.map((card) => (
                               <a
                                 key={card.name}
-                                onClick={()=>optionConfirm(items.id,card.name,items)}
+                                onClick={()=>optionConfirm(items.id,card.name)}
                                 href={card.id}
                                 className="-m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
                               >
@@ -492,74 +379,16 @@ const ProfileFeedSingle = (singleItems) => {
         </div>
         {/* <div className="border-1 border-gray-100"></div> */}
 
-        
         <div className="px-[22px] py-[14px]">
-        {EditOn==items.id?(
-          <textarea
-          type="text"
-          name="post-text"
-          value={EditText}
-          onChange={(e) => setEditText(e.target.value)}
-          className="w-full pt-0 resize-none border-0 px-0 text-base overflow-y-hidden outline-none focus:outline focus:ring-0"
-          placeholder="Start a post?"
-        />
-        ):(<p>{items.body ? items.body : ""}</p>)}
-          
-          {items.event && items.event ? (    
+          <p>{items.body ? items.body : ""}</p>
+          {items.event && items.event ? (
             <div className="rounded-xl bg-white border border-gray-100 my-2">
               {items.event.cover_photo_url ? (
-                EditOn==items.id?(
-                  <>
-                    {UP_pic?(
-                        <div className={`relative`}>
-                          <img src={UP_pic} className="aspect-video object-cover rounded-xl mb-4" alt=""/>
-                          <div onClick={handleCoverReomve} className="bg-indigo-100 absolute top-4 right-4 z-50 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full" >
-                            <TrashIcon className="w-5 h-5 text-indigo-600" />
-                          </div>
-                        </div>
-                    ):(
-                      <>
-                        <img
-                        src={EditPic}
-                        className="aspect-video object-cover rounded-t-xl h-[390px] w-[952px]"
-                        alt=""
-                        />
-                         <div className="flex">
-                        <div className="relative flex gap-1 md:gap-2 items-center justify-center">
-                          <div className="relative flex items-center justify-center">
-                            <PhotographIcon
-                              width={22}
-                              height={22}
-                              className="text-indigo-400"
-                            />
-                            <input
-                              type="file"
-                              name="image"
-                              id="image"
-                              className="opacity-0 absolute w-6 h-6 -z-0"
-                              onChange={handleImage}
-                              title={""}
-                              multiple
-                            />
-                          </div>
-                          <div className="font-extralight">Photo Upload</div>
-                        </div>
-                        {/* <button className={`w-[100px] h-8 rounded-full flex gap-1 items-center justify-center bg-indigo-400 text-white cursor-pointer`}
-                            onClick={()=>UpdateFeed(items.id,items.feed_type )}>
-                            Update {spinner && true ? <Spinner /> : ""}
-                        </button> */}
-                   </div>
-                        
-                      </>
-                    )}
-                  </>
-                  ):(
-                    <img
-                      src={items.event.cover_photo_url}
-                      className="aspect-video object-cover rounded-t-xl h-[390px] w-[952px]"
-                      alt=""
-                    />
-                    )
+                <img
+                  src={items.event.cover_photo_url}
+                  className="aspect-video object-cover rounded-t-xl h-[390px] w-[952px]"
+                  alt=""
+                />
               ) : (
                 ""
               )}
@@ -567,285 +396,49 @@ const ProfileFeedSingle = (singleItems) => {
                 <div className="flex justify-between items-center">
                   <div>
                     <div className="text-red-400 text-sm">
-                      {EditOn==items.id?(
-                      <div className="">
-                        {/* Event Name */}
-                        <>
-                          <label htmlFor="startdate" className="text-neutral-900 text-sm">
-                            Event Name <span className="text-red-500">*</span>
-                          </label>
-                          <input
-                            placeholder="Event Name"
-                            className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
-                            value={eventame}
-                            onChange={(e)=>seteventname(e.target.value)}
-                          />
-                            
-                        </>
-                        {/*  Radio button */}
-                        <div>
-                          <div className="flex items-center gap-4">
-                            <fieldset className="flex items-center gap-2 pt-3">
-                              <input
-                                checked={event_type=="online"}
-                                type="radio"
-                                name="event-radio"
-                                id="online"
-                                value="online"
-                                onChange={(e) => setevent_type(e.target.value)}
-                              />
-                              <label htmlFor="online">Online</label>
-                            </fieldset>
-                            <fieldset className="flex items-center gap-2 pt-3">
-                            <input
-                                checked={event_type=="in_person"}
-                                type="radio"
-                                name="event-radio"
-                                id="online"
-                                value="in_person"
-                                onChange={(e) => setevent_type(e.target.value)}
-                              />
-                              <label htmlFor="in-person">In Person</label>
-                            </fieldset>
-                          </div>
-                        </div> 
-                        {/* Time */}
-                        <div className="flex justify-end ">
-                          <>
-                            <label htmlFor="startTime" className="text-neutral-900 text-sm">
-                              Start Time <span className="text-red-500">*</span>
-                            </label>
-                            <input
-                              type="time"
-                              name="startTime"
-                              value={S_time}
-                              onChange={(e)=>setS_time(e.target.value)}
-                              placeholder="Event Name"
-                              className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
-                              id="startTime"
-                              required="required"
-                            />
-                          </>
-                          <>
-                            <label htmlFor="startTime" className="text-neutral-900 text-sm">
-                            End Time <span className="text-red-500">*</span>
-                            </label>
-                            <input
-                              type="time"
-                              name="startTime"
-                              value={E_time}
-                              onChange={(e)=>setE_time(e.target.value)}
-                              placeholder="Event Name"
-                              className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
-                              id="startTime"
-                              required="required"
-                            />
-                          </>
-                        </div>
-                        {/* Date */}
-                        <div className="flex justify-end ">
-                          <>
-                            <label htmlFor="startdate" className="text-neutral-900 text-sm">
-                              Start Date <span className="text-red-500">*</span>
-                            </label>
-                            <input
-                              type="date"
-                              name="startdate"
-                              // value={S_date}
-                              defaultValue={S_date}
-                              onChange={(e)=>setS_date(e.target.value)}
-                              placeholder="dd-mm-yyyy"
-                              className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
-                              id="startTime"
-                            />
-                          </>
-                          <>
-                            <label htmlFor="startTime" className="text-neutral-900 text-sm">
-                            End Date <span className="text-red-500">*</span>
-                            </label>
-                            <input
-                              type="date"
-                              name="startTime"
-                              value={E_date}
-                              onChange={(e)=>setE_date(e.target.value)}
-                              placeholder="Event Name"
-                              className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
-                              id="startTime"
-                            />
-                          </>
-                        </div>
-                      </div >
-                      ):(
-                      <>
-                        <span>{items.event.start_time}</span>
-                        <span>-{items.event.end_time}</span>&nbsp;
-                        <span>{items.event.start_date}</span>&nbsp;
-                        
-                        <div className="flex items-center gap-2">
-                          <CalendarIcon
-                            width={16}
-                            height={16}
-                            className="text-gray-900"
-                          />
-                          <span className="text-gray-900 text-sm">
-                            {items.event.event_type=== "in_person"?(
-                              'In Person'
-                            ):(items.event.event_type)}
-                          </span>
-                        </div>
-                        
-                        <div className="font-semibold text-lg">
-                          {items.event.name}
-                        </div>
-
-                        <Link href="/events-design/event-view">
-                          <a className="text-sm text-gray-600 cursor-pointer flex items-center border border-gray-100 rounded-full py-1 px-3">
-                            View Event
-                          </a>
-                        </Link>
-
-                      </>)}
+                      <span>{items.event.start_time}</span>
+                      <span>-{items.event.end_time}</span>&nbsp;
+                      <span>{items.event.start_date}</span>&nbsp;
                     </div>
-                    {/* <div className="text-gray-900"></div> */}
+                    <div className="font-semibold text-lg">
+                      {items.event.name}
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <CalendarIcon
+                        width={16}
+                        height={16}
+                        className="text-gray-900"
+                      />
+                      <span className="text-gray-900 text-sm">
+                        {items.event.event_type=== "in_person"?(
+                          'In Person'
+                        ):(items.event.event_type)}
+                       
+                      </span>
+                    </div>
+                    <div className="text-gray-900"></div>
                   </div>
+                  <Link href="/events-design/event-view">
+                    <a className="text-sm text-gray-600 cursor-pointer flex items-center border border-gray-100 rounded-full py-1 px-3">
+                      View Event
+                    </a>
+                  </Link>
                 </div>
               </div>
             </div>
           ) : (
             ""
           )}
-          
-          
-          
           {items.feed_type && items.feed_type === "video_feed" ? (
-            EditOn==items.id?(
-              <>
-                {UP_pic?(""):
-                (
-                  <>
-                    <video controls className="aspect-video w-full rounded-xl my-4">
-                      <source src={EditPic} type="video/mp4" />
-                    </video>
-                    <div className="flex gap-5">
-                      <div className="relative flex gap-1 md:gap-2 items-center justify-center">
-                        <div className="relative flex items-center justify-center">
-                          <VideoCameraIcon
-                            width={22}
-                            height={22}
-                            className="text-indigo-400"
-                          />
-
-                          <input
-                            type={`file`}
-                            name="video"
-                            id="video"
-                            onChange={handleVideo}
-                            title={""}
-                            className="opacity-0 absolute w-6 h-6 -z-0"
-                          />
-                        </div>
-                        <div className="font-extralight">Video Upload</div>
-                      </div>
-                      <button className={`w-[100px] h-8 rounded-full flex gap-1 items-center justify-center bg-indigo-400 text-white cursor-pointer`}
-                        onClick={()=>UpdateFeed(items.id,items.feed_type )}>
-                        Update {spinner && true ? <Spinner /> : ""}
-                      </button>
-                    </div>
-                  </>                
-                )}
-              </>
-            ):(
-              UP_pic?(""):(
             <>
               <video controls className="aspect-video w-full rounded-xl my-4">
                 <source src={items.attachments_link} type="video/mp4" />
               </video>
-            </>))
-          ) : ("")}
-          {UP_pic && items.feed_type && items.feed_type === "video_feed"?(
-            <>
-              <div className="relative">
-                <video autoPlay="autoplay" controls className="aspect-video rounded-xl mb-4">
-                  <source src={UP_pic} type="video/mp4" />
-                </video>
-                {hidebutton ? (
-                <div onClick={handleCoverReomve} className="bg-indigo-100 absolute top-4 right-4 z-50 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full">
-                  <TrashIcon className="w-5 h-5 text-indigo-600" />
-                </div>):("")}
-              </div>
-              {hidebutton ? (
-                <div className="flex gap-5">
-                <div className="relative flex gap-1 md:gap-2 items-center justify-center">
-                  <div className="relative flex items-center justify-center">
-                    <VideoCameraIcon
-                      width={22}
-                      height={22}
-                      className="text-indigo-400"
-                    />
-                    <input
-                      type={`file`}
-                      name="video"
-                      id="video"
-                      onChange={handleVideo}
-                      title={""}
-                      className="opacity-0 absolute w-6 h-6 -z-0"
-                    />
-                  </div>
-                  <div className="font-extralight">Video Upload</div>
-                </div>
-                <button className={`w-[100px] h-8 rounded-full flex gap-1 items-center justify-center bg-indigo-400 text-white cursor-pointer`}
-                  onClick={()=>UpdateFeed(items.id,items.feed_type )}>
-                  Update {spinner && true ? <Spinner /> : ""}
-                </button>
-              </div>
-              ):("")}
             </>
-          ):(
-          ""           
+          ) : (
+            ""
           )}
-
-
           {items.attachments_link && items.feed_type === "image_feed" ? (
-            EditOn==items.id?(
-              <>
-                {UP_pic?(
-                  ''
-                ):(
-                  <>
-                    <img
-                      src={EditPic}
-                      className="aspect-video object-cover rounded-t-xl h-[390px] w-[952px]"
-                      alt=""
-                    />
-                   <div className="flex">
-                    <div className="relative flex gap-1 md:gap-2 items-center justify-center">
-                      <div className="relative flex items-center justify-center">
-                        <PhotographIcon
-                          width={22}
-                          height={22}
-                          className="text-indigo-400"
-                        />
-                        <input
-                          type="file"
-                          name="image"
-                          id="image"
-                          className="opacity-0 absolute w-6 h-6 -z-0"
-                          onChange={handleImage}
-                          title={""}
-                          multiple
-                        />
-                      </div>
-                      <div className="font-extralight">Photo Upload</div>
-                    </div>
-                    <button className={`w-[100px] h-8 rounded-full flex gap-1 items-center justify-center bg-indigo-400 text-white cursor-pointer`}
-                        onClick={()=>UpdateFeed(items.id,items.feed_type )}>
-                        Update {spinner && true ? <Spinner /> : ""}
-                    </button>
-                   </div>
-                  </>
-                )}
-              </>
-            ):(
             <div className="mt-[14px]">
               <img
                 src={items.attachments_link}
@@ -855,56 +448,10 @@ const ProfileFeedSingle = (singleItems) => {
                 className="aspect-video object-cover rounded-lg mx-auto h-[390px]"
                 alt=""
               />
-            </div>)
+            </div>
           ) : (
             ""
           )}
-          {UP_pic && items.attachments_link && items.feed_type === "image_feed" ?(
-            <>
-              <div className={`relative`}>
-                <img src={UP_pic} className="aspect-video object-cover rounded-xl mb-4" alt=""/>
-                <div onClick={handleCoverReomve} className="bg-indigo-100 absolute top-4 right-4 z-50 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full" >
-                  <TrashIcon className="w-5 h-5 text-indigo-600" />
-                </div>
-              </div>
-              <div className="flex gap-10">
-                <div className="relative flex gap-1 md:gap-2 items-center justify-center">
-                  <div className="relative flex items-center justify-center">
-                    <PhotographIcon
-                      width={22}
-                      height={22}
-                      className="text-indigo-400"
-                    />
-                    <input
-                      type="file"
-                      name="image"
-                      id="image"
-                      className="opacity-0 absolute w-6 h-6 -z-0"
-                      onChange={handleImage}
-                      title={""}
-                      multiple
-                    />
-                  </div>
-                  <div className="font-extralight">Photo Upload</div>
-                </div>
-                <button className={`w-[100px] h-8 rounded-full flex gap-1 items-center justify-center bg-indigo-400 text-white cursor-pointer`}
-                    onClick={()=>UpdateFeed(items.id,items.feed_type )}>
-                    Update {spinner && true ? <Spinner /> : ""}
-                </button>
-              </div>
-            </>
-          ):('')}
-         
-         
-         {/* Update Button */}
-         {EditOn==items.id && (items.feed_type=="basic" || items.feed_type=="event_feed")?(
-          <button className={`w-[100px] h-8 rounded-full flex gap-1 items-center justify-center bg-indigo-400 text-white cursor-pointer`}
-              onClick={()=>UpdateFeed(items.id,items.feed_type )}>
-              Update {spinner && true ? <Spinner /> : ""}
-          </button>
-         ):('')}
-
-
           <div className="flex justify-between mt-[14px]">
             <div className="flex gap-6">
               <div className="flex gap-2 items-center">
@@ -997,7 +544,6 @@ const ProfileFeedSingle = (singleItems) => {
             {!loading && <ReplyComments news_feed_id={items.id} comments={comments.data} comments_count={comments_count} setComments_count={setComments_count} setComments={setComments} setIs_deleted={setIs_deleted} items={items}/>}
           </Fragment>
         </div>
-
       </div>
     </>
   );
