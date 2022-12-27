@@ -72,7 +72,7 @@ const ProfileFeed = (props) => {
           
           {list&&
             list.map((item) => (
-              <ProfileFeedSingle lists={item} setList={setList} key={item.id} />        
+              <ProfileFeedSingle lists={item} setList={setList} key={item.id} admin = {props.admins}  group = {props.group} currentUser = {props.currentUser}/>        
             )
             )
           }
