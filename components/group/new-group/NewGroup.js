@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { GROUP_API } from "../../../pages/config";
+import Spinner from "../../common/Spinner";
+import { useRouter } from "next/router";
 
 const NewGroup = () => {
   const [name,setname] = useState();
@@ -10,7 +12,9 @@ const NewGroup = () => {
   const [coverpreview,setcoverpreview] = useState();
   const [type,settype] = useState();
   const [canpost,setcanpost] = useState();
-  const [removergroup,setremovergroup] = useState();
+  const router = useRouter();
+  const [spinner, setSpinner] = useState(false);
+  const [disabled, setdisabled] = useState(false);
   
   // Bareer Key
   if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore"); }
@@ -30,6 +34,8 @@ const NewGroup = () => {
   };
   // Create Group
   const CreateGroup =()=>{
+    setSpinner(true);
+    setdisabled(true);
     const dataForm = new FormData();
     dataForm.append("groups[title]", name);
     dataForm.append("groups[description]", des);
@@ -54,6 +60,10 @@ const NewGroup = () => {
         setcoverpreview('');
         settype('');
         setcanpost('');
+        setSpinner(false);
+        setdisabled(false);
+        alert("You have created group " + result.data.title);
+        router.push('/group-page/joind-group?'+result.data.id);
       })
   }
 
@@ -62,7 +72,7 @@ const NewGroup = () => {
       <div className="mt-8">
       <div className="w-[600px] xl:w-[980px] lg:w-[710px] md:w-[780px] px-5 md:px-0 lg:px-0 xl:px-0">
           <div className="">
-            <div className="heading text-lg font-bold">Creat New Group</div>
+            <div className="heading text-lg font-bold">Create New Group</div>
             <div className="border items-center bg-white mt-4 p-10 rounded-xl">
               <div className="flex items-center justify-center gap-7">
                 <div className="text-lg font-medium">Page Title:</div>
@@ -92,7 +102,7 @@ const NewGroup = () => {
               </div>
             </div>
             <div className=" border bg-white mt-4 px-4 py-6 rounded-xl">
-              <div className="heading text-lg font-bold">Disply or Cover</div>
+              <div className="heading text-lg font-bold">Display or Cover</div>
               <div className="flex items-center justify-center gap-10 mt-5">
                 <div className="text-lg font-medium">Select Display Photo:</div>
                 <input className="" 
@@ -206,8 +216,8 @@ const NewGroup = () => {
           <div className="flex justify-end mt-5">
             <button 
               className="border-2 border-indigo-400 bg-indigo-400 p-2 rounded-full text-white font-bold"
-              onClick={()=>CreateGroup()}>
-              Creat New Group
+              onClick={()=>CreateGroup()} disabled={disabled}>
+              Create New Group {spinner && true ? <Spinner /> : ""}
             </button>
           </div>
         </div>
