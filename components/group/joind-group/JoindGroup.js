@@ -112,9 +112,9 @@ const JoindGroup = (setList, singleItem) => {
   const router = useRouter();
   const data = router.asPath;
   const myArray = data.split("?");
-  console.log(admins);
-  console.log(currentUser);
-  console.log(group);
+  // console.log(admins);
+  // console.log(currentUser);
+  // console.log(group);
 
   const handleImageSelect = (e) => {
     setEventCoverImage(e.target.files[0]);

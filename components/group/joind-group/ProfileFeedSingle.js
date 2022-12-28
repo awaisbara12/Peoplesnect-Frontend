@@ -75,7 +75,7 @@ const ProfileFeedSingle = (singleItems) => {
   const [bookmarks, setBookmarks] = useState(singleItems.bookmarks);
   const [spinner, setSpinner] = useState(false);
   const [admins,setadmins] = useState(singleItems.admin);
-  console.log("props",singleItems)
+  // console.log("props",singleItems)
   // Bareer Key
   if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore");}
   // Copy Link

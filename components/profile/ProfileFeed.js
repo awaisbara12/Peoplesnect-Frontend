@@ -6,7 +6,7 @@ import ProfileFeedSingle from "./ProfileFeedSingle";
 import axios from "axios";
 import { POST_NEWSFEED_API_KEY } from "/pages/config";
 import InfiniteScroll from 'react-infinite-scroll-component';
-import Spinner from "../common/Spinner";
+import ClipLoader from 'react-spinners/ClipLoader';
 
 const ProfileFeed = (props) => {
   const [list, setList] = useState([]);
@@ -63,8 +63,8 @@ const ProfileFeed = (props) => {
         <InfiniteScroll
           dataLength={list.length}
           next={fetchMoreData}
-          hasMore={ currentpage != null}
-          loader={ "loading.......!"}
+          hasMore={ currentpage != null }
+          loader={ <div className="flex justify-center"><ClipLoader className="my-8" color="#818CF8" size={40}/> </div>}
         >
           {list && list.length > 0 && list.map((item) => (
               <ProfileFeedSingle lists={item} setList={setList} key={item.id} bookmarks={props.bookmarks} setBookmarks={props.setBookmarks}/>        

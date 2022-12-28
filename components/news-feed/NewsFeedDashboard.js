@@ -12,7 +12,7 @@ import SugestedUser from "./sugesteduser/SugestedUser";
 import TopNavbar from "./navbar/TopNavbar";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import NewsFeedSingle from "./newsfeed/feedcard/NewsFeedSingle";
-import Spinner from "../common/Spinner";
+import ClipLoader from 'react-spinners/ClipLoader';
 
 const NewsFeedDashboard = () => {
   const [list, setList] = useState([]);
@@ -82,8 +82,8 @@ const NewsFeedDashboard = () => {
               <InfiniteScroll
                 dataLength={list.length}
                 next={fetchMoreData}
-                hasMore={ currentpage != null}
-                loader={ "loading.......!"}
+                hasMore={ currentpage != null }
+                loader={ <div className="flex justify-center"><ClipLoader className="my-8" color="#818CF8" size={40}/> </div> }
               >
                 {list && list.length > 0 && list.map((items) => (
                     <NewsFeedSingle items={items} key={items.id} />    
