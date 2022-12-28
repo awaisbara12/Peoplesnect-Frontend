@@ -3,6 +3,7 @@ import NewsFeedSingle from './NewsFeedSingle'
 // import Spinner from "../../../common/Spinner";
 
 const NewsFeedUserCard = (list) => {
+  console.log(list);
 
   return (
     <div>

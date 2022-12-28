@@ -27,7 +27,7 @@ import Spinner from "../../../common/Spinner";
 import axios from "axios";
 import NewsFeedUserCard from "../../../news-feed/newsfeed/feedcard/NewsFeedUserCard";
 
-const NewsPost = ({ setList }) => {
+const NewsPost = ( setList ) => {
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
   }
@@ -140,7 +140,8 @@ const NewsPost = ({ setList }) => {
       .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-          setList(result);
+          const mergedata = [result.data,...setList.list]
+          setList.setList(mergedata);
           setLoading(false);
         }
       })

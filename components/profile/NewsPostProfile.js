@@ -26,7 +26,7 @@ import Link from "next/link";
 import Spinner from "../common/Spinner";
 import axios from "axios";
 
-const NewsPostProfile = ({ setList }) => {
+const NewsPostProfile = ( setList ) => {
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
   }
@@ -160,9 +160,9 @@ const NewsPostProfile = ({ setList }) => {
       .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-         setList(result.data);
+          const mergedata = [result.data,...setList.lists]
+          setList.setList(mergedata);
           setLoading(false);
-         // console.log(setList);
         }
       })
       .catch((err) => console.log(err));
