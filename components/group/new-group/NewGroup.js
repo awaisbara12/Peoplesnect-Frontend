@@ -227,7 +227,6 @@ const NewGroup = () => {
             </button>
           </div>
           )}
-          
         </div>
       </div>
     </div>
