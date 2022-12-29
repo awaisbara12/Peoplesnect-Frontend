@@ -52,8 +52,7 @@ import {
   UserCircleIcon,
 } from "@heroicons/react/solid";
 import { useRouter } from "next/router";
-import ProfileFeed from "../../group/joind-group/ProfileFeed";
-import ProfileFeedSingle from "../../group/joind-group/ProfileFeedSingle";
+import ProfileFeed from "./ProfileFeed";
 
 // import Spinner from "../../../common/Spinner";
 
@@ -93,6 +92,7 @@ const LikedPages = (setList, singleItem) => {
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(false);
   let [isOpen, setIsOpen] = useState(false);
+  const [admins,setadmins] = useState();
   const router = useRouter();
   const data = router.asPath;
   const myArray = data.split("?");
@@ -131,6 +131,21 @@ const LikedPages = (setList, singleItem) => {
       })
       .catch((err) => console.log(err)); 
   }
+
+  const GetAdmins =()=>{
+    fetch(PAGES_API +"/get_page_admin?page_id="+myArray[1] , {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      Authorization: `${authKey}`,
+    },
+    })
+    .then((resp) => resp.json())
+    .then((result) => {
+      setadmins(result.data);
+      console.log(result.data)
+    })
+  };
   // Unlike Page
   const UnlikePage =()=>{
     const res = fetch(PAGES_API +"/unlike_page?id="+myArray[1] , {
@@ -145,10 +160,20 @@ const LikedPages = (setList, singleItem) => {
       router.push("/page-design");
     })
   }
+  function isadmin(admin,user_id)
+  {
+    for(var i=0; i < admin.length; i++){
+     if (admin[i].user.id == user_id)
+     {
+      return true;
+     }
+    }
+    return false;
+  }
   useEffect(() => {
     PageDetail();
     Current_User();
-    
+    GetAdmins();
   },[])
 
   
@@ -234,7 +259,7 @@ const LikedPages = (setList, singleItem) => {
                     >
                       <Menu.Items className="absolute left-1/2 z-10 mt-3 w-48 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-3xl">
                         <div className="flex items-start flex-col gap-2 border-1 bg-white rounded-xl p-3">
-                        {currentUser && Page && currentUser.id!=Page.owner.id?(
+                        {currentUser && Page && admins && (isadmin(admins,currentUser.id)!=true  && currentUser.id!=Page.owner.id)?(
                           <>
                             <Menu.Item className="flex gap-1 mt-2">
                               <a href="">
@@ -250,7 +275,7 @@ const LikedPages = (setList, singleItem) => {
                             </Menu.Item>
                           </>
                           ):('')} 
-                         {currentUser && Page && currentUser.id==Page.owner.id?( 
+                         {currentUser && Page && admins && (isadmin(admins,currentUser.id)  || currentUser.id==Page.owner.id)?(
                           <Menu.Item className="flex gap-1 mt-2">
                             <Link href={{pathname: "page-admin", query: Page.id,}}>
                             {/* <Link href="page-admin"> */}
@@ -1131,6 +1156,9 @@ const LikedPages = (setList, singleItem) => {
             </div>
           </div>
         </div> */}
+        {currentUser && Page ?(
+          <ProfileFeed currentUser={currentUser} group={Page} admins={admins}/>
+        ):("")}
       </div>
     </div>
   );
