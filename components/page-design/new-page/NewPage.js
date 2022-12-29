@@ -1,3 +1,4 @@
+import { Router, useRouter } from "next/router";
 import React, { useState } from "react";
 import { PAGES_API } from "../../../pages/config";
 
@@ -10,6 +11,8 @@ const NewPAge = () => {
   const [coverpreview,setcoverpreview] = useState();
   const [cancomment,setcancomment] = useState();
   const [canmessage,setcanmessage] = useState();
+  const [showbtn,setshowbtn] = useState(true);
+  const router = useRouter();
   // Bareer Key
   if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore"); }
   //for dp
@@ -28,6 +31,7 @@ const NewPAge = () => {
   };
    // Create Group
    const CreatePage =()=>{
+    setshowbtn(false);
     const dataForm = new FormData();
     dataForm.append("pages[name]", name);
     dataForm.append("pages[description]", des);
@@ -54,6 +58,8 @@ const NewPAge = () => {
         setcancomment('');
         setcanmessage('');
         alert("Page Created!")
+        router.push('/page-design/liked-pages?'+result.data.id);
+
       })
   }
   return (
@@ -195,13 +201,20 @@ const NewPAge = () => {
               </div>
             </div>
           </div>
-
+          {name && des && dp.length!=0 && coverphoto.length!=0 && canmessage && cancomment && showbtn==true?(
           <div className="flex justify-end mt-5">
             <button onClick={()=>CreatePage()}
               className="border-2 border-indigo-400 bg-indigo-400 p-2 rounded-full text-white font-bold">
               Creat New Page
             </button>
           </div>
+          ):(
+            <div className="flex justify-end mt-5">
+              <button disabled={true} className="border-2 border-indigo-100 bg-indigo-100 p-2 rounded-full text-white font-bold">
+                Creat New Page
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>

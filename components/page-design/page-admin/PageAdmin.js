@@ -17,6 +17,7 @@ import {
   LockClosedIcon,
   LogoutIcon,
   MailIcon,
+  PencilIcon,
   UserAddIcon,
   UserGroupIcon,
 } from "@heroicons/react/outline";
@@ -36,7 +37,7 @@ import {
 import { useFormik } from "formik";
 import { eventScheema } from "../../auth/schemas/CreateEventScheema";
 import { Dialog } from "@headlessui/react";
-import { POST_NEWSFEED_API_KEY } from "../../../pages/config";
+import { PAGES_API, POST_NEWSFEED_API_KEY } from "../../../pages/config";
 import Spinner from "../../common/Spinner";
 
 function classNames(...classes) {
@@ -56,6 +57,7 @@ import {
   ThumbUpIcon,
   UserCircleIcon,
 } from "@heroicons/react/solid";
+import { useRouter } from "next/router";
 
 // import Spinner from "../../../common/Spinner";
 
@@ -85,8 +87,6 @@ const PageAdmin = (setList, singleItem) => {
   const [postText, setPostText] = useState("");
   const [eventCoverImage, setEventCoverImage] = useState([]);
   const [previewEventCoverImage, setPreviewEventCoverImage] = useState();
-  const [postImage, setPostImage] = useState([]);
-  const [postImagePreview, setpostImagePreview] = useState();
   const [selectedTimezone, setSelectedTimezone] = useState({});
   const [inPerson, setInPerson] = useState(false);
   const [online, setOnline] = useState(false);
@@ -94,8 +94,13 @@ const PageAdmin = (setList, singleItem) => {
   const [eventType, setEventType] = useState();
   const [videoSrc, setVideoSrc] = useState([]);
   const [videoPreview, setVideoPreview] = useState();
-  let [isOpen, setIsOpen] = useState(false);
+    
 
+  const [postImagePreview, setpostImagePreview] = useState(); // cover preview
+  const [postdpPreview, setpostdpPreview] = useState();   // dp Preview
+  const [GroupData, setGroupData] = useState({});            
+  let [isOpen, setIsOpen] = useState(false);
+  console.log("GroupData", GroupData)
   const handleImageSelect = (e) => {
     setEventCoverImage(e.target.files[0]);
     if (e.target.files.length !== 0) {
@@ -103,13 +108,9 @@ const PageAdmin = (setList, singleItem) => {
     }
   };
 
-  const handleImagePost = (e) => {
-    setPostImage(e.target.files[0]);
-    if (e.target.files.length !== 0) {
-      setpostImagePreview(window.URL.createObjectURL(e.target.files[0]));
-    }
-    setFeedType("image_feed");
-  };
+  
+
+  
 
   const handleCoverReomve = (e) => {
     setpostImagePreview(window.URL.revokeObjectURL(e.target.files));
@@ -191,65 +192,190 @@ const PageAdmin = (setList, singleItem) => {
   function openModal() {
     setIsOpen(true);
   }
-
+  
   const [items, setItems] = useState(singleItem.items);
 
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
   }
+
+
+  
+
+
+
+
+
+
+
+
+  const router = useRouter();
+  const data = router.asPath;
+  const myArray = data.split("?");
+  // Handle dp
+  const handledpPost = (e) => {
+    if (e.target.files.length !== 0) {
+      setpostdpPreview(window.URL.createObjectURL(e.target.files[0]));
+    }
+    UpdateGroup(e.target.files[0], "dp");
+  };
+  // handle cover
+  const handleImagePost = (e) => {
+    if (e.target.files.length !== 0) {
+      setpostImagePreview(window.URL.createObjectURL(e.target.files[0]));
+    }
+    UpdateGroup(e.target.files[0], "cover");
+  };
+  
+  const UpdateGroup =(file,type)=>{
+    const dataForm = new FormData();
+    if(type=="dp"){dataForm.append("pages[display_photo]", file);}
+    if(type=="cover"){dataForm.append("pages[cover_photo]", file);}
+      const res = fetch(PAGES_API +"/"+myArray[1], {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
+      body: dataForm,
+      })
+      .then((resp) => resp.json())
+      .then((result) => {
+        PageDetail();
+      })
+  }
+  // Page details
+  const PageDetail =()=>{
+    const res = fetch(PAGES_API +"/"+myArray[1], {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      Authorization: `${authKey}`,
+    },
+    })
+    .then((resp) => resp.json())
+    .then((result) => {
+
+      setGroupData(result.data);
+      
+    })
+  }
+  useEffect(() => {
+    PageDetail();
+  },[])
+
+
   return (
     <div className="mt-8">
     <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
         <div className="blogs bg-white rounded-xl">
           <div className="group relative w-full">
-            <div className="">
-              <Link href="/">
-                <a>
+              {postImagePreview?(
+                <img
+                  src={postImagePreview}
+                  className="object-cover rounded-xl h-[350px] w-[1030px]"
+                  width={1000}
+                  height={350}
+                  alt=""
+                />      
+              ):(
+                <span>
+                  {GroupData && GroupData.cover_photo_url?(
+                  <img
+                    src={GroupData.cover_photo_url}
+                    className="object-cover rounded-xl h-[350px] w-[1030px]"
+                    width={1000}
+                    height={350}
+                    alt=""
+                  /> 
+                  ):(
                   <Image
                     src={postimage}
                     className="object-cover rounded-xl"
-                    width={1050}
-                    height={300}
+                    width={1000}
+                    height={350}
                     alt=""
                   />
+                  )}
+                </span>
+              )}
+              <div className="absolute rounded-xl top-0 z-50 left-0 bg-gray-600 bg-opacity-60 w-full h-0 flex flex-col justify-center items-center opacity-0 group-hover:h-full group-hover:opacity-100 duration-1000">
+                <div className="relative flex items-center justify-center">
+                  <div className="">
+                    <div className="flex cursor-pointer gap-2 items-center p-2 rounded-xl border-2 border-white text-white">
+                      <PhotographIcon width={22} height={22} />
+                      Change Cover Photo
+                    </div>
+                  </div>
+                  <input
+                    type="file"
+                    name="image"
+                    id="image"
+                    className="opacity-0 absolute w-6 h-6 -z-0"
+                    onChange={handleImagePost}
+                    title={""}
+                    multiple
+                  />
+                </div>
+              </div>
+          </div>
+          <div className="absolute  p-2 -mt-11 ml-14 rounded-full bg-white">
+            <div className="relative">
+              <Link href="">
+                <a>
+                  {/* className="object-cover rounded-full z-40" */}
+                  {postdpPreview? (
+                    <Image
+                      src={postdpPreview}
+                      width={96}
+                      height={96}
+                      className="object-cover rounded-full z-40"
+                      placeholder="empty"
+                      alt="profile-image"
+                    />
+                  ):(
+                      <span>
+                      {GroupData && GroupData.display_photo_url?(
+                      <img
+                        src={GroupData.display_photo_url}
+                        className="object-cover rounded-full z-40 h-[100px] w-[100px]"
+                        alt=""
+                      /> 
+                      ):(
+                      <Image
+                        src={postimage}
+                        className="object-cover rounded-full z-40"
+                        width={96}
+                        height={96}
+                        alt=""
+                      />
+                      )}
+                        </span>
+                    )
+                  }
                 </a>
               </Link>
-            </div>
-            <div className="absolute top-0 z-50 left-0 bg-gray-600 bg-opacity-60 w-full h-0 flex flex-col justify-center items-center opacity-0 group-hover:h-full group-hover:opacity-100 duration-1000">
-              <div className="relative flex items-center justify-center">
-                <div className="">
-                  <div className="flex cursor-pointer gap-2 items-center p-2 rounded-xl border-2 border-white text-white">
-                    <PhotographIcon width={22} height={22} />
-                    Change Cover Photo
-                  </div>
-                </div>
-                <input
-                  type={
-                    values.eventName || (videoPreview && true) ? `` : `file`
-                  }
+              <div className="absolute top-0 left-0 right-0 bottom-0 w-full rounded-full h-full bg-black bg-opacity-0 z-50 flex justify-center items-center opacity-0 hover:opacity-100 hover:bg-opacity-70 duration-500">
+                <div className="flex gap-1 text-sm text-white rounded-full  cursor-pointer">
+                  <PencilIcon className="w-4 h-4" />
+                  Edit Profile
+                  <input
+                  type="file"
                   name="image"
                   id="image"
+                  onChange={handledpPost}
                   className="opacity-0 absolute w-6 h-6 -z-0"
-                  onChange={handleImagePost}
                   title={""}
                   multiple
                 />
+                </div>
               </div>
             </div>
-            <div className="absolute -bottom-16 left-5">
-              <Image
-                src={ProfileAvatar}
-                className="rounded-full object-cover z-50"
-                width={85}
-                height={85}
-                alt=""
-              />
-            </div>
           </div>
-          <div className="p-5 pt-1">
+          <div className="p-5 pt-1 ml-10">
             <div className=" flex justify-between items-center">
               <div className="heading ml-28 text-2xl text-indigo-400 font-bold">
-                Page & Brand Name
+                {GroupData?(GroupData.name):('')}
               </div>
               <div className="">
                 <Menu as="div" className="relative inline-block text-left">
@@ -305,19 +431,7 @@ const PageAdmin = (setList, singleItem) => {
                 </Menu>
               </div>
             </div>
-            <div className="Details mt-7">
-              <div className="caption mt-4 text-lg font-extralight">
-                Details About Ur Brand
-              </div>
-              <div className="font-extralight">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat
-                <a href="" className="ml-4 font-bold text-indigo-400">
-                  Read More...
-                </a>
-              </div>
+            <div className="Details -mt-1 pl-14 ml-14">
               <Link href="">
                 <a className="flex gap-1 mt-2">
                   <ThumbUpIcon className="h-5 w-5" />
@@ -327,7 +441,7 @@ const PageAdmin = (setList, singleItem) => {
             </div>
           </div>
         </div>
-      <div className="mt-8">
+      {/* <div className="mt-8">
         <div className="rounded-xl mt-8 bg-white p-[22px]">
           <form onSubmit={postNewsData}>
             <div className="w-full flex justify-start gap-[22px]">
@@ -1069,7 +1183,7 @@ const PageAdmin = (setList, singleItem) => {
             </Fragment>
           </div>
         </div>
-      </div>
+      </div> */}
       </div>
     </div>
   );
