@@ -5,10 +5,14 @@ import ProfileFeedSingle from "./ProfileFeedSingle";
 import axios from "axios";
 import { Show_USER_NEWS_FEEDS, GROUP_API } from "/pages/config";
 import { useRouter } from "next/router";
+import InfiniteScroll from 'react-infinite-scroll-component';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 const ProfileFeed = (props) => {
   const [list, setList] = useState([]);
   const [admins,setadmins] = useState(props.admins);
+  const [lastpage,setlastpage] = useState(0);
+  const [currentpage,setcurrentpage] = useState(1);
 
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
@@ -29,7 +33,7 @@ const ProfileFeed = (props) => {
   }
 
   const getNewsFeed = async () => {
-    const res = await axios(`${Show_USER_NEWS_FEEDS}?group_id=${myArray[1]}`, {
+    const res = await axios(`${Show_USER_NEWS_FEEDS}?group_id=${myArray[1]}&page=${currentpage}`, {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -44,13 +48,19 @@ const ProfileFeed = (props) => {
 
     try {
       if (result.status == 200) {
-        setList(result.data.data);
+        const mergedata = [...list,...result.data.data]
+        setList(mergedata);
+        setcurrentpage(result.data.pages.next_page)
+        setlastpage(result.data.pages.total_pages)
       }
     } catch (error) {
       console.log(error);
     }
     return result;
   };
+  const fetchMoreData = () => {
+    getNewsFeed();
+  }
 
   useEffect(() => {
     getNewsFeed();
@@ -60,22 +70,30 @@ const ProfileFeed = (props) => {
     <div className="mt-8">
       <div className="w-[750px] md:w-full xl:w-full">
         {props.group && props.group.can_post == "all_member" ?(
-          <NewsPostProfile setList={setList} />
+          <NewsPostProfile lists={list}  setList={setList} />
         ):(
           props.currentUser && props.group?(
             (admins && isadmin(admins,props.currentUser.id)) || props.group.owner.id == props.currentUser.id?(
-              <NewsPostProfile setList={setList} />
+              <NewsPostProfile lists={list} setList={setList} />
             ):("")
           ):("")
         )}
         <div>
-          
+
+        <InfiniteScroll
+          dataLength={list.length}
+          next={fetchMoreData}
+          hasMore={ currentpage != null }
+          loader={ <div className="flex justify-center"><ClipLoader className="my-8" color="#818CF8" size={40}/> </div>}
+        >
           {list&&
             list.map((item) => (
               <ProfileFeedSingle lists={item} setList={setList} key={item.id} admin = {props.admins}  group = {props.group} currentUser = {props.currentUser}/>        
             )
             )
           }
+        </InfiniteScroll>
+          
         </div>
          
       </div>
