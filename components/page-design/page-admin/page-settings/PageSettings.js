@@ -1,6 +1,37 @@
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import { PAGES_API } from "../../../../pages/config";
 
 const PageSettings = () => {
+  const [page, setPage] = useState({});
+  const router = useRouter();
+  const data = router.asPath;
+  const myArray = data.split("?");
+
+
+
+  if (typeof window !== "undefined") {
+    var authKey = window.localStorage.getItem("keyStore");
+  }
+
+  const PageDetail =()=>{
+    const res = fetch(PAGES_API +"/"+myArray[1], {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      Authorization: `${authKey}`,
+    },
+    })
+    .then((resp) => resp.json())
+    .then((result) => {
+      setPage(result.data);
+      console.log(result.data);
+    })
+  }
+
+  useEffect(() => {
+    PageDetail();
+  },[])
   return (
     <div>
       <div className="mt-8">
@@ -15,6 +46,7 @@ const PageSettings = () => {
                   placeholder="Change Page Name"
                   type="text"
                   name="search"
+                  value={page && page.name}
                 />
               </div>
               <div className="flex justify-center gap-7 mt-10 ">
@@ -25,15 +57,11 @@ const PageSettings = () => {
                     placeholder="Write Page Description Here....."
                     type="textarea"
                     name="search"
+                    value={page && page.description}
                     rows={5}
                     cols={10}
                   />
                 </div>
-              </div>
-              <div className="flex justify-end mt-5 mr-10">
-                <button className="border-2 border-indigo-400 bg-indigo-400 p-2 rounded-full text-white font-bold">
-                  Save Changes
-                </button>
               </div>
             </div>
             <div className=" border bg-white mt-4 px-4 py-6 rounded-xl">
@@ -80,7 +108,7 @@ const PageSettings = () => {
               </div>
 
               <div className="heading text-lg mt-5 font-bold">
-                Who Can Message
+                Message Configuration
               </div>
               <div className="border hover:bg-gray-100 mt-4 p-4 bg-gray-50 hover:shadow-lg rounded-xl">
                 <div className="flex items-center justify-between ">
@@ -99,7 +127,7 @@ const PageSettings = () => {
                         htmlFor="default-radio-1"
                         className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                       >
-                        EveryOne
+                        All Members
                       </label>
                     </div>
                     <div className="flex items-center">
@@ -114,20 +142,25 @@ const PageSettings = () => {
                         htmlFor="default-radio-2"
                         className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                       >
-                        No One
+                        Only Admins
                       </label>
                     </div>
                   </div>
                 </div>
               </div>
+              <div className="flex justify-end mt-8 mr-10">
+                <button className="border-2 border-indigo-400 bg-indigo-400 p-2 rounded-full text-white font-bold">
+                  Save Changes
+                </button>
+              </div>
             </div>
             <div className=" border bg-white mt-4 px-4 py-6 rounded-xl">
               <div className="heading text-lg font-bold">
-                Permanent Delet Your Page
+                Permanent Delete Your Page
               </div>
               <div className="border hover:bg-gray-100 mt-4 p-4 bg-gray-50 hover:shadow-lg rounded-xl">
                 <div className="flex items-center justify-between ">
-                  <div className="">Delet Your Page</div>
+                  <div className="">Delete Your Page</div>
                   <div className="">
                     <label
                       htmlFor="default-toggle"
