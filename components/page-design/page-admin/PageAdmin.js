@@ -104,18 +104,12 @@ const PageAdmin = (setList, singleItem) => {
   const [postdpPreview, setpostdpPreview] = useState();   // dp Preview
   const [GroupData, setGroupData] = useState({});            
   let [isOpen, setIsOpen] = useState(false);
-  console.log("GroupData", GroupData)
   const handleImageSelect = (e) => {
     setEventCoverImage(e.target.files[0]);
     if (e.target.files.length !== 0) {
       setPreviewEventCoverImage(window.URL.createObjectURL(e.target.files[0]));
     }
   };
-
-  
-
-  
-
   const handleCoverReomve = (e) => {
     setpostImagePreview(window.URL.revokeObjectURL(e.target.files));
     setPreviewEventCoverImage(window.URL.revokeObjectURL(e.target.files));
@@ -230,7 +224,7 @@ const PageAdmin = (setList, singleItem) => {
     }
     UpdateGroup(e.target.files[0], "cover");
   };
-  
+  // Update Dp/Cover of Page
   const UpdateGroup =(file,type)=>{
     const dataForm = new FormData();
     if(type=="dp"){dataForm.append("pages[display_photo]", file);}
@@ -264,9 +258,8 @@ const PageAdmin = (setList, singleItem) => {
       
     })
   }
-
-  const Current_User=async()=>{    
-   
+  // Current User
+  const Current_User=async()=>{  
     await fetch(CURENT_USER_LOGIN_API, {
       method: "GET",
        headers: {
@@ -282,7 +275,7 @@ const PageAdmin = (setList, singleItem) => {
       })
       .catch((err) => console.log(err)); 
   }
-
+  // Get all Admins
   const GetAdmins =()=>{
     fetch(PAGES_API +"/get_page_admin?page_id="+myArray[1] , {
     method: "GET",
@@ -297,7 +290,7 @@ const PageAdmin = (setList, singleItem) => {
       console.log(result.data)
     })
   };
-
+  // Check admins
   function isadmin(admin,user_id)
   {
     for(var i=0; i < admin.length; i++){
@@ -483,7 +476,7 @@ const PageAdmin = (setList, singleItem) => {
               </div>
             </div>
             <div className="Details -mt-1 pl-14 ml-14">
-              <Link href="">
+            <Link href={{pathname: "/page-design/page-admin/page-members", query: myArray[1],}}>
                 <a className="flex gap-1 mt-2">
                   <ThumbUpIcon className="h-5 w-5" />
                   <div className="">{GroupData && GroupData.page_likes_count} Likes</div>
