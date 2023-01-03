@@ -1000,7 +1000,7 @@ const ProfileFeedSingle = (singleItems) => {
           </div>
           <Fragment>
             {singleItems.group.can_comment == "all_member" ? (
-              <PostComments news_feed_id={items.id} setComments={setComments} setComments_count={setComments_count} setIs_deleted={setIs_deleted} dp={items.user.display_photo_url}/>
+              <PostComments news_feed_id={items.id}  currentUser={singleItems.currentUser} setComments={setComments} setComments_count={setComments_count} setIs_deleted={setIs_deleted} dp={items.user.display_photo_url}/>
             ):(
               singleItems.currentUser && singleItems.group?(
                 (admins && isadmin(admins,singleItems.currentUser.id)) || singleItems.group.owner.id == singleItems.currentUser.id?(
