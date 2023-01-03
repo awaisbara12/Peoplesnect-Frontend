@@ -70,6 +70,24 @@ const MainPage = () => {
         setSuggestedPages(result.data)
       })
   }
+  const hideUser=async(id)=>
+  {
+    await fetch(PAGES_API+"?id="+id, {
+      method: "GET",
+      headers: {
+        Accept: "application/json", 
+        Authorization: `${authKey}`,
+      },
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          setSuggestedPages(result.data);
+          //console.log("All Users",result)
+        }
+      })
+      .catch((err) => console.log(err));
+  }
   useEffect(() => {
     SuggestedPages();
     LikedPages();
@@ -417,9 +435,9 @@ const MainPage = () => {
                         </div>
                       )}
                       <div className="absolute top-2 right-1">
-                        <Link href="./">
+                        <Link href="">
                           <a>
-                            <XCircleIcon className="w-5 h-5 hover:w-10 hover:h-10 transition-all text-white" />
+                            <XCircleIcon className="w-5 h-5 hover:w-10 hover:h-10 transition-all text-white" onClick={ () =>hideUser(i.id)}/>
                           </a>
                         </Link>
                       </div>
