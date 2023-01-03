@@ -57,6 +57,26 @@ const Groups = () => {
       // console.log("admin groups", result.data);
     })
   }
+
+
+  const hideUser=async(id)=>
+  {
+    await fetch(GROUP_API+"?id="+id, {
+      method: "GET",
+      headers: {
+        Accept: "application/json", 
+        Authorization: `${authKey}`,
+      },
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          setJoinGroups(result.data)
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+
   // suggested Group
   const SuggestedGroups =()=>{
     const res = fetch(GROUP_API, {
@@ -386,9 +406,9 @@ const Groups = () => {
                           </div>
                         )}
                         <div className="absolute top-2 right-1">
-                          <Link href="./">
+                          <Link href="">
                             <a>
-                              <XCircleIcon className="w-5 h-5 hover:w-10 hover:h-10 transition-all text-white" />
+                              <XCircleIcon className="w-5 h-5 hover:w-10 hover:h-10 transition-all text-white" onClick={ () =>hideUser(i.id)}/>
                             </a>
                           </Link>
                         </div>
