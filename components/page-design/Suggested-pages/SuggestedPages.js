@@ -33,7 +33,7 @@ import TimezoneSelect, { allTimezones } from "react-timezone-select";
 import { useFormik } from "formik";
 import { eventScheema } from "../../auth/schemas/CreateEventScheema";
 import { Dialog } from "@headlessui/react";
-import { LIKE_PAGES_API, PAGES_API, } from "../../../pages/config";
+import { LIKE_PAGES_API, PAGES_API, CURENT_USER_LOGIN_API} from "../../../pages/config";
 import Spinner from "../../common/Spinner";
 
 function classNames(...classes) {
@@ -43,6 +43,7 @@ import PostComments from "./PostComments";
 import FilterComments from "./FilterComments";
 import { ThumbDownIcon, UserCircleIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/router";
+import ProfileFeed from "../liked-pages/ProfileFeed";
 
 const cardDropdown = [
   {
@@ -78,6 +79,8 @@ const ReadMore = ({ children }) => {
 const SuggestedPages = (setList, singleItem) => {
   const [Page, setPage] = useState(false);
   const [join, setjoin] = useState(false);
+  const [currentUser, setCurrentUser] = useState();
+  const [admins,setadmins] = useState();
   
   const router = useRouter();
   const data = router.asPath;
@@ -128,9 +131,42 @@ const SuggestedPages = (setList, singleItem) => {
       setPage(result.data);
     })
   }
+  const Current_User=async()=>{    
+   
+    await fetch(CURENT_USER_LOGIN_API, {
+      method: "GET",
+       headers: {
+        Accept: "application/json", 
+         Authorization: `${authKey}`,
+       },
+    })
+       .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          setCurrentUser(result.data);
+        }
+      })
+      .catch((err) => console.log(err)); 
+  }
+
+  const GetAdmins =()=>{
+    fetch(PAGES_API +"/get_page_admin?page_id="+myArray[1] , {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      Authorization: `${authKey}`,
+    },
+    })
+    .then((resp) => resp.json())
+    .then((result) => {
+      setadmins(result.data);
+    })
+  };
   useEffect(() => {
     PageDetail();
     Ismember();
+    Current_User();
+    GetAdmins();
   },[])
   return (
     <div className="mt-8">
@@ -220,12 +256,9 @@ const SuggestedPages = (setList, singleItem) => {
               <div className="flex gap-1 mt-2 ml-28 cursor-pointer">{Page.page_likes_count} Liked</div>
             ):(
               <div className="flex gap-1 mt-2 ml-28">0 Liked</div>
-            )} 
-              <div className="caption mt-4 text-lg font-extralight">
-                Details About Ur Brand
-              </div>
+            )}
               {Page && Page.description?(
-              <div className="font-extralight">
+              <div className="font-extralight mt-4">
                 <ReadMore>{Page.description}</ReadMore>
               </div>
               ):('')}
@@ -253,6 +286,10 @@ const SuggestedPages = (setList, singleItem) => {
               </div>
           </div>
         </div>
+
+        {currentUser && Page ?(
+          <ProfileFeed currentUser={currentUser} group={Page} admins={admins}/>
+        ):("")}
       
     </div>
     </div>

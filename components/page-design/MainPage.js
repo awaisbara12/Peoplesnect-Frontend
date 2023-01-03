@@ -445,14 +445,14 @@ const MainPage = () => {
                     </a>
                     </Link>
                     <div className="Details px-4 ">
-                      <a href="group-page/suggest-group">
+                      
                         <div className="ml-16">
                           <div className="User-Name font-bold capitalize">{i.name.substring(0,23)}</div>
                         </div>
                         <div className="details mt-5 font-light">
                          {i.description.substring(0,30)}
                         </div>
-                      </a>
+                      
                       {i.page_likes_count?(
                         <div className="followers mt-2 font-extralight">
                           {i.page_likes_count} Liked
