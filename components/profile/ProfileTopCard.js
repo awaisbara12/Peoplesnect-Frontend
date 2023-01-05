@@ -220,6 +220,7 @@ const ProfileTopCard = () => {
               </div>
             </div>
           </div>
+          {userDetails?(
           <div className="my-2 flex flex-col ml-48 gap-1">
             <div className="group relative">
               <div className="text-2xl text-indigo-400 font-bold capitalize">
@@ -238,6 +239,7 @@ const ProfileTopCard = () => {
               </a>
             </Link>
           </div>
+          ):('')}
         </div>
         <div className="">
           <TabsProfileCard />
