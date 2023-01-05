@@ -27,10 +27,12 @@ const Hashtags = () => {
               <div className="text-lg font-bold">Top Trending Hashtags</div>
               <div className="mt-4">
                 <div className="flex justify-between items-center ">
-                  <a className="py-2 px-4 rounded-full hover:bg-gray-100">
+                  <Link  href={{pathname: "hashtag-design/hashtags-show"}}>
+                  <a  className="py-2 px-4 rounded-full hover:bg-gray-100">
                     <div className="font-bold">#ImranKhanZindabad</div>
                     <div className="mt-1">324.1k tags</div>
                   </a>
+                  </Link>
                   <a href="">
                     <DotsHorizontalIcon className="h-5 w-5" />
                   </a>
