@@ -21,7 +21,6 @@ const InviteFriendsGroup = () => {
       setIsCheck([]);
     }
   };
-
   const handleClick = e => {
     const { id, checked } = e.target;
     setIsCheck([...isCheck, id]);
