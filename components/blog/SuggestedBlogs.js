@@ -56,16 +56,13 @@ const SuggestedBlogs = () => {
           <div className="flex justify-between align-item-center mt-12">
           <div className="text-lg font-bold">Suggested Articles</div>
           <div className="add_new_button text-center">
-            <Link href="/blog/Show-All-Blogs" className="">
-            <a href="">
+            
                 <button
                   type="submit"
                   className="border-2 border-indigo-400 text-indigo-400 text-md cursor-pointer font-bold py-2 px-4 rounded-full"
                 >
                   Show All
                 </button>
-              </a>
-            </Link>
           </div>
           </div>
         </div>
@@ -79,13 +76,7 @@ const SuggestedBlogs = () => {
             <div className="">
               <div className="image">
                 <div className="">
-                <Link
-                        href={{
-                          pathname: "/blog/[id]",
-                          query: { id: item.id },
-                        }}
-                        className=""
-                      >
+                <Link href={{pathname: "/blog/show", query: item.id,}}>
                         <a>
                           {item.photos_link ? (
                             <img
@@ -106,13 +97,7 @@ const SuggestedBlogs = () => {
                 {item.title}
                 </div>
                 <div className="text-right">
-                <Link
-                        href={{
-                          pathname: "/blog/[id]",
-                          query: { id: item.id },
-                        }}
-                        className=""
-                      >
+                <Link href={{pathname: "/blog/show", query: item.id,}}>
                   <a>
                     <button
                       type="submit"

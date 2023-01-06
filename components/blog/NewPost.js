@@ -157,7 +157,7 @@ const NewPost = () => {
             ) : null}
           </div>
           <div className="flex items-center justify-between border bg-white mt-4 px-4 py-6 rounded-xl">
-              <div className="">Blog Type's</div>
+              <div className="">Blog Type</div>
               <div className="flex items-center gap-4">
                 <div className="flex items-center">
                   <input

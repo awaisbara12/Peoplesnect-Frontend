@@ -33,7 +33,7 @@ const InviteFriendsGroup = () => {
 
   const catalog = list.map(({ id, name }) => {
     return (
-      <div className="flex gap-2 items-center py-2 border-b">
+      <div className="flex gap-2 items-center py-2 border-b" key={id}>
         <Checkbox
           key={id}
           type="checkbox"
