@@ -47,6 +47,7 @@ import FilterComments from "./FilterComments";
 import { UserCircleIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/router";
 import ProfileFeed from "./ProfileFeed";
+import InviteFriendsGroup from "./InviteFriendsGroup/InviteFriendsGroup";
 
 // import Spinner from "../../../common/Spinner";
 
@@ -349,95 +350,186 @@ const JoindGroup = (setList, singleItem) => {
             </div>
           </div>
           <div className="p-5 mt-14">
-            <div className=" flex justify-between items-center">
-              <div className="heading text-2xl text-indigo-400 font-bold">
-                {group?(group.title):('')}
-              </div>
-              <div className="">
-                <Menu as="div" className="relative inline-block text-left">
-                  <div>
-                    <Menu.Button className="">
-                      <div className="hover:bg-indigo-100 focus:bg-indigo-100 rounded-full h-8 w-8 flex items-center justify-center">
-                        <DotsHorizontalIcon
-                          className="h-5 w-5"
-                          aria-hidden="true"
-                        />
-                      </div>
-                    </Menu.Button>
-                  </div>
-
-                  <Transition
-                    as={Fragment}
-                    enter="transition ease-out duration-200"
-                    enterFrom="opacity-0 translate-y-1"
-                    enterTo="opacity-100 translate-y-0"
-                    leave="transition ease-in duration-150"
-                    leaveFrom="opacity-100 translate-y-0"
-                    leaveTo="opacity-0 translate-y-1"
-                  >
-                    <Menu.Items className="absolute left-1/2 z-10 mt-3 w-48 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-3xl">
-                      <div className="flex items-start flex-col gap-2 border-1 bg-white rounded-xl p-3">
-                        {/* <Menu.Item className="flex gap-1">
-                          <a href="">
-                            <BellIcon className="w-5 h-5" />
-                            Notifications
-                          </a>
-                        </Menu.Item> */}
-                        { currentUser ?(!(admins && isadmin(admins,currentUser.id)) && currentUser.id != group.owner.id ? (
-                          <div>
-                            <Menu.Item className="flex gap-1 mt-2">
-                              <a href="">
-                                <MailIcon className="h-5 w-5" />
-                                Report
-                              </a>
-                            </Menu.Item> 
-                            <Menu.Item className="flex gap-1 mt-2">
-                              
-                                <a onClick={()=>LeaveGroup()}>
-                                  <LogoutIcon className="h-5 w-5" />
-                                  Leave
-                                </a>
-                              
-                            </Menu.Item>
-                          </div>
-                        ):(
-                         ""
-                        )):("")
-                        }
-                        {
-                          currentUser && group?(
-                            (admins && isadmin(admins,currentUser.id)) || group.owner.id == currentUser.id?(
-                              <Menu.Item className="flex gap-1 mt-2">
-                              <Link href={{pathname: "/group-page/admin-view", query: myArray[1]}} onClick={()=>alert("yes")}>      
-                                <a className="flex">
-                                  <UserCircleIcon className="h-5 w-5" />
-                                  View As Admin
-                                </a>
-                              </Link>
-                            </Menu.Item>
-                            ):("")
-                          ):("")
-                        }
-                      </div>
-                    </Menu.Items>
-                  </Transition>
-                </Menu>
-              </div>
-              {currentUser && group ? (!(admins && isadmin(admins,currentUser.id)) && group.owner.id != currentUser.id?(
-              <Link href={{pathname: "/group-page/joind-group/group-members", query: myArray[1]}}>
-              <a>
-                <div className="border border-indigo-400 py-2 px-3 text-indigo-400 rounded-full">
-                  Group Details
+              <div className=" flex justify-between items-center">
+                <div className="heading text-2xl text-indigo-400 font-bold">
+                  {group?(group.title):('')}
                 </div>
-              </a>
-              </Link>
-              ):("")):("")}
+                <div className="">
+                  <Menu as="div" className="relative inline-block text-left">
+                    <div>
+                      <Menu.Button className="">
+                        <div className="hover:bg-indigo-100 focus:bg-indigo-100 rounded-full h-8 w-8 flex items-center justify-center">
+                          <DotsHorizontalIcon
+                            className="h-5 w-5"
+                            aria-hidden="true"
+                          />
+                        </div>
+                      </Menu.Button>
+                    </div>
+
+                    <Transition
+                      as={Fragment}
+                      enter="transition ease-out duration-200"
+                      enterFrom="opacity-0 translate-y-1"
+                      enterTo="opacity-100 translate-y-0"
+                      leave="transition ease-in duration-150"
+                      leaveFrom="opacity-100 translate-y-0"
+                      leaveTo="opacity-0 translate-y-1"
+                    >
+                      <Menu.Items className="absolute left-1/2 z-10 mt-3 w-48 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-3xl">
+                        <div className="flex items-start flex-col gap-2 border-1 bg-white rounded-xl p-3">
+                          {/* <Menu.Item className="flex gap-1">
+                            <a href="">
+                              <BellIcon className="w-5 h-5" />
+                              Notifications
+                            </a>
+                          </Menu.Item> */}
+                          { currentUser ?(!(admins && isadmin(admins,currentUser.id)) && currentUser.id != group.owner.id ? (
+                            <div>
+                              <Menu.Item className="flex gap-1 mt-2">
+                                <a href="">
+                                  <MailIcon className="h-5 w-5" />
+                                  Report
+                                </a>
+                              </Menu.Item> 
+                              <Menu.Item className="flex gap-1 mt-2">
+                                
+                                  <a onClick={()=>LeaveGroup()}>
+                                    <LogoutIcon className="h-5 w-5" />
+                                    Leave
+                                  </a>
+                                
+                              </Menu.Item>
+                            </div>
+                          ):(
+                          ""
+                          )):("")
+                          }
+                          {
+                            currentUser && group?(
+                              (admins && isadmin(admins,currentUser.id)) || group.owner.id == currentUser.id?(
+                                <Menu.Item className="flex gap-1 mt-2">
+                                <Link href={{pathname: "/group-page/admin-view", query: myArray[1]}} onClick={()=>alert("yes")}>      
+                                  <a className="flex">
+                                    <UserCircleIcon className="h-5 w-5" />
+                                    View As Admin
+                                  </a>
+                                </Link>
+                              </Menu.Item>
+                              ):("")
+                            ):("")
+                          }
+                        </div>
+                      </Menu.Items>
+                    </Transition>
+                  </Menu>
+                </div>
+                {currentUser && group ? (!(admins && isadmin(admins,currentUser.id)) && group.owner.id != currentUser.id?(
+                <Link href={{pathname: "/group-page/joind-group/group-members", query: myArray[1]}}>
+                <a>
+                  <div className="border border-indigo-400 py-2 px-3 text-indigo-400 rounded-full">
+                    Group Details
+                  </div>
+                </a>
+                </Link>
+                ):("")):("")}
+              </div>
+              <div className="Details mt-5">
+                <div className="font-extralight">
+                  <ReadMore>
+                    {group?(group.description):('')}
+                  </ReadMore>
+                </div>
+              </div>
             </div>
-            <div className="Details mt-5">
-              <div className="font-extralight">
-                <ReadMore>
-                  {group?(group.description):('')}
-                </ReadMore>
+            <div className="flex justify-end">
+              <a>
+                <button
+                  onClick={openModal}
+                  type="submit"
+                  className=" bg-indigo-400 text-sm text-white rounded-br-lg p-3 cursor-pointer"
+                >
+                  Invite Friends
+                </button>
+              </a>
+              <div>
+              <div className="">
+                <Transition appear show={isOpen} as={Fragment}>
+                  <Dialog
+                    as="div"
+                    className="relative z-50"
+                    static={true}
+                    onClose={closeModal}
+                  >
+                    <Transition.Child
+                      as={Fragment}
+                      enter="ease-out duration-300"
+                      enterFrom="opacity-0"
+                      enterTo="opacity-100"
+                      leave="ease-in duration-200"
+                      leaveFrom="opacity-100"
+                      leaveTo="opacity-0"
+                    >
+                      <div className="fixed inset-0 bg-black bg-opacity-75" />
+                    </Transition.Child>
+
+                    <div className="fixed inset-0 overflow-y-auto">
+                      <div className="flex min-h-full items-center justify-center p-4 text-center">
+                        <Transition.Child
+                          as={Fragment}
+                          enter="ease-out duration-300"
+                          enterFrom="opacity-0 scale-95"
+                          enterTo="opacity-100 scale-100"
+                          leave="ease-in duration-200"
+                          leaveFrom="opacity-100 scale-100"
+                          leaveTo="opacity-0 scale-95"
+                        >
+                          <Dialog.Panel className="w-[620px] relative bg-white rounded-xl xl:w-[580px] lg:w-[730px] md:w-[680px] px-5 md:px-0 lg:px-0 py-4 text-left align-middle shadow-xl transition-all h-[700px] overflow-y-scroll">
+                              <Dialog.Title>
+                            <div className="sticky top-10 flex justify-between items-center mx-4">
+                              <div
+                                  className="text-lg font-medium leading-6 text-gray-900 px-8"
+                                  >
+                                  Invite Friends
+                                  </div>
+                                  <XIcon
+                                  onClick={closeModal}
+                                  className="w-5 h-5 cursor-pointer"
+                                />
+                              </div>
+                              </Dialog.Title>
+                              <div className="p-8">
+                              <InviteFriendsGroup />
+                              </div>
+                              <div className="sticky bottom-0 right-0">
+                                <div className="p-2 rounded-xl">
+                                  <div className="flex gap-4 justify-end">
+                                      <Link href="">
+                                        <button
+                                              onClick={closeModal}
+                                              type="submit"
+                                              className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
+                                            >
+                                              Close
+                                        </button>
+                                      </Link>
+                                      <Link href="">
+                                        <button
+                                          type="submit"
+                                          className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
+                                          >
+                                          Invite
+                                        </button>
+                                      </Link>
+                                  </div>
+                                </div>
+                              </div>
+                          </Dialog.Panel>
+                        </Transition.Child>
+                      </div>
+                    </div>
+                  </Dialog>
+                </Transition>
               </div>
             </div>
           </div>
