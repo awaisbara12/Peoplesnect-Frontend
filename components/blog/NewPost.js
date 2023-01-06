@@ -11,6 +11,7 @@ const NewPost = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [blogImage, setBlogImage] = useState([]);
+  const [blog_type, setblog_type] = useState();
   const [blogContent, setBlogContent] = useState("");
   const [BlogImagePreview, setBlogImagePreview] = useState();
   if (typeof window !== "undefined") {
@@ -48,6 +49,7 @@ const NewPost = () => {
     dataForm.append("blogs[title]", values.title);
     dataForm.append("blogs[description]", blogContent);
     dataForm.append("blogs[photos][]", blogImage);
+    dataForm.append("blogs[blog_type]", blog_type);
     setLoading(true);
     fetch(BLOG_POST_USER_API_KEY, {
       method: "POST",
@@ -154,6 +156,44 @@ const NewPost = () => {
               <div className="text-red-600 pt-2 pl-1">{errors.description}</div>
             ) : null}
           </div>
+          <div className="flex items-center justify-between border bg-white mt-4 px-4 py-6 rounded-xl">
+              <div className="">Blog Type's</div>
+              <div className="flex items-center gap-4">
+                <div className="flex items-center">
+                  <input
+                    id="default-radio-1"
+                    type="radio"
+                    value="public_blog"
+                    onChange={(e)=>setblog_type(e.target.value)}
+                    name="default-radio"
+                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-indigo-400 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                  /> 
+                  <label
+                    htmlFor="default-radio-1"
+                    className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                  >
+                    Public
+                  </label>
+                </div>
+                <div className="flex items-center">
+                  <input
+                    
+                    id="default-radio-1"
+                    type="radio"
+                    value="private_blog"
+                    onChange={(e)=>setblog_type(e.target.value)}
+                    name="default-radio"
+                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-indigo-400 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                  />
+                  <label
+                    htmlFor="default-radio-2"
+                    className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                  >
+                    Private
+                  </label>
+                </div>
+              </div>
+            </div>
           <div className="flex justify-end">
             <button
               type="submit"
