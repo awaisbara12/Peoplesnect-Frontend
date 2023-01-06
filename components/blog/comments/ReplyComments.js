@@ -1,12 +1,22 @@
-import React, { Fragment,useState,useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import Image from "next/image";
+import InputEmoji from "react-input-emoji";
 import Link from "next/link";
-import { HeartIcon, ChatIcon, DotsHorizontalIcon, PencilIcon, TrashIcon } from "@heroicons/react/outline";
+import {
+  HeartIcon,
+  ChatIcon,
+  DotsHorizontalIcon,
+  PencilIcon,
+  DocumentReportIcon,
+  XCircleIcon,
+  TrashIcon,
+  PhotographIcon,
+  PaperAirplaneIcon,
+} from "@heroicons/react/outline";
 import ProfileAvatar from "../../../public/images/profile-avatar-2.png";
 import { Popover, Transition } from "@headlessui/react";
-import InputEmoji from "react-input-emoji";
-import { COMMENT_API_KEY, COMMENT_REPLY, CURENT_USER_LOGIN_API, NEWSFEED_COMMENT_POST_KEY, REACTION_NEWSFEED_API_KEY } from "../../../pages/config";
 import axios from "axios";
+import { BLOG_POST_USER_API_KEY, COMMENT_API_KEY, COMMENT_REPLY, CURENT_USER_LOGIN_API, REACTION_NEWSFEED_API_KEY } from "../../../pages/config";
 
 const ReplyComments = (props) => {
   const [reply_on, setReplyOn] = useState(false);              // For show or hide Reply's Input
@@ -19,13 +29,16 @@ const ReplyComments = (props) => {
   const [editCommentId, setCommentId] = useState("");
   const [is_heart, setIsHeart] = useState(false);
   const [postText, setPostText] = useState(""); 
-  const [currentUser, setCurrentUser] = useState();                // For Edit Comment Body
-  console.log("props1",props)
+  const [currentUser, setCurrentUser] = useState();
+  const [postImage, setPostImage] = useState([]);
+  const [C_postImagePreview, setC_postImagePreview] = useState([]);
+  const [mediaType, setmediaType] = useState();
   //Bareer Key
   if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore");}
   useEffect(()=>{
     Current_User(); 
   },[])
+  
   const Current_User=async()=>{    
    
     await fetch(CURENT_USER_LOGIN_API, {
@@ -45,17 +58,18 @@ const ReplyComments = (props) => {
       })
       .catch((err) => console.log(err)); 
   }
- 
-
     // Edit Comment Input Field Show
   function editComment(commentId) {
     setEditOn(true);
+    clearPic();
     setCommentId(commentId);
   }
       // Edit Comment Input Field hide
   function cancelEdit(commentId) {
     setEditOn(false);
     setCommentId(commentId);
+    clearPic();
+
   }
       // Delete Comment
   async function deteleComment(commentId) {
@@ -79,7 +93,7 @@ const ReplyComments = (props) => {
           
           async function getFeedComments (){
             const res = await axios(
-              NEWSFEED_COMMENT_POST_KEY + "/" + props.news_feed_id + "/comments",
+              BLOG_POST_USER_API_KEY + "/" + props.news_feed_id + "/comments",
               {
                 method: "GET",
                 headers: {
@@ -95,20 +109,14 @@ const ReplyComments = (props) => {
             const result = await res;
             try {
               if (result.status == 200) {
-                props.setComments(result.data);
+                console.log("delet",result)
+                props.setComments(result.data.data);
                 props.setIs_deleted(1);
-                if (!result.data.data[0]){
-                  props.setComments_count(0);
-                }
-                else
-                {
-                  props.setComments_count(result.data.data[0].news_feed.comments_count);
-                }
+                props.setComments_count(result.data.data.length);
               }
             } catch (error) {
               console.log(error);
             }
-            
             return result;
           };
           getFeedComments();
@@ -117,13 +125,20 @@ const ReplyComments = (props) => {
     } catch (error) {
       console.log(error);
     }
+    clearPic();
   }
-      // Update Comment
-  function updateComment(commentId) {
-
-    const dataForm = new FormData();
-    dataForm.append("comments[body]", postText);
-
+    // Update Comment
+  function updateComment(commentId,commentBody) {
+   const dataForm = new FormData();
+    if(postText){dataForm.append("comments[body]", postText);}
+    else{ dataForm.append("comments[body]", commentBody);}
+   
+    if (postImage.length > 0) {
+      for (let i = 0; i < postImage.length; i++) {
+        dataForm.append("comments[comment_attachments][]", postImage[i]);
+      }
+    }
+    
     fetch(COMMENT_API_KEY+"/"+commentId, {
       method: "PUT",
       headers: {
@@ -134,27 +149,18 @@ const ReplyComments = (props) => {
     })
     .then((resp) => resp.json())
     .then((result) => {
-      if (result) {
-        setEditOn(false)
-        setCommentId(commentId);
-        let ItemsCopy = {data: []}
-        let x = props.comments.map((entry) => {
-          if(entry.id == commentId)
-          {
-            entry.body = result.data.body
-          }
-          ItemsCopy["data"].push(entry)
-        })
-        props.setComments(ItemsCopy);
-      }
+      getFeedComments();
     })
     .catch((err) => console.log(err));
     setPostText("");
+    setC_postImagePreview('');
+    setPostImage('');
+    setEditOn(false)
   }
    //For Update Props's Comment Array
    const getFeedComments = async () => {
     const res = await axios(
-      NEWSFEED_COMMENT_POST_KEY + "/" + props.items.id + "/comments",
+      BLOG_POST_USER_API_KEY + "/" + props.items.id + "/comments",
       {
         method: "GET",
         headers: {
@@ -171,7 +177,8 @@ const ReplyComments = (props) => {
 
     try {
       if (result.status == 200) {
-        props.setComments(result.data);
+        console.log("yesssssssss",result)
+        props.setComments(result.data.data);
       }
     } catch (error) {
       console.log(error);
@@ -229,14 +236,15 @@ const ReplyComments = (props) => {
       console.log(error);
     }
   }
-  
-  
+
         // Replies Functions
     // For remove & Show Reply's Input
   function comentReplies(commentId) {
     if (reply_on){setReplyOn(false);}
     else{setReplyOn(true);}
     setCommentId(commentId);
+    setC_postImagePreview('');
+    setPostImage('');
   }
     // For remove & Show Edit's Reply Input
   function replyEdit(commentId) {
@@ -261,39 +269,10 @@ const ReplyComments = (props) => {
       Authorization: authKey,
     },
     credentials: "same-origin",
-  });
-  const result = await res;
-
-  try {
-    if (result) {
-      console.log("Replies",result.data);
-      setReplyOn(false);
-      setReplyEditOn(false);
-      setEditReply('');
-      getFeedComments();
-    }
-  } catch (error) {
-    console.log(error);
-  }
-  }
-    //Update Reply
-  async function updateReply(ReplyId) {
-      const res = await axios(`${COMMENT_REPLY}/${ReplyId}?reply_comments[body]=${edit_reply}`, {
-      method: "PUT",
-      headers: {
-        Accept: "application/json",
-        "Content-type": "application/json; charset=utf-8",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Credentials": true,
-        Authorization: authKey,
-      },
-      credentials: "same-origin",
-    });
+   });
     const result = await res;
-
     try {
       if (result) {
-        console.log("Replies",result.data);
         setReplyOn(false);
         setReplyEditOn(false);
         setEditReply('');
@@ -302,33 +281,73 @@ const ReplyComments = (props) => {
     } catch (error) {
       console.log(error);
     }
+    clearPic();
+  }
+    //Update Reply
+  async function updateReply(ReplyId,ReplyBody) {
+    const dataForm = new FormData();
+    if(edit_reply){ dataForm.append("reply_comments[body]", edit_reply);}
+    else{ dataForm.append("reply_comments[body]", ReplyBody);}
+    if (postImage.length > 0) {
+      for (let i = 0; i < postImage.length; i++) {
+        dataForm.append("reply_comments[reply_comment_attachments][]", postImage[i]);
+      }
+    }  
+    await fetch(`${COMMENT_REPLY}/${ReplyId}`, {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
+      body:dataForm,
+    }).then((resp) => resp.json())
+    .then((result) => {
+      if (result) {
+        setReplyOn(false);
+        setReplyEditOn(false);
+        setEditReply('');
+        getFeedComments();
+      }
+    })
+    clearPic();
   }
     //Post Reply
   async function POSTReplies(commentId) {
-    const res = await axios(`${COMMENT_REPLY}?reply_comments[body]=${CommentReply}&reply_comments[comment_id]=${commentId}`, {
+
+    const dataForm = new FormData();
+    dataForm.append("reply_comments[body]", CommentReply);
+    dataForm.append("reply_comments[comment_id]", commentId);
+    if (postImage.length > 0) {
+      for (let i = 0; i < postImage.length; i++) {
+        dataForm.append("reply_comments[reply_comment_attachments][]", postImage[i]);
+      }
+    }
+    fetch(COMMENT_REPLY, {
       method: "POST",
       headers: {
         Accept: "application/json",
-        "Content-type": "application/json; charset=utf-8",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Credentials": true,
-        Authorization: authKey,
+        Authorization: `${authKey}`,
       },
-      credentials: "same-origin",
-    });
-    const result = await res;
-
-    try {
-      if (result) {
-        console.log("Replies",result.data);
+      body:dataForm,
+    }).then((resp) => resp.json())
+    .then((result) => {
         setReplyOn(false);       // close reply input
         setReplyEditOn(false);   // close reply edit input
         setCommentReply('');     // clear body of editReply input
         getFeedComments();
-      }
-    } catch (error) {
-      console.log(error);
+    })
+    clearPic();
+  }
+
+  const handleImagePost = (e) => {
+    setPostImage(e.target.files);
+    if (e.target.files.length !== 0) {
+      setC_postImagePreview(window.URL.createObjectURL(e.target.files[0]));
     }
+  };
+  const clearPic =()=>{
+    setC_postImagePreview('');
+    setPostImage('');
   }
 
   return (
@@ -365,6 +384,7 @@ const ReplyComments = (props) => {
                     </div>
                   </div>
                 </div>
+              {/*  Comment Pooper */}
                 <div className="">
                   <Popover className="relative">
                     {({ open }) => (
@@ -439,9 +459,11 @@ const ReplyComments = (props) => {
                   </Popover>
                 </div>
               </div>
+              {/* Comment Edit on */}
               {edit_on && editCommentId == comment.id ? (
                 <>
                   <div className="relative -ml-5">
+                    <div className="flex items-center">
                     <InputEmoji
                       value={comment.body}
                       className="ml-0"
@@ -450,6 +472,53 @@ const ReplyComments = (props) => {
                       react-emoji="w-{80%}"
                       placeholder={comment.body}
                     />
+                    <div className="">
+                      <div className="relative flex items-center justify-center">
+                        <PhotographIcon
+                          width={28}
+                          height={28}
+                          className="text-gray-500"
+                        />
+                        <input
+                          type="file"
+                          name="image"
+                          id="image"
+                          className="opacity-0 absolute w-6 h-6 -z-0"
+                          onChange={handleImagePost}
+                          title={""}
+                          multiple
+                        />
+                      </div>
+                    </div>
+                    </div>
+
+                      {C_postImagePreview?(
+                       
+                      <div className="relative w-1/4 mt-2">
+                        <img
+                          src={C_postImagePreview}
+                          className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
+                          alt=""
+                        />
+                         <div
+                         onClick={clearPic}
+                         className="bg-indigo-100 absolute top-4 right-0 z-10 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
+                          >
+                         <TrashIcon className="w-5 h-5 text-indigo-600" />
+                         </div>
+                       </div>
+                      ):(
+                        <div className="relative w-1/4 mt-2">
+                          {comment.attachments_link?(
+                             <img
+                             src={comment.attachments_link[0]}
+                             className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
+                             alt=""
+                           />
+                          ):('')}
+                        </div>
+                      )}
+                      
                   </div>
                   <div className="flex gap-2 mt-2">
                     <button
@@ -458,23 +527,24 @@ const ReplyComments = (props) => {
                     >
                       Cancel
                     </button>
-                    <button onClick={() => updateComment(comment.id)} className="bg-indigo-400 text-white border-2  px-2 py-1 rounded-xl">
-                      Save
+                    <button onClick={() => updateComment(comment.id, comment.body)} className="bg-indigo-400 text-white border-2  px-2 py-1 rounded-xl">
+                      Update
                     </button>
                   </div>
                 </>
               ) : (
                 <>
+                 <p className="text-gray-900 mt-[6px]">{comment.body}</p>
                   {comment.attachments_link ? (
                     <img
                       src={comment.attachments_link[0]}
-                      className="aspect-video object-cover rounded-xl mb-4 h-[110px] w-[100px]"
+                      className="rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
                       alt=""
                     />
                   ) : (
                     ""
                   )}
-                  <p className="text-gray-900 mt-[6px]">{comment.body}</p>
+                 
                 </>
               )}
               <div className="flex items-center gap-[14px] mt-[10px]">
@@ -524,39 +594,73 @@ const ReplyComments = (props) => {
                 </div>  
               </div>
 
-
               {/* hide or Show Reply Input */}
                   {reply_on && editCommentId==comment.id?(
-                      <div className="relative -ml-5 flex">
-                      <InputEmoji
-                      value={CommentReply}
-                        className="ml-0"
-                        type="text"
-                        onChange={setCommentReply}
-                        react-emoji="w-{80%}"
-                        placeholder="Reply Here"
-                      />
-                      <button onClick={() => POSTReplies(comment.id)} className="bg-indigo-400 text-white border-2  px-2 py-1 rounded-xl">
-                          Send
-                        </button>
-                    </div>
+                    <>
+              {/* Reply On Commet Input Bar */}
+                      <div className="relative -ml-5">
+                        <div className="flex items-center">
+                          <InputEmoji
+                          value={CommentReply}
+                            className="ml-0"
+                            type="text"
+                            onChange={setCommentReply}
+                            react-emoji="w-{80%}"
+                            placeholder="Reply Here"
+                          />
+                          <div className="">
+                            <div className="relative flex items-center justify-center">
+                              <PhotographIcon
+                                width={28}
+                                height={28}
+                                className="text-gray-500"
+                              />
+                              <input
+                                type="file"
+                                name="image"
+                                id="image"
+                                className="opacity-0 absolute w-6 h-6 -z-0"
+                                onChange={handleImagePost}
+                                title={""}
+                                multiple
+                              />
+                            </div>
+                          </div>
+                          <PaperAirplaneIcon className="h-7 w-7 rotate-90 text-gray-500" onClick={() => POSTReplies(comment.id)} />
+                          {/* <button onClick={() => POSTReplies(comment.id)} className="bg-indigo-400 text-white border-2  px-2 py-1 rounded-xl">
+                            Send
+                          </button> */}
+                        </div>
+                      </div>
+                      {/* show or remove preview of image In Comment'sReply */}
+              {C_postImagePreview?(
+                      <div className="relative w-1/4 mt-2">
+                        <img
+                          src={C_postImagePreview}
+                          className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
+                          alt=""
+                        />
+                          <div className="bg-indigo-100 absolute top-4 right-0 z-10 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
+                          onClick={clearPic}>
+                            <TrashIcon className="w-5 h-5 text-indigo-600" />
+                          </div>
+                        </div>
+                      ):('')}
+                    </>
                   ):('')}
-             
+
+
               {/* Show Reply */}
+
+
                 {comment.reply_comments?(
-
                     comment.reply_comments.slice(0, replyShow).map(i=>(
-                      <div
-                      className="bg-white mt-[8px] py-[16px] mx-6 px-6 rounded-xl"
-                      id={`comment-${i.id}`}
-                      key={i.id}
-                    >
-
+                     <div className="bg-white mt-[8px] py-[16px] mx-6 px-6 rounded-xl" id={`comment-${i.id}`} key={i.id}>
                       <div className="flex justify-between">
                         <div className="flex items-start  gap-[10px]">
                           {i.user.display_photo_url?(
                             <img
-                              src={i.user.display_photo_url}
+                              src={i.user.display_photo_url} 
                               className="object-cover rounded-full z-40 h-[38px] w-[38px]"
                               alt=""
                             />
@@ -649,43 +753,91 @@ const ReplyComments = (props) => {
                           </Popover>
                         </div>
                       </div>
-        
+
+
+                      {/* Edit Reply Input */}
+
+                      
                       {reply_edit_on && editCommentId==i.id?(
                         <>
+                          {/* Edit Reply Input Bar */}
                           <div className="relative -ml-5">
-                            <InputEmoji
-                              value={i.body}
-                              className="ml-0"
-                              type="text"
-                              onChange={setEditReply}
-                              react-emoji="w-{80%}"
-                              placeholder={i.body}
-                            />
+                            <div className="flex items-center">
+                              <InputEmoji
+                                value={i.body}
+                                className="ml-0"
+                                type="text"
+                                onChange={setEditReply}
+                                react-emoji="w-{80%}"
+                                placeholder={i.body}
+                              />
+                              <div className="">
+                                <div className="relative flex items-center justify-center">
+                                  <PhotographIcon
+                                    width={28}
+                                    height={28}
+                                    className="text-gray-500"
+                                  />
+                                  <input
+                                    type="file"
+                                    name="image"
+                                    id="image"
+                                    className="opacity-0 absolute w-6 h-6 -z-0"
+                                    onChange={handleImagePost}
+                                    title={""}
+                                    multiple
+                                  />
+                                </div>
+                              </div>
+                            </div>
                           </div>
+                          {/* Preview of Image in Edit Reply */}
+                          {C_postImagePreview?(
+                            <div className="relative w-1/4 mt-2">
+                              <img
+                                src={C_postImagePreview}
+                                className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
+                                alt=""
+                              />
+                                <div className="bg-indigo-100 absolute top-4 right-0 z-10 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
+                                onClick={clearPic} >
+                                  <TrashIcon className="w-5 h-5 text-indigo-600" />
+                                </div>
+                            </div>
+                          ):( 
+                            <div className="relative w-1/4 mt-2">
+                              {i.attachments_link?(
+                                  <img
+                                  src={i.attachments_link}
+                                  className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
+                                  alt=""
+                                />
+                              ):('')}
+                            </div>
+                            )}
+                          {/* Edit Reply Button */}
                           <div className="flex gap-2 mt-2">
-                            <button
-                              onClick={() => replyEdit(i.id)}
-                              className="bg-transparent border-2 border-indigo-400 text-indigo-400 px-2 py-1 rounded-xl"
-                            >
+                            <button className="bg-transparent border-2 border-indigo-400 text-indigo-400 px-2 py-1 rounded-xl"
+                             onClick={() => replyEdit(i.id)}>
                               Cancel
                             </button>
-                            <button onClick={() => updateReply(i.id)} className="bg-indigo-400 text-white border-2  px-2 py-1 rounded-xl">
+                            <button onClick={() => updateReply(i.id,i.body)} className="bg-indigo-400 text-white border-2  px-2 py-1 rounded-xl">
                               Update
                             </button>
                           </div>
                         </>
                       ) : (
                         <>
+                          <p className="text-gray-900 mt-[2px] text-sm">{i.body}</p>
                           {i.attachments_link ? (
                             <img
                               src={i.attachments_link[0]}
-                              className="aspect-video object-cover rounded-xl mb-4 h-[110px] w-[100px]"
+                              className=" rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
                               alt=""
                             />
                           ) : (
                             ""
                           )}
-                          <p className="text-gray-900 mt-[2px] text-sm">{i.body}</p>
                           <div className="flex items-center gap-[14px] mt-[10px]">
                             {/* <HeartIcon className="w-5 h-5 cursor-pointer" onClick={() => likeComment(comment.id)}/> */}
                             <div className="flex gap-2 items-center">
@@ -725,8 +877,6 @@ const ReplyComments = (props) => {
                     </div>
                     ))
                 ):('')}
-
-
             </div>
           ))}
       </div>

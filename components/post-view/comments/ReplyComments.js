@@ -39,7 +39,6 @@ const ReplyComments = (props) => {
     Current_User(); 
   },[])
   const Current_User=async()=>{    
-   
     await fetch(CURENT_USER_LOGIN_API, {
       method: "GET",
        headers: {
@@ -50,9 +49,7 @@ const ReplyComments = (props) => {
        .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-          
           setCurrentUser(result.data.id);
-          // console.log("user",result.data.id)
         }
       })
       .catch((err) => console.log(err)); 
@@ -137,13 +134,11 @@ const ReplyComments = (props) => {
    const dataForm = new FormData();
     if(postText){dataForm.append("comments[body]", postText);}
     else{ dataForm.append("comments[body]", commentBody);}
-   
     if (postImage.length > 0) {
       for (let i = 0; i < postImage.length; i++) {
         dataForm.append("comments[comment_attachments][]", postImage[i]);
       }
     }
-    
     fetch(COMMENT_API_KEY+"/"+commentId, {
       method: "PUT",
       headers: {
@@ -166,7 +161,6 @@ const ReplyComments = (props) => {
           ItemsCopy["data"].push(entry)
         })
         props.setComments(ItemsCopy);
-       
       }
     })
     .catch((err) => console.log(err));
@@ -192,7 +186,6 @@ const ReplyComments = (props) => {
       }
     );
     const result = await res;
-
     try {
       if (result.status == 200) {
         props.setComments(result.data);
@@ -202,8 +195,6 @@ const ReplyComments = (props) => {
     }
     return result;
   };
-
-  // console.log("propsderer", props.comments);
   function addHeart(type,commentId) {
     const dataForm = new FormData();
     dataForm.append("reactionable_id", commentId);
@@ -230,7 +221,6 @@ const ReplyComments = (props) => {
       })
       .catch((err) => console.log(err));
   }
-
   async function deteleHeart(heartId) {
     const res = await axios(REACTION_NEWSFEED_API_KEY + "/" + heartId, {
       method: "DELETE",
@@ -253,8 +243,6 @@ const ReplyComments = (props) => {
       console.log(error);
     }
   }
-  
-  
         // Replies Functions
     // For remove & Show Reply's Input
   function comentReplies(commentId) {
@@ -334,7 +322,6 @@ const ReplyComments = (props) => {
   }
     //Post Reply
   async function POSTReplies(commentId) {
-
     const dataForm = new FormData();
     dataForm.append("reply_comments[body]", CommentReply);
     dataForm.append("reply_comments[comment_id]", commentId);
