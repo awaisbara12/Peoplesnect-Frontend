@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { GET_CONNECTION_AND_FOLLOWING_NEWS_FEEDS, Show_USER_NEWS_FEEDS } from "../../../pages/config";
+import { GET_CONNECTION_AND_FOLLOWING_NEWS_FEEDS, Show_USER_NEWS_FEEDS,HASHTAGS_API } from "../../../pages/config";
 import { useRouter } from "next/router";
 import HashtagsShow from "./HashtagsShow";
 
@@ -16,7 +16,7 @@ const HashtagsSingle = () => {
   if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore");}
   // ShowUser NewFeed
   const getNewsFeed = async () => {
-    const res = await axios(GET_CONNECTION_AND_FOLLOWING_NEWS_FEEDS + "?page=" + currentpage, {
+    const res = await axios(HASHTAGS_API + "/get_hashtag_feed?hashtag_id=" + myArray[1], {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -33,9 +33,9 @@ const HashtagsSingle = () => {
       if (result.status == 200) {
         const mergedata = [...list,...result.data.data]
         setList(mergedata);
-        setcurrentpage(result.data.pages.next_page)
-        setlastpage(result.data.pages.total_pages)
-        console.log(result.data.pages)
+        // setcurrentpage(result.data.pages.next_page)
+        // setlastpage(result.data.pages.total_pages)
+        console.log(result.data.data)
       }
     } catch (error) {
       console.log(error);
@@ -55,7 +55,9 @@ const HashtagsSingle = () => {
         <div>
           {list&&
             list.map((item) => (
-              <HashtagsShow lists={item} key={item.id} />        
+              item.hashtag_feedable_type == "NewsFeed"?(
+                <HashtagsShow lists={item.newsfeed} key={item.newsfeed.id} />  
+              ):("")
             )
             )
           }

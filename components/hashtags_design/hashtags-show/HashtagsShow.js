@@ -541,6 +541,7 @@ const HashtagsShow = (singleItems) => {
         </div>
       </div>
 
+      {/*Blogs & Jobs commented 
       <div className="w-[600px] xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">
         <div className="bg-white mt-4 rounded-xl">
           <div className="jobs-profile px-4 py-10 ">
@@ -707,6 +708,7 @@ const HashtagsShow = (singleItems) => {
           </div>
         </div>
       </div>
+      */}
     </>
   );
 };

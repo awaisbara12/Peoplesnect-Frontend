@@ -1,9 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { CogIcon, DotsHorizontalIcon } from "@heroicons/react/outline";
 import { HashtagIcon } from "@heroicons/react/solid";
-
+import { HASHTAGS_API } from "../../pages/config";
 const Hashtags = () => {
+  let [hastags, sethastags] = useState();
+  // Bareer Key
+  if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore");}
+  // Get All Hashtags
+  const HashTags=async()=>{
+    await fetch(HASHTAGS_API, {
+      method: "GET",
+       headers: {
+        Accept: "application/json",
+         Authorization: `${authKey}`,
+       },
+    })
+       .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          console.log(result.data);
+          sethastags(result.data);
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+  useEffect(() => {
+    HashTags();
+  },[])
   return (
     <div>
       <div className="mt-8">
@@ -26,36 +50,22 @@ const Hashtags = () => {
             <div className=" border bg-white mt-4 px-4 py-6 rounded-xl">
               <div className="text-lg font-bold">Top Trending Hashtags</div>
               <div className="mt-4">
-                <div className="flex justify-between items-center ">
-                  <Link  href={{pathname: "hashtag-design/hashtags-show"}}>
-                  <a  className="py-2 px-4 rounded-full hover:bg-gray-100">
-                    <div className="font-bold">#ImranKhanZindabad</div>
-                    <div className="mt-1">324.1k tags</div>
-                  </a>
+                {hastags?(
+                  hastags.map((i)=>(
+                    <div className="flex justify-between items-center hover:bg-gray-100" key={i.id}>
+                    <Link  href={{pathname: "hashtag-design/hashtags-show", query: i.id}}>
+                    
+                      <a className="py-2 px-4 rounded-full hover:bg-gray-100">
+                        <div className="font-bold">{i.name}</div>
+                        <div className="mt-1">{i.count} tags</div>
+                      </a>
+                      <a href="">
+                        <DotsHorizontalIcon className="h-5 w-5" />
+                      </a>
                   </Link>
-                  <a href="">
-                    <DotsHorizontalIcon className="h-5 w-5" />
-                  </a>
-                </div>
-
-                <div className="flex justify-between items-center ">
-                  <a className="py-2 px-4 rounded-full hover:bg-gray-100">
-                    <div className="font-bold">#HinaParvezButt</div>
-                    <div className="mt-1">32.4k tags</div>
-                  </a>
-                  <a href="">
-                    <DotsHorizontalIcon className="h-5 w-5" />
-                  </a>
-                </div>
-                <div className="flex justify-between items-center ">
-                  <a className="py-2 px-4 rounded-full hover:bg-gray-100">
-                    <div className="font-bold">#pti</div>
-                    <div className="mt-1">34.2k tags</div>
-                  </a>
-                  <a href="">
-                    <DotsHorizontalIcon className="h-5 w-5" />
-                  </a>
-                </div>
+                  </div>
+                ))
+                ):('')}
               </div>
             </div>
           </div>
@@ -64,5 +74,4 @@ const Hashtags = () => {
     </div>
   );
 };
-
 export default Hashtags;
