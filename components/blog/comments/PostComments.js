@@ -10,11 +10,11 @@ import {
   EmojiHappyIcon,
   ChevronRightIcon,
   PaperAirplaneIcon,
+  TrashIcon,
 } from "@heroicons/react/outline";
 import { useFormik } from "formik";
-import { eventScheema } from "../../auth/schemas/CreateEventScheema";
+import { BLOG_POST_USER_API_KEY, COMMENT_API_KEY, NEWSFEED_COMMENT_POST_KEY } from "../../../pages/config";
 import axios from "axios";
-import { COMMENT_API_KEY, NEWSFEED_COMMENT_POST_KEY } from "../../../pages/config";
 
 const PostComments = (props) => {
   if (typeof window !== "undefined") {
@@ -25,16 +25,17 @@ const PostComments = (props) => {
   const [postImage, setPostImage] = useState([]);
   const [postImagePreview, setpostImagePreview] = useState();
   const [comments, setComments] = useState([]);
-
+ 
   function handleOnEnter() {
     console.log("enter", postText);
   }
-
+  
   const handleImagePost = (e) => {
     setPostImage(e.target.files);
     if (e.target.files.length !== 0) {
       setpostImagePreview(window.URL.createObjectURL(e.target.files[0]));
     }
+
   };
 
   const { values } = useFormik({
@@ -48,72 +49,69 @@ const PostComments = (props) => {
   const onSubmit = () => {
     resetForm();
   };
-
+  // Post Comment 
   function postComment(e) {
-    e.preventDefault();
-
-    const dataForm = new FormData();
-    dataForm.append("comments[body]", postText);
-    dataForm.append("comments[commentable_id]", props.news_feed_id);
-    dataForm.append("comments[commentable_type]", "Blogs");
-
-    if (postImage.length > 0) {
-      for (let i = 0; i < postImage.length; i++) {
-        dataForm.append("comments[comment_attachments][]", postImage[i]);
-      }
-    }
-    // setLoading(true);
-
-    fetch(COMMENT_API_KEY, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        Authorization: `${authKey}`,
-      },
-      body: dataForm,
-    })
-      .then((resp) => resp.json())
-      .then((result) => {
-        if (result) {
-          setComments(result.data);
-
-          async function getFeedComments (){
-            const res = await axios(
-              NEWSFEED_COMMENT_POST_KEY + "/" + props.news_feed_id + "/comments",
-              {
-                method: "GET",
-                headers: {
-                  Accept: "application/json",
-                  "Content-type": "application/json; charset=utf-8",
-                  "Access-Control-Allow-Origin": "*",
-                  "Access-Control-Allow-Credentials": true,
-                  Authorization: authKey,
-                },
-                credentials: "same-origin",
-              }
-            );
-            const result = await res;
-      
-            try {
-              if (result.status == 200) {
-                props.setComments(result.data);
-                props.setComments_count(result.data.data[0].news_feed.comments_count)
-                setComments(result.data);
-                props.setIs_deleted(1);
-              }
-            } catch (error) {
-              console.log(error);
-            }
-            
-            return result;
-          };
-          getFeedComments();
+    if(comments){
+      e.preventDefault();
+      const dataForm = new FormData();
+      dataForm.append("comments[body]", postText);
+      dataForm.append("comments[commentable_id]", props.news_feed_id);
+      dataForm.append("comments[commentable_type]", "Blog");
+      if (postImage.length > 0) {
+        for (let i = 0; i < postImage.length; i++) {
+          dataForm.append("comments[comment_attachments][]", postImage[i]);  
         }
+      }
+      fetch(COMMENT_API_KEY, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          Authorization: `${authKey}`,
+        },
+        body: dataForm,
       })
-      .catch((err) => console.log(err));
-    setPostText("");
-    setpostImagePreview("");
-    setPostImage("");
+        .then((resp) => resp.json())
+        .then((result) => {
+          if (result) {
+            // setcomments('');
+            getBlogs();
+          }
+        })
+        .catch((err) => console.log(err));
+        setPostText("");
+        setpostImagePreview("");
+        setPostImage("");
+    }
+    
+  }
+ // get all data of this blog
+ const getBlogs = async () => {
+  const res = await axios(BLOG_POST_USER_API_KEY + "/" + props.news_feed_id, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-type": "application/json; charset=utf-8",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Credentials": true,
+      Authorization: authKey,
+    },
+    credentials: "same-origin",
+  });
+  const result = await res;
+
+  try {
+    if (result.status == 200) {
+      props.setComments(result.data.data.comments);
+      props.setComments_count(result.data.data.comments.length)
+      setComments(result.data.data.comments);
+      props.setIs_deleted(1);
+    }
+  } catch (error) {setLoading(true);}
+  return result;
+};
+  const clearPic =()=>{
+    setpostImagePreview('');
+    setPostImage('');
   }
   return (
     <Fragment>
@@ -127,9 +125,35 @@ const PostComments = (props) => {
             onEnter={handleOnEnter}
             placeholder="Your comment"
           />
+            {postImagePreview?(
+              <div className="relative w-1/4 mt-2">
+                <img
+                src={postImagePreview}
+                className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
+                alt=""/>
+                
+                <div className="bg-indigo-100 absolute top-4 right-0 z-10 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
+                onClick={clearPic} >
+                  <TrashIcon className="w-5 h-5 text-indigo-600" />
+                </div>
+              </div>
+              ):('')}
         </div>
         <div className="absolute top-2 left-0">
-          <Image src={ProfileAvatar} width={34} height={34} alt="" />
+          {props.dp?(
+             <img
+             src={props.dp}
+             className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
+              
+             width={34} 
+             height={34} alt="" />
+          ):(
+             <Image 
+             src={ProfileAvatar} 
+             width={34} 
+             height={34} alt="" />
+          )}
+         
         </div>
         <div className="flex items-center absolute top-3 right-0 ">
           <div className="">
@@ -158,7 +182,7 @@ const PostComments = (props) => {
                 onClick={postComment}
               />
             </button>
-          </div>
+          </div>         
         </div>
       </div>
     </Fragment>

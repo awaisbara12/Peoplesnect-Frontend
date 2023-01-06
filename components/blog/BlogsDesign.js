@@ -56,16 +56,12 @@ const BlogsDesign = () => {
           <div className="flex justify-between align-item-center mt-12">
           <div className="text-lg font-bold">My Articles</div>
           <div className="add_new_button text-center">
-            <Link href="/blog" className="">
-              <a href="">
                 <button
                   type="submit"
                   className="border-2 border-indigo-400 text-indigo-400 text-md cursor-pointer font-bold py-2 px-4 rounded-full"
                 >
                   Show More
                 </button>
-              </a>
-            </Link>
           </div>
           </div>
         </div>
@@ -77,12 +73,7 @@ const BlogsDesign = () => {
                 <div className="">
                   <div className="image">
                     <div className="">
-                      <Link
-                        href={{
-                          pathname: "/blog",
-                          query:item.id
-                        }}
-                      >
+                    <Link href={{pathname: "/blog/show", query: item.id,}}>
                         <a>
                           {item.photos_link ? (
                             <img
@@ -103,13 +94,13 @@ const BlogsDesign = () => {
                       {item.title}
                     </div>
                     <div className="text-right">
-                      <Link
-                        href={{
+                    <Link href={{pathname: "/blog/show", query: item.id,}}>
+                        {/* href={{
                           pathname: "/blog/[id]",
                           query: { id: item.id },
                         }}
                         className=""
-                      >
+                      > */}
                         <a>
                           <button
                             type="submit"
