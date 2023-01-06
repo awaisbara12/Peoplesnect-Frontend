@@ -49,8 +49,6 @@ const BlogsDesign = () => {
     );
   return (
     <div className="w-[600px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
-    {list &&
-            list.data.map((item) => (
       <div className="" key="items.id">
         <div>
           <div className="flex justify-between align-item-center mt-12">
@@ -65,7 +63,9 @@ const BlogsDesign = () => {
           </div>
           </div>
         </div>
-        <div className="grid grid-cols-1 gap-6 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2">
+        <div className="grid flex grid-cols-1 gap-6 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2">
+        {list &&
+            list.data.map((item) => (
               <div
                 className="w-full mt-8 blogs bg-white rounded-xl"
                 key={item.id}
@@ -114,9 +114,9 @@ const BlogsDesign = () => {
                   </div>
                 </div>
               </div>
+              ))}
         </div>
       </div>
-    ))}
     </div>
   );
 };
