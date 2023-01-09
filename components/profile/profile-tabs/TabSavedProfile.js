@@ -170,46 +170,19 @@ const TabSavedProfile = (props) => {
             //     </div>
             //   </div>
             // </div>
-            items.news_feed.attachments_link && items.news_feed.feed_type === "image_feed" ? (
-              <div className="py-5" key={items.id}>
-                <div className="flex flex-col justify-between gap-3">
-                  <div className="">
-                    <Link href="">
-                      <a href="">
-                        <img
-                          src={items.news_feed.attachments_link}
-                          layout="responsive"
-                          className="object-cover rounded-xl h-[305px] w-[725px] border-black-100"
-                          alt=""
-                        />
-                      </a>
-                    </Link>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <div className="time font-light text-xs">{items.news_feed.body}</div>
-                      <div className="flex gap-2 font-light text-sm">
-                        <div>Saved</div>
-                        <BookmarkIcon 
-                          className="w-5 h-5 text-indigo-400"
-                          onClick={() => deteleBookmark(items.id)}
-                         />
-                      </div>
-                  </div>
-              </div>
-            </div>
-            ) 
-            : (
-              items.news_feed.feed_type && items.news_feed.feed_type === "video_feed" ? (
-                <div className="py-5 " key={items.id} >
+            items.news_feed ?(
+              items.news_feed && items.news_feed.attachments_link && items.news_feed.feed_type === "image_feed" ? (
+                <div className="py-5" key={items.id}>
                   <div className="flex flex-col justify-between gap-3">
                     <div className="">
                       <Link href="">
                         <a href="">
-                          <>
-                            <video controls className="aspect-video rounded-xl h-[305px] w-[725px] border-black-100 border">
-                              <source src={items.news_feed.attachments_link} type="video/mp4" />
-                            </video>
-                          </>
+                          <img
+                            src={items.news_feed.attachments_link}
+                            layout="responsive"
+                            className="object-cover rounded-xl h-[305px] w-[725px] border-black-100"
+                            alt=""
+                          />
                         </a>
                       </Link>
                     </div>
@@ -220,81 +193,29 @@ const TabSavedProfile = (props) => {
                           <BookmarkIcon 
                             className="w-5 h-5 text-indigo-400"
                             onClick={() => deteleBookmark(items.id)}
-                          />
+                           />
                         </div>
                     </div>
-                  </div>
                 </div>
-              ) : (
-                items.news_feed.event && items.news_feed.event ? (
-                  <div className="py-5" key={items.id}>
-                    <div className="rounded-xl bg-white border border-gray-100">
-                      {items.news_feed.event.cover_photo_url ? (
-                        <img
-                          src={items.news_feed.event.cover_photo_url}
-                          className="aspect-video object-cover rounded-t-xl h-[210px] w-[725px]"
-                          alt=""
-                        />
-                      ) : (
-                        ""
-                      )}
-                      <div className="py-3 px-3">
-                        <div className="flex justify-between items-center">
-                          <div>
-                            <div className="text-red-400 text-sm">
-                              <span>{items.news_feed.event.start_time}</span>
-                              <span>-{items.news_feed.event.end_time}</span>&nbsp;
-                              <span>{items.news_feed.event.start_date}</span>&nbsp;
-                            </div>
-                            <div className="font-semibold text-lg">
-                              {items.news_feed.event.name}
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <CalendarIcon
-                                width={16}
-                                height={16}
-                                className="text-gray-900"
-                              />
-                              <span className="text-gray-900 text-sm">
-                                {items.news_feed.event.event_type=== "in_person"?(
-                                  'In Person'
-                                ):(items.news_feed.event.event_type)}
-                              
-                              </span>
-                            </div>
-                            <div className="text-gray-900"></div>
-                          </div>
-                          <Link href="/events-design/event-view">
-                            <a className="text-sm text-gray-600 cursor-pointer flex items-center border border-gray-100 rounded-full py-1 px-3">
-                              View Event
-                            </a>
-                          </Link>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex justify-between items-center py-3">
-                      <div className="time font-light text-xs">{items.news_feed.body}</div>
-                        <div className="flex gap-2 font-light text-sm">
-                          <div>Saved</div>
-                          <BookmarkIcon 
-                            className="w-5 h-5 text-indigo-400"
-                            onClick={() => deteleBookmark(items.id)}
-                          />
-                        </div>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="py-5" key={items.id}>
+              </div>
+              ) 
+              : (
+                items.news_feed && items.news_feed.feed_type && items.news_feed.feed_type === "video_feed" ? (
+                  <div className="py-5 " key={items.id} >
                     <div className="flex flex-col justify-between gap-3">
                       <div className="">
                         <Link href="">
-                          <a href="" >
-                          <div className="h-[300px]  border p-2 w-[435px] capitalize overflow-hidden">{items.news_feed.body}</div>
+                          <a href="">
+                            <>
+                              <video controls className="aspect-video rounded-xl h-[305px] w-[725px] border-black-100 border">
+                                <source src={items.news_feed.attachments_link} type="video/mp4" />
+                              </video>
+                            </>
                           </a>
                         </Link>
                       </div>
                       <div className="flex justify-between items-center">
-                          <div></div>
+                        <div className="time font-light text-xs">{items.news_feed.body}</div>
                           <div className="flex gap-2 font-light text-sm">
                             <div>Saved</div>
                             <BookmarkIcon 
@@ -303,10 +224,120 @@ const TabSavedProfile = (props) => {
                             />
                           </div>
                       </div>
+                    </div>
                   </div>
-                </div>
+                ) : (
+                  items.news_feed && items.news_feed.event && items.news_feed.event ? (
+                    <div className="py-5" key={items.id}>
+                      <div className="rounded-xl bg-white border border-gray-100">
+                        {items.news_feed.event.cover_photo_url ? (
+                          <img
+                            src={items.news_feed.event.cover_photo_url}
+                            className="aspect-video object-cover rounded-t-xl h-[210px] w-[725px]"
+                            alt=""
+                          />
+                        ) : (
+                          ""
+                        )}
+                        <div className="py-3 px-3">
+                          <div className="flex justify-between items-center">
+                            <div>
+                              <div className="text-red-400 text-sm">
+                                <span>{items.news_feed.event.start_time}</span>
+                                <span>-{items.news_feed.event.end_time}</span>&nbsp;
+                                <span>{items.news_feed.event.start_date}</span>&nbsp;
+                              </div>
+                              <div className="font-semibold text-lg">
+                                {items.news_feed.event.name}
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <CalendarIcon
+                                  width={16}
+                                  height={16}
+                                  className="text-gray-900"
+                                />
+                                <span className="text-gray-900 text-sm">
+                                  {items.news_feed.event.event_type=== "in_person"?(
+                                    'In Person'
+                                  ):(items.news_feed.event.event_type)}
+                                
+                                </span>
+                              </div>
+                              <div className="text-gray-900"></div>
+                            </div>
+                            <Link href="/events-design/event-view">
+                              <a className="text-sm text-gray-600 cursor-pointer flex items-center border border-gray-100 rounded-full py-1 px-3">
+                                View Event
+                              </a>
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex justify-between items-center py-3">
+                        <div className="time font-light text-xs">{items.news_feed.body}</div>
+                          <div className="flex gap-2 font-light text-sm">
+                            <div>Saved</div>
+                            <BookmarkIcon 
+                              className="w-5 h-5 text-indigo-400"
+                              onClick={() => deteleBookmark(items.id)}
+                            />
+                          </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="py-5" key={items.id}>
+                      <div className="flex flex-col justify-between gap-3">
+                        <div className="">
+                          <Link href="">
+                            <a href="" >
+                            <div className="h-[300px]  border p-2 w-[435px] capitalize overflow-hidden">{items.news_feed && items.news_feed.body}</div>
+                            </a>
+                          </Link>
+                        </div>
+                        <div className="flex justify-between items-center">
+                            <div></div>
+                            <div className="flex gap-2 font-light text-sm">
+                              <div>Saved</div>
+                              <BookmarkIcon 
+                                className="w-5 h-5 text-indigo-400"
+                                onClick={() => deteleBookmark(items.id)}
+                              />
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                  )
                 )
               )
+            ):(
+              items.blog && items.blog.photos_link ? (
+                <div className="py-5" key={items.id}>
+                  <div className="flex flex-col justify-between gap-3">
+                    <div className="">
+                      <Link href="">
+                        <a href="">
+                          <img
+                            src={items.blog.photos_link}
+                            layout="responsive"
+                            className="object-cover rounded-xl h-[305px] w-[725px] border-black-100"
+                            alt=""
+                          />
+                        </a>
+                      </Link>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <div className="time font-light text-xs">{items.blog.title}</div>
+                        <div className="flex gap-2 font-light text-sm">
+                          <div>Saved</div>
+                          <BookmarkIcon 
+                            className="w-5 h-5 text-indigo-400"
+                            onClick={() => deteleBookmark(items.id)}
+                           />
+                        </div>
+                    </div>
+                </div>
+              </div>
+              ):("")
             )
             )
           )}
