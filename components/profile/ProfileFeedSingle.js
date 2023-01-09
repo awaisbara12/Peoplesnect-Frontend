@@ -264,6 +264,7 @@ const ProfileFeedSingle = (singleItems) => {
       if (result) {
         singleItems.setBookmarks(result.data);
         singleItems.setBookmarks(result.data);
+        console.log(result.data);
       }
     })
     .catch((err) => console.log(err)); 
@@ -272,10 +273,13 @@ const ProfileFeedSingle = (singleItems) => {
   function is_bookmark(item_id)
   {
     for(var i=0; i < singleItems.bookmarks.length; i++){
-     if (singleItems.bookmarks[i].news_feed.id == item_id)
+      if (singleItems.bookmarks[i].news_feed)
      {
-      return true;
-     }
+      if (singleItems.bookmarks[i].news_feed.id == item_id)
+      {
+        return true;
+      }
+    }
     }
     return false;
   }
