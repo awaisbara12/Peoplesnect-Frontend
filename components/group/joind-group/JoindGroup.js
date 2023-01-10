@@ -30,7 +30,7 @@ import {
 import { useFormik } from "formik";
 import { eventScheema } from "../../auth/schemas/CreateEventScheema";
 import { Dialog } from "@headlessui/react";
-import { GROUP_API, POST_NEWSFEED_API_KEY, CURENT_USER_LOGIN_API } from "../../../pages/config";
+import { GROUP_API, POST_NEWSFEED_API_KEY, CURENT_USER_LOGIN_API, InviteFriends } from "../../../pages/config";
 import Spinner from "../../common/Spinner";
 
 function classNames(...classes) {
@@ -48,6 +48,7 @@ import { UserCircleIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/router";
 import ProfileFeed from "./ProfileFeed";
 import InviteFriendsGroup from "./InviteFriendsGroup/InviteFriendsGroup";
+import axios from "axios";
 
 // import Spinner from "../../../common/Spinner";
 
@@ -98,8 +99,7 @@ const JoindGroup = (setList, singleItem) => {
   const [postImage, setPostImage] = useState([]);
   const [postImagePreview, setpostImagePreview] = useState();
   const [selectedTimezone, setSelectedTimezone] = useState({});
-  const [inPerson, setInPerson] = useState(false);
-  const [online, setOnline] = useState(false);
+  const [isCheck, setIsCheck] = useState([]);
   const [feedType, setFeedType] = useState("basic");
   const [eventType, setEventType] = useState();
   const [videoSrc, setVideoSrc] = useState([]);
@@ -205,9 +205,55 @@ const JoindGroup = (setList, singleItem) => {
     onSubmit();
   }
 
+  console.log("id in group",isCheck);
+
   function closeModal() {
     setIsOpen(false);
   }
+
+  function closeinviteModal(){
+    setIsCheck([]);
+    setIsOpen(false);
+  }
+
+  const SendInviteRequest = async () => {
+    const res = await axios(InviteFriends+"/invite_friend?group_id="+myArray[1]+"&invite_list="+isCheck, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-type": "application/json; charset=utf-8",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true,
+        Authorization: authKey,
+      },
+      credentials: "same-origin",
+    });
+    const result = await res;
+
+    try {
+      if (result.status == 200) {
+        console.log(result.data);
+        // setList(result.data.data);
+        setIsCheck([]);
+        setIsOpen(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    return result;
+  };
+
+  function inviteModal(){
+    if (isCheck.length > 0)
+    {
+      SendInviteRequest();
+    }
+    else
+    {
+      alert("Select Friend to Invite");
+    }
+  }
+
 
   function openModal() {
     setIsOpen(true);
@@ -384,7 +430,7 @@ const JoindGroup = (setList, singleItem) => {
                               Notifications
                             </a>
                           </Menu.Item> */}
-                          { currentUser ?(!(admins && isadmin(admins,currentUser.id)) && currentUser.id != group.owner.id ? (
+                          { currentUser && group ?(!(admins && isadmin(admins,currentUser.id)) && currentUser.id != group.owner.id ? (
                             <div>
                               <Menu.Item className="flex gap-1 mt-2">
                                 <a href="">
@@ -493,34 +539,31 @@ const JoindGroup = (setList, singleItem) => {
                                   Invite Friends
                                   </div>
                                   <XIcon
-                                  onClick={closeModal}
+                                  onClick={closeinviteModal}
                                   className="w-5 h-5 cursor-pointer"
                                 />
                               </div>
                               </Dialog.Title>
                               <div className="p-8">
-                              <InviteFriendsGroup />
+                              <InviteFriendsGroup group={group} isCheck={isCheck} setIsCheck={setIsCheck}/>
                               </div>
                               <div className="sticky bottom-0 right-0">
                                 <div className="p-2 rounded-xl">
-                                  <div className="flex gap-4 justify-end">
-                                      <Link href="">
-                                        <button
-                                              onClick={closeModal}
-                                              type="submit"
-                                              className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
-                                            >
-                                              Close
-                                        </button>
-                                      </Link>
-                                      <Link href="">
-                                        <button
-                                          type="submit"
-                                          className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
-                                          >
-                                          Invite
-                                        </button>
-                                      </Link>
+                                  <div className="flex gap-4 justify-end"> 
+                                    <button
+                                        onClick={closeinviteModal}
+                                        type="submit"
+                                        className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
+                                        >
+                                          Close
+                                    </button>
+                                    <button
+                                      onClick={inviteModal}
+                                      type="submit"
+                                      className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
+                                      >
+                                      Invite
+                                    </button>
                                   </div>
                                 </div>
                               </div>
