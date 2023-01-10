@@ -5,7 +5,7 @@ import ProfileAvatar from "../../public/images/profile-avatar.png";
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
-import { GET_NOTIFICATIONS } from "../../pages/config.js";
+import { GET_NOTIFICATIONS, InviteFriends } from "../../pages/config.js";
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
@@ -36,6 +36,28 @@ const Notifications = () => {
         }
       })
       .catch((err) => console.log(err)); 
+  }
+
+  function joingroups(id, status) {
+    const dataForm = new FormData();
+    dataForm.append("invite_friends[status]", status);
+    // dataForm.append("news_feeds[feed_type]", feedType);
+    fetch(InviteFriends+"/"+id, {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
+      body: dataForm,
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          // console.log(result.data);
+          allNotifications();
+        }
+      })
+      .catch((err) => console.log(err));
   }
   useEffect(()=>{
     allNotifications();
@@ -127,7 +149,10 @@ const Notifications = () => {
                 <div className="like-on-article border-b-1" key={i.id}>
                 <div className="request-profile flex  px-4 py-3 justify-between items-center">
                   <div className="flex items-center gap-3">
-                    <Link href="/news-feed">
+                  <Link href={{
+                          pathname: "/Friends-Profile",
+                          query: i.invite_friend ? (i.invite_friend.sender.id):(i.sender?(i.sender.id):(''))
+                        }}>
                       <a>
                         {i.sender && i.sender.display_photo_url?(
                           <img
@@ -136,12 +161,21 @@ const Notifications = () => {
                             alt=""
                           />
                           ):(
-                            <Image
+                            i.invite_friend && i.invite_friend.sender?(
+                              <img
+                              src={i.invite_friend.sender.display_photo_url}
+                              className="object-cover rounded-full z-40 h-[35px] w-[35px]"
+                              alt=""
+                            />
+                            ):(
+                              <Image
                               src={ProfileAvatar}
                               width={35}
                               height={35}
                               alt=""
                             />
+                            )
+                           
                           )
                         }
                         
@@ -154,7 +188,11 @@ const Notifications = () => {
                       </a>
                     </Link>
                     <div className="">
-                        <a href="">
+                    <Link href={{
+                          pathname: "/Friends-Profile",
+                          query: i.invite_friend ? (i.invite_friend.sender.id):(i.sender?(i.sender.id):(''))
+                        }}>
+                        <a>
                         <div className="username text-sm font-bold">
                           {i.sender?(
                             i.sender.first_name+' '+i.sender.last_name
@@ -162,28 +200,89 @@ const Notifications = () => {
                             i.follower?(
                               i.sender.first_name+' '+i.sender.last_name
                             ):
-                            ('')
+                            (i.invite_friend && i.invite_friend.sender?(
+                              i.invite_friend.sender.first_name+' '+i.invite_friend.sender.last_name
+                            ):(''))
                           )}
                           
                         </div>
                       </a>
-                      <a href="">
+                      </Link>
                         <div className="userfield text-xs">
                           {/* <a href="" className="font-bold text-indigo-400">
                             User Name
                           </a>{" "} */}
-                          {i.body}
+                          
                           {/* Likes your{" "} */}
                           {/* <a className="font-bold text-indigo-400" href="">
                             Article
                           </a> */}
+                          {i.invite_friend && i.invite_friend.group && i.invite_friend.status == "pending"?(
+                            <div className="flex justify-end gap-4">
+                            <div className="py-2 font-bold">
+                            <Link href={{pathname: "group-page/suggest-group", query: i.invite_friend.group.id,}}>
+                              <a>
+                              {i.body}
+                              </a>
+                              </Link>
+                            </div>
+                            <button className="border-indigo-400 border text-indigo-400 px-3 py-2 rounded-full font-medium"
+                            onClick={ () =>joingroups(i.invite_friend.id, "accepted")}>
+                              Accept
+                            </button>
+                            <button className="border-indigo-400 border text-indigo-400 px-3 py-2 rounded-full font-medium"
+                            onClick={ () =>joingroups(i.invite_friend.id, "cancelled")}>
+                              Ignore
+                            </button>
+                          </div>
+                          ):(i.invite_friend && i.invite_friend.group.group_type == "private_group" && i.invite_friend.status == "accepted"?(
+                            <div className="flex justify-end gap-4">
+                              <Link href={{pathname: "group-page/suggest-group", query: i.invite_friend.group.id,}}>
+                              <a>
+                            <div className="py-2">
+                              {i.body}
+                            </div>
+                            <div className="border-indigo-400 border text-indigo-400 px-3 py-2 rounded-full font-medium">
+                              Your Request is send to {i.invite_friend.group.title}
+                              </div>
+                              </a>
+                              </Link>
+                          </div>
+                          ):(i.invite_friend && i.invite_friend.group.group_type == "public_group" && i.invite_friend.status == "accepted"?(
+                            <div className="flex justify-end gap-4">
+                              <Link href={{pathname: "group-page/joind-group", query: i.invite_friend.group.id,}}>
+                              <a>
+                            <div className="py-2 font-bold">
+                              {i.body }
+                            </div>
+                            <div className="border-indigo-400 border text-indigo-400 px-3 py-2 rounded-full font-medium">
+                             You joined group {i.invite_friend.group.title}
+                            </div>
+                            </a>
+                              </Link>
+                          </div>
+                          ):(i.invite_friend && i.invite_friend.status == "cancelled"?(
+                            <div className="flex justify-end gap-4">
+                            
+                            <Link href={{pathname: "group-page/suggest-group", query: i.invite_friend.group.id,}}>
+                              <a>
+                              <div className="py-2 font-bold">
+                              {i.body }
+                            </div>
+                            <div className="border-indigo-400 border text-indigo-400 px-3 py-2 rounded-full font-medium">
+                             You cancelled joined request for group {i.invite_friend.group.title}
+                            </div>
+                            </a>
+                              </Link>
+                          </div>):(i.body))))}
                         </div>
-                      </a>
+                      
                     </div>
                   </div>
                   <div className="time font-light text-xs">{i.date} {i.time}</div>
                 </div>
                 </div>
+                
                ))
                
             ):('')
