@@ -11,7 +11,7 @@ import {
   SearchIcon,
 } from "@heroicons/react/outline";
 import { DotsHorizontalIcon } from "@heroicons/react/solid";
-import { GROUP_API, GROUP_MEMBERS_API, PAGES_API } from "../../../../pages/config";
+import { BLOCK_API, GROUP_API, GROUP_MEMBERS_API, PAGES_API } from "../../../../pages/config";
 import { useRouter } from "next/router";
 
 const PageMembers = () => {
@@ -106,7 +106,28 @@ const PageMembers = () => {
     .then((result) => {
       setadmin(result.data);
     })
-}
+  }
+  // Block
+  const Block =(id,userId,type)=>{
+    const dataForm = new FormData();
+    dataForm.append("blocks[blockable_type]", type);
+    dataForm.append("blocks[blockable_id]", id);
+    dataForm.append("blocks[blocked_id]", userId);
+    const res = fetch(BLOCK_API, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      Authorization: `${authKey}`,
+    },
+    body:dataForm,
+    })
+    .then((resp) => resp.json())
+    .then((result) => {
+      GetMember();
+      GetAdmins();
+      console.log(result.data);
+    })
+  }
 
   useEffect(() => {
     GetMember();
@@ -120,7 +141,7 @@ const PageMembers = () => {
           <div className="flex justify-between items-center border-b-1 p-4">
             <div className="heading">Page Members</div>
             {count || admincount?(
-              <div className="">{count+admincount+1}</div>  
+              <div className="">{count+admincount}</div>  
             ):(
               <div className="">0</div>
             )}
@@ -251,7 +272,7 @@ const PageMembers = () => {
                                 <a onClick={()=>Remove_Member(i.user.id)}>Remove From Page</a>
                               </Menu.Item>
                               <Menu.Item className="flex gap-1 mt-2">
-                                <a href="">Block From Page</a>
+                                <a onClick={()=>Block(i.id ,i.user.id, "PageLike")}>Block From Page</a>
                               </Menu.Item>
                             </div>
                           </Menu.Items>
@@ -326,7 +347,7 @@ const PageMembers = () => {
                               <a onClick={()=>Remove_Member(i.user.id)}>Remove This Member</a>
                             </Menu.Item>
                             <Menu.Item className="flex gap-1 mt-2">
-                              <a>Block This Member</a>
+                              <a onClick={()=>Block(i.id ,i.user.id, "PageLike")}>Block This Member</a>
                             </Menu.Item>
                             <Menu.Item className="flex gap-1 mt-2">
                               <a onClick={()=>makeAdmin(i.id,"admin",i.user.first_name )}>Make Admin</a>
