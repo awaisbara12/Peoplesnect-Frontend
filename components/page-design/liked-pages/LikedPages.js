@@ -29,7 +29,7 @@ import {
 import { useFormik } from "formik";
 import { eventScheema } from "../../auth/schemas/CreateEventScheema";
 import { Dialog } from "@headlessui/react";
-import { CURENT_USER_LOGIN_API, GET_USER_FOLLOWEES, PAGES_API, POST_NEWSFEED_API_KEY } from "../../../pages/config";
+import { CURENT_USER_LOGIN_API, GET_USER_FOLLOWEES, InviteFriends, PAGES_API, POST_NEWSFEED_API_KEY } from "../../../pages/config";
 import Spinner from "../../common/Spinner";
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -49,7 +49,8 @@ import {
 } from "@heroicons/react/solid";
 import { useRouter } from "next/router";
 import ProfileFeed from "./ProfileFeed";
-import InviteFriendsPage from "./InviteFriendsPage/InviteFriendsPage";
+import InviteFriendsGroup from "./InviteFriendsGroup/InviteFriendsGroup";
+import axios from "axios";
 const cardDropdown = [
   {
     name: "Turn Off Notifications",
@@ -88,6 +89,7 @@ const LikedPages = (setList, singleItem) => {
   let [isOpen, setIsOpen] = useState(false);
   const [admins,setadmins] = useState();
   const [InviteUser,setInviteUser] = useState();
+  const [isCheck, setIsCheck] = useState([]);
   const router = useRouter();
   const data = router.asPath;
   const myArray = data.split("?");
@@ -164,6 +166,51 @@ const LikedPages = (setList, singleItem) => {
     }
     return false;
   }
+
+  function closeinviteModal(){
+    setIsCheck([]);
+    setIsOpen(false);
+  }
+
+  console.log("page is check",isCheck);
+  const SendInviteRequest = async () => {
+    const res = await axios(InviteFriends+"/invite_friend?page_id="+myArray[1]+"&invite_list="+isCheck, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-type": "application/json; charset=utf-8",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true,
+        Authorization: authKey,
+      },
+      credentials: "same-origin",
+    });
+    const result = await res;
+
+    try {
+      if (result.status == 200) {
+        console.log(result.data);
+        // setList(result.data.data);
+        setIsCheck([]);
+        setIsOpen(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    return result;
+  };
+
+  function inviteModal(){
+    if (isCheck.length > 0)
+    {
+      SendInviteRequest();
+    }
+    else
+    {
+      alert("Select Friend to Invite");
+    }
+  }
+
   useEffect(() => {
     PageDetail();
     Current_User();
@@ -353,22 +400,28 @@ const LikedPages = (setList, singleItem) => {
                                   Invite Friends
                                   </div>
                                   <XIcon
-                                  onClick={closeModal}
+                                  onClick={closeinviteModal}
                                   className="w-5 h-5 cursor-pointer"
                                 />
                               </div>
                               </Dialog.Title>
                               <div className="p-8">
-                              <InviteFriendsPage user={InviteUser}/>
+                              <InviteFriendsGroup page={Page} isCheck={isCheck} setIsCheck={setIsCheck}/>
                               </div>
                               <div className="sticky bottom-0 right-0">
                                 <div className="p-2 rounded-xl">
-                                  <div className="flex gap-4 justify-end">
-                                    <button className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
-                                      onClick={closeModal} type="submit" >
-                                        Close
+                                  <div className="flex gap-4 justify-end"> 
+                                    <button
+                                        onClick={closeinviteModal}
+                                        type="submit"
+                                        className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
+                                        >
+                                          Close
                                     </button>
-                                    <button type="submit" className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
+                                    <button
+                                      onClick={inviteModal}
+                                      type="submit"
+                                      className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
                                       >
                                       Invite
                                     </button>

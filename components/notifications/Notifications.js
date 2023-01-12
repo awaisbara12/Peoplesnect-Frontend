@@ -235,7 +235,7 @@ const Notifications = () => {
                               Ignore
                             </button>
                           </div>
-                          ):(i.invite_friend && i.invite_friend.group.group_type == "private_group" && i.invite_friend.status == "accepted"?(
+                          ):(i.invite_friend && i.invite_friend.group && i.invite_friend.group.group_type == "private_group" && i.invite_friend.status == "accepted"?(
                             <div className="flex justify-end gap-4">
                               <Link href={{pathname: "group-page/suggest-group", query: i.invite_friend.group.id,}}>
                               <a>
@@ -248,7 +248,7 @@ const Notifications = () => {
                               </a>
                               </Link>
                           </div>
-                          ):(i.invite_friend && i.invite_friend.group.group_type == "public_group" && i.invite_friend.status == "accepted"?(
+                          ):(i.invite_friend && i.invite_friend.group && i.invite_friend.group.group_type == "public_group" && i.invite_friend.status == "accepted"?(
                             <div className="flex justify-end gap-4">
                               <Link href={{pathname: "group-page/joind-group", query: i.invite_friend.group.id,}}>
                               <a>
@@ -261,7 +261,7 @@ const Notifications = () => {
                             </a>
                               </Link>
                           </div>
-                          ):(i.invite_friend && i.invite_friend.status == "cancelled"?(
+                          ):(i.invite_friend && i.invite_friend.group && i.invite_friend.status == "cancelled"?(
                             <div className="flex justify-end gap-4">
                             
                             <Link href={{pathname: "group-page/suggest-group", query: i.invite_friend.group.id,}}>
@@ -274,7 +274,52 @@ const Notifications = () => {
                             </div>
                             </a>
                               </Link>
-                          </div>):(i.body))))}
+                          </div>):(
+                            i.invite_friend && i.invite_friend.page && i.invite_friend.status == "pending"?(
+                              <div className="flex justify-end gap-4">
+                              <div className="py-2 font-bold">
+                              <Link href={{pathname: "page-design/suggested-pages", query: i.invite_friend.page.id,}}>
+                                <a>
+                                {i.body}
+                                </a>
+                                </Link>
+                              </div>
+                              <button className="border-indigo-400 border text-indigo-400 px-3 py-2 rounded-full font-medium"
+                              onClick={ () =>joingroups(i.invite_friend.id, "accepted")}>
+                                Accept
+                              </button>
+                              <button className="border-indigo-400 border text-indigo-400 px-3 py-2 rounded-full font-medium"
+                              onClick={ () =>joingroups(i.invite_friend.id, "cancelled")}>
+                                Ignore
+                              </button>
+                            </div>
+                            
+                            ):(i.invite_friend && i.invite_friend.page && i.invite_friend.status == "accepted"?(
+                              <div className="flex justify-end gap-4">
+                                <Link href={{pathname: "page-design/liked-pages", query: i.invite_friend.page.id,}}>
+                                <a>
+                              <div className="py-2 font-bold">
+                                {i.body }
+                              </div>
+                              <div className="border-indigo-400 border text-indigo-400 px-3 py-2 rounded-full font-medium">
+                              You Liked page {i.invite_friend.page.name}
+                              </div>
+                              </a>
+                                </Link>
+                            </div>
+                            ):(i.invite_friend && i.invite_friend.page && i.invite_friend.status == "cancelled"?(
+                              <div className="flex justify-end gap-4">
+                              <Link href={{pathname: "page-design/suggested-pages", query: i.invite_friend.page.id,}}>
+                                <a>
+                                <div className="py-2 font-bold">
+                                {i.body }
+                              </div>
+                              <div className="border-indigo-400 border text-indigo-400 px-3 py-2 rounded-full font-medium">
+                              You cancelled Liked request for page {i.invite_friend.page.title}
+                              </div>
+                              </a>
+                                </Link>
+                            </div>) :(i.body)))))))}
                         </div>
                       
                     </div>
