@@ -353,8 +353,16 @@ const AdminView = (setList, singleItem) => {
                           <UserAddIcon className="w-5 h-5" />
                           Admin
                         </a>
-                        </Link>
-                    </Menu.Item>
+                      </Link>
+                      </Menu.Item>
+                      <Menu.Item className="">
+                      <Link href={{pathname: "/group-page/admin-view/Block-members", query: myArray[1],}}>
+                        <a className="flex gap-1 mt-2">
+                          <UserAddIcon className="w-5 h-5" />
+                          Blocked Member
+                        </a>
+                      </Link>
+                      </Menu.Item>
                       {GroupData && GroupData.group_type=="private_group"?(
                       <Menu.Item className="">
                       <Link href={{pathname: "/group-page/admin-view/pending-request", query: myArray[1],}}>

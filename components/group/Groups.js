@@ -54,7 +54,7 @@ const Groups = () => {
     .then((resp) => resp.json())
     .then((result) => {
       setgroup(result.data);
-      // console.log("admin groups", result.data);
+      console.log("admin groups", result.data);
     })
   }
 
@@ -105,7 +105,7 @@ const Groups = () => {
               <div className="heading font-semibold">My Groups</div>
               <div className="all-button">
                 <button className="bg-indigo-400 text-white px-3 py-2 rounded-full">
-                  Show All
+                  Show Alls
                 </button>
               </div>
             </div>
