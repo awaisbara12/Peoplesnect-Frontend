@@ -11,20 +11,25 @@ import {
   SearchIcon,
 } from "@heroicons/react/outline";
 import { DotsHorizontalIcon } from "@heroicons/react/solid";
-import { BLOCK_API, GROUP_API, GROUP_MEMBERS_API } from "../../../../pages/config";
+import { BLOCK_API, GROUP_API, GROUP_MEMBERS_API, PAGES_API } from "../../../../pages/config";
 import { useRouter } from "next/router";
 
-const GroupMembers = () => {
+const PageMembers = () => {
   const [member,setmember] = useState();
   const [count,setcount] = useState();
+  const [admincount,setadmincount] = useState();  //admins count
+  const [admins,setadmins] = useState();          // all Admins Details
+  const [admin,setadmin] = useState();            // Creater
+  
 
   const router = useRouter();
   const data = router.asPath;
   const myArray = data.split("?");
   // Bareer Key
   if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore");}
-  const Remove_Member =(Id)=>{
-    const res = fetch(GROUP_API +"/remove_member?group_id="+myArray[1]+"&user_id="+Id , {
+  // Get Pages Block Member
+  const GetBlockMember =()=>{
+    fetch(GROUP_API +"/blocked?id="+myArray[1] , {
     method: "GET",
     headers: {
       Accept: "application/json",
@@ -33,31 +38,17 @@ const GroupMembers = () => {
     })
     .then((resp) => resp.json())
     .then((result) => {
-      GetMember();
-     alert("Member has been Removed")
-    })
-  }
-  // Get Group's Member
-   const GetMember =()=>{
-    fetch(GROUP_MEMBERS_API +"?group_id="+myArray[1] , {
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-      Authorization: `${authKey}`,
-    },
-    })
-    .then((resp) => resp.json())
-    .then((result) => {
-      setmember(result.data);
       if(result.data){
+        console.log("Block ",result.data)
+        setmember(result.data);
         setcount(result.data.length)
-        }
+      }
     })
   }
-  // Make admin
-  const makeAdmin =(id,type,name)=>{
-    const res = fetch(GROUP_API +"/add_remove_admin?id="+id+"&member_type="+type , {
-    method: "GET",
+  // UnBlock
+  const UnBlock =(id)=>{
+    const res = fetch(BLOCK_API+"/"+id, {
+    method: "DELETE",
     headers: {
       Accept: "application/json",
       Authorization: `${authKey}`,
@@ -65,39 +56,19 @@ const GroupMembers = () => {
     })
     .then((resp) => resp.json())
     .then((result) => {
-      GetMember();
-      alert("Now "+name+" is Group Admin");
+      GetBlockMember();
     })
-  }
-  // Block
-  const Block =(id,userId,type)=>{
-    const dataForm = new FormData();
-    dataForm.append("blocks[blockable_type]", type);
-    dataForm.append("blocks[blockable_id]", id);
-    dataForm.append("blocks[blocked_id]", userId);
-    const res = fetch(BLOCK_API, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      Authorization: `${authKey}`,
-    },
-    body:dataForm,
-    })
-    .then((resp) => resp.json())
-    .then((result) => {
-      GetMember();
-      console.log(result.data);
-    })
+    
   }
   useEffect(() => {
-    GetMember();
+    GetBlockMember();
   },[])
   return (
     <div className="mt-8">
     <div className="w-[600px] xl:w-[980px] lg:w-[710px] md:w-[780px] px-5 md:px-0 lg:px-0 xl:px-0">
         <div className="bg-white rounded-xl mt-8">
           <div className="flex justify-between items-center border-b-1 p-4">
-            <div className="heading">Group Members</div>
+            <div className="heading">Block Members</div>
             {count?(
               <div className="">{count}</div>  
             ):(
@@ -117,44 +88,39 @@ const GroupMembers = () => {
               </a>
             </Link>
           </div>
+          {/* Page Member/Likers */}
           <div className="border-b-1">
             {member?(
               member.map((i)=>{
-                if(i.member_type=="member")
                 return(
                 <div className="request-profile flex  px-4 py-3 justify-between items-center" key={i.id}>
                   <div className="flex items-center gap-3">
-                    {i.group_member && i.group_member.display_photo_url?(
-                      <Link href={{pathname: "/User-Profile", query:i.group_member.id,}}>
+                    {i.group_member &&i.group_member.group_member && i.group_member.group_member.display_photo_url?(
+                      <Link href={{pathname: "/User-Profile", query:i.group_member.group_member.id,}}>
                       <a>
-                        <img src={i.group_member.display_photo_url} className="object-cover rounded-full z-40 h-[40px] w-[40px]" alt="" />
+                        <img src={i.group_member.group_member.display_photo_url} className="object-cover rounded-full z-40 h-[40px] w-[40px]" alt="" />
                       </a>
                     </Link>
                     ):(
-                      <Link href={{pathname: "/User-Profile", query:i.group_member.id,}}>
+                      <Link href={{pathname: "/User-Profile", query:i.group_member.group_member.id,}}>
                         <a>
                           <Image src={ProfileAvatar} width={35} height={35} alt="" />
                         </a>
                       </Link>
                     )}
                     <div className="">
-                      <Link href={{pathname: "/User-Profile", query:i.group_member.id,}}>
+                      <Link href={{pathname: "/User-Profile", query:i.group_member.group_member.id,}}>
                       <a>
-                        <div className="username text-sm font-bold capitalize">{i.group_member.first_name} {i.group_member.last_name}</div>
+                        <div className="username text-sm font-bold capitalize">{i.group_member.group_member.first_name} {i.group_member.group_member.last_name}</div>
                       </a>
                       </Link>
-                      <Link href={{pathname: "/User-Profile", query:i.group_member.id,}}>
+                      <Link href={{pathname: "/User-Profile", query:i.group_member.group_member.id,}}>
                       <a>
-                        <div className="userfield text-xs">Member</div>
-                      </a>
-                      </Link>
-                      {/* <Link href={{pathname: "/User-Profile", query:i.group_member.id,}}>
-                      <a>
-                        <div className="mutual-followers text-xs">
-                          Friends Add in Group
+                        <div className="mutual-followers text-xs capitalize">
+                           {i.group_member.member_type=="member"?"member":i.group_member.member_type}
                         </div>
                       </a>
-                      </Link> */}
+                      </Link>
                     </div>
                   </div>
                   <div className="">
@@ -181,14 +147,12 @@ const GroupMembers = () => {
                       >
                         <Menu.Items className="absolute left-1/2 z-10 mt-3 w-48 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-3xl">
                           <div className="flex items-start flex-col gap-2 border-1 bg-white rounded-xl p-3">
-                            <Menu.Item className="flex gap-1">
-                              <a onClick={()=>Remove_Member(i.group_member.id)}>Remove This Member</a>
-                            </Menu.Item>
-                            <Menu.Item className="flex gap-1 mt-2">
-                              <a onClick={()=>Block(i.id ,i.group_member.id, "GroupMember")}>Block This Member</a>
-                            </Menu.Item>
-                            <Menu.Item className="flex gap-1 mt-2">
-                              <a onClick={()=>makeAdmin(i.id,"admin",i.group_member.first_name )}>Make Admin</a>
+                            <Menu.Item className="flex gap-1 -mt-2">
+                              <a 
+                              onClick={()=>UnBlock(i.id)}
+                              >
+                                UnBlock Member
+                              </a>
                             </Menu.Item>
                           </div>
                         </Menu.Items>
@@ -199,10 +163,11 @@ const GroupMembers = () => {
               )})
             ):('')}
           </div>
+         
         </div>
       </div>
     </div>
   );
 };
 
-export default GroupMembers;
+export default PageMembers;
