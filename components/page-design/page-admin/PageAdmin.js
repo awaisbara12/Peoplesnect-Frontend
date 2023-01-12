@@ -104,6 +104,7 @@ const PageAdmin = (setList, singleItem) => {
   const [postdpPreview, setpostdpPreview] = useState();   // dp Preview
   const [GroupData, setGroupData] = useState({});            
   let [isOpen, setIsOpen] = useState(false);
+  const [member, setmember] = useState();
   const handleImageSelect = (e) => {
     setEventCoverImage(e.target.files[0]);
     if (e.target.files.length !== 0) {
@@ -287,7 +288,7 @@ const PageAdmin = (setList, singleItem) => {
     .then((resp) => resp.json())
     .then((result) => {
       setadmins(result.data);
-      console.log(result.data)
+      GetMember();
     })
   };
   // Check admins
@@ -300,6 +301,22 @@ const PageAdmin = (setList, singleItem) => {
      }
     }
     return false;
+  }
+  // Get Group's Member
+  const GetMember =()=>{
+    fetch(PAGES_API +"/page_liker?page_id="+myArray[1] , {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      Authorization: `${authKey}`,
+    },
+    })
+    .then((resp) => resp.json())
+    .then((result) => {
+      if(result.data){
+        setmember(result.data)
+        }
+    })
   }
 
   useEffect(() => {
@@ -469,6 +486,14 @@ const PageAdmin = (setList, singleItem) => {
                             </a>
                           </Link>
                         </Menu.Item>
+                        <Menu.Item className="">
+                        <Link href={{pathname: "/page-design/page-admin/Block-members", query: myArray[1],}}>
+                            <a className="flex gap-1 mt-2">
+                              <CogIcon className="w-5 h-5" />
+                              Block Members
+                            </a>
+                          </Link>
+                        </Menu.Item>
                       </div>
                     </Menu.Items>
                   </Transition>
@@ -479,7 +504,9 @@ const PageAdmin = (setList, singleItem) => {
             <Link href={{pathname: "/page-design/page-admin/page-members", query: myArray[1],}}>
                 <a className="flex gap-1 mt-2">
                   <ThumbUpIcon className="h-5 w-5" />
-                  <div className="">{GroupData && GroupData.page_likes_count} Likes</div>
+                  {admins?(
+                  <div className=""> {member?admins.length + member.length:admins.length} Likes</div>
+                  ):(<div className=""> {member?member.length:0} Likes</div>)}
                 </a>
               </Link>
             </div>

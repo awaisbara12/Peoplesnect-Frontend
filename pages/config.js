@@ -44,6 +44,8 @@ export const PAGE_REQUEST_API= process.env.NEXT_PUBLIC_PAGE_REQUEST
 export const GROUP_MEMBERS_API= process.env.NEXT_PUBLIC_GROUP_MEMBER
 export const GROUP_MEMBER_Request= process.env.NEXT_PUBLIC_GROUP_MEMBER_Request
 export const HASHTAGS_API= process.env.NEXT_PUBLIC_HASHTAGS
+export const BLOCK_API= process.env.NEXT_PUBLIC_BLOCK
+
 export const InviteFriends= process.env.NEXT_PUBLIC_INVITE_FRIENDS
 
 function Config() {
