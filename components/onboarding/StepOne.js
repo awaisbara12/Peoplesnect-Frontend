@@ -9,7 +9,7 @@ import { OnboardingSchemaFitst } from "../auth/schemas/OnboardSchema";
 import { ONBOARDING_STEP_ONE_URL } from "../../pages/config";
 import { fetchUser } from "../../store/userSlice";
 import { useDispatch, useSelector } from "react-redux";
-
+import { Country, City }  from 'country-state-city';
 import Spinner from "../common/Spinner";
 
 const StepOne = () => {
@@ -21,6 +21,12 @@ const StepOne = () => {
   const [err, setErr] = useState();
   const [close, setClose] = useState(false);
   const dispatch = useDispatch();
+  const [country, setcountry] = useState();
+  const [city, setcity] = useState();
+  const [Errcountry, setcountryErr] = useState();
+  const [Errcity, setcityErr] = useState();
+
+
 
   useEffect(() => {
     dispatch(fetchUser());
@@ -31,24 +37,19 @@ const StepOne = () => {
   const handleClose = () => {
     setClose(true);
   };
-
-  const stepData = async (e) => {
-    e.preventDefault();
-
-    handleSubmit();
-
-    const isValid = await OnboardingSchemaFitst.isValid(values)
-
-    if(isValid){
+// onSubmit={stepData}
+  const stepData = async () => {
+    // e.preventDefault();
+    // handleSubmit();
+    // const isValid = await OnboardingSchemaFitst.isValid(values)
+    if(city && country){
       setSpinner(true);
-
       const data = {
           user: {
-              country: values.country,
-              city: values.city,
+              country: country,
+              city:city,
             },
           };
-
           const resp = await fetch(ONBOARDING_STEP_ONE_URL, {
               method: "PUT",
               headers: {
@@ -58,9 +59,7 @@ const StepOne = () => {
                 },
                 body: JSON.stringify(data),
               });
-
               const result = await resp.json();
-
               try {
                 if (result && result.error) {
                     setErr(result.error);
@@ -73,9 +72,12 @@ const StepOne = () => {
                 console.log(err);
                 }
       setSpinner(false);
-
+    }else{
+      var check=0;
+      if (country){ setcityErr('Required'); setcountryErr('');check=1;}
+      if (city){setcountryErr('Required');setcityErr(''); check=1;}
+      if(check==0){setcityErr('Required');setcountryErr('Required');}
     }
-
   };
   const {
     values,
@@ -87,8 +89,8 @@ const StepOne = () => {
     handleSubmit,
   } = useFormik({
     initialValues: {
-      country: "",
-      city: "",
+      country: country,
+      city: city,
     },
     validationSchema: OnboardingSchemaFitst,
   });
@@ -102,7 +104,8 @@ const StepOne = () => {
     };
     getUser();
   }, [user]);
-
+  console.log("country",Errcountry)
+  console.log("city",Errcity)
   return (
     <>
       <div className="signUp--background min-h-screen overflow-y-auto">
@@ -148,12 +151,26 @@ const StepOne = () => {
               </p>
             </div>
 
-            <form onSubmit={stepData} className="w-3/4 mx-auto pt-8 pb-6">
+            <for  className="w-3/4 mx-auto pt-8 pb-6">
               <div className="form-group pb-4">
                 <label htmlFor="" className="font-medium">
                   Country - Region <span className="text-red-400">*</span>
                 </label>
-                <input
+                <select onChange={e=>setcountry(e.target.value)} 
+                // className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-40 lg:w-54 xs:w-auto md:w-52 placeholder:pl-2 rounded-full placeholder:py-2"
+                className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none
+                 focus:border-indigo-400 focus:drop-shadow-indigo-400 ${
+                  Errcountry ? "border-red-600" : ""
+                }`}
+                >
+                  <option value={country}>{country}</option>
+                  {
+                    Country.getAllCountries().map((item)=>(
+                      <option value={item.isoCode} key={item.id}>{item.name}</option>
+                    ))  
+                  }
+                </select>
+                {/* <input
                   name="country"
                   value={values.country}
                   onChange={handleChange}
@@ -162,16 +179,28 @@ const StepOne = () => {
                   className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400 ${
                     errors.country && touched.country ? "border-red-600" : ""
                   }`}
-                />
-                {errors.country && touched.country ? (
-                  <div className="text-red-600 pt-2 pl-1">{errors.country}</div>
+                /> */}
+                {Errcountry? (
+                  <div className="text-red-600 pt-2 pl-1">{Errcountry}</div>
                 ) : null}
               </div>
               <div className="form-group pb-4">
                 <label htmlFor="" className="font-medium">
                   City / State <span className="text-red-400">*</span>
                 </label>
-                <input
+                <select onChange={e=>setcity(e.target.value)} 
+                 // className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-40 lg:w-54 xs:w-auto md:min-w-[13rem] placeholder:pl-2 rounded-full placeholder:py-2"
+                 className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400 ${
+                  Errcity ? "border-red-600" : ""
+                }`}>
+                  <option value={city}>{city}</option>
+                  {
+                    City.getCitiesOfCountry(country).map((item)=>(
+                      <option value={item.name} key={item.id}>{item.name}</option>
+                    ))  
+                  }
+                </select>
+                {/* <input
                   type="text"
                   name="city"
                   value={values.city}
@@ -180,19 +209,20 @@ const StepOne = () => {
                   className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400 ${
                     errors.city && touched.city ? "border-red-600" : ""
                   }`}
-                />
-                {errors.city && touched.city ? (
-                  <div className="text-red-600 pt-2 pl-1">{errors.city}</div>
+                /> */}
+                {Errcity? (
+                  <div className="text-red-600 pt-2 pl-1">{Errcity}</div>
                 ) : null}
               </div>
               <button
-                type="submit"
-                disabled={isSubmitting}
+                // type="submit"
+                disabled={spinner}
+                onClick={()=>stepData()}
                 className="bg-indigo-400 flex gap-2 items-center justify-center text-white text-xl text-center cursor-pointer font-semibold w-full py-2 rounded-full mt-6"
               >
                 Continue {spinner && true ? <Spinner /> : ""}
               </button>
-            </form>
+            </for>
           </div>
         </div>
       </div>
