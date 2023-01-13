@@ -52,7 +52,6 @@ const ReplyComments = (props) => {
         if (result) {
           
           setCurrentUser(result.data.id);
-          // console.log("user",result.data.id)
         }
       })
       .catch((err) => console.log(err)); 
@@ -202,8 +201,6 @@ const ReplyComments = (props) => {
     }
     return result;
   };
-
-  // console.log("propsderer", props.comments);
   function addHeart(type,commentId) {
     const dataForm = new FormData();
     dataForm.append("reactionable_id", commentId);
@@ -291,7 +288,6 @@ const ReplyComments = (props) => {
     const result = await res;
     try {
       if (result) {
-        console.log("Replies",result.data);
         setReplyOn(false);
         setReplyEditOn(false);
         setEditReply('');
@@ -323,7 +319,6 @@ const ReplyComments = (props) => {
     }).then((resp) => resp.json())
     .then((result) => {
       if (result) {
-        console.log("Replies",result.data);
         setReplyOn(false);
         setReplyEditOn(false);
         setEditReply('');

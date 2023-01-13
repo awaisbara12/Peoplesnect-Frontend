@@ -13,7 +13,9 @@ const AccountManagment = () => {
     if(defaultvalue){
       const a=confirm("are u sure")
     if (a===true){UpdateAccountPreference()}
-    if (a===false){console.log("confirm",a)}
+    if (a===false){
+      // console.log("confirm",a)
+    }
     }else{alert("your changes are not updated")}
       
   }

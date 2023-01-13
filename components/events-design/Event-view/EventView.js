@@ -38,7 +38,6 @@ const EventView = () => {
     try {
       if (result.status == 200) {
         setPost(result.data.data);
-        console.log("uff",result.data.data);
       }
     } catch (error) {
       console.log(error);

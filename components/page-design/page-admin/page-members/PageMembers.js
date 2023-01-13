@@ -55,7 +55,7 @@ const PageMembers = () => {
     .then((resp) => resp.json())
     .then((result) => {
       setadmins(result.data);
-      console.log("admins",result.data)
+      // console.log("admins",result.data)
       if(result.data){
         setadmincount(result.data.length)
         }

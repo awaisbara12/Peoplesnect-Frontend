@@ -26,95 +26,11 @@ function BlogShow() {
   const [is_deleted, setIs_deleted] = useState(0);
 
   const [items, setItems] = useState();
-  // console.log("yess",showComment)  
   const router = useRouter();
   const data = router.asPath;
   const myArray = data.split("?");
   // Bareer Key
   if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore");}
-  
-  // function CommentEditOn(body, commentId){
-  //   if(commentEditOn){setcommentEditOn(false);setcomments('');}
-  //   else{setcommentEditOn(true);seteditcomments(body);setcommentEditId(commentId)}
-  // }
-  // //Edit Comment
-  // function EditComment(commentId){
-  //   if(editcomments){
-  //     const dataForm = new FormData();
-  //     dataForm.append("comments[body]", editcomments);
-  //     const res = fetch(COMMENT_API_KEY +"/"+ commentId, {
-  //     method: "PUT",
-  //     headers: {
-  //       Accept: "application/json",
-  //       Authorization: `${authKey}`,
-  //     },
-  //     body: dataForm,
-  //     })
-  //     .then((resp) => resp.json())
-  //     .then((result) => {
-  //       getBlogs();
-  //       alert("edit")
-  //     })
-  //     setLoading(false);
-  //     setcommentEditOn('');
-  //     seteditcomments('');
-  //   }
-  // }
-  // // Delete Comment
-  // const DeleteComment = async (commentId) => {
-  //   var a = confirm("Are You Sure ?")
-  //   if(a){
-  //     const res = await axios(COMMENT_API_KEY +"/"+ commentId, {
-  //       method: "DELETE",
-  //       headers: {
-  //         Accept: "application/json",
-  //         "Content-type": "application/json; charset=utf-8",
-  //         "Access-Control-Allow-Origin": "*",
-  //         "Access-Control-Allow-Credentials": true,
-  //         Authorization: authKey,
-  //       },
-  //       credentials: "same-origin",
-  //     });
-  //     const result = await res;
-  //     try {
-  //       if (result.status == 200) {
-  //         getBlogs();
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //     setLoading(false);
-  //     return result;
-  //   }
-   
-  // };
-  // // Post Comment 
-  // function PostComment(e) {
-  //   if(comments){
-  //     e.preventDefault();
-  //     const dataForm = new FormData();
-  //     dataForm.append("comments[body]", comments);
-  //     dataForm.append("comments[commentable_id]", list.data.id);
-  //     dataForm.append("comments[commentable_type]", "Blog");
-  //     fetch(COMMENT_API_KEY, {
-  //       method: "POST",
-  //       headers: {
-  //         Accept: "application/json",
-  //         Authorization: `${authKey}`,
-  //       },
-  //       body: dataForm,
-  //     })
-  //       .then((resp) => resp.json())
-  //       .then((result) => {
-  //         if (result) {
-  //           setcomments('');
-  //           getBlogs();
-  //         }
-  //       })
-  //       .catch((err) => console.log(err));
-  //   }
-    
-  // }
   // get all data of this blog
   const getBlogs = async () => {
     const res = await axios(BLOG_POST_USER_API_KEY + "/" + myArray[1], {
@@ -131,21 +47,17 @@ function BlogShow() {
     const result = await res;
     try {
       if (result.status == 200) {
-        console.log("Blog",result.data)
         setItems(result.data.data);
         setList(result.data);
         setcomments(result.data.data.comments);
         setComments_count(result.data.data.comments.length)
         setIs_deleted(false);
-        
-        // setComments_count(result.data.data.comments.length);
       }
     } catch (error) {}
     setLoading(false);
     return result;
   };
-  const Current_User=async()=>{    
-   
+  const Current_User=async()=>{   
     await fetch(CURENT_USER_LOGIN_API, {
       method: "GET",
        headers: {
@@ -170,9 +82,9 @@ function BlogShow() {
    // CopyLink
    const copylink=(postid)=>{    
     const links=window.location.href        // get Full Link
-    const links1=window.location.pathname   // get link after localhost
-    const copylink1 = links.split(links1)    // get link domain like(localhost..etc)
-    navigator.clipboard.writeText(copylink1[0]+"/events-design/event-view?"+postid);
+    // const links1=window.location.pathname   // get link after 
+    // const copylink1 = links.split(links1)    // get link domain like(localhost..etc)
+    navigator.clipboard.writeText(links);
     alert("Link Copied to your Clipboard");
   }
   function addHeart(feedId) {
@@ -389,8 +301,8 @@ function BlogShow() {
                 width={24}
                 height={24}
                 className="text-indigo-400 cursor-pointer"
-                // onClick={() => copylink(items.id)}
-                onClick={() =>alert("pending..")}
+                onClick={() => copylink(items.id)}
+                // onClick={() =>alert("pending..")}
               />
             </div>
           </div>

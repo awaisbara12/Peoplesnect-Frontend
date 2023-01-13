@@ -32,7 +32,6 @@ const InviteFriendsGroup = (props) => {
 
     try {
       if (result.status == 200) {
-        console.log(result.data.data);
         setList(result.data.data);
       }
     } catch (error) {
@@ -63,8 +62,6 @@ const InviteFriendsGroup = (props) => {
       props.setIsCheck(isCheck.filter(item => item !== id));
     }
   };
-
-  console.log("id is",isCheck);
 
   const catalog = list.map(({ id, first_name, last_name, city, country,display_photo_url  }) => {
     return (

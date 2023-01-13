@@ -323,7 +323,6 @@ const ReplyComments = (props) => {
     }).then((resp) => resp.json())
     .then((result) => {
       if (result) {
-        console.log("Replies",result.data);
         setReplyOn(false);
         setReplyEditOn(false);
         setEditReply('');

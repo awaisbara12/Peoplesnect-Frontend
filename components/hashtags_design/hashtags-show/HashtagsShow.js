@@ -58,9 +58,7 @@ const HashtagsShow = (singleItems) => {
   const [is_deleted, setIs_deleted] = useState(0);
   const [loading, setLoading] = useState(true);
   const [nextPage, setNextPage] = useState('');
-  // console.log("i =>", singleItems)
   if (typeof window !== "undefined") {
-    // console.log("ju",singleItems);
     var authKey = window.localStorage.getItem("keyStore");
   }
 
@@ -245,7 +243,6 @@ const HashtagsShow = (singleItems) => {
   }
 
   useEffect(() => {
-    //console.log("yes")
     setLoading(true);
     const getFeedComments = async () => {
       const res = await axios(

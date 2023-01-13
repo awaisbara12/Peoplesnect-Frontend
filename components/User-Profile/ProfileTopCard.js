@@ -76,7 +76,7 @@ const ProfileTopCard = (props) => {
     };
     const response = await fetch(`${FOLLOW_USER_API}/${userId}`,requestOptions);
     const data = await response.json();
-    console.log("DElet Follower", data.data );
+    // console.log("DElet Follower", data.data );
     setbtn1('');
     CheckFollower();
   }

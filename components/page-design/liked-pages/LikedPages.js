@@ -171,8 +171,6 @@ const LikedPages = (setList, singleItem) => {
     setIsCheck([]);
     setIsOpen(false);
   }
-
-  console.log("page is check",isCheck);
   const SendInviteRequest = async () => {
     const res = await axios(InviteFriends+"/invite_friend?page_id="+myArray[1]+"&invite_list="+isCheck, {
       method: "GET",

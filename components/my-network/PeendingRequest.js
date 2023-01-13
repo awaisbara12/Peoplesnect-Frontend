@@ -37,7 +37,6 @@ function PeendingRequest() {
       .then((result) => {
         if (result) {
           setUserDetails(result.data.id);  
-          //console.log("Current Userss",result.data.id)
         }
       })
       .catch((err) => console.log(err)); 

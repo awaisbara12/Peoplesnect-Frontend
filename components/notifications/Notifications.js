@@ -30,9 +30,7 @@ const Notifications = () => {
        .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-          console.log("===",result.data);
           setnotify(result.data);  
-          console.log("Current Userss",result.data.id)
         }
       })
       .catch((err) => console.log(err)); 

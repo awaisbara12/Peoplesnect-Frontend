@@ -4,7 +4,7 @@ import Followings from "./Followings";
 
 const FollowingsTabs = () => {
   const [openTab, setOpenTab] = React.useState(1);
-  const [userDetails, setUserDetails] = React.useState(1);  //console.log("==>",userDetails);
+  const [userDetails, setUserDetails] = React.useState(1);  
   return (
     <>
       <div className="mt-8">

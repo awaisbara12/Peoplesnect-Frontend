@@ -32,7 +32,6 @@ const Followers = () => {
     };
     const response = await fetch(`${FOLLOW_USER_API}/${userId}`,requestOptions);
     const data = await response.json();
-    console.log("DElet Follower", data.data );
     setfollower(data.data);
     ShowFollowing();
   }
@@ -45,7 +44,6 @@ const Followers = () => {
     };
     const response = await fetch(`${GET_USER_FOLLOWEES}`,requestOptions);
     const data = await response.json();
-    console.log("Total Followeee", data.data );
     setfollower(data.data);
   }
   useEffect(() => {
