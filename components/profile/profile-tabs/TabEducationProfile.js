@@ -82,7 +82,7 @@ const TabEducationProfile = () => {
         if (result) {
           closeCreateModal();
           setUserUpdateeducation(result.data)
-          console.log("Create Education",result.data)
+          // console.log("Create Education",result.data)
         }
       })
       .catch((err) => console.log(err));

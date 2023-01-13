@@ -34,7 +34,6 @@ const InviteFriendsGroup = (props) => {
 
     try {
       if (result.status == 200) {
-        console.log(result.data.data);
         setList(result.data.data);
       }
     } catch (error) {

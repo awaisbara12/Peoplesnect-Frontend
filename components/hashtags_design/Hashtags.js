@@ -19,7 +19,6 @@ const Hashtags = () => {
        .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-          console.log(result.data);
           sethastags(result.data);
         }
       })

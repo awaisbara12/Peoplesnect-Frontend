@@ -154,12 +154,12 @@ const PostView = () => {
 
     try {
       if (result.status == 200) {
-        console.log("ahaa",result.data.pages.next_page);
+        // console.log("ahaa",result.data.pages.next_page);
         setNextPage(result.data.pages.next_page)
         setComments(result.data);
         setComments_count(result.data.data[0].news_feed.comments_count)
         setIs_deleted(false);
-       console.log("checkin", result.data.pages.next_page);
+      //  console.log("checkin", result.data.pages.next_page);
       }
     } catch (error) {
       console.log(error);

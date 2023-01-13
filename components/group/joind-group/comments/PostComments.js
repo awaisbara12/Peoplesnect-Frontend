@@ -28,7 +28,6 @@ const PostComments = (props) => {
   const [currentUser, setCurrentUser] = useState();
  
   function handleOnEnter() {
-    console.log("enter", postText);
   }
   
   const handleImagePost = (e) => {
@@ -64,7 +63,6 @@ const PostComments = (props) => {
       .then((result) => {
         if (result) {
           setCurrentUser(result.data);
-          // console.log("user",result.data);
         }
       })
       .catch((err) => console.log(err)); 

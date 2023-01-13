@@ -53,7 +53,6 @@ const ReplyComments = (props) => {
         if (result) {
           
           setCurrentUser(result.data.id);
-          // console.log("user",result.data.id)
         }
       })
       .catch((err) => console.log(err)); 
@@ -109,7 +108,6 @@ const ReplyComments = (props) => {
             const result = await res;
             try {
               if (result.status == 200) {
-                console.log("delet",result)
                 props.setComments(result.data.data);
                 props.setIs_deleted(1);
                 props.setComments_count(result.data.data.length);
@@ -177,7 +175,6 @@ const ReplyComments = (props) => {
 
     try {
       if (result.status == 200) {
-        console.log("yesssssssss",result)
         props.setComments(result.data.data);
       }
     } catch (error) {
@@ -186,7 +183,6 @@ const ReplyComments = (props) => {
     return result;
   };
 
-  // console.log("propsderer", props.comments);
   function addHeart(type,commentId) {
     const dataForm = new FormData();
     dataForm.append("reactionable_id", commentId);

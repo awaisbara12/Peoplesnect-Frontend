@@ -32,7 +32,6 @@ const SuggestedBlogs = () => {
       try {
         if (result.status == 200) {
           setList(result.data);
-          console.log(result.data);
         }
       } catch (error) {
         console.log(error);

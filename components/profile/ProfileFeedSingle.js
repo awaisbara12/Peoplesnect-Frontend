@@ -100,7 +100,7 @@ const ProfileFeedSingle = (singleItems) => {
     try {
       if (result.status == 200) {
         singleItems.setList(result.data.data);
-        console.log(singleItems.lists)
+        // console.log(singleItems.lists)
       }
     } catch (error) {
       console.log(error);
@@ -264,7 +264,7 @@ const ProfileFeedSingle = (singleItems) => {
       if (result) {
         singleItems.setBookmarks(result.data);
         singleItems.setBookmarks(result.data);
-        console.log(result.data);
+        // console.log(result.data);
       }
     })
     .catch((err) => console.log(err)); 

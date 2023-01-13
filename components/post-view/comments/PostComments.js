@@ -27,7 +27,7 @@ const PostComments = (props) => {
   const [comments, setComments] = useState([]);
  
   function handleOnEnter() {
-    console.log("enter", postText);
+    // console.log("enter", postText);
   }
   
   const handleImagePost = (e) => {

@@ -363,7 +363,6 @@ const ProfileFeedSingle = (singleItems) => {
     }
   }
   useEffect(() => {
-   //console.log("yes")
     setLoading(true);
     const getFeedComments = async () => {
       const res = await axios(
