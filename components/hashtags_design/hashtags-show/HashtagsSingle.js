@@ -35,7 +35,7 @@ const HashtagsSingle = () => {
         setList(mergedata);
         // setcurrentpage(result.data.pages.next_page)
         // setlastpage(result.data.pages.total_pages)
-        console.log(result.data.data)
+        // console.log(result.data.data)
       }
     } catch (error) {
       console.log(error);
