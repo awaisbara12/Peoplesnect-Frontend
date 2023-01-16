@@ -16,7 +16,7 @@ const Hashtags = () => {
          Authorization: `${authKey}`,
        },
     })
-       .then((resp) => resp.json())
+      .then((resp) => resp.json())
       .then((result) => {
         if (result) {
           sethastags(result.data);
@@ -51,19 +51,18 @@ const Hashtags = () => {
               <div className="mt-4">
                 {hastags?(
                   hastags.map((i)=>(
-                    <div className="flex justify-between items-center hover:bg-gray-100" key={i.id}>
-                    <Link  href={{pathname: "hashtag-design/hashtags-show", query: i.id}}>
-                    
-                      <a className="py-2 px-4 rounded-full hover:bg-gray-100">
-                        <div className="font-bold">{i.name}</div>
-                        <div className="mt-1">{i.count} tags</div>
+                    <Link  href={{pathname: "hashtag-design/hashtags-show", query: i.id}} key={i.id}>
+                      <a >
+                        <div className="flex justify-between items-center hover:bg-gray-100" >
+                          <div className="py-2 px-4 rounded-full hover:bg-gray-100">
+                            <div className="font-bold">{i.name}</div>
+                            <div className="mt-1">{i.count} tags</div>
+                          </div>
+                          <DotsHorizontalIcon className="h-5 w-5" />
+                        </div>
                       </a>
-                      <a href="">
-                        <DotsHorizontalIcon className="h-5 w-5" />
-                      </a>
-                  </Link>
-                  </div>
-                ))
+                    </Link>
+                  ))
                 ):('')}
               </div>
             </div>
