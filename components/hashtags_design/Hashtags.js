@@ -26,7 +26,7 @@ const Hashtags = () => {
   }
   useEffect(() => {
     HashTags();
-  },[])
+  },[]);
   return (
     <div>
       <div className="mt-8">

@@ -54,7 +54,7 @@ const Groups = () => {
     .then((resp) => resp.json())
     .then((result) => {
       setgroup(result.data);
-      console.log("admin groups", result.data);
+      console.log("admin groups", result);
     })
   }
 
@@ -99,20 +99,22 @@ const Groups = () => {
   return (
     <div className="mt-8">
     <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
-    <div className="mt-8">
+        {/* My group Section  */}
+        <div className="mt-8">
           <div className="bg-white rounded-xl p-4">
             <div className="justify-between flex items-center">
               <div className="heading font-semibold">My Groups</div>
-              <div className="all-button">
-                <button className="bg-indigo-400 text-white px-3 py-2 rounded-full">
+              <Link href={{pathname: "group-page/show-all", query:"My",}}
+               className="all-button">
+                <a className="bg-indigo-400 text-white px-3 py-2 rounded-full">
                   Show Alls
-                </button>
-              </div>
+                </a>
+              </Link>
             </div>
-            {/* Show Suggested Group */}
+            {/* My group map */}
             <div className="grid grid-cols-1 gap-6 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2">
               {group?(
-                group.map((i)=>(
+                group.slice(group.length-3,group.length).map((i)=>(
                   <div className="profile mt-10 border rounded-xl" key={i.id}>
                     <Link href={{pathname: "group-page/joind-group", query: i.id,}}>
                     <a>
@@ -204,16 +206,17 @@ const Groups = () => {
           
           <div className="justify-between flex items-center">
             <div className="heading font-semibold">Joined Groups</div>
-            <div className="all-button">
-              <button className="bg-indigo-400 text-white px-3 py-2 rounded-full">
+            <Link href={{pathname: "group-page/show-all", query:"Joined",}}
+             className="all-button">
+              <a className="bg-indigo-400 text-white px-3 py-2 rounded-full">
                 Show All
-              </button>
-            </div>
+              </a>
+            </Link>
           </div>
           {/* Show Joined Group */}
           <div className="grid grid-cols-1 gap-6 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2">
             {joinedgroupslist?(
-              joinedgroupslist.map((i)=>(
+              joinedgroupslist.slice(joinedgroupslist.length-3,joinedgroupslist.length).map((i)=>(
                 <div className="profile mt-10 border rounded-xl" key={i.id}>
                   <Link href={{pathname: "group-page/joind-group", query: i.id,}}>
                   <a>
@@ -355,16 +358,17 @@ const Groups = () => {
           <div className="bg-white rounded-xl p-4">
             <div className="justify-between flex items-center">
               <div className="heading font-semibold">Suggestions For You</div>
-              <div className="all-button">
-                <button className="bg-indigo-400 text-white px-3 py-2 rounded-full">
+              <Link href={{pathname: "group-page/show-all", query:"Suggested",}}
+              className="all-button">
+                <a className="bg-indigo-400 text-white px-3 py-2 rounded-full">
                   Show All
-                </button>
-              </div>
+                </a>
+              </Link>
             </div>
             {/* Show Suggested Group */}
             <div className="grid grid-cols-1 gap-6 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2">
               {joingroups?(
-                joingroups.map((i)=>(
+                joingroups.slice(joingroups.length-3,joingroups.length).map((i)=>(
                   <div className="profile mt-10 border rounded-xl" key={i.id}>
                     <Link href={{pathname: "group-page/suggest-group", query: i.id,}}>
                     <a>
@@ -522,7 +526,7 @@ const Groups = () => {
             </div>
           </div>
         </div>
-      </div>
+    </div>
     </div>
   );
 };

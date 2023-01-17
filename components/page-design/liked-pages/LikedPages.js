@@ -234,7 +234,7 @@ const LikedPages = (setList, singleItem) => {
     };
     const response = await fetch(`${GET_USER_FOLLOWEES}`,requestOptions);
     const data = await response.json();
-    console.log("Total Followeee", data.data );
+    // console.log("Total Followeee", data.data );
     setInviteUser(data.data);
   }
 
