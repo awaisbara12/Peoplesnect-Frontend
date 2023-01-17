@@ -51,6 +51,32 @@ const cardDropdown = [
 
 ];
 
+
+
+
+
+
+const ReadMore = ({ children }) => {
+  const text = children;
+  const [isReadMore, setIsReadMore] = useState(true);
+  const toggleReadMore = () => {
+    setIsReadMore(!isReadMore);
+  };
+  return (
+    <p className="text">
+      {isReadMore ? text.slice(0, 380) + (text.length > 380?("..."):('')) : text}
+      {text.length > 380?(
+        <span onClick={toggleReadMore} className="text-indigo-400 cursor-pointer ml-2 font-bold">
+          {isReadMore ? "Read more" : "Show less"}
+        </span>
+      ):('')}
+    </p>
+  );
+};
+
+
+
+
 const HashtagsShow = (singleItems) => {
   const [items, setItems] = useState(singleItems.lists);
   const [comments, setComments] = useState([]);
@@ -61,7 +87,6 @@ const HashtagsShow = (singleItems) => {
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
   }
-
   const copylink = (postid) => {
     const links = window.location.href        // get Full Link
     const links1 = window.location.pathname   // get link after localhost
@@ -273,7 +298,7 @@ const HashtagsShow = (singleItems) => {
       setLoading(false);
       return result;
     };
-    getFeedComments();
+    if (singleItems.type=="NewsFeed"){getFeedComments();}
   }, []);
 
   const [isActive, setIsActive] = useState(false);
@@ -281,9 +306,15 @@ const HashtagsShow = (singleItems) => {
   const handleClick = () => {
     setIsActive((current) => !current);
   };
+  function truncateString(str, num) {
+    return str;
+  }
+  
 
   return (
     <>
+    {/*  NewsFeed */}
+    {singleItems && singleItems.type=="NewsFeed"?(
       <div className="w-[600px] xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">
         <div className="flex gap-2 justify-between items-center px-[22px] py-[14px]">
           <div className="flex gap-2">
@@ -302,7 +333,7 @@ const HashtagsShow = (singleItems) => {
                   alt=""
                 />
               )}
-
+            {items && items.user ?(
             <div>
               <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
                 {items.user.first_name} {items.user.last_name}
@@ -316,8 +347,10 @@ const HashtagsShow = (singleItems) => {
                 {items.user.recent_job}
               </div>
             </div>
+            ):('')}
           </div>
-          <div className="">
+          {/* Options  */}
+          {/* <div className="">
             <div className="">
               <Popover className="relative">
                 {({ open }) => (
@@ -367,13 +400,11 @@ const HashtagsShow = (singleItems) => {
                 )}
               </Popover>
             </div>
-          </div>
+          </div> */}
         </div>
-        {/* <div className="border-1 border-gray-100"></div> */}
-
         <div className="px-[22px] py-[14px]">
-          <p>{items.body ? items.body : ""}</p>
-          {items.event && items.event ? (
+          <p>{items && items.body ? items.body : ""}</p>
+          {items && items.event && items.event ? (
             <div className="rounded-xl bg-white border border-gray-100 my-2">
               {items.event.cover_photo_url ? (
                 <img
@@ -421,7 +452,7 @@ const HashtagsShow = (singleItems) => {
           ) : (
             ""
           )}
-          {items.feed_type && items.feed_type === "video_feed" ? (
+          {items && items.feed_type && items.feed_type === "video_feed" ? (
             <>
               <video controls className="aspect-video w-full rounded-xl my-4">
                 <source src={items.attachments_link} type="video/mp4" />
@@ -430,7 +461,7 @@ const HashtagsShow = (singleItems) => {
           ) : (
             ""
           )}
-          {items.attachments_link && items.feed_type === "image_feed" ? (
+          {items && items.attachments_link && items.feed_type === "image_feed" ? (
             <div className="mt-[14px]">
               <img
                 src={items.attachments_link}
@@ -447,7 +478,7 @@ const HashtagsShow = (singleItems) => {
           <div className="flex justify-between mt-[14px]">
             <div className="flex gap-6">
               <div className="flex gap-2 items-center">
-                {items.is_heart && items.is_heart == true ? (
+                {items && items.is_heart && items.is_heart == true ? (
                   <>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -459,7 +490,7 @@ const HashtagsShow = (singleItems) => {
                       <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
                     </svg>
                     <span className="font-light text-gray-900">
-                      {items.reactions_count}
+                      {items.reactions_count?items.reactions_count:""}
                     </span>
                   </>
                 ) : (
@@ -537,8 +568,10 @@ const HashtagsShow = (singleItems) => {
           </Fragment>
         </div>
       </div>
+    ):('')}
 
-      {/*Blogs & Jobs commented 
+    {/* Jobs   */}
+    {singleItems && singleItems.type=="Job"?(
       <div className="w-[600px] xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">
         <div className="bg-white mt-4 rounded-xl">
           <div className="jobs-profile px-4 py-10 ">
@@ -617,34 +650,51 @@ const HashtagsShow = (singleItems) => {
             </div>
           </div>
         </div>
-      </div>
+      </div> 
+    ):('')}
+
+    {/*  Blogs */}
+    {singleItems && singleItems.type=="Blog"?(
       <div className="w-[600px] xl:w-[980px] lg:w-[730px] md:w-[780px] mt-[14px] bg-white rounded-xl">
         <div className="bg-white mt-4 rounded-xl">
           <div className="jobs-profile px-4 py-10 ">
             <div className="flex  justify-between">
               <div className="flex items-start gap-5">
-                <Link href="/blogs">
-                  <a>
-                    <Image
-                      src={blog1}
-                      width={125}
-                      height={125}
-                      alt=""
-                    />
-                  </a>
-                </Link>
+              {items && items.blog.photos_link ?
+              (
+                <img
+                  src={items.blog.photos_link}
+                  className="object-cover z-40 h-[100px] w-[100px]"
+                  alt=""
+                />
+              ) : (
+                <Link href="/jobs">
+                <a>
+                  <Image
+                    src={Compnylogo2}
+                    width={92}
+                    height={92}
+                    alt=""
+                  />
+                </a>
+              </Link>
+              )}
                 <div className="">
                   <a href="">
                     <div className="username text-sm font-bold">
-                      Blogs Title
+                    {items.blog.title}
                     </div>
                   </a>
                   <div>
-                    <p className="font-extralight">Looking for a way to reduce a nested list of arrays, into a single array of items that are unique, and drop any empty arrays.Looking to reduce this array:</p>
+                    <p className="font-extralight">
+                    {/* <ReadMore> */}
+                      {items.blog.description.length>400?items.blog.description.slice(2, 400)+"...":items.blog.description }
+                    {/* </ReadMore> */}
+                    </p>
                   </div>
                 </div>
               </div>
-              <Menu as="div" className="relative inline-block text-left">
+              {/* <Menu as="div" className="relative inline-block text-left">
                 <div>
                   <Menu.Button className="inline-flex justify-center">
                     <DotsHorizontalIcon
@@ -690,10 +740,11 @@ const HashtagsShow = (singleItems) => {
                     </div>
                   </Menu.Items>
                 </Transition>
-              </Menu>
+              </Menu> */}
             </div>
           </div>
           <div className="flex justify-end">
+          <Link href={{pathname: "/blog/show", query: items.blog.id,}}>
             <a>
               <button
                 type="submit"
@@ -702,10 +753,12 @@ const HashtagsShow = (singleItems) => {
                 Read More
               </button>
             </a>
+            </Link>
           </div>
         </div>
       </div>
-      */}
+    ):('')}
+     
     </>
   );
 };
