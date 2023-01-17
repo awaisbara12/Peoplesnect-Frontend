@@ -15,7 +15,7 @@ const HashtagsSingle = () => {
   // bareer key
   if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore");}
   // ShowUser NewFeed
-  const getNewsFeed = async () => {
+  const getHashtagFeed = async () => {
     const res = await axios(HASHTAGS_API + "/get_hashtag_feed?hashtag_id=" + myArray[1], {
       method: "GET",
       headers: {
@@ -46,7 +46,7 @@ const HashtagsSingle = () => {
   useEffect(() => {
    
     setLoading(false);
-    getNewsFeed();
+    getHashtagFeed();
   },[]);
  
   return (
@@ -56,8 +56,12 @@ const HashtagsSingle = () => {
           {list&&
             list.map((item) => (
               item.hashtag_feedable_type == "NewsFeed"?(
-                <HashtagsShow lists={item.newsfeed} key={item.newsfeed.id} />  
-              ):("")
+                <HashtagsShow lists={item.newsfeed} key={item.newsfeed.id} type={item.hashtag_feedable_type} />  
+              ):(
+                item.hashtag_feedable_type == "Blog"?(
+                  <HashtagsShow lists={item} key={item.blog.id} type={item.hashtag_feedable_type}/>
+                ):('')
+              )
             )
             )
           }
