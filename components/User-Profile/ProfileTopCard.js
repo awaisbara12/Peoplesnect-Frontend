@@ -35,15 +35,18 @@ import {
   FOLLOW_USER_API, 
   FOLLOW_REQUEST_USER_API,
   GET_CONNECTIONS,
-  VIEW_CONNECTION, 
+  VIEW_CONNECTION,
+  CURENT_USER_LOGIN_API, 
   
 } from "../../pages/config";
 
 const ProfileTopCard = (props) => {
   const [btn1, setbtn1] = useState();
   const [btn2, setbtn2] = useState();
+  const [request, setrequest] = useState();
+  const [currentuser, setCurrent_User] = useState();
+  const [connection, setconnection] = useState(false);
   const [userDetails, setUserDetails] = useState();
-  const [yes,setyes] = useState("0");
   
 // Bareer Key
   if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore"); }
@@ -74,14 +77,6 @@ const ProfileTopCard = (props) => {
     setbtn1('');
     CheckFollower();
   }
-  
-
-
-
-
-
-
-
 
   // Remove Connection
   const RemoveConnection=async(id)=>{
@@ -107,21 +102,18 @@ const ProfileTopCard = (props) => {
      alert("Send Follow Request");
    }
 
-
-
-   function Confirm(followrequest,user_id)
-   {
-     for(var i=0; i < followrequest.length; i++){
-      if (followrequest[i].sender.id == user_id || followrequest[i].receiver.id == user_id)
-      {
-        setbtn2("Request_Available");
-        console.log("Request Is Checked")
+  //  function Confirm(followrequest,user_id)
+  //  {
+  //    for(var i=0; i < followrequest.length; i++){
+  //     if (followrequest[i].sender.id == user_id || followrequest[i].receiver.id == user_id)
+  //     {
+  //       setbtn2("Request_Available");
+  //       console.log("Request Is Checked")
                    
-      }
-     }
-   }
+  //     }
+  //    }
+  //  }
 
-   
    //Check Connection Request
    const CheckConnection=async()=>
     {   
@@ -135,12 +127,11 @@ const ProfileTopCard = (props) => {
         .then((resp) => resp.json())
         .then((result) => {
           if (result && result.data) {
-           console.log("Connection",result.data); 
+           console.log("Connection",result.data);
+           setconnection(true);
            setbtn2("Request_Available");
           }
           else{
-            console.log("No Connection")
-            setbtn2("Request_Not_Available");
               fetch(`${FOLLOW_REQUEST_USER_API}/${props.id}`, {
                 method: "GET",
                 headers: {
@@ -150,16 +141,24 @@ const ProfileTopCard = (props) => {
               })
                 .then((resp) => resp.json())
                 .then((result) => {
-                  if (result && result.data.length>0) {
-                   Confirm(result.data,props.id)
+                  if (result.data) {
+                    setrequest(result.data);
+                    setbtn2("");
+                    setconnection(false);
                    console.log("Requests",result.data);  
                   }
+                  else{
+                    console.log("No Connection");
+                    setbtn2("Request_Not_Available");
+                    setconnection(false);
+                  }
                 })
-                .catch((err) => console.log('error ha'));
+                .catch((err) => console.log(err));
           }
         })
-        .catch((err) => console.log('error ha'));      
+        .catch((err) => console.log(err));      
    }
+
    // Check Folower
    const CheckFollower=async()=>{      
     await fetch(`${FOLLOW_USER_API}/${props.id}`, {
@@ -178,6 +177,46 @@ const ProfileTopCard = (props) => {
       })
       .catch((err) => console.log(err)); 
   }
+
+  const Current_User=async()=>{    
+   
+    await fetch(CURENT_USER_LOGIN_API, {
+      method: "GET",
+       headers: {
+        Accept: "application/json", 
+         Authorization: `${authKey}`,
+       },
+    })
+       .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          setCurrent_User(result.data);  
+        }
+      })
+      .catch((err) => console.log(err)); 
+  }
+
+  const ActionOnFollowRequest=async(id,status)=>{
+    const requestOptions = {
+      method: 'PATCH',
+      headers:{Accept: "application/json", Authorization: `${authKey}`},
+    };
+    await fetch(`${FOLLOW_REQUEST_USER_API}/${id}?follow_requests[status]=${status}`,requestOptions)
+    .then((resp) => resp.json())
+      .then((result) => {
+        if (result.datas) {
+         console.log(result.data);
+         setbtn2("Request_Not_Available");
+         setconnection(false);
+        }else if(result.data){
+          setconnection(true);
+          setbtn2("Request_Available");
+        }
+      })
+      .catch((err) => console.log(err));
+    
+  }
+
   //show User-Profile data
   const Show_User=async()=>{      
       await fetch(`${SHOW_USER_PROFILE}/${props.id}`, {
@@ -192,7 +231,6 @@ const ProfileTopCard = (props) => {
           if (result) {
             setUserDetails(result.data);  
             CheckConnection();
-            // console.log("Current Userss",result.data)
           }
         })
         .catch((err) => console.log(err)); 
@@ -200,8 +238,9 @@ const ProfileTopCard = (props) => {
   
   useEffect(() => {
     CheckFollower();
+    Current_User();
     Show_User(); // Get Current User
-  },[]);
+  },[props]);
   return (
     <>
     <div className="mt-8 w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
@@ -282,8 +321,19 @@ const ProfileTopCard = (props) => {
               </span>
             </div>
             <div>
+
+            <div className="Request-button flex items-center gap-2">
+
+            {btn1 && btn1.length==0 && userDetails && userDetails.profile_type=="public_profile"?(
+              <Button className="bg-indigo-400 rounded-full mt-4" onClick={()=>CreateFollower(userDetails.id)}>
+                Follow
+              </Button>):('')}
+              {btn1 && btn1.length>0 && userDetails && userDetails.profile_type=="public_profile"?(
+              <Button className="bg-indigo-400 rounded-full mt-4" onClick={()=>UnFollow(btn1[0].id)}>
+                UnFollow
+              </Button>):('')}
             
-              {btn2 && btn2=="Request_Not_Available" && userDetails && userDetails.profile_type=="private_profile"?(
+              {btn2 && btn2=="Request_Not_Available" && userDetails ?(
                 <Link 
                 href={{
                   pathname: "/User-Profile",
@@ -297,7 +347,7 @@ const ProfileTopCard = (props) => {
               :('') }
 
               
-               {btn2  && btn2=="Request_Available" && userDetails && userDetails.profile_type=="private_profile"?(
+               {btn2  && btn2=="Request_Available" && userDetails?(
                <Button className="bg-indigo-400 rounded-full mt-4" 
                 onClick={()=>RemoveConnection(userDetails.id)}>
                 Remove Connection
@@ -305,22 +355,31 @@ const ProfileTopCard = (props) => {
              )
               :('') }
 
-              
-              {btn1 && btn1.length==0 && userDetails && userDetails.profile_type=="public_profile"?(
-              <Button className="bg-indigo-400 rounded-full mt-4" onClick={()=>CreateFollower(userDetails.id)}>
-                Follow
+              {request && currentuser && btn2!="Request_Not_Available" && request.sender.id == currentuser.id?(
+              <Button className="bg-indigo-400 rounded-full mt-4" onClick={()=>ActionOnFollowRequest(request.id,"cancelled")}>
+                Cancel Request
               </Button>):('')}
-              {btn1 && btn1.length>0 && userDetails && userDetails.profile_type=="public_profile"?(
-              <Button className="bg-indigo-400 rounded-full mt-4" onClick={()=>UnFollow(btn1[0].id)}>
-                UnFollow
-              </Button>):('')}
-              
-              
+
+              {request && currentuser && btn2=="" && request.sender.id != currentuser.id?(
+                  <Button className="bg-indigo-400 rounded-full mt-4" onClick={()=>ActionOnFollowRequest(request.id,"accepted")}>
+                    Accept
+                  </Button>   
+                )
+                :('')
+              }
+              {request && currentuser && btn2=="" && request.sender.id != currentuser.id?(
+                <Button className="bg-indigo-400 rounded-full mt-4" onClick={()=>ActionOnFollowRequest(request.id,"cancelled")}>
+                  Ignore
+                </Button>
+                )
+                :('')
+              } 
+            </div>
             </div>
           </div>
         </div>
         <div className="">
-          <TabsProfileCard user={userDetails}/>
+          <TabsProfileCard user={userDetails} connection={connection}/>
         </div>
       </div>
     </>

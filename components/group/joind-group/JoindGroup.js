@@ -30,7 +30,7 @@ import {
 import { useFormik } from "formik";
 import { eventScheema } from "../../auth/schemas/CreateEventScheema";
 import { Dialog } from "@headlessui/react";
-import { GROUP_API, POST_NEWSFEED_API_KEY, CURENT_USER_LOGIN_API, InviteFriends } from "../../../pages/config";
+import { GROUP_API, POST_NEWSFEED_API_KEY, CURENT_USER_LOGIN_API, InviteFriends, JOIN_GROUP_API, GROUP_MEMBER_Request } from "../../../pages/config";
 import Spinner from "../../common/Spinner";
 
 function classNames(...classes) {
@@ -106,6 +106,9 @@ const JoindGroup = (setList, singleItem) => {
   const [videoPreview, setVideoPreview] = useState();
   const [currentUser, setCurrentUser] = useState();
   let [isOpen, setIsOpen] = useState(false);
+  const [join, setjoin] = useState(false);
+  const [memberrequest, setMemberRequest] = useState();
+  const [spinner, setSpinner] = useState(false);
 
   const [group, setgroup] = useState();
   const [admins,setadmins] = useState();
@@ -205,7 +208,7 @@ const JoindGroup = (setList, singleItem) => {
     onSubmit();
   }
 
-  console.log("id in group",isCheck);
+  // console.log("id in group",isCheck);
 
   function closeModal() {
     setIsOpen(false);
@@ -253,7 +256,6 @@ const JoindGroup = (setList, singleItem) => {
       alert("Select Friend to Invite");
     }
   }
-
 
   function openModal() {
     setIsOpen(true);
@@ -322,7 +324,6 @@ const JoindGroup = (setList, singleItem) => {
     return false;
   }
 
-
   const GetAdmins =()=>{
     fetch(GROUP_API +"/get_group_admin?group_id="+myArray[1] , {
     method: "GET",
@@ -336,8 +337,73 @@ const JoindGroup = (setList, singleItem) => {
       setadmins(result.data);
     })
   };
+
+  const GroupJoinFun =event=>{
+    setSpinner(true);
+    event.currentTarget.disabled = true;
+    const res = fetch(JOIN_GROUP_API +"?id="+myArray[1], {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      Authorization: `${authKey}`,
+    },
+    })
+    .then((resp) => resp.json())
+    .then((result) => {
+      if(group && group.group_type != "private_group"){
+        setjoin(true);
+      }else{
+        // setjoin(true);
+        // router.push('/group-page');
+        GetMemberRequest();
+      }
+      
+    })
+  }
+
+  const Ismember =()=>{
+    const res = fetch(GROUP_API +"/ismember?group_id="+myArray[1], {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      Authorization: `${authKey}`,
+    },
+    })
+    .then((resp) => resp.json())
+    .then((result) => {
+     if(result.data)
+     {
+        setjoin(true);
+     }
+    })
+  }
+
+  const GetMemberRequest=async()=>{    
+   
+    await fetch(GROUP_MEMBER_Request+"?group_id="+myArray[1], {
+      method: "GET",
+       headers: {
+        Accept: "application/json",
+         Authorization: `${authKey}`,
+       },
+    })
+       .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          if (result.data)
+          {
+            setMemberRequest(result.data);
+            console.log(result.data);
+          }
+        }
+      })
+      .catch((err) => console.log(err)); 
+  }
+
   useEffect(() => {
     Current_User();
+    GetMemberRequest();
+    Ismember();
     GetGroup();
     GetAdmins();
   },[])
@@ -430,7 +496,7 @@ const JoindGroup = (setList, singleItem) => {
                               Notifications
                             </a>
                           </Menu.Item> */}
-                          { currentUser && group ?(!(admins && isadmin(admins,currentUser.id)) && currentUser.id != group.owner.id ? (
+                          { currentUser && join == true && group ?(!(admins && isadmin(admins,currentUser.id)) && currentUser.id != group.owner.id ? (
                             <div>
                               <Menu.Item className="flex gap-1 mt-2">
                                 <a href="">
@@ -470,7 +536,7 @@ const JoindGroup = (setList, singleItem) => {
                     </Transition>
                   </Menu>
                 </div>
-                {currentUser && group ? (!(admins && isadmin(admins,currentUser.id)) && group.owner.id != currentUser.id?(
+                {currentUser && join == true && group ? (!(admins && isadmin(admins,currentUser.id)) && group.owner.id != currentUser.id?(
                 <Link href={{pathname: "/group-page/joind-group/group-members", query: myArray[1]}}>
                 <a>
                   <div className="border border-indigo-400 py-2 px-3 text-indigo-400 rounded-full">
@@ -490,13 +556,26 @@ const JoindGroup = (setList, singleItem) => {
             </div>
             <div className="flex justify-end">
               <a>
-                <button
-                  onClick={openModal}
-                  type="submit"
-                  className=" bg-indigo-400 text-sm text-white rounded-br-lg p-3 cursor-pointer"
-                >
-                  Invite Friends
-                </button>
+              {memberrequest && memberrequest.status=="pending"?(
+                  <button disabled={true} className=" bg-indigo-400 text-sm text-white rounded-br-lg p-3 cursor-pointer">
+                    Request Send
+                  </button>
+                ):(
+                  currentUser && group && (join == true || currentUser.id== group.owner.id || (admins && isadmin(admins,currentUser.id)))?(
+                    <button
+                      onClick={openModal}
+                      type="submit"
+                      className=" bg-indigo-400 text-sm text-white rounded-br-lg p-3 cursor-pointer"
+                    >
+                      Invite Friends
+                    </button>
+                  ):(
+                    <button onClick={GroupJoinFun} className=" bg-indigo-400 text-sm text-white rounded-br-lg p-3 cursor-pointer">
+                      Join Group {spinner && true ? <Spinner /> : ""}
+                    </button>
+                  )
+                )}
+                
               </a>
               <div>
               <div className="">
@@ -578,7 +657,7 @@ const JoindGroup = (setList, singleItem) => {
           </div>
         </div>
       </div>
-      {currentUser && group ?(
+      {currentUser && group && (join == true || group.group_type != "private_group" || currentUser.id== group.owner.id || (admins && isadmin(admins,currentUser.id)))?(
         <ProfileFeed currentUser={currentUser} group={group} admins={admins}/>
       ):("")}
     </div>

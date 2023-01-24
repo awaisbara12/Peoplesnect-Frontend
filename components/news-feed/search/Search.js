@@ -1,25 +1,25 @@
-import React,{useState} from "react";
-import SkillsTabProfile from "./SkillsTabProfile";
-import TabExperienceProfile from "./TabExperienceProfile";
-import TabEducationProfile from "./TabEducationProfile";
-import TabProfile from "./TabProfile";
+import React, { useEffect } from "react";
+import Blog from "./Blog";
+import Group from "./Group";
+import Page from "./Page";
+import People from "./People";
 
-const TabsProfileCard = (props) => {
-  const [des, setdes] = useState(props.user);
+const Search = () => {
   const [openTab, setOpenTab] = React.useState(1);
+  const [userDetails, setUserDetails] = React.useState(1);  
   return (
     <>
-      <div className="">
-        <div className="flex bg-white rounded-b-xl px-8 mb-8 flex-wrap">
-          <div className="border-t-1 w-full">
-            <div className="w-full md:w-full xl:w-5/6 pt-8 pb-7 text-sm">
-              <ul className="flex gap-10" role="tablist">
+      <div className="mt-8">
+        <div className="flex bg-white rounded-t-xl px-8 mb-0 border-b flex-wrap">
+          <div className="w-full">
+            <div className="w-full md:w-full xl:w-5/6 pt-8 pb-4 text-sm">
+              <ul className="flex gap-8" role="tablist">
                 <li className="">
                   <a
                     className={
                       "" +
                       (openTab === 1
-                        ? "border-b-2 font-bold pb-6 text-indigo-400 border-indigo-400"
+                        ? "border-b-3 font-bold pb-4 text-indigo-400 border-indigo-400"
                         : "")
                     }
                     onClick={(e) => {
@@ -30,7 +30,26 @@ const TabsProfileCard = (props) => {
                     href="#link1"
                     role="tablist"
                   >
-                    Profile
+                    People
+                  </a>
+                </li>
+                <li className="">
+                  <a
+                    className={
+                      "" +
+                      (openTab === 2
+                        ? "border-b-3 font-bold pb-4 text-indigo-400 border-indigo-400"
+                        : "")
+                    }
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setOpenTab(2);
+                    }}
+                    data-toggle="tab"
+                    href="#link2"
+                    role="tablist"
+                  >
+                   Group
                   </a>
                 </li>
                 <li className="">
@@ -38,7 +57,7 @@ const TabsProfileCard = (props) => {
                     className={
                       "" +
                       (openTab === 3
-                        ? "border-b-2 font-bold pb-6 text-indigo-400 border-indigo-400"
+                        ? "border-b-3 font-bold pb-4 text-indigo-400 border-indigo-400"
                         : "")
                     }
                     onClick={(e) => {
@@ -49,7 +68,7 @@ const TabsProfileCard = (props) => {
                     href="#link3"
                     role="tablist"
                   >
-                    Skills
+                   Pages
                   </a>
                 </li>
                 <li className="">
@@ -57,7 +76,7 @@ const TabsProfileCard = (props) => {
                     className={
                       "" +
                       (openTab === 4
-                        ? "border-b-2 font-bold pb-6 text-indigo-400 border-indigo-400"
+                        ? "border-b-3 font-bold pb-4 text-indigo-400 border-indigo-400"
                         : "")
                     }
                     onClick={(e) => {
@@ -68,26 +87,7 @@ const TabsProfileCard = (props) => {
                     href="#link4"
                     role="tablist"
                   >
-                    Eduction
-                  </a>
-                </li>
-                <li className="">
-                  <a
-                    className={
-                      "" +
-                      (openTab === 5
-                        ? "border-b-2 font-bold pb-6 text-indigo-400 border-indigo-400"
-                        : "")
-                    }
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setOpenTab(5);
-                    }}
-                    data-toggle="tab"
-                    href="#link5"
-                    role="tablist"
-                  >
-                    Professional Experience
+                   Blog
                   </a>
                 </li>
               </ul>
@@ -96,18 +96,17 @@ const TabsProfileCard = (props) => {
         </div>
         <div className="flex-auto">
           <div className="tab-content tab-space">
-           
             <div className={openTab === 1 ? "block" : "hidden"} id="link1">
-              <TabProfile user={props.user} connection={props.connection}/>
+              <People/>
+            </div>
+            <div className={openTab === 2 ? "block" : "hidden"} id="link2">
+              <Group/>
             </div>
             <div className={openTab === 3 ? "block" : "hidden"} id="link3">
-              <SkillsTabProfile user={props.user} />
+              <Page/>
             </div>
             <div className={openTab === 4 ? "block" : "hidden"} id="link4">
-              <TabEducationProfile user={props.user}/>
-            </div>
-            <div className={openTab === 5 ? "block" : "hidden"} id="link5">
-              <TabExperienceProfile user={props.user} />
+              <Blog/>
             </div>
           </div>
         </div>
@@ -116,4 +115,4 @@ const TabsProfileCard = (props) => {
   );
 };
 
-export default TabsProfileCard;
+export default Search;

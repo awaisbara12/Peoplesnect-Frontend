@@ -16,15 +16,71 @@ import {
   LogoutIcon,
   XIcon,
 } from "@heroicons/react/outline";
+import { SEARCH_MULTIPLE } from "../../../pages/config";
+import { useRouter } from "next/router";
 
 const TopNavbarSearch = () => {
+  let [isOpen, setisOpen] = useState(false);
+  let [results, setresults] = useState();
+  let [value, setvalue] = useState();
+  const router = useRouter();
+  const data = router.asPath;
+  const myArray = data.split("?");
+
   function openModal() {
     setisOpen(true);
   }
   function closeModal() {
+    setresults('');
     setisOpen(false);
   }
-  let [isOpen, setisOpen] = useState(false);
+
+  if (typeof window !== "undefined") {
+    var authKey = window.localStorage.getItem("keyStore");
+  }
+
+  const pagemove =()=>{
+    router.push('/search?'+value);
+    closeModal();
+  }
+
+  const handleKeypress = event => {
+    if (event.code === "Enter" || event.code === "NumpadEnter") {
+      router.push('/search?'+value);
+      closeModal();
+    }
+  };
+
+  const searchmultiples  = async(event) =>{
+    setvalue(event.target.value);
+    if (event.target.value.length == 0)
+    {
+      // console.log("Hello");
+      setresults('');
+    }else{
+      await fetch(SEARCH_MULTIPLE+"?query="+event.target.value, {
+        method: "GET",
+         headers: {
+          Accept: "application/json", 
+           Authorization: `${authKey}`,
+         },
+      })
+         .then((resp) => resp.json())
+        .then((result) => {
+          if (result) {
+            if (event.target.value.length == 0)
+            {
+              // console.log("Hellos");
+              setresults('');
+            }else{
+              setresults(result.data);
+              console.log(result.data);
+            }
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+  }
 
   return (
     <div className="flex items-center gap-2">
@@ -87,6 +143,8 @@ const TopNavbarSearch = () => {
                                       className="focus:text-slate-400 focus:border-none bg-transparent text-slate-400 w-full border-none rounded-3xl"
                                       type="text"
                                       placeHolder="Search"
+                                      onChange={searchmultiples}
+                                      onKeyPress={handleKeypress}
                                       />
                                       <XIcon
                                     onClick={closeModal}
@@ -98,62 +156,136 @@ const TopNavbarSearch = () => {
                               </div>
                             </Dialog.Title>
                               <div className="h-44 overflow-y-scroll">
-                                <div className="">
-                                  <Link href="/search/users-search">
-                                    <a className="flex items-center gap-2 p-2 border-b">
-                                      <Image
-                                        className="object-cover rounded-full"
-                                        src={ProfileAvatar}
-                                        width={45}
-                                        height={45}
-                                        alt=""
-                                      />
-                                      <div className="">
+                              {results && results.map((i)=>(
+                                <div className="" key={i.id} onClick={closeModal}>
+                                  {i.searchable_type && i.searchable_type=="User"?(
+                                    <Link href={{pathname: "/User-Profile", query: i.user.id,} }>
+                                      <a className="flex items-center gap-2 p-2 border-b" >
+                                        {i.user && i.user.display_photo_url ?
+                                          (
+                                            <img
+                                              src={i.user.display_photo_url}
+                                              className="object-cover rounded-full z-40 h-[42px] w-[42px]"
+                                              alt=""
+                                            />
+                                          ) : (
+                                            <Image
+                                              src={ProfileAvatar}
+                                              width={45}
+                                              height={45}
+                                              alt=""
+                                            />
+                                          )
+                                        }
+                                        <div className="">
                                         <div className="flex gap-4 items-center">
-                                        <div className="font-bold">Ibrar Zahid</div>
+                                        <div className="font-bold">{i.user.first_name} {i.user.last_name}</div>
                                         <div className="font-extralight text-xs italic font-serif">User</div>
                                         </div>
-                                        <div className="font-light text-xs">300 Connections</div>
+                                        <div className="font-light text-xs">{i.user.connections_count} Connections {i.user.followers_count} Followers</div>
                                       </div>
-                                    </a>
-                                  </Link>
-                                  <Link href="/search/pages-search">
-                                    <a className="flex items-center gap-2 p-2 border-b">
-                                      <Image
-                                        className="object-cover rounded-full"
-                                        src={ProfileAvatar2}
-                                        width={45}
-                                        height={45}
-                                        alt=""
-                                      />
-                                      <div className="">
-                                        <div className="flex gap-4 items-center">
-                                        <div className="font-bold">Mishal Javed</div>
-                                        <div className="font-extralight text-xs italic font-serif">Page</div>
+                                      </a>
+                                    </Link>
+
+                                  ):(
+                                    i.searchable_type && i.searchable_type=="Page"?(
+                                      <Link href={{pathname: "/page-design/suggested-pages", query: i.page.id,} }>
+                                      <a className="flex items-center gap-2 p-2 border-b">
+                                        {i.page && i.page.display_photo_url ?
+                                            (
+                                              <img
+                                                src={i.page.display_photo_url}
+                                                className="object-cover rounded-full z-40 h-[42px] w-[42px]"
+                                                alt=""
+                                              />
+                                            ) : (
+                                              <Image
+                                                src={ProfileAvatar}
+                                                width={45}
+                                                height={45}
+                                                alt=""
+                                              />
+                                            )
+                                          }
+                                        <div className="">
+                                          <div className="flex gap-4 items-center">
+                                          <div className="font-bold">{i.page.name}</div>
+                                          <div className="font-extralight text-xs italic font-serif">Page</div>
+                                          </div>
+                                          <div className="font-light text-xs">{i.page.page_likes_count} Likes</div>
                                         </div>
-                                        <div className="font-light text-xs">4k Likes</div>
-                                      </div>
-                                    </a>
-                                  </Link>
-                                  <Link href="/search/groups-search">
-                                    <a className="flex items-center gap-2 p-2 border-b">
-                                      <Image
-                                        className="object-cover rounded-full"
-                                        src={ProfileAvatar3}
-                                        width={45}
-                                        height={45}
-                                        alt=""
-                                      />
-                                      <div className="">
-                                        <div className="flex gap-4 items-center">
-                                        <div className="font-bold">Iphon Users</div>
-                                        <div className="font-extralight text-xs italic font-serif">Group</div>
-                                        </div>
-                                        <div className="font-light text-xs">300k Members</div>
-                                      </div>
-                                    </a>
-                                  </Link>
-                                  <Link href="/search/marketplace-search">
+                                      </a>
+                                    </Link>
+                                    ):(
+                                      i.searchable_type && i.searchable_type=="Group"?(
+                                        <Link href={{pathname: "/group-page/joind-group", query: i.group.id,} }>
+                                          <a className="flex items-center gap-2 p-2 border-b">
+                                          {i.group && i.group.display_image_url ?
+                                            (
+                                              <img
+                                                src={i.group.display_image_url}
+                                                className="object-cover rounded-full z-40 h-[42px] w-[42px]"
+                                                alt=""
+                                              />
+                                            ) : (
+                                              <Image
+                                                src={ProfileAvatar}
+                                                width={45}
+                                                height={45}
+                                                alt=""
+                                              />
+                                            )
+                                          }
+                                            <div className="">
+                                              <div className="flex gap-4 items-center">
+                                              <div className="font-bold">{i.group.title}</div>
+                                              <div className="font-extralight text-xs italic font-serif">Group</div>
+                                              </div>
+                                              <div className="font-light text-xs">{i.group.group_members_count} Members</div>
+                                            </div>
+                                          </a>
+                                        </Link>
+                                      ):(
+                                        i.searchable_type && i.searchable_type=="Blog"?(
+                                          <Link href={{pathname: "/blog/show", query: i.blog.id,}}>
+                                            <a className="flex items-center gap-2 p-2 border-b">
+                                            {i.blog && i.blog.photos_link[0] ?
+                                              (
+                                                <img
+                                                  src={i.blog.photos_link[0]}
+                                                  className="object-cover rounded-full z-40 h-[42px] w-[42px]"
+                                                  alt=""
+                                                />
+                                              ) : (
+                                                <Image
+                                                  src={ProfileAvatar}
+                                                  width={45}
+                                                  height={45}
+                                                  alt=""
+                                                />
+                                              )
+                                            }
+                                              <div className="">
+                                                <div className="flex gap-4 items-center">
+                                                <div className="font-bold">{i.blog.title}</div>
+                                                <div className="font-extralight text-xs italic font-serif">Blog</div>
+                                                </div>
+                                                <div className="font-light text-xs"> {i.blog.reaction_count == null ?(0):(i.blog.reaction_count)} Likes</div>
+                                              </div>
+                                            </a>
+                                          </Link>
+                                        ):("")
+                                      )
+                                    )
+                                  )
+                                  }
+                                  
+                                   
+                                      
+                                  
+                                 
+                                  
+                                  {/* <Link href="/search/marketplace-search">
                                     <a className="flex items-center gap-2 p-2 border-b">
                                       <Image
                                         className="object-cover rounded-full"
@@ -188,8 +320,9 @@ const TopNavbarSearch = () => {
                                         <div className="font-light text-xs">3 Jobs</div>
                                       </div>
                                     </a>
-                                  </Link>
+                                  </Link> */}
                                 </div>
+                                ))}
                               </div>
                               {/* <div className="sticky bottom-0 right-0">
                                 <div className="p-2 rounded-xl">
@@ -204,7 +337,23 @@ const TopNavbarSearch = () => {
                                   </div>
                                 </div>
                               </div> */}
+                              {results && results.length>0?(
+                                 <div className="text-right border-t px-6">
+                                 {/* <Link href={{pathname: "/search", query: value,}}>
+                                 <a href=""> */}
+                                   <button className="mt-2 border-indigo-400 border text-indigo-400 px-2 py-1 rounded-full font-small"
+                                    onClick={()=>pagemove()} >
+                                     Show more
+                                   </button>
+                                 {/* </a>
+                                 </Link> */}
+                               </div>
+                              ):('')
+                               
+                              }
+                              
                           </Dialog.Panel>
+                          
                         </Transition.Child>
                       </div>
                     </div>
