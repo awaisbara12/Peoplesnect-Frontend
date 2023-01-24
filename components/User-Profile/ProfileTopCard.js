@@ -34,7 +34,8 @@ import {
   SHOW_USER_PROFILE, 
   FOLLOW_USER_API, 
   FOLLOW_REQUEST_USER_API,
-  GET_CONNECTIONS, 
+  GET_CONNECTIONS,
+  VIEW_CONNECTION, 
   
 } from "../../pages/config";
 
@@ -42,18 +43,11 @@ const ProfileTopCard = (props) => {
   const [btn1, setbtn1] = useState();
   const [btn2, setbtn2] = useState();
   const [userDetails, setUserDetails] = useState();
-  
+  const [yes,setyes] = useState("0");
   
 // Bareer Key
   if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore"); }
  
-  
-  
-  
-  
-  
-  
-  
   // Create Follower
    const CreateFollower=async(userId)=>
    {      
@@ -81,13 +75,21 @@ const ProfileTopCard = (props) => {
     CheckFollower();
   }
   
+
+
+
+
+
+
+
+
   // Remove Connection
   const RemoveConnection=async(id)=>{
     const requestOptions = {
       method: 'DELETE',
       headers:{Accept: "application/json", Authorization: `${authKey}`},
     };
-    const response = await fetch(`${FOLLOW_REQUEST_USER_API}/${id}`,requestOptions);
+    const response = await fetch(`${GET_CONNECTIONS}/${id}`,requestOptions);
     CheckConnection(); // update Pending Request
     //console.log( "Id ha yeh", user_request  )
   }
@@ -98,18 +100,32 @@ const ProfileTopCard = (props) => {
        method: 'POST',
        headers:{Accept: "application/json", Authorization: `${authKey}` },
      };
-     const response = await fetch(`${FOLLOW_REQUEST_USER_API}?follow_requests[receiver_id]=${userId}`,requestOptions);
+     const response = await fetch(`${FOLLOW_REQUEST_USER_API}?follow_requests[receiver_id]=${props.id}`,requestOptions);
      const data = await response.json();
      //console.log("Send", data );
      CheckConnection();
      alert("Send Follow Request");
    }
 
+
+
+   function Confirm(followrequest,user_id)
+   {
+     for(var i=0; i < followrequest.length; i++){
+      if (followrequest[i].sender.id == user_id || followrequest[i].receiver.id == user_id)
+      {
+        setbtn2("Request_Available");
+        console.log("Request Is Checked")
+                   
+      }
+     }
+   }
+
    
    //Check Connection Request
    const CheckConnection=async()=>
     {   
-      await fetch(`${FOLLOW_REQUEST_USER_API}/${props.id}`, {
+      await fetch(`${VIEW_CONNECTION}?id=${props.id}`, {
         method: "GET",
         headers: {
           Accept: "application/json", 
@@ -118,10 +134,28 @@ const ProfileTopCard = (props) => {
       })
         .then((resp) => resp.json())
         .then((result) => {
-          if (result) {
-           setbtn2(result.data);
-           console.log("Requests check",result.data);  
-            //console.log(UserList)
+          if (result && result.data) {
+           console.log("Connection",result.data); 
+           setbtn2("Request_Available");
+          }
+          else{
+            console.log("No Connection")
+            setbtn2("Request_Not_Available");
+              fetch(`${FOLLOW_REQUEST_USER_API}/${props.id}`, {
+                method: "GET",
+                headers: {
+                Accept: "application/json", 
+                Authorization: `${authKey}`,
+                },
+              })
+                .then((resp) => resp.json())
+                .then((result) => {
+                  if (result && result.data.length>0) {
+                   Confirm(result.data,props.id)
+                   console.log("Requests",result.data);  
+                  }
+                })
+                .catch((err) => console.log('error ha'));
           }
         })
         .catch((err) => console.log('error ha'));      
@@ -139,6 +173,7 @@ const ProfileTopCard = (props) => {
       .then((result) => {
         if (result) {
           setbtn1(result.data);
+          console.log("Follower",result.data)
         }
       })
       .catch((err) => console.log(err)); 
@@ -157,7 +192,7 @@ const ProfileTopCard = (props) => {
           if (result) {
             setUserDetails(result.data);  
             CheckConnection();
-            //console.log("Current Userss",result.data)
+            // console.log("Current Userss",result.data)
           }
         })
         .catch((err) => console.log(err)); 
@@ -248,7 +283,7 @@ const ProfileTopCard = (props) => {
             </div>
             <div>
             
-              {btn2 && btn2.length==0 && userDetails && userDetails.profile_type=="private_profile"?(
+              {btn2 && btn2=="Request_Not_Available" && userDetails && userDetails.profile_type=="private_profile"?(
                 <Link 
                 href={{
                   pathname: "/User-Profile",
@@ -258,12 +293,13 @@ const ProfileTopCard = (props) => {
                 onClick={()=>ConnectionRequest(userDetails.id)}>
                 Connect
                 </Button>
-                
               </Link >)
               :('') }
-               {btn2 && btn2.length==1 && userDetails && userDetails.profile_type=="private_profile"?(
+
+              
+               {btn2  && btn2=="Request_Available" && userDetails && userDetails.profile_type=="private_profile"?(
                <Button className="bg-indigo-400 rounded-full mt-4" 
-                onClick={()=>RemoveConnection(btn2[0].id)}>
+                onClick={()=>RemoveConnection(userDetails.id)}>
                 Remove Connection
                 </Button>
              )
