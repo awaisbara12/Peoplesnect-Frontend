@@ -30,7 +30,7 @@ function MyNetwork() {
     .then((result) => {
       if (result) {
         setUserConnections(result.data)
-        // console.log("hello",result.data)
+        console.log("hello",result)
         // setConnections_count(result.data.connections_count)
       }
     })

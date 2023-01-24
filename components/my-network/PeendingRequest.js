@@ -76,7 +76,7 @@ function PeendingRequest() {
       .then((result) => {
         if (result) {
           setUser_Request(result.data);
-         //console.log("Requests check",result.data);  
+         console.log("Requests check",result.data);  
           //console.log(UserList)
                    
         }
