@@ -58,7 +58,7 @@ const Group = () => {
             <div className="Followings-profile flex  px-4 py-4 justify-between items-center">
             <Link 
               href={{
-              pathname: "/Friends-Profile",
+              pathname: "/group-page/joind-group",
               query: i.group.id,
             }}>
             <a>

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { GROUP_API, JOINED_GROUP_LISTS_API, JOIN_GROUP_API } from "../../../pages/config";
+import ProfileAvatar from "../../../public/images/profile-avatar.png";
 
 const ShowAll = () => { 
   const [joingroups,setJoinGroups] = useState();
@@ -133,7 +134,7 @@ const ShowAll = () => {
                           ):(
                             <Image
                               className="object-cover rounded-t-xl"
-                              src={Cover}
+                              src={ProfileAvatar}
                               width={620}
                               height={200}
                               alt=""

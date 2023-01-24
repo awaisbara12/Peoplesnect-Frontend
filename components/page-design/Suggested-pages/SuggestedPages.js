@@ -99,7 +99,7 @@ const SuggestedPages = (setList, singleItem) => {
     .then((resp) => resp.json())
     .then((result) => {
       setjoin(true);
-      router.push('/page-design/liked-pages?'+myArray[1]);
+      // router.push('/page-design/liked-pages?'+myArray[1]);
     })
   }
   // Check currentUser is Member or not
@@ -149,6 +149,21 @@ const SuggestedPages = (setList, singleItem) => {
       .catch((err) => console.log(err)); 
   }
 
+  // Unlike Page
+  const UnlikePage =()=>{
+    const res = fetch(PAGES_API +"/unlike_page?id="+myArray[1] , {
+    method: "Delete",
+    headers: {
+      Accept: "application/json",
+      Authorization: `${authKey}`,
+    },
+    })
+    .then((resp) => resp.json())
+    .then((result) => {
+      setjoin(false);
+    })
+  }
+
   const GetAdmins =()=>{
     fetch(PAGES_API +"/get_page_admin?page_id="+myArray[1] , {
     method: "GET",
@@ -167,7 +182,7 @@ const SuggestedPages = (setList, singleItem) => {
     Ismember();
     Current_User();
     GetAdmins();
-  },[])
+  },[join])
   return (
     <div className="mt-8">
     <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
@@ -273,14 +288,14 @@ const SuggestedPages = (setList, singleItem) => {
                   </span>
                 </div>
                 {join==true?(
-                <button disabled={true} className="w-auto flex gap-2 justify-center bg-indigo-100 text-white rounded-xl p-2 hover:text-indigo-100 hover:bg-transparent  border-1 border-indigo-100 mt-2 mb-1">
-                  <ThumbUpIcon className="w-5 h-5" />
-                  <div className="">You have Liked this Page</div>
+                <button  onClick={()=>UnlikePage()} className="w-auto flex gap-2 justify-center bg-indigo-400 text-white rounded-xl p-2 hover:text-indigo-400 hover:bg-transparent  border-1 border-indigo-400 mt-2 mb-1">
+                  <ThumbDownIcon className="w-5 h-5" />
+                  <div className="">UnLike Page</div>
                 </button>
                 ):(
                 <button onClick={()=>PageLikeFun()} className="w-auto flex gap-2 justify-center bg-indigo-400 text-white rounded-xl p-2 hover:text-indigo-400 hover:bg-transparent  border-1 border-indigo-400 mt-2 mb-1">
                   <ThumbUpIcon className="w-5 h-5" />
-                  <div className="">Like This Page</div>
+                  <div className="">Like Page</div>
                 </button>
                 )}
               </div>

@@ -43,7 +43,7 @@ const TabProfile = (props) => {
          
         </div>
       </div>
-       {props.user && props.user.profile_type=="private_profile"?(
+       {props.user && props.user.profile_type=="private_profile" && props.connection == false?(
          <NewsPostProfile />
        ):(
         <ProfileFeed/>

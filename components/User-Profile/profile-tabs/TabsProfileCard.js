@@ -98,7 +98,7 @@ const TabsProfileCard = (props) => {
           <div className="tab-content tab-space">
            
             <div className={openTab === 1 ? "block" : "hidden"} id="link1">
-              <TabProfile user={props.user} />
+              <TabProfile user={props.user} connection={props.connection}/>
             </div>
             <div className={openTab === 3 ? "block" : "hidden"} id="link3">
               <SkillsTabProfile user={props.user} />

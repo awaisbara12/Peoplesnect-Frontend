@@ -59,7 +59,7 @@ const People = () => {
                 {i.user.display_photo_url?(
                    <Link 
                    href={{
-                    pathname: "/Friends-Profile",
+                    pathname: "/User-Profile",
                     query: i.user.id}}>
                    <a>
                      <img 
@@ -73,7 +73,7 @@ const People = () => {
                    </Link>
                 ):(
                    <Link href={{
-                    pathname: "/Friends-Profile",
+                    pathname: "/User-Profile",
                     query: i.user.id}}>
                    <a>
                      <Image 
@@ -87,7 +87,7 @@ const People = () => {
                
                 <div className="">
                  <Link href={{
-                    pathname: "/Friends-Profile",
+                    pathname: "/User-Profile",
                     query: i.user.id}}>
                     <a>
                       <div className="username text-sm font-bold">{i.user.first_name} {i.user.last_name}</div>

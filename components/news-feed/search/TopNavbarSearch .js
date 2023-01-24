@@ -44,6 +44,13 @@ const TopNavbarSearch = () => {
     closeModal();
   }
 
+  const handleKeypress = event => {
+    if (event.code === "Enter" || event.code === "NumpadEnter") {
+      router.push('/search?'+value);
+      closeModal();
+    }
+  };
+
   const searchmultiples  = async(event) =>{
     setvalue(event.target.value);
     if (event.target.value.length == 0)
@@ -137,6 +144,7 @@ const TopNavbarSearch = () => {
                                       type="text"
                                       placeHolder="Search"
                                       onChange={searchmultiples}
+                                      onKeyPress={handleKeypress}
                                       />
                                       <XIcon
                                     onClick={closeModal}
@@ -149,10 +157,10 @@ const TopNavbarSearch = () => {
                             </Dialog.Title>
                               <div className="h-44 overflow-y-scroll">
                               {results && results.map((i)=>(
-                                <div className="" key={i.id}>
+                                <div className="" key={i.id} onClick={closeModal}>
                                   {i.searchable_type && i.searchable_type=="User"?(
-                                    <Link href={{pathname: "/User-Profile", query: i.user.id,}}>
-                                      <a className="flex items-center gap-2 p-2 border-b">
+                                    <Link href={{pathname: "/User-Profile", query: i.user.id,} }>
+                                      <a className="flex items-center gap-2 p-2 border-b" >
                                         {i.user && i.user.display_photo_url ?
                                           (
                                             <img
@@ -181,7 +189,7 @@ const TopNavbarSearch = () => {
 
                                   ):(
                                     i.searchable_type && i.searchable_type=="Page"?(
-                                      <Link href="/search/pages-search">
+                                      <Link href={{pathname: "/page-design/suggested-pages", query: i.page.id,} }>
                                       <a className="flex items-center gap-2 p-2 border-b">
                                         {i.page && i.page.display_photo_url ?
                                             (
@@ -210,7 +218,7 @@ const TopNavbarSearch = () => {
                                     </Link>
                                     ):(
                                       i.searchable_type && i.searchable_type=="Group"?(
-                                        <Link href="/search/groups-search">
+                                        <Link href={{pathname: "/group-page/joind-group", query: i.group.id,} }>
                                           <a className="flex items-center gap-2 p-2 border-b">
                                           {i.group && i.group.display_image_url ?
                                             (
@@ -239,7 +247,7 @@ const TopNavbarSearch = () => {
                                         </Link>
                                       ):(
                                         i.searchable_type && i.searchable_type=="Blog"?(
-                                          <Link href="/search/groups-search">
+                                          <Link href={{pathname: "/blog/show", query: i.blog.id,}}>
                                             <a className="flex items-center gap-2 p-2 border-b">
                                             {i.blog && i.blog.photos_link[0] ?
                                               (

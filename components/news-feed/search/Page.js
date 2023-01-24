@@ -59,7 +59,7 @@ const Page = () => {
             <div className="Followings-profile flex  px-4 py-4 justify-between items-center">
             <Link 
               href={{
-              pathname: "/Friends-Profile",
+              pathname: "/page-design/suggested-pages",
               query: i.page.id,
             }}>
             <a>
