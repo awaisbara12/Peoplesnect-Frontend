@@ -182,7 +182,7 @@ const SuggestedPages = (setList, singleItem) => {
     Ismember();
     Current_User();
     GetAdmins();
-  },[join])
+  },[join,myArray[1]])
   return (
     <div className="mt-8">
     <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">

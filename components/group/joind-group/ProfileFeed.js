@@ -50,6 +50,36 @@ const ProfileFeed = (props) => {
       if (result.status == 200) {
         const mergedata = [...list,...result.data.data]
         setList(mergedata);
+        console.log(result);
+        setcurrentpage(result.data.pages.next_page)
+        setlastpage(result.data.pages.total_pages)
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    return result;
+  };
+
+  const getNewsFeeds = async () => {
+    const res = await axios(`${Show_USER_NEWS_FEEDS}?group_id=${myArray[1]}`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-type": "application/json; charset=utf-8",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true,
+        Authorization: authKey,
+      },
+      credentials: "same-origin",
+    });
+    const result = await res;
+
+    try {
+      if (result.status == 200) {
+        console.log(list);
+        // const mergedata = [...list,...result.data.data]
+        setList(result.data.data);
+        console.log(result);
         setcurrentpage(result.data.pages.next_page)
         setlastpage(result.data.pages.total_pages)
       }
@@ -63,8 +93,9 @@ const ProfileFeed = (props) => {
   }
 
   useEffect(() => {
-    getNewsFeed();
-  },[]);
+    getNewsFeeds();
+    console.log(props.group);
+  },[props.group]);
  
   return (
     <div className="mt-8">
