@@ -58,13 +58,40 @@ const ProfileFeed = (props) => {
     }
     return result;
   };
+
+  const getNewsFeeds = async () => {
+    const res = await axios(`${Show_USER_NEWS_FEEDS}?page_id=${myArray[1]}`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-type": "application/json; charset=utf-8",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true,
+        Authorization: authKey,
+      },
+      credentials: "same-origin",
+    });
+    const result = await res;
+
+    try {
+      if (result.status == 200) {
+        // const mergedata = [...list,...result.data.data]
+        setList(result.data.data);
+        setcurrentpage(result.data.pages.next_page)
+        setlastpage(result.data.pages.total_pages)
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    return result;
+  };
   const fetchMoreData = () => {
     getNewsFeed();
   }
 
   useEffect(() => {
-    getNewsFeed();
-  },[]);
+    getNewsFeeds();
+  },[props.group]);
  
   return (
     <div className="mt-8">

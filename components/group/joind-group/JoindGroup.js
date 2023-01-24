@@ -406,7 +406,7 @@ const JoindGroup = (setList, singleItem) => {
     Ismember();
     GetGroup();
     GetAdmins();
-  },[])
+  },[myArray[1]])
 
   return (
     <div className="mt-8 w-[600px] xl:w-[980px] lg:w-[710px] md:w-[780px] px-auto md:px-0 lg:px-0 xl:px-0">

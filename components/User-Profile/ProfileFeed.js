@@ -4,7 +4,7 @@ import { Show_USER_NEWS_FEEDS } from "../../pages/config";
 import { useRouter } from "next/router";
 import ProfileFeedSingle from "./ProfileFeedSingle";
 
-const ProfileFeed = () => {
+const ProfileFeed = (props) => {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
   
@@ -42,7 +42,7 @@ const ProfileFeed = () => {
    
     setLoading(false);
     getNewsFeed();
-  },[]);
+  },[props]);
  
   return (
     <div className="mt-8">
