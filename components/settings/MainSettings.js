@@ -68,6 +68,14 @@ const MainSettings = () => {
               </div>
             </a>
           </div>
+          <div className="border hover:bg-gray-50 mt-4 p-4 bg-white hover:shadow-lg rounded-xl">
+            <a href="settings/Blocked">
+              <div className="username flex gap-2 text-lg font-medium">
+                <UserIcon className="h-7 w-7" />
+                  Blocked User
+              </div>
+            </a>
+          </div>
         </div>
       </div>
     </div>

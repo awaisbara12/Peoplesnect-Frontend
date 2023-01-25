@@ -4,7 +4,6 @@ import Followings from "./Followings";
 
 const FollowingsTabs = () => {
   const [openTab, setOpenTab] = React.useState(1);
-  const [userDetails, setUserDetails] = React.useState(1);  
   return (
     <>
       <div className="mt-8">
@@ -57,10 +56,10 @@ const FollowingsTabs = () => {
         <div className="flex-auto">
           <div className="tab-content tab-space">
             <div className={openTab === 1 ? "block" : "hidden"} id="link1">
-              <Followings/>
+              <Followings button={openTab}/>
             </div>
             <div className={openTab === 2 ? "block" : "hidden"} id="link2">
-              <Followers/>
+              <Followers button={openTab}/>
             </div>
           </div>
         </div>
