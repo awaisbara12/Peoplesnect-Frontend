@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import Blog from "./Blog";
 import Group from "./Group";
+import Hashtag from "./Hashtag";
 import Page from "./Page";
 import People from "./People";
 
@@ -90,6 +91,25 @@ const Search = () => {
                    Blog
                   </a>
                 </li>
+                <li className="">
+                  <a
+                    className={
+                      "" +
+                      (openTab === 5
+                        ? "border-b-3 font-bold pb-4 text-indigo-400 border-indigo-400"
+                        : "")
+                    }
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setOpenTab(5);
+                    }}
+                    data-toggle="tab"
+                    href="#link5"
+                    role="tablist"
+                  >
+                   Hashtag
+                  </a>
+                </li>
               </ul>
             </div>
           </div>
@@ -107,6 +127,9 @@ const Search = () => {
             </div>
             <div className={openTab === 4 ? "block" : "hidden"} id="link4">
               <Blog/>
+            </div>
+            <div className={openTab === 5 ? "block" : "hidden"} id="link5">
+              <Hashtag/>
             </div>
           </div>
         </div>
