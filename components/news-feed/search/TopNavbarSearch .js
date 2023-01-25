@@ -274,7 +274,19 @@ const TopNavbarSearch = () => {
                                               </div>
                                             </a>
                                           </Link>
-                                        ):("")
+                                        ):(
+                                          i.searchable_type && i.searchable_type=="Hashtag"?(
+                                          <Link  href={{pathname: "hashtag-design/hashtags-show", query: i.hashtag.id}} key={i.hashtag.id}>
+                                            <a className="flex items-center gap-2 p-2 border-b">
+                                              <div className="flex justify-between items-center hover:bg-gray-100" >
+                                                <div className="py-2 px-4 rounded-full hover:bg-gray-100">
+                                                  <div className="font-bold">{i.hashtag.name}</div>
+                                                  <div className="mt-1">{i.hashtag.count} tags</div>
+                                                </div>
+                                              </div>
+                                            </a>
+                                          </Link>
+                                        ):(""))
                                       )
                                     )
                                   )
