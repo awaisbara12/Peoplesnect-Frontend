@@ -10,7 +10,7 @@ import React from "react";
 const EventsCard = () => {
 return (
 <div>
-  <div className="w-64 lg:w-auto">
+ <div className="w-64 lg:w-auto">
     <div className="mt-8 mx-auto bg-white rounded-xl w-full h-auto p-4">
       <Link href="/group-page">
       <a href="">
@@ -45,7 +45,7 @@ return (
       </a>
       </Link>
     </div>
-  </div>
+  </div> 
 </div>
 );
 };
