@@ -178,15 +178,16 @@ const NewsPost = ( setList ) => {
                 alt="profile-image"
               />
             </div>
-
             <textarea
               type="text"
               name="post-text"
               value={postText}
               onChange={(e) => setPostText(e.target.value)}
+              
               className="w-full pt-0 resize-none border-0 px-0 text-base overflow-y-hidden outline-none focus:outline focus:ring-0"
               placeholder="Start a post?"
             ></textarea>
+
           </div>
 
           {videoPreview ? (

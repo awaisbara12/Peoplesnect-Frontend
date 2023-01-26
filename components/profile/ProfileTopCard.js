@@ -159,7 +159,7 @@ const ProfileTopCard = () => {
                       name="image"
                       id="image"
                       onChange={onImageChange}
-                      className="opacity-0 absolute w-6 h-6 -z-0"
+                      className="opacity-0 absolute top-auto left-auto right-auto w-44  h-6 -z-0"
                       title={""}
                       multiple
                     />
@@ -204,16 +204,17 @@ const ProfileTopCard = () => {
                   <div className="absolute top-0 left-0 right-0 bottom-0 w-full rounded-full h-full bg-black bg-opacity-0 z-50 flex justify-center items-center opacity-0 hover:opacity-100 hover:bg-opacity-70 duration-500">
                     <div className="flex gap-1 text-sm text-white rounded-full  cursor-pointer">
                       <PencilIcon className="w-4 h-4" />
+                      <div>
                       Edit Profile
                       <input
                       type="file"
                       name="image"
                       id="image"
-                      onChange={onProfileChange}
-                      className="opacity-0 absolute w-6 h-6 -z-0"
+                      className="opacity-0 absolute top-auto left-0 z-10"
                       title={""}
                       multiple
                     />
+                      </div>
                     </div>
                   </div>
                 </div>

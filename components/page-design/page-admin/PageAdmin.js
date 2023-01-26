@@ -372,7 +372,7 @@ const PageAdmin = (setList, singleItem) => {
                     type="file"
                     name="image"
                     id="image"
-                    className="opacity-0 absolute w-6 h-6 -z-0"
+                    className="opacity-0 absolute top-auto left-auto right-auto w-44 -z-0"
                     onChange={handleImagePost}
                     title={""}
                     multiple
@@ -425,7 +425,7 @@ const PageAdmin = (setList, singleItem) => {
                   name="image"
                   id="image"
                   onChange={handledpPost}
-                  className="opacity-0 absolute w-6 h-6 -z-0"
+                  className="opacity-0 absolute h-6 -z-0"
                   title={""}
                   multiple
                 />
