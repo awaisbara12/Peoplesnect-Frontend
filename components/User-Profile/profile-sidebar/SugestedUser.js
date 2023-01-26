@@ -40,6 +40,7 @@ const SugestedUser = () => {
         try {
           if (result) {
             setSuggestedUsers(result.data);
+            console.log("chhhhhhhhhhhh")
             setLoading(false);
           }
         } catch (error) {

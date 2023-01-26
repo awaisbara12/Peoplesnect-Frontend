@@ -8,14 +8,15 @@ import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import { 
   GET_USER_FOLLOWEES, 
-  FOLLOW_USER_API
+  FOLLOW_USER_API,
+  BLOCK_API
 } from "../../pages/config";
 import { Button } from "@material-tailwind/react";
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const Followers = () => {
+const Followers = (props) => {
   const [follower, setfollower] = useState();
    // Bareer Key
    if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore"); }
@@ -35,6 +36,26 @@ const Followers = () => {
     setfollower(data.data);
     ShowFollowing();
   }
+  // Blocked user
+  const Block =(id,userId,type)=>{
+    const dataForm = new FormData();
+    dataForm.append("blocks[blockable_type]", type);
+    dataForm.append("blocks[blockable_id]", id);
+    dataForm.append("blocks[blocked_id]", userId);
+    const res = fetch(BLOCK_API, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      Authorization: `${authKey}`,
+    },
+    body:dataForm,
+    })
+    .then((resp) => resp.json())
+    .then((result) => {
+      console.log(result.data);
+      ShowFollowing();
+    })
+  }
   // Show Following
   const ShowFollowing=async()=>
   {      
@@ -45,10 +66,12 @@ const Followers = () => {
     const response = await fetch(`${GET_USER_FOLLOWEES}`,requestOptions);
     const data = await response.json();
     setfollower(data.data);
+    console.log("Followers",data.data)
   }
   useEffect(() => {
-     ShowFollowing();
-  },[]);
+     
+    ShowFollowing();
+  },[props.button==2]);
   return (
     <div className="">
       <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
@@ -97,8 +120,8 @@ const Followers = () => {
                     pathname: "/Friends-Profile",
                     query: i.follower.id}}>
                     <a>
-                      <div className="username text-sm font-bold">{i.follower.first_name} {i.follower.last_name}</div>
-                      <div className="userfield text-xs">{i.follower.city}, {i.follower.country}</div>
+                      <div className="username text-sm font-bold capitalize">{i.follower.first_name} {i.follower.last_name}</div>
+                      <div className="userfield text-xs capitalize">{i.follower.city}, {i.follower.country}</div>
                     </a>
                   </Link>
                 </div>
@@ -124,7 +147,7 @@ const Followers = () => {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-full border-1 text-indigo-400 border-indigo-400 hover:bg-indigo-400 hover:text-white">
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 ">
                     <div className="py-1">
                       <Menu.Item>
                         {({ active }) => (
@@ -132,11 +155,25 @@ const Followers = () => {
                             href="#"
                             className={classNames(
                               active ? "" : "",
-                              "block px-4 text-sm"
+                              "block px-4 text-sm rounded-full border-1 text-indigo-400 border-indigo-400 hover:bg-indigo-400 hover:text-white"
                             )}
                             onClick={()=>confirmation(i.id)}
                           >
                             Remove
+                          </a>
+                        )}
+                      </Menu.Item>
+                      <Menu.Item>
+                        {({ active }) => (
+                          <a
+                            href="#"
+                            className={classNames(
+                              active ? "" : "",
+                              "block px-4 text-sm mt-2 rounded-full border-1 text-indigo-400 border-indigo-400 hover:bg-indigo-400 hover:text-white"
+                            )}
+                            onClick={()=>Block(i.id, i.follower.id,"Follower")}
+                          >
+                            Block
                           </a>
                         )}
                       </Menu.Item>
