@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import TimezoneSelect, { allTimezones } from "react-timezone-select";
 import Image from "next/image";
 import ProfileAvatar from "../../../../public/images/profile-avatar.png";
+import NewPost from "./NewPost"
 import {
   PhotographIcon,
   VideoCameraIcon,
@@ -178,7 +179,8 @@ const NewsPost = ( setList ) => {
                 alt="profile-image"
               />
             </div>
-            <textarea
+            <NewPost />
+            {/* <textarea
               type="text"
               name="post-text"
               value={postText}
@@ -186,7 +188,7 @@ const NewsPost = ( setList ) => {
               
               className="w-full pt-0 resize-none border-0 px-0 text-base overflow-y-hidden outline-none focus:outline focus:ring-0"
               placeholder="Start a post?"
-            ></textarea>
+            ></textarea> */}
 
           </div>
 
