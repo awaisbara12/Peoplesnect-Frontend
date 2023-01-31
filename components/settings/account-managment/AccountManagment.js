@@ -3,9 +3,14 @@ import {
   CURENT_USER_LOGIN_API,
   ACCOUNT_DEACTIVATE
 } from "../../../pages/config";
+import { signout } from "../../auth/signout/SignOut";
+import { router } from "next/router";
 
 const AccountManagment = () => {
   const [defaultvalue, setdefaultvalue] = useState();
+  const [userDetails, setUserDetails] = useState();
+  const [temporary, settemporary] = useState();
+  const [permanent, setpermanent] = useState();
   // Bareer Key
   if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore"); }
     // confirmation 
@@ -31,12 +36,79 @@ const AccountManagment = () => {
      .then((resp) => resp.json())
     .then((result) => {
       if (result) {
-        alert("Your Information has been Updated! ") 
+          if (result.datas.message)
+          {
+            router.push("/login");
+          }else{
+            setUserDetails(result.data);
+            settemporary(result.data.is_deleted);
+            setpermanent(false);
+            alert("Your Information has been Updated! ") 
+          }
       }
     })
     .catch((err) => console.log(err));
    
   }
+
+  const Current_User=async()=>{    
+   
+    await fetch(CURENT_USER_LOGIN_API, {
+      method: "GET",
+       headers: {
+        Accept: "application/json", 
+         Authorization: `${authKey}`,
+       },
+    })
+       .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          setUserDetails(result.data);
+          settemporary(result.data.is_deleted);
+          setpermanent(false);
+        }
+      })
+      .catch((err) => console.log(err)); 
+  }
+
+  const toggler =(e)=>{ 
+    console.log(e);
+    if(e=="temporary"){ 
+    var a = confirm("Are You Sure?");
+    if(a)
+    { settemporary(true);
+      setdefaultvalue("temporary");
+    }
+    }else if(e=="permanent"){
+      var a = confirm("Are You Sure you want to permanet delete your account?");
+      if(a)
+      { 
+        settemporary(false);
+        setpermanent(true);
+        setdefaultvalue("permanent");
+      } 
+    }
+    if(e=="1") {
+      var a = confirm("Are You Sure you want to restore your account?");
+      if(a)
+      {
+        settemporary(false);
+        setdefaultvalue("restore");
+      }
+    }else if(e=="2"){
+      var a = confirm("Are You Sure?");
+      if(a)
+      {
+        setdefaultvalue("restore");
+        setpermanent(false);
+      }
+    }
+  }
+
+  
+  useEffect(()=>{
+    Current_User();
+  },[])
 
   return (
     <div>
@@ -53,9 +125,11 @@ const AccountManagment = () => {
                 >
                   <input
                     type="checkbox"
-                    value=""
+                    value="temporary"
                     id="default-toggle"
                     className="sr-only peer"
+                    checked={temporary===true}
+                    onChange={temporary==false ?((e)=>toggler(e.target.value)):((e)=>toggler("1"))}
                   />
                   <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
                 </label>
@@ -66,36 +140,23 @@ const AccountManagment = () => {
               
               <div className="flex items-center gap-4">
                 <div className="flex items-center">
-                  <input
-                    
-                    id="default-radio-1"
-                    type="radio"
-                    onChange={(e)=>setdefaultvalue("temporary")}
-                    name="default-radio"
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-indigo-400 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                  />
+                
+                <div className="">
                   <label
-                    htmlFor="default-radio-1"
-                    className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    htmlFor="default-toggle2"
+                    className="inline-flex relative items-center cursor-pointer"
                   >
-                    Temporary Deactivate
+                    <input
+                      type="checkbox"
+                      value="permanent"
+                      id="default-toggle2"
+                      className="sr-only peer"
+                      checked={permanent===true}
+                      onChange={permanent==false ?((e)=>toggler(e.target.value)):((e)=>toggler("2"))}
+                    />
+                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
                   </label>
                 </div>
-                <div className="flex items-center">
-                  <input
-                    
-                    id="default-radio-1"
-                    type="radio"
-                    onChange={(e)=>setdefaultvalue("permanent")}
-                    name="default-radio"
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-indigo-400 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                  />
-                  <label
-                    htmlFor="default-radio-2"
-                    className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                  >
-                    Permanent Delete
-                  </label>
                 </div>
               </div>
               
