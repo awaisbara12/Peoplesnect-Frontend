@@ -47,7 +47,7 @@ export default class SimpleMentionEditor extends Component {
       positionSuggestions: (settings) => {
         return {
           left: settings.decoratorRect.left + 'px',
-          top: settings.decoratorRect.top - 40 + 'px',
+          bottom: settings.decoratorRect.bottom - -60 + 'px',
           display: 'block',
           transform: 'scale(1) translateY(-100%)',
           transformOrigin: '1em 0% 0px',
