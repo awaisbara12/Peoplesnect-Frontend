@@ -3,15 +3,30 @@ import axios from "axios";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { BookmarkIcon, ChatAltIcon, HeartIcon, PencilIcon, ShareIcon, TrashIcon } from "@heroicons/react/outline";
+import { BadgeCheckIcon, BookmarkIcon, ChatAltIcon, DotsHorizontalIcon, HeartIcon, PencilAltIcon, PencilIcon, PhotographIcon, ShareIcon, TrashIcon } from "@heroicons/react/outline";
 import { ChevronRightIcon } from "@heroicons/react/solid";
 import ProfileAvatar from "../../public/images/profile-avatar.png";
 import Spinner from "../common/Spinner";
-// import { BLOG_POST_USER_API_KEY } from "/pages/config";
 import { COMMENT_API_KEY, BLOG_POST_USER_API_KEY, CURENT_USER_LOGIN_API, REACTION_NEWSFEED_API_KEY, BOOKMARK_NEWSFEED_API_KEY, NEWSFEED_COMMENT_POST_KEY } from "../../pages/config";
 import PostComments from "./comments/PostComments";
 import FilterComments from "./comments/FilterComments";
 import ReplyComments from "./comments/ReplyComments";
+import { Popover, Transition } from "@headlessui/react";
+import { Editor } from "@tinymce/tinymce-react";
+
+const cardDropdown = [
+  {
+    name: "Edit",
+    href: "#",
+    icon: PencilAltIcon,
+  },
+  {
+    name: "Delete",
+    href: "#",
+    icon: TrashIcon,
+  },
+  
+];
 
 function BlogShow() {
   const [loading, setLoading] = useState(true);
@@ -26,6 +41,15 @@ function BlogShow() {
   const [is_deleted, setIs_deleted] = useState(0);
 
   const [items, setItems] = useState();
+  const [EditOn, setEditOn] = useState(false);     // for on/off edit moode
+  const [UP_pic, setUP_pic] = useState();     // Upload Preview image
+  const [U_pic, setU_pic] = useState();       // Upload image
+  const [spinner, setSpinner] = useState(false);
+  const [title, setTitle] = useState();      // Blog Title
+  const [blogContent, setBlogContent] = useState(""); // Blog Description
+  const [blog_type, setblog_type] = useState("");
+  
+
   const router = useRouter();
   const data = router.asPath;
   const myArray = data.split("?");
@@ -52,11 +76,13 @@ function BlogShow() {
         setcomments(result.data.data.comments);
         setComments_count(result.data.data.comments.length)
         setIs_deleted(false);
+        console.log(result.data)
       }
     } catch (error) {}
     setLoading(false);
     return result;
   };
+  // Current User
   const Current_User=async()=>{   
     await fetch(CURENT_USER_LOGIN_API, {
       method: "GET",
@@ -69,15 +95,106 @@ function BlogShow() {
       .then((result) => {
         if (result) {
           setCurrentUser(result.data);
+          console.log("user",result.data.id)
         }
       })
       .catch((err) => console.log(err)); 
   }
+
   useEffect(() => {
     setLoading(true);
     getBlogs();
     Current_User();
   }, []);
+  //  Opition Edit/delete confirmation
+  const optionConfirm=(name,item)=>{
+    if (name=="Delete")
+    {
+      var a = confirm("Are you Sure ?");
+      if (a==true)DeleteBlogs();
+      }
+    if (name=="Edit")
+    { 
+      setEditOn(true);
+      setTitle(list.data.title);
+      setBlogContent(list.data.description);
+      setblog_type(list.data.blog_type)
+    }
+    
+  };
+  //  Delete Blog
+  const DeleteBlogs = async () => {
+    const res = await axios(BLOG_POST_USER_API_KEY + "/" + myArray[1], {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-type": "application/json; charset=utf-8",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true,
+        Authorization: authKey,
+      },
+      credentials: "same-origin",
+    });
+    const result = await res;
+    try {
+      if (result.status == 200) {
+        // setItems(result.data.data);
+        // setList(result.data);
+        // setcomments(result.data.data.comments);
+        // setComments_count(result.data.data.comments.length)
+        // setIs_deleted(false);
+        console.log(result.data);
+        router.push("/blog");
+      }
+    } catch (error) {}
+    setLoading(false);
+    return result;
+  };
+  // Update Blog
+  function Updateblog() {
+    const dataForm = new FormData();
+    dataForm.append("blogs[title]", title);
+    dataForm.append("blogs[description]", blogContent);
+    if(U_pic){dataForm.append("blogs[photos][]", U_pic);}
+    dataForm.append("blogs[blog_type]", blog_type);
+
+    setSpinner(true);
+    fetch(BLOG_POST_USER_API_KEY+ "/" + myArray[1], {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
+      body: dataForm,
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          setSpinner(false);
+          setEditOn(false);
+          setUP_pic('');
+          setU_pic('');
+          setTitle('');
+          setBlogContent('');
+          setblog_type('');
+          getBlogs();
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+  //Edited image
+  const handleImage = (e) => {
+    setU_pic(e.target.files[0]);
+    if (e.target.files.length !== 0) {
+      setUP_pic(window.URL.createObjectURL(e.target.files[0]));
+    }
+  };
+  //  remover Image preview
+  const handleCoverReomve = (e) => {
+    setUP_pic(window.URL.revokeObjectURL(e.target.files));
+  };
+  
+
 
    // CopyLink
    const copylink=(postid)=>{    
@@ -189,10 +306,78 @@ function BlogShow() {
         {/* Blog Show */}
       <div className="blogs bg-white rounded-xl my-8 ">
         <div className="image">
-          <div className="">
-            <Link href="/">
-              <a>
-                {list.data.photos_link && (
+          {/*  Edit Title */}
+          {currentUser && list && list.data && currentUser.id==list.data.user.id && EditOn?(
+            <div className="">
+              <input
+                type="text"
+                name="title"
+                value={title}
+                onChange={(e)=>setTitle(e.target.value)}
+                placeholder="Article title here"
+                required="required"
+                className={`w-full border-gray-100 font-semibold placeholder:text-gray-900 border py-2 px-3 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400
+                `}
+              />
+              <br></br>
+            </div>
+          ):('')}
+          {/* Edit Pic */}
+          {currentUser && list && list.data && currentUser.id==list.data.user.id && EditOn?
+          (
+            <>
+              <div className="">
+                {UP_pic?(
+                  <div className={`relative`}>
+                  <img src={UP_pic} className="aspect-video object-cover rounded-xl mb-4" alt=""/>
+                  <div onClick={handleCoverReomve} className="absolute bg-indigo-100 absolute top-4 right-4 z-50 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full" >
+                    <TrashIcon className="w-5 h-5 text-indigo-600" />
+                  </div>
+                </div>
+                ):(
+                <>
+                  <div className="relative">
+                    {list && list.data.photos_link && (
+                      <img
+                        className="object-cover rounded-t-lg h-[400px]"
+                        src={list.data.photos_link[0]}
+                        width={1000}
+                        height={400}
+                        alt=""
+                      />
+                    )}
+                  </div>
+                  <div className="">
+                    <div className="relative flex gap-1 md:gap-2 items-center justify-center p-4">
+                      <div className="relative flex items-center justify-center">
+                        <PhotographIcon
+                          width={22}
+                          height={22}
+                          className="text-indigo-400"
+                        />
+                        <input
+                          type="file"
+                          name="image"
+                          id="image"
+                          className="opacity-0 absolute w-6 h-6 -z-0"
+                          onChange={handleImage}
+                          title={""}
+                          multiple
+                        />
+                      </div>
+                      <div className="font-extralight">Photo Upload</div>
+                    </div>
+                  </div>
+                </>
+                )}
+              </div>
+            </>
+          )
+          :
+          ( //  Show Blog-Pic
+            <div className="relative flex">
+              <div className="">
+                {list && list.data.photos_link && (
                   <img
                     className="object-cover rounded-t-lg h-[400px]"
                     src={list.data.photos_link[0]}
@@ -201,17 +386,179 @@ function BlogShow() {
                     alt=""
                   />
                 )}
-              </a>
-            </Link>
+              </div>
+              {currentUser && list && list.data && currentUser.id==list.data.user.id?(
+              <div  className="bg-indigo-100 absolute top-4 right-4 z-50 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full">
+                <div className="">
+                  <Popover className="relative">
+                    {({ open }) => (
+                      <>
+                        <Popover.Button
+                          className={` ${
+                            open ? "" : "text-opacity-90 focus-visible:outline-none"
+                          }`}
+                          // onClick={()=>setEditOn('')}
+                        >
+                          <div className="hover:bg-indigo-100 focus:bg-indigo-100 rounded-full h-8 w-8 flex items-center justify-center">
+                            <DotsHorizontalIcon className="w-5 h-5" />
+                          </div>
+                        </Popover.Button>
+                        <Transition
+                          as={Fragment}
+                          enter="transition ease-out duration-200"
+                          enterFrom="opacity-0 translate-y-1"
+                          enterTo="opacity-100 translate-y-0"
+                          leave="transition ease-in duration-150"
+                          leaveFrom="opacity-100 translate-y-0"
+                          leaveTo="opacity-0 translate-y-1"
+                        >
+                          <Popover.Panel className="absolute left-1/2 z-10 mt-3 w-72 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-3xl">
+                            <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                              <div className="relative bg-white py-2">
+                                {cardDropdown.map((card) => (
+                                  <a
+                                    key={card.name}
+                                    onClick={()=>optionConfirm(card.name,list.data)}
+                                    href={card.id}
+                                    className="-m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
+                                  >
+                                    <div className="flex h-10 w-10 shrink-0 items-center justify-center text-white sm:h-12 sm:w-12 pl-2">
+                                      <card.icon className="h-6 w-6 text-gray-900" />
+                                    </div>
+                                    <div>
+                                      <p className="text-sm font-medium text-gray-900">
+                                        {card.name}
+                                      </p>
+                                    </div>
+                                  </a>
+                                ))}
+                              </div>
+                            </div>
+                          </Popover.Panel>
+                        </Transition>
+                      </>
+                    )}
+                  </Popover>
+                </div>
+              </div>
+              ):('')}
+            </div>
+          )}
+        </div>
+
+
+
+
+        {/*  Edit Description & Blog_type */}
+        {currentUser && list && list.data && currentUser.id==list.data.user.id && EditOn?(
+          <>
+            <div className="form-group mt-4">
+              
+              {/* Description */}
+              <Editor
+                id="fiexed-id"
+                init={{
+                  height: 300,
+                  menubar: false,
+                  plugins: ["link image code"],
+                  toolbar:
+                    "undo redo | formatselect | " +
+                    "bold italic backcolor | alignleft aligncenter " +
+                    "alignright alignjustify | bullist numlist outdent indent | " +
+                    "removeformat | help",
+                  content_style:
+                    "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                  branding: false,
+                  required: true,
+                }}
+                initialValue={blogContent}
+                onChange={(e)=> setBlogContent(e.target.getContent({ format: "text" }))}
+              />
+
+              {/* Blog Type */}
+              
+                <div className="flex items-center gap-4 justify-end mr-4 p-4">
+                  <div className="flex items-center">
+                    <input
+                      id="default-radio-1"
+                      type="radio"
+                      value="public_blog"
+                      checked={blog_type=="public_blog"}
+                      onChange={(e)=>setblog_type(e.target.value)}
+                      name="default-radio"
+                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-indigo-400 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                    /> 
+                    <label
+                      htmlFor="default-radio-1"
+                      className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >
+                      Public
+                    </label>
+                  </div>
+                  <div className="flex items-center">
+                    <input
+                      checked={blog_type=="private_blog"}
+                      id="default-radio-1"
+                      type="radio"
+                      value="private_blog"
+                      onChange={(e)=>setblog_type(e.target.value)}
+                      name="default-radio"
+                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-indigo-400 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                    />
+                    <label
+                      htmlFor="default-radio-2"
+                      className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >
+                      Private
+                    </label>
+                  </div>
+                </div>
+                {/* Update Button */}
+                <div className="flex justify-end mr-4 p-4">
+                  {spinner?(
+                    <>
+                    <button className={`w-[100px] h-8 rounded-full flex gap-1 items-center justify-center bg-indigo-100 disabled: text-white cursor-pointer`}>
+                        Update 
+                      </button>
+                    </>
+                  ):(
+                  <button className={`w-[100px] h-8 rounded-full flex gap-1 items-center justify-center bg-indigo-400 text-white cursor-pointer`}
+                    onClick={()=>Updateblog()}>
+                    Update 
+                  </button>
+                  )}
+                </div>
+              
           </div>
-        </div>
-        {list.data?(
-        <div className=" details p-10">
-          <div className="heading text-2xl font-bold">{list.data.title}</div>
-          <div className="caption text-lg mt-4">{list.data.description}</div>
-        </div>
-        ):('')}
+          </>
+        ):(
+          // Show Blog Title & Description
+          <div className=" details p-10">
+            <div className="heading text-2xl font-bold">{list.data.title}</div>
+            <div className="caption text-lg mt-4">{list.data.description}</div>
+          </div>
+        )}
         
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
         {/* For Like, Comment.. etc*/}
          <div className="flex justify-between mt-[14px] px-5 bg-white ">
           <div className="flex gap-6">
@@ -318,7 +665,6 @@ function BlogShow() {
           </div>
          ):('')}
       </div>
-        
     </div>
   );
 }
