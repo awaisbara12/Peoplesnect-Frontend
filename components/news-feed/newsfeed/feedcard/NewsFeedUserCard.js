@@ -3,14 +3,16 @@ import NewsFeedSingle from './NewsFeedSingle'
 // import Spinner from "../../../common/Spinner";
 
 const NewsFeedUserCard = (list) => {
-  // console.log(list);
+  console.log(list);
 
   return (
     <div>
       {list &&
         list.list.map((items) => (
-        
-          <NewsFeedSingle items={items} key={items.id} />
+          items.user ?(
+            <NewsFeedSingle items={items} key={items.id} />
+          ):("")
+         
          
         ))}
     </div>

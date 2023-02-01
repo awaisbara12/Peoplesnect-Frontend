@@ -114,7 +114,7 @@ function MyNetwork() {
           {userConnections? (
             userConnections.map((user) => 
               { 
-                if(userDetails.id!=user.sender.id)
+                if( user.sender && user.receiver && userDetails.id!=user.sender.id)
                 {
                   return(
                     <div className="border-b-1" key={user.id}>
@@ -173,7 +173,7 @@ function MyNetwork() {
                     </div>
                   )
                 }
-                else
+                else if(user.sender && user.receiver)
                 {
                   return(
                     <div className="border-b-1" key={user.id}>

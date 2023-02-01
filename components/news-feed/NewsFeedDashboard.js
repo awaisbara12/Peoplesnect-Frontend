@@ -86,7 +86,9 @@ const NewsFeedDashboard = () => {
                 loader={ <div className="flex justify-center"><ClipLoader className="my-8" color="#818CF8" size={40}/> </div> }
               >
                 {list && list.length > 0 && list.map((items) => (
-                    <NewsFeedSingle items={items} key={items.id} />    
+                  items.user ?(
+                    <NewsFeedSingle items={items} key={items.id} />  
+                  ):("")  
                   )
                   )
                 }
