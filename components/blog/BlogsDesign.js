@@ -29,6 +29,7 @@ const BlogsDesign = () => {
     try {
       if (result.status == 200) {
         setList(result.data);
+        console.log("My",result.data)
       }
     } catch (error) {
       console.log(error);
@@ -54,18 +55,23 @@ const BlogsDesign = () => {
           <div className="flex justify-between align-item-center mt-12">
           <div className="text-lg font-bold">My Articles</div>
           <div className="add_new_button text-center">
-                <button
-                  type="submit"
-                  className="border-2 border-indigo-400 text-indigo-400 text-md cursor-pointer font-bold py-2 px-4 rounded-full"
-                >
-                  Show More
-                </button>
+          <Link href={{pathname: "/blog/show-all", query: "my",}}>
+            <a>  
+              <button
+                type="submit"
+                className="border-2 border-indigo-400 text-indigo-400 text-md cursor-pointer font-bold py-2 px-4 rounded-full"
+              >
+                Show More
+              </button>
+            </a>
+          </Link>
+
           </div>
           </div>
         </div>
         <div className="grid flex grid-cols-1 gap-6 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2">
-        {list &&
-            list.data.map((item) => (
+        {list && list.data &&
+            list.data.slice(0,3).map((item) => (
               <div
                 className="w-full mt-8 blogs bg-white rounded-xl"
                 key={item.id}

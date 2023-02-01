@@ -5,41 +5,77 @@ import Image from "next/image";
 import Spinner from "../common/Spinner";
 import Blog1 from "../../public/images/pagecover.jpg";
 import { BLOG_POST_USER_API_KEY } from "/pages/config";
+import { useRouter } from "next/router";
 
 const SuggestedBlogs = () => {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
-  if (typeof window !== "undefined") {
-    var authKey = window.localStorage.getItem("keyStore");
+  
+  const router = useRouter();
+  const data = router.asPath;
+  const myArray = data.split("?");
+  //  Bareer key
+  if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore");}
+  const checkCalling =()=>{
+    if(myArray && myArray[1]=="suggested")suggestedBlog();
+    else if (myArray && myArray[1]=="my")MyBlogs();
+    else router.push("/blog");
   }
+  // Get My All Blogs
+  const MyBlogs = async () => {
+    const res = await axios(BLOG_POST_USER_API_KEY, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-type": "application/json; charset=utf-8",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true,
+        Authorization: authKey,
+      },
+      credentials: "same-origin",
+    });
+    const result = await res;
 
+    try {
+      if (result.status == 200) {
+        setList(result.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    setLoading(false);
+    return result;
+  };
+  // Get All Suggested Blog
+  const suggestedBlog = async () => {
+    const res = await axios(BLOG_POST_USER_API_KEY + "/suggested_blogs", {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-type": "application/json; charset=utf-8",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true,
+        Authorization: authKey,
+      },
+      credentials: "same-origin",
+    });
+    const result = await res;
+
+    try {
+      if (result.status == 200) {
+        setList(result.data);
+        console.log(result.data)
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    setLoading(false);
+    return result;
+  };
   useEffect(() => {
     setLoading(true);
-    const getBlogs = async () => {
-      const res = await axios(BLOG_POST_USER_API_KEY + "/suggested_blogs", {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-type": "application/json; charset=utf-8",
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Credentials": true,
-          Authorization: authKey,
-        },
-        credentials: "same-origin",
-      });
-      const result = await res;
-
-      try {
-        if (result.status == 200) {
-          setList(result.data);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-      setLoading(false);
-      return result;
-    };
-    getBlogs();
+    checkCalling();
+    // MyBlogs();
   }, []);
 
   if (loading)
@@ -53,24 +89,39 @@ const SuggestedBlogs = () => {
       <div className="">
         <div>
           <div className="flex justify-between align-item-center mt-12">
-          <div className="text-lg font-bold">Suggested Articles</div>
-          <div className="add_new_button text-center">
-          <Link href={{pathname: "/blog/show-all", query: "suggested",}}>
-            <a>
+          {myArray && myArray[1]=="suggested"?(
+          <>
+            <div className="text-lg font-bold">Suggested Articles</div>
+            <div className="add_new_button text-center">
               <button
                 type="submit"
                 className="border-2 border-indigo-400 text-indigo-400 text-md cursor-pointer font-bold py-2 px-4 rounded-full"
               >
-                Show All
+                {list?list.data.length:''}
               </button>
-            </a>
-            </Link>
-          </div>
+            </div>
+          </>
+          ):('')}
+          
+          {myArray && myArray[1]=="my"?(
+          <>
+            <div className="text-lg font-bold">My Articles</div>
+            <div className="add_new_button text-center">
+              <button
+                type="submit"
+                className="border-2 border-indigo-400 text-indigo-400 text-md cursor-pointer font-bold py-2 px-4 rounded-full"
+              >
+                 {list?list.data.length:''}
+              </button>
+            </div>
+          </>
+          ):('')}
+
           </div>
         </div>
         <div className="grid grid-cols-1 gap-6 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2">
         {list &&
-            list.data.slice(0,3).map((item) => (
+            list.data.map((item) => (
           <div
             className="w-full mt-8 blogs bg-white rounded-xl"
             key={item.id}
