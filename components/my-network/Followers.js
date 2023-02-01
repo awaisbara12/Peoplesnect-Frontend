@@ -81,8 +81,9 @@ const Followers = (props) => {
             <div className="">{follower?(follower.length):('')}</div>
           </div>
 
-          {follower?(
+          {follower ?(
             follower.map((i)=>(
+              i.follower?(
             <div className="border-b-1" key={i.id}>
             <div className="Followings-profile flex  px-4 py-10 justify-between items-center">
               <div className="flex items-center gap-3">
@@ -183,8 +184,8 @@ const Followers = (props) => {
               </Menu>
             </div>
             </div> 
-            ))
-          ):('')}
+             ):("")
+             )))  :('')}
           
           
         </div>

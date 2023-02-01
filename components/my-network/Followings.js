@@ -87,6 +87,7 @@ const Followings = (props) => {
 
           {followee?(
             followee.map((i)=>(
+              i.followee?(
             <div className="border-b-1" key={i.id}>
             <div className="Followings-profile flex  px-4 py-10 justify-between items-center">
             <Link 
@@ -171,6 +172,7 @@ const Followings = (props) => {
               </Menu>
             </div>
             </div> 
+              ):("")
             ))
           ):('')}
           

@@ -160,7 +160,7 @@ function PeendingRequest() {
           </div>
           {  // Show all Follow request
             Object.values(user_request).map((items)=>{
-              if(userDetails)
+              if(userDetails && items.sender && items.sender.is_deleted == false)
               {  if(userDetails!=items.sender.id && items.status=="pending")
                 {
               return(
