@@ -155,7 +155,9 @@ const PostComments = (props) => {
             value={postText}
             onChange={setPostText}
             onEnter={handleOnEnter}
+            
             placeholder="Your comment"
+
           />
             {postImagePreview?(
               <div className="relative w-1/4 mt-2">

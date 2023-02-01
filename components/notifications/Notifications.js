@@ -12,6 +12,7 @@ function classNames(...classes) {
 
 const Notifications = () => {
   const [notify, setnotify] = useState();
+  const [reqbyadmin, setreqbyadmin] = useState(false);
   // const [notify, setpro] = useState();
 
    
@@ -51,7 +52,6 @@ const Notifications = () => {
       .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-          // console.log(result.data);
           allNotifications();
         }
       })
@@ -236,16 +236,16 @@ const Notifications = () => {
                           ):(i.invite_friend && i.invite_friend.group && i.invite_friend.group.group_type == "private_group" && i.invite_friend.status == "accepted"?(
                             <div className="flex justify-end gap-4">
                               <Link href={{pathname: "group-page/suggest-group", query: i.invite_friend.group.id,}}>
-                              <a>
-                            <div className="py-2">
-                              {i.body}
-                            </div>
-                            <div className="border-indigo-400 border text-indigo-400 px-3 py-2 rounded-full font-medium">
-                              Your Request is send to {i.invite_friend.group.title}
-                              </div>
-                              </a>
+                                <a>
+                                  <div className="py-2">
+                                    {i.body}
+                                  </div>
+                                  <div className="border-indigo-400 border text-indigo-400 px-3 py-2 rounded-full font-medium">
+                                    Your Request is send to {i.invite_friend.group.title}
+                                  </div>
+                                </a>
                               </Link>
-                          </div>
+                            </div>
                           ):(i.invite_friend && i.invite_friend.group && i.invite_friend.group.group_type == "public_group" && i.invite_friend.status == "accepted"?(
                             <div className="flex justify-end gap-4">
                               <Link href={{pathname: "group-page/joind-group", query: i.invite_friend.group.id,}}>
