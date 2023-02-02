@@ -9,9 +9,7 @@ import { BLOG_POST_USER_API_KEY } from "/pages/config";
 const SuggestedBlogs = () => {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
-  if (typeof window !== "undefined") {
-    var authKey = window.localStorage.getItem("keyStore");
-  }
+  if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore");}
 
   useEffect(() => {
     setLoading(true);
