@@ -29,7 +29,6 @@ const BlogsDesign = () => {
     try {
       if (result.status == 200) {
         setList(result.data);
-        console.log("My",result.data)
       }
     } catch (error) {
       console.log(error);
