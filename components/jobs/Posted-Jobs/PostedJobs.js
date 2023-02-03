@@ -9,6 +9,7 @@ import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import {
   ClipboardCopyIcon,
+  DesktopComputerIcon,
   DotsHorizontalIcon,
 } from "@heroicons/react/outline";
 import { BriefcaseIcon, Lock, LockClosedIcon } from "@heroicons/react/solid";
@@ -79,6 +80,16 @@ const PostedJobs = () => {
                               <BriefcaseIcon className="h-5 w-5" />
                               Manage Job
                             </a>
+                          )}
+                        </Menu.Item>
+                        <Menu.Item>
+                          {({ active }) => (
+                            <Link href="./posted-jobs/job-applicants">
+                              <a className={classNames("text-sm flex pb-2 gap-2")}>
+                                <DesktopComputerIcon className="h-5 w-5" />
+                                View Applicants
+                              </a>
+                            </Link>
                           )}
                         </Menu.Item>
                         <Menu.Item>
