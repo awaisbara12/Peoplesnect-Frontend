@@ -1,25 +1,7 @@
 import React, { useState, Fragment } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import dynamic from "next/dynamic";
-
 import ProfileAvatar from "../../../../public/images/profile-avatar.png";
-import ProfileAvatar2 from "../../../../public/images/mira.png";
-import ProfileAvatar3 from "../../../../public/images/profile-avatar.png";
-
-import InputEmoji from "react-input-emoji";
-const Picker = dynamic(() => import("emoji-picker-react"), { ssr: false });
-
-import {
-  PhotographIcon,
-  EmojiHappyIcon,
-  ChevronRightIcon,
-  PaperAirplaneIcon,
-  ChevronDownIcon,
-  PencilAltIcon,
-  QuestionMarkCircleIcon,
-} from "@heroicons/react/outline";
-import { useFormik } from "formik";
 import ApplicatnDetails from "./ApplicantDetails";
 
 const JobsApplicant = () => {
@@ -46,7 +28,7 @@ const JobsApplicant = () => {
                     />
                     <div className="">
                       <div className="font-bold">User Name</div>
-                      <div className="">User Applied on Job "Job title"</div>
+                      <div className="">User Applied on Job Job title</div>
                       <div className="font-light text-sm">2Hours Ago</div>
                     </div>
                   </a>
