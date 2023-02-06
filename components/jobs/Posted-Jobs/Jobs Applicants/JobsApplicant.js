@@ -17,7 +17,7 @@ const JobsApplicant = () => {
                 </div>
               </div>
               <div className="overflow-y-scroll h-[700px] ">
-                <Link href="/JobsApplicant-design/inbox-design">
+                <Link href="/jobs/posted-jobs/job-applicants">
                   <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
                     <Image
                       className="object-cover rounded-full"
