@@ -9,6 +9,7 @@ import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import {
   ClipboardCopyIcon,
+  DesktopComputerIcon,
   DotsHorizontalIcon,
 } from "@heroicons/react/outline";
 import { BriefcaseIcon, Lock, LockClosedIcon } from "@heroicons/react/solid";
