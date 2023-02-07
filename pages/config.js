@@ -47,6 +47,9 @@ export const HASHTAGS_API= process.env.NEXT_PUBLIC_HASHTAGS
 export const BLOCK_API= process.env.NEXT_PUBLIC_BLOCK
 export const SEARCH_MULTIPLE= process.env.NEXT_PUBLIC_SEARCH_MULTIPLE
 export const InviteFriends= process.env.NEXT_PUBLIC_INVITE_FRIENDS
+export const JOBS_API= process.env.NEXT_PUBLIC_JOBS_API
+export const USE_APPLY_JOB_API= process.env.NEXT_PUBLIC_APPLY_JOBS_API
+
 
 function Config() {
   return <></>;
