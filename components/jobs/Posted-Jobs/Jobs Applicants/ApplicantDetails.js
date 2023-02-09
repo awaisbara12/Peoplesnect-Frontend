@@ -142,7 +142,7 @@ const ApplicatnDetails = (props) => {
             </div>
             {resume.work_experiences?(
               resume.work_experiences.map((i)=>(
-                <div className="grid grid-cols-2 gap-1 mt-2 p-2">
+                <div className="grid grid-cols-2 gap-1 mt-2 p-2" key={i.id}>
                   <div className="flex gap-2 items-center font-bold text-sm">
                     <div>
                     Job title:
