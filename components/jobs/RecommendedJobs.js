@@ -83,104 +83,100 @@ const RecommendedJobs = () => {
               {Recomend?(
                 Recomend.map((i)=>(
                   <div className="jobs-profile bg-white rounded-xl p-4" key={i.id}>
-                  
-                  <div className="flex  justify-between">
-                    <div className="">
-                          {/* <Image src={Compnylogo} width={65} height={65} alt="" /> */}
-                          {i.user && i.user.display_photo_url?
-                            (
-                              <Link href={{pathname: "/jobs/jobs-show", query:i.id,}}>
-                              <a>
-                                <img 
-                                  src={i.user.display_photo_url} 
-                                  className="object-cover z-40 h-[65px] w-[65px]"
-                                  alt="" />
-                                <div className="userfield font-extrabold">{i.title}</div>
-                              </a>
-                              </Link>
-                            )
-                            :
-                            (
-                              <Link href={{pathname: "/jobs/jobs-show", query:i.id,}}>
-                              <a>
-                                <Image src={Compnylogo} width={65} height={65} alt="" />
-                              </a>
-                              </Link>
-                            )}
-                          
-                        <Link href={{pathname: "/jobs/jobs-show", query:i.id,}}>
-                        <a>
-                          <div className="">
-                              <div className="username text-sm mt-2 font-light">
-                                {i.description && i.description.length>200?i.description.slice(2,150)+"...":i.description}
-                              </div>
-                              <div className="userfield text-sm font-bold">
-                                {i.job_location}
-                              </div>
-                            <div className="mt-2 font-thin">Posted Date: {i.created_at}</div>
-                          </div>
-                        </a>
-                        </Link>
-                      <div className="flex gap-4 mt-5">
-                        <button className="bg-indigo-400 p-2 text-white rounded-full" onClick={()=>{ApplyJobs(i.id,"applied")}}>Apply Now</button>
-                        <button className="border-indigo-400 border p-2 text-indigo-400 rounded-full">Message</button>
+                    <div className="flex  justify-between">
+                      <div className="">
+                            {i.company_photo?
+                              (
+                                <Link href={{pathname: "/jobs/jobs-show", query:i.id,}}>
+                                <a>
+                                  <img 
+                                    src={i.company_photo} 
+                                    className="object-cover z-40 h-[65px] w-[65px]"
+                                    alt="" />
+                                    <div className="userfield font-extrabold">{i.title}</div>
+                                </a>
+                                </Link>
+                              )
+                              :
+                              (
+                                <Link href={{pathname: "/jobs/jobs-show", query:i.id,}}>
+                                <a>
+                                  <Image src={Compnylogo1} width={65} height={65} alt="" />
+                                  <div className="userfield font-extrabold">{i.title}</div>
+                                </a>
+                                </Link>
+                              )
+                            }
+                          <Link href={{pathname: "/jobs/jobs-show", query:i.id,}}>
+                          <a>
+                            <div className="">
+                                <div className="username text-sm mt-2 font-light">
+                                  {i.description && i.description.length>200?i.description.slice(2,150)+"...":i.description}
+                                </div>
+                                <div className="userfield text-sm font-bold">
+                                  {i.job_location}
+                                </div>
+                              <div className="mt-2 font-thin">Posted Date: {i.created_at}</div>
+                            </div>
+                          </a>
+                          </Link>
+                        <div className="flex gap-4 mt-5">
+                          <button className="bg-indigo-400 p-2 text-white rounded-full" onClick={()=>{ApplyJobs(i.id,"applied")}}>Apply Now</button>
+                          <button className="border-indigo-400 border p-2 text-indigo-400 rounded-full">Message</button>
+                        </div>
                       </div>
-  
+                      <Menu as="div" className="relative inline-block text-left">
+                        <div>
+                          <Menu.Button className="inline-flex justify-center">
+                            <DotsHorizontalIcon
+                              className="-mr-1 ml-2 h-5 w-5"
+                              aria-hidden="true"
+                            />
+                          </Menu.Button>
+                        </div>
+    
+                        <Transition
+                          as={Fragment}
+                          enter="transition ease-out duration-100"
+                          enterFrom="transform opacity-0 scale-95"
+                          enterTo="transform opacity-100 scale-100"
+                          leave="transition ease-in duration-75"
+                          leaveFrom="transform opacity-100 scale-100"
+                          leaveTo="transform opacity-0 scale-95"
+                        >
+                        <Menu.Items className="absolute top-6 w-48 right-0">
+                            <div className="flex items-start flex-col gap-2 border-1 rounded-xl p-2">
+                              <Menu.Item>
+                                {({ active }) => (
+                                  <a className={classNames("text-sm flex gap-2 py-2")}onClick={()=>{ApplyJobs(i.id,"saved")}}>
+                                    <BookmarkIcon className="h-5 w-5" />
+                                    Save
+                                  </a>
+                                )}
+                              </Menu.Item>
+    
+                              <Menu.Item>
+                                {({ active }) => (
+                                  <a
+                                    
+                                    className={classNames(
+                                      active ? "" : "",
+                                      "text-sm flex gap-2 cursor-default"
+                                    )}
+                                    onClick={()=>copylink(i.id)}
+                                  >
+                                    <ClipboardCopyIcon className="h-5 w-5" />
+                                    Share
+                                  </a>
+                                )}
+                              </Menu.Item>
+                            </div>
+                          </Menu.Items>
+                        </Transition>
+                      </Menu>
                     </div>
-                    <Menu as="div" className="relative inline-block text-left">
-                      <div>
-                        <Menu.Button className="inline-flex justify-center">
-                          <DotsHorizontalIcon
-                            className="-mr-1 ml-2 h-5 w-5"
-                            aria-hidden="true"
-                          />
-                        </Menu.Button>
-                      </div>
-  
-                      <Transition
-                        as={Fragment}
-                        enter="transition ease-out duration-100"
-                        enterFrom="transform opacity-0 scale-95"
-                        enterTo="transform opacity-100 scale-100"
-                        leave="transition ease-in duration-75"
-                        leaveFrom="transform opacity-100 scale-100"
-                        leaveTo="transform opacity-0 scale-95"
-                      >
-                      <Menu.Items className="absolute top-6 w-48 right-0">
-                          <div className="flex items-start flex-col gap-2 border-1 rounded-xl p-2">
-                            <Menu.Item>
-                              {({ active }) => (
-                                <a className={classNames("text-sm flex gap-2 py-2")}onClick={()=>{ApplyJobs(i.id,"saved")}}>
-                                  <BookmarkIcon className="h-5 w-5" />
-                                  Save
-                                </a>
-                              )}
-                            </Menu.Item>
-  
-                            <Menu.Item>
-                              {({ active }) => (
-                                <a
-                                  
-                                  className={classNames(
-                                    active ? "" : "",
-                                    "text-sm flex gap-2 cursor-default"
-                                  )}
-                                  onClick={()=>copylink(i.id)}
-                                >
-                                  <ClipboardCopyIcon className="h-5 w-5" />
-                                  Share
-                                </a>
-                              )}
-                            </Menu.Item>
-                          </div>
-                        </Menu.Items>
-                      </Transition>
-                    </Menu>
                   </div>
-                 
-                </div>
                 ))
-              
               ):('')}
 
               {/* <div className="jobs-profile bg-white rounded-xl p-4">
@@ -421,9 +417,6 @@ const RecommendedJobs = () => {
               </div> */}
             </div>
           </div>
-
-
-
 
           <div className="bg-white py-4 mt-2 rounded-xl">
             <div className="text-center">

@@ -12,7 +12,7 @@ import {
   DotsHorizontalIcon,
 } from "@heroicons/react/outline";
 import { BriefcaseIcon, Lock, LockClosedIcon, StarIcon } from "@heroicons/react/solid";
-import { JOBS_API } from "../../../pages/config";
+import { JOBS_API, USE_APPLY_JOB_API } from "../../../pages/config";
 import { useRouter } from "next/router";
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -20,12 +20,33 @@ function classNames(...classes) {
 
 const JobsShow = () => {
   const [Recomend, setRecomend] = useState();
+  const [can_apply, setcan_apply] = useState();
 
   const router = useRouter();
   const data = router.asPath;
   const myArray = data.split("?");
   // Bareer Key
   if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore");}
+  
+  // can_apply or not
+  const canApply =()=>{
+    fetch(USE_APPLY_JOB_API+"/can_apply?job_id="+myArray[1], {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          setcan_apply(result.data)
+          console.log("setcan_apply",result.data)
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+  // Show Job Data
   const ShowJobs =()=>{
     fetch(JOBS_API+"/"+myArray[1], {
       method: "GET",
@@ -38,15 +59,33 @@ const JobsShow = () => {
       .then((result) => {
         if (result) {
           setRecomend(result.data)
-          console.log("data",result.data)
         }
       })
       .catch((err) => console.log(err));
   }
   useEffect(() => {
     ShowJobs();
-   
+    canApply();
   }, []);
+
+   // Apply job function
+   const ApplyJobs =(status)=>{
+    fetch(USE_APPLY_JOB_API+"/create_applied_job?applied_jobs[job_id]="+myArray[1]+"&applied_jobs[status]="+status, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          ShowJobs();
+          canApply();
+        }
+      })
+      .catch((err) => console.log(err));
+  }
   return (
     <div className="mt-8">
       <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 xl:px-0 lg:px-0">
@@ -59,11 +98,15 @@ const JobsShow = () => {
             {Recomend?(
               <div className="bg-white rounded-xl p-4">
                 <div className="flex gap-4 items-center">
+                  {Recomend.company_photo?(
+                    <img src={Recomend.company_photo} className="object-cover z-40 h-[92px] w-[92px]" alt="" />
+                  ):(
                   <Link href="">
                     <a>
                       <Image src={Compnylogo1} width={112} height={112} alt="" className="rounded-full" />
                     </a>
                   </Link>
+                  )}
                   <div>
                     <div className="font-extrabold">
                       {Recomend.job_company}
@@ -82,7 +125,7 @@ const JobsShow = () => {
                   <div className="font-bold text-sm">Job Posted</div>
                   <div className="text-sm font-light"> {Recomend.created_at}</div>
                 </div>
-                <div className="py-4 border-t-1">
+                {/* <div className="py-4 border-t-1">
                   <div className="flex justify-between items-center mt-2">
                     <div className="font-bold text-sm">Countary</div>
                     <div className="text-sm font-light">Paksitan</div>
@@ -95,7 +138,7 @@ const JobsShow = () => {
                     <div className="font-bold text-sm">City</div>
                     <div className="text-sm font-light">Lahore</div>
                   </div>
-                </div>
+                </div> */}
                 <div className="py-4 border-t-1">
                   <div className="flex justify-between items-center mt-2">
                     <div className="font-bold text-sm">
@@ -125,7 +168,13 @@ const JobsShow = () => {
                      <div className="text-sm font-light border ml-2 p-2 rounded-full" key={i.id}> <span>{i.title}</span></div>
                 ))
                 ):('')}
+                <div className="flex justify-between items-center mt-2 py-4 border-t-1">
+                  <div className="font-bold text-sm">Location</div>
                 </div>
+                 <div className="flex justify-between items-center">
+                  <div className="text-sm font-light"> {Recomend.job_location}</div>
+                </div>
+              </div>
             ):('')}
             </div>
             <div className="col-span-2">
@@ -139,7 +188,8 @@ const JobsShow = () => {
                   </div> */}
                 </div>
                 <div className="font-bold">
-                  Job description
+                  {/* Job description */}
+                  {Recomend?Recomend.title:''}
                 </div>
                 {Recomend && Recomend.description?(
                 <div className="mt-2 text-justify indent-20">
@@ -151,9 +201,16 @@ const JobsShow = () => {
                 {Recomend.description}
                 </div>
                 ):('')}
-                <div className="mt-4 text-right">
-                  <button className="bg-indigo-400 text-white rounded-full p-3">Apply On Job</button>
-                </div>
+                {Recomend && Recomend.status=="open" && can_apply=="true"?(
+                  <div className="mt-4 text-right">
+                    <button onClick={()=>ApplyJobs("applied")} 
+                    className="bg-indigo-400 text-white rounded-full p-3">Apply On Job</button>
+                  </div>
+                ):(
+                  <div className="mt-4 text-right">
+                    <button className="bg-indigo-100 text-white rounded-full p-3">Apply On Job</button>
+                  </div>
+                )}
               </div>
             </div>
           </div>

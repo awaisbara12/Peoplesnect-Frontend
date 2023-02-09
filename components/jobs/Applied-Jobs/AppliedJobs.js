@@ -59,11 +59,11 @@ const AppliedJobs = () => {
                   <div className="flex  justify-between">
                     <Link href={{pathname: "/jobs/jobs-show", query:i.jobs.id,}}>
                       <a>
-                        <div className="flex items-center gap-5">
-                          {i.jobs.user && i.jobs.user.display_photo_url?
-                          (<img src={i.jobs.user.display_photo_url} className="object-cover z-40 h-[92px] w-[92px]" alt="" />)
+                         <div className="flex items-center gap-5">
+                          {i.jobs.company_photo?
+                          (<img src={i.jobs.company_photo} className="object-cover z-40 h-[92px] w-[92px]" alt="" />)
                           :
-                          (<Image src={Compnylogo} width={92} height={92} alt="" />)}
+                          (<Image src={Compnylogo1} width={92} height={92} alt="" />)}
                           <div className="">
                             <div className="username text-sm font-bold">{i.jobs.title}</div>
                             <div className="userfield font-light">{i.jobs.employeement_type}</div>
@@ -103,8 +103,8 @@ const AppliedJobs = () => {
                             </Menu.Item>
                             <Menu.Item>
                               {({ active }) => (
+                                <Link href={{pathname: "/jobs/jobs-show", query:i.jobs.id,}}>
                                 <a
-                                  href="#"
                                   className={classNames(
                                     active ? "" : "",
                                     "text-sm flex gap-2"
@@ -113,6 +113,7 @@ const AppliedJobs = () => {
                                   <DeviceTabletIcon className="h-5 w-5" />
                                   Details Of Job
                                 </a>
+                                </Link>
                               )}
                             </Menu.Item>
                           </div>

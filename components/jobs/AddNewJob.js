@@ -72,13 +72,15 @@ const AddNewJob = (setList, singleItem) => {
   const [Skills, setSkills] = useState([]);
   const [Email, setEmail] = useState("email");
   const [Question, setQuestion] = useState("questin");
+  const [PostImage, setPostImage] = useState([]);
+  const [postImagePreview, setpostImagePreview] = useState();
   let [isOpen, setIsOpen] = useState(false);
   let [isOpen1, setIsOpen1] = useState(false);
   let [isOpen2, setIsOpen2] = useState(false);
   // Bareer Key
   if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore");}
-  
-  // Create Blog
+  console.log("PostImage",PostImage)
+  // Create Job
   function CreateJob() {
     const dataForm = new FormData();
     dataForm.append("jobs[title]", Title);
@@ -88,8 +90,10 @@ const AddNewJob = (setList, singleItem) => {
     dataForm.append("jobs[workplace_type]", Workplace);
     dataForm.append("jobs[employeement_type]", Type);
     dataForm.append("jobs[email_address]", Email);
-    dataForm.append("jobs[job_questions]", Question);
+    // dataForm.append("jobs[job_questions]", Question);
     dataForm.append("jobs[job_skills]", Skills);
+    if(PostImage){dataForm.append("jobs[company_photo]", PostImage);}
+    
     // dataForm.append("jobs[job_questions]", Question);
     fetch(JOBS_API, {
       method: "POST",
@@ -113,55 +117,17 @@ const AddNewJob = (setList, singleItem) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  const handleImageSelect = (e) => {
-    setEventCoverImage(e.target.files[0]);
-    if (e.target.files.length !== 0) {
-      setPreviewEventCoverImage(window.URL.createObjectURL(e.target.files[0]));
-    }
-  };
   const handleImagePost = (e) => {
     setPostImage(e.target.files[0]);
     if (e.target.files.length !== 0) {
       setpostImagePreview(window.URL.createObjectURL(e.target.files[0]));
     }
-    setFeedType("image_feed");
   };
   const handleCoverReomve = (e) => {
     setpostImagePreview(window.URL.revokeObjectURL(e.target.files));
-    setPreviewEventCoverImage(window.URL.revokeObjectURL(e.target.files));
-    setVideoPreview(window.URL.revokeObjectURL(e.target.files));
+    setPostImage([]);
   };
-  const handleVideo = (e) => {
-    setFeedType("video_feed");
-    setVideoSrc(e.target.files[0]);
-    if (e.target.files.length !== 0) {
-      setVideoPreview(URL.createObjectURL(e.target.files[0]));
-    }
-  };
+ 
   const onSubmit = () => {
     resetForm();
   };
@@ -190,34 +156,7 @@ const AddNewJob = (setList, singleItem) => {
     },
     validationSchema: eventScheema,
   });
-  function postNewsData(e) {
-    e.preventDefault();
-
-    setLoading(true);
-    fetch(POST_NEWSFEED_API_KEY, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        Authorization: `${authKey}`,
-      },
-      body: dataForm,
-    })
-      .then((resp) => resp.json())
-      .then((result) => {
-        if (result) {
-          setList(result);
-          setLoading(false);
-        }
-      })
-      .catch((err) => console.log(err));
-    setFeedType("basic");
-    setPostText("");
-    setpostImagePreview("");
-    setEventCoverImage("");
-    setVideoSrc("");
-    setVideoPreview("");
-    onSubmit();
-  }
+  
 //**********/ Modals **********//
   function closeModal() {
     setIsOpen(false);
@@ -233,6 +172,7 @@ const AddNewJob = (setList, singleItem) => {
     setDiscripation('');
     setSkills('');
     setEmail();
+    setpostImagePreview('');
     // setQuestion('');
   }
 
@@ -325,6 +265,38 @@ const AddNewJob = (setList, singleItem) => {
                       <div className="">
                         <div className="bg-white px-12 py-5 rounded-xl">
                           <form className="w-full">
+                          <div className="relative flex items-center justify-center">
+                          {postImagePreview?(''):(
+                            <div className="relative flex gap-1 md:gap-2 items-center justify-center">
+                            <div className="relative flex items-center justify-center">
+                              <PhotographIcon
+                                width={22}
+                                height={22}
+                                className="text-indigo-400"
+                              />
+                              <input
+                                type="file"
+                                name="image"
+                                id="image"
+                                className="opacity-0 absolute w-6 h-6 -z-0"
+                                onChange={handleImagePost}
+                                title={""}
+                                multiple
+                              />
+                            </div>
+                            <div className="font-extralight">Photo Upload</div>
+                          </div>
+                          )}
+                            {postImagePreview?(
+                              <div className={`relative`}>
+                                <img src={postImagePreview}  className="object-cover z-40 h-[100px] w-[100px] " alt=""/>
+                                <div onClick={handleCoverReomve} className="bg-indigo-100 absolute top-0 right-0 z-50 w-6 h-6 cursor-pointer flex justify-center items-center rounded-full" >
+                                  <TrashIcon className="w-5 h-5 text-indigo-600" />
+                                </div>
+                              </div>
+                            
+                            ):('')}
+                          </div>  
                               <div className="">
                                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmfor="grid-first-name">
                                   Job Title
@@ -338,6 +310,7 @@ const AddNewJob = (setList, singleItem) => {
                                 placeholder="Job Title" 
                                 />
                               </div>
+                             
                               <div className="grid grid-cols-2 gap-4 mt-8">
                               <div className="">
                                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmfor="grid-last-name"

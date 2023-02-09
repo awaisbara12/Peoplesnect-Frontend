@@ -23,8 +23,33 @@ const SavedJobs = () => {
   // Bareer Key
   if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore");}
 
+  // CopyLink
+  const copylink=(postid)=>{    
+    const links=window.location.href        // get Full Link
+    const links1=window.location.pathname   // get link after 
+    const copylink1 = links.split(links1)    // get link domain like(localhost..etc)
+    navigator.clipboard.writeText(copylink1[0]+"/jobs/jobs-show?"+postid);
+    alert("Link Copied to your Clipboard ");
+  }
+  // Removed saved_Jobs
+  const removeSavedJob =(ID)=>{
+    fetch(USE_APPLY_JOB_API+"/"+ID, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          SavedJobList("saved");
+        }
+      })
+      .catch((err) => console.log(err));
+  }
   //  GET ALL JOBS on which user applied
-  const AppliedJobList =(status)=>{
+  const SavedJobList =(status)=>{
     fetch(USE_APPLY_JOB_API+"?status="+status, {
       method: "GET",
       headers: {
@@ -42,7 +67,7 @@ const SavedJobs = () => {
       .catch((err) => console.log(err));
   }
   useEffect(() => {
-    AppliedJobList("saved");
+    SavedJobList("saved");
   }, []);
   return (
     <div className="mt-8">
@@ -60,10 +85,10 @@ const SavedJobs = () => {
                     <Link href={{pathname: "/jobs/jobs-show", query:i.jobs.id,}}>
                       <a>
                         <div className="flex items-center gap-5">
-                          {i.jobs.user && i.jobs.user.display_photo_url?
-                          (<img src={i.jobs.user.display_photo_url} className="object-cover z-40 h-[92px] w-[92px]" alt="" />)
+                          {i.jobs.company_photo?
+                          ( <img src={i.jobs.company_photo} className="object-cover z-40 h-[92px] w-[92px]" alt="" />)
                           :
-                          (<Image src={Compnylogo} width={92} height={92} alt="" />)}
+                          (<Image src={Compnylogo1} width={92} height={92} alt="" />)}
                           <div className="">
                             <div className="username text-sm font-bold">{i.jobs.title}</div>
                             <div className="userfield font-light">{i.jobs.employeement_type}</div>
@@ -82,7 +107,6 @@ const SavedJobs = () => {
                           />
                         </Menu.Button>
                       </div>
-
                       <Transition
                         as={Fragment}
                         enter="transition ease-out duration-100"
@@ -96,7 +120,7 @@ const SavedJobs = () => {
                           <div className="flex items-start flex-col gap-2 border-1 rounded-xl p-2">
                             <Menu.Item>
                               {({ active }) => (
-                                <a href="#" className={classNames("text-sm flex py-2 border-b gap-2")}>
+                                <a onClick={()=>removeSavedJob(i.id)} className={classNames("text-sm flex py-2 border-b gap-2")}>
                                   <BookmarkIcon className="h-5 w-5" />
                                   Remove From Saved
                                 </a>
@@ -106,7 +130,7 @@ const SavedJobs = () => {
                             <Menu.Item>
                               {({ active }) => (
                                 <a
-                                  href="#"
+                                  onClick={()=>copylink(i.jobs.id)}
                                   className={classNames(
                                     active ? "" : "",
                                     "text-sm flex gap-2"
