@@ -44,7 +44,7 @@ import {
   UserCircleIcon,
 } from "@heroicons/react/solid";
 import { eventScheema } from "../auth/schemas/CreateEventScheema";
-import { POST_NEWSFEED_API_KEY } from "../../pages/config";
+import { JOBS_API } from "../../pages/config";
 import ApplyJob from "./ApplyJob";
 
 
@@ -63,54 +63,74 @@ const cardDropdown = [
 
 const AddNewJob = (setList, singleItem) => {
   const [spinner, setSpinner] = useState(false);
-  const [Title, setTitle] = useState();
-  const [Company, setCompany] = useState();
+  const [Title, setTitle] = useState("title");
+  const [Company, setCompany] = useState("company");
   const [Workplace, setWorkplace] = useState();
-  const [Location, setLocation] = useState();
+  const [Location, setLocation] = useState("location");
   const [Type, setType] = useState();
-  const [Discripation, setDiscripation] = useState();
-  const [Email, setEmail] = useState();
-
-
+  const [Discripation, setDiscripation] = useState("desc");
+  const [Skills, setSkills] = useState([]);
+  const [Email, setEmail] = useState("email");
+  const [Question, setQuestion] = useState("questin");
+  const [PostImage, setPostImage] = useState([]);
+  const [postImagePreview, setpostImagePreview] = useState();
   let [isOpen, setIsOpen] = useState(false);
   let [isOpen1, setIsOpen1] = useState(false);
   let [isOpen2, setIsOpen2] = useState(false);
+  // Bareer Key
+  if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore");}
+  console.log("PostImage",PostImage)
+  // Create Job
+  function CreateJob() {
+    const dataForm = new FormData();
+    dataForm.append("jobs[title]", Title);
+    dataForm.append("jobs[description]", Discripation);
+    dataForm.append("jobs[job_company]", Company)
+    dataForm.append("jobs[job_location]", Location);
+    dataForm.append("jobs[workplace_type]", Workplace);
+    dataForm.append("jobs[employeement_type]", Type);
+    dataForm.append("jobs[email_address]", Email);
+    // dataForm.append("jobs[job_questions]", Question);
+    dataForm.append("jobs[job_skills]", Skills);
+    if(PostImage){dataForm.append("jobs[company_photo]", PostImage);}
+    
+    // dataForm.append("jobs[job_questions]", Question);
+    fetch(JOBS_API, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
+      body: dataForm,
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          console.log("data",result.data)
+          setIsOpen(false)
+          setIsOpen1(false)
+          setIsOpen2(false)
+        }
+      })
+      .catch((err) => console.log(err));
+  }
 
 
-
-  const handleImageSelect = (e) => {
-    setEventCoverImage(e.target.files[0]);
-    if (e.target.files.length !== 0) {
-      setPreviewEventCoverImage(window.URL.createObjectURL(e.target.files[0]));
-    }
-  };
 
   const handleImagePost = (e) => {
     setPostImage(e.target.files[0]);
     if (e.target.files.length !== 0) {
       setpostImagePreview(window.URL.createObjectURL(e.target.files[0]));
     }
-    setFeedType("image_feed");
   };
-
   const handleCoverReomve = (e) => {
     setpostImagePreview(window.URL.revokeObjectURL(e.target.files));
-    setPreviewEventCoverImage(window.URL.revokeObjectURL(e.target.files));
-    setVideoPreview(window.URL.revokeObjectURL(e.target.files));
+    setPostImage([]);
   };
-
-  const handleVideo = (e) => {
-    setFeedType("video_feed");
-    setVideoSrc(e.target.files[0]);
-    if (e.target.files.length !== 0) {
-      setVideoPreview(URL.createObjectURL(e.target.files[0]));
-    }
-  };
-
+ 
   const onSubmit = () => {
     resetForm();
   };
-
   const {
     values,
     errors,
@@ -136,40 +156,10 @@ const AddNewJob = (setList, singleItem) => {
     },
     validationSchema: eventScheema,
   });
-
-  function postNewsData(e) {
-    e.preventDefault();
-
-    setLoading(true);
-    fetch(POST_NEWSFEED_API_KEY, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        Authorization: `${authKey}`,
-      },
-      body: dataForm,
-    })
-      .then((resp) => resp.json())
-      .then((result) => {
-        if (result) {
-          setList(result);
-          setLoading(false);
-        }
-      })
-      .catch((err) => console.log(err));
-    setFeedType("basic");
-    setPostText("");
-    setpostImagePreview("");
-    setEventCoverImage("");
-    setVideoSrc("");
-    setVideoPreview("");
-    onSubmit();
-  }
   
 //**********/ Modals **********//
   function closeModal() {
     setIsOpen(false);
-    
   }
 
   function openModal() {
@@ -179,6 +169,11 @@ const AddNewJob = (setList, singleItem) => {
     setLocation ('');
     setWorkplace ('');
     setType ('');
+    setDiscripation('');
+    setSkills('');
+    setEmail();
+    setpostImagePreview('');
+    // setQuestion('');
   }
 
   function closeModal1() {
@@ -196,12 +191,6 @@ const AddNewJob = (setList, singleItem) => {
   function openModal2() {
     setIsOpen2(true);
   }
-
-  if (typeof window !== "undefined") {
-    var authKey = window.localStorage.getItem("keyStore");
-  }
-  
-   
   return (
     <div className="add_new_button sticky top-16 text-right">
       <Link href="" className="">
@@ -276,6 +265,38 @@ const AddNewJob = (setList, singleItem) => {
                       <div className="">
                         <div className="bg-white px-12 py-5 rounded-xl">
                           <form className="w-full">
+                          <div className="relative flex items-center justify-center">
+                          {postImagePreview?(''):(
+                            <div className="relative flex gap-1 md:gap-2 items-center justify-center">
+                            <div className="relative flex items-center justify-center">
+                              <PhotographIcon
+                                width={22}
+                                height={22}
+                                className="text-indigo-400"
+                              />
+                              <input
+                                type="file"
+                                name="image"
+                                id="image"
+                                className="opacity-0 absolute w-6 h-6 -z-0"
+                                onChange={handleImagePost}
+                                title={""}
+                                multiple
+                              />
+                            </div>
+                            <div className="font-extralight">Photo Upload</div>
+                          </div>
+                          )}
+                            {postImagePreview?(
+                              <div className={`relative`}>
+                                <img src={postImagePreview}  className="object-cover z-40 h-[100px] w-[100px] " alt=""/>
+                                <div onClick={handleCoverReomve} className="bg-indigo-100 absolute top-0 right-0 z-50 w-6 h-6 cursor-pointer flex justify-center items-center rounded-full" >
+                                  <TrashIcon className="w-5 h-5 text-indigo-600" />
+                                </div>
+                              </div>
+                            
+                            ):('')}
+                          </div>  
                               <div className="">
                                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmfor="grid-first-name">
                                   Job Title
@@ -283,11 +304,13 @@ const AddNewJob = (setList, singleItem) => {
                                 <input 
                                 id="grid-first-name" 
                                 type="text" 
+                                value={Title}
                                 className="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                 onChange={(e)=>setTitle(e.target.value)}
                                 placeholder="Job Title" 
                                 />
                               </div>
+                             
                               <div className="grid grid-cols-2 gap-4 mt-8">
                               <div className="">
                                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmfor="grid-last-name"
@@ -297,7 +320,7 @@ const AddNewJob = (setList, singleItem) => {
                                 </label>
                                 <input className="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                  id="grid-last-name" type="text" placeholder="Company Name"
-                                 
+                                 value={Company}
                                  onChange={(e)=>setCompany(e.target.value)}/>
                               </div>
                               <div className="">
@@ -322,7 +345,7 @@ const AddNewJob = (setList, singleItem) => {
                                   Job Location
                                 </label>
                                 <input className="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                onChange={(e)=>setLocation(e.target.value)}
+                                  value={Location} onChange={(e)=>setLocation(e.target.value)}
                                 id="grid-last-name" type="text" placeholder="Job Location"/>
                               </div>
                               <div className="">
@@ -435,22 +458,23 @@ const AddNewJob = (setList, singleItem) => {
                                               <textarea
                                                 rows={5}
                                                 cols={80}
+                                                value={Discripation}
                                                 onChange={(e)=>setDiscripation(e.target.value)}
                                                 className="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                               />
                                               </div>
-                                              <div className="mt-8">
-                                              <div>
+                                              {/* <div className="mt-8">
+                                                <div>
                                                   <h1 className="mb-2">Add Skills</h1>
                                                   <TagsInput
-                                                    //value={Skills}
-                                                    //onChange={setSkills}
+                                                    value={Skills}
+                                                    onChange={setSkills}
                                                     name="skills"
                                                     placeHolder="Add Skills"
                                                   />
                                                   <em>press enter to add new Skill</em>
                                                 </div>
-                                              </div>
+                                              </div> */}
                                         </form>
                                         <div className="flex gap-4 justify-end">
 
@@ -550,17 +574,29 @@ const AddNewJob = (setList, singleItem) => {
                                                             Email
                                                           </label>
                                                           <input
-                                                        onChange={(e)=>setEmail(e.target.value)}
+                                                            value={Email} onChange={(e)=>setEmail(e.target.value)}
                                                           className="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="email" placeholder="Email"/>
                                                         </div>
-                                                        <div className="mt-8">
+                                                        {/* <div className="mt-8">
                                                           <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmfor="grid-last-name">
                                                             Add Your Question
                                                           </label>
                                                           <input className="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
                                                           id="grid-last-name" type="text" placeholder="Add Your Question"
-                                                          //onChange={e=>setQuestion(e.target.value)}
+                                                           value={Question} onChange={e=>setQuestion(e.target.value)}
                                                           />
+                                                        </div> */}
+                                                        <div className="mt-8">
+                                                          <div>
+                                                            <h1 className="mb-2">Add Skills</h1>
+                                                            <TagsInput
+                                                              value={Skills}
+                                                              onChange={setSkills}
+                                                              name="skills"
+                                                              placeHolder="Add Skills"
+                                                            />
+                                                            <em>press enter to add new Skill</em>
+                                                          </div>
                                                         </div>
                                                       </div>
                                                   </form>
@@ -573,24 +609,25 @@ const AddNewJob = (setList, singleItem) => {
                                                         Back
                                                   </button>
                                                   {
-                                          Email?(
-                                            <Link href="">
-                                            <button
-                                                  type="submit"
-                                                  className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
-                                                >
-                                                  Save
-                                            </button>
-                                            </Link>   
-                                          ):(
-                                            <button
-                                                  type="submit"
-                                                  className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-200 cursor-not-allowed"
-                                                >
-                                                  Save
-                                            </button>
-                                          )
-                                        }
+                                                  Email && Skills.length?(
+                                                    <Link href="">
+                                                    <button
+                                                          onClick={()=>CreateJob()}
+                                                          type="submit"
+                                                          className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
+                                                        >
+                                                          Save
+                                                    </button>
+                                                    </Link>   
+                                                  ):(
+                                                    <button
+                                                          type="submit"
+                                                          className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-200 cursor-not-allowed"
+                                                        >
+                                                          Save
+                                                    </button>
+                                                  )
+                                                }
                                                   </div>
                                                   </div>
                                                 </div>
