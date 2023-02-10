@@ -39,7 +39,6 @@ const PageMembers = () => {
     .then((resp) => resp.json())
     .then((result) => {
       if(result.data){
-        console.log("Block ",result.data)
         setmember(result.data);
         setcount(result.data.length)
       }

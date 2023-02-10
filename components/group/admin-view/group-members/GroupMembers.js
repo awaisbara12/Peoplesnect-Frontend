@@ -86,7 +86,6 @@ const GroupMembers = () => {
     .then((resp) => resp.json())
     .then((result) => {
       GetMember();
-      console.log(result.data);
     })
   }
   useEffect(() => {

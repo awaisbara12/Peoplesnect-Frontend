@@ -43,7 +43,6 @@ const RecommendedJobs = () => {
       .then((result) => {
         if (result) {
           // setRecomend(result.data)
-          console.log("data",result.data)
           Recomended();
         }
       })
@@ -62,7 +61,6 @@ const RecommendedJobs = () => {
       .then((result) => {
         if (result) {
           setRecomend(result.data)
-          console.log("data",result.data)
         }
       })
       .catch((err) => console.log(err));

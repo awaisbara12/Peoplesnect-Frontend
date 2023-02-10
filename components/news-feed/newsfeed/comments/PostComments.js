@@ -28,7 +28,6 @@ const PostComments = (props) => {
   const [currentUser, setCurrentUser] = useState();
  
   function handleOnEnter() {
-    console.log("enter", postText);
   }
   
   const handleImagePost = (e) => {

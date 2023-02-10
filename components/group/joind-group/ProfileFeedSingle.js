@@ -104,7 +104,6 @@ const ProfileFeedSingle = (singleItems) => {
     try {
       if (result.status == 200) {
         singleItems.setList(result.data.data);
-        console.log(singleItems.lists)
       }
     } catch (error) {
       console.log(error);

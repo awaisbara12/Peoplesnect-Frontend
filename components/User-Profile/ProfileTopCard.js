@@ -148,7 +148,7 @@ const ProfileTopCard = (props) => {
                    console.log("Requests",result.data);  
                   }
                   else{
-                    console.log("No Connection");
+                    // console.log("No Connection");
                     setbtn2("Request_Not_Available");
                     setconnection(false);
                   }

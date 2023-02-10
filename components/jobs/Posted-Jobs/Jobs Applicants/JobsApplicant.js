@@ -29,7 +29,6 @@ const JobsApplicant = () => {
       .then((result) => {
         if (result) {
           setuser(result.data)
-          console.log("data",result.data)
         }
       })
       .catch((err) => console.log(err));

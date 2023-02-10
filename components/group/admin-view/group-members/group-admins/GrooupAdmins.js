@@ -43,7 +43,6 @@ const GrooupAdmins = () => {
     })
     .then((resp) => resp.json())
     .then((result) => {
-      console.log("admns",result.data)
       setmember(result.data);
       if(result.data){
         setcount(result.data.length)

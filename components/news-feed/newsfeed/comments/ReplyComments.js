@@ -291,7 +291,7 @@ const ReplyComments = (props) => {
     const result = await res;
     try {
       if (result) {
-        console.log("Replies",result.data);
+        
         setReplyOn(false);
         setReplyEditOn(false);
         setEditReply('');

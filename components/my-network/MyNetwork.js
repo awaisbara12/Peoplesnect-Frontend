@@ -33,7 +33,6 @@ function MyNetwork() {
     })
     .then((resp) => resp.json())
     .then((result) => {
-      console.log(result.data);
       User_Connections();
     })
   }
@@ -50,7 +49,6 @@ function MyNetwork() {
     .then((result) => {
       if (result) {
         setUserConnections(result.data)
-        console.log("hello",result)
         // setConnections_count(result.data.connections_count)
       }
     })
