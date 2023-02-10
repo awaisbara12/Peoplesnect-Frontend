@@ -32,6 +32,7 @@ const Notifications = () => {
       .then((result) => {
         if (result) {
           setnotify(result.data);  
+          console.log(result.data);
         }
       })
       .catch((err) => console.log(err)); 
@@ -149,7 +150,7 @@ const Notifications = () => {
                   <div className="flex items-center gap-3">
                   <Link href={{
                           pathname: "/Friends-Profile",
-                          query: i.invite_friend ? (i.invite_friend.sender.id):(i.sender?(i.sender.id):(''))
+                          query: i.invite_friend ? (i.invite_friend.sender.id):(i.sender?(i.sender.id):(i.tag.blog.user?(i.tag.blog.user.id):('')))
                         }}>
                       <a>
                         {i.sender && i.sender.display_photo_url?(
@@ -166,12 +167,22 @@ const Notifications = () => {
                               alt=""
                             />
                             ):(
-                              <Image
-                              src={ProfileAvatar}
-                              width={35}
-                              height={35}
-                              alt=""
-                            />
+                              i.tag.blog.user?(
+                                <img
+                                src={ i.tag.blog.user.display_photo_url}
+                                className="object-cover rounded-full z-40 h-[35px] w-[35px]"
+                                alt=""
+                              />
+                              )
+                              :(
+                                <Image
+                                src={ProfileAvatar}
+                                width={35}
+                                height={35}
+                                alt=""
+                              />
+                              )
+                             
                             )
                            
                           )
@@ -188,7 +199,7 @@ const Notifications = () => {
                     <div className="">
                     <Link href={{
                           pathname: "/Friends-Profile",
-                          query: i.invite_friend ? (i.invite_friend.sender.id):(i.sender?(i.sender.id):(''))
+                          query: i.invite_friend ? (i.invite_friend.sender.id):(i.sender?(i.sender.id):(i.tag.blog.user?(i.tag.blog.user.id):('')))
                         }}>
                         <a>
                         <div className="username text-sm font-bold">
@@ -200,7 +211,7 @@ const Notifications = () => {
                             ):
                             (i.invite_friend && i.invite_friend.sender?(
                               i.invite_friend.sender.first_name+' '+i.invite_friend.sender.last_name
-                            ):(''))
+                            ):(i.tag.blog.user?(i.tag.blog.user.first_name+' '+i.tag.blog.user.last_name):('')))
                           )}
                           
                         </div>
@@ -317,7 +328,17 @@ const Notifications = () => {
                               </div>
                               </a>
                                 </Link>
-                            </div>) :(i.body)))))))}
+                            </div>) :( i.tag && i.tag.blog?(
+                               <div className="flex justify-end gap-4">
+                               <Link href={{pathname: "/events-design/event-view", query:  i.tag.blog.id,}}>
+                                 <a>
+                                 <div className="py-2 font-bold">
+                                 {i.body }
+                               </div>
+                               </a>
+                                 </Link>
+                             </div>):(i.body)
+                            )))))))}
                         </div>
                       
                     </div>

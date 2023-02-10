@@ -1,42 +1,81 @@
-import React, { Component } from 'react';
+import React, { Component} from 'react';
 import ReactDOM from 'react-dom';
-import { EditorState } from 'draft-js';
+import { convertToRaw } from 'draft-js';
 import Editor from 'draft-js-plugins-editor';
 import createMentionPlugin, { defaultSuggestionsFilter } from 'draft-js-mention-plugin';
 import 'draft-js-mention-plugin/lib/plugin.css';
+import { SEARCH_MULTIPLE } from '../../../../pages/config';
+const Draft = require('draft-js');
 
-const mentions = [
-  {
-    name: 'Matthew Russell',
-    link: 'https://twitter.com/mrussell247',
-    avatar: 'https://pbs.twimg.com/profile_images/517863945/mattsailing_400x400.jpg',
-  },
-  {
-    name: 'Julian Krispel-Samsel',
-    link: 'https://twitter.com/juliandoesstuff',
-    avatar: 'https://avatars2.githubusercontent.com/u/1188186?v=3&s=400',
-  },
-  {
-    name: 'Jyoti Puri',
-    link: 'https://twitter.com/jyopur',
-    avatar: 'https://avatars0.githubusercontent.com/u/2182307?v=3&s=400',
-  },
-  {
-    name: 'Max Stoiber',
-    link: 'https://twitter.com/mxstbr',
-    avatar: 'https://pbs.twimg.com/profile_images/763033229993574400/6frGyDyA_400x400.jpg',
-  },
-  {
-    name: 'Nik Graf',
-    link: 'https://twitter.com/nikgraf',
-    avatar: 'https://avatars0.githubusercontent.com/u/223045?v=3&s=400',
-  },
-  {
-    name: 'Pascal Brandt',
-    link: 'https://twitter.com/psbrandt',
-    avatar: 'https://pbs.twimg.com/profile_images/688487813025640448/E6O6I011_400x400.png',
-  },
-];
+let mentions = [];
+let a= [];
+
+const mention = () => {
+  if (typeof window !== "undefined") {
+    var authKey = window.localStorage.getItem("keyStore");
+  }
+  // const [mention,setmention] = useState([]);
+  fetch(SEARCH_MULTIPLE+"/gettags?query="+'friends', {
+      method: "GET",
+       headers: {
+        Accept: "application/json", 
+         Authorization: `${authKey}`,
+       },
+    })
+       .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          let awa =[];
+
+          for(let i =0; i<result.data.length ; i++)
+          {
+              awa[i] ={
+                name: '@'+result.data[i].first_name + " " + result.data[i].last_name,
+                link: 'Friends-Profile?'+result.data[i].id,
+                avatar: result.data[i].display_photo_url,
+                id: result.data[i].id,
+                type : 'User'
+              }
+          }
+          a = awa;
+        }
+      })
+      .catch((err) => console.log(err));
+};
+
+const mentionpages = () => {
+  if (typeof window !== "undefined") {
+    var authKey = window.localStorage.getItem("keyStore");
+  }
+  // const [mention,setmention] = useState([]);
+  fetch(SEARCH_MULTIPLE+"/gettags?query="+'pages', {
+      method: "GET",
+       headers: {
+        Accept: "application/json", 
+         Authorization: `${authKey}`,
+       },
+    })
+       .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          let awa =[];
+
+          for(let i = 0; i<result.data.length ; i++)
+          {
+              awa[i] ={
+                name: '@'+result.data[i].name ,
+                link: 'Liked-Pages?'+result.data[i].id,
+                avatar: result.data[i].display_photo_url,
+                id: result.data[i].id,
+                type : 'Page'
+              }
+          }
+          mentions = [...a,...awa]
+          // console.log(mentions);
+        }
+      })
+      .catch((err) => console.log(err));
+};
 
 export default class SimpleMentionEditor extends Component {
 
@@ -47,7 +86,7 @@ export default class SimpleMentionEditor extends Component {
       positionSuggestions: (settings) => {
         return {
           left: settings.decoratorRect.left + 'px',
-          bottom: settings.decoratorRect.bottom - -60 + 'px',
+          bottom: settings.decoratorRect.bottom -120 + 'px',
           display: 'block',
           transform: 'scale(1) translateY(-100%)',
           transformOrigin: '1em 0% 0px',
@@ -58,7 +97,7 @@ export default class SimpleMentionEditor extends Component {
   }
 
   state = {
-    editorState: EditorState.createEmpty(),
+    editorState: Draft.EditorState.createWithContent(emptyContentState),
     suggestions: mentions,
   };
 
@@ -66,6 +105,31 @@ export default class SimpleMentionEditor extends Component {
     this.setState({
       editorState,
     });
+    
+    mention();
+    mentionpages();
+    const contentState = this.state.editorState.getCurrentContent();
+    const raw = convertToRaw(contentState);
+    if (this.props.results == 0)
+    {
+      this.props.setPostText(raw.blocks[0].text);
+    }
+    else{
+      console.log(raw.blocks[0].text);
+      this.setState({
+        editorState: Draft.EditorState.createWithContent(emptyContentState)
+      });
+      this.props.setresults(0);
+    }
+    console.log(raw.blocks[0].text);
+    let mentionedUsers = [];
+    for (let key in raw.entityMap) {
+      const ent = raw.entityMap[key];
+      if (ent.type === "mention") {
+        mentionedUsers.push(ent.data.mention);  
+      }
+    }
+    this.props.settags(mentionedUsers);
   };
 
   onSearchChange = ({ value }) => {
@@ -102,6 +166,7 @@ export default class SimpleMentionEditor extends Component {
         <Editor
           editorState={this.state.editorState}
           onChange={this.onChange}
+          value ={this.props.PostText}
           plugins={plugins}
           ref={(element) => { this.editor = element; }}
           className="w-full pt-0 resize-none border-0 px-0 text-base overflow-y-hidden outline-none focus:outline focus:ring-0"
@@ -121,3 +186,15 @@ export default class SimpleMentionEditor extends Component {
 }
 
 ReactDOM.render;
+
+const emptyContentState = Draft.convertFromRaw({
+  entityMap: {},
+  blocks: [
+    {
+      text: '',
+      key: 'foo',
+      type: 'unstyled',
+      entityRanges: [],
+    },
+  ],
+});
