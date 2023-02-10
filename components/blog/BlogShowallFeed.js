@@ -1,23 +1,23 @@
 import React from "react";
 import Head from "next/head";
 import ProfileCard from "../news-feed/profilecard/ProfileCard";
-import MobileBottomBar from "../news-feed/navbar/MobileBottomBar";
-import AddNewJob from "./AddNewJob";
-import RecommendedJobs from "./RecommendedJobs";
-import MostSearchedJobs from "./MostSearchedJobs";
-import JobsSearch from "../news-feed/search/JobsSearch";
-import JobsNav from "../news-feed/navbar/mobile-navbar/JobsNav";
-import JobsSideBar from "../news-feed/sugesteduser/JobsSideBar";
+import MobileNav from "../news-feed/navbar/mobile-navbar/MobileNav";
+import NewsFeedSidebar from "../news-feed/newsfeed/sidebar/NewsFeedSidebar";
+import BlogShowAll from "./BlogShowAll";
+import AddNewBlog from "./AddNewBlog";
+import BlogsBottomBar from "../news-feed/navbar/BlogsBottomBar";
+import BlogsSearch from "../news-feed/search/BlogsSearch";
+import BlogsNav from "../news-feed/navbar/mobile-navbar/BlogsNav";
 import TopNavbar from "../news-feed/navbar/TopNavbar";
 import EventsCard from "../news-feed/eventcard/EventsCard";
 import FooterNewsFeed from "../news-feed/newsfeed/newsfeedfooter/FooterNewsFeed";
-import JobsBottomBar from "../news-feed/navbar/JobsBottomBar";
+import SugestedUser from "../news-feed/sugesteduser/SugestedUser";
 
-const NewJobsFeed = () => {
+const BlogShowallFeed = () => {
   return (
     <div>
       <Head>
-        <title>Jobs - Peoples Nect</title>
+        <title>Blogs Show - Peoples Nect</title>
         <meta name="description" content="Connect peoples proffasoinaly" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -25,28 +25,27 @@ const NewJobsFeed = () => {
         <div className="xl:max-w-[1340px] container mx-auto">
           <div className="sticky top-0 z-50">
             <TopNavbar />
-            <JobsNav />
+            <BlogsNav />
           </div>
           <div className="flex xl:px-0 lg:px-4 md:px-8 sm:px-0 gap-[65px] lg:gap-6 md:gap-4 justify-between">
-            <div className="h-full bg-zinc-100">
-              <RecommendedJobs />
-              {/* <MostSearchedJobs /> */}
+            <div className="">
+            <BlogShowAll />
             </div>
             <div className="w-72 hidden md:block lg:block">
               <ProfileCard />
-              <div className="sticky top-20 z-20">
+              <div className="sticky top-20">
                 <EventsCard />
-                <JobsSideBar />
+                <SugestedUser />
                 <FooterNewsFeed />
-                <AddNewJob />
+                <AddNewBlog />
               </div>
             </div>
           </div>
         </div>
       </div>
-      <JobsBottomBar />
+      <BlogsBottomBar />
     </div>
   );
 };
 
-export default NewJobsFeed;
+export default BlogShowallFeed;

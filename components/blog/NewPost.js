@@ -13,11 +13,9 @@ const NewPost = () => {
   const [blogImage, setBlogImage] = useState([]);
   const [blog_type, setblog_type] = useState();
   const [blogContent, setBlogContent] = useState("");
+  const [title, setTitle] = useState();
   const [BlogImagePreview, setBlogImagePreview] = useState();
-  if (typeof window !== "undefined") {
-    var authKey = window.localStorage.getItem("keyStore");
-  }
-
+  if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore");}
   const handleEditorChange = (e) => {
     setBlogContent(e.target.getContent({ format: "text" }));
   };
@@ -81,15 +79,15 @@ const NewPost = () => {
             <input
               type="text"
               name="title"
-              value={values.title}
-              onChange={handleChange}
+              value={title}
+              onChange={(e)=>setTitle(e.target.value)}
               onBlur={handleBlur}
               placeholder="Article title here"
               required="required"
               className={`w-full border-gray-100 font-semibold placeholder:text-gray-900 border py-2 px-3 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400
-                ${errors.title && touched.title ? "border-red-600" : ""}`}
+                ${title==""? "border-red-600" : ""}`}
             />
-            {errors.title && touched.title ? (
+            {title==""?(
               <div className="text-red-600 pt-2 pl-1">{errors.title}</div>
             ) : null}
           </div>
@@ -194,6 +192,7 @@ const NewPost = () => {
                 </div>
               </div>
             </div>
+          {title && BlogImagePreview && blogContent && blog_type && blogImage?(
           <div className="flex justify-end">
             <button
               type="submit"
@@ -202,6 +201,9 @@ const NewPost = () => {
               {loading ? <Spinner /> : "Publish"}
             </button>
           </div>
+          ):(
+            ''
+          )}
         </form>
       </div>
     </div>
