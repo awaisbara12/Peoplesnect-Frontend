@@ -54,7 +54,6 @@ const Groups = () => {
     .then((resp) => resp.json())
     .then((result) => {
       setgroup(result.data);
-      console.log("admin groups", result);
     })
   }
 

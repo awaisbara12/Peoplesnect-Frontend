@@ -42,7 +42,6 @@ const Messaging = () => {
   const [text, setText] = useState("");
 
   function handleOnEnter(text) {
-    console.log("enter", text);
   }
 
   const handleImagePost = (e) => {

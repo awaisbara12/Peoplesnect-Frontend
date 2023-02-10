@@ -75,8 +75,7 @@ function PeendingRequest() {
       .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-          setUser_Request(result.data);
-         console.log("Requests check",result.data);  
+          setUser_Request(result.data); 
           //console.log(UserList)
                    
         }
@@ -110,7 +109,6 @@ function PeendingRequest() {
     };
     const response = await fetch(`${FOLLOW_USER_API}?followers[followee_id]=${userId}`,requestOptions);
     const data = await response.json();
-    console.log("Send", data );
     PendingFollowRequest();
     ShowUsers();
     alert("Send Follow Request");
@@ -124,7 +122,6 @@ function PeendingRequest() {
     };
     const response = await fetch(`${FOLLOW_REQUEST_USER_API}?follow_requests[receiver_id]=${userId}`,requestOptions);
     const data = await response.json();
-    console.log("Send", data );
     PendingFollowRequest();
     ShowUsers();
     alert("Send Follow Request");

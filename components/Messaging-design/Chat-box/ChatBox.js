@@ -29,7 +29,6 @@ const Dropdown = ({ color }) => {
     setDropdownPopoverShow(false);
   };
   function handleOnEnter(text) {
-    console.log("enter", text);
   }
   const handleImagePost = (e) => {
     setPostImage(e.target.files[0]);

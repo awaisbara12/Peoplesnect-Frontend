@@ -200,8 +200,6 @@ const NewsFeedSingle = (singleItem) => {
   const handleClick = () => {
     setIsActive((current) => !current);
   };
-
-  console.log("singleItem.items",singleItem.items)
  
   return (
     <>

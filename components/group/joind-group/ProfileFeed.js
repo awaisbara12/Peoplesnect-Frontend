@@ -76,10 +76,8 @@ const ProfileFeed = (props) => {
 
     try {
       if (result.status == 200) {
-        console.log(list);
         // const mergedata = [...list,...result.data.data]
         setList(result.data.data);
-        console.log(result);
         setcurrentpage(result.data.pages.next_page)
         setlastpage(result.data.pages.total_pages)
       }
@@ -94,7 +92,6 @@ const ProfileFeed = (props) => {
 
   useEffect(() => {
     getNewsFeeds();
-    console.log(props.group);
   },[props.group]);
  
   return (

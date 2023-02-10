@@ -18,14 +18,35 @@ import {
   ChevronDownIcon,
 } from "@heroicons/react/outline";
 import TopNavbarSearch from "../search/TopNavbarSearch ";
-import { POST_NEWSFEED_API_KEY , CURENT_USER_LOGIN_API} from "../../../pages/config";
+import {CURENT_USER_LOGIN_API, GET_NOTIFICATIONS} from "../../../pages/config";
+import { useRouter } from "next/router";
 
 
 const TopNavbar = () => {
   const [userDetails, setUserDetails] = useState();
+  
+  const router = useRouter();
   // Bareer Key
    if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore");}
-  // Current user
+   // for count notification
+   const updateCount=async()=>{    
+    await fetch(GET_NOTIFICATIONS+"/count_update", {
+      method: "GET",
+       headers: {
+        Accept: "application/json", 
+         Authorization: `${authKey}`,
+       },
+    })
+       .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          setUserDetails(result.data);
+          router.push("/notifications");
+        }
+      })
+      .catch((err) => console.log(err)); 
+  }
+   // Current user
    const Current_User=async()=>{    
     await fetch(CURENT_USER_LOGIN_API, {
       method: "GET",
@@ -38,7 +59,6 @@ const TopNavbar = () => {
       .then((result) => {
         if (result) {
           setUserDetails(result.data);  
-          //console.log("Current Userss",result.data)
         }
       })
       .catch((err) => console.log(err)); 
@@ -117,8 +137,8 @@ const TopNavbar = () => {
                 </li>
               </a>
             </Link>
-            <Link href="/notifications" className="">
-              <a>
+            {/* <Link href="/notifications" className=""> */}
+              <a onClick={()=>updateCount()}>
                 <li className="flex font-normal text-xl items-center flex-col gap-1">
                   <div className="relative">
                     <BellIcon className="h-5 w-5 text-indigo-400" />
@@ -134,7 +154,7 @@ const TopNavbar = () => {
                   <div className="text-sm md:text-xs">Notifications</div>
                 </li>
               </a>
-            </Link>
+            {/* </Link> */}
             <div className="">
               <div className="">
                 <Popover className="relative">

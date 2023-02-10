@@ -235,7 +235,6 @@ const JoindGroup = (setList, singleItem) => {
 
     try {
       if (result.status == 200) {
-        console.log(result.data);
         // setList(result.data.data);
         setIsCheck([]);
         setIsOpen(false);
