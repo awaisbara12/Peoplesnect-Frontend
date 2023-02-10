@@ -30,25 +30,25 @@ const RecommendedJobs = () => {
     navigator.clipboard.writeText(links+"/jobs-show?"+postid);
     alert("Link Copied to your Clipboard");
   }
-  // Apply job function
-  // const ApplyJobs =(job_id,status)=>{
-  //   fetch(USE_APPLY_JOB_API+"/create_applied_job?applied_jobs[job_id]="+job_id+"&applied_jobs[status]="+status, {
-  //     method: "GET",
-  //     headers: {
-  //       Accept: "application/json",
-  //       Authorization: `${authKey}`,
-  //     },
-  //   })
-  //     .then((resp) => resp.json())
-  //     .then((result) => {
-  //       if (result) {
-  //         // setRecomend(result.data)
-  //         console.log("data",result.data)
-  //         Recomended();
-  //       }
-  //     })
-  //     .catch((err) => console.log(err));
-  // }
+  // Saved job function
+  const savedJobs =(job_id,status)=>{
+    fetch(USE_APPLY_JOB_API+"/create_applied_job?applied_jobs[job_id]="+job_id+"&applied_jobs[status]="+status, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          // setRecomend(result.data)
+          console.log("data",result.data)
+          Recomended();
+        }
+      })
+      .catch((err) => console.log(err));
+  }
   //  GET ALL JOBS
   const Recomended =()=>{
     fetch(JOBS_API, {
@@ -152,7 +152,7 @@ const RecommendedJobs = () => {
                             <div className="flex items-start flex-col gap-2 border-1 rounded-xl p-2">
                               <Menu.Item>
                                 {({ active }) => (
-                                  <a className={classNames("text-sm flex gap-2 py-2")}onClick={()=>{ApplyJobs(i.id,"saved")}}>
+                                  <a className={classNames("text-sm flex gap-2 py-2")}onClick={()=>{savedJobs(i.id,"saved")}}>
                                     <BookmarkIcon className="h-5 w-5" />
                                     Save
                                   </a>
