@@ -21,12 +21,13 @@ import { XCircleIcon } from "@heroicons/react/solid";
 import { useFormik } from "formik";
 import { eventScheema } from "../../../auth/schemas/CreateEventScheema";
 import { Dialog, Popover, Transition } from "@headlessui/react";
-import { POST_NEWSFEED_API_KEY } from "../../../../pages/config";
+import { POST_NEWSFEED_API_KEY, SEARCH_MULTIPLE } from "../../../../pages/config";
 import ImageUpload from "image-upload-react";
 import Link from "next/link";
 import Spinner from "../../../common/Spinner";
 import axios from "axios";
 import NewsFeedUserCard from "../../../news-feed/newsfeed/feedcard/NewsFeedUserCard";
+import App from "./App";
 
 const NewsPost = ( setList ) => {
   if (typeof window !== "undefined") {
@@ -45,6 +46,9 @@ const NewsPost = ( setList ) => {
   const [eventType, setEventType] = useState();
   const [videoSrc, setVideoSrc] = useState([]);
   const [videoPreview, setVideoPreview] = useState();
+  const [tags, settags] = useState([]);
+  let [results, setresults] = useState(0);
+
   let [isOpen, setIsOpen] = useState(false);
 
   const handleImageSelect = (e) => {
@@ -113,6 +117,19 @@ const NewsPost = ( setList ) => {
     dataForm.append("news_feeds[body]", postText);
     dataForm.append("news_feeds[feed_type]", feedType);
 
+    if (tags.length > 0) {
+      for (let i = 0; i < tags.length; i++) {
+        dataForm.append("tags[]", tags[i].id);
+      }
+    }
+
+    if (tags.length > 0) {
+      for (let i = 0; i < tags.length; i++) {
+        dataForm.append("tagstype[]", tags[i].type);
+      }
+    }
+    // dataForm.append("news_feeds[tags][]", tags);
+
     dataForm.append("news_feeds[feed_attachments][]", postImage);
     dataForm.append("news_feeds[feed_attachments][]", videoSrc);
     if (feedType === "event_feed") {
@@ -144,6 +161,8 @@ const NewsPost = ( setList ) => {
           const mergedata = [result.data,...setList.list]
           setList.setList(mergedata);
           setLoading(false);
+          setPostText("");
+          setresults(1);
         }
       })
       .catch((err) => console.log(err));
@@ -156,6 +175,37 @@ const NewsPost = ( setList ) => {
     onSubmit();
   }
 
+  // const searchmultiples  = async(event) =>{
+  //   console.log("event",event);
+  //   if (event.length == 0)
+  //   {
+  //     // console.log("Hello");
+  //     setresults('');
+  //   }else{
+  //     await fetch(SEARCH_MULTIPLE+"?query="+event, {
+  //       method: "GET",
+  //        headers: {
+  //         Accept: "application/json", 
+  //          Authorization: `${authKey}`,
+  //        },
+  //     })
+  //        .then((resp) => resp.json())
+  //       .then((result) => {
+  //         if (result) {
+  //           if (event.length == 0)
+  //           {
+  //             // console.log("Hellos");
+  //             setresults('');
+  //           }else{
+  //             setresults(result.data);
+  //             console.log(result.data);
+  //           }
+  //         }
+  //       })
+  //       .catch((err) => console.log(err));
+  //   }
+  // }
+
   function closeModal() {
     setIsOpen(false);
   }
@@ -163,6 +213,11 @@ const NewsPost = ( setList ) => {
   function openModal() {
     setIsOpen(true);
   }
+
+  // let example = "@Awais Bara String!";
+  // let ourSubstring = "@Awais Bara";
+
+  // console.log(example.indexOf(ourSubstring));
 
   return (
     <div className="mt-8 z-20">
@@ -179,7 +234,7 @@ const NewsPost = ( setList ) => {
                 alt="profile-image"
               />
             </div>
-            <NewPost />
+            <NewPost postText={postText} setPostText={setPostText} tags={tags} settags={settags} results={results} setresults={setresults}/>
             {/* <textarea
               type="text"
               name="post-text"

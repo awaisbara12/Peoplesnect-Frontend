@@ -28,6 +28,7 @@ import {
   COMMENT_API_KEY,
   NEWSFEED_COMMENT_POST_KEY,
 } from "../../../../pages/config";
+import App from "../newspost/App";
 // import Spinner from "../../../common/Spinner";
 
 const cardDropdown = [
@@ -295,7 +296,13 @@ const NewsFeedSingle = (singleItem) => {
             query: items.id,
           }} > 
           <a>
-          <p>{items.body ? items.body : ""}</p>
+            {/* <App state={items.body}/> */}
+
+            {items.tags && items.tags.length > 0 ?
+             <App state={items.body} website={items.tags}/> 
+             : items.body? items.body : ""}
+          
+          
           </a>
           
             </Link>
