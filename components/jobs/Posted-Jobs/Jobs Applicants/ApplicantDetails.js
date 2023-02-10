@@ -7,7 +7,6 @@ import ProfileAvatar from "../../../../public/images/profile-avatar.png";
 import ProfileAvatar2 from "../../../../public/images/mira.png";
 import ProfileAvatar3 from "../../../../public/images/profile-avatar.png";
 
-import InputEmoji from "react-input-emoji";
 const Picker = dynamic(() => import("emoji-picker-react"), { ssr: false });
 
 import {
@@ -20,13 +19,36 @@ import {
   QuestionMarkCircleIcon,
 } from "@heroicons/react/outline";
 import { useFormik } from "formik";
+import { useRouter } from "next/router";
+import { USE_APPLY_JOB_API } from "../../../../pages/config";
 
 const ApplicatnDetails = (props) => {
   const [resume, setresume] = useState();
+  const [download_btn, setdownload_btn] = useState();
+  // Bareer Key
+  if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore");}
+ 
+   //  GET ALL applicant/candidate
+   const Applicant =()=>{
+    setresume(props.data);
+    fetch(USE_APPLY_JOB_API+"/download_button?job_id="+props.Job_id+"&user_id="+props.data.id, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          setdownload_btn(result.data[0].updated_cv);
+        }
+      })
+      .catch((err) => console.log(err));
+  }
   useEffect(() => {
-    setresume(props.data)
+    Applicant();
   }, [props.data]);
-  console.log('props',props.data)
   return (
     <div className="">
       <div className="">
@@ -217,9 +239,19 @@ const ApplicatnDetails = (props) => {
             </div>
             ):('')}
           </div>
-          <div className="absolute bottom-5 right-5 text-right">
-            <button className="bg-indigo-400 text-white rounded-full p-3">Download Resume</button>
+          
+          {download_btn?(
+          <a href={download_btn} download="My_File.pdf">
+            <div className="absolute bottom-5 right-5 text-right">
+              <button className="bg-indigo-400 text-white rounded-full p-3">Download Resume</button>
+            </div>
+          </a>
+
+          ):(
+            <div className="absolute bottom-5 right-5 text-right">
+            <button className="bg-indigo-100 text-white rounded-full p-3">Download Resume</button>
           </div>
+          )}
         </div>
         ):('')}
       </div>

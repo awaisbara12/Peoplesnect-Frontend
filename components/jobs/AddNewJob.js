@@ -79,7 +79,6 @@ const AddNewJob = (setList, singleItem) => {
   let [isOpen2, setIsOpen2] = useState(false);
   // Bareer Key
   if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore");}
-  console.log("PostImage",PostImage)
   // Create Job
   function CreateJob() {
     const dataForm = new FormData();
@@ -114,9 +113,6 @@ const AddNewJob = (setList, singleItem) => {
       })
       .catch((err) => console.log(err));
   }
-
-
-
   const handleImagePost = (e) => {
     setPostImage(e.target.files[0]);
     if (e.target.files.length !== 0) {
@@ -285,7 +281,7 @@ const AddNewJob = (setList, singleItem) => {
                               />
                             </div>
                             <div className="font-extralight">Photo Upload</div>
-                          </div>
+                            </div>
                           )}
                             {postImagePreview?(
                               <div className={`relative`}>

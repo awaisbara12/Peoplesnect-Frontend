@@ -29,7 +29,6 @@ const JobsApplicant = () => {
       .then((result) => {
         if (result) {
           setuser(result.data)
-          // setuserdetail(result.data[0]);
           console.log("data",result.data)
         }
       })
@@ -94,7 +93,7 @@ const JobsApplicant = () => {
           </div>
           {userdetail?(
               <div className="col-span-2">
-                <ApplicatnDetails data={userdetail}/>
+                <ApplicatnDetails Job_id={myArray[1]} data={userdetail}/>
               </div>
           ):('')}
         </div>
