@@ -59,8 +59,7 @@ const PostedJobs = () => {
       .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-          setposted(result.data)
-          console.log("data",result.data)
+          setposted(result.data);
         }
       })
       .catch((err) => console.log(err));

@@ -31,24 +31,24 @@ const RecommendedJobs = () => {
     alert("Link Copied to your Clipboard");
   }
   // Apply job function
-  const ApplyJobs =(job_id,status)=>{
-    fetch(USE_APPLY_JOB_API+"/create_applied_job?applied_jobs[job_id]="+job_id+"&applied_jobs[status]="+status, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        Authorization: `${authKey}`,
-      },
-    })
-      .then((resp) => resp.json())
-      .then((result) => {
-        if (result) {
-          // setRecomend(result.data)
-          console.log("data",result.data)
-          Recomended();
-        }
-      })
-      .catch((err) => console.log(err));
-  }
+  // const ApplyJobs =(job_id,status)=>{
+  //   fetch(USE_APPLY_JOB_API+"/create_applied_job?applied_jobs[job_id]="+job_id+"&applied_jobs[status]="+status, {
+  //     method: "GET",
+  //     headers: {
+  //       Accept: "application/json",
+  //       Authorization: `${authKey}`,
+  //     },
+  //   })
+  //     .then((resp) => resp.json())
+  //     .then((result) => {
+  //       if (result) {
+  //         // setRecomend(result.data)
+  //         console.log("data",result.data)
+  //         Recomended();
+  //       }
+  //     })
+  //     .catch((err) => console.log(err));
+  // }
   //  GET ALL JOBS
   const Recomended =()=>{
     fetch(JOBS_API, {
@@ -121,7 +121,11 @@ const RecommendedJobs = () => {
                           </a>
                           </Link>
                         <div className="flex gap-4 mt-5">
-                          <button className="bg-indigo-400 p-2 text-white rounded-full" onClick={()=>{ApplyJobs(i.id,"applied")}}>Apply Now</button>
+                        <Link href={{pathname: "/jobs/jobs-show", query:i.id,}}>
+                          <a>
+                          <button className="bg-indigo-400 p-2 text-white rounded-full" >Apply Now</button>
+                          </a>
+                        </Link>
                           <button className="border-indigo-400 border p-2 text-indigo-400 rounded-full">Message</button>
                         </div>
                       </div>

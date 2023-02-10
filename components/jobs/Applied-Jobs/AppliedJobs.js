@@ -37,7 +37,6 @@ const AppliedJobs = () => {
       .then((result) => {
         if (result) {
           setApplied_list(result.data)
-          console.log("data",result.data)
         }
       })
       .catch((err) => console.log(err));
