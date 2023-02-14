@@ -15,11 +15,10 @@ const Notifications = () => {
   const [reqbyadmin, setreqbyadmin] = useState(false);
   // const [notify, setpro] = useState();
 
-   
+  //  GET_NOTIFICATIONS
   // Bareer Key
   if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore");  }
-
-  // get all notifications 
+  
   const allNotifications=async()=>{    
     await fetch(GET_NOTIFICATIONS, {
       method: "GET",
@@ -32,7 +31,6 @@ const Notifications = () => {
       .then((result) => {
         if (result) {
           setnotify(result.data);  
-          console.log(result.data);
         }
       })
       .catch((err) => console.log(err)); 
@@ -61,6 +59,7 @@ const Notifications = () => {
   useEffect(()=>{
     allNotifications();
   },[])
+
   return (
     <div>
       <div className="mt-8">
@@ -150,7 +149,7 @@ const Notifications = () => {
                   <div className="flex items-center gap-3">
                   <Link href={{
                           pathname: "/Friends-Profile",
-                          query: i.invite_friend ? (i.invite_friend.sender.id):(i.sender?(i.sender.id):(i.tag.blog.user?(i.tag.blog.user.id):('')))
+                          query: i.invite_friend ? (i.invite_friend.sender.id):(i.sender?(i.sender.id):(i.tag && i.tag.user?(i.tag.user.id):('')))
                         }}>
                       <a>
                         {i.sender && i.sender.display_photo_url?(
@@ -167,9 +166,9 @@ const Notifications = () => {
                               alt=""
                             />
                             ):(
-                              i.tag.blog.user?(
+                              i.tag && i.tag.user?(
                                 <img
-                                src={ i.tag.blog.user.display_photo_url}
+                                src={ i.tag.user.display_photo_url}
                                 className="object-cover rounded-full z-40 h-[35px] w-[35px]"
                                 alt=""
                               />
@@ -199,7 +198,7 @@ const Notifications = () => {
                     <div className="">
                     <Link href={{
                           pathname: "/Friends-Profile",
-                          query: i.invite_friend ? (i.invite_friend.sender.id):(i.sender?(i.sender.id):(i.tag.blog.user?(i.tag.blog.user.id):('')))
+                          query: i.invite_friend ? (i.invite_friend.sender.id):(i.sender?(i.sender.id):(i.tag && i.tag.user?(i.tag.user.id):('')))
                         }}>
                         <a>
                         <div className="username text-sm font-bold">
@@ -211,7 +210,7 @@ const Notifications = () => {
                             ):
                             (i.invite_friend && i.invite_friend.sender?(
                               i.invite_friend.sender.first_name+' '+i.invite_friend.sender.last_name
-                            ):(i.tag.blog.user?(i.tag.blog.user.first_name+' '+i.tag.blog.user.last_name):('')))
+                            ):(i.tag && i.tag.user?(i.tag.user.first_name+' '+i.tag.user.last_name):('')))
                           )}
                           
                         </div>
@@ -328,9 +327,9 @@ const Notifications = () => {
                               </div>
                               </a>
                                 </Link>
-                            </div>) :( i.tag && i.tag.blog?(
+                            </div>) :( i.tag && i.tag?(
                                <div className="flex justify-end gap-4">
-                               <Link href={{pathname: "/events-design/event-view", query:  i.tag.blog.id,}}>
+                               <Link href={{pathname: "/events-design/event-view", query:  i.tag.id,}}>
                                  <a>
                                  <div className="py-2 font-bold">
                                  {i.body }

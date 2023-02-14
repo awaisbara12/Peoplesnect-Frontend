@@ -221,14 +221,38 @@ const NewsFeedSingle = (singleItem) => {
             alt="" />)}
            
             <div>
-              <h4 className="flex gap-[6px] items-center font-medium text-gray-900">
+              {items.page?(
+                <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
+                  {items.user.first_name} {items.user.last_name}
+                  <ChevronRightIcon
+                    width={24}
+                    height={24}
+                    className="text-indigo-400"
+                  />
+                  <div className="capitalize">{items.page.name}</div>
+                </h4>
+              ):(
+                items.group?(
+                  <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
+                    {items.user.first_name} {items.user.last_name}
+                    <ChevronRightIcon
+                      width={24}
+                      height={24}
+                      className="text-indigo-400"
+                    />
+                    <div className="capitalize">{items.group.title}</div>
+                  </h4>
+                ):(
+                <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
                 {items.user.first_name} {items.user.last_name}
                 <BadgeCheckIcon
                   width={14}
                   height={14}
                   className="text-indigo-400"
                 />
-              </h4>
+                </h4>
+                )
+              )}
               <div className="font-light text-gray-900 opacity-[0.8]">
                 {items.user.recent_job}
               </div>
@@ -287,9 +311,7 @@ const NewsFeedSingle = (singleItem) => {
             </div>
           </div>
         </div>
-        {/* <div className="border-1 border-gray-100"></div> */}
-
-        <div className="px-[22px] py-[14px]">
+       <div className="px-[22px] py-[14px]">
         <Link 
             href={{
             pathname: "/events-design/event-view",
@@ -494,7 +516,7 @@ const NewsFeedSingle = (singleItem) => {
           </Fragment>
         </div>
       </div>
-      <div className="w-[600px] xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">
+      {/* <div className="w-[600px] xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">
         <div className="flex gap-2 justify-between items-center px-[22px] py-[14px]">
           <div className="flex gap-2 items-center">
           {items && items.user && items.user.display_photo_url?(
@@ -579,8 +601,7 @@ const NewsFeedSingle = (singleItem) => {
             </div>
           </div>
         </div>
-        {/* <div className="border-1 border-gray-100"></div> */}
-
+       
         <div className="px-[22px] py-[14px]">
         <Link 
             href={{
@@ -779,7 +800,7 @@ const NewsFeedSingle = (singleItem) => {
             {!loading && <ReplyComments news_feed_id={items.id} comments={comments.data} comments_count={comments_count} setComments_count={setComments_count} setComments={setComments} setIs_deleted={setIs_deleted} items={items}/>}
           </Fragment>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };

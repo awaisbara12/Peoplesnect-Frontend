@@ -104,7 +104,6 @@ const ProfileTopCard = (props) => {
         .then((result) => {
           if (result) {
            setbtn2(result.data);
-           console.log("Requests check",result.data);  
             //console.log(UserList)
           }
         })

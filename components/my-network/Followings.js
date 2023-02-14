@@ -37,7 +37,6 @@ const Followings = (props) => {
     })
     .then((resp) => resp.json())
     .then((result) => {
-      console.log(result.data);
       ShowFollowing();
     })
   }
@@ -70,7 +69,6 @@ const Followings = (props) => {
     const response = await fetch(`${FOLLOW_USER_API}`,requestOptions);
     const data = await response.json();
     setfollowee(data.data);
-    console.log("Following",data.data)
   }
   useEffect(() => {
     

@@ -76,7 +76,6 @@ function BlogShow() {
         setcomments(result.data.data.comments);
         setComments_count(result.data.data.comments.length)
         setIs_deleted(false);
-        console.log(result.data)
       }
     } catch (error) {}
     setLoading(false);
@@ -95,7 +94,6 @@ function BlogShow() {
       .then((result) => {
         if (result) {
           setCurrentUser(result.data);
-          console.log("user",result.data.id)
         }
       })
       .catch((err) => console.log(err)); 
@@ -138,12 +136,6 @@ function BlogShow() {
     const result = await res;
     try {
       if (result.status == 200) {
-        // setItems(result.data.data);
-        // setList(result.data);
-        // setcomments(result.data.data.comments);
-        // setComments_count(result.data.data.comments.length)
-        // setIs_deleted(false);
-        console.log(result.data);
         router.push("/blog");
       }
     } catch (error) {}

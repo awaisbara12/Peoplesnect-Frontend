@@ -52,7 +52,6 @@ const Followers = (props) => {
     })
     .then((resp) => resp.json())
     .then((result) => {
-      console.log(result.data);
       ShowFollowing();
     })
   }
@@ -66,7 +65,6 @@ const Followers = (props) => {
     const response = await fetch(`${GET_USER_FOLLOWEES}`,requestOptions);
     const data = await response.json();
     setfollower(data.data);
-    console.log("Followers",data.data)
   }
   useEffect(() => {
      
