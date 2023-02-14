@@ -1,0 +1,174 @@
+import React, { Fragment, useState, useEffect } from "react";
+import Link from "next/link";
+import { Listbox, Transition } from "@headlessui/react";
+import { ChevronDownIcon } from "@heroicons/react/outline";
+import { CheckIcon } from "@heroicons/react/solid";
+import { NEWSFEED_COMMENT_POST_KEY } from "../../../pages/config";
+const commentsFilter = [{ name: "Most Recent" }, { name: "Most Relevant" }];
+
+const FilterComments = (props) => {
+  if (typeof window !== "undefined") {
+    var authKey = window.localStorage.getItem("keyStore");
+  }
+  const [selected, setSelected] = useState(commentsFilter[0]);
+
+  function filterChange(e) {
+    setSelected(e);
+    var sort = "";
+    if (e.name == "Most Recent") {
+      sort = "desc";
+    } else {
+      sort = "asc";
+    }
+    fetch(
+      NEWSFEED_COMMENT_POST_KEY +
+        "/" +
+        props.news_feed_id +
+        "/comments?sort=" +
+        sort,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          Authorization: `${authKey}`,
+        },
+      }
+    )
+    .then((resp) => resp.json())
+    .then((result) => {
+      if (result) {
+        props.setComments(result);
+      }
+    })
+    .catch((err) => console.log(err));
+  }
+  function filterSChange() {
+   
+    var sort = "asc";
+    
+    fetch(
+      NEWSFEED_COMMENT_POST_KEY +
+        "/" +
+        props.news_feed_id +
+        "/comments?sort=" +
+        sort,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          Authorization: `${authKey}`,
+        },
+      }
+    )
+    .then((resp) => resp.json())
+    .then((result) => {
+      if (result) {
+        props.setComments(result);
+      }
+    })
+    .catch((err) => console.log(err));
+  }
+  
+  function loadMore() {
+    fetch(
+      NEWSFEED_COMMENT_POST_KEY +
+        "/" +
+        props.news_feed_id +
+        "/comments?page=" +
+        props.next_page,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          Authorization: `${authKey}`,
+        },
+      }
+    )
+    .then((resp) => resp.json())
+    .then((result) => {
+      if (result) {
+        let oldComments = {data: props.comments.concat(result.data)}
+        props.setNextPage(result.pages.next_page)
+        props.setComments(oldComments);
+      }
+    })
+    .catch((err) => console.log(err));
+  }
+
+  useEffect(() => {
+    filterSChange();
+  },[]);
+  
+  return (
+    <Fragment>
+      <div className="flex items-center justify-between mt-[6px]">
+        <div className="flex items-center gap-2 text-sm text-slate-400">
+          <div className="w-72">
+            <Listbox value={selected} onChange={filterChange}>
+              <div className="relative mt-1">
+                <Listbox.Button className="relative  cursor-default rounded-lg bg-transparent py-2 pl-3 pr-10 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-300 sm:text-sm">
+                  <span className="block truncate">{selected.name}</span>
+                  <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                    <ChevronDownIcon
+                      className="h-5 w-5 text-gray-400"
+                      aria-hidden="true"
+                    />
+                  </span>
+                </Listbox.Button>
+                <Transition
+                  as={Fragment}
+                  leave="transition ease-in duration-100"
+                  leaveFrom="opacity-100"
+                  leaveTo="opacity-0"
+                >
+                  <Listbox.Options className="absolute z-30 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                    {commentsFilter.map((person, personIdx) => (
+                      <Listbox.Option
+                        key={personIdx}
+                        className={({ active }) =>
+                          `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                            active
+                              ? "bg-indigo-50 text-indigo-800"
+                              : "text-gray-900"
+                          }`
+                        }
+                        value={person}
+                      >
+                        {({ selected }) => (
+                          <>
+                            <span
+                              className={`block truncate ${
+                                selected ? "font-medium" : "font-normal"
+                              }`}
+                            >
+                              {person.name}
+                            </span>
+                            {selected ? (
+                              <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-indigo-600">
+                                <CheckIcon
+                                  className="h-5 w-5"
+                                  aria-hidden="true"
+                                />
+                              </span>
+                            ) : null}
+                          </>
+                        )}
+                      </Listbox.Option>
+                    ))}
+                  </Listbox.Options>
+                </Transition>
+              </div>
+            </Listbox>
+          </div>
+        </div>
+        {props.next_page ? (
+          <span className="text-slate-400 text-sm cursor-pointer" onClick={() => loadMore()}>
+          Load More
+          </span>
+        ) : ("")}
+      </div>
+    </Fragment>
+  );
+};
+
+export default FilterComments;

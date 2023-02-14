@@ -848,6 +848,7 @@ const ProfileFeedSingle = (singleItems) => {
           ) : (
             ""
           )}
+          
           {UP_pic && items.attachments_link && items.feed_type === "image_feed" ?(
             <>
               <div className={`relative`}>
