@@ -27,6 +27,7 @@ import {
   REACTION_NEWSFEED_API_KEY,
   COMMENT_API_KEY,
   NEWSFEED_COMMENT_POST_KEY,
+  CURENT_USER_LOGIN_API,
 } from "../../../../pages/config";
 import App from "../newspost/App";
 // import Spinner from "../../../common/Spinner";
@@ -60,7 +61,8 @@ const NewsFeedSingle = (singleItem) => {
   const [comments_count, setComments_count] = useState([]);
   const [is_deleted, setIs_deleted] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [nextPage, setNextPage] = useState('')
+  const [nextPage, setNextPage] = useState('');
+  const [CurrentUser, setCurrentUser] = useState();
   // Bareer key
   if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore");}
   // copy link to clipboard
@@ -160,9 +162,27 @@ const NewsFeedSingle = (singleItem) => {
       console.log(error);
     }
   }
+  
+  const Current_User=async()=>{  
+    await fetch(CURENT_USER_LOGIN_API, {
+      method: "GET",
+       headers: {
+        Accept: "application/json", 
+         Authorization: `${authKey}`,
+       },
+    })
+       .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          setCurrentUser(result.data);
+        }
+      })
+      .catch((err) => console.log(err)); 
+  }
 
   useEffect(() => {
     setLoading(true);
+    Current_User();
     const getFeedComments = async () => {
       const res = await axios(
         NEWSFEED_COMMENT_POST_KEY + "/" + items.id + "/comments",
@@ -219,7 +239,6 @@ const NewsFeedSingle = (singleItem) => {
             width={45} 
             height={45} 
             alt="" />)}
-           
             <div>
               {items.page?(
                 <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
@@ -258,7 +277,6 @@ const NewsFeedSingle = (singleItem) => {
               </div>
             </div>
           </div>
-         
           <div className="">
             <div className="">
               <Popover className="relative">
@@ -311,8 +329,8 @@ const NewsFeedSingle = (singleItem) => {
             </div>
           </div>
         </div>
-       <div className="px-[22px] py-[14px]">
-        <Link 
+        <div className="px-[22px] py-[14px]">
+          <Link 
             href={{
             pathname: "/events-design/event-view",
             query: items.id,
@@ -327,7 +345,7 @@ const NewsFeedSingle = (singleItem) => {
           
           </a>
           
-            </Link>
+          </Link>
           {items.event && items.event ? (
             <Link 
             href={{
@@ -510,7 +528,9 @@ const NewsFeedSingle = (singleItem) => {
             </div>
           </div>
           <Fragment>
+            {CurrentUser && items && items.page && items.page.can_comment!="all_member" && (CurrentUser.id !=items.page.user_id) ?(''):(
             <PostComments news_feed_id={items.id} setComments={setComments} setComments_count={setComments_count} setIs_deleted={setIs_deleted} dp={items.user.display_photo_url}/>
+            )}
             <FilterComments news_feed_id={items.id} comments={comments.data} setComments_count={setComments_count} setComments={setComments} next_page={nextPage} setNextPage={setNextPage} />
             {!loading && <ReplyComments news_feed_id={items.id} comments={comments.data} comments_count={comments_count} setComments_count={setComments_count} setComments={setComments} setIs_deleted={setIs_deleted} items={items}/>}
           </Fragment>
