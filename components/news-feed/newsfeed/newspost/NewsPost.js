@@ -230,7 +230,7 @@ const NewsPost = ( setList ) => {
             }
             a=awa;
             mentionpages();
-            console.log("grie",awa);
+            // console.log("grie",awa);
           }
         })
         .catch((err) => console.log(err));
@@ -265,7 +265,7 @@ const NewsPost = ( setList ) => {
             }
             let dbc = [...a,...awa]
             setMentioned(dbc);
-           console.log("ment",mentioned);
+          //  console.log("ment",mentioned);
           }
         })
         .catch((err) => console.log(err));
