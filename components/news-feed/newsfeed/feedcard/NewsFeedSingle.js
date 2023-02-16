@@ -338,8 +338,8 @@ const NewsFeedSingle = (singleItem) => {
           <a>
             {/* <App state={items.body}/> */}
 
-            {items.tags && items.tags.length > 0 ?
-             <App state={items.body} website={items.tags}/> 
+            {items.tags && items.tags.length > 0 || (items.hashtags && items.hashtags.length > 0)?
+             <App state={items.body} website={items.tags} hashtags={items.hashtags}/> 
              : items.body? items.body : ""}
           
           
