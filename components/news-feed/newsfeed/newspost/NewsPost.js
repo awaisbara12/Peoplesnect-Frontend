@@ -137,6 +137,7 @@ const NewsPost = ( setList ) => {
       externalLink: "",
       description: "",
       speakers: "",
+      total_seat:0,
     },
     validationSchema: eventScheema,
   });
@@ -170,6 +171,7 @@ const NewsPost = ( setList ) => {
       dataForm.append("events[description]", values.description);
       dataForm.append("events[address]", values.address);
       dataForm.append("events[venue]", values.venue);
+      dataForm.append("events[total_seats]", values.total_seat);
     }
     setLoading(true);
     fetch(POST_NEWSFEED_API_KEY, {
@@ -329,8 +331,8 @@ const NewsPost = ( setList ) => {
               <Image
                 src={ProfileAvatar}
                 className="rounded-full"
-                width={42}
-                height={42}
+                width={45}
+                height={45}
                 placeholder="empty"
                 alt="profile-image"
               />
@@ -848,7 +850,6 @@ const NewsPost = ( setList ) => {
                         ) : (
                           ""
                         )}
-
                         <div className="form-group w-full py-3">
                           <label
                             htmlFor="externalLink"
@@ -885,6 +886,23 @@ const NewsPost = ( setList ) => {
                         </div>
                         <div className="form-group w-full py-3">
                           <label
+                            htmlFor="total_seat"
+                            className="text-neutral-900 text-sm"
+                          >
+                            Total Seats*{" "}
+                          </label>
+                          <input
+                             type="Number"
+                            value={values.total_seat}
+                            onChange={handleChange}
+                            name="total_seat"
+                            placeholder="Ex: topics, schedual, etc."
+                            className="w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400"
+                            id="total_seat"
+                          />
+                        </div>
+                        <div className="form-group w-full py-3">
+                          <label
                             htmlFor="speakers"
                             className="text-neutral-900 text-sm"
                           >
@@ -906,7 +924,7 @@ const NewsPost = ( setList ) => {
                           </div>
                         </div>
                         <div className="text-sm text-gray-400">
-                          Add any of your connection as speaker.
+                          Add any of your connection as speakers.
                         </div>
                         <div className="border border-gray-100 mt-4"></div>
                       </form>

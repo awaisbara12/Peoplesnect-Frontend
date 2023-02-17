@@ -49,7 +49,7 @@ export const SEARCH_MULTIPLE= process.env.NEXT_PUBLIC_SEARCH_MULTIPLE
 export const InviteFriends= process.env.NEXT_PUBLIC_INVITE_FRIENDS
 export const JOBS_API= process.env.NEXT_PUBLIC_JOBS_API
 export const USE_APPLY_JOB_API= process.env.NEXT_PUBLIC_APPLY_JOBS_API
-
+export const EVENT_API= process.env.NEXT_PUBLIC_EVENT_API
 
 function Config() {
   return <></>;
