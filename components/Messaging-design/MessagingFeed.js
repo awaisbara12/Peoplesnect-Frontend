@@ -35,6 +35,7 @@ const MessagingFeed = () => {
               <div className="flex mt-8">
                 <Messaging />
                 <NewMessage />
+                <ChatBox/>
               </div>
             </div>
             <div className="w-72 hidden md:block lg:block">

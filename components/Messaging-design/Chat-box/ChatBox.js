@@ -4,6 +4,7 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 import { createPopper } from "@popperjs/core";
 import {
+  ArrowLeftIcon,
   ChatAlt2Icon,
   PaperAirplaneIcon,
   PhotographIcon,
@@ -17,8 +18,11 @@ const Picker = dynamic(() => import("emoji-picker-react"), { ssr: false });
 const Dropdown = ({ color }) => {
   // dropdown props
   const [dropdownPopoverShow, setDropdownPopoverShow] = React.useState(false);
+  const [dropdownPopoverShow1, setDropdownPopoverShow1] = React.useState(false);
   const btnDropdownRef = React.createRef();
   const popoverDropdownRef = React.createRef();
+  const btnDropdownRef1 = React.createRef();
+  const popoverDropdownRef1 = React.createRef();
   const openDropdownPopover = () => {
     createPopper(btnDropdownRef.current, popoverDropdownRef.current, {
       placement: "top-end",
@@ -27,6 +31,15 @@ const Dropdown = ({ color }) => {
   };
   const closeDropdownPopover = () => {
     setDropdownPopoverShow(false);
+  };
+  const openDropdownPopover1 = () => {
+    createPopper(btnDropdownRef1.current, popoverDropdownRef1.current, {
+      placement: "top-end",
+    });
+    setDropdownPopoverShow1(true);
+  };
+  const closeDropdownPopover1 = () => {
+    setDropdownPopoverShow1(false);
   };
   function handleOnEnter(text) {
   }
@@ -46,8 +59,8 @@ const Dropdown = ({ color }) => {
 
   return (
     <>
-      {/* <div className="flex flex-wrap">
-        <div className="absolute bottom-10 right-8">
+      <div className="flex flex-wrap">
+        <div className="absolute bottom-10 right-10">
           <div className="relative inline-flex align-middle w-full">
             <a
               className={
@@ -66,15 +79,273 @@ const Dropdown = ({ color }) => {
             <div
               ref={popoverDropdownRef}
               className={
-                (dropdownPopoverShow ? "block " : "hidden ") +
+                (dropdownPopoverShow ? "block" : "hidden ") +
                 (color === "white" ? "bg-white " : bgColor + " ") +
-                "text-base z-50 float-left py-2 list-none text-left rounded shadow-lg mb-1"
+                "text-base z-50 float-left list-none text-left rounded shadow-lg mb-1"
+              }
+              style={{ minWidth: "25rem" }}
+            >
+              <div className="w-full bg-white h-[440px]">
+                <div className="">
+                  <div className="relative w-full">
+                    <div className="absolute  w-full">
+                      <div className="sticky bg-white z-40 top-0">
+                        <div className="flex justify-between p-3 border-b">
+                          <div className="font-bold flex items-center gap-2 ">
+                            Users
+                          </div>
+                          <Link href="">
+                            <a>
+                              <QuestionMarkCircleIcon className="h-5 w-5" />
+                            </a>
+                          </Link>
+                        </div>
+                      </div>
+                      <div className=" bg-gray-100 p-2 border-b"
+                        ref={btnDropdownRef1}
+                        onClick={() => {
+                          dropdownPopoverShow1
+                          : openDropdownPopover1();
+                        }}>
+                        <Link href="">
+                          <a className="flex items-center gap-2">
+                            <Image
+                              className="object-cover"
+                              src={ProfileAvatar}
+                              width={40}
+                              height={40}
+                              alt=""
+                            />
+                            <div>
+                              <div className="font-bold">Ibrar Zahid</div>
+                              <div className="font-light">Dissapear Message</div></div>
+                          </a>
+                        </Link>
+                      </div>
+                    </div>
+                    <div
+                      ref={popoverDropdownRef1}
+                      className={
+                        (dropdownPopoverShow1 ? "block" : "hidden ") +
+                        (color === "white" ? "bg-white " : bgColor + " ") +
+                        "text-base z-50 float-left list-none text-left absolute rounded shadow-lg mb-1"
+                      }
+                      style={{ minWidth: "25rem" }}
+                    >
+                      <div className="sticky bg-white z-50 top-0">
+                        <div className="flex justify-between p-3 border-b">
+                          <div className="font-bold cursor-pointer flex items-center gap-2"
+                            ref={btnDropdownRef1}
+                            onClick={() => {
+                              dropdownPopoverShow1
+                              : closeDropdownPopover1();
+                            }}>
+                            <ArrowLeftIcon className="h-4 w-4" />
+                            User Name
+                          </div>
+                          <Link href="">
+                            <a>
+                              <QuestionMarkCircleIcon className="h-5 w-5" />
+                            </a>
+                          </Link>
+                        </div>
+                      </div>
+                      <div>
+                        <div className="w-full bg-white h-[340px] overflow-y-scroll">
+                          <div className="">
+                            <div className="ml-2 mt-3">
+                              <Link href="">
+                                <a className="flex items-center gap-2">
+                                  <Image
+                                    className="object-cover"
+                                    src={ProfileAvatar}
+                                    width={30}
+                                    height={30}
+                                    alt=""
+                                  />
+                                  <div className=" bg-gray-100 w-60 p-2 border rounded-xl">
+                                    <div className="">user text as show as popup</div>
+                                  </div>
+                                </a>
+                              </Link>
+                            </div>
+                            <div className="flex justify-end mt-7 mr-2">
+                              <Link href="">
+                                <a className="flex items-center gap-2">
+                                  <div className=" bg-gray-100 p-2 border w-60 rounded-xl">
+                                    <div className="">user text as show as popup</div>
+                                  </div>
+                                  <Image
+                                    className="object-cover"
+                                    src={ProfileAvatar2}
+                                    width={30}
+                                    height={30}
+                                    alt=""
+                                  />
+                                </a>
+                              </Link>
+                            </div>
+                            <div className="ml-2 mt-3">
+                              <Link href="">
+                                <a className="flex items-center gap-2">
+                                  <Image
+                                    className="object-cover"
+                                    src={ProfileAvatar}
+                                    width={30}
+                                    height={30}
+                                    alt=""
+                                  />
+                                  <div className=" bg-gray-100 w-60 p-2 border rounded-xl">
+                                    <div className="">user text as show as popup</div>
+                                  </div>
+                                </a>
+                              </Link>
+                            </div>
+                            <div className="flex justify-end mt-7 mr-2">
+                              <Link href="">
+                                <a className="flex items-center gap-2">
+                                  <div className=" bg-gray-100 p-2 border w-60 rounded-xl">
+                                    <div className="">user text as show as popup</div>
+                                  </div>
+                                  <Image
+                                    className="object-cover"
+                                    src={ProfileAvatar2}
+                                    width={30}
+                                    height={30}
+                                    alt=""
+                                  />
+                                </a>
+                              </Link>
+                            </div>
+                            <div className="ml-2 mt-3">
+                              <Link href="">
+                                <a className="flex items-center gap-2">
+                                  <Image
+                                    className="object-cover"
+                                    src={ProfileAvatar}
+                                    width={30}
+                                    height={30}
+                                    alt=""
+                                  />
+                                  <div className=" bg-gray-100 w-60 p-2 border rounded-xl">
+                                    <div className="">user text as show as popup</div>
+                                  </div>
+                                </a>
+                              </Link>
+                            </div>
+                            <div className="flex justify-end mt-7 mr-2">
+                              <Link href="">
+                                <a className="flex items-center gap-2">
+                                  <div className=" bg-gray-100 p-2 border w-60 rounded-xl">
+                                    <div className="">user text as show as popup</div>
+                                  </div>
+                                  <Image
+                                    className="object-cover"
+                                    src={ProfileAvatar2}
+                                    width={30}
+                                    height={30}
+                                    alt=""
+                                  />
+                                </a>
+                              </Link>
+                            </div>
+                            <div className="ml-2 mt-3">
+                              <Link href="">
+                                <a className="flex items-center gap-2">
+                                  <Image
+                                    className="object-cover"
+                                    src={ProfileAvatar}
+                                    width={30}
+                                    height={30}
+                                    alt=""
+                                  />
+                                  <div className=" bg-gray-100 w-60 p-2 border rounded-xl">
+                                    <div className="">
+                                      user text user text as show as popup as show as user
+                                      text as show as popup popup
+                                    </div>
+                                  </div>
+                                </a>
+                              </Link>
+                            </div>
+                            <div className="flex justify-end mt-7 mr-2">
+                              <Link href="">
+                                <a className="flex items-center gap-2">
+                                  <div className=" bg-gray-100 p-2 border w-60 rounded-xl">
+                                    <div className="">
+                                      user text user text as show as popup as show user
+                                      text as show as popup as popup
+                                    </div>
+                                  </div>
+                                  <Image
+                                    className="object-cover"
+                                    src={ProfileAvatar2}
+                                    width={30}
+                                    height={30}
+                                    alt=""
+                                  />
+                                </a>
+                              </Link>
+                            </div>
+                            <div className="ml-2 mt-3">
+                              <Link href="">
+                                <a className="flex items-center gap-2">
+                                  <Image
+                                    className="object-cover"
+                                    src={ProfileAvatar}
+                                    width={30}
+                                    height={30}
+                                    alt=""
+                                  />
+                                  <div className=" bg-gray-100 w-60 p-2 border rounded-xl">
+                                    <div className="">
+                                      user text user text as show as popup as show as user
+                                      text as show as popup popup
+                                    </div>
+                                  </div>
+                                </a>
+                              </Link>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="sticky bottom-0 bg-white">
+                          <div className="flex items-center px-2">
+                            <InputEmoji
+                              type="text"
+                              react-emoji="w-{100%}"
+                              onChange={setText}
+                              cleanOnEnter
+                              onEnter={handleOnEnter}
+                              placeholder="Type Your Message"
+                            />
+                            <PhotographIcon className="h-10 w-10 opacity-40" />
+                            <PaperAirplaneIcon className="h-10 w-10 rotate-90 opacity-40 ml-2" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              ref={popoverDropdownRef1}
+              className={
+                (dropdownPopoverShow1 ? "block" : "hidden ") +
+                (color === "white" ? "bg-white " : bgColor + " ") +
+                "text-base z-50 float-left list-none text-left rounded shadow-lg mb-1"
               }
               style={{ minWidth: "25rem" }}
             >
               <div className="sticky bg-white z-50 top-0">
                 <div className="flex justify-between p-3 border-b">
-                  <div className="font-bold flex items-center gap-2 ">
+                  <div className="font-bold flex items-center gap-2"
+                    ref={btnDropdownRef1}
+                    onClick={() => {
+                      dropdownPopoverShow1
+                      : closeDropdownPopover1();
+                    }}>
+
                     User Name
                   </div>
                   <Link href="">
@@ -258,7 +529,7 @@ const Dropdown = ({ color }) => {
             </div>
           </div>
         </div>
-      </div> */}
+      </div>
     </>
   );
 };
