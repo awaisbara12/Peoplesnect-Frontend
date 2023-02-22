@@ -24,6 +24,7 @@ import { eventScheema } from "../auth/schemas/CreateEventScheema";
 import { POST_NEWSFEED_API_KEY } from "../../pages/config";
 
 const Messaging = () => {
+  const [openTab, setOpenTab] = React.useState(1);
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
   }
@@ -80,220 +81,292 @@ const Messaging = () => {
               <div className="font-bold flex items-center gap-2 ">
                 Account Name <ChevronDownIcon className="h-5 w-5" />{" "}
               </div>
-              <PencilAltIcon className="h-5 w-5" />
             </div>
-          </div>
-          <div className="overflow-y-scroll h-[700px] ">
-            <Link href="/messaging-design/inbox-design">
-              <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
-                <Image
-                  className="object-cover rounded-full"
-                  src={ProfileAvatar}
-                  width={45}
-                  height={45}
-                  alt=""
-                />
-                <div className="">
-                  <div className="font-bold">Ibrar Zahid</div>
-                  <div className="">user text as show as popup</div>
+            <div className="mt-3">
+              <ul className="flex justify-between items-center" role="tablist">
+                <li className="w-1/2 text-center">
+                  <a
+                    className={
+                      "" +
+                      (openTab === 1
+                        ? "py-2 font-bold border-2 border-b-0 text-indigo-400 bg-slate-200 px-3 border-indigo-400"
+                        : "px-3 py-2")
+                    }
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setOpenTab(1);
+                    }}
+                    data-toggle="tab"
+                    href="#link1"
+                    role="tablist"
+                  >
+                    Recent Chats
+                  </a>
+                </li>
+                <li className="w-1/2 text-center">
+                  <a
+                    className={
+                      "" +
+                      (openTab === 2
+                        ? "py-2 font-bold border-2 border-b-0 text-indigo-400 bg-slate-200 px-3 border-indigo-400"
+                        : "px-3 py-2")
+                    }
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setOpenTab(2);
+                    }}
+                    data-toggle="tab"
+                    href="#link2"
+                    role="tablist"
+                  >
+                    New Message
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div className="flex-auto">
+              <div className="tab-content tab-space pt-2.5">
+                <div className={openTab === 1 ? "block" : "hidden"} id="link1">
+                  <div>
+                    <input placeholder="Search Friends.." className="border rounded border-indigo-400 w-full p-2 placeholder:font-light focus:border-indigo-400 active:border-indigo-400 focus-visible:border-indigo-400 " />
+                  </div>
+                  <div className="overflow-y-scroll h-[620px] ">
+                    <Link href="/messaging-design/inbox-design">
+                      <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
+                        <Image
+                          className="object-cover rounded-full"
+                          src={ProfileAvatar}
+                          width={45}
+                          height={45}
+                          alt=""
+                        />
+                        <div className="">
+                          <div className="font-bold">Ibrar Zahid</div>
+                          <div className="">user text as show as popup</div>
+                        </div>
+                      </a>
+                    </Link>
+                    <Link href="/messaging-design/inbox-design">
+                      <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
+                        <Image
+                          className="object-cover rounded-full"
+                          src={ProfileAvatar2}
+                          width={45}
+                          height={45}
+                          alt=""
+                        />
+                        <div className="">
+                          <div className="font-bold">Mishal javed</div>
+                          <div className="">user text as show as popup</div>
+                        </div>
+                      </a>
+                    </Link>
+                    <Link href="/messaging-design/inbox-design">
+                      <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
+                        <Image
+                          className="object-cover rounded-full"
+                          src={ProfileAvatar3}
+                          width={45}
+                          height={45}
+                          alt=""
+                        />
+                        <div className="">
+                          <div className="font-bold">Javeriya Latif</div>
+                          <div className="">user text as show as popup</div>
+                        </div>
+                      </a>
+                    </Link>
+                    <Link href="/messaging-design/inbox-design">
+                      <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
+                        <Image
+                          className="object-cover rounded-full"
+                          src={ProfileAvatar2}
+                          width={45}
+                          height={45}
+                          alt=""
+                        />
+                        <div className="">
+                          <div className="font-bold">Mishal javed</div>
+                          <div className="">user text as show as popup</div>
+                        </div>
+                      </a>
+                    </Link>
+                    <Link href="/messaging-design/inbox-design">
+                      <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
+                        <Image
+                          className="object-cover rounded-full"
+                          src={ProfileAvatar}
+                          width={45}
+                          height={45}
+                          alt=""
+                        />
+                        <div className="">
+                          <div className="font-bold">Ibrar Zahid</div>
+                          <div className="">user text as show as popup</div>
+                        </div>
+                      </a>
+                    </Link>
+                    <Link href="/messaging-design/inbox-design">
+                      <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
+                        <Image
+                          className="object-cover rounded-full"
+                          src={ProfileAvatar2}
+                          width={45}
+                          height={45}
+                          alt=""
+                        />
+                        <div className="">
+                          <div className="font-bold">Mishal javed</div>
+                          <div className="">user text as show as popup</div>
+                        </div>
+                      </a>
+                    </Link>
+                    <Link href="/messaging-design/inbox-design">
+                      <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
+                        <Image
+                          className="object-cover rounded-full"
+                          src={ProfileAvatar3}
+                          width={45}
+                          height={45}
+                          alt=""
+                        />
+                        <div className="">
+                          <div className="font-bold">Javeriya Latif</div>
+                          <div className="">user text as show as popup</div>
+                        </div>
+                      </a>
+                    </Link>
+                    <Link href="/messaging-design/inbox-design">
+                      <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
+                        <Image
+                          className="object-cover rounded-full"
+                          src={ProfileAvatar}
+                          width={45}
+                          height={45}
+                          alt=""
+                        />
+                        <div className="">
+                          <div className="font-bold">Ibrar Zahid</div>
+                          <div className="">user text as show as popup</div>
+                        </div>
+                      </a>
+                    </Link>
+                    <Link href="/messaging-design/inbox-design">
+                      <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
+                        <Image
+                          className="object-cover rounded-full"
+                          src={ProfileAvatar2}
+                          width={45}
+                          height={45}
+                          alt=""
+                        />
+                        <div className="">
+                          <div className="font-bold">Mishal javed</div>
+                          <div className="">user text as show as popup</div>
+                        </div>
+                      </a>
+                    </Link>
+                    <Link href="/messaging-design/inbox-design">
+                      <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
+                        <Image
+                          className="object-cover rounded-full"
+                          src={ProfileAvatar3}
+                          width={45}
+                          height={45}
+                          alt=""
+                        />
+                        <div className="">
+                          <div className="font-bold">Javeriya Latif</div>
+                          <div className="">user text as show as popup</div>
+                        </div>
+                      </a>
+                    </Link>
+                    <Link href="/messaging-design/inbox-design">
+                      <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
+                        <Image
+                          className="object-cover rounded-full"
+                          src={ProfileAvatar2}
+                          width={45}
+                          height={45}
+                          alt=""
+                        />
+                        <div className="">
+                          <div className="font-bold">Mishal javed</div>
+                          <div className="">user text as show as popup</div>
+                        </div>
+                      </a>
+                    </Link>
+                    <Link href="/messaging-design/inbox-design">
+                      <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
+                        <Image
+                          className="object-cover rounded-full"
+                          src={ProfileAvatar}
+                          width={45}
+                          height={45}
+                          alt=""
+                        />
+                        <div className="">
+                          <div className="font-bold">Ibrar Zahid</div>
+                          <div className="">user text as show as popup</div>
+                        </div>
+                      </a>
+                    </Link>
+                    <Link href="/messaging-design/inbox-design">
+                      <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
+                        <Image
+                          className="object-cover rounded-full"
+                          src={ProfileAvatar2}
+                          width={45}
+                          height={45}
+                          alt=""
+                        />
+                        <div className="">
+                          <div className="font-bold">Mishal javed</div>
+                          <div className="">user text as show as popup</div>
+                        </div>
+                      </a>
+                    </Link>
+                    <Link href="/messaging-design/inbox-design">
+                      <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
+                        <Image
+                          className="object-cover rounded-full"
+                          src={ProfileAvatar3}
+                          width={45}
+                          height={45}
+                          alt=""
+                        />
+                        <div className="">
+                          <div className="font-bold">Javeriya Latif</div>
+                          <div className="">user text as show as popup</div>
+                        </div>
+                      </a>
+                    </Link>
+                  </div>
                 </div>
-              </a>
-            </Link>
-            <Link href="/messaging-design/inbox-design">
-              <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
-                <Image
-                  className="object-cover rounded-full"
-                  src={ProfileAvatar2}
-                  width={45}
-                  height={45}
-                  alt=""
-                />
-                <div className="">
-                  <div className="font-bold">Mishal javed</div>
-                  <div className="">user text as show as popup</div>
+                <div className={openTab === 2 ? "block" : "hidden"} id="link2">
+                  <div>
+                    <input placeholder="Search Friends.." className="border rounded border-indigo-400 w-full p-2 placeholder:font-light focus:border-indigo-400 active:border-indigo-400 focus-visible:border-indigo-400 " />
+                  </div>
+                  <div className="overflow-y-scroll h-[620px] ">
+                    <Link href="/messaging-design/inbox-design">
+                      <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
+                        <Image
+                          className="object-cover rounded-full"
+                          src={ProfileAvatar}
+                          width={45}
+                          height={45}
+                          alt=""
+                        />
+                        <div className="">
+                          <div className="font-bold">Ibrar Zahid</div>
+                          <div className="">user text as show as popup</div>
+                        </div>
+                      </a>
+                    </Link>
+                  </div>
                 </div>
-              </a>
-            </Link>
-            <Link href="/messaging-design/inbox-design">
-              <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
-                <Image
-                  className="object-cover rounded-full"
-                  src={ProfileAvatar3}
-                  width={45}
-                  height={45}
-                  alt=""
-                />
-                <div className="">
-                  <div className="font-bold">Javeriya Latif</div>
-                  <div className="">user text as show as popup</div>
-                </div>
-              </a>
-            </Link>
-            <Link href="/messaging-design/inbox-design">
-              <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
-                <Image
-                  className="object-cover rounded-full"
-                  src={ProfileAvatar2}
-                  width={45}
-                  height={45}
-                  alt=""
-                />
-                <div className="">
-                  <div className="font-bold">Mishal javed</div>
-                  <div className="">user text as show as popup</div>
-                </div>
-              </a>
-            </Link>
-            <Link href="/messaging-design/inbox-design">
-              <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
-                <Image
-                  className="object-cover rounded-full"
-                  src={ProfileAvatar}
-                  width={45}
-                  height={45}
-                  alt=""
-                />
-                <div className="">
-                  <div className="font-bold">Ibrar Zahid</div>
-                  <div className="">user text as show as popup</div>
-                </div>
-              </a>
-            </Link>
-            <Link href="/messaging-design/inbox-design">
-              <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
-                <Image
-                  className="object-cover rounded-full"
-                  src={ProfileAvatar2}
-                  width={45}
-                  height={45}
-                  alt=""
-                />
-                <div className="">
-                  <div className="font-bold">Mishal javed</div>
-                  <div className="">user text as show as popup</div>
-                </div>
-              </a>
-            </Link>
-            <Link href="/messaging-design/inbox-design">
-              <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
-                <Image
-                  className="object-cover rounded-full"
-                  src={ProfileAvatar3}
-                  width={45}
-                  height={45}
-                  alt=""
-                />
-                <div className="">
-                  <div className="font-bold">Javeriya Latif</div>
-                  <div className="">user text as show as popup</div>
-                </div>
-              </a>
-            </Link>
-            <Link href="/messaging-design/inbox-design">
-              <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
-                <Image
-                  className="object-cover rounded-full"
-                  src={ProfileAvatar}
-                  width={45}
-                  height={45}
-                  alt=""
-                />
-                <div className="">
-                  <div className="font-bold">Ibrar Zahid</div>
-                  <div className="">user text as show as popup</div>
-                </div>
-              </a>
-            </Link>
-            <Link href="/messaging-design/inbox-design">
-              <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
-                <Image
-                  className="object-cover rounded-full"
-                  src={ProfileAvatar2}
-                  width={45}
-                  height={45}
-                  alt=""
-                />
-                <div className="">
-                  <div className="font-bold">Mishal javed</div>
-                  <div className="">user text as show as popup</div>
-                </div>
-              </a>
-            </Link>
-            <Link href="/messaging-design/inbox-design">
-              <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
-                <Image
-                  className="object-cover rounded-full"
-                  src={ProfileAvatar3}
-                  width={45}
-                  height={45}
-                  alt=""
-                />
-                <div className="">
-                  <div className="font-bold">Javeriya Latif</div>
-                  <div className="">user text as show as popup</div>
-                </div>
-              </a>
-            </Link>
-            <Link href="/messaging-design/inbox-design">
-              <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
-                <Image
-                  className="object-cover rounded-full"
-                  src={ProfileAvatar2}
-                  width={45}
-                  height={45}
-                  alt=""
-                />
-                <div className="">
-                  <div className="font-bold">Mishal javed</div>
-                  <div className="">user text as show as popup</div>
-                </div>
-              </a>
-            </Link>
-            <Link href="/messaging-design/inbox-design">
-              <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
-                <Image
-                  className="object-cover rounded-full"
-                  src={ProfileAvatar}
-                  width={45}
-                  height={45}
-                  alt=""
-                />
-                <div className="">
-                  <div className="font-bold">Ibrar Zahid</div>
-                  <div className="">user text as show as popup</div>
-                </div>
-              </a>
-            </Link>
-            <Link href="/messaging-design/inbox-design">
-              <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
-                <Image
-                  className="object-cover rounded-full"
-                  src={ProfileAvatar2}
-                  width={45}
-                  height={45}
-                  alt=""
-                />
-                <div className="">
-                  <div className="font-bold">Mishal javed</div>
-                  <div className="">user text as show as popup</div>
-                </div>
-              </a>
-            </Link>
-            <Link href="/messaging-design/inbox-design">
-              <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
-                <Image
-                  className="object-cover rounded-full"
-                  src={ProfileAvatar3}
-                  width={45}
-                  height={45}
-                  alt=""
-                />
-                <div className="">
-                  <div className="font-bold">Javeriya Latif</div>
-                  <div className="">user text as show as popup</div>
-                </div>
-              </a>
-            </Link>
+              </div>
+            </div>
           </div>
         </div>
       </div>
