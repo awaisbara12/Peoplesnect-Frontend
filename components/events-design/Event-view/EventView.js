@@ -20,6 +20,7 @@ import FilterComments from "../comments/FilterComments";
 import ReplyComments from "../comments/ReplyComments";
 import { useRouter } from "next/router";
 import ProfileAvatar from "../../../public/images/profile-avatar.png";
+import App from "../../news-feed/newsfeed/newspost/App";
 
 const ReadMore = ({ children }) => {
   const text = children;
@@ -392,7 +393,10 @@ const EventView = () => {
             </div>
             {items?(
             <div className="px-[22px] ">
-              <p>{items.body ?<ReadMore>{items.body}</ReadMore> : ""}</p>
+              {/* <p>{items.body ?<ReadMore>{items.body}</ReadMore> : ""}</p> */}
+              {items.tags && items.tags.length > 0 || (items.hashtags && items.hashtags.length > 0)?
+                  <App state={items.body} website={items.tags} hashtags={items.hashtags}/> 
+              : items.body? items.body : ""}
               {items.event && items.event ? (
                 <>
                   <p className="py-[4px]">{items.event.description ? <ReadMore>{items.event.description}</ReadMore>: ""}</p>
@@ -444,6 +448,10 @@ const EventView = () => {
                             />
                             <span>{items.event.event_link}</span>
                           </div>
+                          {/* Speaker */}
+                          {items.event.tags && items.event.tags.length > 0?
+                          <App state={items.event.speaker} website={items.event.tags} /> 
+                          : items.event.body? items.event.body : ""}
                           {/* Remaining Seats */}
                           <div className="text-gray-900 flex gap-2">
                           <CalendarIcon
@@ -466,7 +474,7 @@ const EventView = () => {
                             All Seat are booked
                           </a>
                         )}
-
+                        
                         {/*  Modal */}
                         <Transition appear show={isOpen} as={Fragment}>
                           <Dialog

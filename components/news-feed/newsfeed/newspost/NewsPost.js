@@ -51,6 +51,9 @@ const NewsPost = ( setList ) => {
   const [mentioned, setMentioned] = useState([]);
   const [hashtaged, setHashtaged] = useState([]);
   let [results, setresults] = useState(0);
+  let [speakerMention, setspeakerMention] = useState([]);
+  let [speakerText, setspeakerText] = useState();
+  const [speakertags, setspeakertags] = useState([]);
 
   let [isOpen, setIsOpen] = useState(false);
   let [hastags, sethastags] = useState();
@@ -154,6 +157,7 @@ const NewsPost = ( setList ) => {
         dataForm.append("tags[]", tags[i]);
       }
     }
+
     // dataForm.append("news_feeds[tags][]", tags);
 
     dataForm.append("news_feeds[feed_attachments][]", postImage);
@@ -170,8 +174,13 @@ const NewsPost = ( setList ) => {
       dataForm.append("events[event_link]", values.externalLink);
       dataForm.append("events[description]", values.description);
       dataForm.append("events[address]", values.address);
-      dataForm.append("events[venue]", values.venue);
+      dataForm.append("events[speaker]", speakerText);
       dataForm.append("events[total_seats]", values.total_seat);
+      if (speakertags.length > 0) {
+        for (let i = 0; i < speakertags.length; i++) {
+          dataForm.append("speakertags[]", speakertags[i]);
+        }
+      }
     }
     setLoading(true);
     fetch(POST_NEWSFEED_API_KEY, {
@@ -267,6 +276,7 @@ const NewsPost = ( setList ) => {
             }
             let dbc = [...a,...awa]
             setMentioned(dbc);
+            setspeakerMention(dbc);
           //  console.log("ment",mentioned);
           }
         })
@@ -316,7 +326,7 @@ const NewsPost = ( setList ) => {
   // let ourSubstring = "@Awais Bara";
 
   // console.log(example.indexOf(ourSubstring));
-
+  console.log("mention",tags)
   useEffect(()=>{
     mentioneds();
     HashTags();
@@ -874,7 +884,7 @@ const NewsPost = ( setList ) => {
                           >
                             Description{" "}
                           </label>
-                          <textarea
+                          {/* <textarea
                             type="text"
                             value={values.description}
                             onChange={handleChange}
@@ -882,7 +892,9 @@ const NewsPost = ( setList ) => {
                             placeholder="Ex: topics, schedual, etc."
                             className="w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400"
                             id="description"
-                          />
+                          /> */}
+                          <HashtagMentionInput postText={postText} setPostText={setPostText} mentioned={mentioned}  tags={tags} settags={settags} hastags={hastags}/>
+            
                         </div>
                         <div className="form-group w-full py-3">
                           <label
@@ -909,7 +921,7 @@ const NewsPost = ( setList ) => {
                             Speakers{" "}
                           </label>
                           <div className="relative">
-                            <input
+                            {/* <input
                               type="text"
                               name="speakers"
                               value={values.speakers}
@@ -917,7 +929,9 @@ const NewsPost = ( setList ) => {
                               placeholder=""
                               className="w-full border-gray-100 border pl-10 py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400"
                               id="speakers"
-                            />
+                            /> */}
+                            <HashtagMentionInput postText={speakerText} setPostText={setspeakerText} mentioned={speakerMention}  tags={speakertags} settags={setspeakertags} hastags={hastags}/>
+            
                             <div className="absolute inset-y-[18px] left-3">
                               🔍
                             </div>
