@@ -63,7 +63,7 @@ const NewsFeedSingle = (singleItem) => {
   const [loading, setLoading] = useState(true);
   const [nextPage, setNextPage] = useState('');
   const [CurrentUser, setCurrentUser] = useState();
-  console.log("items = >",items)
+  // console.log("items = >",items)
   // Bareer key
   if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore");}
   // copy link to clipboard

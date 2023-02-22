@@ -326,7 +326,7 @@ const NewsPost = ( setList ) => {
   // let ourSubstring = "@Awais Bara";
 
   // console.log(example.indexOf(ourSubstring));
-  console.log("mention",tags)
+  // console.log("mention",tags)
   useEffect(()=>{
     mentioneds();
     HashTags();
