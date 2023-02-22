@@ -75,7 +75,7 @@ class App extends Component {
     // }
 
     let texts = [];
-    this.state.text.split(" ").map(text => {
+    this.state.text && this.state.text.split(" ").map(text => {
       texts.push(text + " ")
     })
     for (let i = 0; i < this.props.website.length; i++){
