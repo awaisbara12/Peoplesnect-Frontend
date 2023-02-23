@@ -29,7 +29,7 @@ const [mentions, setMentions] = useState([]);
 
 const handleChange = event => {
   setValue(event.target.value);
-  console.log(event.target.value);
+  // console.log(event.target.value);
   props.setPostText(event.target.value);
   const hashtagsArray = [];
   const mentionsArray = [];
@@ -62,7 +62,7 @@ const handleChange = event => {
   );
 
   // console.log(hashtags);
-  console.log(mentions);
+  // console.log(mentions);
 
   return (
     <div>

@@ -9,6 +9,8 @@ import { Dialog } from "@headlessui/react";
 import ProfileAvatar from "../../../public/images/profile-avatar.png";
 import ProfileAvatar2 from "../../../public/images/mira.png";
 import ProfileAvatar3 from "../../../public/images/profile-avatar.png";
+
+import Compnylogo1 from "../../../public/images/logo1.jpeg";
 import {
   BellIcon,
   BookmarkIcon,
@@ -286,7 +288,37 @@ const TopNavbarSearch = () => {
                                               </div>
                                             </a>
                                           </Link>
-                                        ):(""))
+                                        ):(
+                                            i.searchable_type && i.searchable_type=="Job"?(
+                                              <Link  href={{pathname: "/jobs/jobs-show", query: i.jobs.id}} key={i.jobs.id}>
+                                                <a className="flex items-center gap-2 p-2 border-b" >
+                                                  {i.jobs && i.jobs.company_photo ?
+                                                    (
+                                                      <img
+                                                        src={i.jobs.company_photo}
+                                                        className="object-cover rounded-full z-40 h-[42px] w-[42px]"
+                                                        alt=""
+                                                      />
+                                                    ) : (
+                                                      <Image
+                                                        src={Compnylogo1}
+                                                        width={45}
+                                                        height={45}
+                                                        alt=""
+                                                      />
+                                                    )
+                                                  }
+                                                  <div className="">
+                                                  <div className="flex gap-4 items-center">
+                                                  <div className="font-bold">{i.jobs.title} </div>
+                                                  <div className="font-extralight text-xs italic font-serif">Jobs</div>
+                                                  </div>
+                                                  <div className="font-light text-xs">{i.jobs.employeement_type}</div>
+                                                </div>
+                                                </a>
+                                              </Link>
+                                            ):('')
+                                        ))
                                       )
                                     )
                                   )
