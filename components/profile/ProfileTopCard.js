@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState} from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import postimage from "../../public/images/266-hero.jpg";
@@ -29,7 +29,7 @@ import {
   TabPanel,
 } from "@material-tailwind/react";
 import TabsProfileCard from "./profile-tabs/TabsProfileCard";
-import {    
+import {
   CURENT_USER_LOGIN_API, UPDATE_PERSONAL_INFO
 } from "../../pages/config";
 
@@ -44,106 +44,105 @@ const ProfileTopCard = () => {
   const onImageChange = (event) => {
     if (event.target.files.length !== 0) {
       setImage(window.URL.createObjectURL(event.target.files[0]));
-      UpdatePersonal(event.target.files[0],"cover");
+      UpdatePersonal(event.target.files[0], "cover");
     }
   }
   const onProfileChange = (event) => {
     if (event.target.files.length !== 0) {
       setcoverpreview(window.URL.createObjectURL(event.target.files[0]));
-      UpdatePersonal(event.target.files[0],"profile");
+      UpdatePersonal(event.target.files[0], "profile");
     }
   }
 
-  const UpdatePersonal =async(e, type)=>{
+  const UpdatePersonal = async (e, type) => {
     const dataForm = new FormData();
-    if(type=="cover")
-    {
+    if (type == "cover") {
       dataForm.append("users[cover_photo]", e);
     }
-    else{
+    else {
       dataForm.append("users[display_photo]", e);
     }
     await fetch(UPDATE_PERSONAL_INFO, {
-    method: "PUT",
-     headers: {
-      Accept: "application/json", 
-       Authorization: `${authKey}`,
-     },
-     body: dataForm,
-  })
-     .then((resp) => resp.json())
-    .then((result) => {
-      if (result) {
-        setUserDetails(result.data); 
-        setcoverimage(result.data.cover_photo_url);
-        setprofileimage(result.data.display_photo_url);
-      }
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
+      body: dataForm,
     })
-    .catch((err) => console.log(err));
-  }
- 
-  // Bareer Key
-  if (typeof window !== "undefined") {
-    // Bareer Key
-    var authKey = window.localStorage.getItem("keyStore"); 
-  }
-
-  //current User
-  const Current_User=async()=>{    
-   
-    await fetch(CURENT_USER_LOGIN_API, {
-      method: "GET",
-       headers: {
-        Accept: "application/json", 
-         Authorization: `${authKey}`,
-       },
-    })
-       .then((resp) => resp.json())
+      .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-          setUserDetails(result.data);  
+          setUserDetails(result.data);
           setcoverimage(result.data.cover_photo_url);
           setprofileimage(result.data.display_photo_url);
         }
       })
-      .catch((err) => console.log(err)); 
+      .catch((err) => console.log(err));
   }
-  useEffect(()=>{
-    Current_User(); 
-  },[])
+
+  // Bareer Key
+  if (typeof window !== "undefined") {
+    // Bareer Key
+    var authKey = window.localStorage.getItem("keyStore");
+  }
+
+  //current User
+  const Current_User = async () => {
+
+    await fetch(CURENT_USER_LOGIN_API, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          setUserDetails(result.data);
+          setcoverimage(result.data.cover_photo_url);
+          setprofileimage(result.data.display_photo_url);
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+  useEffect(() => {
+    Current_User();
+  }, [])
   return (
     <>
-    <div className="mt-8 w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
+      <div className="mt-8 w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
         <div className="w-full bg-white p-5 rounded-t-xl">
           <div className="group relative w-full">
             <div className="">
               <Link href="/">
                 <a>
-                  {image?(
+                  {image ? (
                     <Image
-                    src={image}
-                    className="object-cover rounded-xl" 
-                    width={1030}
-                    height={320}
-                    alt=""
-                  />
-                  ):(
-                    coverimage? (
+                      src={image}
+                      className="object-cover rounded-xl"
+                      width={1030}
+                      height={320}
+                      alt=""
+                    />
+                  ) : (
+                    coverimage ? (
                       <img
                         src={coverimage}
                         className="object-cover rounded-xl h-[320px] w-[1030px]"
                         alt=""
                       />
-                    ):
-                    (
-                      <Image
-                        src={postimage}
-                        className="object-cover rounded-xl" 
-                        width={1030}
-                        height={320}
-                        alt=""
-                      />
-                    )
+                    ) :
+                      (
+                        <Image
+                          src={postimage}
+                          className="object-cover rounded-xl"
+                          width={1030}
+                          height={320}
+                          alt=""
+                        />
+                      )
                   )}
                 </a>
               </Link>
@@ -152,7 +151,7 @@ const ProfileTopCard = () => {
               <div className="relative flex items-center justify-center">
                 <div className="">
                   <div className="flex gap-1 text-sm items-center p-2 rounded-xl border-1 border-white text-white">
-                    <PhotographIcon className="w-5 h-5"/>
+                    <PhotographIcon className="w-5 h-5" />
                     Change Cover Photo
                     <input
                       type="file"
@@ -172,7 +171,7 @@ const ProfileTopCard = () => {
                 <div className="relative">
                   <Link href="">
                     <a>
-                      {coverpreview? (
+                      {coverpreview ? (
                         <Image
                           src={coverpreview}
                           width={96}
@@ -181,22 +180,22 @@ const ProfileTopCard = () => {
                           placeholder="empty"
                           alt="profile-image"
                         />
-                      ):(
-                        profileimage?(
+                      ) : (
+                        profileimage ? (
                           <img
-                          src={profileimage}
-                          className="object-cover rounded-full z-40 h-[96px] w-[96px]"
-                          alt=""
-                        />
-                        ):(
+                            src={profileimage}
+                            className="object-cover rounded-full z-40 h-[96px] w-[96px]"
+                            alt=""
+                          />
+                        ) : (
                           <Image
-                          src={ProfileAvatar}
-                          width={96}
-                          height={96}
-                          className="object-cover rounded-full z-40"
-                          placeholder="empty"
-                          alt="profile-image"
-                        />
+                            src={ProfileAvatar}
+                            width={96}
+                            height={96}
+                            className="object-cover rounded-full z-40"
+                            placeholder="empty"
+                            alt="profile-image"
+                          />
                         )
                       )}
                     </a>
@@ -205,15 +204,15 @@ const ProfileTopCard = () => {
                     <div className="flex gap-1 text-sm text-white rounded-full  cursor-pointer">
                       <PencilIcon className="w-4 h-4" />
                       <div>
-                      Edit Profile
-                      <input
-                      type="file"
-                      name="image"
-                      id="image"
-                      className="opacity-0 absolute top-auto left-0 z-10"
-                      title={""}
-                      multiple
-                    />
+                        Edit Profile
+                        <input
+                          type="file"
+                          name="image"
+                          id="image"
+                          className="opacity-0 absolute top-auto left-0 z-10"
+                          title={""}
+                          multiple
+                        />
                       </div>
                     </div>
                   </div>
@@ -221,26 +220,26 @@ const ProfileTopCard = () => {
               </div>
             </div>
           </div>
-          {userDetails?(
-          <div className="my-2 flex flex-col ml-48 gap-1">
-            <div className="group relative">
-              <div className="text-2xl text-indigo-400 font-bold capitalize">
-                {userDetails.first_name} {userDetails.last_name}
-              </div>
-              <div className="absolute left-40 top-2 opacity-0 group-hover:opacity-100 cursor-pointer">
-                {/* <PencilIcon className="h-4 w-4 text-indigo-400" /> */}
-              </div>
-            </div>
-            <Link href="" className="">
-              <a className="text-gray-500 text-xs font-semibold">
-                <div className="flex gap-1 items-center capitalize">
-                  <LocationMarkerIcon className="w-5 h-5" />
-                  {userDetails.city}, {userDetails.country}
+          {userDetails ? (
+            <div className="my-2 flex flex-col ml-48 gap-1">
+              <div className="group relative">
+                <div className="text-2xl text-indigo-400 font-bold capitalize">
+                  {userDetails.first_name} {userDetails.last_name}
                 </div>
-              </a>
-            </Link>
-          </div>
-          ):('')}
+                <div className="absolute left-40 top-2 opacity-0 group-hover:opacity-100 cursor-pointer">
+                  {/* <PencilIcon className="h-4 w-4 text-indigo-400" /> */}
+                </div>
+              </div>
+              <Link href="" className="">
+                <a className="text-gray-500 text-xs font-semibold">
+                  <div className="flex gap-1 items-center capitalize">
+                    <LocationMarkerIcon className="w-5 h-5" />
+                    {userDetails.city}, {userDetails.country}
+                  </div>
+                </a>
+              </Link>
+            </div>
+          ) : ('')}
         </div>
         <div className="">
           <TabsProfileCard />

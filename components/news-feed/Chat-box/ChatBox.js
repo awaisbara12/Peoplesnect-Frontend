@@ -60,7 +60,7 @@ const Dropdown = ({ color }) => {
   return (
     <>
       <div className="flex flex-wrap">
-        <div className="absolute bottom-10 right-10">
+        <div className="fixed bottom-10 right-10">
           <div className="relative inline-flex align-middle w-full">
             <a
               className={
@@ -333,7 +333,7 @@ const Dropdown = ({ color }) => {
               className={
                 (dropdownPopoverShow1 ? "block" : "hidden ") +
                 (color === "white" ? "bg-white " : bgColor + " ") +
-                "text-base z-50 float-left list-none text-left rounded shadow-lg mb-1"
+                "text-base hidden z-50 float-left list-none text-left rounded shadow-lg mb-1"
               }
               style={{ minWidth: "25rem" }}
             >

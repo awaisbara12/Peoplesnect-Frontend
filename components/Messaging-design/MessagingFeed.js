@@ -8,7 +8,6 @@ import NewsSearch from "../news-feed/search/NewsSearch";
 import EventsCard from "../news-feed/eventcard/EventsCard";
 import Messaging from "./Messaging";
 import SugestedUser from "../news-feed/sugesteduser/SugestedUser";
-import ChatBox from "./Chat-box/ChatBox";
 import Messages from "./Inbox-Feed/Messages";
 import NewMessage from "./NewMessage";
 import TopNavbar from "../news-feed/navbar/TopNavbar";
@@ -35,7 +34,6 @@ const MessagingFeed = () => {
               <div className="flex mt-8">
                 <Messaging />
                 <NewMessage />
-                <ChatBox/>
               </div>
             </div>
             <div className="w-72 hidden md:block lg:block">

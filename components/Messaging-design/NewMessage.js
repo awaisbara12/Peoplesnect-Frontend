@@ -1,4 +1,4 @@
-import { PencilAltIcon } from "@heroicons/react/outline";
+import { ChatAltIcon, PencilAltIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 import React from "react";
 
@@ -10,8 +10,8 @@ const NewMessage = () => {
         <div className="font-bold  h-[747px] flex items-center justify-center">
           <Link href="/">
             <a href="" className="flex">
-              <PencilAltIcon className="w-5 h-5" />
-              type New Messages here
+              <ChatAltIcon className="w-5 h-5" />
+              4 Unread Messages
             </a>
           </Link>
         </div>
