@@ -1,4 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
+import AliceCarousel from "react-alice-carousel";
+import "react-alice-carousel/lib/alice-carousel.css";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -13,59 +15,6 @@ import productImage2 from "../../../public/images/product2.png";
 import productImage3 from "../../../public/images/product3.png";
 import productImage4 from "../../../public/images/product4.png";
 import {  PRODUCT_API } from "../../../pages/config";
-import AliceCarousel from "react-alice-carousel";
-
-// const ProductCetagory = [
-//   {
-//     heading: "✨ Latest Products",
-//     moreabout: "See All",
-//     dotIcon: DotsHorizontalIcon,
-//   },
-// ];
-
-// const ProductCard = [
-//   {
-//     image: productImage,
-//     title: "Adidas white soccer shoes set",
-//     price: 40,
-//     status: "New",
-//     catTitle: "Shoes",
-//     locationtitle: "New York",
-//     mapIcon: LocationMarkerIcon,
-//     catIcon: DocumentDuplicateIcon,
-//   },
-//   {
-//     image: productImage2,
-//     title: "Eartrh lotion for smooth skin",
-//     price: 78,
-//     status: "New",
-//     catTitle: "Cosmatics",
-//     locationtitle: "New York",
-//     mapIcon: LocationMarkerIcon,
-//     catIcon: DocumentDuplicateIcon,
-//   },
-//   {
-//     image: productImage3,
-//     title: "Adidas white soccer shoes set",
-//     price: 110,
-//     status: "New",
-//     catTitle: "EarPods",
-//     locationtitle: "New York",
-//     mapIcon: LocationMarkerIcon,
-//     catIcon: DocumentDuplicateIcon,
-//   },
-//   {
-//     image: productImage4,
-//     title: "Adidas white soccer shoes set",
-//     price: 110,
-//     status: "New",
-//     catTitle: "EarPods",
-//     locationtitle: "New York",
-//     mapIcon: LocationMarkerIcon,
-//     catIcon: DocumentDuplicateIcon,
-//   },
-// ];
-
 const HomeProducts = () => {
   const [Product, setProduct] = useState();
   // Bareer key
@@ -113,18 +62,17 @@ const HomeProducts = () => {
              
                 <div className="relative">
                   <AliceCarousel>
-                    {
-                      i.product_pic && i.product_pic.map((j)=>(
+                    {i.product_pic && i.product_pic.map((j)=>(
                         <Link href={{pathname:"/markeet-place/marketplace-show", query:i.id}} key={j}>
                         <a>
                         <img
                           src={j}
+                          key={j}
                           className="object-cover rounded-xl w-[1050px] h-[200px]"
                         />
                         </a>
                         </Link>
-                      ))
-                    }
+                      ))}
                   </AliceCarousel>
                   {/*  product price */}
                   <div className="absolute top-5 left-5">
@@ -139,7 +87,7 @@ const HomeProducts = () => {
                     </div>
                   </div>
                 </div>
-                <div className="lg:px-3 md:px-4 px-6 mt-4 mb-3">
+                <div className="lg:px-3 md:px-4 px-6 mt-0 mb-3">
                   {/*  Product title */}
                   <div className="flex justify-between items-center font-semibold lg:text-base md:text-sm mb-1.5">
                     <div className="">{i.name}</div>
