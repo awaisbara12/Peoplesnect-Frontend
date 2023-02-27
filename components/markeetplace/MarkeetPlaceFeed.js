@@ -29,7 +29,7 @@ return (
       <div className="flex xl:px-0 lg:px-4 md:px-8 px-2 lg:gap-6 md:gap-4 justify-between">
         <div className="mt-8">
           <HomeProducts />
-          <PropertyProducts />
+          {/* <PropertyProducts /> */}
         </div>
         <div className="w-72 hidden md:block lg:block">
           <div className="sticky top-20 z-20">

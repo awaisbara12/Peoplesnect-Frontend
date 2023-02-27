@@ -50,6 +50,8 @@ export const InviteFriends= process.env.NEXT_PUBLIC_INVITE_FRIENDS
 export const JOBS_API= process.env.NEXT_PUBLIC_JOBS_API
 export const USE_APPLY_JOB_API= process.env.NEXT_PUBLIC_APPLY_JOBS_API
 export const EVENT_API= process.env.NEXT_PUBLIC_EVENT_API
+export const CATEGORY_API= process.env.NEXT_PUBLIC_CATAGEROY_API
+export const PRODUCT_API= process.env.NEXT_PUBLIC_PRODUCT_API
 
 function Config() {
   return <></>;

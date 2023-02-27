@@ -1,7 +1,157 @@
 import { CloudUploadIcon } from "@heroicons/react/outline";
-import React from "react";
+import { update } from "draft-js/lib/DefaultDraftBlockRenderMap";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import { CATEGORY_API, PRODUCT_API } from "../../../pages/config";
 
 const AddYourItems = () => {
+  const [selectCategory, setselectCategory] = useState();  // map on category's select
+  const [category, setcategory] = useState();
+  const [name, setname] = useState();
+  const [color, setcolor] = useState();
+  const [price, setprice] = useState();
+  const [feature, setfeature] = useState();
+  const [contact, setcontact] = useState();
+  const [des, setdes] = useState();
+  const [productPic, setproductPic] = useState([]);
+  const [P_productPic, setP_productPic] = useState();
+
+
+  const router = useRouter();
+  const data = router.asPath;
+  const myArray = data.split("?");
+  //   Bareer key
+  if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore"); }
+  // Upload image
+  const handleImagePost = (e) => {
+    setproductPic(e.target.files);
+    if (e.target.files.length !== 0) {
+        setP_productPic(window.URL.createObjectURL(e.target.files[0]));
+    }
+  };
+  // Remove preview
+  const handleCoverReomve = (e) => {
+    setP_productPic(window.URL.revokeObjectURL(e.target.files));
+    setproductPic([]);
+   
+  };
+  // create/upload product
+  function createProduct() {
+    const dataForm = new FormData();
+    // if (productPic.length > 0) {
+      for (let i = 0; i < productPic.length; i++) {
+        dataForm.append(`products[product_pic][]`, productPic[i]);
+      }
+    // }
+    // dataForm.append("products[product_pic][]", productPic);
+    dataForm.append("products[category_id]", category);
+    dataForm.append("products[name]", name);
+    dataForm.append("products[color]", color);
+    dataForm.append("products[price]", price);
+    dataForm.append("products[feature]", feature);
+    dataForm.append("products[contact]", contact);
+    dataForm.append("products[description]", des);
+    fetch(PRODUCT_API, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },body:dataForm,
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          setselectCategory('');
+          setcategory('');
+          setname('');
+          setcolor('');
+          setprice('');
+          setfeature('');
+          setcontact('');
+          setdes('');
+          setP_productPic('');
+          setproductPic([])
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+  // get data to edit
+  function getEditableProduct() {
+    fetch(PRODUCT_API+"/"+myArray[1], {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          setcategory(result.data.category.id);
+          setname(result.data.name);
+          setcolor(result.data.color);
+          setprice(result.data.price);
+          setfeature(result.data.feature);
+          setcontact(result.data.contact);
+          setdes(result.data.description);
+          setP_productPic(result.data.product_pic)
+          
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+  // get all category
+  function getCategory() {
+    fetch(CATEGORY_API, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          setselectCategory(result.data)
+          if(myArray && myArray[1])
+          {
+            getEditableProduct();
+          }
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+
+  useEffect(() => {
+    getCategory();
+  },[])
+
+// Update product
+function UpdateProduct(id) {
+  const dataForm = new FormData();
+  if(productPic && productPic.length!=0){dataForm.append("products[product_pic][]", productPic);}
+  dataForm.append("products[category_id]", category);
+  dataForm.append("products[name]", name);
+  dataForm.append("products[color]", color);
+  dataForm.append("products[price]", price);
+  dataForm.append("products[feature]", feature);
+  dataForm.append("products[contact]", contact);
+  dataForm.append("products[description]", des);
+  fetch(PRODUCT_API+"/"+id, {
+    method: "PUT",
+    headers: {
+      Accept: "application/json",
+      Authorization: `${authKey}`,
+    },body:dataForm,
+  })
+    .then((resp) => resp.json())
+    .then((result) => {
+      if (result) {
+        router.push("/markeet-place/my-listing");
+      }
+    })
+    .catch((err) => console.log(err));
+}
   return (
     <div className="">
       <div className="bg-white p-5 rounded-xl">
@@ -13,12 +163,14 @@ const AddYourItems = () => {
                 <label htmlFor="" className="font-semibold">
                   Type Your Product Category:
                 </label>
-                <input
-                  type="text"
-                  name="search"
-                  placeholder="Type Your Product Category"
-                  className="w-96 bg-gray-100 py-2 px-3 mt-2 border-none rounded-xl focus:drop-shadow-indigo-400"
-                />
+                <select className="w-96 bg-gray-100 py-2 px-3 mt-2 border-none rounded-xl focus:drop-shadow-indigo-400"  
+                   value={category} onChange={(e)=>setcategory(e.target.value)} >
+                    <option></option>
+                    {selectCategory &&
+                      selectCategory.map((i)=>(
+                        <option value={i.id} key={i.id}>{i.name}</option>
+                      ))}
+                </select>
               </div>
               <div className="flex justify-between items-center my-4">
                 <label htmlFor="" className="font-semibold">
@@ -28,6 +180,8 @@ const AddYourItems = () => {
                   type="text"
                   name="search"
                   placeholder="Add Name"
+                  value={name}
+                  onChange={(e)=>setname(e.target.value)}
                   className="w-96 bg-gray-100 py-2 px-3 mt-2 border-none rounded-xl focus:drop-shadow-indigo-400"
                 />
               </div>
@@ -39,6 +193,8 @@ const AddYourItems = () => {
                   type="text"
                   name="search"
                   placeholder="Add Color"
+                  value={color}
+                  onChange={(e)=>setcolor(e.target.value)}
                   className="w-96 bg-gray-100 py-2 px-3 mt-2 border-none rounded-xl focus:drop-shadow-indigo-400"
                 />
               </div>
@@ -50,6 +206,8 @@ const AddYourItems = () => {
                   type="Number"
                   name=""
                   placeholder="Add Price"
+                  value={price}
+                  onChange={(e)=>setprice(e.target.value)}
                   className="w-96 bg-gray-100 py-2 px-3 mt-2 border-none rounded-xl focus:drop-shadow-indigo-400"
                 />
               </div>
@@ -61,6 +219,8 @@ const AddYourItems = () => {
                   type="text"
                   name="search"
                   placeholder="Add Features"
+                  value={feature}
+                  onChange={(e)=>setfeature(e.target.value)}
                   className="w-96 bg-gray-100 py-2 px-3 mt-2 border-none rounded-xl focus:drop-shadow-indigo-400"
                 />
               </div>
@@ -73,6 +233,8 @@ const AddYourItems = () => {
                   type="Number"
                   name=""
                   placeholder="Add Your Phone Number"
+                  value={contact}
+                  onChange={(e)=>setcontact(e.target.value)}
                   className="w-96 bg-gray-100 py-2 px-3 mt-2 border-none rounded-xl focus:drop-shadow-indigo-400"
                 />
               </div>
@@ -83,6 +245,8 @@ const AddYourItems = () => {
               </label>
               <div className="">
                 <textarea
+                  value={des}
+                  onChange={(e)=>setdes(e.target.value)}
                   className="placeholder:text-md bg-gray-100 placeholder:rounded-full  border-none w-96 rounded-xl"
                   placeholder="Write Description About Your Product....."
                   type="textarea"
@@ -98,6 +262,15 @@ const AddYourItems = () => {
                 htmlFor="dropzone-file"
                 className="flex flex-col justify-center items-center w-96 h-32 bg-gray-50 rounded-lg border-2 border-gray-300 border-dashed cursor-pointer dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
               >
+                {P_productPic?(
+                  <div className="flex flex-col justify-center items-center pt-5 pb-6">
+                  
+                  <img
+                   src={P_productPic}
+                   className="object-cover w-[200px] h-[200px]"
+                  />
+                </div>
+                ):(
                 <div className="flex flex-col justify-center items-center pt-5 pb-6">
                   <CloudUploadIcon className="w-10 h-10 text-gray-400" />
                   <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
@@ -108,13 +281,32 @@ const AddYourItems = () => {
                     SVG, PNG, JPG
                   </p>
                 </div>
+                )}
               </label>
-              <input id="dropzone-file" type="file" className="hidden" />
+              <input id="dropzone-file" type="file" multiple onChange={handleImagePost} className="hidden" />
             </div>
+            
+            
             <div className="flex justify-center mt-7">
-              <div className="bg-indigo-400 text-white p-3 rounded-xl font-bold">
+              {myArray && myArray[1]?(
+                <div onClick={()=>UpdateProduct(myArray[1])}
+                  className="bg-indigo-400 text-white p-3 rounded-xl font-bold">
+                  Update Product
+                </div>
+              ):
+              (
+              name && color && category && feature && des && contact && price && productPic.length!==0?(
+              <div onClick={()=>createProduct()}
+                className="bg-indigo-400 text-white p-3 rounded-xl font-bold">
                 Post Your Add
               </div>
+              )
+              :
+              (
+                <div className="bg-indigo-100  text-white p-3 rounded-xl font-bold">
+                  Post Your Add
+                </div>
+              ))}
             </div>
           </div>
         </div>
