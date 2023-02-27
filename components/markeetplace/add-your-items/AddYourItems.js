@@ -1,4 +1,4 @@
-import { CloudUploadIcon } from "@heroicons/react/outline";
+import { CloudUploadIcon, TrashIcon } from "@heroicons/react/outline";
 import { update } from "draft-js/lib/DefaultDraftBlockRenderMap";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -14,9 +14,7 @@ const AddYourItems = () => {
   const [contact, setcontact] = useState();
   const [des, setdes] = useState();
   const [productPic, setproductPic] = useState([]);
-  const [P_productPic, setP_productPic] = useState();
-
-
+  const [P_productPic, setP_productPic] = useState([]);
   const router = useRouter();
   const data = router.asPath;
   const myArray = data.split("?");
@@ -25,9 +23,12 @@ const AddYourItems = () => {
   // Upload image
   const handleImagePost = (e) => {
     setproductPic(e.target.files);
-    if (e.target.files.length !== 0) {
-        setP_productPic(window.URL.createObjectURL(e.target.files[0]));
+    var pres=[];
+    for (var i=0; i<e.target.files.length; i++)
+    {
+        pres[i] = window.URL.createObjectURL(e.target.files[i]);
     }
+    setP_productPic(pres)
   };
   // Remove preview
   const handleCoverReomve = (e) => {
@@ -38,12 +39,9 @@ const AddYourItems = () => {
   // create/upload product
   function createProduct() {
     const dataForm = new FormData();
-    // if (productPic.length > 0) {
       for (let i = 0; i < productPic.length; i++) {
         dataForm.append(`products[product_pic][]`, productPic[i]);
       }
-    // }
-    // dataForm.append("products[product_pic][]", productPic);
     dataForm.append("products[category_id]", category);
     dataForm.append("products[name]", name);
     dataForm.append("products[color]", color);
@@ -125,11 +123,14 @@ const AddYourItems = () => {
   useEffect(() => {
     getCategory();
   },[])
-
 // Update product
 function UpdateProduct(id) {
   const dataForm = new FormData();
-  if(productPic && productPic.length!=0){dataForm.append("products[product_pic][]", productPic);}
+  if(productPic && productPic.length!=0){
+    for (let i = 0; i < productPic.length; i++) {
+      dataForm.append(`products[product_pic][]`, productPic[i]);
+    }
+  }
   dataForm.append("products[category_id]", category);
   dataForm.append("products[name]", name);
   dataForm.append("products[color]", color);
@@ -256,21 +257,13 @@ function UpdateProduct(id) {
                 />
               </div>
             </div>
+            {P_productPic && P_productPic!=0?(''):(
             <div className="flex justify-between w-full">
               <div className="font-semibold">Add Photos:</div>
               <label
                 htmlFor="dropzone-file"
                 className="flex flex-col justify-center items-center w-96 h-32 bg-gray-50 rounded-lg border-2 border-gray-300 border-dashed cursor-pointer dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
               >
-                {P_productPic?(
-                  <div className="flex flex-col justify-center items-center pt-5 pb-6">
-                  
-                  <img
-                   src={P_productPic}
-                   className="object-cover w-[200px] h-[200px]"
-                  />
-                </div>
-                ):(
                 <div className="flex flex-col justify-center items-center pt-5 pb-6">
                   <CloudUploadIcon className="w-10 h-10 text-gray-400" />
                   <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
@@ -281,14 +274,29 @@ function UpdateProduct(id) {
                     SVG, PNG, JPG
                   </p>
                 </div>
-                )}
               </label>
               <input id="dropzone-file" type="file" multiple onChange={handleImagePost} className="hidden" />
-            </div>
-            
-            
+            </div>)}
+            {P_productPic && P_productPic!=0?(
+            <div className="flex justify-center ">
+              {P_productPic.map((i)=>(
+                <img
+                  src={i}
+                  key={i}
+                  className="object-cover rounded-xl w-[100px] h-[100px] ml-2"
+                />
+              ))}
+              <div className="flex items-center gap-3 justify-center text-white pl-2">
+                <TrashIcon className="h-5 w-5 text-gray-900" onClick={()=>{setP_productPic([])}} />
+                {/* <div>
+                  <p className="text-sm font-medium text-gray-900">
+                    Delete
+                  </p>
+                </div> */}
+              </div>
+            </div>):('')}
             <div className="flex justify-center mt-7">
-              {myArray && myArray[1]?(
+              {myArray && myArray[1] && name && color && category && feature && des && contact && price && setP_productPic.length!==0?(
                 <div onClick={()=>UpdateProduct(myArray[1])}
                   className="bg-indigo-400 text-white p-3 rounded-xl font-bold">
                   Update Product
@@ -308,6 +316,10 @@ function UpdateProduct(id) {
                 </div>
               ))}
             </div>
+
+                 
+                  
+
           </div>
         </div>
       </div>

@@ -61,7 +61,7 @@ const MarketplaceShow = () => {
       <div className="">
         <AliceCarousel>
         {
-          Product.product_pic.map((i)=>(
+         Product.product_pic.map((i)=>(
             <img
               src={i}
               key={i}
@@ -69,37 +69,7 @@ const MarketplaceShow = () => {
             />
           ))
         }
-          {/* <img
-            src={Product.product_pic[0]}
-            // width={1050}
-            // height={300}
-            className="object-cover rounded-xl w-[1050px] h-[300px]"
-          />
-          <Image
-            src={productImage1}
-            width={1050}
-            height={300}
-            className="object-cover rounded-xl"
-          />
-          <Image
-            src={productImage3}
-            width={1050}
-            height={300}
-            className="object-cover rounded-xl"
-          />
-          <Image
-            src={productImage4}
-            width={1050}
-            height={300}
-            className="object-cover rounded-xl"
-          />
-          <Image
-            src={productImage5}
-            width={1050}
-            height={300}
-            className="object-cover rounded-xl"
-          /> */}
-           </AliceCarousel>
+        </AliceCarousel>
        
       </div>
       ):('')}

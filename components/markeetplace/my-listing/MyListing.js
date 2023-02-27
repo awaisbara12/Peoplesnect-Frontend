@@ -69,13 +69,12 @@ const MyListing = () => {
                    
                         <div className="flex items-center gap-5">
                           {
-                            i.product_pic && i.product_pic.slice(i.product_pic.length-1).map((j)=>(
+                            i.product_pic?(
                               <img
-                                key={j}
-                                src={j}
+                                src={i.product_pic[0]}
                                 className="object-cover rounded-xl w-[100px] h-[80px]"
                               />
-                            ))
+                            ):('')
                           }
                           <div className="">
                             <div className="username text-sm font-bold">{i.name}</div>
