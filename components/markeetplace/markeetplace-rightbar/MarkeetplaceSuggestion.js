@@ -21,10 +21,10 @@ const MarkeetplaceSuggestion = () => {
         <div className="text-base font-bold">
           Products Suggestions
         </div>
-        <Link href="">
-          <a href="">
+        <Link href="/markeet-place/my-listing">
+          <a>
             <div className="px-3 hover:bg-gray-100 rounded-xl flex justify-between items-center mt-4">
-                <p className="text-sm font-light">Latest Products</p>
+                <p className="text-sm font-light">My Product</p>
                 <StarIcon className="w-5 h-5 text-indigo-400" />
             </div>
           </a>

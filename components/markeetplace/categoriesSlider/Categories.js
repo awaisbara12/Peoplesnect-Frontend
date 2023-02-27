@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import Link from "next/link";
 import {
   TruckIcon,
@@ -37,6 +37,7 @@ const CategoryCard = [
 ];
 
 const MarkeetplaceCategories = () => {
+  
   return (
     <Fragment>
       <div className="flex justify-between items-center">

@@ -1,78 +1,29 @@
-import React, { Fragment, useEffect, useState } from "react";
-import Link from "next/link";
 import Image from "next/image";
-import {
-  DotsHorizontalIcon,
-  LocationMarkerIcon,
-  DocumentDuplicateIcon,
-  MapIcon,
-} from "@heroicons/react/outline";
-import { ShoppingCartIcon } from "@heroicons/react/solid";
-import productImage from "../../../public/images/product1.png";
-import productImage2 from "../../../public/images/product2.png";
-import productImage3 from "../../../public/images/product3.png";
-import productImage4 from "../../../public/images/product4.png";
-import {  PRODUCT_API } from "../../../pages/config";
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
 import AliceCarousel from "react-alice-carousel";
+import "react-alice-carousel/lib/alice-carousel.css";
+import productImage1 from "../../../public/images/71zny7BTRlL._AC_SX522_.jpg";
+import productImage2 from "../../../public/images/intro-1645809394.jpg";
+import productImage3 from "../../../public/images/airpodsprom.webp";
+import productImage4 from "../../../public/images/Apple-AirPods-Pro-12.webp";
+import productImage5 from "../../../public/images/266-hero.jpg";
+import { PRODUCT_API } from "../../../pages/config";
+import { useRouter } from "next/router";
+import { DocumentDuplicateIcon, LocationMarkerIcon } from "@heroicons/react/outline";
 
-// const ProductCetagory = [
-//   {
-//     heading: "✨ Latest Products",
-//     moreabout: "See All",
-//     dotIcon: DotsHorizontalIcon,
-//   },
-// ];
 
-// const ProductCard = [
-//   {
-//     image: productImage,
-//     title: "Adidas white soccer shoes set",
-//     price: 40,
-//     status: "New",
-//     catTitle: "Shoes",
-//     locationtitle: "New York",
-//     mapIcon: LocationMarkerIcon,
-//     catIcon: DocumentDuplicateIcon,
-//   },
-//   {
-//     image: productImage2,
-//     title: "Eartrh lotion for smooth skin",
-//     price: 78,
-//     status: "New",
-//     catTitle: "Cosmatics",
-//     locationtitle: "New York",
-//     mapIcon: LocationMarkerIcon,
-//     catIcon: DocumentDuplicateIcon,
-//   },
-//   {
-//     image: productImage3,
-//     title: "Adidas white soccer shoes set",
-//     price: 110,
-//     status: "New",
-//     catTitle: "EarPods",
-//     locationtitle: "New York",
-//     mapIcon: LocationMarkerIcon,
-//     catIcon: DocumentDuplicateIcon,
-//   },
-//   {
-//     image: productImage4,
-//     title: "Adidas white soccer shoes set",
-//     price: 110,
-//     status: "New",
-//     catTitle: "EarPods",
-//     locationtitle: "New York",
-//     mapIcon: LocationMarkerIcon,
-//     catIcon: DocumentDuplicateIcon,
-//   },
-// ];
 
-const HomeProducts = () => {
+const Category = () => {
   const [Product, setProduct] = useState();
+  const router = useRouter();
+  const data = router.asPath;
+  const myArray = data.split("?");
   // Bareer key
   if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore"); }
   //  Get All product
   function product() {
-    fetch(PRODUCT_API, {
+    fetch(PRODUCT_API+"/category_product?id="+myArray[1], {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -90,28 +41,31 @@ const HomeProducts = () => {
 
   useEffect(() => {
     product();
-  },[])
+  },[myArray[1]])
   return (
-    <Fragment>
-      {/* {ProductCetagory.map((category, i) => (
-        <div key={i} className="flex justify-between font-semibold text-xl">
-          <Link href="">
-            <a>
-              <div className="">{category.heading}ss</div>
-            </a>
-          </Link>
-        </div>
-      ))} */}
-
+    <div className="w-[720px] xl:w-[1050px] lg:w-[780px] md:w-[850px] px-5 md:px-0 lg:px-0">
+     {Product && Product.length !=0?( 
       <div className="flex justify-between font-semibold text-xl">
-        <div className="">Latest Product</div>
+        <div className="capitalize">{Product[0].category.name}</div>
       </div>
+      ):(
+        <div className="flex justify-between font-semibold text-xl">
+          <div className="">No Product Found</div>
+        </div>
+      )}
       <div className="w-[720px] xl:w-[1020px] lg:w-[700px] md:w-[760px] px-5 md:px-0 lg:px-0">
       <div className="grid xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2 grid-cols-1 gap-8 mx-auto">
-          {Product && Product.map((i) => (
+          {Product && Product.length !=0 &&  Product.map((i) => (
             <div key={i.id} className="bg-white w-auto h-auto rounded-xl mt-6">
              
                 <div className="relative">
+                  {/* <img
+                    src={i.product_pic}
+                    width={726}
+                    height={530}
+                    className="object-cover rounded-xl w-[726px] h-[200px]"
+                    placeholder="blur"
+                  /> */}
                   <AliceCarousel>
                     {
                       i.product_pic && i.product_pic.map((j)=>(
@@ -152,25 +106,25 @@ const HomeProducts = () => {
                     </div>
                     <div className="flex items-center lg:gap-2 md:gap-1">
                       <DocumentDuplicateIcon className="h-5 w-5" />
-                      <div className="">{i.category?i.category.name:''}</div>
+                      <div className="">{i.category.name}</div>
                     </div>
                   </div>
                   <Link href={{pathname:"/markeet-place/marketplace-show", query:i.id}}>
-                    <a className="flex justify-end">
+                   <a> 
+                    <div className="flex justify-end">
                       <div className="border font-semibold text-xs border-indigo-400 text-center text-indigo-400 w-22 mt-4 p-2 rounded-full">
                         Show Details
                       </div>
-                    </a>
-                  </Link>
+                    </div>
+                   </a>
+                   </Link>
                 </div>
-               {/* </a>
-              </Link> */}
             </div>
           ))}
         </div>
       </div>
-    </Fragment>
+    </div>
   );
 };
 
-export default HomeProducts;
+export default Category;
