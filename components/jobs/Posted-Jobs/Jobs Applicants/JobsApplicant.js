@@ -29,6 +29,7 @@ const JobsApplicant = () => {
       .then((result) => {
         if (result) {
           setuser(result.data)
+          console.log(result.data)
         }
       })
       .catch((err) => console.log(err));
@@ -80,7 +81,7 @@ const JobsApplicant = () => {
                       <div className="">
                         <div className="font-bold capitalize">{i.first_name} {i.last_name}</div>
                         <div className="">User Applied on Job</div>
-                        <div className="font-light text-sm">2Hours Ago</div>
+                        {/* <div className="font-light text-sm">2Hours Ago</div> */}
                       </div>
                     </a>
                   {/* </Link> */}

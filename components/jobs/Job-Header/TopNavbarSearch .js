@@ -57,10 +57,9 @@ const TopNavbarSearch = () => {
     setvalue(event.target.value);
     if (event.target.value.length == 0)
     {
-      // console.log("Hello");
       setresults('');
     }else{
-      await fetch(SEARCH_MULTIPLE+"?query="+event.target.value, {
+      await fetch(SEARCH_MULTIPLE+"?query="+event.target.value+"&type=Job", {
         method: "GET",
          headers: {
           Accept: "application/json", 
@@ -86,12 +85,8 @@ const TopNavbarSearch = () => {
   return (
     <div className="flex items-center gap-2">
       <label className="relative block">
-        <span className="absolute inset-y-0 left-0 flex items-center pl-7">
-          <Link href="/">
-            <a>
+        <span className="absolute inset-y-0 left-0 flex items-center pl-7 cursor-pointer">
               <SearchIcon className="text-slate-400 h-5 w-5" />
-            </a>
-          </Link>
         </span>
         <div
           className="text-slate-400 hover:shadow-xl bg-gray-100 w-62 md:w-56  rounded-xl border-none pl-14 cursor-text"
@@ -99,7 +94,7 @@ const TopNavbarSearch = () => {
           onClick={openModal}
           type="text"
           name="search"
-        > Search
+        > Search Jobs
           </div>
               <div className="">
                 <Transition appear show={isOpen} as={Fragment}>
@@ -143,7 +138,7 @@ const TopNavbarSearch = () => {
                                       <input 
                                       className="focus:text-slate-400 focus:border-none bg-transparent text-slate-400 w-full border-none rounded-3xl"
                                       type="text"
-                                      placeHolder="Search"
+                                      placeHolder="Search Jobs"
                                       onChange={searchmultiples}
                                       onKeyPress={handleKeypress}
                                       />
@@ -269,7 +264,7 @@ const TopNavbarSearch = () => {
                                               <div className="">
                                                 <div className="flex gap-4 items-center">
                                                 <div className="font-bold">{i.blog.title}</div>
-                                                <div className="font-extralight text-xs italic font-serif">Article</div>
+                                                <div className="font-extralight text-xs italic font-serif">Blog</div>
                                                 </div>
                                                 <div className="font-light text-xs"> {i.blog.reaction_count == null ?(0):(i.blog.reaction_count)} Likes</div>
                                               </div>
@@ -277,7 +272,7 @@ const TopNavbarSearch = () => {
                                           </Link>
                                         ):(
                                           i.searchable_type && i.searchable_type=="Hashtag"?(
-                                          <Link  href={{pathname: "/hashtag-design/hashtags-show", query: i.hashtag.id}} key={i.hashtag.id}>
+                                          <Link  href={{pathname: "hashtag-design/hashtags-show", query: i.hashtag.id}} key={i.hashtag.id}>
                                             <a className="flex items-center gap-2 p-2 border-b">
                                               <div className="flex justify-between items-center hover:bg-gray-100" >
                                                 <div className="py-2 px-4 rounded-full hover:bg-gray-100">
@@ -316,42 +311,16 @@ const TopNavbarSearch = () => {
                                                 </div>
                                                 </a>
                                               </Link>
-                                            ):(
-                                              i.searchable_type && i.searchable_type=="Product"?(
-                                                <Link  href={{pathname: "/markeet-place/marketplace-show", query: i.product.id}} key={i.product.id}>
-                                                  <a className="flex items-center gap-2 p-2 border-b" >
-                                                    {i.product && i.product.product_pic?
-                                                      (
-                                                        <img
-                                                          src={i.product.product_pic[0]}
-                                                          className="object-cover rounded-full z-40 h-[42px] w-[42px]"
-                                                          alt=""
-                                                        />
-                                                      ) : (
-                                                        <Image
-                                                          src={Compnylogo1}
-                                                          width={45}
-                                                          height={45}
-                                                          alt=""
-                                                        />
-                                                      )
-                                                    }
-                                                    <div className="">
-                                                    <div className="flex gap-4 items-center">
-                                                    <div className="font-bold">{i.product.name} </div>
-                                                    <div className="font-extralight text-xs italic font-serif">MarketPlace</div>
-                                                    </div>
-                                                    <div className="font-light text-xs">{i.product.category.name}</div>
-                                                  </div>
-                                                  </a>
-                                                </Link>
-                                              ):('')
-                                            )
+                                            ):('')
                                         ))
                                       )
                                     )
                                   )
                                   }
+                                  
+                                   
+                                      
+                                  
                                  
                                   
                                   {/* <Link href="/search/marketplace-search">
@@ -390,8 +359,6 @@ const TopNavbarSearch = () => {
                                       </div>
                                     </a>
                                   </Link> */}
-
-
                                 </div>
                                 ))}
                               </div>
@@ -410,14 +377,21 @@ const TopNavbarSearch = () => {
                               </div> */}
                               {results && results.length>0?(
                                  <div className="text-right border-t px-6">
+                                 {/* <Link href={{pathname: "/search", query: value,}}>
+                                 <a href=""> */}
                                    <button className="mt-2 border-indigo-400 border text-indigo-400 px-2 py-1 rounded-full font-small"
                                     onClick={()=>pagemove()} >
                                      Show more
                                    </button>
+                                 {/* </a>
+                                 </Link> */}
                                </div>
                               ):('')
+                               
                               }
+                              
                           </Dialog.Panel>
+                          
                         </Transition.Child>
                       </div>
                     </div>

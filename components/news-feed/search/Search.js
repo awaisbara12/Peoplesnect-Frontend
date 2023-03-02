@@ -2,8 +2,10 @@ import React, { useEffect } from "react";
 import Blog from "./Blog";
 import Group from "./Group";
 import Hashtag from "./Hashtag";
+import Job from "./Job";
 import Page from "./Page";
 import People from "./People";
+import MerketPlace from "./MerketPlace";
 
 const Search = () => {
   const [openTab, setOpenTab] = React.useState(1);
@@ -50,7 +52,7 @@ const Search = () => {
                     href="#link2"
                     role="tablist"
                   >
-                   Group
+                   Groups
                   </a>
                 </li>
                 <li className="">
@@ -88,7 +90,7 @@ const Search = () => {
                     href="#link4"
                     role="tablist"
                   >
-                   Blog
+                   Articles
                   </a>
                 </li>
                 <li className="">
@@ -107,7 +109,45 @@ const Search = () => {
                     href="#link5"
                     role="tablist"
                   >
-                   Hashtag
+                   Hashtags
+                  </a>
+                </li>
+                <li className="">
+                  <a
+                    className={
+                      "" +
+                      (openTab === 6
+                        ? "border-b-3 font-bold pb-4 text-indigo-400 border-indigo-400"
+                        : "")
+                    }
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setOpenTab(6);
+                    }}
+                    data-toggle="tab"
+                    href="#link5"
+                    role="tablist"
+                  >
+                   Jobs
+                  </a>
+                </li>
+                <li className="">
+                  <a
+                    className={
+                      "" +
+                      (openTab === 7
+                        ? "border-b-3 font-bold pb-4 text-indigo-400 border-indigo-400"
+                        : "")
+                    }
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setOpenTab(7);
+                    }}
+                    data-toggle="tab"
+                    href="#link5"
+                    role="tablist"
+                  >
+                   MarketPlace
                   </a>
                 </li>
               </ul>
@@ -130,6 +170,12 @@ const Search = () => {
             </div>
             <div className={openTab === 5 ? "block" : "hidden"} id="link5">
               <Hashtag/>
+            </div>
+            <div className={openTab === 6 ? "block" : "hidden"} id="link5">
+              <Job/>
+            </div>
+            <div className={openTab === 7 ? "block" : "hidden"} id="link5">
+              <MerketPlace/>
             </div>
           </div>
         </div>
