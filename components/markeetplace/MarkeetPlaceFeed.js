@@ -6,7 +6,7 @@ import HomeProducts from "./products/LatestProducts";
 import MarkeetplaceSuggestion from "./markeetplace-rightbar/MarkeetplaceSuggestion";
 import PropertyProducts from "./products/PropertyProducts";
 import MobileNavbar from "./navbar/MobileNavbar";
-import TopNavbar from "../news-feed/navbar/TopNavbar";
+import TopNavbar from "./MarketPlace-Header/TopNavbar";
 import FooterNewsFeed from "../news-feed/newsfeed/newsfeedfooter/FooterNewsFeed";
 
 const MarkeetPlaceFeed = () => {

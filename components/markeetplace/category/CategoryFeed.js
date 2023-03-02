@@ -8,7 +8,7 @@ import MarkeetPlaceSideBar from "../markeetplace-rightbar/MarkeetPlaceSideBar";
 import MarkeetplaceSuggestion from "../markeetplace-rightbar/MarkeetplaceSuggestion";
 import Category from "./Category";
 import MarkeetplaceNavbar from "../navbar/MarkeetplaceNavbar";
-import TopNavbar from "../../news-feed/navbar/TopNavbar";
+import TopNavbar from "../MarketPlace-Header/TopNavbar";
 import EventsCard from "../../news-feed/eventcard/EventsCard";
 import FooterNewsFeed from "../../news-feed/newsfeed/newsfeedfooter/FooterNewsFeed";
 

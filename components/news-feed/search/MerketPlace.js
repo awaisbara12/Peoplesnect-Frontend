@@ -17,7 +17,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const Hashtag = () => {
+const MerketPlace = () => {
   const [followee, setfollowee] = useState();
   let [results, setresults] = useState();
 
@@ -28,7 +28,7 @@ const Hashtag = () => {
    if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore"); }
 
   const searchmultiples  = async() =>{
-      await fetch(SEARCH_MULTIPLE+"?query="+myArray[1]+"&type=Hashtag", {
+      await fetch(SEARCH_MULTIPLE+"?query="+myArray[1]+"&type=Product", {
         method: "GET",
          headers: {
           Accept: "application/json", 
@@ -50,28 +50,55 @@ const Hashtag = () => {
     <div className="">
       <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
         <div className="bg-white rounded-b-xl">
+         
+
           {results?(
             results.map((i)=>(
             <div className="border-b-1" key={i.id}>
-            <Link  href={{pathname: "/hashtag-design/hashtags-show", query: i.hashtag.id}} key={i.hashtag.id}>
-              <div className="flex items-center gap-2 p-2 ">
-                <a className="flex items-center gap-2 p-2 ">
-                  <div className="flex justify-between items-center hover:bg-gray-100" >
-                  <div className="py-2 px-4 rounded-full hover:bg-gray-100 cursor-pointer">
-                      <div className="font-bold cursor-pointer">{i.hashtag.name}</div>
-                      <div className="mt-1 cursor-pointer">{i.hashtag.count} tags</div>
+            <div className="Followings-profile flex  px-4 py-4 justify-between items-center">
+            <Link 
+              href={{
+              pathname: "/markeet-place/marketplace-show",
+              query: i.product.id,
+            }}>
+            <a>
+              <div className="flex items-center gap-3">
+                {i.product && i.product.product_pic ?
+                  (
+                    <img
+                      src={i.product.product_pic[0]}
+                      className="object-cover rounded z-40 h-[42px] w-[42px]"
+                      alt=""
+                    />
+                  ) : (
+                    <Image
+                      src={ProfileAvatar}
+                      width={45}
+                      height={45}
+                      alt=""
+                    />
+                  )
+                }
+                <div className="">
+                  <div className="flex gap-4 items-center">
+                  <div className="font-bold">{i.product.name}</div>
                   </div>
-                  </div>
-                </a>
+                  <div className="font-light text-xs"> {i.product.category.name}</div>
+                </div>
               </div>
-            </Link>
+            </a>
+            </Link> 
+             
+            </div>
             </div> 
             ))
           ):('')}
+          
+          
         </div>
       </div>
     </div>
   );
 };
 
-export default Hashtag;
+export default MerketPlace;

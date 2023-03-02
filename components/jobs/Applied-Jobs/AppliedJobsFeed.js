@@ -4,7 +4,7 @@ import ProfileCard from "../../news-feed/profilecard/ProfileCard";
 import AddNewJob from "./../AddNewJob";
 import JobsNav from "../../news-feed/navbar/mobile-navbar/JobsNav";
 import JobsSideBar from "../../news-feed/sugesteduser/JobsSideBar";
-import TopNavbar from "../../news-feed/navbar/TopNavbar";
+import TopNavbar from "../Job-Header/TopNavbar";
 import EventsCard from "../../news-feed/eventcard/EventsCard";
 import FooterNewsFeed from "../../news-feed/newsfeed/newsfeedfooter/FooterNewsFeed";
 import JobsBottomBar from "../../news-feed/navbar/JobsBottomBar";

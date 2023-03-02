@@ -27,7 +27,7 @@ const NewsFeedDashboard = () => {
   }
 
   const getNewsFeed = async () => {
-    const res = await axios(GET_CONNECTION_AND_FOLLOWING_NEWS_FEEDS + "?page=" + currentpage, {
+    const res = await axios(GET_CONNECTION_AND_FOLLOWING_NEWS_FEEDS +"?page=" + currentpage, {
       method: "GET",
       headers: {
         Accept: "application/json",
