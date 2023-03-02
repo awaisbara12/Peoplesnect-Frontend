@@ -92,7 +92,7 @@ const SavedJobs = () => {
                             <div className="username text-sm font-bold">{i.jobs.title}</div>
                             <div className="userfield font-light">{i.jobs.employeement_type}</div>
                             <div className="userfield font-extralight">{i.jobs.job_location}</div>
-                            <div className="mt-8 font-thin">job Posted 2days Ago</div>
+                            <div className=" font-thin">job Posted: {i.jobs.created_at}</div>
                           </div>
                         </div>
                       </a>
@@ -119,7 +119,7 @@ const SavedJobs = () => {
                           <div className="flex items-start flex-col gap-2 border-1 rounded-xl p-2">
                             <Menu.Item>
                               {({ active }) => (
-                                <a onClick={()=>removeSavedJob(i.id)} className={classNames("text-sm flex py-2 border-b gap-2")}>
+                                <a onClick={()=>removeSavedJob(i.id)} className={classNames("cursor-pointer text-sm flex py-2 border-b gap-2")}>
                                   <BookmarkIcon className="h-5 w-5" />
                                   Remove From Saved
                                 </a>
@@ -132,7 +132,7 @@ const SavedJobs = () => {
                                   onClick={()=>copylink(i.jobs.id)}
                                   className={classNames(
                                     active ? "" : "",
-                                    "text-sm flex gap-2"
+                                    "text-sm flex gap-2 cursor-pointer"
                                   )}
                                 >
                                   <ClipboardCopyIcon className="h-5 w-5" />
@@ -150,250 +150,14 @@ const SavedJobs = () => {
             ))
           ):('')}
           
-          
-          {/* <div className="border-b-1">
-            <div className="jobs-profile px-4 py-10 ">
-              <div className="flex  justify-between">
-                <div className="flex items-center gap-5">
-                  <Link href="/news-feed">
-                    <a>
-                      <Image src={Compnylogo} width={92} height={92} alt="" />
-                    </a>
-                  </Link>
-                  <div className="">
-                    <a href="">
-                      <div className="username text-sm font-bold">
-                        Software Development Engineer - Graduate 2021/2022,
-                        Trilogy (Remote) - $60,000/year USD
-                      </div>
-                    </a>
-                    <a href="">
-                      <div className="userfield font-light">Company Type</div>
-                    </a>
-                    <a href="">
-                      <div className="userfield font-extralight">
-                        Company Location
-                      </div>
-                    </a>
-
-                    <div className="mt-8 font-thin">job Posted 2days Ago</div>
-                  </div>
-                </div>
-                <Menu as="div" className="relative inline-block text-left">
-                  <div>
-                    <Menu.Button className="inline-flex justify-center">
-                      <DotsHorizontalIcon
-                        className="-mr-1 ml-2 h-5 w-5"
-                        aria-hidden="true"
-                      />
-                    </Menu.Button>
-                  </div>
-
-                  <Transition
-                    as={Fragment}
-                    enter="transition ease-out duration-100"
-                    enterFrom="transform opacity-0 scale-95"
-                    enterTo="transform opacity-100 scale-100"
-                    leave="transition ease-in duration-75"
-                    leaveFrom="transform opacity-100 scale-100"
-                    leaveTo="transform opacity-0 scale-95"
-                  >
-                    <Menu.Items className="absolute top-6 w-48 right-0">
-                      <div className="flex items-start flex-col gap-2 border-1 rounded-xl p-2">
-                        <Menu.Item>
-                          {({ active }) => (
-                            <a href="#" className={classNames("text-sm flex py-2 border-b gap-2")}>
-                              <BookmarkIcon className="h-5 w-5" />
-                              Remove From Saved
-                            </a>
-                          )}
-                        </Menu.Item>
-
-                        <Menu.Item>
-                          {({ active }) => (
-                            <a
-                              href="#"
-                              className={classNames(
-                                active ? "" : "",
-                                "text-sm flex gap-2"
-                              )}
-                            >
-                              <ClipboardCopyIcon className="h-5 w-5" />
-                              Copy Link For Share
-                            </a>
-                          )}
-                        </Menu.Item>
-                      </div>
-                    </Menu.Items>
-                  </Transition>
-                </Menu>
-              </div>
-            </div>
-          </div>
-          <div className="border-b-1">
-            <div className="jobs-profile px-4 py-10 ">
-              <div className="flex  justify-between">
-                <div className="flex items-center gap-5">
-                  <Link href="/news-feed">
-                    <a>
-                      <Image src={Compnylogo1} width={92} height={92} alt="" />
-                    </a>
-                  </Link>
-                  <div className="">
-                    <a href="">
-                      <div className="username text-sm font-bold">
-                        Social Media Evaluation Project for Online Mystery
-                        Shoppers for Punjabi Speakers in Pakistan
-                      </div>
-                    </a>
-                    <a href="">
-                      <div className="userfield font-light">Company Type</div>
-                    </a>
-                    <a href="">
-                      <div className="userfield font-extralight">
-                        Company Location
-                      </div>
-                    </a>
-
-                    <div className="mt-8 font-thin">job Posted 2days Ago</div>
-                  </div>
-                </div>
-                <Menu as="div" className="relative inline-block text-left">
-                  <div>
-                    <Menu.Button className="inline-flex justify-center">
-                      <DotsHorizontalIcon
-                        className="-mr-1 ml-2 h-5 w-5"
-                        aria-hidden="true"
-                      />
-                    </Menu.Button>
-                  </div>
-
-                  <Transition
-                    as={Fragment}
-                    enter="transition ease-out duration-100"
-                    enterFrom="transform opacity-0 scale-95"
-                    enterTo="transform opacity-100 scale-100"
-                    leave="transition ease-in duration-75"
-                    leaveFrom="transform opacity-100 scale-100"
-                    leaveTo="transform opacity-0 scale-95"
-                  >
-                    <Menu.Items className="absolute top-6 w-48 right-0">
-                      <div className="flex items-start flex-col gap-2 border-1 rounded-xl p-2">
-                        <Menu.Item>
-                          {({ active }) => (
-                            <a href="#" className={classNames("text-sm flex py-2 border-b gap-2")}>
-                              <BookmarkIcon className="h-5 w-5" />
-                              Remove From Saved
-                            </a>
-                          )}
-                        </Menu.Item>
-
-                        <Menu.Item>
-                          {({ active }) => (
-                            <a
-                              href="#"
-                              className={classNames(
-                                active ? "" : "",
-                                "text-sm flex  pb-2 gap-2"
-                              )}
-                            >
-                              <ClipboardCopyIcon className="h-5 w-5" />
-                              Copy Link For Share
-                            </a>
-                          )}
-                        </Menu.Item>
-                      </div>
-                    </Menu.Items>
-                  </Transition>
-                </Menu>
-              </div>
-            </div>
-          </div>
-          <div className="border-b-1">
-            <div className="jobs-profile px-4 py-10 ">
-              <div className="flex  justify-between">
-                <div className="flex items-center gap-5">
-                  <Link href="/news-feed">
-                    <a>
-                      <Image src={Compnylogo2} width={92} height={92} alt="" />
-                    </a>
-                  </Link>
-                  <div className="">
-                    <a href="">
-                      <div className="username text-sm font-bold">
-                        UI/UX Designer / Frontend Developer
-                      </div>
-                    </a>
-                    <a href="">
-                      <div className="userfield font-light">Company Type</div>
-                    </a>
-                    <a href="">
-                      <div className="userfield font-extralight">
-                        Company Location
-                      </div>
-                    </a>
-
-                    <div className="mt-8 font-thin">job Posted 2days Ago</div>
-                  </div>
-                </div>
-                <Menu as="div" className="relative inline-block text-left">
-                  <div>
-                    <Menu.Button className="inline-flex justify-center">
-                      <DotsHorizontalIcon
-                        className="-mr-1 ml-2 h-5 w-5"
-                        aria-hidden="true"
-                      />
-                    </Menu.Button>
-                  </div>
-
-                  <Transition
-                    as={Fragment}
-                    enter="transition ease-out duration-100"
-                    enterFrom="transform opacity-0 scale-95"
-                    enterTo="transform opacity-100 scale-100"
-                    leave="transition ease-in duration-75"
-                    leaveFrom="transform opacity-100 scale-100"
-                    leaveTo="transform opacity-0 scale-95"
-                  >
-                    <Menu.Items className="absolute top-6 w-48 right-0">
-                      <div className="flex items-start flex-col gap-2 border-1 rounded-xl p-2">
-                        <Menu.Item>
-                          {({ active }) => (
-                            <a href="#" className={classNames("text-sm flex py-2 border-b gap-2")}>
-                              <BookmarkIcon className="h-5 w-5" />
-                              Remove From Saved
-                            </a>
-                          )}
-                        </Menu.Item>
-
-                        <Menu.Item>
-                          {({ active }) => (
-                            <a
-                              href="#"
-                              className={classNames(
-                                active ? "" : "",
-                                "text-sm flex gap-2"
-                              )}
-                            >
-                              <ClipboardCopyIcon className="h-5 w-5" />
-                              Copy Link To Share
-                            </a>
-                          )}
-                        </Menu.Item>
-                      </div>
-                    </Menu.Items>
-                  </Transition>
-                </Menu>
-              </div>
-            </div>
-          </div> */}
-          <div className="border-b-1 py-4">
+          {/* Load button */}
+          {/* <div className="border-b-1 py-4">
             <div className="text-center">
               <Link className="" href="">
                 <a className="text-indigo-400">Load More</a>
               </Link>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

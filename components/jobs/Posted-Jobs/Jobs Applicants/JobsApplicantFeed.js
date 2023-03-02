@@ -1,6 +1,8 @@
 import React from "react";
 import Head from "next/head";
-import TopNavbar from "../../../news-feed/navbar/TopNavbar";
+// import TopNavbar from "../../../news-feed/navbar/TopNavbar";
+
+import TopNavbar from "../../Job-Header/TopNavbar";
 import JobsNav from "../../../news-feed/navbar/mobile-navbar/JobsNav";
 import PostedJobs from "../PostedJobs";
 import ProfileCard from "../../../news-feed/profilecard/ProfileCard";

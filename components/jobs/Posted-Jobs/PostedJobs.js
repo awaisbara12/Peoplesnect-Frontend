@@ -47,6 +47,7 @@ const PostedJobs = () => {
 
   // Bareer Key
   if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore");}
+  
   // Get all the posted Job
   const Posted_jobs =()=>{
     fetch(JOBS_API+"/my_posted", {
@@ -123,17 +124,16 @@ const handleCoverReomve = (e) => {
 // Update/manage Job
 function updateJob() {
   const dataForm = new FormData();
+  dataForm.append("jobs[email_address]", Email);
   dataForm.append("jobs[title]", Title);
   dataForm.append("jobs[description]", Discripation);
   dataForm.append("jobs[job_company]", Company)
   dataForm.append("jobs[job_location]", Location);
   dataForm.append("jobs[workplace_type]", Workplace);
   dataForm.append("jobs[employeement_type]", Type);
-  dataForm.append("jobs[email_address]", Email);
-  // dataForm.append("jobs[job_questions]", Question);
+  setEmail('');
   dataForm.append("jobs[job_skills]", Skills);
   if(PostImage){dataForm.append("jobs[company_photo]", PostImage);}
-  // dataForm.append("jobs[job_questions]", Question);
 
   fetch(JOBS_API+"/"+updateId, {
     method: "PUT",
@@ -151,7 +151,6 @@ function updateJob() {
         setIsOpen(false)
         setIsOpen1(false)
         setIsOpen2(false)
-
         setupdateId('');
         setTitle('');
         setCompany ('');
@@ -239,7 +238,8 @@ function removeJob(job_id) {
                               <div className="username text-sm font-bold">{i.title}</div>
                               <div className="userfield font-light">{i.employeement_type}</div>
                               <div className="userfield font-extralight">{i.job_location}</div>
-                              <div className="mt-8 font-thin">job Posted 2days Ago</div>
+                              <div className="userfield font-extralight">{i.status=="open"?"Hiring":"Stoped Hiring"}</div>
+                              <div className=" font-thin">job Posted {i.created_at}</div>
                             </div>
                           </div>
                         </a>
@@ -265,9 +265,9 @@ function removeJob(job_id) {
                         >
                           <Menu.Items className="absolute top-0 w-48 right-0">
                             <div className="flex items-start flex-col gap-2 border-1 rounded-xl p-2">
-                              <Menu.Item>
+                              <Menu.Item onClick={()=>openModal(i)}>
                                 {({ active }) => (
-                                  <a onClick={()=>openModal(i)} className={classNames("text-sm flex py-2 gap-2")}>
+                                  <a  className={classNames("text-sm flex py-2 gap-2 cursor-pointer")}>
                                     <BriefcaseIcon className="h-5 w-5" />
                                     Manage Job
                                   </a>
@@ -276,22 +276,20 @@ function removeJob(job_id) {
                               <Menu.Item>
                                 {({ active }) => (
                                   <Link href={{pathname: "./posted-jobs/job-applicants", query:i.id,}}>
-                                  {/* <Link href="./posted-jobs/job-applicants"> */}
-                                    <a className={classNames("text-sm flex pb-2 gap-2")}>
+                                    <a className={classNames("cursor-pointer text-sm flex pb-2 gap-2")}>
                                       <DesktopComputerIcon className="h-5 w-5" />
-                                      View Applicants
+                                        View Applicants
                                     </a>
                                   </Link>
                                 )}
                               </Menu.Item>
                               {i.status=="open"?(
-                                <Menu.Item>
+                                <Menu.Item onClick={()=>JobHiering(i.id,"close")}>
                                   {({ active }) => (
                                     <a
-                                      onClick={()=>JobHiering(i.id,"close")}
                                       className={classNames(
                                         active ? "" : "",
-                                        "text-sm flex gap-2"
+                                        "cursor-pointer text-sm flex gap-2"
                                       )}
                                     >
                                       <LockClosedIcon className="h-5 w-5" />
@@ -300,13 +298,12 @@ function removeJob(job_id) {
                                   )}
                                 </Menu.Item>
                               ):(
-                                <Menu.Item>
+                                <Menu.Item onClick={()=>JobHiering(i.id,"open")}>
                                   {({ active }) => (
                                     <a
-                                      onClick={()=>JobHiering(i.id,"open")}
                                       className={classNames(
                                         active ? "" : "",
-                                        "text-sm flex gap-2"
+                                        "cursor-pointer text-sm flex gap-2"
                                       )}
                                     >
                                       <LockOpenIcon className="h-5 w-5" />
@@ -315,13 +312,12 @@ function removeJob(job_id) {
                                   )}
                                 </Menu.Item>
                               )}
-                              <Menu.Item>
+                                <Menu.Item onClick={()=>removeJob(i.id)}>
                                   {({ active }) => (
                                     <a
-                                      onClick={()=>removeJob(i.id)}
                                       className={classNames(
                                         active ? "" : "",
-                                        "text-sm flex gap-2"
+                                        "cursor-pointer text-sm flex gap-2"
                                       )}
                                     >
                                       <TrashIcon className="h-5 w-5" />
@@ -339,33 +335,18 @@ function removeJob(job_id) {
             ))
           ):('')}
          
-          <div className="border-b-1 py-4">
+          {/* Load More Button */}
+          {/* <div className="border-b-1 py-4">
             <div className="text-center">
               <Link className="" href="">
                 <a className="text-indigo-400">Load More</a>
               </Link>
             </div>
-          </div>
-
-
-
-
-
+          </div> */}
 
 
           {/* Manage Modals */}
           <div className="add_new_button sticky top-16 text-right">
-            {/* <Link href="" className="">
-              <a>
-                <button
-                onClick={openModal}
-                  type="submit"
-                  className="shadow-lg shadow-indigo-400 text-white text-md cursor-pointer font-bold p-4 rounded-full mt-6 bg-indigo-400 hover:text-white"
-                >
-                  Add New Job
-                </button>
-              </a>
-            </Link> */}
             <Transition appear show={isOpen} as={Fragment}>
               <Dialog
                 as="div"
@@ -421,7 +402,7 @@ function removeJob(job_id) {
                             as="h3"
                             className="text-lg font-medium leading-6 text-gray-900 px-8"
                           >
-                            Add New Job
+                            Update Job
                           </Dialog.Title>
                           <div className="">
                             <div className="bg-white px-12 py-5 rounded-xl">
@@ -780,7 +761,7 @@ function removeJob(job_id) {
                                                               type="submit"
                                                               className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
                                                             >
-                                                              Save
+                                                              Update Job
                                                         </button>
                                                         </Link>   
                                                       ):(
@@ -788,7 +769,7 @@ function removeJob(job_id) {
                                                               type="submit"
                                                               className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-200 cursor-not-allowed"
                                                             >
-                                                              Save
+                                                              Update Job
                                                         </button>
                                                       )
                                                     }
@@ -822,17 +803,6 @@ function removeJob(job_id) {
               </Dialog>
             </Transition>
           </div>
-
-
-
-
-
-
-
-
-
-
-
 
         </div>
       </div>

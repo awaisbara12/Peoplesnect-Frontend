@@ -13,12 +13,15 @@ import {
   DotsHorizontalIcon,
 } from "@heroicons/react/outline";
 import { JOBS_API, USE_APPLY_JOB_API } from "../../pages/config";
+import InfiniteScroll from 'react-infinite-scroll-component';
+import ClipLoader from 'react-spinners/ClipLoader';
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 const RecommendedJobs = () => {
-  const [Recomend, setRecomend] = useState();
+  const [Recomend, setRecomend] = useState([]);
+  const [currentpage, setcurrentpage] = useState(1);
   
   // Bareer Key
   if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore");}
@@ -50,7 +53,7 @@ const RecommendedJobs = () => {
   }
   //  GET ALL JOBS
   const Recomended =()=>{
-    fetch(JOBS_API, {
+    fetch(JOBS_API+"?page="+currentpage, {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -60,7 +63,10 @@ const RecommendedJobs = () => {
       .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-          setRecomend(result.data)
+          const mergedata = [...Recomend, ...result.data]
+          setRecomend(mergedata);
+          console.log(result.pages.next_page)
+          setcurrentpage(result.pages.next_page)
         }
       })
       .catch((err) => console.log(err));
@@ -68,365 +74,138 @@ const RecommendedJobs = () => {
   useEffect(() => {
     Recomended();
   }, []);
+
+
+  const fetchMoreData = () => {
+    Recomended();
+  }
   return (
     <div className="mt-8">
       <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 xl:px-0 lg:px-0">
         <div className="">
-          <div className="bg-white rounded-xl p-3 mb-4">
+          <div className="bg-white rounded-xl p-4 mb-4 ">
             <div className="heading font-bold">Recommended for you</div>
-            <div className="font-extralight mt-1">Based on your profile</div>
+            {/* <div className="font-extralight mt-1">Based on your profile</div> */}
           </div>
           <div className="">
-            <div className="grid grid-cols-2 gap-12">
-              {Recomend?(
-                Recomend.map((i)=>(
-                  <div className="jobs-profile bg-white rounded-xl p-4" key={i.id}>
-                    <div className="flex  justify-between">
-                      <div className="">
-                            {i.company_photo?
-                              (
-                                <Link href={{pathname: "/jobs/jobs-show", query:i.id,}}>
-                                <a>
-                                  <img 
-                                    src={i.company_photo} 
-                                    className="object-cover z-40 h-[65px] w-[65px]"
-                                    alt="" />
-                                    <div className="userfield font-extrabold">{i.title}</div>
-                                </a>
-                                </Link>
-                              )
-                              :
-                              (
-                                <Link href={{pathname: "/jobs/jobs-show", query:i.id,}}>
-                                <a>
-                                  <Image src={Compnylogo1} width={65} height={65} alt="" />
+            {Recomend?(
+              <InfiniteScroll
+                dataLength={Recomend.length}
+                next={fetchMoreData}
+                className="grid grid-cols-2 gap-12"
+                hasMore={currentpage != null}
+                loader={<div className="flex justify-center "><ClipLoader className="my-8" color="#818CF8" size={40} /> </div>}
+              >
+              {Recomend.map((i)=>(
+                <div className="jobs-profile bg-white rounded-xl p-4" key={i.id}>
+                  <div className="flex  justify-between">
+                    <div className="">
+                          {i.company_photo?
+                            (
+                              <Link href={{pathname: "/jobs/jobs-show", query:i.id,}}>
+                              <a>
+                                <img 
+                                  src={i.company_photo} 
+                                  className="object-cover z-40 h-[65px] w-[65px]"
+                                  alt="" />
                                   <div className="userfield font-extrabold">{i.title}</div>
-                                </a>
-                                </Link>
-                              )
-                            }
-                          <Link href={{pathname: "/jobs/jobs-show", query:i.id,}}>
-                          <a>
-                            <div className="">
-                                <div className="username text-sm mt-2 font-light">
-                                  {i.description && i.description.length>200?i.description.slice(2,150)+"...":i.description}
-                                </div>
-                                <div className="userfield text-sm font-bold">
-                                  {i.job_location}
-                                </div>
-                              <div className="mt-2 font-thin">Posted Date: {i.created_at}</div>
-                            </div>
-                          </a>
-                          </Link>
-                        <div className="flex gap-4 mt-5">
+                              </a>
+                              </Link>
+                            )
+                            :
+                            (
+                              <Link href={{pathname: "/jobs/jobs-show", query:i.id,}}>
+                              <a>
+                                <Image src={Compnylogo1} width={65} height={65} alt="" />
+                                <div className="userfield font-extrabold">{i.title}</div>
+                              </a>
+                              </Link>
+                            )
+                          }
                         <Link href={{pathname: "/jobs/jobs-show", query:i.id,}}>
-                          <a>
-                          <button className="bg-indigo-400 p-2 text-white rounded-full" >Apply Now</button>
-                          </a>
+                        <a>
+                          <div className="">
+                              <div className="username text-sm mt-2 font-light">
+                                {i.description && i.description.length>200?i.description.slice(2,150)+"...":i.description}
+                              </div>
+                              <div className="userfield text-sm font-bold">
+                                {i.job_location}
+                              </div>
+                            <div className="mt-2 font-thin">Posted Date: {i.created_at}</div>
+                          </div>
+                        </a>
                         </Link>
-                          <button className="border-indigo-400 border p-2 text-indigo-400 rounded-full">Message</button>
-                        </div>
+                      <div className="flex gap-4 mt-5">
+                      <Link href={{pathname: "/jobs/jobs-show", query:i.id,}}>
+                        <a>
+                        <button className="bg-indigo-400 p-2 text-white rounded-full" >Apply Now</button>
+                        </a>
+                      </Link>
+                        <button className="border-indigo-400 border p-2 text-indigo-400 rounded-full">Message</button>
                       </div>
-                      <Menu as="div" className="relative inline-block text-left">
-                        <div>
-                          <Menu.Button className="inline-flex justify-center">
-                            <DotsHorizontalIcon
-                              className="-mr-1 ml-2 h-5 w-5"
-                              aria-hidden="true"
-                            />
-                          </Menu.Button>
-                        </div>
-    
-                        <Transition
-                          as={Fragment}
-                          enter="transition ease-out duration-100"
-                          enterFrom="transform opacity-0 scale-95"
-                          enterTo="transform opacity-100 scale-100"
-                          leave="transition ease-in duration-75"
-                          leaveFrom="transform opacity-100 scale-100"
-                          leaveTo="transform opacity-0 scale-95"
-                        >
-                        <Menu.Items className="absolute top-6 w-48 right-0">
-                            <div className="flex items-start flex-col gap-2 border-1 rounded-xl p-2">
-                              <Menu.Item>
-                                {({ active }) => (
-                                  <a className={classNames("text-sm flex gap-2 py-2")}onClick={()=>{savedJobs(i.id,"saved")}}>
-                                    <BookmarkIcon className="h-5 w-5" />
-                                    Save
-                                  </a>
-                                )}
-                              </Menu.Item>
-    
-                              <Menu.Item>
-                                {({ active }) => (
-                                  <a
-                                    
-                                    className={classNames(
-                                      active ? "" : "",
-                                      "text-sm flex gap-2 cursor-default"
-                                    )}
-                                    onClick={()=>copylink(i.id)}
-                                  >
-                                    <ClipboardCopyIcon className="h-5 w-5" />
-                                    Share
-                                  </a>
-                                )}
-                              </Menu.Item>
-                            </div>
-                          </Menu.Items>
-                        </Transition>
-                      </Menu>
                     </div>
+                    <Menu as="div" className="relative inline-block text-left">
+                      <div>
+                        <Menu.Button className="inline-flex justify-center">
+                          <DotsHorizontalIcon
+                            className="-mr-1 ml-2 h-5 w-5"
+                            aria-hidden="true"
+                          />
+                        </Menu.Button>
+                      </div>
+  
+                      <Transition
+                        as={Fragment}
+                        enter="transition ease-out duration-100"
+                        enterFrom="transform opacity-0 scale-95"
+                        enterTo="transform opacity-100 scale-100"
+                        leave="transition ease-in duration-75"
+                        leaveFrom="transform opacity-100 scale-100"
+                        leaveTo="transform opacity-0 scale-95"
+                      >
+                      <Menu.Items className="absolute top-6 w-48 right-0">
+                          <div className="flex items-start flex-col gap-2 border-1 rounded-xl p-2">
+                            <Menu.Item>
+                              {({ active }) => (
+                                <a className={classNames("text-sm flex gap-2 py-2 cursor-pointer")}onClick={()=>{savedJobs(i.id,"saved")}}>
+                                  <BookmarkIcon className="h-5 w-5" />
+                                  Save
+                                </a>
+                              )}
+                            </Menu.Item>
+  
+                            <Menu.Item>
+                              {({ active }) => (
+                                <a 
+                                  className={classNames(
+                                    active ? "" : "",
+                                    "text-sm flex gap-2 cursor-pointer"
+                                  )}
+                                  onClick={()=>copylink(i.id)}
+                                >
+                                  <ClipboardCopyIcon className="h-5 w-5" />
+                                  Share
+                                </a>
+                              )}
+                            </Menu.Item>
+                          </div>
+                        </Menu.Items>
+                      </Transition>
+                    </Menu>
                   </div>
-                ))
-              ):('')}
-
-              {/* <div className="jobs-profile bg-white rounded-xl p-4">
-                <div className="flex  justify-between">
-                  <div className="">
-                    <Link href="/news-feed">
-                      <a>
-                        <Image src={Compnylogo1} width={65} height={65} alt="" />
-                        <div className="userfield font-extrabold">Job title</div>
-                      </a>
-                    </Link>
-                    <div className="">
-                      <a href="">
-                        <div className="username text-sm mt-2 font-light">
-                        Social Media Evaluation Project for Online Mystery
-                          Shoppers for Punjabi Speakers in Pakistan
-                        </div>
-                      </a>
-                      <a href="">
-                        <div className="userfield text-sm font-bold">
-                          Company Location
-                        </div>
-                      </a>
-                      <div className="mt-2 font-thin">job Posted 6days Ago</div>
-                    </div>
-                    <div className="flex gap-4 mt-5">
-                    <button className="bg-indigo-400 p-2 text-white rounded-full">Apply Now</button>
-                    <button className="border-indigo-400 border p-2 text-indigo-400 rounded-full">Message</button>
-                    </div>
-
-                  </div>
-                  <Menu as="div" className="relative inline-block text-left">
-                    <div>
-                      <Menu.Button className="inline-flex justify-center">
-                        <DotsHorizontalIcon
-                          className="-mr-1 ml-2 h-5 w-5"
-                          aria-hidden="true"
-                        />
-                      </Menu.Button>
-                    </div>
-
-                    <Transition
-                      as={Fragment}
-                      enter="transition ease-out duration-100"
-                      enterFrom="transform opacity-0 scale-95"
-                      enterTo="transform opacity-100 scale-100"
-                      leave="transition ease-in duration-75"
-                      leaveFrom="transform opacity-100 scale-100"
-                      leaveTo="transform opacity-0 scale-95"
-                    >
-                    <Menu.Items className="absolute top-6 w-48 right-0">
-                        <div className="flex items-start flex-col gap-2 border-1 rounded-xl p-2">
-                          <Menu.Item>
-                            {({ active }) => (
-                              <a href="#" className={classNames("text-sm flex gap-2 py-2")}>
-                                <BookmarkIcon className="h-5 w-5" />
-                                Save
-                              </a>
-                            )}
-                          </Menu.Item>
-
-                          <Menu.Item>
-                            {({ active }) => (
-                              <a
-                                href="#"
-                                className={classNames(
-                                  active ? "" : "",
-                                  "text-sm flex gap-2"
-                                )}
-                              >
-                                <ClipboardCopyIcon className="h-5 w-5" />
-                                Share
-                              </a>
-                            )}
-                          </Menu.Item>
-                        </div>
-                      </Menu.Items>
-                    </Transition>
-                  </Menu>
                 </div>
-              </div>
-              <div className="jobs-profile bg-white rounded-xl p-4">
-                <div className="flex  justify-between">
-                  <div className="">
-                    <Link href="/news-feed">
-                      <a>
-                        <Image src={Compnylogo2} width={65} height={65} alt="" />
-                        <div className="userfield font-extrabold">Job title</div>
-                      </a>
-                    </Link>
-                    <div className="">
-                      <a href="">
-                        <div className="username text-sm mt-2 font-light">
-                        Social Media Evaluation Project for Online Mystery
-                          Shoppers for Punjabi Speakers in Pakistan
-                        </div>
-                      </a>
-                      <a href="">
-                        <div className="userfield text-sm font-bold">
-                          Company Location
-                        </div>
-                      </a>
-                      <div className="mt-2 font-thin">job Posted 6days Ago</div>
-                    </div>
-                    <div className="flex gap-4 mt-5">
-                    <button className="bg-indigo-400 p-2 text-white rounded-full">Apply Now</button>
-                    <button className="border-indigo-400 border p-2 text-indigo-400 rounded-full">Message</button>
-                    </div>
+              ))}
+              </InfiniteScroll>
+            ):('')}
+          </div>
 
-                  </div>
-                  <Menu as="div" className="relative inline-block text-left">
-                    <div>
-                      <Menu.Button className="inline-flex justify-center">
-                        <DotsHorizontalIcon
-                          className="-mr-1 ml-2 h-5 w-5"
-                          aria-hidden="true"
-                        />
-                      </Menu.Button>
-                    </div>
-                    <Transition
-                      as={Fragment}
-                      enter="transition ease-out duration-100"
-                      enterFrom="transform opacity-0 scale-95"
-                      enterTo="transform opacity-100 scale-100"
-                      leave="transition ease-in duration-75"
-                      leaveFrom="transform opacity-100 scale-100"
-                      leaveTo="transform opacity-0 scale-95"
-                    >
-                    <Menu.Items className="absolute top-6 w-48 right-0">
-                        <div className="flex items-start flex-col gap-2 border-1 rounded-xl p-2">
-                          <Menu.Item>
-                            {({ active }) => (
-                              <a href="#" className={classNames("text-sm flex gap-2 py-2")}>
-                                <BookmarkIcon className="h-5 w-5" />
-                                Save
-                              </a>
-                            )}
-                          </Menu.Item>
-
-                          <Menu.Item>
-                            {({ active }) => (
-                              <a
-                                href="#"
-                                className={classNames(
-                                  active ? "" : "",
-                                  "text-sm flex gap-2"
-                                )}
-                              >
-                                <ClipboardCopyIcon className="h-5 w-5" />
-                                Share
-                              </a>
-                            )}
-                          </Menu.Item>
-                        </div>
-                      </Menu.Items>
-                    </Transition>
-                  </Menu>
-                </div>
-              </div>
-              <div className="jobs-profile bg-white rounded-xl p-4">
-                <div className="flex  justify-between">
-                  <div className="">
-                    <Link href="/news-feed">
-                      <a>
-                        <Image src={Compnylogo} width={65} height={65} alt="" />
-                        <div className="userfield font-extrabold">Job title</div>
-                      </a>
-                    </Link>
-                    <div className="">
-                      <a href="">
-                        <div className="username text-sm mt-2 font-light">
-                        Social Media Evaluation Project for Online Mystery
-                          Shoppers for Punjabi Speakers in Pakistan
-                        </div>
-                      </a>
-                      <a href="">
-                        <div className="userfield text-sm font-bold">
-                          Company Location
-                        </div>
-                      </a>
-                      <div className="mt-2 font-thin">job Posted 6days Ago</div>
-                    </div>
-                    <div className="flex gap-4 mt-5">
-                    <button className="bg-indigo-400 p-2 text-white rounded-full">Apply Now</button>
-                    <button className="border-indigo-400 border p-2 text-indigo-400 rounded-full">Message</button>
-                    </div>
-
-                  </div>
-                  <Menu as="div" className="relative inline-block text-left">
-                    <div>
-                      <Menu.Button className="inline-flex justify-center">
-                        <DotsHorizontalIcon
-                          className="-mr-1 ml-2 h-5 w-5"
-                          aria-hidden="true"
-                        />
-                      </Menu.Button>
-                    </div>
-
-                    <Transition
-                      as={Fragment}
-                      enter="transition ease-out duration-100"
-                      enterFrom="transform opacity-0 scale-95"
-                      enterTo="transform opacity-100 scale-100"
-                      leave="transition ease-in duration-75"
-                      leaveFrom="transform opacity-100 scale-100"
-                      leaveTo="transform opacity-0 scale-95"
-                    >
-                    <Menu.Items className="absolute top-6 w-48 right-0">
-                        <div className="flex items-start flex-col gap-2 border-1 rounded-xl p-2">
-                          <Menu.Item>
-                            {({ active }) => (
-                              <a href="#" className={classNames("text-sm flex gap-2 py-2")}>
-                                <BookmarkIcon className="h-5 w-5" />
-                                Save
-                              </a>
-                            )}
-                          </Menu.Item>
-
-                          <Menu.Item>
-                            {({ active }) => (
-                              <a
-                                href="#"
-                                className={classNames(
-                                  active ? "" : "",
-                                  "text-sm flex gap-2"
-                                )}
-                              >
-                                <ClipboardCopyIcon className="h-5 w-5" />
-                                Share
-                              </a>
-                            )}
-                          </Menu.Item>
-                        </div>
-                      </Menu.Items>
-                    </Transition>
-                  </Menu>
+              {/* <div className="bg-white py-4 mt-2 rounded-xl">
+                <div className="text-center">
+                  <Link className="" href="">
+                    <a className="text-indigo-400 underline">Search For More Jobs</a>
+                  </Link>
                 </div>
               </div> */}
-            </div>
-          </div>
-
-          <div className="bg-white py-4 mt-2 rounded-xl">
-            <div className="text-center">
-              <Link className="" href="">
-                <a className="text-indigo-400 underline">Search For More Jobs</a>
-              </Link>
-            </div>
-          </div>
         </div>
       </div>
     </div>

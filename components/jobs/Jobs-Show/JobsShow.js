@@ -25,7 +25,7 @@ const JobsShow = () => {
   const [can_apply, setcan_apply] = useState();
   const [PostImage, setPostImage] = useState([]);
   const [postImagePreview, setpostImagePreview] = useState();
-
+  var dateString='';
   const router = useRouter();
   const data = router.asPath;
   const myArray = data.split("?");
@@ -75,7 +75,7 @@ const JobsShow = () => {
       .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-          setRecomend(result.data)
+          setRecomend(result.data);
         }
       })
       .catch((err) => console.log(err));
@@ -84,9 +84,10 @@ const JobsShow = () => {
     ShowJobs();
     canApply();
   }, []);
-
+  
    // Apply job function
    const ApplyJobs =(status)=>{
+    setcan_apply('');
     const dataForm = new FormData();
     dataForm.append("applied_jobs[job_id]", myArray[1]);
     dataForm.append("applied_jobs[status]", status);
@@ -102,6 +103,7 @@ const JobsShow = () => {
       .then((resp) => resp.json())
       .then((result) => {
         if (result) {
+          alert("You Applied on Job")
           ShowJobs();
           canApply();
         }
@@ -129,6 +131,8 @@ const JobsShow = () => {
                     </a>
                   </Link>
                   )}
+
+                  {/*  1st Box */}
                   <div>
                     <div className="font-extrabold">
                       {Recomend.job_company}
@@ -137,12 +141,14 @@ const JobsShow = () => {
                       {/* Compnay Type */}
                       {Recomend.email_address}
                     </div>
-                    <div className="mt-2 flex text-sm font-light">
+                    {/* <div className="mt-2 flex text-sm font-light">
                       <StarIcon className="text-amber-400 w-5 h-5" />
                       Rating is 4.3
-                    </div>
+                    </div> */}
                   </div>
                 </div>
+                
+                {/* Job Posted */}
                 <div className="flex justify-between items-center mt-2 py-4 border-t-1">
                   <div className="font-bold text-sm">Job Posted</div>
                   <div className="text-sm font-light"> {Recomend.created_at}</div>
@@ -161,27 +167,41 @@ const JobsShow = () => {
                     <div className="text-sm font-light">Lahore</div>
                   </div>
                 </div> */}
+                
+                {/* 3rd Box */}
                 <div className="py-4 border-t-1">
+                  
+                  {/* Job location */}
+                  {Recomend.job_location?(
                   <div className="flex justify-between items-center mt-2">
-                    <div className="font-bold text-sm">
-                      {/* Minimum Salary */}
-                      Employeement Type
-
-                    </div>
-                    <div className="text-sm font-light">
-                      {/* 400$ */}
-                      {Recomend.employeement_type}
-                      </div>
+                    <div className="font-bold text-sm">Location</div>
+                    <div className="text-sm font-light">{Recomend.job_location}</div>
                   </div>
-                  <div className="flex justify-between items-center mt-2">
-                    <div className="font-bold text-sm">Maximum Salary</div>
-                    <div className="text-sm font-light">480$</div>
-                  </div>
+                  ):('')}
+                  {/* Workplace */}
+                  {Recomend.workplace_type?(
                   <div className="flex justify-between items-center mt-2">
                     <div className="font-bold text-sm">Job Type</div>
                     <div className="text-sm font-light">{Recomend.workplace_type}</div>
                   </div>
+                  ):('')}
+                   {/* Employment Type */}
+                   {Recomend.employeement_type?(
+                    <div className="flex justify-between items-center mt-2">
+                      <div className="font-bold text-sm">
+                        {/* Minimum Salary */}
+                        Employeement Type
+
+                      </div>
+                      <div className="text-sm font-light">
+                        {/* 400$ */}
+                        {Recomend.employeement_type}
+                        </div>
+                    </div>
+                    ):('')}
                 </div>
+
+                {/* Skills */}
                 <div className="flex justify-between items-center mt-2 py-4 border-t-1">
                   <div className="font-bold text-sm">Skills</div>
                 </div>
@@ -190,25 +210,20 @@ const JobsShow = () => {
                      <div className="text-sm font-light border ml-2 p-2 rounded-full" key={i.id}> <span>{i.title}</span></div>
                 ))
                 ):('')}
-                <div className="flex justify-between items-center mt-2 py-4 border-t-1">
-                  <div className="font-bold text-sm">Location</div>
-                </div>
-                 <div className="flex justify-between items-center">
-                  <div className="text-sm font-light"> {Recomend.job_location}</div>
-                </div>
+              
               </div>
             ):('')}
             </div>
             <div className="col-span-2">
               <div className="bg-white rounded-xl p-8">
-                <div>
-                  {/* <div className="font-bold">Hiring Process</div>
+                {/* <div>
+                  <div className="font-bold">Hiring Process</div>
                   <div className="grid grid-cols-3">
                     <div className="text-white bg-gradient-to-r border-left from-cyan-500 to-blue-500 font-bold flex justify-center items-center h-[50px] ">
                       Interview
                     </div>
-                  </div> */}
-                </div>
+                  </div>
+                </div> */}
                 <div className="font-bold">
                   {/* Job description */}
                   {Recomend?Recomend.title:''}
@@ -233,6 +248,7 @@ const JobsShow = () => {
                                 height={22}
                                 className="text-indigo-400"
                               />
+                              
                               <input
                                 type="file"
                                 name="image"
