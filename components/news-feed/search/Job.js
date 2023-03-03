@@ -2,6 +2,7 @@ import React,{useState,useEffect} from "react";
 import Link from "next/link";
 import Image from "next/image";
 import ProfileAvatar from "../../../public/images/profile-avatar.png";
+import Compnylogo1 from "../../../public/images/logo1.jpeg";
 import { SearchIcon } from "@heroicons/react/solid";
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
@@ -70,7 +71,7 @@ const Job = () => {
                           />
                         ) : (
                           <Image
-                            src={ProfileAvatar}
+                            src={Compnylogo1}
                             width={45}
                             height={45}
                             alt=""

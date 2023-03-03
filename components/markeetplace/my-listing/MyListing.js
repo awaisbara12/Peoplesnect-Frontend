@@ -83,6 +83,7 @@ const MyListing = () => {
                         <div className="">
                           <div className="username text-sm font-bold">{i.name}</div>
                           <div className="userfield font-light">{i.category.name}</div>
+                          {i.country?<div className="userfield font-light">{i.country}, {i.city}</div>:""}
                           {/* <div className="userfield font-extralight">{i.feature && i.feature.length>200?i.feature.slice(0,200)+"...":i.feature}</div> */}
                           <div className="mt-0 font-thin">Product Posted {i.created_at}</div>
                         </div>
