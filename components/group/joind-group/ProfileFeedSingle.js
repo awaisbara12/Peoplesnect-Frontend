@@ -86,6 +86,8 @@ const ProfileFeedSingle = (singleItems) => {
     navigator.clipboard.writeText(copylink1[0]+"/events-design/event-view?"+postid);    // get link domain like(localhost..etc)
     alert("Link Copied to your Clipboard");
   }
+
+  console.log("singleItems",singleItems)
   // Get NewsFeed for the updation Lists
   const getNewsFeed = async () => {
     const res = await axios(POST_NEWSFEED_API_KEY, {
@@ -424,7 +426,7 @@ const ProfileFeedSingle = (singleItems) => {
             
             <div>
               <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
-               {items.user.first_name} {items.user.last_name}
+               {items.user.first_name} {items.user.last_name} 
                 <BadgeCheckIcon
                   width={14}
                   height={14}
@@ -432,7 +434,7 @@ const ProfileFeedSingle = (singleItems) => {
                 />
               </h4>
               <div className="font-light text-gray-900 opacity-[0.8]">
-                {items.user.recent_job}
+                {items && items.group && items.user && items.group.owner.id==items.user.id?"Super Admin":singleItems.memberstatus?"Admin":"Member"}
               </div>
             </div>
           </div>
@@ -523,7 +525,7 @@ const ProfileFeedSingle = (singleItems) => {
           className="w-full pt-0 resize-none border-0 px-0 text-base overflow-y-hidden outline-none focus:outline focus:ring-0"
           placeholder="Start a post?"
         />
-        ):(<p>{items.body ? items.body : ""}</p>)}
+        ):(<p>{items.body ? items.body: ""}</p>)}
           
           {items.event && items.event ? (    
             <div className="rounded-xl bg-white border border-gray-100 my-2">

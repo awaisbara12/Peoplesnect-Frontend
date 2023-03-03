@@ -78,6 +78,7 @@ const ProfileFeed = (props) => {
       if (result.status == 200) {
         // const mergedata = [...list,...result.data.data]
         setList(result.data.data);
+        console.log(result.data.data[0].user)
         setcurrentpage(result.data.pages.next_page)
         setlastpage(result.data.pages.total_pages)
       }
@@ -115,9 +116,12 @@ const ProfileFeed = (props) => {
           loader={ <div className="flex justify-center"><ClipLoader className="my-8" color="#818CF8" size={40}/> </div>}
         >
           {list&&
-            list.map((item) => (
-              <ProfileFeedSingle lists={item} setList={setList} key={item.id} admin = {props.admins}  group = {props.group} currentUser = {props.currentUser}/>        
-            )
+            list.map((item) => {
+              
+              
+              return(
+                <ProfileFeedSingle lists={item} setList={setList} key={item.id} memberstatus={isadmin(props.admins, item.user.id)} admin = {props.admins}  group = {props.group} currentUser = {props.currentUser}/>        
+             )}
             )
           }
         </InfiniteScroll>

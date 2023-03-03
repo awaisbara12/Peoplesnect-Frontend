@@ -78,7 +78,7 @@ const Groups = () => {
 
   // suggested Group
   const SuggestedGroups =()=>{
-    const res = fetch(GROUP_API, {
+    const res = fetch(GROUP_API+"?page="+1, {
     method: "GET",
     headers: {
       Accept: "application/json",
@@ -87,7 +87,8 @@ const Groups = () => {
     })
     .then((resp) => resp.json())
     .then((result) => {
-      setJoinGroups(result.data)
+      setJoinGroups(result.data);
+      console.log(result.data)
     })
     JoinedGroupList();
   }
