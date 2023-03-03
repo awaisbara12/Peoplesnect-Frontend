@@ -119,7 +119,7 @@ const SuggestionGroups = () => {
     GroupDetail();
     GetMemberRequest();
     Ismember();
-  },[])
+  },[myArray[1]])
   return (
     <div className="mt-8">
     <div className="w-[600px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0 xl:px-0">

@@ -1,8 +1,10 @@
 import { CloudUploadIcon, TrashIcon } from "@heroicons/react/outline";
+import { Alert } from "@material-tailwind/react";
 import { update } from "draft-js/lib/DefaultDraftBlockRenderMap";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { CATEGORY_API, PRODUCT_API } from "../../../pages/config";
+import { Country, City }  from 'country-state-city';
 
 const AddYourItems = () => {
   const [selectCategory, setselectCategory] = useState();  // map on category's select
@@ -10,11 +12,13 @@ const AddYourItems = () => {
   const [name, setname] = useState();
   const [color, setcolor] = useState();
   const [price, setprice] = useState();
-  const [feature, setfeature] = useState();
+  const [feature, setfeature] = useState("feature");
   const [contact, setcontact] = useState();
   const [des, setdes] = useState();
   const [productPic, setproductPic] = useState([]);
   const [P_productPic, setP_productPic] = useState([]);
+  const [country, setcountry] = useState();
+  const [city, setcity] = useState();
   const router = useRouter();
   const data = router.asPath;
   const myArray = data.split("?");
@@ -34,7 +38,6 @@ const AddYourItems = () => {
   const handleCoverReomve = (e) => {
     setP_productPic(window.URL.revokeObjectURL(e.target.files));
     setproductPic([]);
-   
   };
   // create/upload product
   function createProduct() {
@@ -42,13 +45,15 @@ const AddYourItems = () => {
       for (let i = 0; i < productPic.length; i++) {
         dataForm.append(`products[product_pic][]`, productPic[i]);
       }
+    dataForm.append("products[feature]", feature);
     dataForm.append("products[category_id]", category);
     dataForm.append("products[name]", name);
-    dataForm.append("products[color]", color);
     dataForm.append("products[price]", price);
-    dataForm.append("products[feature]", feature);
+    setfeature('')
     dataForm.append("products[contact]", contact);
     dataForm.append("products[description]", des);
+    dataForm.append("products[country]", country);
+    dataForm.append("products[city]", city);
     fetch(PRODUCT_API, {
       method: "POST",
       headers: {
@@ -59,16 +64,17 @@ const AddYourItems = () => {
       .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-          setselectCategory('');
-          setcategory('');
-          setname('');
-          setcolor('');
-          setprice('');
-          setfeature('');
-          setcontact('');
-          setdes('');
-          setP_productPic('');
-          setproductPic([])
+          router.push("/markeet-place/marketplace-show?"+result.data.id);
+          // setselectCategory('');
+          // setcategory('');
+          // setname('');
+          // setcolor('');
+          // setprice('');
+          // setfeature('');
+          // setcontact('');
+          // setdes('');
+          // setP_productPic('');
+          // setproductPic([])
         }
       })
       .catch((err) => console.log(err));
@@ -87,7 +93,8 @@ const AddYourItems = () => {
         if (result) {
           setcategory(result.data.category.id);
           setname(result.data.name);
-          setcolor(result.data.color);
+          setcountry(result.data.country);
+          setcity(result.data.city);
           setprice(result.data.price);
           setfeature(result.data.feature);
           setcontact(result.data.contact);
@@ -126,18 +133,21 @@ const AddYourItems = () => {
 // Update product
 function UpdateProduct(id) {
   const dataForm = new FormData();
+  
+  dataForm.append("products[feature]", feature);
+  dataForm.append("products[category_id]", category);
+  dataForm.append("products[name]", name);
+  setfeature('');
+  dataForm.append("products[price]", price);
+  dataForm.append("products[contact]", contact);
+  dataForm.append("products[description]", des);
+  dataForm.append("products[country]", country);
+  dataForm.append("products[city]", city);
   if(productPic && productPic.length!=0){
     for (let i = 0; i < productPic.length; i++) {
       dataForm.append(`products[product_pic][]`, productPic[i]);
     }
   }
-  dataForm.append("products[category_id]", category);
-  dataForm.append("products[name]", name);
-  dataForm.append("products[color]", color);
-  dataForm.append("products[price]", price);
-  dataForm.append("products[feature]", feature);
-  dataForm.append("products[contact]", contact);
-  dataForm.append("products[description]", des);
   fetch(PRODUCT_API+"/"+id, {
     method: "PUT",
     headers: {
@@ -148,6 +158,7 @@ function UpdateProduct(id) {
     .then((resp) => resp.json())
     .then((result) => {
       if (result) {
+        alert('Update Successfully')
         router.push("/markeet-place/my-listing");
       }
     })
@@ -186,7 +197,32 @@ function UpdateProduct(id) {
                   className="w-96 bg-gray-100 py-2 px-3 mt-2 border-none rounded-xl focus:drop-shadow-indigo-400"
                 />
               </div>
-              <div className="flex justify-between items-center my-4">
+
+              <div className="grid grid-cols-4 mt-5">
+                <div className="text-lg font-medium">Location:</div>
+                <div></div>
+                <div className="flex gap-5">
+                  <select onChange={e=>setcountry(e.target.value)} className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none  w-40 lg:w-54 xs:w-auto md:w-52 placeholder:pl-2 rounded-xl placeholder:py-2">
+                    <option value={country}>{country}</option>
+                    {
+                      Country.getAllCountries().map((item)=>(
+                        <option value={item.isoCode} key={item.isoCode}>{item.name}</option>
+                      ))  
+                    }
+                  </select>
+                  <select onChange={e=>setcity(e.target.value)} className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none  w-40 lg:w-54 xs:w-auto md:min-w-[13rem] placeholder:pl-2 rounded-xl placeholder:py-2">
+                    <option value={city}>{city}</option>
+                    {
+                      City.getCitiesOfCountry(country).map((item)=>(
+                        <option value={item.name} key={item.name}>{item.name}</option>
+                      ))  
+                    }
+                  </select>
+                </div>
+              </div>
+              
+              {/* product Color */}
+              {/* <div className="flex justify-between items-center my-4">
                 <label htmlFor="" className="font-semibold">
                   Product Color:
                 </label>
@@ -198,7 +234,8 @@ function UpdateProduct(id) {
                   onChange={(e)=>setcolor(e.target.value)}
                   className="w-96 bg-gray-100 py-2 px-3 mt-2 border-none rounded-xl focus:drop-shadow-indigo-400"
                 />
-              </div>
+              </div> */}
+
               <div className="flex justify-between items-center my-4">
                 <label htmlFor="" className="font-semibold">
                   Price:
@@ -212,7 +249,9 @@ function UpdateProduct(id) {
                   className="w-96 bg-gray-100 py-2 px-3 mt-2 border-none rounded-xl focus:drop-shadow-indigo-400"
                 />
               </div>
-              <div className="flex justify-between items-center my-4">
+              
+              {/* Product feature */}
+              {/* <div className="flex justify-between items-center my-4">
                 <label htmlFor="" className="font-semibold">
                   Product feature:
                 </label>
@@ -224,7 +263,7 @@ function UpdateProduct(id) {
                   onChange={(e)=>setfeature(e.target.value)}
                   className="w-96 bg-gray-100 py-2 px-3 mt-2 border-none rounded-xl focus:drop-shadow-indigo-400"
                 />
-              </div>
+              </div> */}
 
               <div className="flex justify-between items-center my-4">
                 <label htmlFor="" className="font-semibold">
@@ -296,14 +335,14 @@ function UpdateProduct(id) {
               </div>
             </div>):('')}
             <div className="flex justify-center mt-7">
-              {myArray && myArray[1] && name && color && category && feature && des && contact && price && setP_productPic.length!==0?(
+              {myArray && myArray[1] && country && city && name && category && feature && des && contact && price && (productPic.length!==0 || P_productPic.length!==0)?(
                 <div onClick={()=>UpdateProduct(myArray[1])}
                   className="bg-indigo-400 text-white p-3 rounded-xl font-bold">
                   Update Product
                 </div>
               ):
               (
-              name && color && category && feature && des && contact && price && productPic.length!==0?(
+              name && country && city && category && feature && des && contact && price && productPic.length!==0?(
               <div onClick={()=>createProduct()}
                 className="bg-indigo-400 text-white p-3 rounded-xl font-bold">
                 Post Your Add
@@ -311,8 +350,8 @@ function UpdateProduct(id) {
               )
               :
               (
-                <div className="bg-indigo-100  text-white p-3 rounded-xl font-bold">
-                  Post Your Add
+                <div className="bg-indigo-100 cursor-not-allowed text-white p-3 rounded-xl font-bold">
+                  Disabled
                 </div>
               ))}
             </div>
