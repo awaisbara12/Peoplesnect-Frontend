@@ -307,7 +307,7 @@ function UpdateProduct(id) {
                   <CloudUploadIcon className="w-10 h-10 text-gray-400" />
                   <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
                     <span className="font-semibold">Click to upload</span> your
-                    items
+                    items (multiples can be selected)
                   </p>
                   <p className="text-xs text-gray-500 dark:text-gray-400">
                     SVG, PNG, JPG

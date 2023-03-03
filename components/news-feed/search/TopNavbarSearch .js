@@ -76,6 +76,7 @@ const TopNavbarSearch = () => {
               setresults('');
             }else{
               setresults(result.data);
+              console.log(result.data);
             }
           }
         })
@@ -271,7 +272,7 @@ const TopNavbarSearch = () => {
                                                 <div className="font-bold">{i.blog.title}</div>
                                                 <div className="font-extralight text-xs italic font-serif">Article</div>
                                                 </div>
-                                                <div className="font-light text-xs"> {i.blog.reaction_count == null ?(0):(i.blog.reaction_count)} Likes</div>
+                                                <div className="font-light text-xs"> {i.blog.reactions_count == null ?(0):(i.blog.reactions_count)} Likes</div>
                                               </div>
                                             </a>
                                           </Link>
