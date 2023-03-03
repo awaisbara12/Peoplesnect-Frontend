@@ -64,12 +64,12 @@ import { useRouter } from "next/router";
 
 const AddNewJob = (setList, singleItem) => {
   const [spinner, setSpinner] = useState(false);
-  const [Title, setTitle] = useState("Title");
-  const [Company, setCompany] = useState("company");
+  const [Title, setTitle] = useState();
+  const [Company, setCompany] = useState();
   const [Workplace, setWorkplace] = useState();
-  const [Location, setLocation] = useState("lahore");
+  const [Location, setLocation] = useState();
   const [Type, setType] = useState();
-  const [Discripation, setDiscripation] = useState("desssss");
+  const [Discripation, setDiscripation] = useState();
   const [Skills, setSkills] = useState([]);
   const [Email, setEmail] = useState("random.com");
   const [Question, setQuestion] = useState("");
@@ -161,15 +161,15 @@ const AddNewJob = (setList, singleItem) => {
 
   function openModal() {
     setIsOpen(true);
-    // setTitle('');
-    // setCompany ('');
-    // setLocation ('');
-    // setWorkplace ('');
-    // setType ('');
-    // setDiscripation('');
-    // setSkills('');
-    // setEmail();
-    // setpostImagePreview('');
+    setTitle('');
+    setCompany ('');
+    setLocation ('');
+    setWorkplace ('');
+    setType ('');
+    setDiscripation('');
+    setSkills('');
+    setEmail();
+    setpostImagePreview('');
   }
 
   function closeModal1() {
