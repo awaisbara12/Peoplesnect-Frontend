@@ -84,7 +84,7 @@ const Blog = () => {
                   <div className="flex gap-4 items-center">
                   <div className="font-bold">{i.blog.title}</div>
                   </div>
-                  <div className="font-light text-xs"> {i.blog.reaction_count == null ?(0):(i.blog.reaction_count)} Likes</div>
+                  <div className="font-light text-xs"> {i.blog.reactions_count == null ?(0):(i.blog.reactions_count)} Likes</div>
                 </div>
               </div>
             </a>
