@@ -23,6 +23,7 @@ import { useRouter } from "next/router";
 
 
 const TopNavbar = () => {
+  const [count, setcount] = useState();
   const [userDetails, setUserDetails] = useState();
   
   const router = useRouter();
@@ -40,8 +41,29 @@ const TopNavbar = () => {
        .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-          setUserDetails(result.data);
-          router.push("/notifications");
+          setcount(result.data);
+          console.log("sdjdsad",result.data);
+          // router.push("/notifications");
+        }
+      })
+      .catch((err) => console.log(err)); 
+  }
+
+  const updateCounts=async()=>{    
+    await fetch(GET_NOTIFICATIONS+"/count_updates", {
+      method: "GET",
+       headers: {
+        Accept: "application/json", 
+         Authorization: `${authKey}`,
+       },
+    })
+       .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          setcount(result.data);
+          console.log(result.data);
+          console.log("abcd",result.data);
+          // router.push("/notifications");
         }
       })
       .catch((err) => console.log(err)); 
@@ -65,6 +87,7 @@ const TopNavbar = () => {
   }
   useEffect(()=>{
     Current_User(); 
+    updateCounts();
   },[])
   return (
     <div className="sticky top-0 z-50">
@@ -137,24 +160,26 @@ const TopNavbar = () => {
                 </li>
               </a>
             </Link>
-            {/* <Link href="/notifications" className=""> */}
+            <Link href="/notifications" className="">
               <a onClick={()=>updateCount()}>
                 <li className="flex font-normal text-xl items-center flex-col gap-1">
                   <div className="relative">
-                    <BellIcon className="h-5 w-5 text-indigo-400" />
-                    <div className="bg-red-400 h-3 w-3 text-white -top-1 left-3 rounded-full flex justify-center items-center absolute">
-                      {userDetails?(
-                        <p className="text-[8px]">{userDetails.notifications_count}</p>
+                      <BellIcon className="h-5 w-5 text-indigo-400" />
+                      {count && count!='0'?(
+                      <div className="bg-red-400 h-3 w-3 text-white -top-1 left-3 rounded-full flex justify-center items-center absolute">
+                      
+                          <p className="text-[8px]">{count}</p>
+                        
+                        
+                      </div>
                       ):('')
 
-                      }
-                      
-                    </div>
+                    }
                   </div>
                   <div className="text-sm md:text-xs">Notifications</div>
                 </li>
               </a>
-            {/* </Link> */}
+            </Link>
             <div className="">
               <div className="">
                 <Popover className="relative">

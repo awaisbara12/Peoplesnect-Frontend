@@ -138,7 +138,7 @@ const GroupSettings = () => {
             {/* Name & description */}
             <div className="border items-center bg-white mt-4 p-10 rounded-xl">
               <div className="flex items-center justify-center gap-7">
-                <div className="text-lg font-medium">Page Title:</div>
+                <div className="text-lg font-medium">Group Name:</div>
                 <input
                   className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-96 xs:w-auto placeholder:pl-2 rounded-full placeholder:py-2"
                   placeholder="Write Group Name"

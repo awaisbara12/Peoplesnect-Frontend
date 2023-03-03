@@ -183,7 +183,7 @@ const Notifications = () => {
                   <div className="flex items-center gap-3">
                   <Link href={{
                           pathname:"/Friends-Profile",
-                          query: i.invite_friend ? (i.invite_friend.sender.id):(i.sender?(i.sender.id):(i.tag && i.tag.user?(i.tag.user.id):(i.group_member? (i.group_member.group_member.id):(i.member_request && currentUser && i.member_request.status == "pending"? (i.member_request.sender_details.id == currentUser.id ?(i.member_request.group_details.owner.id):(i.member_request.sender_details.id)):i.member_request && currentUser && i.member_request.status == "accepted"? (i.member_request.group_details.owner.id == currentUser.id?(i.member_request.sender_details.id):(i.member_request.group_details.owner.id)):('')))))
+                          query: i.invite_friend ? (i.invite_friend.sender.id):(i.sender?(i.sender.id):(i.tag && i.tag.user?(i.tag.user.id):(i.group_member? (i.group_member.group_member.id):(i.member_request && currentUser && i.member_request.status == "pending"? (i.member_request.sender_details.id == currentUser.id ?(i.member_request.group_details.owner.id):(i.member_request.sender_details.id)):i.member_request && currentUser && i.member_request.status == "accepted"? (i.member_request.group_details.owner.id == currentUser.id?(i.member_request.sender_details.id):(i.member_request.group_details.owner.id)):i.applied_job ?(i.applied_job.user.id):('')))))
                         }}>
                       <a>
                         {i.sender && i.sender.display_photo_url?(
@@ -227,6 +227,13 @@ const Notifications = () => {
                                   className="object-cover rounded-full z-40 h-[35px] w-[35px]"
                                   alt=""
                                 />
+                              ):(
+                                i.applied_job && i.applied_job.user.display_photo_url ?(
+                                  <img
+                                  src={ i.applied_job.user.display_photo_url}
+                                  className="object-cover rounded-full z-40 h-[35px] w-[35px]"
+                                  alt=""
+                                />
                               )
                               :(
                                 <Image
@@ -235,7 +242,7 @@ const Notifications = () => {
                                 height={35}
                                 alt=""
                               />
-                              ))))
+                              )))))
                              
                             )
                            
@@ -253,7 +260,7 @@ const Notifications = () => {
                     <div className="">
                     <Link href={{
                           pathname: "/Friends-Profile",
-                          query: i.invite_friend ? (i.invite_friend.sender.id):(i.sender?(i.sender.id):(i.tag && i.tag.user?(i.tag.user.id):(i.group_member? (i.group_member.group_member.id):(i.member_request && currentUser && i.member_request.status == "pending"? (i.member_request.sender_details.id == currentUser.id ?(i.member_request.group_details.owner.id):(i.member_request.sender_details.id)):i.member_request && currentUser && i.member_request.status == "accepted"? (i.member_request.group_details.owner.id == currentUser.id?(i.member_request.sender_details.id):(i.member_request.group_details.owner.id)):('')))))
+                          query: i.invite_friend ? (i.invite_friend.sender.id):(i.sender?(i.sender.id):(i.tag && i.tag.user?(i.tag.user.id):(i.group_member? (i.group_member.group_member.id):(i.member_request && currentUser && i.member_request.status == "pending"? (i.member_request.sender_details.id == currentUser.id ?(i.member_request.group_details.owner.id):(i.member_request.sender_details.id)):i.member_request && currentUser && i.member_request.status == "accepted"? (i.member_request.group_details.owner.id == currentUser.id?(i.member_request.sender_details.id):(i.member_request.group_details.owner.id)):i.applied_job ?(i.applied_job.user.id):('')))))
                         }}>
                         <a>
                         <div className="username text-sm font-bold">
@@ -268,7 +275,8 @@ const Notifications = () => {
                             ):(i.tag && i.tag.user?(i.tag.user.first_name+' '+i.tag.user.last_name):
                             ( i.group_member && i.group_member.group_details.title ?(i.group_member.group_member.first_name+' '+i.group_member.group_member.last_name):
                             ( i.member_request  && currentUser && i.member_request.group_details.owner.id == currentUser.id ?(i.member_request.sender_details.first_name+' '+i.member_request.sender_details.last_name):
-                            ( i.member_request  && currentUser && i.member_request.sender_details.id == currentUser.id  ?(i.member_request.group_details.owner.first_name+' '+i.member_request.group_details.owner.last_name):(''))))))
+                            ( i.member_request  && currentUser && i.member_request.sender_details.id == currentUser.id  ?(i.member_request.group_details.owner.first_name+' '+i.member_request.group_details.owner.last_name):
+                            ( i.applied_job && i.applied_job.user  ?(i.applied_job.user.first_name+' '+i.applied_job.user.last_name):('')))))))
                           )}
                           
                         </div>
@@ -432,7 +440,16 @@ const Notifications = () => {
                                     </a>
                                   </Link>
                                   </div>
-                              </div>):(i.body))))
+                              </div>):( i.applied_job ?(
+                                <div className="flex justify-end gap-4">
+                                  <div className="py-2 font-bold">
+                                  <Link href={{pathname: "/jobs/posted-jobs/job-applicants", query:  i.applied_job.jobs.id}}>
+                                    <a>
+                                      {i.body}
+                                    </a>
+                                  </Link>
+                                  </div>
+                              </div>):(i.body)))))
                             )))))))}
                         </div>
                       
