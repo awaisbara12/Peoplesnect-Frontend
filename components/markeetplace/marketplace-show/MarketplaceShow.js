@@ -99,6 +99,9 @@ const MarketplaceShow = () => {
                       <th scope="col" className="py-3 px-6">
                         Price
                       </th>
+                      {Product.country?<th scope="col" className="py-3 px-6">
+                        Location
+                      </th>:""}
                     </tr>
                   </thead>
                   <tr className="bg-white dark:bg-gray-800">
@@ -114,6 +117,9 @@ const MarketplaceShow = () => {
                     <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap rounded-bl-xl dark:text-white">
                       ${Product.price}
                     </th>
+                    {Product.country?<th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap rounded-bl-xl dark:text-white">
+                      {Product.country}, {Product.city}
+                    </th>:""}
                   </tr>
               </table>
             </div>
