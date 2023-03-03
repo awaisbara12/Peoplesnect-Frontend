@@ -103,7 +103,7 @@ function BlogShow() {
     setLoading(true);
     getBlogs();
     Current_User();
-  }, []);
+  }, [myArray[1]]);
   //  Opition Edit/delete confirmation
   const optionConfirm=(name,item)=>{
     if (name=="Delete")

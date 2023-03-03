@@ -83,7 +83,7 @@ const JobsShow = () => {
   useEffect(() => {
     ShowJobs();
     canApply();
-  }, []);
+  }, [myArray[1]]);
   
    // Apply job function
    const ApplyJobs =(status)=>{

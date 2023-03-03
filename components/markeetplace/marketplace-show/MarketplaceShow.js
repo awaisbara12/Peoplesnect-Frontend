@@ -54,7 +54,7 @@ const MarketplaceShow = () => {
   }
   useEffect(() => {
     product();
-  },[])
+  },[myArray[1]])
 
   return (
     <div className="w-[720px] xl:w-[1050px] lg:w-[780px] md:w-[850px] px-5 md:px-0 lg:px-0">
