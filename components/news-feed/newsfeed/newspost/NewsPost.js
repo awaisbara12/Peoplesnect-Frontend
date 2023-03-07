@@ -149,7 +149,7 @@ const NewsPost = ( setList ) => {
     e.preventDefault();
 
     const dataForm = new FormData();
-    dataForm.append("news_feeds[body]", postText);
+    dataForm.append("news_feeds[body]", postText.replace(/\[\@(.*?)\]\((.*?)\)/g, "@$1"));
     dataForm.append("news_feeds[feed_type]", feedType);
 
     if (tags.length > 0) {
@@ -232,7 +232,7 @@ const NewsPost = ( setList ) => {
             for(let i =0; i<result.data.length ; i++)
             {
                 awa[i] ={
-                  display: '@'+result.data[i].first_name ,
+                  display: '@'+result.data[i].first_name+" "+result.data[i].last_name ,
                   link: 'Friends-Profile?'+result.data[i].id,
                   avatar: result.data[i].display_photo_url,
                   id: result.data[i].id,
