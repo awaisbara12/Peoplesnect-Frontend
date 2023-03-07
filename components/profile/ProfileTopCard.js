@@ -209,6 +209,7 @@ const ProfileTopCard = () => {
                           type="file"
                           name="image"
                           id="image"
+                          onChange={onProfileChange}
                           className="opacity-0 absolute top-auto left-0 z-10"
                           title={""}
                           multiple

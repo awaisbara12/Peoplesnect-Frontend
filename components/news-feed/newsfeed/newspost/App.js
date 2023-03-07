@@ -78,16 +78,24 @@ class App extends Component {
     this.state.text && this.state.text.split(" ").map(text => {
       texts.push(text + " ")
     })
+    console.log(this.state.text);
+    console.log(this.props.website);
     for (let i = 0; i < this.props.website.length; i++){
       for (let j=0; j< texts.length ; j++){
-        if (this.props.website[i].tagable_type == "User" && texts[j] === '@'+this.props.website[i].user.first_name+" ")
+        if (this.props.website[i].tagable_type == "User" && texts[j]+texts[j+1] === '@'+this.props.website[i].user.first_name+" "+this.props.website[i].user.last_name+" ")
         {
-          texts[j]= <b className="text-indigo-400"><Link href={{pathname: "/User-Profile", query: this.props.website[i].user.id}}>{'@'+this.props.website[i].user.first_name +" "}</Link></b>
+          texts[j]= <b className="text-indigo-400"><Link href={{pathname: "/User-Profile", query: this.props.website[i].user.id}}>{'@'+this.props.website[i].user.first_name +" "+this.props.website[i].user.last_name}</Link></b>
           // texts[j+1]=<b className="text-indigo-400"><Link href={{pathname: "/User-Profile", query: this.props.website[i].user.id}}>{this.props.website[i].user.last_name +" "}</Link></b>
+          texts[j+1]=" "
 
         }else if(this.props.website[i].tagable_type == "Page" && texts[j] === '@'+this.props.website[i].page.name+" ")
         {
           texts[j]= <b className="text-indigo-400"><Link href={{pathname: "/page-design/liked-pages", query: this.props.website[i].page.id}}>{'@'+this.props.website[i].page.name +" "}</Link></b>
+        }
+        else if(this.props.website[i].tagable_type == "Page" && texts[j]+texts[j+1] === '@'+this.props.website[i].page.name+" ")
+        {
+          texts[j]= <b className="text-indigo-400"><Link href={{pathname: "/page-design/liked-pages", query: this.props.website[i].page.id}}>{'@'+this.props.website[i].page.name +" "}</Link></b>
+          texts[j+1]=" "
         }
       }
     }
