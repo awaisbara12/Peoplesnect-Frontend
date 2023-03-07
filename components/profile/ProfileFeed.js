@@ -7,6 +7,7 @@ import axios from "axios";
 import { POST_NEWSFEED_API_KEY } from "/pages/config";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import ClipLoader from 'react-spinners/ClipLoader';
+import NewsPost from "../news-feed/newsfeed/newspost/NewsPost";
 
 const ProfileFeed = (props) => {
   const [list, setList] = useState([]);
@@ -58,7 +59,9 @@ const ProfileFeed = (props) => {
   return (
     <div className="mt-8">
       <div className="w-[750px] md:w-full xl:w-full">
-        <NewsPostProfile lists={list} setList={setList} bookmarks={props.bookmarks} setBookmarks={props.setBookmarks}/>
+        {/* <NewsPost lists={list} setList={setList} bookmarks={props.bookmarks} setBookmarks={props.setBookmarks}/> */}
+        {/* NewsPostProfile */}
+        <NewsPost list={list} setList={setList} />
         <div>
         <InfiniteScroll
           dataLength={list.length}

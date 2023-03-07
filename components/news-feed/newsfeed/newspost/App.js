@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import Link from "next/link";
 
 class App extends Component {
@@ -7,7 +7,6 @@ class App extends Component {
     website: "@Google"
   };
  
-
   render() {
     // let texts = [];
     // for (let i = 0; i < this.props.website.length; i++){  
@@ -94,7 +93,7 @@ class App extends Component {
     if(this.props.hashtags){
       for (let i = 0; i < this.props.hashtags.length; i++){
         for (let j=0; j< texts.length ; j++){
-          if (texts[j]==this.props.hashtags[i].hashtag.data.attributes.name+" ")
+          if (this.props.hashtags[i].hashtag.data && texts[j]==this.props.hashtags[i].hashtag.data.attributes.name+" ")
           {
             texts[j]=<u><i className="text-indigo-400"><Link href={{pathname: "/hashtag-design/hashtags-show", query: this.props.hashtags[i].hashtag.data.attributes.id}}>{this.props.hashtags[i].hashtag.data.attributes.name+" "}</Link></i></u>
           }

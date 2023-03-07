@@ -118,7 +118,7 @@ const HomeProducts = () => {
                   <div className="flex md:justify-between lg:gap-3 lg:text-sm text-xs gap-4 leading-4 items-center">
                     <div className="flex items-center lg:gap-2 gap-1">
                       <LocationMarkerIcon className="h-5 w-5" />
-                      {i.city?<div className="">{i.country}, {i.city} </div>:""}
+                      <div className="">{i.city?i.city+", ":''}{i.state?i.state+", ":""} {i.country?i.country+", ":""} </div>
                     </div>
                     <div className="flex items-center lg:gap-2 md:gap-1">
                       <DocumentDuplicateIcon className="h-5 w-5" />

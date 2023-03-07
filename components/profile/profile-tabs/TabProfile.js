@@ -35,19 +35,16 @@ const TabProfile = (props) => {
 
   function closeModal() {
     setIsOpen(false);
-
   }
-
+  
   function openModal() {
     setIsOpen(true);
   }
-
   // Bareer Key
   if (typeof window !== "undefined") {
     // Bareer Key
     var authKey = window.localStorage.getItem("keyStore"); 
   }
-
   //current User
   const Current_User=async()=>{    
    
@@ -91,7 +88,6 @@ const TabProfile = (props) => {
   useEffect(()=>{
     Current_User(); 
   },[])
-   //console.log("==>",userDetails);
   return (
     <>
       <div className="bg-white rounded-xl p-10">

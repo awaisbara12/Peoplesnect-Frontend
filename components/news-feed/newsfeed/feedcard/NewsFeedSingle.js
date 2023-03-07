@@ -385,7 +385,7 @@ const NewsFeedSingle = (singleItem) => {
                         {items.event.event_type}
                       </span>
                     </div>
-                      {/* Speaker */}
+                    {/* Speaker */}
                     <div className="text-gray-900">
                       {items.event.tags && items.event.tags.length > 0?
                         <App state={items.event.speaker} website={items.event.tags} /> 
@@ -619,7 +619,7 @@ const NewsFeedSingle = (singleItem) => {
                             ))}
                           </div>
                         </div>
-                      </Popover.Panel>
+                      </Popover.Panel>NewsFeedSingle
                     </Transition>
                   </>
                 )}

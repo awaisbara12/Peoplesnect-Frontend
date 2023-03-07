@@ -394,7 +394,8 @@ const ReplyComments = (props) => {
                       alt=""
                     />
                   ):(
-                    <Image src={ProfileAvatar} width={38} height={38} alt="" />
+                    <Image src={ProfileAvatar}  className="object-cover rounded-full " 
+                    width={38} height={38} alt="" />
                   )}
                   
                   <div>
@@ -689,7 +690,8 @@ const ReplyComments = (props) => {
                               alt=""
                             />
                           ):(
-                            <Image src={ProfileAvatar} width={38} height={38} alt="" />
+                            <Image src={ProfileAvatar}  className="object-cover rounded-full " 
+                            width={38} height={38} alt="" />
                           )}
                           
                           <div>

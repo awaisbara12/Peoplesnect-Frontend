@@ -20,13 +20,14 @@ const SkillsTabProfile = () => {
   // Bareer Key
   if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore"); } 
   // for close modal
-  function closeModal() { setIsOpen(false); setuserskill("")}
+  function closeModal() { setuserskill(""); setIsOpen(false); }
   // for Open modal
   function openModal() { setIsOpen(true);}
   // for Close  Edit-modal
   function closeeditModal() { seteditOpen(false); }
   // for Open  Edit-modal
   function openeditModal(i) { seteditOpen(true);seteditskill(i.title);seteditskillid(i.id)}
+  
   const delSkill=async(delId)=>{
     let a=confirm("Are you sure");
     if (delId && a==true){
@@ -61,6 +62,7 @@ const SkillsTabProfile = () => {
           if (result) { 
             seteditOpen(false); 
             Current_User();
+            alert("your skill updated successfully");
           }
         })
         .catch((err) => console.log(err));
@@ -80,8 +82,10 @@ const SkillsTabProfile = () => {
       }).then((resp) => resp.json())
       .then((result) => {
         if (result) { 
-          setIsOpen(false); 
+          setIsOpen(false);
+          setuserskill(""); 
           Current_User();
+          alert("Your Skill Added Successfully")
         }
       })
       .catch((err) => console.log(err));
@@ -108,6 +112,7 @@ const SkillsTabProfile = () => {
   useEffect(()=>{
     Current_User()
   },[])
+
   return (
     <div className="bg-white rounded-xl p-10">
       <div className="flex items-center justify-between mb-5">
@@ -176,12 +181,17 @@ const SkillsTabProfile = () => {
                         {/* <em>press enter to add new Skill</em> */}
                       </div>
                       <div className="flex gap-4 justify-end">
-                        <Link href="">
-                          <button className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
-                            type="submit" onClick={AddSkill}  >
-                             Save Skill
+                         {skill?(
+                            <button className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
+                              type="submit" onClick={AddSkill}  >
+                                Save Skill
+                            </button>
+                         ):(
+                          <button className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-100 cursor-not-allowed">
+                              Save Skill
                           </button>
-                        </Link>
+                         )}
+                         
                       </div>
                     </div>
                   </div>
@@ -292,10 +302,10 @@ const SkillsTabProfile = () => {
           
         ):("")
         } 
-        <div className="flex justify-center items-center mt-10">
+        {/* <div className="flex justify-center items-center mt-10">
           Show All Skills
           <ChevronRightIcon className="h-5 w-5" />
-        </div>
+        </div> */}
       </div>
     </div>
   );

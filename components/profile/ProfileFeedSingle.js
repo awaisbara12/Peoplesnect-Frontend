@@ -35,6 +35,7 @@ import PostComments from "./comments/PostComments";
 import FilterComments from "./comments/FilterComments";
 import ReplyComments from "./comments/ReplyComments";
 import Spinner from "../common/Spinner";
+import App from "../news-feed/newsfeed/newspost/App";
 // import Spinner from "../common/Spinner";
 
 const cardDropdown = [
@@ -71,7 +72,8 @@ const ProfileFeedSingle = (singleItems) => {
   const [EditText, setEditText] = useState(singleItems.lists.body);  // get text for editing
   const [bookmarks, setBookmarks] = useState(singleItems.bookmarks);
   const [spinner, setSpinner] = useState(false);
-  
+  const [isActive, setIsActive] = useState(false);
+
   // Bareer Key
   if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore");}
   // Copy Link
@@ -137,12 +139,16 @@ const ProfileFeedSingle = (singleItems) => {
   };
   // update user newsfeed's post
  const EditFeed=(uid)=>{
-   alert("ues"+uid);
    setEditOn(uid);
   };
   // Confirmation Edit Or Delete
   const optionConfirm=(uid,name,item)=>{
-    if (name=="Delete"){DeleteNewsFeed(uid);}
+    if (name=="Delete")
+    {
+      let a = confirm("Are yuo Sure ?");
+      if(a){DeleteNewsFeed(uid);}
+    }
+
     if (name=="Edit")
     { 
       if(item && item.event)
@@ -354,7 +360,6 @@ const ProfileFeedSingle = (singleItems) => {
   }
   
   useEffect(() => {
-   //console.log("yes")
     setLoading(true);
     const getFeedComments = async () => {
       const res = await axios(
@@ -388,20 +393,18 @@ const ProfileFeedSingle = (singleItems) => {
     getFeedComments();
   }, []);
 
-  const [isActive, setIsActive] = useState(false);
-
   const handleClick = () => {
     setIsActive((current) => !current);
   };
- 
+
   return (
     <>
-     <div className="w-[600px] xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">
+      <div className="w-[600px] xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">
         <div className="flex gap-2 justify-between items-center px-[22px] py-[14px]">
           <div className="flex gap-2">
            {items && items.user && items.user.display_photo_url?
             (
-             <img 
+             <img
               src={items.user.display_photo_url} 
               className="object-cover rounded-full z-40 h-[42px] w-[42px]" 
               alt=""
@@ -409,6 +412,7 @@ const ProfileFeedSingle = (singleItems) => {
             ):(
              <Image 
               src={ProfileAvatar} 
+              className="object-cover rounded-full " 
               width={45} 
               height={45} 
               alt=""
@@ -485,18 +489,26 @@ const ProfileFeedSingle = (singleItems) => {
         </div>
         {/* <div className="border-1 border-gray-100"></div> */}
 
-        
         <div className="px-[22px] py-[14px]">
-        {EditOn==items.id?(
-          <textarea
-          type="text"
-          name="post-text"
-          value={EditText}
-          onChange={(e) => setEditText(e.target.value)}
-          className="w-full pt-0 resize-none border-0 px-0 text-base overflow-y-hidden outline-none focus:outline focus:ring-0"
-          placeholder="Start a post?"
-        />
-        ):(<p>{items.body ? items.body : ""}</p>)}
+          {EditOn==items.id?(
+            <textarea
+            type="text"
+            name="post-text"
+            value={EditText}
+            onChange={(e) => setEditText(e.target.value)}
+            className="w-full pt-0 resize-none border-0 px-0 text-base overflow-y-hidden outline-none focus:outline focus:ring-0"
+            placeholder="Start a post?"
+          />
+          ):(// <p>{items.body ? items.body : ""}</p>
+              items.tags && items.tags.length > 0 || (items.hashtags && items.hashtags.length > 0)?
+                (
+                  <App state={items.body} website={items.tags} hashtags={items.hashtags}/>
+                )
+                :
+                (  
+                  items.body? items.body : ""
+                )
+            )}
           
           {items.event && items.event ? (    
             <div className="rounded-xl bg-white border border-gray-100 my-2">
@@ -591,11 +603,11 @@ const ProfileFeedSingle = (singleItems) => {
                             </fieldset>
                             <fieldset className="flex items-center gap-2 pt-3">
                             <input
-                                checked={event_type=="in_person"}
+                                checked={event_type=="in person"}
                                 type="radio"
                                 name="event-radio"
                                 id="online"
-                                value="in_person"
+                                value="in person"
                                 onChange={(e) => setevent_type(e.target.value)}
                               />
                               <label htmlFor="in-person">In Person</label>
@@ -653,15 +665,15 @@ const ProfileFeedSingle = (singleItems) => {
                             />
                           </>
                           <>
-                            <label htmlFor="startTime" className="text-neutral-900 text-sm">
+                            <label htmlFor="endDate" className="text-neutral-900 text-sm">
                             End Date <span className="text-red-500">*</span>
                             </label>
                             <input
                               type="date"
-                              name="startTime"
+                              name="endDate"
                               value={E_date}
                               onChange={(e)=>setE_date(e.target.value)}
-                              placeholder="Event Name"
+                              placeholder="dd-mm-yyyy"
                               className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
                               id="startTime"
                             />
@@ -669,35 +681,71 @@ const ProfileFeedSingle = (singleItems) => {
                         </div>
                       </div >
                       ):(
-                      <>
-                        <span>{items.event.start_time}</span>
-                        <span>-{items.event.end_time}</span>&nbsp;
-                        <span>{items.event.start_date}</span>&nbsp;
-                        
-                        <div className="flex items-center gap-2">
-                          <CalendarIcon
-                            width={16}
-                            height={16}
-                            className="text-gray-900"
-                          />
-                          <span className="text-gray-900 text-sm">
-                            {items.event.event_type=== "in_person"?(
-                              'In Person'
-                            ):(items.event.event_type)}
-                          </span>
+                      <div className="py-3 px-3">
+                        <div className="flex justify-between items-center">
+                          <div>
+                            <span>{items.event.start_time}</span>
+                            <span>-{items.event.end_time}</span>&nbsp;
+                            <span>{items.event.start_date}</span>&nbsp;
+                            {/* Event Name/title */}
+                            <div className="font-semibold text-lg">
+                              {items.event.name}
+                            </div>
+                            {/* Event type online/offline/in_persone */}
+                            <div className="flex items-center gap-2">
+                              <CalendarIcon
+                                width={16}
+                                height={16}
+                                className="text-gray-900"
+                              />
+                              <span className="text-gray-900 text-sm">
+                                {items.event.event_type=== "online"?(
+                                  items.event.event_type
+                                ):('In Person')}
+                              </span>
+                            </div>
+                            {/*  Event link */}
+                            <div className="flex items-center gap-2">
+                              <CalendarIcon
+                                width={16}
+                                height={16}
+                                className="text-gray-900"
+                              />
+                              <span className="text-gray-900 text-sm">
+                                {items.event.event_link}
+                              </span>
+                            </div>
+                            {/* Speaker  */}
+                            {items.event.tags && items.event.tags.length > 0?
+                              <App state={items.event.speaker} website={items.event.tags} /> 
+                              : items.event.body? items.event.body : ""
+                            }
+                            {/* Remaining Seats */}
+                            <div className="text-gray-900 flex gap-2">
+                              <CalendarIcon
+                                width={16}
+                                height={16}
+                                className="text-gray-900"
+                              />
+                              <span>{items.event.total_seats - items.event.booked_seat}</span>
+                            </div>
+                          </div>
+                          <Link 
+                            href={{
+                            pathname: "/events-design/event-view",
+                            query: items.id,
+                          }}
+                          >
+                            <a className="text-sm text-gray-600 cursor-pointer flex items-center border border-gray-100 rounded-full py-1 px-3">
+                              View Event
+                            </a>
+                          </Link>
                         </div>
                         
-                        <div className="font-semibold text-lg">
-                          {items.event.name}
-                        </div>
 
-                        <Link href="/events-design/event-view">
-                          <a className="text-sm text-gray-600 cursor-pointer flex items-center border border-gray-100 rounded-full py-1 px-3">
-                            View Event
-                          </a>
-                        </Link>
+                        
 
-                      </>)}
+                      </div>)}
                     </div>
                     {/* <div className="text-gray-900"></div> */}
                   </div>
@@ -707,8 +755,6 @@ const ProfileFeedSingle = (singleItems) => {
           ) : (
             ""
           )}
-          
-          
           
           {items.feed_type && items.feed_type === "video_feed" ? (
             EditOn==items.id?(
@@ -987,7 +1033,6 @@ const ProfileFeedSingle = (singleItems) => {
             {!loading && <ReplyComments news_feed_id={items.id} comments={comments.data} comments_count={comments_count} setComments_count={setComments_count} setComments={setComments} setIs_deleted={setIs_deleted} items={items}/>}
           </Fragment>
         </div>
-
       </div>
     </>
   );
