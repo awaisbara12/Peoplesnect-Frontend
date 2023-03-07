@@ -159,6 +159,7 @@ const PostComments = (props) => {
           ):(
              <Image 
              src={ProfileAvatar} 
+             className="object-cover rounded-full " 
              width={34} 
              height={34} alt="" />
           )}

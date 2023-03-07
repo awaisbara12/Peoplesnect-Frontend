@@ -61,8 +61,6 @@ const TopNavbar = () => {
       .then((result) => {
         if (result) {
           setcount(result.data);
-          console.log(result.data);
-          console.log("abcd",result.data);
           // router.push("/notifications");
         }
       })

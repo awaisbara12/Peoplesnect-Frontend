@@ -454,12 +454,12 @@ const EventView = () => {
                           : items.event.body? items.event.body : ""}
                           {/* Remaining Seats */}
                           <div className="text-gray-900 flex gap-2">
-                          <CalendarIcon
-                              width={16}
-                              height={16}
-                              className="text-gray-900"
-                            />
-                            <span>{items.event.total_seats - items.event.booked_seat}</span>
+                            <CalendarIcon
+                                width={16}
+                                height={16}
+                                className="text-gray-900"
+                              />
+                              <span>{items.event.total_seats - items.event.booked_seat}</span>
                           </div>
                         </div>
                         {/*  Reserve seat button */}

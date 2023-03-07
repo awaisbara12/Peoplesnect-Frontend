@@ -163,7 +163,7 @@ const MainEvents = (props) => {
                         (
                           <div className="flex gap-2 items-center font-bold mt-1">
                             <VideoCameraIcon className="h-5 w-5" />
-                            Offline
+                            In Person
                         </div>
                         )}
 

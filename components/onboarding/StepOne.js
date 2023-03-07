@@ -9,7 +9,7 @@ import { OnboardingSchemaFitst } from "../auth/schemas/OnboardSchema";
 import { ONBOARDING_STEP_ONE_URL } from "../../pages/config";
 import { fetchUser } from "../../store/userSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { Country, City }  from 'country-state-city';
+import { Country, State, City }  from 'country-state-city';
 import Spinner from "../common/Spinner";
 
 const StepOne = () => {
@@ -23,8 +23,10 @@ const StepOne = () => {
   const dispatch = useDispatch();
   const [country, setcountry] = useState();
   const [city, setcity] = useState();
+  const [state, setstates] = useState();
   const [Errcountry, setcountryErr] = useState();
   const [Errcity, setcityErr] = useState();
+  const [Errstate, setstateErr] = useState();
 
 
 
@@ -42,12 +44,13 @@ const StepOne = () => {
     // e.preventDefault();
     // handleSubmit();
     // const isValid = await OnboardingSchemaFitst.isValid(values)
-    if(city && country){
+    if(city && country && state){
       setSpinner(true);
       const data = {
           user: {
               country: country,
               city:city,
+              state:state,
             },
           };
           const resp = await fetch(ONBOARDING_STEP_ONE_URL, {
@@ -74,9 +77,10 @@ const StepOne = () => {
       setSpinner(false);
     }else{
       var check=0;
-      if (country){ setcityErr('Required'); setcountryErr('');check=1;}
-      if (city){setcountryErr('Required');setcityErr(''); check=1;}
-      if(check==0){setcityErr('Required');setcountryErr('Required');}
+      if (country){ setcityErr('Required');setstateErr('Required'); setcountryErr('');check=1;}
+      if (city){setcountryErr('Required');setstateErr('Required');setcityErr(''); check=1;}
+      if (state){setcountryErr('Required');setcityErr('Required'); setstateErr('');check=1;}
+      if(check==0){setcityErr('Required');setcountryErr('Required');setstateErr('Required');}
     }
   };
   const {
@@ -91,6 +95,7 @@ const StepOne = () => {
     initialValues: {
       country: country,
       city: city,
+      state: state,
     },
     validationSchema: OnboardingSchemaFitst,
   });
@@ -152,6 +157,7 @@ const StepOne = () => {
             </div>
 
             <for  className="w-3/4 mx-auto pt-8 pb-6">
+              {/* Country */}
               <div className="form-group pb-4">
                 <label htmlFor="" className="font-medium">
                   Country - Region <span className="text-red-400">*</span>
@@ -184,21 +190,44 @@ const StepOne = () => {
                   <div className="text-red-600 pt-2 pl-1">{Errcountry}</div>
                 ) : null}
               </div>
+              {/* State */}
               <div className="form-group pb-4">
                 <label htmlFor="" className="font-medium">
-                  City / State <span className="text-red-400">*</span>
+                  State <span className="text-red-400">*</span>
+                </label>
+                <select onChange={e=>setstates(e.target.value)} 
+                className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none
+                 focus:border-indigo-400 focus:drop-shadow-indigo-400 ${
+                  Errstate ? "border-red-600" : ""
+                }`}
+                >
+                  <option value={state}>{state}</option>
+                    {
+                      State.getStatesOfCountry(country).map((item)=>(
+                        <option value={item.isoCode} key={item.name}>{item.name}</option>
+                      ))  
+                    }
+                </select>
+                {Errstate? (
+                  <div className="text-red-600 pt-2 pl-1">{Errstate}</div>
+                ) : null}
+              </div>
+              {/* City */}
+              <div className="form-group pb-4">
+                <label htmlFor="" className="font-medium">
+                  City <span className="text-red-400">*</span>
                 </label>
                 <select onChange={e=>setcity(e.target.value)} 
                  // className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-40 lg:w-54 xs:w-auto md:min-w-[13rem] placeholder:pl-2 rounded-full placeholder:py-2"
                  className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400 ${
                   Errcity ? "border-red-600" : ""
                 }`}>
-                  <option value={city}>{city}</option>
-                  {
-                    City.getCitiesOfCountry(country).map((item)=>(
-                      <option value={item.name} key={item.id}>{item.name}</option>
-                    ))  
-                  }
+                 <option value={city}>{city}</option>
+                    {
+                      City.getCitiesOfState(country, state).map((item)=>(
+                        <option value={item.name} key={item.name}>{item.name}</option>
+                      ))  
+                    }
                 </select>
                 {/* <input
                   type="text"
@@ -214,14 +243,23 @@ const StepOne = () => {
                   <div className="text-red-600 pt-2 pl-1">{Errcity}</div>
                 ) : null}
               </div>
-              <button
-                // type="submit"
-                disabled={spinner}
-                onClick={()=>stepData()}
-                className="bg-indigo-400 flex gap-2 items-center justify-center text-white text-xl text-center cursor-pointer font-semibold w-full py-2 rounded-full mt-6"
+              {country && state && city?(
+                <button
+                  // type="submit"
+                  disabled={spinner}
+                  onClick={()=>stepData()}
+                  className="bg-indigo-400 flex gap-2 items-center justify-center text-white text-xl text-center cursor-pointer font-semibold w-full py-2 rounded-full mt-6"
+                >
+                  Continue {spinner && true ? <Spinner /> : ""}
+                </button>
+              ):(
+                <button
+                className="bg-indigo-100 flex gap-2 items-center justify-center text-white text-xl text-center cursor-not-allowed font-semibold w-full py-2 rounded-full mt-6"
               >
                 Continue {spinner && true ? <Spinner /> : ""}
               </button>
+              )}
+              
             </for>
           </div>
         </div>

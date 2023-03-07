@@ -34,7 +34,6 @@ const TabContactProfile = () => {
     // Bareer Key
     var authKey = window.localStorage.getItem("keyStore"); 
   }
-
   //current User
   const Current_User=async()=>{    
    
@@ -82,7 +81,6 @@ const TabContactProfile = () => {
   useEffect(()=>{
     Current_User(); 
   },[])
-   //console.log("==>",userDetails);
   return (
     <>
       <div className="bg-white rounded-xl  p-10">
@@ -122,7 +120,7 @@ const TabContactProfile = () => {
                   leaveTo="opacity-0 scale-95"
                 >
                   <Dialog.Panel className="w-[620px] bg-white rounded-xl xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0 py-4 text-left align-middle shadow-xl transition-all">
-                  <div className="flex justify-end items-center mx-4">
+                    <div className="flex justify-end items-center mx-4">
                     <XIcon
                       onClick={closeModal}
                       className="w-5 h-5 cursor-pointer"
@@ -136,54 +134,55 @@ const TabContactProfile = () => {
                     </Dialog.Title>
                     <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
                       <div className="bg-white px-12 py-5 rounded-xl">
-                <div className="">
-                  <input
-                    className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full placeholder:pl-2 rounded-full placeholder:py-2"
-                    placeholder="Email Adress"
-                    value={email}
-                    onChange = {(e)=>setUseremail(e.target.value)}
-                    type="Email"
-                    name="search"
-                  />
-              </div>
-              <div className="mt-5 ">
-                  <div className="">
-                    <input
-                      className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full placeholder:pl-2 rounded-full placeholder:py-2"
-                      placeholder="Change Your Number"
-                      value={phone_number}
-                      onChange = {(e)=>setUserphone(e.target.value)}
-                      type="text"
-                      name="search"
-                    />
-                  </div>
-              </div>
-              <div className="mt-5">
-                  <div className="">
-                  <div style={{width:'100%'}}>
-                     <label style={{margin:15, color:'#8e8e8e'}}>Date Of Birth</label>
-                     <input
-                     type="date"
-                     name="endDate"
-                     value={DOB} 
-                     onChange = {(e)=>setUserDOB(e.target.value)}
-                     className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full placeholder:pl-2 rounded-full placeholder:py-2"
-                     />
-                   </div>
-                
-                  </div>
-              </div>
-                      <div className="flex gap-4 justify-end">
-                <Link href="">
-                <button
-                      type="submit"
-                      className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
-                      onClick={Update_contact_info}
-                    >
-                      Save Changes
-                </button>
-                </Link>
-                      </div>
+                        <div className="">
+                          <input
+                            className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full placeholder:pl-2 rounded-full placeholder:py-2"
+                            placeholder="Email Adress"
+                            value={email}
+                            onChange = {(e)=>setUseremail(e.target.value)}
+                            type="Email"
+                            name="search"
+                          />
+                        </div>
+                        <div className="mt-5 ">
+                            <div className="">
+                              <input
+                                className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full placeholder:pl-2 rounded-full placeholder:py-2"
+                                placeholder="Change Your Number"
+                                value={phone_number}
+                                onChange = {(e)=>setUserphone(e.target.value)}
+                                type="text"
+                                name="search"
+                              />
+                            </div>
+                        </div>
+                        <div className="mt-5">
+                            <div className="">
+                            <div style={{width:'100%'}}>
+                              <label style={{margin:15, color:'#8e8e8e'}}>Date Of Birth</label>
+                              <input
+                              type="date"
+                              name="endDate"
+                              value={DOB} 
+                              onChange = {(e)=>setUserDOB(e.target.value)}
+                              className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full placeholder:pl-2 rounded-full placeholder:py-2"
+                              />
+                            </div>
+                          
+                            </div>
+                        </div>
+                        <div className="flex gap-4 justify-end">
+                         {email && phone_number && DOB?(
+                            <button type="submit"className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400" onClick={Update_contact_info}>
+                              Save Changes
+                            </button>
+                         ):(
+                            <button type="submit"className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-100 cursor-not-allowed" >
+                              Save Changes
+                            </button>
+                         )}
+                          
+                        </div>
                       </div>
                     </div>
                   </Dialog.Panel>

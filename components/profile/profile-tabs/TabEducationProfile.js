@@ -3,7 +3,7 @@ import { Menu, Transition } from "@headlessui/react";
 import { Dialog } from "@headlessui/react";
 import Link from "next/link";
 import Image from "next/image";
-import ProfileAvatar from "../../../public/images/profile-avatar.png";
+import ProfileAvatar from "../../../public/images/education.png";
 import { PlusCircleIcon } from "@heroicons/react/solid";
 import { ChevronRightIcon, XIcon, PencilAltIcon,TrashIcon } from "@heroicons/react/outline";
 import {    
@@ -82,7 +82,7 @@ const TabEducationProfile = () => {
         if (result) {
           closeCreateModal();
           setUserUpdateeducation(result.data)
-          // console.log("Create Education",result.data)
+          alert("Your Education Added Successfully")
         }
       })
       .catch((err) => console.log(err));
@@ -124,8 +124,8 @@ const TabEducationProfile = () => {
       .then((result) => {
         if (result) {
           closeModal();
-          setUserUpdateeducation(result.data)
-          // console.log("User Education",result.data)
+          setUserUpdateeducation(result.data);
+          alert("Your Education Updated Successfully")
         }
       })
       .catch((err) => console.log(err));
@@ -158,7 +158,6 @@ const TabEducationProfile = () => {
   useEffect(()=>{
     Current_User(); 
   },[])
-  //console.log("==>",userDetails);
   return (
     <div className="bg-white rounded-xl p-10">
       <div className="flex items-center justify-between mb-5">
@@ -235,35 +234,34 @@ const TabEducationProfile = () => {
                             </div>
                             {current_study?(''):(
                                <div style={{width:'100%'}}>
-                               <label style={{margin:15, color:'#8e8e8e'}}>End Date</label>
-                               <input
-                                 className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full placeholder:pl-2 rounded-full placeholder:py-2"
-                                 type="date"
-                                 name="startDate"
-                                 value={education_study_to} 
-                                 onChange = {(e)=>setUsereducation_study_to(e.target.value)}
-                                 placeholderColor="#8e8e8e"
-                               />
+                                <label style={{margin:15, color:'#8e8e8e'}}>End Date</label>
+                                <input
+                                  className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full placeholder:pl-2 rounded-full placeholder:py-2"
+                                  type="date"
+                                  name="startDate"
+                                  value={education_study_to} 
+                                  onChange = {(e)=>setUsereducation_study_to(e.target.value)}
+                                  placeholderColor="#8e8e8e"
+                                />
                                </div>
-                            )
-
+                              )
                             }
                             </div>
                             <div className="mt-5">
-                            <input
-                              checked={current_study}
-                              id="default-radio-1"
-                              type="checkbox"
-                              onChange = {(e)=>chckbox()}
-                              name="default-radio"
-                              className="w-4 h-4 rounded-full text-blue-600 bg-gray-100 border-gray-300 focus:ring-indigo-400 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-indigo-400 dark:border-indigo-400"
-                            />
-                            <label
-                              htmlFor="default-radio-2"
-                              className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                            >
-                              Persuing
-                            </label>
+                              <input
+                                checked={current_study}
+                                id="default-radio-1"
+                                type="checkbox"
+                                onChange = {(e)=>chckbox()}
+                                name="default-radio"
+                                className="w-4 h-4 rounded-full text-blue-600 bg-gray-100 border-gray-300 focus:ring-indigo-400 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-indigo-400 dark:border-indigo-400"
+                              />
+                              <label
+                                htmlFor="default-radio-2"
+                                className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                              >
+                                Persuing
+                              </label>
                           </div>
                           </div> 
                           <div className="flex gap-4 justify-end">
@@ -363,8 +361,6 @@ const TabEducationProfile = () => {
                             </div>
                            )       
                            }
-                            
-                             
                             </div>
                             <div className="mt-5">
                             <input
@@ -384,12 +380,17 @@ const TabEducationProfile = () => {
                           </div>
                           </div>
                           <div className="flex gap-4 justify-end">
-                            <Link href="">
-                            <button type="submit" className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
-                             onClick={CreateEducation}>
-                             Add Education
-                            </button>
-                            </Link>
+                            {education_institution && education_degree && education_degree_type && education_study_from && (education_study_to || current_study)?(
+                              <button type="submit" className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
+                                onClick={CreateEducation}>
+                                Add Education
+                              </button>
+                            ):(
+                              <button type="submit" className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-100 cursor-not-allowed">
+                                Add Education
+                              </button>
+                            )}
+                            
                           </div>
                         </div>
                       </div>
@@ -420,7 +421,7 @@ const TabEducationProfile = () => {
             <div className="flex items-center gap-10">
               <Link href="">
               <a>
-                <Image src={ProfileAvatar} width={66} height={66} className="object-cover rounded-full" placeholder="empty"
+                <Image src={ProfileAvatar} width={55} height={55} className="object-cover rounded-full" placeholder="empty"
                   alt="profile-image" />
               </a>
               </Link>
@@ -437,10 +438,10 @@ const TabEducationProfile = () => {
         ))
         ):("")} 
         </div>
-        <div className="flex justify-center font-bold items-center mt-10">
+        {/* <div className="flex justify-center font-bold items-center mt-10">
           Show All Skills
           <ChevronRightIcon className="h-5 w-5" />
-        </div>
+        </div> */}
       </div>
     </div>
   );

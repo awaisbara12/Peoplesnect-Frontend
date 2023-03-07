@@ -21,7 +21,7 @@ import { XCircleIcon } from "@heroicons/react/solid";
 import { useFormik } from "formik";
 import { eventScheema } from "../../../auth/schemas/CreateEventScheema";
 import { Dialog, Popover, Transition } from "@headlessui/react";
-import { HASHTAGS_API, POST_NEWSFEED_API_KEY, SEARCH_MULTIPLE } from "../../../../pages/config";
+import { CURENT_USER_LOGIN_API, HASHTAGS_API, POST_NEWSFEED_API_KEY, SEARCH_MULTIPLE } from "../../../../pages/config";
 import ImageUpload from "image-upload-react";
 import Link from "next/link";
 import Spinner from "../../../common/Spinner";
@@ -31,9 +31,6 @@ import App from "./App";
 import HashtagMentionInput from "./HashtagMentionInput";
 
 const NewsPost = ( setList ) => {
-  if (typeof window !== "undefined") {
-    var authKey = window.localStorage.getItem("keyStore");
-  }
   const [loading, setLoading] = useState(false);
   const [postText, setPostText] = useState("");
   const [eventCoverImage, setEventCoverImage] = useState([]);
@@ -55,8 +52,14 @@ const NewsPost = ( setList ) => {
   let [speakerText, setspeakerText] = useState();
   const [speakertags, setspeakertags] = useState([]);
 
+  const [currentuser, setcurrentuser] = useState();
+
   let [isOpen, setIsOpen] = useState(false);
   let [hastags, sethastags] = useState();
+  // console.log("setListsetList",setList)
+  // Bareer Key
+  if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore");}
+  
   
   const HashTags=async()=>{
     await fetch(HASHTAGS_API, {
@@ -128,7 +131,7 @@ const NewsPost = ( setList ) => {
   } = useFormik({
     initialValues: {
       eventOnline: "online",
-      eventInPerson: "In person",
+      eventInPerson: "in person",
       eventName: "",
       timezone: "",
       startDate: "",
@@ -144,7 +147,7 @@ const NewsPost = ( setList ) => {
     },
     validationSchema: eventScheema,
   });
-
+  
   function postNewsData(e) {
     e.preventDefault();
 
@@ -157,8 +160,7 @@ const NewsPost = ( setList ) => {
         dataForm.append("tags[]", tags[i]);
       }
     }
-
-    // dataForm.append("news_feeds[tags][]", tags);
+  // dataForm.append("news_feeds[tags][]", tags);
 
     dataForm.append("news_feeds[feed_attachments][]", postImage);
     dataForm.append("news_feeds[feed_attachments][]", videoSrc);
@@ -240,6 +242,7 @@ const NewsPost = ( setList ) => {
                 }
             }
             a=awa;
+            setspeakerMention(a);
             mentionpages();
             // console.log("grie",awa);
           }
@@ -276,7 +279,7 @@ const NewsPost = ( setList ) => {
             }
             let dbc = [...a,...awa]
             setMentioned(dbc);
-            setspeakerMention(dbc);
+            // setspeakerMention(dbc);
           //  console.log("ment",mentioned);
           }
         })
@@ -330,23 +333,51 @@ const NewsPost = ( setList ) => {
   useEffect(()=>{
     mentioneds();
     HashTags();
+    Current_User();
   },[])
 
+  //current User
+  const Current_User=async()=>{    
+    await fetch(CURENT_USER_LOGIN_API, {
+      method: "GET",
+       headers: {
+        Accept: "application/json", 
+         Authorization: `${authKey}`,
+       },
+    })
+       .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          setcurrentuser(result.data); 
+        }
+      })
+      .catch((err) => console.log(err)); 
+  }
   return (
     <div className="mt-8 z-20">
       <div className="w-[600px] xl:w-[980px] lg:w-[730px] md:w-[780px] rounded-xl bg-white p-[22px]">
         <form onSubmit={postNewsData}>
           <div className="w-full flex justify-start gap-[22px]">
-            <div className="w-[42px] h-[42px]">
-              <Image
-                src={ProfileAvatar}
-                className="rounded-full"
-                width={45}
-                height={45}
-                placeholder="empty"
-                alt="profile-image"
-              />
-            </div>
+            {/* <div className="w-[42px] h-[42px]"> */}
+             {/* display_photo_url */}
+              {currentuser && currentuser.display_photo_url?(
+                 <img
+                 src={currentuser.display_photo_url} 
+                 className="object-cover rounded-full z-40 h-[42px] w-[42px] mb-1" 
+                 alt=""
+                />
+              ):(
+                <Image
+                  src={ProfileAvatar}
+                  className="rounded-full"
+                  width={45}
+                  height={45}
+                  placeholder="empty"
+                  alt="profile-image"
+                />
+              )}
+              
+            {/* </div> */}
             <HashtagMentionInput postText={postText} setPostText={setPostText} mentioned={mentioned}  tags={tags} settags={settags} hastags={hastags}/>
             {/* <NewPost postText={postText} setPostText={setPostText} tags={tags} settags={settags} results={results} setresults={setresults}/> */}
             {/* <textarea
@@ -418,7 +449,7 @@ const NewsPost = ( setList ) => {
                       {values.eventName}
                     </div>
                     <div className="text-gray-900">
-                      {inPerson && true ? "In Person" : "Online"}
+                      {inPerson && true ? "in person" : "Online"}
                     </div>
                   </div>
                   <div
@@ -648,7 +679,7 @@ const NewsPost = ( setList ) => {
                               type="radio"
                               name="event-radio"
                               id="in-person"
-                              value="I Person"
+                              value="in person"
                               onChange={() => {
                                 setInPerson(true);
                                 setOnline(false);

@@ -118,7 +118,7 @@ const MarketplaceShow = () => {
                       ${Product.price}
                     </th>
                     {Product.country?<th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap rounded-bl-xl dark:text-white">
-                      {Product.country}, {Product.city}
+                    {Product.city?Product.city+", ":""}{Product.state?Product.state+", ":''}{Product.country}, 
                     </th>:""}
                   </tr>
               </table>

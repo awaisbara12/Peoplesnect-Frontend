@@ -4,7 +4,7 @@ import { update } from "draft-js/lib/DefaultDraftBlockRenderMap";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { CATEGORY_API, PRODUCT_API } from "../../../pages/config";
-import { Country, City }  from 'country-state-city';
+import { Country, State, City }  from 'country-state-city';
 
 const AddYourItems = () => {
   const [selectCategory, setselectCategory] = useState();  // map on category's select
@@ -19,6 +19,7 @@ const AddYourItems = () => {
   const [P_productPic, setP_productPic] = useState([]);
   const [country, setcountry] = useState();
   const [city, setcity] = useState();
+  const [states, setstates] = useState();
   const router = useRouter();
   const data = router.asPath;
   const myArray = data.split("?");
@@ -53,6 +54,7 @@ const AddYourItems = () => {
     dataForm.append("products[contact]", contact);
     dataForm.append("products[description]", des);
     dataForm.append("products[country]", country);
+    dataForm.append("products[state]", states);
     dataForm.append("products[city]", city);
     fetch(PRODUCT_API, {
       method: "POST",
@@ -91,16 +93,17 @@ const AddYourItems = () => {
       .then((resp) => resp.json())
       .then((result) => {
         if (result) {
+          console.log(result.data)
           setcategory(result.data.category.id);
           setname(result.data.name);
           setcountry(result.data.country);
+          setstates(result.data.state);
           setcity(result.data.city);
           setprice(result.data.price);
           setfeature(result.data.feature);
           setcontact(result.data.contact);
           setdes(result.data.description);
-          setP_productPic(result.data.product_pic)
-          
+          setP_productPic(result.data.product_pic);
         }
       })
       .catch((err) => console.log(err));
@@ -142,6 +145,7 @@ function UpdateProduct(id) {
   dataForm.append("products[contact]", contact);
   dataForm.append("products[description]", des);
   dataForm.append("products[country]", country);
+  dataForm.append("products[state]", states);
   dataForm.append("products[city]", city);
   if(productPic && productPic.length!=0){
     for (let i = 0; i < productPic.length; i++) {
@@ -200,7 +204,7 @@ function UpdateProduct(id) {
 
               <div className="grid grid-cols-4 mt-5">
                 <div className="text-lg font-medium">Location:</div>
-                <div></div>
+                {/* <div></div> */}
                 <div className="flex gap-5">
                   <select onChange={e=>setcountry(e.target.value)} className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none  w-40 lg:w-54 xs:w-auto md:w-52 placeholder:pl-2 rounded-xl placeholder:py-2">
                     <option value={country}>{country}</option>
@@ -210,10 +214,20 @@ function UpdateProduct(id) {
                       ))  
                     }
                   </select>
-                  <select onChange={e=>setcity(e.target.value)} className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none  w-40 lg:w-54 xs:w-auto md:min-w-[13rem] placeholder:pl-2 rounded-xl placeholder:py-2">
+                  {/* For State */}
+                  <select onChange={e=>setstates(e.target.value)} className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-40 lg:w-54 xs:w-auto md:min-w-[13rem] placeholder:pl-2 rounded-full placeholder:py-2">
+                    <option value={states}>{states}</option>
+                    {
+                      State.getStatesOfCountry(country).map((item)=>(
+                        <option value={item.isoCode} key={item.name}>{item.name}</option>
+                      ))  
+                    }
+                  </select>
+                  {/*  for city */}
+                  <select onChange={e=>setcity(e.target.value)} className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-40 lg:w-54 xs:w-auto md:min-w-[13rem] placeholder:pl-2 rounded-full placeholder:py-2">
                     <option value={city}>{city}</option>
                     {
-                      City.getCitiesOfCountry(country).map((item)=>(
+                      City.getCitiesOfState(country, states).map((item)=>(
                         <option value={item.name} key={item.name}>{item.name}</option>
                       ))  
                     }
@@ -335,14 +349,14 @@ function UpdateProduct(id) {
               </div>
             </div>):('')}
             <div className="flex justify-center mt-7">
-              {myArray && myArray[1] && country && city && name && category && feature && des && contact && price && (productPic.length!==0 || P_productPic.length!==0)?(
+              {myArray && myArray[1] && country && city && states && name && category && feature && des && contact && price && (productPic.length!==0 || P_productPic.length!==0)?(
                 <div onClick={()=>UpdateProduct(myArray[1])}
                   className="bg-indigo-400 text-white p-3 rounded-xl font-bold">
                   Update Product
                 </div>
               ):
               (
-              name && country && city && category && feature && des && contact && price && productPic.length!==0?(
+              name && country && states && city && category && feature && des && contact && price && productPic.length!==0?(
               <div onClick={()=>createProduct()}
                 className="bg-indigo-400 text-white p-3 rounded-xl font-bold">
                 Post Your Add

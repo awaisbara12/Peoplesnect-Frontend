@@ -1,6 +1,6 @@
 import React, { useEffect,useState } from "react";
 import { UPDATE_PERSONAL_INFO,CURENT_USER_LOGIN_API } from "../../../pages/config";
-import { Country, City }  from 'country-state-city';
+import { Country, State, City }  from 'country-state-city';
 
 const PersonalInfo = () => {
   const [userDetails, setUserDetails] = useState();
@@ -8,14 +8,14 @@ const PersonalInfo = () => {
   const [last_name, setlast_name] = useState();
   const [country, setcountry] = useState();
   const [city, setcity] = useState();
+  const [states, setstates] = useState();
   const [seleccountry, setseleccountry] = useState();
   
   // Bareer Key
   if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore"); }
-  
   //for update
   const UpdatePersonal=async()=>{
-    await fetch(`${UPDATE_PERSONAL_INFO}?users[city]=${city}&users[country]=${country}&users[first_name]=${first_name}&users[last_name]=${last_name}`, {
+    await fetch(`${UPDATE_PERSONAL_INFO}?users[city]=${city}&users[country]=${country}&users[first_name]=${first_name}&users[last_name]=${last_name}&users[state]=${states}`, {
     method: "PUT",
      headers: {
       Accept: "application/json", 
@@ -31,7 +31,6 @@ const PersonalInfo = () => {
     })
     .catch((err) => console.log(err));
   }
-  
    // for current user
   const Current_User=async()=>{    
    
@@ -46,16 +45,16 @@ const PersonalInfo = () => {
       .then((result) => {
         if (result) {
           setUserDetails(result.data.id);  
-          //console.log("Current Userss",result.data)
+          console.log("Current Userss",result.data)
           setfirst_name(result.data.first_name);
           setlast_name(result.data.last_name);
           setcountry(result.data.country);
           setcity(result.data.city);
+          setstates(result.data.state)
         }
       })
       .catch((err) => console.log(err)); 
   }
-
   useEffect(()=>{
     Current_User();
   },[])
@@ -92,25 +91,41 @@ const PersonalInfo = () => {
               <div className="grid grid-cols-3 mt-5">
                 <div className="text-lg font-medium">Location:</div>
                 <div className="flex gap-7">
-                <select onChange={e=>setcountry(e.target.value)} className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-40 lg:w-54 xs:w-auto md:w-52 placeholder:pl-2 rounded-full placeholder:py-2">
-                  <option value={country}>{country}</option>
-                  {
-                    Country.getAllCountries().map((item)=>(
-                      <option value={item.isoCode} key={item.isoCode}>{item.name}</option>
-                    ))  
-                  }
-                </select>
-                <select onChange={e=>setcity(e.target.value)} className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-40 lg:w-54 xs:w-auto md:min-w-[13rem] placeholder:pl-2 rounded-full placeholder:py-2">
-                  <option value={city}>{city}</option>
-                  {
-                    City.getCitiesOfCountry(country).map((item)=>(
-                      <option value={item.name} key={item.name}>{item.name}</option>
-                    ))  
-                  }
-                </select>
+                  {/* For Country */}
+                  <select onChange={e=>setcountry(e.target.value)} className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-40 lg:w-54 xs:w-auto md:w-52 placeholder:pl-2 rounded-full placeholder:py-2">
+                    <option value={country}>{country}</option>
+                    {
+                      Country.getAllCountries().map((item)=>(
+                        <option value={item.isoCode} key={item.isoCode}>{item.name}</option>
+                      ))  
+                    }
+                  </select>
+                  {/* For State */}
+                  <select onChange={e=>setstates(e.target.value)} className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-40 lg:w-54 xs:w-auto md:min-w-[13rem] placeholder:pl-2 rounded-full placeholder:py-2">
+                    <option value={states}>{states}</option>
+                    {
+                      State.getStatesOfCountry(country).map((item)=>(
+                        <option value={item.isoCode} key={item.name}>{item.name}</option>
+                      ))  
+                    }
+                  </select>
                 </div>
               </div>
-              
+               {/* For Cities */}
+              <div className="grid grid-cols-3 mt-5">
+                <div className="text-lg font-medium"></div>
+                <div className="flex gap-7">
+                  <select onChange={e=>setcity(e.target.value)} className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-40 lg:w-54 xs:w-auto md:min-w-[13rem] placeholder:pl-2 rounded-full placeholder:py-2">
+                    <option value={city}>{city}</option>
+                    {
+                      City.getCitiesOfState(country, states).map((item)=>(
+                        <option value={item.name} key={item.name}>{item.name}</option>
+                      ))  
+                    }
+                  </select>
+                </div>
+              </div>
+                  
               
               {/* <div className="grid grid-cols-3 mt-5 ">
                 <div className="text-lg font-medium">Current Position:</div>
@@ -158,11 +173,18 @@ const PersonalInfo = () => {
                   />
                 </div>
               </div> */}
+
               <div className="flex justify-end mt-10">
-                <button className="border-2 border-indigo-400 bg-indigo-400 p-2 rounded-full text-white font-bold"
-                  onClick={UpdatePersonal}>
-                  Save Changes
-                </button>
+                {first_name && last_name && country && city && states?(
+                  <button className="border-2 border-indigo-400 bg-indigo-400 p-2 rounded-full text-white font-bold"
+                    onClick={UpdatePersonal}>
+                    Save Changes
+                  </button>
+                ):(
+                  <button className="border-2 border-indigo-100 bg-indigo-100 p-2 rounded-full text-white font-bold cursor-not-allowed">
+                    Save Changes
+                  </button>
+                )}
               </div>
             </div>
           </div>

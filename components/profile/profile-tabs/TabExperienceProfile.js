@@ -3,9 +3,10 @@ import { Menu, Transition } from "@headlessui/react";
 import { Dialog } from "@headlessui/react";
 import Link from "next/link";
 import Image from "next/image";
-import ProfileAvatar from "../../../public/images/profile-avatar.png";
+import ProfileAvatar from "../../../public/images/company.png";
 import { PlusCircleIcon,TrashIcon } from "@heroicons/react/solid";
 import { ChevronRightIcon, XIcon, PencilAltIcon } from "@heroicons/react/outline";
+import { Country, State, City }  from 'country-state-city';
 import {    
   CURENT_USER_LOGIN_API, UPDATE_USER_WORK_EXPERIENCE
 } from "../../../pages/config";
@@ -111,7 +112,7 @@ const TabExperienceProfile = () => {
     .then((result) => {
       if (result) {
         closeModal();
-        //setUserUpdate_work_experience(result.data)
+        alert("Your Work Experience Updated Successfully")
       }
     })
     .catch((err) => console.log(err));
@@ -137,7 +138,6 @@ const TabExperienceProfile = () => {
         })
         .catch((err) => console.log(err));
     }
-    
   }
   
   const CreateWorkExperience=async()=>{  // CreateWorkExperience
@@ -154,7 +154,7 @@ const TabExperienceProfile = () => {
         if (result) {
           closeCreateModal();
           setUserUpdate_work_experience(result.data)
-          //console.log("Create Education",result.data)
+          alert("Your Work Experience Added Successfully")
         }
       })
       .catch((err) => console.log(err));
@@ -220,6 +220,7 @@ const TabExperienceProfile = () => {
                     <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
                       <div className="bg-white px-12 py-5 rounded-xl">
                         <div className="grid grid-cols-2 gap-5">
+                          {/* Company name */}
                           <div className="mt-5">
                             <input
                               className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full placeholder:pl-2 rounded-full placeholder:py-2"
@@ -230,6 +231,7 @@ const TabExperienceProfile = () => {
                               onChange = {(e)=>setusercompany_name(e.target.value)}
                             />
                           </div>
+                          {/* Job title */}
                           <div className="mt-5">
                             <input
                               className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full placeholder:pl-2 rounded-full placeholder:py-2"
@@ -240,47 +242,52 @@ const TabExperienceProfile = () => {
                               onChange = {(e)=>setuserjob_title(e.target.value)}
                             />
                           </div>
-                          <div className="mt-5">
-                            <input
-                              className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full placeholder:pl-2 rounded-full placeholder:py-2"
-                              placeholder="Country"
-                              type="text"
-                              name="search"
-                              value={country} 
-                              onChange = {(e)=>setusercountry(e.target.value)}
-                            />
+                           {/* For Country */}
+                           <div className="mt-5">
+                            <select onChange={e=>setusercountry(e.target.value)} className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-40 lg:w-54 xs:w-auto md:w-52 placeholder:pl-2 rounded-full placeholder:py-2">
+                              <option value={country}>{country}</option>
+                              {
+                                Country.getAllCountries().map((item)=>(
+                                  <option value={item.isoCode} key={item.isoCode}>{item.name}</option>
+                                ))  
+                              }
+                            </select>
                           </div>
+                          {/* For State */}
                           <div className="mt-5">
-                            <input
-                              className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full placeholder:pl-2 rounded-full placeholder:py-2"
-                              placeholder="State"
-                              type="text"
-                              name="search"
-                              value={state} 
-                              onChange = {(e)=>setuserstate(e.target.value)}
-                            />
+                            <select onChange={e=>setuserstate(e.target.value)} className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-40 lg:w-54 xs:w-auto md:min-w-[13rem] placeholder:pl-2 rounded-full placeholder:py-2">
+                              <option value={state}>{state}</option>
+                              {
+                                State.getStatesOfCountry(country).map((item)=>(
+                                  <option value={item.isoCode} key={item.name}>{item.name}</option>
+                                ))  
+                              }
+                            </select>
                           </div>
+                          {/* For City */}
                           <div className="mt-5">
-                            <input
-                              className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full placeholder:pl-2 rounded-full placeholder:py-2"
-                              placeholder="City"
-                              type="text"
-                              name="search"
-                              value={city} 
-                              onChange = {(e)=>setusercity(e.target.value)}
-                            />
+                            <select onChange={e=>setusercity(e.target.value)} className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-40 lg:w-54 xs:w-auto md:min-w-[13rem] placeholder:pl-2 rounded-full placeholder:py-2">
+                              <option value={city}>{city}</option>
+                              {
+                                City.getCitiesOfState(country, state).map((item)=>(
+                                  <option value={item.name} key={item.name}>{item.name}</option>
+                                ))  
+                              }
+                            </select>
                           </div>
+                          {/* Job type */}
                           <div className="mt-5">
-                          <select className="block appearance-none w-full bg-zinc-100 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded-full leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                              id="grid-state"  onClick={(e)=>setuserjob_type(e.target.value)}>
-                              <option>{job_type}</option>
-                              <option value="Full Time">Full Time</option>
-                              <option value="Part Time">Part Time</option>
-                              <option value="Contract">Contract</option>
-                              <option value="Temporary">Temporary</option>
+                             <select className="block appearance-none w-full bg-zinc-100 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded-full leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                id="grid-state"  onClick={(e)=>setuserjob_type(e.target.value)}>
+                                <option>{job_type}</option>
+                                <option value="Full Time">Full Time</option>
+                                <option value="Part Time">Part Time</option>
+                                <option value="Contract">Contract</option>
+                                <option value="Temporary">Temporary</option>
                             </select>
                           </div>
                         </div>
+                        {/*  */}
                         <div className="grid grid-cols-2 gap-5">
                           <div className="mt-8">
                               <div className="">
@@ -309,32 +316,39 @@ const TabExperienceProfile = () => {
                             </div>)
                           }
                         </div>
-                          <div className="mt-5">
-                            <input
-                              checked={current_work}
-                              id="default-radio-1"
-                              type="checkbox"
-                              value={current_work} 
-                              onChange = {(e)=>chckbox()}
-                              name="default-radio"
-                              className="w-4 h-4 rounded-full text-blue-600 bg-gray-100 border-gray-300 focus:ring-indigo-400 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-indigo-400 dark:border-indigo-400"
-                            />
-                            <label
-                              htmlFor="default-radio-2"
-                              className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                            >
-                              Current Working here
-                            </label>
-                          </div>
+                        <div className="mt-5">
+                          <input
+                            checked={current_work}
+                            id="default-radio-1"
+                            type="checkbox"
+                            value={current_work} 
+                            onChange = {(e)=>chckbox()}
+                            name="default-radio"
+                            className="w-4 h-4 rounded-full text-blue-600 bg-gray-100 border-gray-300 focus:ring-indigo-400 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-indigo-400 dark:border-indigo-400"
+                          />
+                          <label
+                            htmlFor="default-radio-2"
+                            className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                          >
+                            Current Working here
+                          </label>
+                        </div>
                         <div className="justify-end">
-                <Link href="">
-                <button
-                  type="submit"
-                  className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
-                  onClick={UpdateWorkExperience}>
-                  Save Changes
-                </button>
-                </Link>
+                          {company_name && job_title && country && state && city && job_type && starting && (current_work || ending)?(
+                            <button
+                              type="submit"
+                              className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
+                              onClick={UpdateWorkExperience}>
+                              Update Work Experience
+                            </button>
+                          ):(
+                            <button
+                              type="submit"
+                              className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-100 cursor-not-allowed">
+                              Update Work Experience
+                            </button>
+                          )}
+                         
                       </div>
                     </div>
                    </div>
@@ -413,35 +427,38 @@ const TabExperienceProfile = () => {
                               onChange = {(e)=>setuserjob_title(e.target.value)}
                             />
                           </div>
+                          {/* For Country */}
                           <div className="mt-5">
-                            <input
-                              className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full placeholder:pl-2 rounded-full placeholder:py-2"
-                              placeholder="Country"
-                              type="text"
-                              name="search"
-                              value={country} 
-                              onChange = {(e)=>setusercountry(e.target.value)}
-                            />
+                            <select onChange={e=>setusercountry(e.target.value)} className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-40 lg:w-54 xs:w-auto md:w-52 placeholder:pl-2 rounded-full placeholder:py-2">
+                              <option value={country}>{country}</option>
+                              {
+                                Country.getAllCountries().map((item)=>(
+                                  <option value={item.isoCode} key={item.isoCode}>{item.name}</option>
+                                ))  
+                              }
+                            </select>
                           </div>
+                          {/* For State */}
                           <div className="mt-5">
-                            <input
-                              className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full placeholder:pl-2 rounded-full placeholder:py-2"
-                              placeholder="State"
-                              type="text"
-                              name="search"
-                              value={state} 
-                              onChange = {(e)=>setuserstate(e.target.value)}
-                            />
+                            <select onChange={e=>setuserstate(e.target.value)} className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-40 lg:w-54 xs:w-auto md:min-w-[13rem] placeholder:pl-2 rounded-full placeholder:py-2">
+                              <option value={state}>{state}</option>
+                              {
+                                State.getStatesOfCountry(country).map((item)=>(
+                                  <option value={item.isoCode} key={item.name}>{item.name}</option>
+                                ))  
+                              }
+                            </select>
                           </div>
+                          {/* For City */}
                           <div className="mt-5">
-                            <input
-                              className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full placeholder:pl-2 rounded-full placeholder:py-2"
-                              placeholder="City"
-                              type="text"
-                              name="search"
-                              value={city} 
-                              onChange = {(e)=>setusercity(e.target.value)}
-                            />
+                            <select onChange={e=>setusercity(e.target.value)} className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-40 lg:w-54 xs:w-auto md:min-w-[13rem] placeholder:pl-2 rounded-full placeholder:py-2">
+                              <option value={city}>{city}</option>
+                              {
+                                City.getCitiesOfState(country, state).map((item)=>(
+                                  <option value={item.name} key={item.name}>{item.name}</option>
+                                ))  
+                              }
+                            </select>
                           </div>
                           <div className="mt-5">
                             <select className="block appearance-none w-full bg-zinc-100 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded-full leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -482,33 +499,40 @@ const TabExperienceProfile = () => {
                             </div>)
                           }
                         </div>
-                          <div className="mt-5">
-                            <input
-                              checked={current_work}
-                              id="default-radio-1"
-                              type="checkbox"
-                              value={current_work} 
-                              onChange = {(e)=>chckbox()}
-                              name="default-radio"
-                              className="w-4 h-4 rounded-full text-blue-600 bg-gray-100 border-gray-300 focus:ring-indigo-400 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-indigo-400 dark:border-indigo-400"
-                            />
-                            <label
-                              htmlFor="default-radio-2"
-                              className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                            >
-                              Current Working here
-                            </label>
-                          </div>
+                        <div className="mt-5">
+                          <input
+                            checked={current_work}
+                            id="default-radio-1"
+                            type="checkbox"
+                            value={current_work} 
+                            onChange = {(e)=>chckbox()}
+                            name="default-radio"
+                            className="w-4 h-4 rounded-full text-blue-600 bg-gray-100 border-gray-300 focus:ring-indigo-400 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-indigo-400 dark:border-indigo-400"
+                          />
+                          <label
+                            htmlFor="default-radio-2"
+                            className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                          >
+                            Current Working here
+                          </label>
+                        </div>
                         <div className="justify-end">
-                <Link href="">
-                <button
-                  type="submit"
-                  className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
-                  onClick={CreateWorkExperience}>
-                  Save Changes
-                </button>
-                </Link>
-                      </div>
+                          {company_name && job_title && country && state && city && job_type && starting && (current_work || ending)?(
+                            <button
+                            type="submit"
+                            className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
+                            onClick={CreateWorkExperience}>
+                            Add Experience
+                          </button>
+                          ):(
+                            <button
+                            type="submit"
+                            className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-100 cursor-not-allowed">
+                            Add Experience
+                          </button>
+                          )}
+                          
+                        </div>
                     </div>
                    </div>
             </Dialog.Panel>
@@ -540,7 +564,7 @@ const TabExperienceProfile = () => {
                       src={ProfileAvatar}
                       width={55}
                       height={55}
-                      className="object-cover rounded-full"
+                      className="object-cover "
                       placeholder="empty"
                       alt="profile-image"
                     />
@@ -567,10 +591,10 @@ const TabExperienceProfile = () => {
            ))
            ):("")}
         </div>
-        <div className="flex justify-center font-bold items-center mt-10">
+        {/* <div className="flex justify-center font-bold items-center mt-10">
           Show All Experiences
           <ChevronRightIcon className="h-5 w-5" />
-        </div>
+        </div> */}
       </div>
     </div>
   );
