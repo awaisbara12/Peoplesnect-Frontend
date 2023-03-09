@@ -363,7 +363,7 @@ const NewsPost = ( setList ) => {
               {currentuser && currentuser.display_photo_url?(
                  <img
                  src={currentuser.display_photo_url} 
-                 className="object-cover rounded-full z-40 h-[42px] w-[42px] mb-1" 
+                 className="aspect-video object-cover rounded-full h-[42px] w-[42px] mb-2" 
                  alt=""
                 />
               ):(

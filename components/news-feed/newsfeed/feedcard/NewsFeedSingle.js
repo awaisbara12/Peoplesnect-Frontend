@@ -54,6 +54,23 @@ const cardDropdown = [
     icon: XCircleIcon,
   },
 ];
+const ReadMore = ({ children }) => {
+  const text = children;
+  const [isReadMore, setIsReadMore] = useState(true);
+  const toggleReadMore = () => {
+    setIsReadMore(!isReadMore);
+  };
+  return (
+    <p className="text">
+      {isReadMore ? text.slice(0, 300) + (text.length > 300?("......"):('')) : text}
+      {text.length > 300?(
+        <span onClick={toggleReadMore} className="text-indigo-400 cursor-pointer ml-2 font-bold">
+          {isReadMore ? "Read more" : "Show less"}
+        </span>
+      ):('')}
+    </p>
+  );
+};
 
 const NewsFeedSingle = (singleItem) => {
   const [items, setItems] = useState(singleItem.items);
@@ -341,7 +358,9 @@ const NewsFeedSingle = (singleItem) => {
 
             {items.tags && items.tags.length > 0 || (items.hashtags && items.hashtags.length > 0)?
              <App state={items.body} website={items.tags} hashtags={items.hashtags}/> 
-             : items.body? items.body : ""}
+             :<ReadMore>
+             {items.body? items.body : ""}
+             </ReadMore>}
           
           
           </a>

@@ -1,6 +1,25 @@
 import React, { Component, useState } from "react";
 import Link from "next/link";
 
+
+const ReadMore = ({ children }) => {
+  const text = children;
+  const [isReadMore, setIsReadMore] = useState(true);
+  const toggleReadMore = () => {
+    setIsReadMore(!isReadMore);
+  };
+  return (
+    <p className="text">
+      {isReadMore ? text.slice(0,50) : text}
+      {text.length > 50?(
+        <span onClick={toggleReadMore} className="text-indigo-400 cursor-pointer ml-2 font-bold">
+          {isReadMore ? "....Read more" : "Show less"}
+        </span>
+      ):('')}
+    </p>
+  );
+};
+
 class App extends Component {
   state = {
     text: this.props.state,
@@ -116,7 +135,9 @@ class App extends Component {
     //  })
     //   );
     // }
-    return <div>{texts}</div>;
+    return <div>
+      <ReadMore>{texts}</ReadMore>
+      </div>;
   }
 }
 
