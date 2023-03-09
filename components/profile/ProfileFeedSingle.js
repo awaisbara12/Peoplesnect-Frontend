@@ -52,6 +52,24 @@ const cardDropdown = [
   
 ];
 
+const ReadMore = ({ children }) => {
+  const text = children;
+  const [isReadMore, setIsReadMore] = useState(true);
+  const toggleReadMore = () => {
+    setIsReadMore(!isReadMore);
+  };
+  return (
+    <p className="text">
+      {isReadMore ? text.slice(0, 300) + (text.length > 300?("......"):('')) : text}
+      {text.length > 300?(
+        <span onClick={toggleReadMore} className="text-indigo-400 cursor-pointer ml-2 font-bold">
+          {isReadMore ? "Read more" : "Show less"}
+        </span>
+      ):('')}
+    </p>
+  );
+};
+
 const ProfileFeedSingle = (singleItems) => {
   const [items, setItems] = useState(singleItems.lists);
   const [comments, setComments] = useState([]);
@@ -506,7 +524,9 @@ const ProfileFeedSingle = (singleItems) => {
                 )
                 :
                 (  
-                  items.body? items.body : ""
+                  <ReadMore>
+                  {items.body? items.body : ""}
+                  </ReadMore>
                 )
             )}
           
