@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { MentionsInput, Mention } from "react-mentions";
 import { SEARCH_MULTIPLE } from "../../../../pages/config";
-
+import ProfileAvatar from "../../../../public/images/profile-avatar.png";
+import Image from "next/image";
 
 
 const HashtagMentionInput = (props) => {
@@ -71,7 +72,14 @@ const handleChange = event => {
 
   const renderMentionSuggestion = (suggestion, search, highlightedDisplay) => (
     <div className="flex gap-1 items-center mt-2 px-2 border-b pb-2">
-      <img src={suggestion.avatar} alt={suggestion.display} className="w-7 h-7 rounded-full" />
+      {suggestion && suggestion.avatar?(
+        <img src={suggestion.avatar} className="w-7 h-7 rounded-full" />
+      ):(
+        <Image 
+            src={ProfileAvatar} 
+            width={28} 
+            height={28} 
+            alt="" />)}
       <span><b>{highlightedDisplay}</b></span>
     </div>
   );
