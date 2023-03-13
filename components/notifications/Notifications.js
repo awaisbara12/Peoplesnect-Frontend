@@ -9,11 +9,16 @@ import { CURENT_USER_LOGIN_API, GET_NOTIFICATIONS, InviteFriends, PAGE_REQUEST_A
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { ClipLoader } from "react-spinners";
 
 const Notifications = () => {
-  const [notify, setnotify] = useState();
+  const [notify, setnotify] = useState([]);
   const [currentUser, setCurrentUser] = useState();
   const [reqbyadmin, setreqbyadmin] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [lastpage, setlastpage] = useState(0);
+  const [currentpage, setcurrentpage] = useState(1);
   // const [notify, setpro] = useState();
 
   //  GET_NOTIFICATIONS
@@ -21,7 +26,7 @@ const Notifications = () => {
   if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore");  }
   
   const allNotifications=async()=>{    
-    await fetch(GET_NOTIFICATIONS, {
+    await fetch(GET_NOTIFICATIONS+"?page=" + currentpage, {
       method: "GET",
        headers: {
         Accept: "application/json", 
@@ -31,8 +36,12 @@ const Notifications = () => {
        .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-          setnotify(result.data);  
-          console.log(result.data);
+          const mergedata = [...notify, ...result.data];
+          setnotify(mergedata);
+          setcurrentpage(result.pages.next_page)
+          setlastpage(result.pages.total_pages)
+          // setnotify(result.data);  
+          // console.log(result.data);
         }
       })
       .catch((err) => console.log(err)); 
@@ -87,6 +96,10 @@ const Notifications = () => {
         }
       })
       .catch((err) => console.log(err)); 
+  }
+
+  const fetchMoreData = () => {
+    allNotifications();
   }
 
   useEffect(()=>{
@@ -176,7 +189,13 @@ const Notifications = () => {
                 </Menu>
               </div> */}
             </div>
-            {notify?(
+            <InfiniteScroll
+              dataLength={notify.length}
+              next={fetchMoreData}
+              hasMore={currentpage != null}
+              loader={<div className="flex justify-center"><ClipLoader className="my-8" color="#818CF8" size={40} /> </div>}
+            >
+            {notify && notify?(
                notify.map((i)=>(
                 <div className="like-on-article border-b-1" key={i.id}>
                 <div className="request-profile flex  px-4 py-3 justify-between items-center">
@@ -464,6 +483,7 @@ const Notifications = () => {
             ):('')
 
             }
+            </InfiniteScroll>
             
             {/* <div className="Comment-on-post border-b-1">
               <div className="request-profile flex  px-4 py-3 justify-between items-center">
