@@ -348,12 +348,12 @@ const NewsFeedSingle = (singleItem) => {
           </div>
         </div>
         <div className="px-[22px] py-[14px]">
-          <Link 
+          {/* <Link 
             href={{
             pathname: "/events-design/event-view",
             query: items.id,
           }} > 
-          <a>
+          <a> */}
             {/* <App state={items.body}/> */}
 
             {items.tags && items.tags.length > 0 || (items.hashtags && items.hashtags.length > 0)?
@@ -363,9 +363,9 @@ const NewsFeedSingle = (singleItem) => {
              </ReadMore>}
           
           
-          </a>
+          {/* </a>
           
-          </Link>
+          </Link> */}
           {items.event && items.event ? (
             <Link 
             href={{
