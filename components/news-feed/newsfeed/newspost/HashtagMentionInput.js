@@ -27,48 +27,47 @@ const [hashtags, setHashtags] = useState([]);
 const [mentions, setMentions] = useState([]);
 
 
-const handleChange = event => {
-  setValue(event.target.value);
-  console.log(event.target.value.replace(/\[\@(.*?)\]\((.*?)\)/g, "@$1"));
-  props.setPostText(event.target.value);
-  // const hashtagsArray = [];
-  const mentionsArray = [];
+  const handleChange = event => {
+    setValue(event.target.value);
+    console.log(event.target.value.replace(/\[\@(.*?)\]\((.*?)\)/g, "@$1"));
+    props.setPostText(event.target.value);
+    // const hashtagsArray = [];
+    const mentionsArray = [];
 
-  // const regex = /@\[.+?\]\(.+?\)/g;
-  // const matches = event.target.value.match(regex);
-  // const words = matches ? matches.map(match => match.trim()) : [];
+    // const regex = /@\[.+?\]\(.+?\)/g;
+    // const matches = event.target.value.match(regex);
+    // const words = matches ? matches.map(match => match.trim()) : [];
 
-  const regex = /@\[.+?\]\((.+?)\)/g;
-  const words = [];
-  let match;
-  while ((match = regex.exec(event.target.value))) {
-    words.push(match[1]);
-  }
+    const regex = /@\[.+?\]\((.+?)\)/g;
+    const words = [];
+    let match;
+    while ((match = regex.exec(event.target.value))) {
+      words.push(match[1]);
+    }
 
 
-  // const words = event.target.value.replace(/\[\@(.*?)\]\((.*?)\)/g, "@$1");
-  // words.forEach(word => {
-  //   if (word.startsWith("#")) {
-  //     hashtagsArray.push(word);
-  //   } else if (word.startsWith("@")) {
-  //     mentionsArray.push(word);
-  //   }
-  // });
-  console.log(words);
+    // const words = event.target.value.replace(/\[\@(.*?)\]\((.*?)\)/g, "@$1");
+    // words.forEach(word => {
+    //   if (word.startsWith("#")) {
+    //     hashtagsArray.push(word);
+    //   } else if (word.startsWith("@")) {
+    //     mentionsArray.push(word);
+    //   }
+    // });
+    console.log(words);
 
-  // setHashtags(hashtagsArray);
-  props.settags(words);
-  console.log(mentionsArray);
-  // console.log(event.target.value);
-  setMentions(words);
-};
+    // setHashtags(hashtagsArray);
+    props.settags(words);
+    console.log(mentionsArray);
+    // console.log(event.target.value);
+    setMentions(words);
+  };
   const renderHashtagSuggestion = (suggestion, search, highlightedDisplay) => (
     <div className="flex items-center mt-2 px-2 border-b">
       {/* <img src={suggestion.avatar} alt={suggestion.display} /> */}
       <span><b>{highlightedDisplay}</b></span>
     </div>
   );
-
   const renderMentionSuggestion = (suggestion, search, highlightedDisplay) => (
     <div className="flex gap-1 items-center mt-2 px-2 border-b pb-2">
       <img src={suggestion.avatar} alt={suggestion.display} className="w-7 h-7 rounded-full" />

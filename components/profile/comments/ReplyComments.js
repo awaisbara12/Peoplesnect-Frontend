@@ -17,6 +17,25 @@ import ProfileAvatar from "../../../public/images/profile-avatar-2.png";
 import { Popover, Transition } from "@headlessui/react";
 import { COMMENT_API_KEY, COMMENT_REPLY, CURENT_USER_LOGIN_API, NEWSFEED_COMMENT_POST_KEY, REACTION_NEWSFEED_API_KEY } from "../../../pages/config";
 import axios from "axios";
+import App from "../../news-feed/newsfeed/newspost/App";
+
+const ReadMore = ({ children }) => {
+  const text = children;
+  const [isReadMore, setIsReadMore] = useState(true);
+  const toggleReadMore = () => {
+    setIsReadMore(!isReadMore);
+  };
+  return (
+    <p className="text">
+      {isReadMore ? text.slice(0, 300) + (text.length > 300?("......"):('')) : text}
+      {text.length > 300?(
+        <span onClick={toggleReadMore} className="text-indigo-400 cursor-pointer ml-2 font-bold">
+          {isReadMore ? "Read more" : "Show less"}
+        </span>
+      ):('')}
+    </p>
+  );
+};
 
 const ReplyComments = (props) => {
   const [reply_on, setReplyOn] = useState(false);              // For show or hide Reply's Input
@@ -373,6 +392,7 @@ const ReplyComments = (props) => {
     setC_postImagePreview('');
     setPostImage('');
   }
+  console.log("props.comments",props.comments)
 
   return (
     <Fragment>
@@ -405,7 +425,7 @@ const ReplyComments = (props) => {
                       <div className="text-gray-400">{comment.created_at} | {comment.time}</div>
                     </span>
                     <div className="text-gray-900 text-sm">
-                      {comment.user.city}, {comment.user.country}
+                    {comment.user && comment.user.city?comment.user.city+", ":""}{comment.user && comment.user.state?comment.user.state+", ":""}{comment.user && comment.user.country?comment.user.country+", ":""}
                     </div>
                   </div>
                 </div>
@@ -559,7 +579,19 @@ const ReplyComments = (props) => {
                 </>
               ) : (
                 <>
-                 <p className="text-gray-900 mt-[6px]">{comment.body}</p>
+                 {/* <p className="text-gray-900 mt-[6px]">{comment.body}</p> */}
+                { comment.tags && comment.tags.length > 0 || (comment.hashtags && comment.hashtags.length > 0)?
+                (
+                  <App state={comment.body} website={comment.tags} hashtags={comment.hashtags}/>
+                )
+                :
+                (  
+                  <ReadMore>
+                  {comment.body? comment.body : ""}
+                  </ReadMore>
+                )
+                  }
+                  
                   {comment.attachments_link ? (
                     <img
                       src={comment.attachments_link[0]}
