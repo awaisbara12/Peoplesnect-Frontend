@@ -96,25 +96,64 @@ class App extends Component {
     this.state.text && this.state.text.split(" ").map(text => {
       texts.push(text + " ")
     })
-    console.log(this.state.text);
-    console.log(this.props.website);
+    // console.log(this.state.text);
+    // console.log(this.props.website);
     for (let i = 0; i < this.props.website.length; i++){
       for (let j=0; j< texts.length ; j++){
-        if (this.props.website[i].tagable_type == "User" && texts[j]+texts[j+1] === '@'+this.props.website[i].user.first_name+" "+this.props.website[i].user.last_name+" ")
+        if (this.props.website[i].tagable_type == "User")
         {
-          texts[j]= <b className="text-indigo-400"><Link href={{pathname: "/User-Profile", query: this.props.website[i].user.id}}>{'@'+this.props.website[i].user.first_name +" "+this.props.website[i].user.last_name}</Link></b>
+          // texts[j]= <b className="text-indigo-400"><Link href={{pathname: "/User-Profile", query: this.props.website[i].user.id}}>{'@'+this.props.website[i].user.first_name +" "+this.props.website[i].user.last_name}</Link></b>
           // texts[j+1]=<b className="text-indigo-400"><Link href={{pathname: "/User-Profile", query: this.props.website[i].user.id}}>{this.props.website[i].user.last_name +" "}</Link></b>
-          texts[j+1]=" "
+          // texts[j+1]=" "
 
-        }else if(this.props.website[i].tagable_type == "Page" && texts[j] === '@'+this.props.website[i].page.name+" ")
+          let abc = [];
+          let k;
+          let fnln=this.props.website[i].user.first_name+" "+this.props.website[i].user.last_name ;
+          fnln.split(" ").map(a => {
+            abc.push(a + " ")
+          })
+          // console.log("page",abc);
+          if(texts[j]  === '@'+abc[0]){
+            for(k=1; k<abc.length; k++){
+              if(texts[j+k]  != abc[k]){
+                break;
+              }
+            }
+          }
+          if(k == abc.length){
+            for(k=1; k<abc.length; k++){
+              texts[j+k]  = "";
+            }
+            texts[j]= <b className="text-indigo-400"><Link href={{pathname: "/User-Profile", query: this.props.website[i].user.id}}>{'@'+this.props.website[i].user.first_name +" "+this.props.website[i].user.last_name+" "}</Link></b>
+          }
+
+        }else if(this.props.website[i].tagable_type == "Page")
         {
-          texts[j]= <b className="text-indigo-400"><Link href={{pathname: "/page-design/liked-pages", query: this.props.website[i].page.id}}>{'@'+this.props.website[i].page.name +" "}</Link></b>
+          let abc = [];
+          let k;
+          this.props.website[i].page.name && this.props.website[i].page.name.split(" ").map(a => {
+            abc.push(a + " ")
+          })
+          // console.log("page",abc);
+          if(texts[j]  === '@'+abc[0]){
+            for(k=1; k<abc.length; k++){
+              if(texts[j+k]  != abc[k]){
+                break;
+              }
+            }
+          }
+          if(k == abc.length){
+            for(k=1; k<abc.length; k++){
+              texts[j+k]  = "";
+            }
+            texts[j]= <b className="text-indigo-400"><Link href={{pathname: "/page-design/liked-pages", query: this.props.website[i].page.id}}>{'@'+this.props.website[i].page.name +" "}</Link></b>
+          }
         }
-        else if(this.props.website[i].tagable_type == "Page" && texts[j]+texts[j+1] === '@'+this.props.website[i].page.name+" ")
-        {
-          texts[j]= <b className="text-indigo-400"><Link href={{pathname: "/page-design/liked-pages", query: this.props.website[i].page.id}}>{'@'+this.props.website[i].page.name +" "}</Link></b>
-          texts[j+1]=" "
-        }
+        // else if(this.props.website[i].tagable_type == "Page" && texts[j]+texts[j+1] === '@'+this.props.website[i].page.name+" ")
+        // {
+        //   texts[j]= <b className="text-indigo-400"><Link href={{pathname: "/page-design/liked-pages", query: this.props.website[i].page.id}}>{'@'+this.props.website[i].page.name +" "}</Link></b>
+        //   texts[j+1]=" "
+        // }
       }
     }
     if(this.props.hashtags){
