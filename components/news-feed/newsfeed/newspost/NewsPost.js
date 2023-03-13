@@ -358,13 +358,13 @@ const NewsPost = ( setList ) => {
       <div className="w-[600px] xl:w-[980px] lg:w-[730px] md:w-[780px] rounded-xl bg-white p-[22px]">
         <form onSubmit={postNewsData}>
           <div className="w-full flex justify-start gap-[22px]">
-            {/* <div className="w-[42px] h-[42px]"> */}
+            <div className="w-[42px] h-[42px]">
              {/* display_photo_url */}
-              {currentuser && currentuser.display_photo_url?(
-                 <img
-                 src={currentuser.display_photo_url} 
-                 className="aspect-video object-cover rounded-full h-[42px] w-[42px] mb-2" 
-                 alt=""
+             {currentuser && currentuser.display_photo_url?(
+                  <img
+                  src={currentuser.display_photo_url} 
+                  className="aspect-video object-cover rounded-full h-[42px] w-[42px] mb-2" 
+                  alt=""
                 />
               ):(
                 <Image
@@ -376,8 +376,7 @@ const NewsPost = ( setList ) => {
                   alt="profile-image"
                 />
               )}
-              
-            {/* </div> */}
+            </div>
             <HashtagMentionInput postText={postText} setPostText={setPostText} mentioned={mentioned}  tags={tags} settags={settags} hastags={hastags}/>
             {/* <NewPost postText={postText} setPostText={setPostText} tags={tags} settags={settags} results={results} setresults={setresults}/> */}
             {/* <textarea
@@ -908,13 +907,13 @@ const NewsPost = ( setList ) => {
                             id="externalLink"
                           />
                         </div>
-                        <div className="form-group w-full py-3">
-                          <label
+                        {/* <div className="form-group w-full py-3"> */}
+                          {/* <label
                             htmlFor="description"
                             className="text-neutral-900 text-sm"
                           >
                             Description{" "}
-                          </label>
+                          </label> */}
                           {/* <textarea
                             type="text"
                             value={values.description}
@@ -924,9 +923,9 @@ const NewsPost = ( setList ) => {
                             className="w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400"
                             id="description"
                           /> */}
-                          <HashtagMentionInput postText={postText} setPostText={setPostText} mentioned={mentioned}  tags={tags} settags={settags} hastags={hastags}/>
+                          {/* <HashtagMentionInput postText={postText} setPostText={setPostText} mentioned={mentioned}  tags={tags} settags={settags} hastags={hastags}/> */}
             
-                        </div>
+                        {/* </div> */}
                         <div className="form-group w-full py-3">
                           <label
                             htmlFor="total_seat"
