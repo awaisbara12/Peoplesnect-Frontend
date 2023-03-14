@@ -96,8 +96,8 @@ class App extends Component {
     this.state.text && this.state.text.split(" ").map(text => {
       texts.push(text + " ")
     })
-    // console.log(this.state.text);
-    // console.log(this.props.website);
+    console.log(this.state.text);
+    console.log(this.props.website);
     for (let i = 0; i < this.props.website.length; i++){
       for (let j=0; j< texts.length ; j++){
         if (this.props.website[i].tagable_type == "User")
@@ -129,22 +129,25 @@ class App extends Component {
 
         }else if(this.props.website[i].tagable_type == "Page")
         {
-          let abc = [];
-          let k;
+          let abcd = [];
+          let p;
           this.props.website[i].page.name && this.props.website[i].page.name.split(" ").map(a => {
-            abc.push(a + " ")
+            abcd.push(a + " ")
           })
-          // console.log("page",abc);
-          if(texts[j]  === '@'+abc[0]){
-            for(k=1; k<abc.length; k++){
-              if(texts[j+k]  != abc[k]){
+          console.log("page",abcd);
+          if(texts[j]  === '@'+abcd[0]){
+            for(p=1; p<abcd.length; p++){
+              console.log("texts[j+p]",texts[j+p]);
+              console.log("abcd[p]",abcd[p]);
+              if(texts[j+p]  != abcd[p]){
                 break;
               }
             }
           }
-          if(k == abc.length){
-            for(k=1; k<abc.length; k++){
-              texts[j+k]  = "";
+          if(p == abcd.length){
+            console.log("<atch>",p);
+            for(p=1; p<abcd.length; p++){
+              texts[j+p]  = "";
             }
             texts[j]= <b className="text-indigo-400"><Link href={{pathname: "/page-design/liked-pages", query: this.props.website[i].page.id}}>{'@'+this.props.website[i].page.name +" "}</Link></b>
           }
