@@ -160,14 +160,12 @@ const PostComments = (props) => {
       .then((result) => {
         if (result) {
           let awa =[];
-  
           for(let i =0; i<result.data.length ; i++)
           {
-              awa[i] ={
-                display: result.data[i].name  ,
-                id: result.data[i].id,
-    
-              }
+            awa[i] ={
+              display: result.data[i].name  ,
+              id: result.data[i].id,
+            }
           }
           sethastags(awa);
         }
@@ -205,7 +203,7 @@ const PostComments = (props) => {
             a=awa;
             // setspeakerMention(a);
             mentionpages();
-            console.log("frie",awa);
+            // console.log("frie",awa);
           }
         })
         .catch((err) => console.log(err));
@@ -296,7 +294,6 @@ const PostComments = (props) => {
          
         </div>
         <div className="flex items-center absolute top-3 right-0 ">
-          
           <div>
             {chosenEmoji ? ('') : (
               <EmojiHappyIcon
@@ -308,8 +305,6 @@ const PostComments = (props) => {
             )}
             
           </div>
-          
-          
           <div className="">
             <div className="relative flex items-center justify-center">
               <PhotographIcon
@@ -328,10 +323,6 @@ const PostComments = (props) => {
               />
             </div>
           </div>
-
-
-
-
           <div className="flex gap-2 z-10">
             <button className="bg-transparent px-1 rounded-r-full text-gray-500 hover:text-indigo-400">
               <PaperAirplaneIcon
