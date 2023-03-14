@@ -158,6 +158,7 @@ const PostComments = (props) => {
             placeholder="Your comment"
 
           />
+            
             {postImagePreview?(
               <div className="relative w-1/4 mt-2">
                 <img

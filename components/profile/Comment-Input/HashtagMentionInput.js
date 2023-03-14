@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { MentionsInput, Mention } from "react-mentions";
-import { SEARCH_MULTIPLE } from "../../../../pages/config";
-import ProfileAvatar from "../../../../public/images/profile-avatar.png";
+import ProfileAvatar from "../../../public/images/profile-avatar.png";
 import Image from "next/image";
 
 
@@ -88,9 +87,11 @@ const [mentions, setMentions] = useState([]);
 
   return (
     <div>
-      <MentionsInput className="w-[890px] mention-input pt-0 resize-none border-0 px-0 text-base overflow-y-hidden outline-none focus:none focus:ring-0"
+      <MentionsInput 
+      // className="w-{100%} mention-input resize-none border- text-base overflow-y-hidden outline-none focus:none focus:ring-0 m-6 "
+      className="w-{100%} p-3 m-4"
       value={props.postText} onChange={handleChange}
-      placeholder={"Enter text..."}
+      placeholder={"Your Comment"}
       allowSpaceInQuery={true}
     >
         <Mention
