@@ -1,7 +1,7 @@
 import React, { useState, Fragment, useEffect } from "react";
 import dynamic from "next/dynamic";
 import InputEmoji from "react-input-emoji";
-const Picker = dynamic(() => import("emoji-picker-react"), { ssr: false });
+// const Picker = dynamic(() => import("emoji-picker-react"), { ssr: false });
 
 import Image from "next/image";
 import ProfileAvatar from "../../../public/images/profile-avatar.png";
@@ -15,7 +15,8 @@ import {
 import { useFormik } from "formik";
 import { COMMENT_API_KEY, HASHTAGS_API, NEWSFEED_COMMENT_POST_KEY, SEARCH_MULTIPLE } from "../../../pages/config";
 import axios from "axios";
-import HashtagMentionInput from "../../news-feed/newsfeed/newspost/HashtagMentionInput";
+import HashtagMentionInput from "../Comment-Input/HashtagMentionInput";
+import Picker from 'emoji-picker-react';
 
 const PostComments = (props) => {
   if (typeof window !== "undefined") {
@@ -27,18 +28,18 @@ const PostComments = (props) => {
   const [postImagePreview, setpostImagePreview] = useState();
   const [comments, setComments] = useState([]);
 
-
+  const [chosenEmoji, setChosenEmoji] = useState(false);
   const [tags, settags] = useState([]);
   const [mentioned, setMentioned] = useState([]);
   const [hashtaged, setHashtaged] = useState([]);
+  let [hastags, sethastags] = useState();
+
   let [results, setresults] = useState(0);
   let [speakerMention, setspeakerMention] = useState([]);
   let [speakerText, setspeakerText] = useState();
   const [speakertags, setspeakertags] = useState([]);
-  let [hastags, sethastags] = useState();
  
   function handleOnEnter() {
-    // console.log("enter", postText);
   }
   
   const handleImagePost = (e) => {
@@ -80,7 +81,7 @@ const PostComments = (props) => {
         dataForm.append("tags[]", tags[i]);
       }
     }
-    
+
     fetch(COMMENT_API_KEY, {
       method: "POST",
       headers: {
@@ -142,6 +143,11 @@ const PostComments = (props) => {
     mentioneds();
     HashTags();
   },[])
+
+  const onEmojiClick = (event) => {
+    setChosenEmoji(false);
+    setPostText(postText+" "+event.emoji+" ");
+  };
   const HashTags=async()=>{
     await fetch(HASHTAGS_API, {
       method: "GET",
@@ -252,9 +258,12 @@ const PostComments = (props) => {
             onEnter={handleOnEnter}
             placeholder="Your comment"
           /> */}
-
-            <HashtagMentionInput postText={postText} setPostText={setPostText} mentioned={mentioned}  tags={tags} settags={settags} hastags={hastags}/>
-           
+          {chosenEmoji ? (
+              <Picker onEmojiClick={onEmojiClick}className="w-[50px] h-[50px]" />
+            ) : ('')}
+            <div className="w-[97%]">
+              <HashtagMentionInput postText={postText} setPostText={setPostText} mentioned={mentioned}  tags={tags} settags={settags} hastags={hastags}/>
+            </div>
             {postImagePreview?(
               <div className="relative w-1/4 mt-2">
                 <img
@@ -287,6 +296,20 @@ const PostComments = (props) => {
          
         </div>
         <div className="flex items-center absolute top-3 right-0 ">
+          
+          <div>
+            {chosenEmoji ? ('') : (
+              <EmojiHappyIcon
+                width={28}
+                height={28}
+                className="text-gray-500"
+                onClick={()=>setChosenEmoji(true)}
+              />
+            )}
+            
+          </div>
+          
+          
           <div className="">
             <div className="relative flex items-center justify-center">
               <PhotographIcon
@@ -305,6 +328,9 @@ const PostComments = (props) => {
               />
             </div>
           </div>
+
+
+
 
           <div className="flex gap-2 z-10">
             <button className="bg-transparent px-1 rounded-r-full text-gray-500 hover:text-indigo-400">

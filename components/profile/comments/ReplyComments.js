@@ -7,17 +7,18 @@ import {
   ChatIcon,
   DotsHorizontalIcon,
   PencilIcon,
-  DocumentReportIcon,
-  XCircleIcon,
+  EmojiHappyIcon,
   TrashIcon,
   PhotographIcon,
   PaperAirplaneIcon,
 } from "@heroicons/react/outline";
 import ProfileAvatar from "../../../public/images/profile-avatar-2.png";
 import { Popover, Transition } from "@headlessui/react";
-import { COMMENT_API_KEY, COMMENT_REPLY, CURENT_USER_LOGIN_API, NEWSFEED_COMMENT_POST_KEY, REACTION_NEWSFEED_API_KEY } from "../../../pages/config";
+import { COMMENT_API_KEY, COMMENT_REPLY, CURENT_USER_LOGIN_API, HASHTAGS_API, NEWSFEED_COMMENT_POST_KEY, REACTION_NEWSFEED_API_KEY, SEARCH_MULTIPLE } from "../../../pages/config";
 import axios from "axios";
-import App from "../../news-feed/newsfeed/newspost/App";
+import App from "../Comment-Input/App";
+import HashtagMentionInput from "../Comment-Input/HashtagMentionInput";
+import Picker from 'emoji-picker-react';
 
 const ReadMore = ({ children }) => {
   const text = children;
@@ -52,11 +53,16 @@ const ReplyComments = (props) => {
   const [postImage, setPostImage] = useState([]);
   const [C_postImagePreview, setC_postImagePreview] = useState([]);
   const [mediaType, setmediaType] = useState();
+
+
+  const [chosenEmoji, setChosenEmoji] = useState(false);
+  const [tags, settags] = useState([]);
+  const [mentioned, setMentioned] = useState([]);
+  const [hashtaged, setHashtaged] = useState([]);
+  let [hastags, sethastags] = useState();
   //Bareer Key
   if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore");}
-  useEffect(()=>{
-    Current_User(); 
-  },[])
+  
   const Current_User=async()=>{    
    
     await fetch(CURENT_USER_LOGIN_API, {
@@ -77,10 +83,11 @@ const ReplyComments = (props) => {
       .catch((err) => console.log(err)); 
   }
     // Edit Comment Input Field Show
-  function editComment(commentId) {
+  function editComment(commentId,body) {
     setEditOn(true);
     clearPic();
     setCommentId(commentId);
+    setPostText(body);
   }
       // Edit Comment Input Field hide
   function cancelEdit(commentId) {
@@ -272,8 +279,6 @@ const ReplyComments = (props) => {
       console.log(error);
     }
   }
-  
-  
         // Replies Functions
     // For remove & Show Reply's Input
   function comentReplies(commentId) {
@@ -284,10 +289,11 @@ const ReplyComments = (props) => {
     setPostImage('');
   }
     // For remove & Show Edit's Reply Input
-  function replyEdit(commentId) {
+  function replyEdit(commentId, body) {
     if (reply_edit_on){setReplyEditOn(false);}
     else{setReplyEditOn(true);}
     setCommentId(commentId);
+    setEditReply(body)
   }
     // Show 2 or All Replies
   function showAllReplies(i){
@@ -353,9 +359,13 @@ const ReplyComments = (props) => {
   }
     //Post Reply
   async function POSTReplies(commentId) {
-
     const dataForm = new FormData();
-    dataForm.append("reply_comments[body]", CommentReply);
+    if (tags.length > 0) {
+      for (let i = 0; i < tags.length; i++) {
+        dataForm.append("tags[]", tags[i]);
+      }
+    }
+    dataForm.append("reply_comments[body]", CommentReply.replace(/\[\@(.*?)\]\((.*?)\)/g, "@$1"));
     dataForm.append("reply_comments[comment_id]", commentId);
     if (postImage.length > 0) {
       for (let i = 0; i < postImage.length; i++) {
@@ -381,7 +391,6 @@ const ReplyComments = (props) => {
     })
     clearPic();
   }
-
   const handleImagePost = (e) => {
     setPostImage(e.target.files);
     if (e.target.files.length !== 0) {
@@ -392,8 +401,116 @@ const ReplyComments = (props) => {
     setC_postImagePreview('');
     setPostImage('');
   }
-  console.log("props.comments",props.comments)
-
+  useEffect(()=>{
+    Current_User(); 
+    mentioneds();
+    HashTags();
+  },[])
+  const onEmojiClick = (event) => {
+    setChosenEmoji(false);
+    setPostText(postText+" "+event.emoji+" ");
+  };
+  const onEmojiClickReply = (event) => {
+    setChosenEmoji(false);
+    setCommentReply(CommentReply+" "+event.emoji+" ");
+  };
+  const HashTags=async()=>{
+    await fetch(HASHTAGS_API, {
+      method: "GET",
+       headers: {
+        Accept: "application/json",
+         Authorization: `${authKey}`,
+       },
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          let awa =[];
+  
+          for(let i =0; i<result.data.length ; i++)
+          {
+              awa[i] ={
+                display: result.data[i].name  ,
+                id: result.data[i].id,
+    
+              }
+          }
+          sethastags(awa);
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+  let a ='';
+  const mentioneds = () => {
+    if (typeof window !== "undefined") {
+      var authKey = window.localStorage.getItem("keyStore");
+    }
+    // const [mention,setmention] = useState([]);
+    fetch(SEARCH_MULTIPLE+"/gettags?query="+'friends', {
+        method: "GET",
+         headers: {
+          Accept: "application/json", 
+           Authorization: `${authKey}`,
+         },
+      })
+         .then((resp) => resp.json())
+        .then((result) => {
+          if (result) {
+            let awa =[];
+  
+            for(let i =0; i<result.data.length ; i++)
+            {
+                awa[i] ={
+                  display: '@'+result.data[i].first_name+" "+result.data[i].last_name ,
+                  link: 'Friends-Profile?'+result.data[i].id,
+                  avatar: result.data[i].display_photo_url,
+                  id: result.data[i].id,
+                  type : 'User'
+                }
+            }
+            a=awa;
+            // setspeakerMention(a);
+            mentionpages();
+            console.log("frie",awa);
+          }
+        })
+        .catch((err) => console.log(err));
+  };
+  const mentionpages = () => {
+    if (typeof window !== "undefined") {
+      var authKey = window.localStorage.getItem("keyStore");
+    }
+    // const [mention,setmention] = useState([]);
+    fetch(SEARCH_MULTIPLE+"/gettags?query="+'pages', {
+        method: "GET",
+         headers: {
+          Accept: "application/json", 
+           Authorization: `${authKey}`,
+         },
+      })
+         .then((resp) => resp.json())
+        .then((result) => {
+          if (result) {
+            let awa =[];
+  
+            for(let i = 0; i<result.data.length ; i++)
+            {
+                awa[i] ={
+                  display: '@'+result.data[i].name ,
+                  link: 'Liked-Pages?'+result.data[i].id,
+                  avatar: result.data[i].display_photo_url,
+                  id: result.data[i].id,
+                  type : 'Page'
+                }
+            }
+            let dbc = [...a,...awa]
+            setMentioned(dbc);
+            // setspeakerMention(dbc);
+          //  console.log("ment",mentioned);
+          }
+        })
+        .catch((err) => console.log(err));
+  };
   return (
     <Fragment>
       <div>
@@ -419,7 +536,7 @@ const ReplyComments = (props) => {
                   )}
                   
                   <div>
-                    <span className="text-slate-900 flex gap-[6px] items-center">
+                    <span className="text-slate-900 flex gap-[6px] items-center capitalize">
                       {comment.user.first_name} {comment.user.last_name}
                       <div className="w-1 h-1 rounded-full bg-slate-400"></div>
                       <div className="text-gray-400">{comment.created_at} | {comment.time}</div>
@@ -461,7 +578,7 @@ const ReplyComments = (props) => {
                                 {currentUser==comment.user.id?(
                                    <button
                                    key="Edit"
-                                   onClick={() => editComment(comment.id)}
+                                   onClick={() => editComment(comment.id,comment.body)}
                                    className="flex items-center w-full rounded-lg hover:bg-gray-50 h-6"
                                  >
                                    <div className="flex items-center gap-3 justify-center text-white pl-2">
@@ -491,8 +608,6 @@ const ReplyComments = (props) => {
                                   </div>
                                 </button>
                                 ):('')}
-                                        
-                                
                               </div>
                             </div>
                           </Popover.Panel>
@@ -508,16 +623,33 @@ const ReplyComments = (props) => {
               {edit_on && editCommentId == comment.id ? (
                 <>
                   <div className="relative -ml-5">
+                  {chosenEmoji ? (
+                      <Picker onEmojiClick={onEmojiClick}className="w-[50px] h-[50px]" />
+                    ) : ('')}
                     <div className="flex items-center">
-                    <InputEmoji
+                    {/* <InputEmoji
                       value={comment.body}
                       className="ml-0"
                       type="text"
                       onChange={setPostText}
                       react-emoji="w-{80%}"
                       placeholder={comment.body}
-                    />
-                    <div className="">
+                    /> */}
+                    
+                     <div className="w-[97%]">
+                      <HashtagMentionInput postText={postText} setPostText={setPostText} mentioned={mentioned}  tags={tags} settags={settags} hastags={hastags}/>
+                    </div>
+                    <div className="flex">  
+                      <div>
+                        {chosenEmoji ? ('') : (
+                          <EmojiHappyIcon
+                            width={28}
+                            height={28}
+                            className="text-gray-500"
+                            onClick={()=>setChosenEmoji(true)}
+                          />
+                        )}
+                      </div>
                       <div className="relative flex items-center justify-center">
                         <PhotographIcon
                           width={28}
@@ -657,15 +789,31 @@ const ReplyComments = (props) => {
               {/* Reply On Commet Input Bar */}
                       <div className="relative -ml-5">
                         <div className="flex items-center">
-                          <InputEmoji
+                          {/* <InputEmoji
                           value={CommentReply}
                             className="ml-0"
                             type="text"
                             onChange={setCommentReply}
                             react-emoji="w-{80%}"
                             placeholder="Reply Here"
-                          />
-                          <div className="">
+                          /> */}
+                           {chosenEmoji ? (
+                              <Picker onEmojiClick={onEmojiClickReply}className="w-[50px] h-[50px]" />
+                            ) : ('')}
+                           <div className="w-[97%]">
+                              <HashtagMentionInput postText={CommentReply} setPostText={setCommentReply} mentioned={mentioned}  tags={tags} settags={settags} hastags={hastags}/>
+                            </div>
+                          <div className="flex">
+                          <div>
+                            {chosenEmoji ? ('') : (
+                              <EmojiHappyIcon
+                                width={28}
+                                height={28}
+                                className="text-gray-500"
+                                onClick={()=>setChosenEmoji(true)}
+                              />
+                            )}
+                          </div>
                             <div className="relative flex items-center justify-center">
                               <PhotographIcon
                                 width={28}
@@ -690,19 +838,19 @@ const ReplyComments = (props) => {
                         </div>
                       </div>
                       {/* show or remove preview of image In Comment'sReply */}
-              {C_postImagePreview?(
-                      <div className="relative w-1/4 mt-2">
-                        <img
-                          src={C_postImagePreview}
-                          className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
-                          alt=""
-                        />
-                          <div className="bg-indigo-100 absolute top-4 right-0 z-10 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
-                          onClick={clearPic}>
-                            <TrashIcon className="w-5 h-5 text-indigo-600" />
-                          </div>
-                        </div>
-                      ):('')}
+                      {C_postImagePreview?(
+                          <div className="relative w-1/4 mt-2">
+                            <img
+                              src={C_postImagePreview}
+                              className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
+                              alt=""
+                            />
+                              <div className="bg-indigo-100 absolute top-4 right-0 z-10 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
+                              onClick={clearPic}>
+                                <TrashIcon className="w-5 h-5 text-indigo-600" />
+                              </div>
+                            </div>
+                          ):('')}
                     </>
                   ):('')}
 
@@ -727,7 +875,7 @@ const ReplyComments = (props) => {
                           )}
                           
                           <div>
-                            <span className="text-slate-900 flex gap-[6px] items-center">
+                            <span className="text-slate-900 flex gap-[6px] items-center capitalize">
                               {i.user.first_name} {i.user.last_name}
                               <div className="w-1 h-1 rounded-full bg-slate-400"></div>
                               <div className="text-gray-400">{i.created_at} | {i.time}</div>
@@ -769,7 +917,7 @@ const ReplyComments = (props) => {
                                          {currentUser==i.user.id?(
                                            <button
                                              key="Edit"
-                                             onClick={() => replyEdit(i.id)}
+                                             onClick={() => replyEdit(i.id, i.body)}
                                              className="flex items-center w-full rounded-lg hover:bg-gray-50 h-6"
                                            >
                                              <div className="flex items-center gap-3 justify-center text-white pl-2">
@@ -821,15 +969,29 @@ const ReplyComments = (props) => {
                           {/* Edit Reply Input Bar */}
                           <div className="relative -ml-5">
                             <div className="flex items-center">
-                              <InputEmoji
+                              {/* <InputEmoji
                                 value={i.body}
                                 className="ml-0"
                                 type="text"
                                 onChange={setEditReply}
                                 react-emoji="w-{80%}"
                                 placeholder={i.body}
-                              />
-                              <div className="">
+                              /> */}
+                              {chosenEmoji ? (
+                              <Picker onEmojiClick={onEmojiClickReply}className="w-[50px] h-[50px]" />
+                                ) : ('')}
+                              <div className="w-[97%]">
+                                  <HashtagMentionInput postText={edit_reply} setPostText={setEditReply} mentioned={mentioned}  tags={tags} settags={settags} hastags={hastags}/>
+                                </div>
+                              <div className="flex">
+                                {chosenEmoji ? ('') : (
+                                  <EmojiHappyIcon
+                                    width={28}
+                                    height={28}
+                                    className="text-gray-500"
+                                    onClick={()=>setChosenEmoji(true)}
+                                  />
+                                )}
                                 <div className="relative flex items-center justify-center">
                                   <PhotographIcon
                                     width={28}
@@ -886,7 +1048,18 @@ const ReplyComments = (props) => {
                         </>
                       ) : (
                         <>
-                          <p className="text-gray-900 mt-[2px] text-sm">{i.body}</p>
+                          {/* <p className="text-gray-900 mt-[2px] text-sm">{i.body}</p> */}
+                          { i.tags && i.tags.length > 0 || (i.hashtags && i.hashtags.length > 0)?
+                            (
+                              <App state={i.body} website={i.tags} hashtags={i.hashtags}/>
+                            )
+                            :
+                            (  
+                              <ReadMore>
+                              {i.body? i.body : ""}
+                              </ReadMore>
+                            )
+                          }
                           {i.attachments_link ? (
                             <img
                               src={i.attachments_link[0]}
