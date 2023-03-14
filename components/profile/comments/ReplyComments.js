@@ -336,8 +336,7 @@ const ReplyComments = (props) => {
       for (let i = 0; i < postImage.length; i++) {
         dataForm.append("reply_comments[reply_comment_attachments][]", postImage[i]);
       }
-    }  
-    
+    }
     await fetch(`${COMMENT_REPLY}/${ReplyId}`, {
       method: "PUT",
       headers: {
@@ -349,10 +348,11 @@ const ReplyComments = (props) => {
     .then((result) => {
       if (result) {
         // console.log("Replies",result.data);
+
+        getFeedComments();
         setReplyOn(false);
         setReplyEditOn(false);
         setEditReply('');
-        getFeedComments();
       }
     })
     clearPic();
@@ -471,7 +471,7 @@ const ReplyComments = (props) => {
             a=awa;
             // setspeakerMention(a);
             mentionpages();
-            console.log("frie",awa);
+            // console.log("frie",awa);
           }
         })
         .catch((err) => console.log(err));

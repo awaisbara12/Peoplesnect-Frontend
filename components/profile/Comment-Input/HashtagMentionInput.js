@@ -29,7 +29,7 @@ const [mentions, setMentions] = useState([]);
 
   const handleChange = event => {
     setValue(event.target.value);
-    console.log(event.target.value.replace(/\[\@(.*?)\]\((.*?)\)/g, "@$1"));
+    // console.log(event.target.value.replace(/\[\@(.*?)\]\((.*?)\)/g, "@$1"));
     props.setPostText(event.target.value);
     // const hashtagsArray = [];
     const mentionsArray = [];
@@ -54,11 +54,11 @@ const [mentions, setMentions] = useState([]);
     //     mentionsArray.push(word);
     //   }
     // });
-    console.log(words);
+    // console.log(words);
 
     // setHashtags(hashtagsArray);
     props.settags(words);
-    console.log(mentionsArray);
+    // console.log(mentionsArray);
     // console.log(event.target.value);
     setMentions(words);
   };

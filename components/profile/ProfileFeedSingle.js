@@ -120,6 +120,7 @@ const ProfileFeedSingle = (singleItems) => {
     try {
       if (result.status == 200) {
         singleItems.setList(result.data.data);
+        // 
         // console.log(singleItems.lists)
       }
     } catch (error) {
@@ -166,7 +167,6 @@ const ProfileFeedSingle = (singleItems) => {
       let a = confirm("Are yuo Sure ?");
       if(a){DeleteNewsFeed(uid);}
     }
-
     if (name=="Edit")
     { 
       if(item && item.event)
@@ -188,7 +188,6 @@ const ProfileFeedSingle = (singleItems) => {
         EditFeed(uid);
       }
     }
-    
   };
   //Edited image
   const handleImage = (e) => {
@@ -227,7 +226,6 @@ const ProfileFeedSingle = (singleItems) => {
       dataForm.append("events[end_date]", E_date);
       dataForm.append("events[start_time]", S_time);
       dataForm.append("events[end_time]", E_time);
-      
     }
     else{
       if(U_pic){dataForm.append("news_feeds[feed_attachments][]", U_pic);}
@@ -245,7 +243,9 @@ const ProfileFeedSingle = (singleItems) => {
       .then((result) => {
         if (result) {
           setItems(result.data);
-          //getNewsFeed();
+          setEditText(result.data.body)
+          // singleItems.setList([]);
+          // getNewsFeed();
         }
       })
       .catch((err) => console.log(err));
@@ -378,6 +378,7 @@ const ProfileFeedSingle = (singleItems) => {
   }
   
   useEffect(() => {
+
     setLoading(true);
     const getFeedComments = async () => {
       const res = await axios(
@@ -409,12 +410,13 @@ const ProfileFeedSingle = (singleItems) => {
       return result;
     };
     getFeedComments();
-  }, []);
+    // getNewsFeed();
+  }, [singleItems]);
 
   const handleClick = () => {
     setIsActive((current) => !current);
   };
-
+  console.log("yes",items)
   return (
     <>
       <div className="w-[600px] xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">
