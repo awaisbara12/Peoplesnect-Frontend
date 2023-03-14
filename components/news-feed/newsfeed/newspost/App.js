@@ -109,7 +109,7 @@ class App extends Component {
           let abc = [];
           let k;
           let fnln=this.props.website[i].user.first_name+" "+this.props.website[i].user.last_name ;
-          fnln.split(" ").map(a => {
+          fnln.trim().split(/\s*,\s*/).map(a => {
             abc.push(a + " ")
           })
           // console.log("page",abc);
@@ -131,7 +131,7 @@ class App extends Component {
         {
           let abcd = [];
           let p;
-          this.props.website[i].page.name && this.props.website[i].page.name.split(" ").map(a => {
+          this.props.website[i].page.name && this.props.website[i].page.name.trim().split(/\s*,\s*/).map(a => {
             abcd.push(a + " ")
           })
           console.log("page",abcd);
