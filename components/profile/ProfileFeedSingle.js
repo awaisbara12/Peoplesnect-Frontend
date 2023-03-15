@@ -95,7 +95,11 @@ const ProfileFeedSingle = (singleItems) => {
   const [spinner, setSpinner] = useState(false);
   const [isActive, setIsActive] = useState(false);
 
-  const [timezone, settimezone] = useState(false);
+  const [timezone, settimezone] = useState();
+  const [eventlink, seteventlink] = useState();
+  const [seats, setseats] = useState();
+  const [address, setaddress] = useState();
+  const [venue, setvenue] = useState();
 
 
   const [tags, settags] = useState([]);
@@ -197,7 +201,11 @@ const ProfileFeedSingle = (singleItems) => {
         seteventname(item.event.name)
         setspeakerText(item.event.speaker)
         settimezone(item.event.event_timezone)
-        console.log("dd",item.event.event_timezone)
+        seteventlink(item.event.event_link)
+        setseats(item.event.total_seats)
+        setaddress(item.event.address)
+        setvenue(item.event.venue)
+        console.log(item.event)
       }
       else if(item && item.attachments_link){
         EditFeed(uid);
@@ -210,19 +218,31 @@ const ProfileFeedSingle = (singleItems) => {
   };
   //Edited image
   const handleImage = (e) => {
-    setU_pic(e.target.files[0]);
-    if (e.target.files.length !== 0) {
-      setUP_pic(window.URL.createObjectURL(e.target.files[0]));
-    }
+    var type=e.target.files[0].type
+    var s=type.split("/")
+    if(s[0]=='image')
+    {
+      setU_pic(e.target.files[0]);
+      if (e.target.files.length !== 0) {
+        setUP_pic(window.URL.createObjectURL(e.target.files[0]));
+      }
+    }else{alert("Please Select Image")}
+    
   };
   //Edited vedio
   const handleVideo = (e) => {
-    setUP_pic('');
-    setU_pic(e.target.files[0]);
-    if (e.target.files.length !== 0) {
-     setUP_pic(URL.createObjectURL(e.target.files[0]));
-    //  console.log("Check",URL.createObjectURL(U_pic))
-    }
+    var type=e.target.files[0].type
+    var s=type.split("/")
+    if(s[0]=='video')
+    {
+      setUP_pic('');
+      setU_pic(e.target.files[0]);
+      if (e.target.files.length !== 0) {
+        setUP_pic(URL.createObjectURL(e.target.files[0]));
+        //  console.log("Check",URL.createObjectURL(U_pic))
+      }
+    }else{alert("Please Select video")}
+    
   };
   //  remover preview
   const handleCoverReomve = (e) => {
@@ -232,7 +252,6 @@ const ProfileFeedSingle = (singleItems) => {
   function UpdateFeed(id, feedType) {
     setEditOn('');
     if (feedType != "video_feed") {setUP_pic('');}
-     
     const dataForm = new FormData();
     dataForm.append("news_feeds[body]", EditText.replace(/\[\@(.*?)\]\((.*?)\)/g, "@$1"));
     if (tags.length > 0) {
@@ -240,8 +259,6 @@ const ProfileFeedSingle = (singleItems) => {
         dataForm.append("tags[]", tags[i]);
       }
     }
-    
-    // dataForm.append("news_feeds[feed_type]", feedType);
     if (feedType === "event_feed") {
       if (speakertags.length > 0) {
         for (let i = 0; i < speakertags.length; i++) {
@@ -251,17 +268,20 @@ const ProfileFeedSingle = (singleItems) => {
       dataForm.append("events[name]", eventame);
       dataForm.append("events[event_type]", event_type);
       if(U_pic){dataForm.append("events[cover_photo]", U_pic);}
-      // dataForm.append("events[event_timezone]", selectedTimezone.label);
       dataForm.append("events[start_date]", S_date);
       dataForm.append("events[end_date]", E_date);
       dataForm.append("events[start_time]", S_time);
       dataForm.append("events[end_time]", E_time);
       dataForm.append("events[speaker]", speakerText.replace(/\[\@(.*?)\]\((.*?)\)/g, "@$1"));
+      dataForm.append("events[event_timezone]", timezone);
+      dataForm.append("events[event_link]", eventlink);
+      dataForm.append("events[address]", address);
+      dataForm.append("events[venue]", venue);
+      dataForm.append("events[total_seats]", seats);
     }
     else{
       if(U_pic){dataForm.append("news_feeds[feed_attachments][]", U_pic);}
     }
-    // setLoading(true);
     fetch(POST_NEWSFEED_API_KEY+"/"+id, {
       method: "PUT",
       headers: {
@@ -275,8 +295,6 @@ const ProfileFeedSingle = (singleItems) => {
         if (result) {
           setItems(result.data);
           setEditText(result.data.body)
-          // singleItems.setList([]);
-          // getNewsFeed();
         }
       })
       .catch((err) => console.log(err));
@@ -723,6 +741,7 @@ const ProfileFeedSingle = (singleItems) => {
               ) : (
                 ""
               )}
+              {/* Event show and edit-2 */}
               <div className="py-3 px-3">
                 <div className="flex justify-between items-center">
                   <div>
@@ -769,6 +788,7 @@ const ProfileFeedSingle = (singleItems) => {
                             </fieldset>
                           </div>
                         </div> 
+                        {/* Selct Zone */}
                         <>
                           <label htmlFor="startdate" className="text-neutral-900 text-sm">
                             Time Zone <span className="text-red-500">*</span>
@@ -779,16 +799,14 @@ const ProfileFeedSingle = (singleItems) => {
                             value={timezone}
                             onChange={(e)=>settimezone(e.target.value)}
                           /> */}
-                           
-                           <TimezoneSelect
-                              value={timezone}
-                              onChange={settimezone}
-                              timezones={{
-                                ...allTimezones,
-                                "America/Lima": "Pittsburgh",
-                              }}
-                            />
-                            
+                          <TimezoneSelect
+                            value={timezone}
+                            onChange={settimezone}
+                            timezones={{
+                              ...allTimezones,
+                              "America/Lima": "Pittsburgh",
+                            }}
+                          />
                         </>
                         {/* Time */}
                         <div className="flex justify-end ">
@@ -855,6 +873,62 @@ const ProfileFeedSingle = (singleItems) => {
                             />
                           </>
                         </div>
+
+                        {event_type=="online"?(
+                          ''
+                        ):(
+                          <>
+                            <>
+                              <label htmlFor="startdate" className="text-neutral-900 text-sm">
+                              Adress<span className="text-red-500">*</span>
+                              </label>
+                              <input
+                                placeholder="Event Adress"
+                                className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
+                                value={address}
+                                onChange={(e)=>setaddress(e.target.value)}
+                              />
+                            </>
+                            <>
+                              <label htmlFor="startdate" className="text-neutral-900 text-sm">
+                              Venue <span className="text-red-500">*</span>
+                              </label>
+                              <input
+                                placeholder="Event Venue"
+                                className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
+                                value={venue}
+                                onChange={(e)=>setvenue(e.target.value)}
+                              />
+                            </> 
+                          </>
+                        )}
+
+                        {/* External Event Link */}
+                        <>
+                          <label htmlFor="startdate" className="text-neutral-900 text-sm">
+                            External Event Link <span className="text-red-500">*</span>
+                          </label>
+                          <input
+                            placeholder="Event Event Link"
+                            className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
+                            value={eventlink}
+                            onChange={(e)=>seteventlink(e.target.value)}
+                          />
+                           
+                        </>
+                        {/* total Seat */}
+                        <>
+                          <label htmlFor="startdate" className="text-neutral-900 text-sm">
+                           Total Seat <span className="text-red-500">*</span>
+                          </label>
+                          <input
+                            placeholder="Enter Seat"
+                            className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
+                            value={seats}
+                            onChange={(e)=>setseats(e.target.value)}
+                          />
+                           
+                        </>
                         {/* Speaker */}
                         <>
                           <label htmlFor="startdate" className="text-neutral-900 text-sm">
@@ -896,6 +970,39 @@ const ProfileFeedSingle = (singleItems) => {
                                 ):('In Person')}
                               </span>
                             </div>
+                            {/* Venue and adress */}
+                            {items.event.event_type=== "online"?(''):(
+                              <>
+                                {/* Adress */}
+                                {items.event.address?(
+                                  <div className="flex items-center gap-2">
+                                    <CalendarIcon
+                                      width={16}
+                                      height={16}
+                                      className="text-gray-900"
+                                    />
+                                    <span className="text-gray-900 text-sm">
+                                      {items.event.address}
+                                    </span>
+                                  </div>
+                                ):('')}
+                               
+                               {/* Venue */}
+                               {items.event.venue?(
+                                  <div className="flex items-center gap-2">
+                                    <CalendarIcon
+                                      width={16}
+                                      height={16}
+                                      className="text-gray-900"
+                                    />
+                                    <span className="text-gray-900 text-sm">
+                                      {items.event.venue}
+                                    </span>
+                                  </div>
+                               ):('')}
+                                
+                              </>
+                            )}
                             {/*  Event link */}
                             <div className="flex items-center gap-2">
                               <CalendarIcon

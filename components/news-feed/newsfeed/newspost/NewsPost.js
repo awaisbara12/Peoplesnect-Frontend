@@ -87,20 +87,31 @@ const NewsPost = ( setList ) => {
       })
       .catch((err) => console.log(err));
   }
-
+  //  For image [Feed-type-Event]
   const handleImageSelect = (e) => {
-    setEventCoverImage(e.target.files[0]);
-    if (e.target.files.length !== 0) {
-      setPreviewEventCoverImage(window.URL.createObjectURL(e.target.files[0]));
-    }
+    var type=e.target.files[0].type
+     var s=type.split("/")
+    if(s[0]=='image'){
+      setEventCoverImage(e.target.files[0]);
+      if (e.target.files.length !== 0) {
+        setPreviewEventCoverImage(window.URL.createObjectURL(e.target.files[0]));
+      }
+    }else{alert("Please Select Image")}
+    
   };
 
+  //  For image [Feed-type-Image]
   const handleImagePost = (e) => {
-    setPostImage(e.target.files[0]);
-    if (e.target.files.length !== 0) {
-      setpostImagePreview(window.URL.createObjectURL(e.target.files[0]));
-    }
-    setFeedType("image_feed");
+    var type=e.target.files[0].type
+    var s=type.split("/")
+    if(s[0]=='image')
+    {
+      setPostImage(e.target.files[0]);
+      if (e.target.files.length !== 0) {
+        setpostImagePreview(window.URL.createObjectURL(e.target.files[0]));
+      }
+      setFeedType("image_feed");
+    }else{alert("Please Select Image")}
   };
 
   const handleCoverReomve = (e) => {
@@ -108,13 +119,18 @@ const NewsPost = ( setList ) => {
     setPreviewEventCoverImage(window.URL.revokeObjectURL(e.target.files));
     setVideoPreview(window.URL.revokeObjectURL(e.target.files));
   };
-
+ //  For Vedio [Feed-type-Vedio]
   const handleVideo = (e) => {
-    setFeedType("video_feed");
-    setVideoSrc(e.target.files[0]);
-    if (e.target.files.length !== 0) {
-      setVideoPreview(URL.createObjectURL(e.target.files[0]));
-    }
+    var type=e.target.files[0].type
+    var s=type.split("/")
+    if(s[0]=='video')
+    { 
+      setFeedType("video_feed");
+      setVideoSrc(e.target.files[0]);
+      if (e.target.files.length !== 0) {
+        setVideoPreview(URL.createObjectURL(e.target.files[0]));
+      }
+    }else{alert("Please Select Vedio")}
   };
 
   const onSubmit = () => {
