@@ -21,7 +21,7 @@ import { CalendarIcon } from "@heroicons/react/solid";
 import { Popover, Transition } from "@headlessui/react";
 import Link from "next/link";
 import ProfileAvatar from "../../public/images/profile-avatar.png";
-
+import TimezoneSelect, { allTimezones } from "react-timezone-select";
 import PostImage from "../../public/images/post-image.png";
 import axios from "axios";
 import {
@@ -29,13 +29,16 @@ import {
   REACTION_NEWSFEED_API_KEY,
   NEWSFEED_COMMENT_POST_KEY,
   POST_NEWSFEED_API_KEY,
-  GET_USER_BOOKMARKS
+  GET_USER_BOOKMARKS,
+  SEARCH_MULTIPLE,
+  HASHTAGS_API
 } from "../../pages/config";
 import PostComments from "./comments/PostComments";
 import FilterComments from "./comments/FilterComments";
 import ReplyComments from "./comments/ReplyComments";
 import Spinner from "../common/Spinner";
 import App from "../news-feed/newsfeed/newspost/App";
+import HashtagMentionInput from "../news-feed/newsfeed/newspost/HashtagMentionInput";
 // import Spinner from "../common/Spinner";
 
 const cardDropdown = [
@@ -91,6 +94,19 @@ const ProfileFeedSingle = (singleItems) => {
   const [bookmarks, setBookmarks] = useState(singleItems.bookmarks);
   const [spinner, setSpinner] = useState(false);
   const [isActive, setIsActive] = useState(false);
+
+  const [timezone, settimezone] = useState(false);
+
+
+  const [tags, settags] = useState([]);
+  const [mentioned, setMentioned] = useState([]);
+  const [hashtaged, setHashtaged] = useState([]);
+  let [hastags, sethastags] = useState();
+
+
+  let [speakerMention, setspeakerMention] = useState([]);
+  let [speakerText, setspeakerText] = useState("d");
+  const [speakertags, setspeakertags] = useState([]);
 
   // Bareer Key
   if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore");}
@@ -179,6 +195,9 @@ const ProfileFeedSingle = (singleItems) => {
         setE_date(item.event.end_date)
         setevent_type(item.event.event_type)
         seteventname(item.event.name)
+        setspeakerText(item.event.speaker)
+        settimezone(item.event.event_timezone)
+        console.log("dd",item.event.event_timezone)
       }
       else if(item && item.attachments_link){
         EditFeed(uid);
@@ -215,9 +234,20 @@ const ProfileFeedSingle = (singleItems) => {
     if (feedType != "video_feed") {setUP_pic('');}
      
     const dataForm = new FormData();
-    dataForm.append("news_feeds[body]", EditText);
+    dataForm.append("news_feeds[body]", EditText.replace(/\[\@(.*?)\]\((.*?)\)/g, "@$1"));
+    if (tags.length > 0) {
+      for (let i = 0; i < tags.length; i++) {
+        dataForm.append("tags[]", tags[i]);
+      }
+    }
+    
     // dataForm.append("news_feeds[feed_type]", feedType);
     if (feedType === "event_feed") {
+      if (speakertags.length > 0) {
+        for (let i = 0; i < speakertags.length; i++) {
+          dataForm.append("speakertags[]", speakertags[i]);
+        }
+      }
       dataForm.append("events[name]", eventame);
       dataForm.append("events[event_type]", event_type);
       if(U_pic){dataForm.append("events[cover_photo]", U_pic);}
@@ -226,6 +256,7 @@ const ProfileFeedSingle = (singleItems) => {
       dataForm.append("events[end_date]", E_date);
       dataForm.append("events[start_time]", S_time);
       dataForm.append("events[end_time]", E_time);
+      dataForm.append("events[speaker]", speakerText.replace(/\[\@(.*?)\]\((.*?)\)/g, "@$1"));
     }
     else{
       if(U_pic){dataForm.append("news_feeds[feed_attachments][]", U_pic);}
@@ -410,13 +441,114 @@ const ProfileFeedSingle = (singleItems) => {
       return result;
     };
     getFeedComments();
-    // getNewsFeed();
-  }, [singleItems]);
+    mentioneds();
+    HashTags();
+  }, []);
 
   const handleClick = () => {
     setIsActive((current) => !current);
   };
-  console.log("yes",items)
+
+// console.log("Edit Speaker",speakerText.replace(/\[\@(.*?)\]\((.*?)\)/g, "@$1"))
+
+
+  const HashTags=async()=>{
+    await fetch(HASHTAGS_API, {
+      method: "GET",
+       headers: {
+        Accept: "application/json",
+         Authorization: `${authKey}`,
+       },
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          let awa =[];
+          for(let i =0; i<result.data.length ; i++)
+          {
+            awa[i] ={
+              display: result.data[i].name  ,
+              id: result.data[i].id,
+            }
+          }
+          sethastags(awa);
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+  let a ='';
+  const mentioneds = () => {
+    if (typeof window !== "undefined") {
+      var authKey = window.localStorage.getItem("keyStore");
+    }
+    // const [mention,setmention] = useState([]);
+    fetch(SEARCH_MULTIPLE+"/gettags?query="+'friends', {
+        method: "GET",
+         headers: {
+          Accept: "application/json", 
+           Authorization: `${authKey}`,
+         },
+      })
+         .then((resp) => resp.json())
+        .then((result) => {
+          if (result) {
+            let awa =[];
+  
+            for(let i =0; i<result.data.length ; i++)
+            {
+                awa[i] ={
+                  display: '@'+result.data[i].first_name+" "+result.data[i].last_name ,
+                  link: 'Friends-Profile?'+result.data[i].id,
+                  avatar: result.data[i].display_photo_url,
+                  id: result.data[i].id,
+                  type : 'User'
+                }
+            }
+            a=awa;
+            setspeakerMention(awa);
+            mentionpages();
+            // console.log("frie",awa);
+          }
+        })
+        .catch((err) => console.log(err));
+  };
+  const mentionpages = () => {
+    if (typeof window !== "undefined") {
+      var authKey = window.localStorage.getItem("keyStore");
+    }
+    // const [mention,setmention] = useState([]);
+    fetch(SEARCH_MULTIPLE+"/gettags?query="+'pages', {
+        method: "GET",
+         headers: {
+          Accept: "application/json", 
+           Authorization: `${authKey}`,
+         },
+      })
+         .then((resp) => resp.json())
+        .then((result) => {
+          if (result) {
+            let awa =[];
+  
+            for(let i = 0; i<result.data.length ; i++)
+            {
+                awa[i] ={
+                  display: '@'+result.data[i].name ,
+                  link: 'Liked-Pages?'+result.data[i].id,
+                  avatar: result.data[i].display_photo_url,
+                  id: result.data[i].id,
+                  type : 'Page'
+                }
+            }
+            let dbc = [...a,...awa]
+            setMentioned(dbc);
+            // setspeakerMention(dbc);
+          //  console.log("ment",mentioned);
+          }
+        })
+        .catch((err) => console.log(err));
+  };
+
+  // console.log("itemsitems ", items)
   return (
     <>
       <div className="w-[600px] xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">
@@ -511,14 +643,15 @@ const ProfileFeedSingle = (singleItems) => {
 
         <div className="px-[22px] py-[14px]">
           {EditOn==items.id?(
-            <textarea
-            type="text"
-            name="post-text"
-            value={EditText}
-            onChange={(e) => setEditText(e.target.value)}
-            className="w-full pt-0 resize-none border-0 px-0 text-base overflow-y-hidden outline-none focus:outline focus:ring-0"
-            placeholder="Start a post?"
-          />
+          //   <textarea
+          //   type="text"
+          //   name="post-text"
+          //   value={EditText}
+          //   onChange={(e) => setEditText(e.target.value)}
+          //   className="w-full pt-0 resize-none border-0 px-0 text-base overflow-y-hidden outline-none focus:outline focus:ring-0"
+          //   placeholder="Start a post?"
+          // />
+          <HashtagMentionInput postText={EditText} setPostText={setEditText} mentioned={mentioned}  tags={tags} settags={settags} hastags={hastags}/>
           ):(// <p>{items.body ? items.body : ""}</p>
               items.tags && items.tags.length > 0 || (items.hashtags && items.hashtags.length > 0)?
                 (
@@ -636,6 +769,27 @@ const ProfileFeedSingle = (singleItems) => {
                             </fieldset>
                           </div>
                         </div> 
+                        <>
+                          <label htmlFor="startdate" className="text-neutral-900 text-sm">
+                            Time Zone <span className="text-red-500">*</span>
+                          </label>
+                          {/* <input
+                            placeholder="Event Name"
+                            className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
+                            value={timezone}
+                            onChange={(e)=>settimezone(e.target.value)}
+                          /> */}
+                           
+                           <TimezoneSelect
+                              value={timezone}
+                              onChange={settimezone}
+                              timezones={{
+                                ...allTimezones,
+                                "America/Lima": "Pittsburgh",
+                              }}
+                            />
+                            
+                        </>
                         {/* Time */}
                         <div className="flex justify-end ">
                           <>
@@ -701,6 +855,22 @@ const ProfileFeedSingle = (singleItems) => {
                             />
                           </>
                         </div>
+                        {/* Speaker */}
+                        <>
+                          <label htmlFor="startdate" className="text-neutral-900 text-sm">
+                            Speaker <span className="text-red-500">*</span>
+                          </label>
+                          {/* <input
+                            placeholder="Event Name"
+                            className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
+                            value={eventame}
+                            onChange={(e)=>seteventname(e.target.value)}
+                          /> */}
+                           <HashtagMentionInput postText={speakerText} setPostText={setspeakerText} mentioned={speakerMention}  tags={speakertags} settags={setspeakertags} hastags={hastags}/>
+            
+                            
+                            
+                        </>
                       </div >
                       ):(
                       <div className="py-3 px-3">

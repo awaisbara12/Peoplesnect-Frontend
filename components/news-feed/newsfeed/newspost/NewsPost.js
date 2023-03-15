@@ -49,7 +49,7 @@ const NewsPost = ( setList ) => {
   const [hashtaged, setHashtaged] = useState([]);
   let [results, setresults] = useState(0);
   let [speakerMention, setspeakerMention] = useState([]);
-  let [speakerText, setspeakerText] = useState();
+  let [speakerText, setspeakerText] = useState('a');
   const [speakertags, setspeakertags] = useState([]);
 
   const [currentuser, setcurrentuser] = useState();
@@ -176,7 +176,7 @@ const NewsPost = ( setList ) => {
       dataForm.append("events[event_link]", values.externalLink);
       dataForm.append("events[description]", values.description);
       dataForm.append("events[address]", values.address);
-      dataForm.append("events[speaker]", speakerText);
+      dataForm.append("events[speaker]", speakerText.replace(/\[\@(.*?)\]\((.*?)\)/g, "@$1"));
       dataForm.append("events[total_seats]", values.total_seat);
       if (speakertags.length > 0) {
         for (let i = 0; i < speakertags.length; i++) {
@@ -212,6 +212,7 @@ const NewsPost = ( setList ) => {
     setVideoPreview("");
     onSubmit();
   }
+  console.log("post Speaker",speakerText.replace(/\[\@(.*?)\]\((.*?)\)/g, "@$1"))
 
   let a ='';
   const mentioneds = () => {
