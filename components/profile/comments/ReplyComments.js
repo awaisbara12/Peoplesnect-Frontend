@@ -161,8 +161,13 @@ const ReplyComments = (props) => {
     // Update Comment
   function updateComment(commentId,commentBody) {
    const dataForm = new FormData();
-    if(postText){dataForm.append("comments[body]", postText);}
-    else{ dataForm.append("comments[body]", commentBody);}
+    if (tags.length > 0) {
+      for (let i = 0; i < tags.length; i++) {
+        dataForm.append("tags[]", tags[i]);
+      }
+    }
+    if(postText){dataForm.append("comments[body]", postText.replace(/\[\@(.*?)\]\((.*?)\)/g, "@$1"));}
+    else{ dataForm.append("comments[body]", commentBody.replace(/\[\@(.*?)\]\((.*?)\)/g, "@$1"));}
    
     if (postImage.length > 0) {
       for (let i = 0; i < postImage.length; i++) {
@@ -330,8 +335,13 @@ const ReplyComments = (props) => {
     //Update Reply
   async function updateReply(ReplyId,ReplyBody) {
     const dataForm = new FormData();
-    if(edit_reply){ dataForm.append("reply_comments[body]", edit_reply);}
-    else{ dataForm.append("reply_comments[body]", ReplyBody);}
+    if (tags.length > 0) {
+      for (let i = 0; i < tags.length; i++) {
+        dataForm.append("tags[]", tags[i]);
+      }
+    }
+    if(edit_reply){ dataForm.append("reply_comments[body]", edit_reply.replace(/\[\@(.*?)\]\((.*?)\)/g, "@$1"));}
+    else{ dataForm.append("reply_comments[body]", ReplyBody.replace(/\[\@(.*?)\]\((.*?)\)/g, "@$1"));}
     if (postImage.length > 0) {
       for (let i = 0; i < postImage.length; i++) {
         dataForm.append("reply_comments[reply_comment_attachments][]", postImage[i]);
