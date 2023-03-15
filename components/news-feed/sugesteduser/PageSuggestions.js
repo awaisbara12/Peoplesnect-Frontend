@@ -71,7 +71,7 @@ if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("k
         <Link href="/page-design/new-page">
           <a className="mt-2 flex gap-1 border bg-gray-100 justify-center rounded-full p-2">
             <PlusIcon className="h-5 w-5" />
-            Creat New Page
+            Create New Page
           </a>
         </Link>
       </div>
