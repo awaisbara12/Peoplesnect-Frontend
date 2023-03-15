@@ -205,7 +205,7 @@ const ProfileFeedSingle = (singleItems) => {
         setseats(item.event.total_seats)
         setaddress(item.event.address)
         setvenue(item.event.venue)
-        console.log(item.event)
+        // console.log(item.event)
       }
       else if(item && item.attachments_link){
         EditFeed(uid);

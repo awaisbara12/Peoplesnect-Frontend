@@ -166,18 +166,15 @@ const NewsPost = ( setList ) => {
   
   function postNewsData(e) {
     e.preventDefault();
-
     const dataForm = new FormData();
     dataForm.append("news_feeds[body]", postText.replace(/\[\@(.*?)\]\((.*?)\)/g, "@$1"));
     dataForm.append("news_feeds[feed_type]", feedType);
-
     if (tags.length > 0) {
       for (let i = 0; i < tags.length; i++) {
         dataForm.append("tags[]", tags[i]);
       }
     }
   // dataForm.append("news_feeds[tags][]", tags);
-
     dataForm.append("news_feeds[feed_attachments][]", postImage);
     dataForm.append("news_feeds[feed_attachments][]", videoSrc);
     if (feedType === "event_feed") {
@@ -228,8 +225,6 @@ const NewsPost = ( setList ) => {
     setVideoPreview("");
     onSubmit();
   }
-  console.log("post Speaker",speakerText.replace(/\[\@(.*?)\]\((.*?)\)/g, "@$1"))
-
   let a ='';
   const mentioneds = () => {
     if (typeof window !== "undefined") {
@@ -247,7 +242,6 @@ const NewsPost = ( setList ) => {
         .then((result) => {
           if (result) {
             let awa =[];
-  
             for(let i =0; i<result.data.length ; i++)
             {
                 awa[i] ={
@@ -266,12 +260,10 @@ const NewsPost = ( setList ) => {
         })
         .catch((err) => console.log(err));
   };
-  
   const mentionpages = () => {
     if (typeof window !== "undefined") {
       var authKey = window.localStorage.getItem("keyStore");
     }
-    // const [mention,setmention] = useState([]);
     fetch(SEARCH_MULTIPLE+"/gettags?query="+'pages', {
         method: "GET",
          headers: {
@@ -283,7 +275,6 @@ const NewsPost = ( setList ) => {
         .then((result) => {
           if (result) {
             let awa =[];
-  
             for(let i = 0; i<result.data.length ; i++)
             {
                 awa[i] ={
