@@ -83,7 +83,7 @@ const GroupsSuggesions = () => {
         <Link href="/group-page/new-group">
           <a className="mt-2 flex gap-1 border bg-gray-100 justify-center rounded-full p-2">
             <PlusIcon className="h-5 w-5" />
-            Creat New Group
+            Create New Group
           </a>
         </Link>
       </div>
