@@ -64,24 +64,20 @@ const PostComments = (props) => {
  
   function postComment(e) {
     e.preventDefault();
-
     const dataForm = new FormData();
     dataForm.append("comments[body]", postText.replace(/\[\@(.*?)\]\((.*?)\)/g, "@$1"));
     dataForm.append("comments[commentable_id]", props.news_feed_id);
     dataForm.append("comments[commentable_type]", "NewsFeed");
-
     if (postImage.length > 0) {
       for (let i = 0; i < postImage.length; i++) {
         dataForm.append("comments[comment_attachments][]", postImage[i]);
       }
     }
-
     if (tags.length > 0) {
       for (let i = 0; i < tags.length; i++) {
         dataForm.append("tags[]", tags[i]);
       }
     }
-
     fetch(COMMENT_API_KEY, {
       method: "POST",
       headers: {
