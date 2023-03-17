@@ -1,11 +1,33 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { BlogSchema } from "../auth/schemas/BlogScheema";
 import { Editor } from "@tinymce/tinymce-react";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
 import { CameraIcon, TrashIcon } from "@heroicons/react/outline";
-import { BLOG_POST_USER_API_KEY } from "../../pages/config";
+import { BLOG_POST_USER_API_KEY, HASHTAGS_API, SEARCH_MULTIPLE } from "../../pages/config";
 import Spinner from "../common/Spinner";
+import HashtagMentionInput from "./blog-description-input/HashtagMentionInput";
+
+
+
+const ReadMore = ({ children }) => {
+  const text = children;
+  const [isReadMore, setIsReadMore] = useState(true);
+  const toggleReadMore = () => {
+    setIsReadMore(!isReadMore);
+  };
+  return (
+    <p className="text">
+      {isReadMore ? text.slice(0, 300) + (text.length > 300?("......"):('')) : text}
+      {text.length > 300?(
+        <span onClick={toggleReadMore} className="text-indigo-400 cursor-pointer ml-2 font-bold">
+          {isReadMore ? "Read more" : "Show less"}
+        </span>
+      ):('')}
+    </p>
+  );
+};
+
 
 const NewPost = () => {
   const router = useRouter();
@@ -15,6 +37,14 @@ const NewPost = () => {
   const [blogContent, setBlogContent] = useState("");
   const [title, setTitle] = useState();
   const [BlogImagePreview, setBlogImagePreview] = useState();
+
+
+
+  const [tags, settags] = useState([]);
+  const [mentioned, setMentioned] = useState([]);
+  const [hashtaged, setHashtaged] = useState([]);
+  let [hastags, sethastags] = useState();
+
   if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore");}
   const handleEditorChange = (e) => {
     setBlogContent(e.target.getContent({ format: "text" }));
@@ -44,8 +74,13 @@ const NewPost = () => {
     e.preventDefault();
 
     const dataForm = new FormData();
-    dataForm.append("blogs[title]", values.title);
-    dataForm.append("blogs[description]", blogContent);
+    if (tags.length > 0) {
+      for (let i = 0; i < tags.length; i++) {
+        dataForm.append("tags[]", tags[i]);
+      }
+    }
+    dataForm.append("blogs[title]", title);
+    dataForm.append("blogs[description]", blogContent.replace(/\[\@(.*?)\]\((.*?)\)/g, "@$1"));
     dataForm.append("blogs[photos][]", blogImage);
     dataForm.append("blogs[blog_type]", blog_type);
     setLoading(true);
@@ -61,15 +96,123 @@ const NewPost = () => {
       .then((result) => {
         if (result) {
           setLoading(false);
-          router.push("/blog");
+          // console.log("uploaded",result.data)
+          router.push("/blog/show?"+result.data.id);
+          setTitle("")
+          setBlogImage("");
+          setBlogImagePreview("");
+          setBlogContent("");
+          resetForm();
         }
       })
       .catch((err) => console.log(err));
-    setBlogImage("");
-    setBlogImagePreview("");
-    setBlogContent("");
-    resetForm();
+    
   }
+
+
+
+  useEffect(() => {
+    mentioneds();
+    HashTags();
+  },[]);
+
+
+
+  const HashTags=async()=>{
+    await fetch(HASHTAGS_API, {
+      method: "GET",
+       headers: {
+        Accept: "application/json",
+         Authorization: `${authKey}`,
+       },
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          let awa =[];
+          for(let i =0; i<result.data.length ; i++)
+          {
+            awa[i] ={
+              display: result.data[i].name  ,
+              id: result.data[i].id,
+            }
+          }
+          sethastags(awa);
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+  let a ='';
+  const mentioneds = () => {
+    if (typeof window !== "undefined") {
+      var authKey = window.localStorage.getItem("keyStore");
+    }
+    // const [mention,setmention] = useState([]);
+    fetch(SEARCH_MULTIPLE+"/gettags?query="+'friends', {
+        method: "GET",
+         headers: {
+          Accept: "application/json", 
+           Authorization: `${authKey}`,
+         },
+      })
+         .then((resp) => resp.json())
+        .then((result) => {
+          if (result) {
+            let awa =[];
+  
+            for(let i =0; i<result.data.length ; i++)
+            {
+                awa[i] ={
+                  display: '@'+result.data[i].first_name+" "+result.data[i].last_name ,
+                  link: 'Friends-Profile?'+result.data[i].id,
+                  avatar: result.data[i].display_photo_url,
+                  id: result.data[i].id,
+                  type : 'User'
+                }
+            }
+            a=awa;
+            // setspeakerMention(awa);
+            mentionpages();
+            // console.log("frie",awa);
+          }
+        })
+        .catch((err) => console.log(err));
+  };
+  const mentionpages = () => {
+    if (typeof window !== "undefined") {
+      var authKey = window.localStorage.getItem("keyStore");
+    }
+    // const [mention,setmention] = useState([]);
+    fetch(SEARCH_MULTIPLE+"/gettags?query="+'pages', {
+        method: "GET",
+         headers: {
+          Accept: "application/json", 
+           Authorization: `${authKey}`,
+         },
+      })
+         .then((resp) => resp.json())
+        .then((result) => {
+          if (result) {
+            let awa =[];
+  
+            for(let i = 0; i<result.data.length ; i++)
+            {
+                awa[i] ={
+                  display: '@'+result.data[i].name ,
+                  link: 'Liked-Pages?'+result.data[i].id,
+                  avatar: result.data[i].display_photo_url,
+                  id: result.data[i].id,
+                  type : 'Page'
+                }
+            }
+            let dbc = [...a,...awa]
+            setMentioned(dbc);
+            // setspeakerMention(dbc);
+          //  console.log("ment",mentioned);
+          }
+        })
+        .catch((err) => console.log(err));
+  };
 
   return (
     <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
@@ -131,7 +274,7 @@ const NewPost = () => {
             )}
           </div>
           <div className="form-group mt-4">
-            <Editor
+            {/* <Editor
               id="fiexed-id"
               init={{
                 height: 300,
@@ -149,7 +292,9 @@ const NewPost = () => {
               }}
               initialValue=""
               onChange={handleEditorChange}
-            />
+            /> */}
+            <HashtagMentionInput postText={blogContent} setPostText={setBlogContent} mentioned={mentioned}  tags={tags} settags={settags} hastags={hastags}/>
+          
             {errors.description && touched.description ? (
               <div className="text-red-600 pt-2 pl-1">{errors.description}</div>
             ) : null}
