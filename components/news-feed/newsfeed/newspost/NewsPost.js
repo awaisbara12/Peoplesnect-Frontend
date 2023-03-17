@@ -102,16 +102,19 @@ const NewsPost = ( setList ) => {
 
   //  For image [Feed-type-Image]
   const handleImagePost = (e) => {
-    var type=e.target.files[0].type
-    var s=type.split("/")
-    if(s[0]=='image')
+    if(e.target.files[0])
     {
-      setPostImage(e.target.files[0]);
-      if (e.target.files.length !== 0) {
-        setpostImagePreview(window.URL.createObjectURL(e.target.files[0]));
-      }
-      setFeedType("image_feed");
-    }else{alert("Please Select Image")}
+      var type=e.target.files[0].type
+      var s=type.split("/")
+      if(s[0]=='image')
+      {
+        setPostImage(e.target.files[0]);
+        if (e.target.files.length !== 0) {
+          setpostImagePreview(window.URL.createObjectURL(e.target.files[0]));
+        }
+        setFeedType("image_feed");
+      }else{alert("Please Select Image")}
+    } 
   };
 
   const handleCoverReomve = (e) => {

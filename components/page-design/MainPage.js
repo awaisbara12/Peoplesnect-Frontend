@@ -108,7 +108,7 @@ const MainPage = () => {
           </div>
           <div className="grid grid-cols-1 gap-6 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2">
               {myPages?(
-                myPages.slice(myPages.length-3,myPages.length).map((i)=>(
+                myPages.map((i)=>(
                   <div className="profile mt-10 border rounded-xl" key={i.id}>
                     <Link  href={{pathname: "page-design/liked-pages", query: i.id,}}>
                      <a>
@@ -303,7 +303,7 @@ const MainPage = () => {
               </div>
             </div> */}
             {likedPages?(
-                likedPages.slice(likedPages.length-3,likedPages.length).map((i)=>(
+                likedPages.map((i)=>(
                   <div className="profile mt-10 border rounded-xl" key={i.id}>
                     <Link  href={{pathname: "page-design/liked-pages", query: i.id,}}>
                      <a>

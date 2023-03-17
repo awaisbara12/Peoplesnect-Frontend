@@ -7,8 +7,8 @@ import { LIKE_PAGES_API, PAGES_API } from "../../../pages/config";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import ClipLoader from 'react-spinners/ClipLoader';
 const ShowAll = () => {
-  const [myPages,setmyPages] = useState();
-  const [likedPages,setlikedPages] = useState();
+  const [myPages,setmyPages] = useState([]);
+  const [likedPages,setlikedPages] = useState([]);
   const [SugestPages,setSuggestedPages] = useState([]);
   const [type, setType] = useState();
   const [currentpage, setcurrentpage] = useState(1);
@@ -55,7 +55,7 @@ const ShowAll = () => {
   }
   // Get My_Pages lists
   const MyPages =()=>{
-    const res = fetch(PAGES_API+"/my_pages", {
+    const res = fetch(PAGES_API+"/my_pages?page="+currentpage, {
     method: "GET",
     headers: {
       Accept: "application/json",
@@ -64,7 +64,10 @@ const ShowAll = () => {
     })
     .then((resp) => resp.json())
     .then((result) => {
-      setmyPages(result.data)
+      // setmyPages(result.data)
+      const mergedata = [...myPages, ...result.data]
+      setmyPages(mergedata);
+      setcurrentpage(result.pages.next_page)
     })
   }
   // Get Liked Pages lists
@@ -78,7 +81,10 @@ const ShowAll = () => {
     })
     .then((resp) => resp.json())
     .then((result) => {
-      setlikedPages(result.data)
+      // setlikedPages(result.data)
+      const mergedata = [...likedPages, ...result.data]
+      setlikedPages(mergedata);
+      setcurrentpage(result.pages.next_page)
     })
   }
   // Get Suggested Group Lists
@@ -92,7 +98,7 @@ const ShowAll = () => {
     })
     .then((resp) => resp.json())
     .then((result) => {
-     console.log(result)
+    //  console.log(result)
       const mergedata = [...SugestPages, ...result.data]
       setSuggestedPages(mergedata);
       setcurrentpage(result.pages.next_page)
@@ -114,8 +120,12 @@ const ShowAll = () => {
   const fetchMoreData = () => {
     SuggestedPages();
   }
-
-
+  const fetchMoreMyData = () => {
+    MyPages();
+  }
+  const fetchMoreLikedData = () => {
+    LikedPages();
+  }
   return (
     <div className="mt-8">
     <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
@@ -125,9 +135,17 @@ const ShowAll = () => {
           <div className="justify-between flex items-center">
             <div className="heading font-semibold">My Pages</div>
           </div>
-          <div className="grid grid-cols-1 gap-6 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2">
+          {/* <div className="grid grid-cols-1 gap-6 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2"> */}
               {myPages?(
-                myPages.map((i)=>(
+               <InfiniteScroll
+                  dataLength={SugestPages.length}
+                  next={fetchMoreMyData}
+                  className="grid grid-cols-1 gap-6 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2"
+                  hasMore={currentpage != null}
+                  loader={<div className="flex justify-center "><ClipLoader className="my-8" color="#818CF8" size={40} /> </div>}
+                >
+               
+               {myPages.map((i)=>(
                   <div className="profile mt-10 border rounded-xl bg-white" key={i.id}>
                     <Link  href={{pathname: "liked-pages", query: i.id,}}>
                      <a>
@@ -198,9 +216,9 @@ const ShowAll = () => {
                       </div>
                     </div>
                   </div>
-                ))
-              ):('')}
-          </div>
+                ))}
+                </InfiniteScroll>):('')}
+          {/* </div> */}
         </div>
        ):('')}
        
@@ -210,9 +228,17 @@ const ShowAll = () => {
           <div className="justify-between flex items-center">
             <div className="heading font-semibold">Liked Pages</div>
           </div>
-          <div className="grid grid-cols-1 gap-6 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2">
+          {/* <div className="grid grid-cols-1 gap-6 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2"> */}
             {likedPages?(
-                likedPages.map((i)=>(
+                <InfiniteScroll
+                  dataLength={SugestPages.length}
+                  next={fetchMoreLikedData}
+                  className="grid grid-cols-1 gap-6 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2"
+                  hasMore={currentpage != null}
+                  loader={<div className="flex justify-center "><ClipLoader className="my-8" color="#818CF8" size={40} /> </div>}
+                >
+                
+                {likedPages.map((i)=>(
                   <div className="profile mt-10 border rounded-xl bg-white" key={i.id}>
                     <Link  href={{pathname: "liked-pages", query: i.id,}}>
                      <a>
@@ -283,9 +309,9 @@ const ShowAll = () => {
                       </div>
                     </div>
                   </div>
-                ))
-              ):('')}
-          </div>
+                ))}
+                </InfiniteScroll>):('')}
+          {/* </div> */}
         </div>
        ):('')}
 
