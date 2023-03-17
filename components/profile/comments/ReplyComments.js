@@ -424,6 +424,10 @@ const ReplyComments = (props) => {
     setChosenEmoji(false);
     setCommentReply(CommentReply+" "+event.emoji+" ");
   };
+  const onEmojiClickEditReply = (event) => {
+    setChosenEmoji(false);
+    setEditReply(edit_reply+" "+event.emoji+" ");
+  };
   const HashTags=async()=>{
     await fetch(HASHTAGS_API, {
       method: "GET",
@@ -521,6 +525,7 @@ const ReplyComments = (props) => {
         })
         .catch((err) => console.log(err));
   };
+
   return (
     <Fragment>
       <div>
@@ -552,7 +557,7 @@ const ReplyComments = (props) => {
                       <div className="text-gray-400">{comment.created_at} | {comment.time}</div>
                     </span>
                     <div className="text-gray-900 text-sm">
-                    {comment.user && comment.user.city?comment.user.city+", ":""}{comment.user && comment.user.state?comment.user.state+", ":""}{comment.user && comment.user.country?comment.user.country+", ":""}
+                    {comment.user && comment.user.city?comment.user.city+", ":""}{comment.user && comment.user.state?comment.user.state+", ":""}{comment.user && comment.user.country?comment.user.country:""}
                     </div>
                   </div>
                 </div>
@@ -780,7 +785,11 @@ const ReplyComments = (props) => {
                 </div>
                 <div className="w-[0.5px] h-4 bg-gray-900"></div>
                 <div className="flex gap-[4px]">
-                  <ChatIcon className="w-5 h-5" onClick={() => comentReplies(comment.id)}/>
+                  {comment && comment.news_feed && comment.news_feed.page && comment.news_feed.page.can_comment=="admin"?(
+                      <ChatIcon className="w-5 h-5" />  
+                  ):(
+                    <ChatIcon className="w-5 h-5" onClick={() => comentReplies(comment.id)}/>
+                  )}
                   <span className="font-light">
                     {comment.reply_comments.length}
                   </span>
@@ -891,7 +900,7 @@ const ReplyComments = (props) => {
                               <div className="text-gray-400">{i.created_at} | {i.time}</div>
                             </span>
                             <div className="text-gray-900 text-sm ">
-                              {i.user.city}, {i.user.country}
+                              {i.user.city?i.user.city+", ":''}{i.user.state?i.user.state+", ":''} {i.user.country?i.user.country:''}
                             </div>
                           </div>
                         </div>
@@ -988,7 +997,7 @@ const ReplyComments = (props) => {
                                 placeholder={i.body}
                               /> */}
                               {chosenEmoji ? (
-                              <Picker onEmojiClick={onEmojiClickReply}className="w-[50px] h-[50px]" />
+                              <Picker onEmojiClick={onEmojiClickEditReply}className="w-[50px] h-[50px]" />
                                 ) : ('')}
                               <div className="w-[97%]">
                                   <HashtagMentionInput postText={edit_reply} setPostText={setEditReply} mentioned={mentioned}  tags={tags} settags={settags} hastags={hastags}/>

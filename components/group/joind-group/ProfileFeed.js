@@ -50,7 +50,7 @@ const ProfileFeed = (props) => {
       if (result.status == 200) {
         const mergedata = [...list,...result.data.data]
         setList(mergedata);
-        console.log(result);
+        // console.log(result);
         setcurrentpage(result.data.pages.next_page)
         setlastpage(result.data.pages.total_pages)
       }
@@ -78,7 +78,7 @@ const ProfileFeed = (props) => {
       if (result.status == 200) {
         // const mergedata = [...list,...result.data.data]
         setList(result.data.data);
-        console.log(result.data.data[0].user)
+        // console.log(result.data.data[0].user)
         setcurrentpage(result.data.pages.next_page)
         setlastpage(result.data.pages.total_pages)
       }

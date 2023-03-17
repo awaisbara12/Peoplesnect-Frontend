@@ -20,11 +20,12 @@ import { XCircleIcon } from "@heroicons/react/solid";
 import { useFormik } from "formik";
 import { eventScheema } from "../../auth/schemas/CreateEventScheema";
 import { Dialog, Popover, Transition } from "@headlessui/react";
-import { POST_NEWSFEED_API_KEY , CURENT_USER_LOGIN_API} from "../../../pages/config";
+import { POST_NEWSFEED_API_KEY , CURENT_USER_LOGIN_API, SEARCH_MULTIPLE, HASHTAGS_API} from "../../../pages/config";
 import ImageUpload from "image-upload-react";
 import Link from "next/link";
 import Spinner from "../../common/Spinner";
 import axios from "axios";
+import HashtagMentionInput from "../../news-feed/newsfeed/newspost/HashtagMentionInput";
 
 const NewsPostProfile = (setList) => {
   if (typeof window !== "undefined") {
@@ -45,6 +46,12 @@ const NewsPostProfile = (setList) => {
   const [videoPreview, setVideoPreview] = useState();
   const [userDetails, setUserDetails] = useState();
   let [isOpen, setIsOpen] = useState(false);
+
+
+  const [tags, settags] = useState([]);
+  const [mentioned, setMentioned] = useState([]);
+  const [hashtaged, setHashtaged] = useState([]);
+  let [hastags, sethastags] = useState();
   
  // Bareer Key
  if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore");}
@@ -132,26 +139,31 @@ const NewsPostProfile = (setList) => {
     e.preventDefault();
 
     const dataForm = new FormData();
-    dataForm.append("news_feeds[body]", postText);
+    if (tags.length > 0) {
+      for (let i = 0; i < tags.length; i++) {
+        dataForm.append("tags[]", tags[i]);
+      }
+    }
+    dataForm.append("news_feeds[body]", postText.replace(/\[\@(.*?)\]\((.*?)\)/g, "@$1"));
     dataForm.append("news_feeds[feed_type]", feedType);
     dataForm.append("news_feeds[feed_from]", "groups");
 
     dataForm.append("news_feeds[feed_attachments][]", postImage);
     dataForm.append("news_feeds[feed_attachments][]", videoSrc);
-    if (feedType === "event_feed") {
-      dataForm.append("events[name]", values.eventName);
-      dataForm.append("events[event_type]", eventType);
-      dataForm.append("events[cover_photo]", eventCoverImage);
-      dataForm.append("events[event_timezone]", selectedTimezone.label);
-      dataForm.append("events[start_date]", values.startDate);
-      dataForm.append("events[end_date]", values.endDate);
-      dataForm.append("events[start_time]", values.startTime);
-      dataForm.append("events[end_time]", values.endTime);
-      dataForm.append("events[event_link]", values.externalLink);
-      dataForm.append("events[description]", values.description);
-      dataForm.append("events[address]", values.address);
-      dataForm.append("events[venue]", values.venue);
-    }
+    // if (feedType === "event_feed") {
+    //   dataForm.append("events[name]", values.eventName);
+    //   dataForm.append("events[event_type]", eventType);
+    //   dataForm.append("events[cover_photo]", eventCoverImage);
+    //   dataForm.append("events[event_timezone]", selectedTimezone.label);
+    //   dataForm.append("events[start_date]", values.startDate);
+    //   dataForm.append("events[end_date]", values.endDate);
+    //   dataForm.append("events[start_time]", values.startTime);
+    //   dataForm.append("events[end_time]", values.endTime);
+    //   dataForm.append("events[event_link]", values.externalLink);
+    //   dataForm.append("events[description]", values.description);
+    //   dataForm.append("events[address]", values.address);
+    //   dataForm.append("events[venue]", values.venue);
+    // }
     setLoading(true);
     fetch(POST_NEWSFEED_API_KEY+"?group_id="+myArray[1], {
       method: "POST",
@@ -188,8 +200,107 @@ const NewsPostProfile = (setList) => {
     setIsOpen(true);
   }
   useEffect(()=>{
-    Current_User(); 
+    Current_User();
+    mentioneds();
+    HashTags(); 
   },[])
+
+
+  const HashTags=async()=>{
+    await fetch(HASHTAGS_API, {
+      method: "GET",
+       headers: {
+        Accept: "application/json",
+         Authorization: `${authKey}`,
+       },
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          let awa =[];
+          for(let i =0; i<result.data.length ; i++)
+          {
+            awa[i] ={
+              display: result.data[i].name  ,
+              id: result.data[i].id,
+            }
+          }
+          sethastags(awa);
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+  let a ='';
+  const mentioneds = () => {
+    if (typeof window !== "undefined") {
+      var authKey = window.localStorage.getItem("keyStore");
+    }
+    // const [mention,setmention] = useState([]);
+    fetch(SEARCH_MULTIPLE+"/gettags?query="+'friends', {
+        method: "GET",
+         headers: {
+          Accept: "application/json", 
+           Authorization: `${authKey}`,
+         },
+      })
+         .then((resp) => resp.json())
+        .then((result) => {
+          if (result) {
+            let awa =[];
+            for(let i =0; i<result.data.length ; i++)
+            {
+                awa[i] ={
+                  display: '@'+result.data[i].first_name+" "+result.data[i].last_name ,
+                  link: 'Friends-Profile?'+result.data[i].id,
+                  avatar: result.data[i].display_photo_url,
+                  id: result.data[i].id,
+                  type : 'User'
+                }
+            }
+            a=awa;
+            // setspeakerMention(awa);
+            mentionpages();
+            // console.log("frie",awa);
+          }
+        })
+        .catch((err) => console.log(err));
+  };
+  const mentionpages = () => {
+    if (typeof window !== "undefined") {
+      var authKey = window.localStorage.getItem("keyStore");
+    }
+    fetch(SEARCH_MULTIPLE+"/gettags?query="+'pages', {
+        method: "GET",
+         headers: {
+          Accept: "application/json", 
+           Authorization: `${authKey}`,
+         },
+      })
+         .then((resp) => resp.json())
+        .then((result) => {
+          if (result) {
+            let awa =[];
+  
+            for(let i = 0; i<result.data.length ; i++)
+            {
+                awa[i] ={
+                  display: '@'+result.data[i].name ,
+                  link: 'Liked-Pages?'+result.data[i].id,
+                  avatar: result.data[i].display_photo_url,
+                  id: result.data[i].id,
+                  type : 'Page'
+                }
+            }
+            let dbc = [...a,...awa]
+            setMentioned(dbc);
+            // setspeakerMention(dbc);
+          //  console.log("ment",mentioned);
+          }
+        })
+        .catch((err) => console.log(err));
+  };
+
+
   return (
     <div className="mt-8 z-20">
       <div className="w-[600px] xl:w-[980px] lg:w-[730px] md:w-[780px] rounded-xl bg-white p-[22px]">
@@ -217,14 +328,15 @@ const NewsPostProfile = (setList) => {
              
             </div>
 
-            <textarea
+            {/* <textarea
               type="text"
               name="post-text"
               value={postText}
               onChange={(e) => setPostText(e.target.value)}
               className="w-full pt-0 resize-none border-0 px-0 text-base overflow-y-hidden outline-none focus:outline focus:ring-0"
               placeholder="Start a post?"
-            ></textarea>
+            ></textarea> */}
+            <HashtagMentionInput postText={postText} setPostText={setPostText} mentioned={mentioned}  tags={tags} settags={settags} hastags={hastags}/>
           </div>
 
           {videoPreview ? (

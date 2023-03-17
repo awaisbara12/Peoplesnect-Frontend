@@ -467,9 +467,6 @@ const ProfileFeedSingle = (singleItems) => {
     setIsActive((current) => !current);
   };
 
-// console.log("Edit Speaker",speakerText.replace(/\[\@(.*?)\]\((.*?)\)/g, "@$1"))
-
-
   const HashTags=async()=>{
     await fetch(HASHTAGS_API, {
       method: "GET",

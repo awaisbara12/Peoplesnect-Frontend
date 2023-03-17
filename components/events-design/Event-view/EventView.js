@@ -15,12 +15,15 @@ import { BadgeCheckIcon, DotsHorizontalIcon, VideoCameraIcon, XIcon } from "@her
 import { Dialog, Popover, Transition } from "@headlessui/react";
 import { BOOKMARK_NEWSFEED_API_KEY, EVENT_API, GET_USER_BOOKMARKS, NEWSFEED_COMMENT_POST_KEY, POST_NEWSFEED_API_KEY, REACTION_NEWSFEED_API_KEY } from "../../../pages/config";
 import axios from "axios";
-import PostComments from "../comments/PostComments";
-import FilterComments from "../comments/FilterComments";
-import ReplyComments from "../comments/ReplyComments";
+// import PostComments from "../comments/PostComments";
+// import FilterComments from "../comments/FilterComments";
+// import ReplyComments from "../comments/ReplyComments";
 import { useRouter } from "next/router";
 import ProfileAvatar from "../../../public/images/profile-avatar.png";
 import App from "../../news-feed/newsfeed/newspost/App";
+import PostComments from "../../profile/comments/PostComments";
+import FilterComments from "../../profile/comments/FilterComments";
+import ReplyComments from "../../profile/comments/ReplyComments";
 
 const ReadMore = ({ children }) => {
   const text = children;
@@ -80,7 +83,7 @@ const EventView = () => {
         setPost(result.data.data);
         setItems(result.data.data)
         getFeedComments();
-        console.log(result.data.data);
+        // console.log(result.data.data);
       }
     } catch (error) {
       console.log(error);
@@ -287,7 +290,7 @@ const EventView = () => {
 
   return (
     <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
-          <div className="blogs bg-white rounded-xl my-8 ">
+          <div className="blogs bg-white rounded-xl my-8 pb-4 ">
             <div className="flex gap-2 justify-between items-center px-[22px] py-[14px]">
               <div className="flex gap-2">
               {items && items.user && items.user.display_photo_url?

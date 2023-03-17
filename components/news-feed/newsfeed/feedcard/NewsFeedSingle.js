@@ -18,9 +18,14 @@ import { Popover, Transition } from "@headlessui/react";
 import Link from "next/link";
 import ProfileAvatar from "../../../../public/images/profile-avatar.png";
 import PostImage from "../../../../public/images/post-image.png";
-import PostComments from "../comments/PostComments";
-import FilterComments from "../comments/FilterComments";
-import ReplyComments from "../comments/ReplyComments";
+// import PostComments from "../comments/PostComments";
+// import FilterComments from "../comments/FilterComments";
+// import ReplyComments from "../comments/ReplyComments";
+
+
+import PostComments from "../../../profile/comments/PostComments";
+import FilterComments from "../../../profile/comments/FilterComments";
+import ReplyComments from "../../../profile/comments/ReplyComments";
 import axios from "axios";
 import {
   BOOKMARK_NEWSFEED_API_KEY,
@@ -28,6 +33,7 @@ import {
   COMMENT_API_KEY,
   NEWSFEED_COMMENT_POST_KEY,
   CURENT_USER_LOGIN_API,
+  GROUP_API,
 } from "../../../../pages/config";
 import App from "../newspost/App";
 // import Spinner from "../../../common/Spinner";
@@ -80,6 +86,9 @@ const NewsFeedSingle = (singleItem) => {
   const [loading, setLoading] = useState(true);
   const [nextPage, setNextPage] = useState('');
   const [CurrentUser, setCurrentUser] = useState();
+
+
+  const [admins,setadmins] = useState();
   // console.log("items = >",items)
   // Bareer key
   if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore");}
@@ -238,61 +247,119 @@ const NewsFeedSingle = (singleItem) => {
   const handleClick = () => {
     setIsActive((current) => !current);
   };
- 
+
+  // const GetAdmins =async(id,user_id)=>{
+  //   await fetch(GROUP_API +"/get_group_admin?group_id="+id , {
+  //   method: "GET",
+  //   headers: {
+  //     Accept: "application/json",
+  //     Authorization: `${authKey}`,
+  //   },
+  //   })
+  //   .then((resp) => resp.json())
+  //   .then((result) => {
+  //     // setadmins(result.data);
+  //     isadmin(result.data, user_id)
+  //     console.log("group",result.data)
+  //   })
+  // }
+
+
+  // function isadmin(admin , user_id)
+  // {
+  //   for(var i=0; i < admin.length; i++){
+  //    if (admin[i].group_member.id == user_id)
+  //    {
+  //     return true;
+  //    }
+  //   }
+  //   return false;
+  // }
+
+
+
+//  console.log("newsfeed",singleItem)
   return (
     <>
       <div className="w-[600px] xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">
         <div className="flex gap-2 justify-between items-center px-[22px] py-[14px]">
           <div className="flex gap-2 items-center">
-          {items && items.user && items.user.display_photo_url?(
-             <img
-             src={items.user.display_photo_url} 
-             className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
-                  
-             width={45} 
-             height={45} 
-             alt="" />
-          ):(<Image 
-            src={ProfileAvatar} 
-            width={45} 
-            height={45} 
-            alt="" />)}
+          
+          {items.page && items.page.display_photo_url?(
+              <img
+                src={items.page.display_photo_url} 
+                className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
+                width={45} 
+                height={45} 
+                alt="" 
+              />
+             ):(
+              items && items.user && items.user.display_photo_url?(
+                <img
+                  src={items.user.display_photo_url} 
+                  className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
+                  width={45} 
+                  height={45} 
+                  alt="" 
+                />
+              ):(
+                <Image 
+                  src={ProfileAvatar} 
+                  width={45} 
+                  height={45} 
+                  alt="" 
+                />
+              )
+             )}
+          
             <div>
               {items.page?(
+                <>
                 <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
-                  {items.user.first_name} {items.user.last_name}
-                  <ChevronRightIcon
+                  {/* {items.user.first_name} {items.user.last_name} */}
+                  {/* <ChevronRightIcon
                     width={24}
                     height={24}
                     className="text-indigo-400"
-                  />
+                  /> */}
                   <div className="capitalize">{items.page.name}</div>
                 </h4>
+                <div className="font-light italic">  Page Post</div>
+                </>
+                
               ):(
                 items.group?(
+                  <>
+                    
+                    <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
+                      {items.user.first_name} {items.user.last_name}
+                      <ChevronRightIcon
+                        width={24}
+                        height={24}
+                        className="text-indigo-400"
+                      />
+                      <div className="capitalize">{items.group.title}</div>
+                    </h4>
+                    <div className="font-light italic">Group Post</div>
+                    {/* {items && items.group && items.user && items.group.owner.id==items.user.id?"Super Admin":GetAdmins(items.group.id, items.user.id)?"Admin":"Member"} */}
+                  </>
+                ):(
+                <>
                   <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
                     {items.user.first_name} {items.user.last_name}
-                    <ChevronRightIcon
-                      width={24}
-                      height={24}
+                    <BadgeCheckIcon
+                      width={14}
+                      height={14}
                       className="text-indigo-400"
                     />
-                    <div className="capitalize">{items.group.title}</div>
                   </h4>
-                ):(
-                <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
-                {items.user.first_name} {items.user.last_name}
-                <BadgeCheckIcon
-                  width={14}
-                  height={14}
-                  className="text-indigo-400"
-                />
-                </h4>
+                  <div className="font-light text-gray-900 opacity-[0.8]">
+                    {/* {items.user.city?items.user.city+", ":""}{items.user.state?items.user.state+", ":""} {items.user.country} */}
+                  </div>
+                </>
                 )
               )}
-              <div className="font-light text-gray-900 opacity-[0.8]">
-                {items.user.recent_job}
-              </div>
+              
             </div>
           </div>
           <div className="">
@@ -361,8 +428,6 @@ const NewsFeedSingle = (singleItem) => {
              :<ReadMore>
              {items.body? items.body : ""}
              </ReadMore>}
-          
-          
           {/* </a>
           
           </Link> */}
@@ -554,7 +619,7 @@ const NewsFeedSingle = (singleItem) => {
           </div>
           <Fragment>
             {CurrentUser && items && items.page && items.page.can_comment!="all_member" && (CurrentUser.id !=items.page.user_id) ?(''):(
-            <PostComments news_feed_id={items.id} setComments={setComments} setComments_count={setComments_count} setIs_deleted={setIs_deleted} dp={items.user.display_photo_url}/>
+              <PostComments news_feed_id={items.id} setComments={setComments} setComments_count={setComments_count} setIs_deleted={setIs_deleted} dp={items.user.display_photo_url}/>
             )}
             <FilterComments news_feed_id={items.id} comments={comments.data} setComments_count={setComments_count} setComments={setComments} next_page={nextPage} setNextPage={setNextPage} />
             {!loading && <ReplyComments news_feed_id={items.id} comments={comments.data} comments_count={comments_count} setComments_count={setComments_count} setComments={setComments} setIs_deleted={setIs_deleted} items={items}/>}

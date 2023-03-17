@@ -392,7 +392,7 @@ const JoindGroup = (setList, singleItem) => {
           if (result.data)
           {
             setMemberRequest(result.data);
-            console.log(result.data);
+            // console.log(result.data);
           }
         }
       })
