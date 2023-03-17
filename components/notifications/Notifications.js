@@ -37,6 +37,7 @@ const Notifications = () => {
       .then((result) => {
         if (result) {
           const mergedata = [...notify, ...result.data];
+          console.log("notification",result.data)
           setnotify(mergedata);
           setcurrentpage(result.pages.next_page)
           setlastpage(result.pages.total_pages)

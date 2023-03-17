@@ -19,8 +19,8 @@ import { Popover, Transition } from "@headlessui/react";
 import Link from "next/link";
 import ProfileAvatar from "../../public/images/profile-avatar.png";
 import postimage from "../../public/images/cover.jpg";
-import FilterComments from "./comments/FilterComments";
-import ReplyComments from "./comments/ReplyComments";
+// import FilterComments from "./comments/FilterComments";
+// import ReplyComments from "./comments/ReplyComments";
 import axios from "axios";
 import {
   BOOKMARK_NEWSFEED_API_KEY,
@@ -29,7 +29,10 @@ import {
   NEWSFEED_COMMENT_POST_KEY,
   GET_USER_BOOKMARKS,
 } from "../../pages/config";
-import PostComments from "./comments/PostComments";
+import PostComments from "../profile/comments/PostComments";
+import FilterComments from "../profile/comments/FilterComments";
+import ReplyComments from "../profile/comments/ReplyComments";
+// import PostComments from "./comments/PostComments";
 // import Spinner from "../common/Spinner";
 
 const cardDropdown = [

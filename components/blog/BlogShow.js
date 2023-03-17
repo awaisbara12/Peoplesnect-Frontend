@@ -7,12 +7,14 @@ import { BadgeCheckIcon, BookmarkIcon, ChatAltIcon, DotsHorizontalIcon, HeartIco
 import { ChevronRightIcon } from "@heroicons/react/solid";
 import ProfileAvatar from "../../public/images/profile-avatar.png";
 import Spinner from "../common/Spinner";
-import { COMMENT_API_KEY, BLOG_POST_USER_API_KEY, CURENT_USER_LOGIN_API, REACTION_NEWSFEED_API_KEY, BOOKMARK_NEWSFEED_API_KEY, NEWSFEED_COMMENT_POST_KEY } from "../../pages/config";
+import { COMMENT_API_KEY, BLOG_POST_USER_API_KEY, CURENT_USER_LOGIN_API, REACTION_NEWSFEED_API_KEY, BOOKMARK_NEWSFEED_API_KEY, NEWSFEED_COMMENT_POST_KEY, SEARCH_MULTIPLE, HASHTAGS_API } from "../../pages/config";
 import PostComments from "./comments/PostComments";
 import FilterComments from "./comments/FilterComments";
 import ReplyComments from "./comments/ReplyComments";
 import { Popover, Transition } from "@headlessui/react";
 import { Editor } from "@tinymce/tinymce-react";
+import HashtagMentionInput from "./blog-description-input/HashtagMentionInput";
+import App from "./blog-description-input/App";
 
 const cardDropdown = [
   {
@@ -27,6 +29,23 @@ const cardDropdown = [
   },
   
 ];
+const ReadMore = ({ children }) => {
+  const text = children;
+  const [isReadMore, setIsReadMore] = useState(true);
+  const toggleReadMore = () => {
+    setIsReadMore(!isReadMore);
+  };
+  return (
+    <p className="text">
+      {isReadMore ? text.slice(0, 300) + (text.length > 300?("......"):('')) : text}
+      {text.length > 300?(
+        <span onClick={toggleReadMore} className="text-indigo-400 cursor-pointer ml-2 font-bold">
+          {isReadMore ? "Read more" : "Show less"}
+        </span>
+      ):('')}
+    </p>
+  );
+};
 
 function BlogShow() {
   const [loading, setLoading] = useState(true);
@@ -48,6 +67,12 @@ function BlogShow() {
   const [title, setTitle] = useState();      // Blog Title
   const [blogContent, setBlogContent] = useState(""); // Blog Description
   const [blog_type, setblog_type] = useState("");
+
+  
+  const [tags, settags] = useState([]);
+  const [mentioned, setMentioned] = useState([]);
+  const [hashtaged, setHashtaged] = useState([]);
+  let [hastags, sethastags] = useState();
   
 
   const router = useRouter();
@@ -57,29 +82,29 @@ function BlogShow() {
   if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore");}
   // get all data of this blog
   const getBlogs = async () => {
-    const res = await axios(BLOG_POST_USER_API_KEY + "/" + myArray[1], {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-type": "application/json; charset=utf-8",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Credentials": true,
-        Authorization: authKey,
-      },
-      credentials: "same-origin",
-    });
-    const result = await res;
-    try {
-      if (result.status == 200) {
-        setItems(result.data.data);
-        setList(result.data);
-        setcomments(result.data.data.comments);
-        setComments_count(result.data.data.comments.length)
-        setIs_deleted(false);
-      }
-    } catch (error) {}
-    setLoading(false);
-    return result;
+      const res = await axios(BLOG_POST_USER_API_KEY + "/" + myArray[1], {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-type": "application/json; charset=utf-8",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Credentials": true,
+          Authorization: authKey,
+        },
+        credentials: "same-origin",
+      });
+      const result = await res;
+      try {
+        if (result.status == 200) {
+          setItems(result.data.data);
+          setList(result.data);
+          setcomments(result.data.data.comments);
+          setComments_count(result.data.data.comments.length)
+          setIs_deleted(false);
+        }
+      } catch (error) {}
+      setLoading(false);
+      return result;
   };
   // Current User
   const Current_User=async()=>{   
@@ -99,11 +124,7 @@ function BlogShow() {
       .catch((err) => console.log(err)); 
   }
 
-  useEffect(() => {
-    setLoading(true);
-    getBlogs();
-    Current_User();
-  }, [myArray[1]]);
+ 
   //  Opition Edit/delete confirmation
   const optionConfirm=(name,item)=>{
     if (name=="Delete")
@@ -145,8 +166,13 @@ function BlogShow() {
   // Update Blog
   function Updateblog() {
     const dataForm = new FormData();
+    if (tags.length > 0) {
+      for (let i = 0; i < tags.length; i++) {
+        dataForm.append("tags[]", tags[i]);
+      }
+    }
     dataForm.append("blogs[title]", title);
-    dataForm.append("blogs[description]", blogContent);
+    dataForm.append("blogs[description]", blogContent.replace(/\[\@(.*?)\]\((.*?)\)/g, "@$1"));
     if(U_pic){dataForm.append("blogs[photos][]", U_pic);}
     dataForm.append("blogs[blog_type]", blog_type);
 
@@ -286,12 +312,116 @@ function BlogShow() {
     }
   }
 
+  useEffect(() => {
+    setLoading(true);
+    getBlogs();
+    Current_User();
+    mentioneds();
+    HashTags();
+  }, [myArray[1]]);
+
+  const HashTags=async()=>{
+    await fetch(HASHTAGS_API, {
+      method: "GET",
+        headers: {
+        Accept: "application/json",
+          Authorization: `${authKey}`,
+        },
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          let awa =[];
+          for(let i =0; i<result.data.length ; i++)
+          {
+            awa[i] ={
+              display: result.data[i].name  ,
+              id: result.data[i].id,
+            }
+          }
+          sethastags(awa);
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+  let a ='';
+  const mentioneds = () => {
+    if (typeof window !== "undefined") {
+      var authKey = window.localStorage.getItem("keyStore");
+    }
+    // const [mention,setmention] = useState([]);
+    fetch(SEARCH_MULTIPLE+"/gettags?query="+'friends', {
+        method: "GET",
+          headers: {
+          Accept: "application/json", 
+            Authorization: `${authKey}`,
+          },
+      })
+          .then((resp) => resp.json())
+        .then((result) => {
+          if (result) {
+            let awa =[];
+  
+            for(let i =0; i<result.data.length ; i++)
+            {
+                awa[i] ={
+                  display: '@'+result.data[i].first_name+" "+result.data[i].last_name ,
+                  link: 'Friends-Profile?'+result.data[i].id,
+                  avatar: result.data[i].display_photo_url,
+                  id: result.data[i].id,
+                  type : 'User'
+                }
+            }
+            a=awa;
+            // setspeakerMention(awa);
+            mentionpages();
+            // console.log("frie",awa);
+          }
+        })
+        .catch((err) => console.log(err));
+  };
+  const mentionpages = () => {
+    if (typeof window !== "undefined") {
+      var authKey = window.localStorage.getItem("keyStore");
+    }
+    // const [mention,setmention] = useState([]);
+    fetch(SEARCH_MULTIPLE+"/gettags?query="+'pages', {
+        method: "GET",
+          headers: {
+          Accept: "application/json", 
+            Authorization: `${authKey}`,
+          },
+      })
+          .then((resp) => resp.json())
+        .then((result) => {
+          if (result) {
+            let awa =[];
+  
+            for(let i = 0; i<result.data.length ; i++)
+            {
+                awa[i] ={
+                  display: '@'+result.data[i].name ,
+                  link: 'Liked-Pages?'+result.data[i].id,
+                  avatar: result.data[i].display_photo_url,
+                  id: result.data[i].id,
+                  type : 'Page'
+                }
+            }
+            let dbc = [...a,...awa]
+            setMentioned(dbc);
+            // setspeakerMention(dbc);
+          //  console.log("ment",mentioned);
+          }
+        })
+        .catch((err) => console.log(err));
+  };
+
   if (loading)
-    return (
-      <div className="mt-8">
-        <Spinner />
-      </div>
-    );
+  return (
+    <div className="mt-8">
+      <Spinner />
+    </div>
+  );
 
   return (
     <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
@@ -447,7 +577,7 @@ function BlogShow() {
             <div className="form-group mt-4">
               
               {/* Description */}
-              <Editor
+              {/* <Editor
                 id="fiexed-id"
                 init={{
                   height: 300,
@@ -465,7 +595,9 @@ function BlogShow() {
                 }}
                 initialValue={blogContent}
                 onChange={(e)=> setBlogContent(e.target.getContent({ format: "text" }))}
-              />
+              /> */}
+             <HashtagMentionInput postText={blogContent} setPostText={setBlogContent} mentioned={mentioned}  tags={tags} settags={settags} hastags={hastags}/>
+          
 
               {/* Blog Type */}
               
@@ -527,7 +659,19 @@ function BlogShow() {
           // Show Blog Title & Description
           <div className=" details p-10">
             <div className="heading text-2xl font-bold">{list.data.title}</div>
-            <div className="caption text-lg mt-4">{list.data.description}</div>
+            {
+                list && list.data && list.data.tags && list.data.tags.length > 0 || (list.data.hashtags && list.data.hashtags.length > 0)?
+               (
+                 <App state={list.data.description} website={list.data.tags} hashtags={list.data.hashtags}/>
+               )
+               :
+               (  
+                 <ReadMore>
+                 {list.data.description? list.data.description : ""}
+                 </ReadMore>
+               )
+            }
+            {/* <div className="caption text-lg mt-4">{list.data.description}</div> */}
           </div>
         )}
         
