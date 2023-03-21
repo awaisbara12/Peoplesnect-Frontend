@@ -10,10 +10,11 @@ import ClipLoader from 'react-spinners/ClipLoader';
 
 const ShowAll = () => { 
   const [joingroups,setJoinGroups] = useState([]);
-  const [joinedgroupslist,setJoinedGroupsLists] = useState();
-  const [group, setgroup] = useState();
+  const [joinedgroupslist,setJoinedGroupsLists] = useState([]);
+  const [group, setgroup] = useState([]);
   const [type, setType] = useState();
   const [currentpage, setcurrentpage] = useState(1);
+  const [currentpagemy, setcurrentpagemy] = useState(1);
   
   const router = useRouter();
   const data = router.asPath;
@@ -55,7 +56,7 @@ const ShowAll = () => {
   }
   // Get My-Group
   const GetGroup =()=>{
-    const res = fetch(GROUP_API +"/"+"admingroups" , {
+    const res = fetch(GROUP_API +"/"+"admingroups?page="+currentpagemy , {
     method: "GET",
     headers: {
       Accept: "application/json",
@@ -64,12 +65,15 @@ const ShowAll = () => {
     })
     .then((resp) => resp.json())
     .then((result) => {
-      setgroup(result.data);
+      // setgroup(result.data);
+      const mergedata = [...group, ...result.data]
+      setgroup(mergedata)
+      setcurrentpagemy(result.pages.next_page)
     })
   }
   // Get Joined Group Lists
   const JoinedGroupList =()=>{
-    const res = fetch(JOINED_GROUP_LISTS_API, {
+    const res = fetch(JOINED_GROUP_LISTS_API+"?page="+currentpage, {
     method: "GET",
     headers: {
       Accept: "application/json",
@@ -78,7 +82,10 @@ const ShowAll = () => {
     })
     .then((resp) => resp.json())
     .then((result) => {
-      setJoinedGroupsLists(result.data)
+      // setJoinedGroupsLists(result.data)
+      const mergedata = [...joinedgroupslist, ...result.data]
+      setJoinedGroupsLists(mergedata)
+      setcurrentpage(result.pages.next_page)
     })
   }
   // suggested Group
@@ -115,6 +122,13 @@ const ShowAll = () => {
   const fetchMoreData = () => {
     SuggestedGroups();
   }
+  const fetchMoreMyData = () => {
+    GetGroup();
+  }
+  const fetchMoreJoinData = () => {
+    JoinedGroupList();
+  }
+
   return (
     <div className="mt-8">
     <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
@@ -126,9 +140,16 @@ const ShowAll = () => {
                 <div className="heading font-semibold">My Groups</div>
               </div>
               {/* My group map */}
-              <div className="grid grid-cols-1 gap-6 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2">
+              {/* <div className="grid grid-cols-1 gap-6 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2"> */}
                 {group?(
-                  group.map((i)=>(
+                  <InfiniteScroll
+                    dataLength={joingroups.length}
+                    next={fetchMoreMyData}
+                    className="grid grid-cols-1 gap-6 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2"
+                    hasMore={currentpagemy != null}
+                    loader={<div className="flex justify-center "><ClipLoader className="my-8" color="#818CF8" size={40} /> </div>}
+                  >
+                  {group.map((i)=>(
                     <div className="bg-white profile mt-10 border rounded-xl" key={i.id}>
                       <Link href={{pathname: "joind-group", query: i.id,}}>
                       <a>
@@ -210,9 +231,9 @@ const ShowAll = () => {
                         </div>
                       </div>
                     </div>
-                  ))
-                ):('')}
-              </div>
+                  ))}
+                  </InfiniteScroll>):('')}
+              {/* </div> */}
             </div>
           </div>
          ):('')}
@@ -223,9 +244,16 @@ const ShowAll = () => {
               <div className="heading font-semibold">Joined Groups</div>
             </div>
             {/* Show Joined Group */}
-            <div className="grid grid-cols-1 gap-6 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2">
+            {/* <div className="grid grid-cols-1 gap-6 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2"> */}
               {joinedgroupslist?(
-                joinedgroupslist.map((i)=>(
+                <InfiniteScroll
+                  dataLength={joingroups.length}
+                  next={fetchMoreJoinData}
+                  className="grid grid-cols-1 gap-6 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2"
+                  hasMore={currentpage != null}
+                  loader={<div className="flex justify-center "><ClipLoader className="my-8" color="#818CF8" size={40} /> </div>}
+                >
+                {joinedgroupslist.map((i)=>(
                   <div className="profile bg-white mt-10 border rounded-xl" key={i.id}>
                     <Link href={{pathname: "joind-group", query: i.id,}}>
                     <a>
@@ -303,9 +331,9 @@ const ShowAll = () => {
                     </a>
                     </Link>
                   </div>
-                ))
-              ):('')}
-            </div>
+                ))}
+              </InfiniteScroll>):('')}
+            {/* </div> */}
           </div>
         ):('')}
         {/* Suggested Group Section */}

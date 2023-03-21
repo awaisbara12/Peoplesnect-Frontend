@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import TimezoneSelect, { allTimezones } from "react-timezone-select";
 import Image from "next/image";
 import ProfileAvatar from "../../../public/images/profile-avatar.png";
+import PagePhoto from "../../../public/images/752126.jpg";
 import {
   PhotographIcon,
   VideoCameraIcon,
@@ -310,24 +311,26 @@ const NewsPostProfile = (setList) => {
         })
         .catch((err) => console.log(err));
   };
+  // console.log("setList",setList)
   return (
     <div className="mt-8 z-20">
       <div className="w-[600px] xl:w-[980px] lg:w-[730px] md:w-[780px] rounded-xl bg-white p-[22px]">
         <form onSubmit={postNewsData}>
           <div className="w-full flex justify-start gap-[22px]">
             <div className="w-[42px] h-[42px]">
-             {userDetails && userDetails.display_photo_url?(
-               <img
-               src={userDetails.display_photo_url}
-               className="rounded-full w-[42px] h-[42px] object-cover"
-               width={42}
-               height={42}
-               placeholder="empty"
-               alt="profile-image"
-             />
+             {setList && setList.group && setList.group.display_photo_url?(
+              <img
+                src={setList.group.display_photo_url}
+                className="rounded-full w-[42px] h-[42px] object-cover"
+                width={42}
+                height={42}
+                placeholder="empty"
+                alt="profile-image"
+              />
              ):(
                 <Image
-                src={ProfileAvatar}
+                src={PagePhoto}
+                className="rounded-full w-[42px] h-[42px] object-cover"
                 width={42}
                 height={42}
                 placeholder="empty"
