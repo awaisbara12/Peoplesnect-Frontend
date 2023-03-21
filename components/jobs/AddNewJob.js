@@ -46,54 +46,55 @@ import {
 import { eventScheema } from "../auth/schemas/CreateEventScheema";
 import { JOBS_API } from "../../pages/config";
 import ApplyJob from "./ApplyJob";
+import { useRouter } from "next/router";
 
 
-const cardDropdown = [
-  {
-    name: "Turn Off Notifications",
-    href: "",
-    icon: BellIcon,
-  },
-  {
-    name: "Save",
-    href: "#",
-    icon: BookmarkIcon,
-  },
-];
+// const cardDropdown = [
+//   {
+//     name: "Turn Off Notifications",
+//     href: "",
+//     icon: BellIcon,
+//   },
+//   {
+//     name: "Save",
+//     href: "#",
+//     icon: BookmarkIcon,
+//   },
+// ];
 
 const AddNewJob = (setList, singleItem) => {
   const [spinner, setSpinner] = useState(false);
-  const [Title, setTitle] = useState("title");
-  const [Company, setCompany] = useState("company");
+  const [Title, setTitle] = useState();
+  const [Company, setCompany] = useState();
   const [Workplace, setWorkplace] = useState();
-  const [Location, setLocation] = useState("location");
+  const [Location, setLocation] = useState();
   const [Type, setType] = useState();
-  const [Discripation, setDiscripation] = useState("desc");
+  const [Discripation, setDiscripation] = useState();
   const [Skills, setSkills] = useState([]);
-  const [Email, setEmail] = useState("email");
-  const [Question, setQuestion] = useState("questin");
+  const [Email, setEmail] = useState("random.com");
+  const [Question, setQuestion] = useState("");
   const [PostImage, setPostImage] = useState([]);
   const [postImagePreview, setpostImagePreview] = useState();
   let [isOpen, setIsOpen] = useState(false);
   let [isOpen1, setIsOpen1] = useState(false);
   let [isOpen2, setIsOpen2] = useState(false);
+  const router = useRouter();
   // Bareer Key
   if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore");}
   // Create Job
   function CreateJob() {
     const dataForm = new FormData();
+    dataForm.append("jobs[email_address]", Email);
     dataForm.append("jobs[title]", Title);
     dataForm.append("jobs[description]", Discripation);
     dataForm.append("jobs[job_company]", Company)
     dataForm.append("jobs[job_location]", Location);
     dataForm.append("jobs[workplace_type]", Workplace);
     dataForm.append("jobs[employeement_type]", Type);
-    dataForm.append("jobs[email_address]", Email);
+    setEmail('');
     // dataForm.append("jobs[job_questions]", Question);
     dataForm.append("jobs[job_skills]", Skills);
     if(PostImage){dataForm.append("jobs[company_photo]", PostImage);}
-    
-    // dataForm.append("jobs[job_questions]", Question);
     fetch(JOBS_API, {
       method: "POST",
       headers: {
@@ -104,8 +105,8 @@ const AddNewJob = (setList, singleItem) => {
     })
       .then((resp) => resp.json())
       .then((result) => {
-        if (result) {
-          console.log("data",result.data)
+        if (result && result.data) {
+          router.push("/jobs/jobs-show?"+result.data.id);
           setIsOpen(false)
           setIsOpen1(false)
           setIsOpen2(false)
@@ -169,7 +170,6 @@ const AddNewJob = (setList, singleItem) => {
     setSkills('');
     setEmail();
     setpostImagePreview('');
-    // setQuestion('');
   }
 
   function closeModal1() {

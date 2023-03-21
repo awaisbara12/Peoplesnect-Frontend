@@ -205,13 +205,13 @@ const NewPAge = () => {
           <div className="flex justify-end mt-5">
             <button onClick={()=>CreatePage()}
               className="border-2 border-indigo-400 bg-indigo-400 p-2 rounded-full text-white font-bold">
-              Creat New Page
+              Create New Page
             </button>
           </div>
           ):(
             <div className="flex justify-end mt-5">
               <button disabled={true} className="border-2 border-indigo-100 bg-indigo-100 p-2 rounded-full text-white font-bold">
-                Creat New Page
+                Create New Page
               </button>
             </div>
           )}

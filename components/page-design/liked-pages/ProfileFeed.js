@@ -99,7 +99,7 @@ const ProfileFeed = (props) => {
         {
           props.currentUser && props.group?(
             (admins && isadmin(admins,props.currentUser.id)) || props.group.owner.id == props.currentUser.id?(
-              <NewsPostProfile lists={list} currentUser = {props.currentUser} setList={setList} />
+              <NewsPostProfile lists={list} currentUser = {props.currentUser} setList={setList} group={props.group}/>
             ):("")
           ):("")
         }

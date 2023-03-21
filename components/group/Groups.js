@@ -78,7 +78,7 @@ const Groups = () => {
 
   // suggested Group
   const SuggestedGroups =()=>{
-    const res = fetch(GROUP_API, {
+    const res = fetch(GROUP_API+"?page="+1, {
     method: "GET",
     headers: {
       Accept: "application/json",
@@ -87,7 +87,8 @@ const Groups = () => {
     })
     .then((resp) => resp.json())
     .then((result) => {
-      setJoinGroups(result.data)
+      setJoinGroups(result.data);
+      console.log(result.data)
     })
     JoinedGroupList();
   }
@@ -113,7 +114,7 @@ const Groups = () => {
             {/* My group map */}
             <div className="grid grid-cols-1 gap-6 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2">
               {group?(
-                group.slice(group.length-3,group.length).map((i)=>(
+                group.map((i)=>(
                   <div className="profile mt-10 border rounded-xl" key={i.id}>
                     <Link href={{pathname: "group-page/joind-group", query: i.id,}}>
                     <a>
@@ -215,7 +216,7 @@ const Groups = () => {
           {/* Show Joined Group */}
           <div className="grid grid-cols-1 gap-6 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2">
             {joinedgroupslist?(
-              joinedgroupslist.slice(joinedgroupslist.length-3,joinedgroupslist.length).map((i)=>(
+              joinedgroupslist.map((i)=>(
                 <div className="profile mt-10 border rounded-xl" key={i.id}>
                   <Link href={{pathname: "group-page/joind-group", query: i.id,}}>
                   <a>
@@ -367,7 +368,7 @@ const Groups = () => {
             {/* Show Suggested Group */}
             <div className="grid grid-cols-1 gap-6 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2">
               {joingroups?(
-                joingroups.slice(joingroups.length-3,joingroups.length).map((i)=>(
+                joingroups.map((i)=>(
                   <div className="profile mt-10 border rounded-xl" key={i.id}>
                     <Link href={{pathname: "group-page/suggest-group", query: i.id,}}>
                     <a>

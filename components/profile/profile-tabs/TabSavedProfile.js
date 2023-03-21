@@ -43,26 +43,29 @@ const TabSavedProfile = (props) => {
   // console.log("props",props.bookmarks);
 
   async function deteleBookmark(bookmarkId) {
-    const res = await axios(BOOKMARK_NEWSFEED_API_KEY + "/" + bookmarkId, {
-      method: "DELETE",
-      headers: {
-        Accept: "application/json",
-        "Content-type": "application/json; charset=utf-8",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Credentials": true,
-        Authorization: authKey,
-      },
-      credentials: "same-origin",
-    });
-    const result = await res;
-
-    try {
-      if (result) {
-        UserBookmarks();
+    let a = confirm("Are you Sure?")
+    if(a && bookmarkId){
+      const res = await axios(BOOKMARK_NEWSFEED_API_KEY + "/" + bookmarkId, {
+        method: "DELETE",
+        headers: {
+          Accept: "application/json",
+          "Content-type": "application/json; charset=utf-8",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Credentials": true,
+          Authorization: authKey,
+        },
+        credentials: "same-origin",
+      });
+      const result = await res;
+      try {
+        if (result) {
+          UserBookmarks();
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
     }
+   
   }
   useEffect(()=>{
     UserBookmarks();

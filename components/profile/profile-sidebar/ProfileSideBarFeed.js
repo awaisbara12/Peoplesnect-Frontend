@@ -10,7 +10,7 @@ const ProfileSideBarFeed = () => {
       <div className="">
         <ProfileSideBar />
         <ProfileUserSidebar />
-        <ProfilePromotionsSidebar />
+        {/* <ProfilePromotionsSidebar /> */}
         <ProfileFooter />
       </div>
     </div>

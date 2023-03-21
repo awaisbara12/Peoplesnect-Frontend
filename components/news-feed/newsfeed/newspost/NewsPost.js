@@ -21,7 +21,7 @@ import { XCircleIcon } from "@heroicons/react/solid";
 import { useFormik } from "formik";
 import { eventScheema } from "../../../auth/schemas/CreateEventScheema";
 import { Dialog, Popover, Transition } from "@headlessui/react";
-import { HASHTAGS_API, POST_NEWSFEED_API_KEY, SEARCH_MULTIPLE } from "../../../../pages/config";
+import { CURENT_USER_LOGIN_API, HASHTAGS_API, POST_NEWSFEED_API_KEY, SEARCH_MULTIPLE } from "../../../../pages/config";
 import ImageUpload from "image-upload-react";
 import Link from "next/link";
 import Spinner from "../../../common/Spinner";
@@ -31,9 +31,6 @@ import App from "./App";
 import HashtagMentionInput from "./HashtagMentionInput";
 
 const NewsPost = ( setList ) => {
-  if (typeof window !== "undefined") {
-    var authKey = window.localStorage.getItem("keyStore");
-  }
   const [loading, setLoading] = useState(false);
   const [postText, setPostText] = useState("");
   const [eventCoverImage, setEventCoverImage] = useState([]);
@@ -52,11 +49,17 @@ const NewsPost = ( setList ) => {
   const [hashtaged, setHashtaged] = useState([]);
   let [results, setresults] = useState(0);
   let [speakerMention, setspeakerMention] = useState([]);
-  let [speakerText, setspeakerText] = useState();
+  let [speakerText, setspeakerText] = useState('a');
   const [speakertags, setspeakertags] = useState([]);
+
+  const [currentuser, setcurrentuser] = useState();
 
   let [isOpen, setIsOpen] = useState(false);
   let [hastags, sethastags] = useState();
+  // console.log("setListsetList",setList)
+  // Bareer Key
+  if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore");}
+  
   
   const HashTags=async()=>{
     await fetch(HASHTAGS_API, {
@@ -84,20 +87,34 @@ const NewsPost = ( setList ) => {
       })
       .catch((err) => console.log(err));
   }
-
+  //  For image [Feed-type-Event]
   const handleImageSelect = (e) => {
-    setEventCoverImage(e.target.files[0]);
-    if (e.target.files.length !== 0) {
-      setPreviewEventCoverImage(window.URL.createObjectURL(e.target.files[0]));
-    }
+    var type=e.target.files[0].type
+     var s=type.split("/")
+    if(s[0]=='image'){
+      setEventCoverImage(e.target.files[0]);
+      if (e.target.files.length !== 0) {
+        setPreviewEventCoverImage(window.URL.createObjectURL(e.target.files[0]));
+      }
+    }else{alert("Please Select Image")}
+    
   };
 
+  //  For image [Feed-type-Image]
   const handleImagePost = (e) => {
-    setPostImage(e.target.files[0]);
-    if (e.target.files.length !== 0) {
-      setpostImagePreview(window.URL.createObjectURL(e.target.files[0]));
-    }
-    setFeedType("image_feed");
+    if(e.target.files[0])
+    {
+      var type=e.target.files[0].type
+      var s=type.split("/")
+      if(s[0]=='image')
+      {
+        setPostImage(e.target.files[0]);
+        if (e.target.files.length !== 0) {
+          setpostImagePreview(window.URL.createObjectURL(e.target.files[0]));
+        }
+        setFeedType("image_feed");
+      }else{alert("Please Select Image")}
+    } 
   };
 
   const handleCoverReomve = (e) => {
@@ -105,13 +122,18 @@ const NewsPost = ( setList ) => {
     setPreviewEventCoverImage(window.URL.revokeObjectURL(e.target.files));
     setVideoPreview(window.URL.revokeObjectURL(e.target.files));
   };
-
+ //  For Vedio [Feed-type-Vedio]
   const handleVideo = (e) => {
-    setFeedType("video_feed");
-    setVideoSrc(e.target.files[0]);
-    if (e.target.files.length !== 0) {
-      setVideoPreview(URL.createObjectURL(e.target.files[0]));
-    }
+    var type=e.target.files[0].type
+    var s=type.split("/")
+    if(s[0]=='video')
+    { 
+      setFeedType("video_feed");
+      setVideoSrc(e.target.files[0]);
+      if (e.target.files.length !== 0) {
+        setVideoPreview(URL.createObjectURL(e.target.files[0]));
+      }
+    }else{alert("Please Select Vedio")}
   };
 
   const onSubmit = () => {
@@ -128,7 +150,7 @@ const NewsPost = ( setList ) => {
   } = useFormik({
     initialValues: {
       eventOnline: "online",
-      eventInPerson: "In person",
+      eventInPerson: "in person",
       eventName: "",
       timezone: "",
       startDate: "",
@@ -144,22 +166,18 @@ const NewsPost = ( setList ) => {
     },
     validationSchema: eventScheema,
   });
-
+  
   function postNewsData(e) {
     e.preventDefault();
-
     const dataForm = new FormData();
-    dataForm.append("news_feeds[body]", postText);
+    dataForm.append("news_feeds[body]", postText.replace(/\[\@(.*?)\]\((.*?)\)/g, "@$1"));
     dataForm.append("news_feeds[feed_type]", feedType);
-
     if (tags.length > 0) {
       for (let i = 0; i < tags.length; i++) {
         dataForm.append("tags[]", tags[i]);
       }
     }
-
-    // dataForm.append("news_feeds[tags][]", tags);
-
+  // dataForm.append("news_feeds[tags][]", tags);
     dataForm.append("news_feeds[feed_attachments][]", postImage);
     dataForm.append("news_feeds[feed_attachments][]", videoSrc);
     if (feedType === "event_feed") {
@@ -174,7 +192,7 @@ const NewsPost = ( setList ) => {
       dataForm.append("events[event_link]", values.externalLink);
       dataForm.append("events[description]", values.description);
       dataForm.append("events[address]", values.address);
-      dataForm.append("events[speaker]", speakerText);
+      dataForm.append("events[speaker]", speakerText.replace(/\[\@(.*?)\]\((.*?)\)/g, "@$1"));
       dataForm.append("events[total_seats]", values.total_seat);
       if (speakertags.length > 0) {
         for (let i = 0; i < speakertags.length; i++) {
@@ -210,7 +228,6 @@ const NewsPost = ( setList ) => {
     setVideoPreview("");
     onSubmit();
   }
-
   let a ='';
   const mentioneds = () => {
     if (typeof window !== "undefined") {
@@ -228,11 +245,10 @@ const NewsPost = ( setList ) => {
         .then((result) => {
           if (result) {
             let awa =[];
-  
             for(let i =0; i<result.data.length ; i++)
             {
                 awa[i] ={
-                  display: '@'+result.data[i].first_name ,
+                  display: '@'+result.data[i].first_name+" "+result.data[i].last_name ,
                   link: 'Friends-Profile?'+result.data[i].id,
                   avatar: result.data[i].display_photo_url,
                   id: result.data[i].id,
@@ -240,18 +256,17 @@ const NewsPost = ( setList ) => {
                 }
             }
             a=awa;
+            setspeakerMention(a);
             mentionpages();
             // console.log("grie",awa);
           }
         })
         .catch((err) => console.log(err));
   };
-  
   const mentionpages = () => {
     if (typeof window !== "undefined") {
       var authKey = window.localStorage.getItem("keyStore");
     }
-    // const [mention,setmention] = useState([]);
     fetch(SEARCH_MULTIPLE+"/gettags?query="+'pages', {
         method: "GET",
          headers: {
@@ -263,7 +278,6 @@ const NewsPost = ( setList ) => {
         .then((result) => {
           if (result) {
             let awa =[];
-  
             for(let i = 0; i<result.data.length ; i++)
             {
                 awa[i] ={
@@ -276,7 +290,7 @@ const NewsPost = ( setList ) => {
             }
             let dbc = [...a,...awa]
             setMentioned(dbc);
-            setspeakerMention(dbc);
+            // setspeakerMention(dbc);
           //  console.log("ment",mentioned);
           }
         })
@@ -330,22 +344,49 @@ const NewsPost = ( setList ) => {
   useEffect(()=>{
     mentioneds();
     HashTags();
+    Current_User();
   },[])
 
+  //current User
+  const Current_User=async()=>{    
+    await fetch(CURENT_USER_LOGIN_API, {
+      method: "GET",
+       headers: {
+        Accept: "application/json", 
+         Authorization: `${authKey}`,
+       },
+    })
+       .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          setcurrentuser(result.data); 
+        }
+      })
+      .catch((err) => console.log(err)); 
+  }
   return (
     <div className="mt-8 z-20">
       <div className="w-[600px] xl:w-[980px] lg:w-[730px] md:w-[780px] rounded-xl bg-white p-[22px]">
         <form onSubmit={postNewsData}>
           <div className="w-full flex justify-start gap-[22px]">
             <div className="w-[42px] h-[42px]">
-              <Image
-                src={ProfileAvatar}
-                className="rounded-full"
-                width={45}
-                height={45}
-                placeholder="empty"
-                alt="profile-image"
-              />
+             {/* display_photo_url */}
+             {currentuser && currentuser.display_photo_url?(
+                  <img
+                  src={currentuser.display_photo_url} 
+                  className="aspect-video object-cover rounded-full h-[42px] w-[42px] mb-2" 
+                  alt=""
+                />
+              ):(
+                <Image
+                  src={ProfileAvatar}
+                  className="rounded-full"
+                  width={45}
+                  height={45}
+                  placeholder="empty"
+                  alt="profile-image"
+                />
+              )}
             </div>
             <HashtagMentionInput postText={postText} setPostText={setPostText} mentioned={mentioned}  tags={tags} settags={settags} hastags={hastags}/>
             {/* <NewPost postText={postText} setPostText={setPostText} tags={tags} settags={settags} results={results} setresults={setresults}/> */}
@@ -418,7 +459,7 @@ const NewsPost = ( setList ) => {
                       {values.eventName}
                     </div>
                     <div className="text-gray-900">
-                      {inPerson && true ? "In Person" : "Online"}
+                      {inPerson && true ? "in person" : "Online"}
                     </div>
                   </div>
                   <div
@@ -648,7 +689,7 @@ const NewsPost = ( setList ) => {
                               type="radio"
                               name="event-radio"
                               id="in-person"
-                              value="I Person"
+                              value="in person"
                               onChange={() => {
                                 setInPerson(true);
                                 setOnline(false);
@@ -877,13 +918,13 @@ const NewsPost = ( setList ) => {
                             id="externalLink"
                           />
                         </div>
-                        <div className="form-group w-full py-3">
-                          <label
+                        {/* <div className="form-group w-full py-3"> */}
+                          {/* <label
                             htmlFor="description"
                             className="text-neutral-900 text-sm"
                           >
                             Description{" "}
-                          </label>
+                          </label> */}
                           {/* <textarea
                             type="text"
                             value={values.description}
@@ -893,9 +934,9 @@ const NewsPost = ( setList ) => {
                             className="w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400"
                             id="description"
                           /> */}
-                          <HashtagMentionInput postText={postText} setPostText={setPostText} mentioned={mentioned}  tags={tags} settags={settags} hastags={hastags}/>
+                          {/* <HashtagMentionInput postText={postText} setPostText={setPostText} mentioned={mentioned}  tags={tags} settags={settags} hastags={hastags}/> */}
             
-                        </div>
+                        {/* </div> */}
                         <div className="form-group w-full py-3">
                           <label
                             htmlFor="total_seat"

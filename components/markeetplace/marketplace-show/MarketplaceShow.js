@@ -47,13 +47,14 @@ const MarketplaceShow = () => {
       .then((result) => {
         if (result) {
           setProduct(result.data)
+          console.log(result.data)
         }
       })
       .catch((err) => console.log(err));
   }
   useEffect(() => {
     product();
-  },[])
+  },[myArray[1]])
 
   return (
     <div className="w-[720px] xl:w-[1050px] lg:w-[780px] md:w-[850px] px-5 md:px-0 lg:px-0">
@@ -78,7 +79,6 @@ const MarketplaceShow = () => {
           Contect With Seller
         </div>
       </div>
-
       {Product?(
         <div className="bg-white mt-10 p-5 rounded-xl">
           <div className="font-bold text-lg">Product Details</div>
@@ -88,61 +88,71 @@ const MarketplaceShow = () => {
                   <thead className="text-xs text-gray-900 uppercase dark:text-gray-400">
                     <tr>
                       <th scope="col" className="py-3 px-6">
-                        {Product.name}
+                         Title
                       </th>
-                      <th scope="col" className="py-3 px-6">
+                      {/* <th scope="col" className="py-3 px-6">
                         {Product.color}
+                      </th> */}
+                      <th scope="col" className="py-3 px-6">
+                         Category
                       </th>
                       <th scope="col" className="py-3 px-6">
-                        {Product.category?Product.category.name:''}
+                        Price
                       </th>
-                      <th scope="col" className="py-3 px-6">
-                        {Product.price}$
-                      </th>
+                      {Product.country?<th scope="col" className="py-3 px-6">
+                        Location
+                      </th>:""}
                     </tr>
                   </thead>
-
-                {/* {Productdetails.map((details, e) => (
-                  <tbody key={e}>
-                    <tr className="bg-white dark:bg-gray-800">
-                      <th
-                        scope="row"
-                        className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap rounded-bl-xl dark:text-white"
-                      >
-                        {details.name}
-                      </th>
-                      <td className="py-4 px-6">{details.color}</td>
-                      <td className="py-4 px-6">{details.Category}</td>
-                      <td className="py-4 px-6 rounded-br-xl">
-                        {details.price}$
-                      </td>
-                    </tr>
-                  </tbody>
-                ))} */}
+                  <tr className="bg-white dark:bg-gray-800">
+                    <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap rounded-bl-xl dark:text-white">
+                      {Product.name}
+                    </th>
+                    {/* <th scope="col" className="py-3 px-6">
+                      {Product.color}
+                    </th> */}
+                    <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap rounded-bl-xl dark:text-white">
+                      {Product.category?Product.category.name:''}
+                    </th>
+                    <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap rounded-bl-xl dark:text-white">
+                      ${Product.price}
+                    </th>
+                    {Product.country?<th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap rounded-bl-xl dark:text-white">
+                    {Product.city?Product.city+", ":""}{Product.state?Product.state+", ":''}{Product.country}, 
+                    </th>:""}
+                  </tr>
               </table>
             </div>
           </div>
-          <div className="mt-5">
+
+          {/* Feature */}
+          {/* <div className="mt-5">
             <div className="font-semibold">Feature:</div>
             <div className="m-3 border rounded-xl p-2">
               <div className="my-1 font-semibold">{Product.feature}</div>
-              
-              
-              {/* <div className="my-1 font-semibold">richer bass tones,</div>
+              <div className="my-1 font-semibold">richer bass tones,</div>
               <div className="my-1 font-semibold">
                 Greater protection from sweat and water,
               </div>
               <div className="my-1 font-semibold">
                 Control music and video playback,
               </div>
-              <div className="my-1 font-semibold">Answer and end calls,</div> */}
-            
+              <div className="my-1 font-semibold">Answer and end calls,</div>
             </div>
-          </div>
+          </div> */}
+
+          {/* Overview/description */}
           <div className="mt-5">
             <div className="font-semibold">Overview:</div>
             <div className="m-3 border rounded-xl p-2">
               {Product.description}
+            </div>
+          </div>
+
+          <div className="mt-5">
+            <div className="font-semibold">Phone Number:</div>
+            <div className="m-3 border rounded-xl p-2">
+              {Product.contact}
             </div>
           </div>
         </div>

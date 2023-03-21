@@ -30,15 +30,38 @@ import {
   NEWSFEED_COMMENT_POST_KEY,
   POST_NEWSFEED_API_KEY,
   GET_USER_BOOKMARKS,
-  Show_USER_NEWS_FEEDS
+  Show_USER_NEWS_FEEDS,
+  SEARCH_MULTIPLE,
+  HASHTAGS_API
 } from "../../../pages/config";
-import Postt from "./comments/PostComments";
-import FilterComments from "./comments/FilterComments";
-import ReplyComments from "./comments/ReplyComments";
-import PostComments from "./comments/PostComments";
+// import FilterComments from "./comments/FilterComments";
+// import ReplyComments from "./comments/ReplyComments";
+// import PostComments from "./comments/PostComments";
 import { useRouter } from "next/router";
 import Spinner from "../../common/Spinner";
+import HashtagMentionInput from "../../news-feed/newsfeed/newspost/HashtagMentionInput";
+import App from "../../news-feed/newsfeed/newspost/App";
+import PostComments from "../../profile/comments/PostComments";
+import FilterComments from "../../profile/comments/FilterComments";
+import ReplyComments from "../../profile/comments/ReplyComments";
 
+const ReadMore = ({ children }) => {
+  const text = children;
+  const [isReadMore, setIsReadMore] = useState(true);
+  const toggleReadMore = () => {
+    setIsReadMore(!isReadMore);
+  };
+  return (
+    <p className="text">
+      {isReadMore ? text.slice(0, 300) + (text.length > 300?("......"):('')) : text}
+      {text.length > 300?(
+        <span onClick={toggleReadMore} className="text-indigo-400 cursor-pointer ml-2 font-bold">
+          {isReadMore ? "Read more" : "Show less"}
+        </span>
+      ):('')}
+    </p>
+  );
+};
 
 const cardDropdown = [
   {
@@ -75,7 +98,17 @@ const ProfileFeedSingle = (singleItems) => {
   const [bookmarks, setBookmarks] = useState(singleItems.bookmarks);
   const [spinner, setSpinner] = useState(false);
   const [admins,setadmins] = useState(singleItems.admin);
-  // console.log("props",singleItems.group)
+
+
+  const [tags, settags] = useState([]);
+  const [mentioned, setMentioned] = useState([]);
+  const [hashtaged, setHashtaged] = useState([]);
+  let [hastags, sethastags] = useState();
+
+  const router = useRouter();
+  const data = router.asPath;
+  const myArray = data.split("?");
+
   // Bareer Key
   if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore");}
   // Copy Link
@@ -88,7 +121,7 @@ const ProfileFeedSingle = (singleItems) => {
   }
   // Get NewsFeed for the updation Lists
   const getNewsFeed = async () => {
-    const res = await axios(POST_NEWSFEED_API_KEY, {
+    const res = await axios(`${Show_USER_NEWS_FEEDS}?page_id=${myArray[1]}`, {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -193,9 +226,13 @@ const ProfileFeedSingle = (singleItems) => {
   function UpdateFeed(id, feedType) {
     setEditOn('');
     if (feedType != "video_feed") {setUP_pic('');}
-     
     const dataForm = new FormData();
-    dataForm.append("news_feeds[body]", EditText);
+    if (tags.length > 0) {
+      for (let i = 0; i < tags.length; i++) {
+        dataForm.append("tags[]", tags[i]);
+      }
+    }
+    dataForm.append("news_feeds[body]", EditText.replace(/\[\@(.*?)\]\((.*?)\)/g, "@$1"));
     // dataForm.append("news_feeds[feed_type]", feedType);
     if (feedType === "event_feed") {
       dataForm.append("events[name]", eventame);
@@ -352,7 +389,6 @@ const ProfileFeedSingle = (singleItems) => {
     }
   }
   useEffect(() => {
-   //console.log("yes")
     setLoading(true);
     const getFeedComments = async () => {
       const res = await axios(
@@ -384,8 +420,119 @@ const ProfileFeedSingle = (singleItems) => {
       return result;
     };
     getFeedComments();
+    mentioneds();
+    HashTags();
   }, []);
 
+  
+  
+  const HashTags=async()=>{
+    await fetch(HASHTAGS_API, {
+      method: "GET",
+       headers: {
+        Accept: "application/json",
+         Authorization: `${authKey}`,
+       },
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          let awa =[];
+          for(let i =0; i<result.data.length ; i++)
+          {
+            awa[i] ={
+              display: result.data[i].name  ,
+              id: result.data[i].id,
+            }
+          }
+          sethastags(awa);
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+  let a ='';
+  const mentioneds = () => {
+    if (typeof window !== "undefined") {
+      var authKey = window.localStorage.getItem("keyStore");
+    }
+    // const [mention,setmention] = useState([]);
+    fetch(SEARCH_MULTIPLE+"/gettags?query="+'friends', {
+        method: "GET",
+         headers: {
+          Accept: "application/json", 
+           Authorization: `${authKey}`,
+         },
+      })
+         .then((resp) => resp.json())
+        .then((result) => {
+          if (result) {
+            let awa =[];
+  
+            for(let i =0; i<result.data.length ; i++)
+            {
+                awa[i] ={
+                  display: '@'+result.data[i].first_name+" "+result.data[i].last_name ,
+                  link: 'Friends-Profile?'+result.data[i].id,
+                  avatar: result.data[i].display_photo_url,
+                  id: result.data[i].id,
+                  type : 'User'
+                }
+            }
+            a=awa;
+            // setspeakerMention(awa);
+            mentionpages();
+            // console.log("frie",awa);
+          }
+        })
+        .catch((err) => console.log(err));
+  };
+  const mentionpages = () => {
+    if (typeof window !== "undefined") {
+      var authKey = window.localStorage.getItem("keyStore");
+    }
+    // const [mention,setmention] = useState([]);
+    fetch(SEARCH_MULTIPLE+"/gettags?query="+'pages', {
+        method: "GET",
+         headers: {
+          Accept: "application/json", 
+           Authorization: `${authKey}`,
+         },
+      })
+         .then((resp) => resp.json())
+        .then((result) => {
+          if (result) {
+            let awa =[];
+  
+            for(let i = 0; i<result.data.length ; i++)
+            {
+                awa[i] ={
+                  display: '@'+result.data[i].name ,
+                  link: 'Liked-Pages?'+result.data[i].id,
+                  avatar: result.data[i].display_photo_url,
+                  id: result.data[i].id,
+                  type : 'Page'
+                }
+            }
+            let dbc = [...a,...awa]
+            setMentioned(dbc);
+            // setspeakerMention(dbc);
+          //  console.log("ment",mentioned);
+          }
+        })
+        .catch((err) => console.log(err));
+  };
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   const [isActive, setIsActive] = useState(false);
 
   const handleClick = () => {
@@ -506,15 +653,29 @@ const ProfileFeedSingle = (singleItems) => {
         
         <div className="px-[22px] py-[14px]">
         {EditOn==items.id?(
-          <textarea
-          type="text"
-          name="post-text"
-          value={EditText}
-          onChange={(e) => setEditText(e.target.value)}
-          className="w-full pt-0 resize-none border-0 px-0 text-base overflow-y-hidden outline-none focus:outline focus:ring-0"
-          placeholder="Start a post?"
-        />
-        ):(<p>{items.body ? items.body : ""}</p>)}
+        //   <textarea
+        //   type="text"
+        //   name="post-text"
+        //   value={EditText}
+        //   onChange={(e) => setEditText(e.target.value)}
+        //   className="w-full pt-0 resize-none border-0 px-0 text-base overflow-y-hidden outline-none focus:outline focus:ring-0"
+        //   placeholder="Start a post?"
+        // />
+        <HashtagMentionInput postText={EditText} setPostText={setEditText} mentioned={mentioned}  tags={tags} settags={settags} hastags={hastags}/> 
+          
+        ):(
+        // <p>{items.body ? items.body : ""}</p>
+        items.tags && items.tags.length > 0 || (items.hashtags && items.hashtags.length > 0)?
+        (
+          <App state={items.body} website={items.tags} hashtags={items.hashtags}/>
+        )
+        :
+        (  
+          <ReadMore>
+          {items.body? items.body : ""}
+          </ReadMore>
+        )
+        )}
           
           {items.event && items.event ? (    
             <div className="rounded-xl bg-white border border-gray-100 my-2">
@@ -1000,7 +1161,7 @@ const ProfileFeedSingle = (singleItems) => {
           </div>
           <Fragment>
             {singleItems.group.can_comment == "all_member" ? (
-              <PostComments news_feed_id={items.id}  currentUser={singleItems.currentUser} setComments={setComments} setComments_count={setComments_count} setIs_deleted={setIs_deleted} dp={items.user.display_photo_url}/>
+              <PostComments news_feed_id={items.id} currentUser={singleItems.currentUser} setComments={setComments} setComments_count={setComments_count} setIs_deleted={setIs_deleted} dp={items.user.display_photo_url}/>
             ):(
               singleItems.currentUser && singleItems.group?(
                 (admins && isadmin(admins,singleItems.currentUser.id)) || singleItems.group.owner.id == singleItems.currentUser.id?(

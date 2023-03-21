@@ -209,6 +209,7 @@ const ProfileTopCard = () => {
                           type="file"
                           name="image"
                           id="image"
+                          onChange={onProfileChange}
                           className="opacity-0 absolute top-auto left-0 z-10"
                           title={""}
                           multiple
@@ -234,7 +235,7 @@ const ProfileTopCard = () => {
                 <a className="text-gray-500 text-xs font-semibold">
                   <div className="flex gap-1 items-center capitalize">
                     <LocationMarkerIcon className="w-5 h-5" />
-                    {userDetails.city}, {userDetails.country}
+                    {userDetails.city?userDetails.city+", ":""} {userDetails.state?userDetails.state+", ":""} {userDetails.country?userDetails.country:''}
                   </div>
                 </a>
               </Link>

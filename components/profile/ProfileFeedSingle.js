@@ -21,7 +21,7 @@ import { CalendarIcon } from "@heroicons/react/solid";
 import { Popover, Transition } from "@headlessui/react";
 import Link from "next/link";
 import ProfileAvatar from "../../public/images/profile-avatar.png";
-
+import TimezoneSelect, { allTimezones } from "react-timezone-select";
 import PostImage from "../../public/images/post-image.png";
 import axios from "axios";
 import {
@@ -29,12 +29,16 @@ import {
   REACTION_NEWSFEED_API_KEY,
   NEWSFEED_COMMENT_POST_KEY,
   POST_NEWSFEED_API_KEY,
-  GET_USER_BOOKMARKS
+  GET_USER_BOOKMARKS,
+  SEARCH_MULTIPLE,
+  HASHTAGS_API
 } from "../../pages/config";
 import PostComments from "./comments/PostComments";
 import FilterComments from "./comments/FilterComments";
 import ReplyComments from "./comments/ReplyComments";
 import Spinner from "../common/Spinner";
+import App from "../news-feed/newsfeed/newspost/App";
+import HashtagMentionInput from "../news-feed/newsfeed/newspost/HashtagMentionInput";
 // import Spinner from "../common/Spinner";
 
 const cardDropdown = [
@@ -50,6 +54,24 @@ const cardDropdown = [
   },
   
 ];
+
+const ReadMore = ({ children }) => {
+  const text = children;
+  const [isReadMore, setIsReadMore] = useState(true);
+  const toggleReadMore = () => {
+    setIsReadMore(!isReadMore);
+  };
+  return (
+    <p className="text">
+      {isReadMore ? text.slice(0, 300) + (text.length > 300?("......"):('')) : text}
+      {text.length > 300?(
+        <span onClick={toggleReadMore} className="text-indigo-400 cursor-pointer ml-2 font-bold">
+          {isReadMore ? "Read more" : "Show less"}
+        </span>
+      ):('')}
+    </p>
+  );
+};
 
 const ProfileFeedSingle = (singleItems) => {
   const [items, setItems] = useState(singleItems.lists);
@@ -71,7 +93,25 @@ const ProfileFeedSingle = (singleItems) => {
   const [EditText, setEditText] = useState(singleItems.lists.body);  // get text for editing
   const [bookmarks, setBookmarks] = useState(singleItems.bookmarks);
   const [spinner, setSpinner] = useState(false);
-  
+  const [isActive, setIsActive] = useState(false);
+
+  const [timezone, settimezone] = useState();
+  const [eventlink, seteventlink] = useState();
+  const [seats, setseats] = useState();
+  const [address, setaddress] = useState();
+  const [venue, setvenue] = useState();
+
+
+  const [tags, settags] = useState([]);
+  const [mentioned, setMentioned] = useState([]);
+  const [hashtaged, setHashtaged] = useState([]);
+  let [hastags, sethastags] = useState();
+
+
+  let [speakerMention, setspeakerMention] = useState([]);
+  let [speakerText, setspeakerText] = useState("d");
+  const [speakertags, setspeakertags] = useState([]);
+
   // Bareer Key
   if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore");}
   // Copy Link
@@ -100,6 +140,7 @@ const ProfileFeedSingle = (singleItems) => {
     try {
       if (result.status == 200) {
         singleItems.setList(result.data.data);
+        // 
         // console.log(singleItems.lists)
       }
     } catch (error) {
@@ -137,12 +178,15 @@ const ProfileFeedSingle = (singleItems) => {
   };
   // update user newsfeed's post
  const EditFeed=(uid)=>{
-   alert("ues"+uid);
    setEditOn(uid);
   };
   // Confirmation Edit Or Delete
   const optionConfirm=(uid,name,item)=>{
-    if (name=="Delete"){DeleteNewsFeed(uid);}
+    if (name=="Delete")
+    {
+      let a = confirm("Are yuo Sure ?");
+      if(a){DeleteNewsFeed(uid);}
+    }
     if (name=="Edit")
     { 
       if(item && item.event)
@@ -155,6 +199,13 @@ const ProfileFeedSingle = (singleItems) => {
         setE_date(item.event.end_date)
         setevent_type(item.event.event_type)
         seteventname(item.event.name)
+        setspeakerText(item.event.speaker)
+        settimezone(item.event.event_timezone)
+        seteventlink(item.event.event_link)
+        setseats(item.event.total_seats)
+        setaddress(item.event.address)
+        setvenue(item.event.venue)
+        // console.log(item.event)
       }
       else if(item && item.attachments_link){
         EditFeed(uid);
@@ -164,23 +215,34 @@ const ProfileFeedSingle = (singleItems) => {
         EditFeed(uid);
       }
     }
-    
   };
   //Edited image
   const handleImage = (e) => {
-    setU_pic(e.target.files[0]);
-    if (e.target.files.length !== 0) {
-      setUP_pic(window.URL.createObjectURL(e.target.files[0]));
-    }
+    var type=e.target.files[0].type
+    var s=type.split("/")
+    if(s[0]=='image')
+    {
+      setU_pic(e.target.files[0]);
+      if (e.target.files.length !== 0) {
+        setUP_pic(window.URL.createObjectURL(e.target.files[0]));
+      }
+    }else{alert("Please Select Image")}
+    
   };
   //Edited vedio
   const handleVideo = (e) => {
-    setUP_pic('');
-    setU_pic(e.target.files[0]);
-    if (e.target.files.length !== 0) {
-     setUP_pic(URL.createObjectURL(e.target.files[0]));
-    //  console.log("Check",URL.createObjectURL(U_pic))
-    }
+    var type=e.target.files[0].type
+    var s=type.split("/")
+    if(s[0]=='video')
+    {
+      setUP_pic('');
+      setU_pic(e.target.files[0]);
+      if (e.target.files.length !== 0) {
+        setUP_pic(URL.createObjectURL(e.target.files[0]));
+        //  console.log("Check",URL.createObjectURL(U_pic))
+      }
+    }else{alert("Please Select video")}
+    
   };
   //  remover preview
   const handleCoverReomve = (e) => {
@@ -190,25 +252,36 @@ const ProfileFeedSingle = (singleItems) => {
   function UpdateFeed(id, feedType) {
     setEditOn('');
     if (feedType != "video_feed") {setUP_pic('');}
-     
     const dataForm = new FormData();
-    dataForm.append("news_feeds[body]", EditText);
-    // dataForm.append("news_feeds[feed_type]", feedType);
+    dataForm.append("news_feeds[body]", EditText.replace(/\[\@(.*?)\]\((.*?)\)/g, "@$1"));
+    if (tags.length > 0) {
+      for (let i = 0; i < tags.length; i++) {
+        dataForm.append("tags[]", tags[i]);
+      }
+    }
     if (feedType === "event_feed") {
+      if (speakertags.length > 0) {
+        for (let i = 0; i < speakertags.length; i++) {
+          dataForm.append("speakertags[]", speakertags[i]);
+        }
+      }
       dataForm.append("events[name]", eventame);
       dataForm.append("events[event_type]", event_type);
       if(U_pic){dataForm.append("events[cover_photo]", U_pic);}
-      // dataForm.append("events[event_timezone]", selectedTimezone.label);
       dataForm.append("events[start_date]", S_date);
       dataForm.append("events[end_date]", E_date);
       dataForm.append("events[start_time]", S_time);
       dataForm.append("events[end_time]", E_time);
-      
+      dataForm.append("events[speaker]", speakerText.replace(/\[\@(.*?)\]\((.*?)\)/g, "@$1"));
+      dataForm.append("events[event_timezone]", timezone);
+      dataForm.append("events[event_link]", eventlink);
+      dataForm.append("events[address]", address);
+      dataForm.append("events[venue]", venue);
+      dataForm.append("events[total_seats]", seats);
     }
     else{
       if(U_pic){dataForm.append("news_feeds[feed_attachments][]", U_pic);}
     }
-    // setLoading(true);
     fetch(POST_NEWSFEED_API_KEY+"/"+id, {
       method: "PUT",
       headers: {
@@ -221,7 +294,7 @@ const ProfileFeedSingle = (singleItems) => {
       .then((result) => {
         if (result) {
           setItems(result.data);
-          //getNewsFeed();
+          setEditText(result.data.body)
         }
       })
       .catch((err) => console.log(err));
@@ -354,7 +427,7 @@ const ProfileFeedSingle = (singleItems) => {
   }
   
   useEffect(() => {
-   //console.log("yes")
+
     setLoading(true);
     const getFeedComments = async () => {
       const res = await axios(
@@ -386,22 +459,119 @@ const ProfileFeedSingle = (singleItems) => {
       return result;
     };
     getFeedComments();
+    mentioneds();
+    HashTags();
   }, []);
-
-  const [isActive, setIsActive] = useState(false);
 
   const handleClick = () => {
     setIsActive((current) => !current);
   };
- 
+
+  const HashTags=async()=>{
+    await fetch(HASHTAGS_API, {
+      method: "GET",
+       headers: {
+        Accept: "application/json",
+         Authorization: `${authKey}`,
+       },
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          let awa =[];
+          for(let i =0; i<result.data.length ; i++)
+          {
+            awa[i] ={
+              display: result.data[i].name  ,
+              id: result.data[i].id,
+            }
+          }
+          sethastags(awa);
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+  let a ='';
+  const mentioneds = () => {
+    if (typeof window !== "undefined") {
+      var authKey = window.localStorage.getItem("keyStore");
+    }
+    // const [mention,setmention] = useState([]);
+    fetch(SEARCH_MULTIPLE+"/gettags?query="+'friends', {
+        method: "GET",
+         headers: {
+          Accept: "application/json", 
+           Authorization: `${authKey}`,
+         },
+      })
+         .then((resp) => resp.json())
+        .then((result) => {
+          if (result) {
+            let awa =[];
+  
+            for(let i =0; i<result.data.length ; i++)
+            {
+                awa[i] ={
+                  display: '@'+result.data[i].first_name+" "+result.data[i].last_name ,
+                  link: 'Friends-Profile?'+result.data[i].id,
+                  avatar: result.data[i].display_photo_url,
+                  id: result.data[i].id,
+                  type : 'User'
+                }
+            }
+            a=awa;
+            setspeakerMention(awa);
+            mentionpages();
+            // console.log("frie",awa);
+          }
+        })
+        .catch((err) => console.log(err));
+  };
+  const mentionpages = () => {
+    if (typeof window !== "undefined") {
+      var authKey = window.localStorage.getItem("keyStore");
+    }
+    // const [mention,setmention] = useState([]);
+    fetch(SEARCH_MULTIPLE+"/gettags?query="+'pages', {
+        method: "GET",
+         headers: {
+          Accept: "application/json", 
+           Authorization: `${authKey}`,
+         },
+      })
+         .then((resp) => resp.json())
+        .then((result) => {
+          if (result) {
+            let awa =[];
+  
+            for(let i = 0; i<result.data.length ; i++)
+            {
+                awa[i] ={
+                  display: '@'+result.data[i].name ,
+                  link: 'Liked-Pages?'+result.data[i].id,
+                  avatar: result.data[i].display_photo_url,
+                  id: result.data[i].id,
+                  type : 'Page'
+                }
+            }
+            let dbc = [...a,...awa]
+            setMentioned(dbc);
+            // setspeakerMention(dbc);
+          //  console.log("ment",mentioned);
+          }
+        })
+        .catch((err) => console.log(err));
+  };
+
+  // console.log("itemsitems ", items)
   return (
     <>
-     <div className="w-[600px] xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">
+      <div className="w-[600px] xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">
         <div className="flex gap-2 justify-between items-center px-[22px] py-[14px]">
           <div className="flex gap-2">
            {items && items.user && items.user.display_photo_url?
             (
-             <img 
+             <img
               src={items.user.display_photo_url} 
               className="object-cover rounded-full z-40 h-[42px] w-[42px]" 
               alt=""
@@ -409,6 +579,7 @@ const ProfileFeedSingle = (singleItems) => {
             ):(
              <Image 
               src={ProfileAvatar} 
+              className="object-cover rounded-full " 
               width={45} 
               height={45} 
               alt=""
@@ -464,11 +635,11 @@ const ProfileFeedSingle = (singleItems) => {
                                 className="-m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
                               >
                                 <div className="flex h-10 w-10 shrink-0 items-center justify-center text-white sm:h-12 sm:w-12 pl-2">
-                                  <card.icon className="h-6 w-6 text-gray-900" />
+                                  <card.icon className="h-6 w-6 text-gray-900 cursor-pointer" />
                                 </div>
                                 <div>
-                                  <p className="text-sm font-medium text-gray-900">
-                                    {card.name}
+                                  <p className="text-sm font-medium text-gray-900 cursor-pointer">
+                                    {card.name} 
                                   </p>
                                 </div>
                               </a>
@@ -485,18 +656,29 @@ const ProfileFeedSingle = (singleItems) => {
         </div>
         {/* <div className="border-1 border-gray-100"></div> */}
 
-        
         <div className="px-[22px] py-[14px]">
-        {EditOn==items.id?(
-          <textarea
-          type="text"
-          name="post-text"
-          value={EditText}
-          onChange={(e) => setEditText(e.target.value)}
-          className="w-full pt-0 resize-none border-0 px-0 text-base overflow-y-hidden outline-none focus:outline focus:ring-0"
-          placeholder="Start a post?"
-        />
-        ):(<p>{items.body ? items.body : ""}</p>)}
+          {EditOn==items.id?(
+          //   <textarea
+          //   type="text"
+          //   name="post-text"
+          //   value={EditText}
+          //   onChange={(e) => setEditText(e.target.value)}
+          //   className="w-full pt-0 resize-none border-0 px-0 text-base overflow-y-hidden outline-none focus:outline focus:ring-0"
+          //   placeholder="Start a post?"
+          // />
+          <HashtagMentionInput postText={EditText} setPostText={setEditText} mentioned={mentioned}  tags={tags} settags={settags} hastags={hastags}/>
+          ):(// <p>{items.body ? items.body : ""}</p>
+              items.tags && items.tags.length > 0 || (items.hashtags && items.hashtags.length > 0)?
+                (
+                  <App state={items.body} website={items.tags} hashtags={items.hashtags}/>
+                )
+                :
+                (  
+                  <ReadMore>
+                  {items.body? items.body : ""}
+                  </ReadMore>
+                )
+            )}
           
           {items.event && items.event ? (    
             <div className="rounded-xl bg-white border border-gray-100 my-2">
@@ -556,6 +738,7 @@ const ProfileFeedSingle = (singleItems) => {
               ) : (
                 ""
               )}
+              {/* Event show and edit-2 */}
               <div className="py-3 px-3">
                 <div className="flex justify-between items-center">
                   <div>
@@ -591,17 +774,37 @@ const ProfileFeedSingle = (singleItems) => {
                             </fieldset>
                             <fieldset className="flex items-center gap-2 pt-3">
                             <input
-                                checked={event_type=="in_person"}
+                                checked={event_type=="in person"}
                                 type="radio"
                                 name="event-radio"
                                 id="online"
-                                value="in_person"
+                                value="in person"
                                 onChange={(e) => setevent_type(e.target.value)}
                               />
                               <label htmlFor="in-person">In Person</label>
                             </fieldset>
                           </div>
                         </div> 
+                        {/* Selct Zone */}
+                        <>
+                          <label htmlFor="startdate" className="text-neutral-900 text-sm">
+                            Time Zone <span className="text-red-500">*</span>
+                          </label>
+                          {/* <input
+                            placeholder="Event Name"
+                            className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
+                            value={timezone}
+                            onChange={(e)=>settimezone(e.target.value)}
+                          /> */}
+                          <TimezoneSelect
+                            value={timezone}
+                            onChange={settimezone}
+                            timezones={{
+                              ...allTimezones,
+                              "America/Lima": "Pittsburgh",
+                            }}
+                          />
+                        </>
                         {/* Time */}
                         <div className="flex justify-end ">
                           <>
@@ -653,51 +856,192 @@ const ProfileFeedSingle = (singleItems) => {
                             />
                           </>
                           <>
-                            <label htmlFor="startTime" className="text-neutral-900 text-sm">
+                            <label htmlFor="endDate" className="text-neutral-900 text-sm">
                             End Date <span className="text-red-500">*</span>
                             </label>
                             <input
                               type="date"
-                              name="startTime"
+                              name="endDate"
                               value={E_date}
                               onChange={(e)=>setE_date(e.target.value)}
-                              placeholder="Event Name"
+                              placeholder="dd-mm-yyyy"
                               className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
                               id="startTime"
                             />
                           </>
                         </div>
+
+                        {event_type=="online"?(
+                          ''
+                        ):(
+                          <>
+                            <>
+                              <label htmlFor="startdate" className="text-neutral-900 text-sm">
+                              Adress<span className="text-red-500">*</span>
+                              </label>
+                              <input
+                                placeholder="Event Adress"
+                                className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
+                                value={address}
+                                onChange={(e)=>setaddress(e.target.value)}
+                              />
+                            </>
+                            <>
+                              <label htmlFor="startdate" className="text-neutral-900 text-sm">
+                              Venue <span className="text-red-500">*</span>
+                              </label>
+                              <input
+                                placeholder="Event Venue"
+                                className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
+                                value={venue}
+                                onChange={(e)=>setvenue(e.target.value)}
+                              />
+                            </> 
+                          </>
+                        )}
+
+                        {/* External Event Link */}
+                        <>
+                          <label htmlFor="startdate" className="text-neutral-900 text-sm">
+                            External Event Link <span className="text-red-500">*</span>
+                          </label>
+                          <input
+                            placeholder="Event Event Link"
+                            className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
+                            value={eventlink}
+                            onChange={(e)=>seteventlink(e.target.value)}
+                          />
+                           
+                        </>
+                        {/* total Seat */}
+                        <>
+                          <label htmlFor="startdate" className="text-neutral-900 text-sm">
+                           Total Seat <span className="text-red-500">*</span>
+                          </label>
+                          <input
+                            placeholder="Enter Seat"
+                            className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
+                            value={seats}
+                            onChange={(e)=>setseats(e.target.value)}
+                          />
+                           
+                        </>
+                        {/* Speaker */}
+                        <>
+                          <label htmlFor="startdate" className="text-neutral-900 text-sm">
+                            Speaker <span className="text-red-500">*</span>
+                          </label>
+                          {/* <input
+                            placeholder="Event Name"
+                            className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
+                            value={eventame}
+                            onChange={(e)=>seteventname(e.target.value)}
+                          /> */}
+                           <HashtagMentionInput postText={speakerText} setPostText={setspeakerText} mentioned={speakerMention}  tags={speakertags} settags={setspeakertags} hastags={hastags}/>
+            
+                            
+                            
+                        </>
                       </div >
                       ):(
-                      <>
-                        <span>{items.event.start_time}</span>
-                        <span>-{items.event.end_time}</span>&nbsp;
-                        <span>{items.event.start_date}</span>&nbsp;
-                        
-                        <div className="flex items-center gap-2">
-                          <CalendarIcon
-                            width={16}
-                            height={16}
-                            className="text-gray-900"
-                          />
-                          <span className="text-gray-900 text-sm">
-                            {items.event.event_type=== "in_person"?(
-                              'In Person'
-                            ):(items.event.event_type)}
-                          </span>
+                      <div className="py-3 px-3">
+                        <div className="flex justify-between items-center">
+                          <div>
+                            <span>{items.event.start_time}</span>
+                            <span>-{items.event.end_time}</span>&nbsp;
+                            <span>{items.event.start_date}</span>&nbsp;
+                            {/* Event Name/title */}
+                            <div className="font-semibold text-lg">
+                              {items.event.name}
+                            </div>
+                            {/* Event type online/offline/in_persone */}
+                            <div className="flex items-center gap-2">
+                              <CalendarIcon
+                                width={16}
+                                height={16}
+                                className="text-gray-900"
+                              />
+                              <span className="text-gray-900 text-sm">
+                                {items.event.event_type=== "online"?(
+                                  items.event.event_type
+                                ):('In Person')}
+                              </span>
+                            </div>
+                            {/* Venue and adress */}
+                            {items.event.event_type=== "online"?(''):(
+                              <>
+                                {/* Adress */}
+                                {items.event.address?(
+                                  <div className="flex items-center gap-2">
+                                    <CalendarIcon
+                                      width={16}
+                                      height={16}
+                                      className="text-gray-900"
+                                    />
+                                    <span className="text-gray-900 text-sm">
+                                      {items.event.address}
+                                    </span>
+                                  </div>
+                                ):('')}
+                               
+                               {/* Venue */}
+                               {items.event.venue?(
+                                  <div className="flex items-center gap-2">
+                                    <CalendarIcon
+                                      width={16}
+                                      height={16}
+                                      className="text-gray-900"
+                                    />
+                                    <span className="text-gray-900 text-sm">
+                                      {items.event.venue}
+                                    </span>
+                                  </div>
+                               ):('')}
+                                
+                              </>
+                            )}
+                            {/*  Event link */}
+                            <div className="flex items-center gap-2">
+                              <CalendarIcon
+                                width={16}
+                                height={16}
+                                className="text-gray-900"
+                              />
+                              <span className="text-gray-900 text-sm">
+                                {items.event.event_link}
+                              </span>
+                            </div>
+                            {/* Speaker  */}
+                            {items.event.tags && items.event.tags.length > 0?
+                              <App state={items.event.speaker} website={items.event.tags} /> 
+                              : items.event.body? items.event.body : ""
+                            }
+                            {/* Remaining Seats */}
+                            <div className="text-gray-900 flex gap-2">
+                              <CalendarIcon
+                                width={16}
+                                height={16}
+                                className="text-gray-900"
+                              />
+                              <span>{items.event.total_seats - items.event.booked_seat}</span>
+                            </div>
+                          </div>
+                          <Link 
+                            href={{
+                            pathname: "/events-design/event-view",
+                            query: items.id,
+                          }}
+                          >
+                            <a className="text-sm text-gray-600 cursor-pointer flex items-center border border-gray-100 rounded-full py-1 px-3">
+                              View Event
+                            </a>
+                          </Link>
                         </div>
                         
-                        <div className="font-semibold text-lg">
-                          {items.event.name}
-                        </div>
 
-                        <Link href="/events-design/event-view">
-                          <a className="text-sm text-gray-600 cursor-pointer flex items-center border border-gray-100 rounded-full py-1 px-3">
-                            View Event
-                          </a>
-                        </Link>
+                        
 
-                      </>)}
+                      </div>)}
                     </div>
                     {/* <div className="text-gray-900"></div> */}
                   </div>
@@ -707,8 +1051,6 @@ const ProfileFeedSingle = (singleItems) => {
           ) : (
             ""
           )}
-          
-          
           
           {items.feed_type && items.feed_type === "video_feed" ? (
             EditOn==items.id?(
@@ -987,7 +1329,6 @@ const ProfileFeedSingle = (singleItems) => {
             {!loading && <ReplyComments news_feed_id={items.id} comments={comments.data} comments_count={comments_count} setComments_count={setComments_count} setComments={setComments} setIs_deleted={setIs_deleted} items={items}/>}
           </Fragment>
         </div>
-
       </div>
     </>
   );

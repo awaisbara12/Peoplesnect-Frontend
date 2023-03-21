@@ -5,14 +5,20 @@ import ProfileAvatar from "../../public/images/profile-avatar.png";
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
-import { GET_NOTIFICATIONS, InviteFriends } from "../../pages/config.js";
+import { CURENT_USER_LOGIN_API, GET_NOTIFICATIONS, InviteFriends, PAGE_REQUEST_API } from "../../pages/config.js";
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { ClipLoader } from "react-spinners";
 
 const Notifications = () => {
-  const [notify, setnotify] = useState();
+  const [notify, setnotify] = useState([]);
+  const [currentUser, setCurrentUser] = useState();
   const [reqbyadmin, setreqbyadmin] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [lastpage, setlastpage] = useState(0);
+  const [currentpage, setcurrentpage] = useState(1);
   // const [notify, setpro] = useState();
 
   //  GET_NOTIFICATIONS
@@ -20,7 +26,7 @@ const Notifications = () => {
   if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore");  }
   
   const allNotifications=async()=>{    
-    await fetch(GET_NOTIFICATIONS, {
+    await fetch(GET_NOTIFICATIONS+"?page=" + currentpage, {
       method: "GET",
        headers: {
         Accept: "application/json", 
@@ -30,7 +36,13 @@ const Notifications = () => {
        .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-          setnotify(result.data);  
+          const mergedata = [...notify, ...result.data];
+          console.log("notification",result.data)
+          setnotify(mergedata);
+          setcurrentpage(result.pages.next_page)
+          setlastpage(result.pages.total_pages)
+          // setnotify(result.data);  
+          // console.log(result.data);
         }
       })
       .catch((err) => console.log(err)); 
@@ -56,7 +68,43 @@ const Notifications = () => {
       })
       .catch((err) => console.log(err));
   }
+  const ActionButton =(status,Id)=>{
+    fetch(PAGE_REQUEST_API +"/"+Id+"?member_requests[status]="+status , {
+    method: "PUT",
+    headers: {
+      Accept: "application/json",
+      Authorization: `${authKey}`,
+    },
+    })
+    .then((resp) => resp.json())
+    .then((result) => {
+      allNotifications();
+      alert("Request has been "+status);
+    })
+  }
+  const Current_User=async()=>{   
+    await fetch(CURENT_USER_LOGIN_API, {
+      method: "GET",
+       headers: {
+        Accept: "application/json", 
+         Authorization: `${authKey}`,
+       },
+    })
+       .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          setCurrentUser(result.data);
+        }
+      })
+      .catch((err) => console.log(err)); 
+  }
+
+  const fetchMoreData = () => {
+    allNotifications();
+  }
+
   useEffect(()=>{
+    Current_User();
     allNotifications();
   },[])
 
@@ -142,14 +190,20 @@ const Notifications = () => {
                 </Menu>
               </div> */}
             </div>
-            {notify?(
+            <InfiniteScroll
+              dataLength={notify.length}
+              next={fetchMoreData}
+              hasMore={currentpage != null}
+              loader={<div className="flex justify-center"><ClipLoader className="my-8" color="#818CF8" size={40} /> </div>}
+            >
+            {notify && notify?(
                notify.map((i)=>(
                 <div className="like-on-article border-b-1" key={i.id}>
                 <div className="request-profile flex  px-4 py-3 justify-between items-center">
                   <div className="flex items-center gap-3">
                   <Link href={{
-                          pathname: "/Friends-Profile",
-                          query: i.invite_friend ? (i.invite_friend.sender.id):(i.sender?(i.sender.id):(i.tag && i.tag.user?(i.tag.user.id):('')))
+                          pathname:"/Friends-Profile",
+                          query: i.invite_friend ? (i.invite_friend.sender.id):(i.sender?(i.sender.id):(i.tag && i.tag.user?(i.tag.user.id):(i.group_member? (i.group_member.group_member.id):(i.member_request && currentUser && i.member_request.status == "pending"? (i.member_request.sender_details.id == currentUser.id ?(i.member_request.group_details.owner.id):(i.member_request.sender_details.id)):i.member_request && currentUser && i.member_request.status == "accepted"? (i.member_request.group_details.owner.id == currentUser.id?(i.member_request.sender_details.id):(i.member_request.group_details.owner.id)):i.applied_job ?(i.applied_job.user.id):('')))))
                         }}>
                       <a>
                         {i.sender && i.sender.display_photo_url?(
@@ -172,6 +226,34 @@ const Notifications = () => {
                                 className="object-cover rounded-full z-40 h-[35px] w-[35px]"
                                 alt=""
                               />
+                              ):(
+                                i.group_member && i.group_member.group_details && i.group_member.group_member.display_photo_url ?(
+                                  <img
+                                  src={ i.group_member.group_member.display_photo_url}
+                                  className="object-cover rounded-full z-40 h-[35px] w-[35px]"
+                                  alt=""
+                                />
+                              ):(
+                                i.member_request && currentUser && i.member_request.sender_details.id == currentUser.id && i.member_request.group_details.owner.display_photo_url ?(
+                                  <img
+                                  src={ i.member_request.group_details.owner.display_photo_url}
+                                  className="object-cover rounded-full z-40 h-[35px] w-[35px]"
+                                  alt=""
+                                />
+                              ):(
+                                i.member_request && currentUser && i.member_request.group_details.owner.id == currentUser.id && i.member_request.sender_details.display_photo_url ?(
+                                  <img
+                                  src={ i.member_request.sender_details.display_photo_url}
+                                  className="object-cover rounded-full z-40 h-[35px] w-[35px]"
+                                  alt=""
+                                />
+                              ):(
+                                i.applied_job && i.applied_job.user.display_photo_url ?(
+                                  <img
+                                  src={ i.applied_job.user.display_photo_url}
+                                  className="object-cover rounded-full z-40 h-[35px] w-[35px]"
+                                  alt=""
+                                />
                               )
                               :(
                                 <Image
@@ -180,7 +262,7 @@ const Notifications = () => {
                                 height={35}
                                 alt=""
                               />
-                              )
+                              )))))
                              
                             )
                            
@@ -198,7 +280,7 @@ const Notifications = () => {
                     <div className="">
                     <Link href={{
                           pathname: "/Friends-Profile",
-                          query: i.invite_friend ? (i.invite_friend.sender.id):(i.sender?(i.sender.id):(i.tag && i.tag.user?(i.tag.user.id):('')))
+                          query: i.invite_friend ? (i.invite_friend.sender.id):(i.sender?(i.sender.id):(i.tag && i.tag.user?(i.tag.user.id):(i.group_member? (i.group_member.group_member.id):(i.member_request && currentUser && i.member_request.status == "pending"? (i.member_request.sender_details.id == currentUser.id ?(i.member_request.group_details.owner.id):(i.member_request.sender_details.id)):i.member_request && currentUser && i.member_request.status == "accepted"? (i.member_request.group_details.owner.id == currentUser.id?(i.member_request.sender_details.id):(i.member_request.group_details.owner.id)):i.applied_job ?(i.applied_job.user.id):('')))))
                         }}>
                         <a>
                         <div className="username text-sm font-bold">
@@ -210,7 +292,11 @@ const Notifications = () => {
                             ):
                             (i.invite_friend && i.invite_friend.sender?(
                               i.invite_friend.sender.first_name+' '+i.invite_friend.sender.last_name
-                            ):(i.tag && i.tag.user?(i.tag.user.first_name+' '+i.tag.user.last_name):('')))
+                            ):(i.tag && i.tag.user?(i.tag.user.first_name+' '+i.tag.user.last_name):
+                            ( i.group_member && i.group_member.group_details.title ?(i.group_member.group_member.first_name+' '+i.group_member.group_member.last_name):
+                            ( i.member_request  && currentUser && i.member_request.group_details.owner.id == currentUser.id ?(i.member_request.sender_details.first_name+' '+i.member_request.sender_details.last_name):
+                            ( i.member_request  && currentUser && i.member_request.sender_details.id == currentUser.id  ?(i.member_request.group_details.owner.first_name+' '+i.member_request.group_details.owner.last_name):
+                            ( i.applied_job && i.applied_job.user  ?(i.applied_job.user.first_name+' '+i.applied_job.user.last_name):('')))))))
                           )}
                           
                         </div>
@@ -310,7 +396,7 @@ const Notifications = () => {
                                 {i.body }
                               </div>
                               <div className="border-indigo-400 border text-indigo-400 px-3 py-2 rounded-full font-medium">
-                              You Liked page {i.invite_friend.page.name}
+                                You Liked page {i.invite_friend.page.name}
                               </div>
                               </a>
                                 </Link>
@@ -319,24 +405,71 @@ const Notifications = () => {
                               <div className="flex justify-end gap-4">
                               <Link href={{pathname: "page-design/suggested-pages", query: i.invite_friend.page.id,}}>
                                 <a>
-                                <div className="py-2 font-bold">
-                                {i.body }
-                              </div>
-                              <div className="border-indigo-400 border text-indigo-400 px-3 py-2 rounded-full font-medium">
-                              You cancelled Liked request for page {i.invite_friend.page.title}
-                              </div>
-                              </a>
-                                </Link>
+                                  <div className="py-2 font-bold">
+                                    {i.body }
+                                  </div>
+                                  <div className="border-indigo-400 border text-indigo-400 px-3 py-2 rounded-full font-medium">
+                                    You cancelled Liked request for page {i.invite_friend.page.title}
+                                  </div>
+                                </a>
+                              </Link>
                             </div>) :( i.tag && i.tag?(
-                               <div className="flex justify-end gap-4">
-                               <Link href={{pathname: "/events-design/event-view", query:  i.tag.id,}}>
-                                 <a>
-                                 <div className="py-2 font-bold">
-                                 {i.body }
-                               </div>
-                               </a>
-                                 </Link>
-                             </div>):(i.body)
+                              <div className="flex justify-end gap-4">
+                                <Link href={{pathname: "/events-design/event-view", query:  i.tag.id,}}>
+                                  <a>
+                                    <div className="py-2 font-bold">
+                                      {i.body }
+                                    </div>
+                                  </a>
+                                </Link>
+                             </div>):(i.group_member ?(
+                              <div className="flex justify-end gap-4">
+                              <Link href={{pathname: "/group-page/joind-group", query:  i.group_member.group_details.id,}}>
+                                <a>
+                                  <div className="py-2 font-bold">
+                                    {i.body }
+                                  </div>
+                                </a>
+                              </Link>
+                              </div>
+                             ):(
+                              i.member_request && i.member_request.group_details && i.member_request.status == "pending"?(
+                                <div className="flex justify-end gap-4">
+                                  <div className="py-2 font-bold">
+                                  <Link href={{pathname: "/group-page/joind-group", query:  i.member_request.group_details.id}}>
+                                    <a>
+                                      {i.body}
+                                    </a>
+                                  </Link>
+                                  </div>
+                                  <button className="border-indigo-400 border text-indigo-400 px-3 py-2 rounded-full font-medium"
+                                    onClick={ () =>ActionButton("accepted" ,i.member_request.id )}>
+                                      Accept
+                                  </button>
+                                  <button className="border-indigo-400 border text-indigo-400 px-3 py-2 rounded-full font-medium"
+                                    onClick={ () =>ActionButton("cancelled" ,i.member_request.id )}>
+                                      Ignore
+                                  </button>
+                              </div>
+                              ):( i.member_request && i.member_request.group_details && i.member_request.status != "pending" ?(
+                                <div className="flex justify-end gap-4">
+                                  <div className="py-2 font-bold">
+                                  <Link href={{pathname: "/group-page/joind-group", query: i.member_request.group_details.id}}>
+                                    <a>
+                                      {i.body}
+                                    </a>
+                                  </Link>
+                                  </div>
+                              </div>):( i.applied_job ?(
+                                <div className="flex justify-end gap-4">
+                                  <div className="py-2 font-bold">
+                                  <Link href={{pathname: "/jobs/posted-jobs/job-applicants", query:  i.applied_job.jobs.id}}>
+                                    <a>
+                                      {i.body}
+                                    </a>
+                                  </Link>
+                                  </div>
+                              </div>):(i.body)))))
                             )))))))}
                         </div>
                       
@@ -351,6 +484,7 @@ const Notifications = () => {
             ):('')
 
             }
+            </InfiniteScroll>
             
             {/* <div className="Comment-on-post border-b-1">
               <div className="request-profile flex  px-4 py-3 justify-between items-center">

@@ -39,7 +39,6 @@ const Hashtag = () => {
         .then((result) => {
           if (result) {
             setresults(result.data);
-            console.log("Hashtag",result.data);
           }
         })
         .catch((err) => console.log(err));
@@ -54,13 +53,13 @@ const Hashtag = () => {
           {results?(
             results.map((i)=>(
             <div className="border-b-1" key={i.id}>
-            <Link  href={{pathname: "hashtag-design/hashtags-show", query: i.hashtag.id}} key={i.hashtag.id}>
+            <Link  href={{pathname: "/hashtag-design/hashtags-show", query: i.hashtag.id}} key={i.hashtag.id}>
               <div className="flex items-center gap-2 p-2 ">
                 <a className="flex items-center gap-2 p-2 ">
                   <div className="flex justify-between items-center hover:bg-gray-100" >
-                  <div className="py-2 px-4 rounded-full hover:bg-gray-100">
-                      <div className="font-bold">{i.hashtag.name}</div>
-                      <div className="mt-1">{i.hashtag.count} tags</div>
+                  <div className="py-2 px-4 rounded-full hover:bg-gray-100 cursor-pointer">
+                      <div className="font-bold cursor-pointer">{i.hashtag.name}</div>
+                      <div className="mt-1 cursor-pointer">{i.hashtag.count} tags</div>
                   </div>
                   </div>
                 </a>

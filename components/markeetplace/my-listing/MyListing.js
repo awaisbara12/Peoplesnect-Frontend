@@ -18,20 +18,23 @@ const MyListing = () => {
 
   //  Delete product
   function DeleteProduct(id) {
-    fetch(PRODUCT_API+"/"+id, {
-      method: "DELETE",
-      headers: {
-        Accept: "application/json",
-        Authorization: `${authKey}`,
-      },
-    })
-      .then((resp) => resp.json())
-      .then((result) => {
-        if (result) {
-          setProduct(result.data)
-        }
+    var a = confirm("yes");
+    if(a){
+      fetch(PRODUCT_API+"/"+id, {
+        method: "DELETE",
+        headers: {
+          Accept: "application/json",
+          Authorization: `${authKey}`,
+        },
       })
-      .catch((err) => console.log(err));
+        .then((resp) => resp.json())
+        .then((result) => {
+          if (result) {
+            setProduct(result.data)
+          }
+        })
+        .catch((err) => console.log(err));
+    }
   }
   //  Get All product
   function product() {
@@ -66,23 +69,26 @@ const MyListing = () => {
               <div className="border-b-1" key={i.id}>
                 <div className="jobs-profile px-4 py-10 ">
                   <div className="flex  justify-between">
-                   
-                        <div className="flex items-center gap-5">
-                          {
-                            i.product_pic?(
-                              <img
-                                src={i.product_pic[0]}
-                                className="object-cover rounded-xl w-[100px] h-[80px]"
-                              />
-                            ):('')
-                          }
-                          <div className="">
-                            <div className="username text-sm font-bold">{i.name}</div>
-                            <div className="userfield font-light">{i.category.name}</div>
-                            <div className="userfield font-extralight">{i.feature && i.feature.length>200?i.feature.slice(0,200)+"...":i.feature}</div>
-                            <div className="mt-0 font-thin">job Posted 2days Ago</div>
-                          </div>
+                    <Link href={{pathname:"/markeet-place/marketplace-show",query:i.id}}>
+                     <a>
+                      <div className="flex items-center gap-5">
+                        {
+                          i.product_pic?(
+                            <img
+                              src={i.product_pic[0]}
+                              className="object-cover rounded-xl w-[100px] h-[80px]"
+                            />
+                          ):('')
+                        }
+                        <div className="">
+                          <div className="username text-sm font-bold">{i.name}</div>
+                          <div className="userfield font-light">{i.category.name}</div>
+                          <div className="">{i.city?i.city+", ":''}{i.state?i.state+", ":""} {i.country?i.country+", ":""} </div>
+                          <div className="mt-0 font-thin">Product Posted {i.created_at}</div>
                         </div>
+                      </div>
+                     </a>
+                    </Link>
                     <Menu as="div" className="relative inline-block text-left">
                       <div>
                         <Menu.Button className="inline-flex justify-center">
@@ -107,7 +113,7 @@ const MyListing = () => {
                               {({ active }) => (
                                 <Link href={{pathname:"/markeet-place/add-your-items", query:i.id}}>
                                 <a
-                                  className="text-sm flex gap-2"
+                                  className="text-sm flex gap-2 cursor-pointer"
                                 >
                                   <PencilAltIcon className="h-5 w-5" />
                                     Edit Product
@@ -120,7 +126,7 @@ const MyListing = () => {
                               {({ active }) => (
                                 <a 
                                 onClick={()=>DeleteProduct(i.id)} 
-                                className="text-sm flex py-2 border-b gap-2"
+                                className="text-sm flex py-2 border-b gap-2 cursor-pointer"
                                 >
                                   <TrashIcon className="h-5 w-5" />
                                   Remove From Listing

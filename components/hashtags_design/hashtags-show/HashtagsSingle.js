@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import HashtagsShow from "./HashtagsShow";
 
 const HashtagsSingle = () => {
-  const [list, setList] = useState([]);
+  const [list, setList] = useState();
   const [loading, setLoading] = useState(true);
   const [currentpage,setcurrentpage] = useState(1);
   
@@ -31,11 +31,9 @@ const HashtagsSingle = () => {
 
     try {
       if (result.status == 200) {
-        const mergedata = [...list,...result.data.data]
-        setList(mergedata);
-        // setcurrentpage(result.data.pages.next_page)
-        // setlastpage(result.data.pages.total_pages)
-        // console.log(result.data.data)
+        // const mergedata = [...list,...result.data.data]
+        setList(result.data.data);
+       
       }
     } catch (error) {
       console.log(error);
@@ -47,7 +45,7 @@ const HashtagsSingle = () => {
    
     setLoading(false);
     getHashtagFeed();
-  },[]);
+  },[myArray[1]]);
  
   return (
     <div className="mt-8">

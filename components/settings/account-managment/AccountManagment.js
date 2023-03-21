@@ -50,7 +50,6 @@ const AccountManagment = () => {
     .catch((err) => console.log(err));
    
   }
-
   const Current_User=async()=>{    
    
     await fetch(CURENT_USER_LOGIN_API, {
@@ -70,9 +69,7 @@ const AccountManagment = () => {
       })
       .catch((err) => console.log(err)); 
   }
-
   const toggler =(e)=>{ 
-    console.log(e);
     if(e=="temporary"){ 
     var a = confirm("Are You Sure?");
     if(a)
@@ -104,8 +101,6 @@ const AccountManagment = () => {
       }
     }
   }
-
-  
   useEffect(()=>{
     Current_User();
   },[])
