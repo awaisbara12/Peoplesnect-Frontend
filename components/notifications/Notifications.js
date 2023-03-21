@@ -203,7 +203,7 @@ const Notifications = () => {
                   <div className="flex items-center gap-3">
                   <Link href={{
                           pathname:"/Friends-Profile",
-                          query: i.invite_friend ? (i.invite_friend.sender.id):(i.sender?(i.sender.id):(i.tag && i.tag.user?(i.tag.user.id):(i.group_member? (i.group_member.group_member.id):(i.member_request && currentUser && i.member_request.status == "pending"? (i.member_request.sender_details.id == currentUser.id ?(i.member_request.group_details.owner.id):(i.member_request.sender_details.id)):i.member_request && currentUser && i.member_request.status == "accepted"? (i.member_request.group_details.owner.id == currentUser.id?(i.member_request.sender_details.id):(i.member_request.group_details.owner.id)):i.applied_job ?(i.applied_job.user.id):('')))))
+                          query: i.invite_friend ? (i.invite_friend.sender.id):(i.sender?(i.sender.id):(i.tag && i.tag.newsfeed?(i.tag.newsfeed.user.id):(i.tag && i.tag.replycomment?(i.tag.replycomment.user.id):(i.tag && i.tag.comment?(i.tag.comment.user.id):(i.group_member? (i.group_member.group_member.id):(i.member_request && currentUser && i.member_request.status == "pending"? (i.member_request.sender_details.id == currentUser.id ?(i.member_request.group_details.owner.id):(i.member_request.sender_details.id)):i.member_request && currentUser && i.member_request.status == "accepted"? (i.member_request.group_details.owner.id == currentUser.id?(i.member_request.sender_details.id):(i.member_request.group_details.owner.id)):i.applied_job ?(i.applied_job.user.id):('')))))))
                         }}>
                       <a>
                         {i.sender && i.sender.display_photo_url?(
@@ -220,9 +220,23 @@ const Notifications = () => {
                               alt=""
                             />
                             ):(
-                              i.tag && i.tag.user?(
+                              i.tag && i.tag.newsfeed && i.tag.newsfeed.user?(
                                 <img
-                                src={ i.tag.user.display_photo_url}
+                                src={ i.tag.newsfeed.user.display_photo_url}
+                                className="object-cover rounded-full z-40 h-[35px] w-[35px]"
+                                alt=""
+                              />
+                              ):(
+                                i.tag && i.tag.comment && i.tag.comment.user?(
+                                <img
+                                src={ i.tag.comment.user.display_photo_url}
+                                className="object-cover rounded-full z-40 h-[35px] w-[35px]"
+                                alt=""
+                              />
+                              ):(
+                                i.tag && i.tag.replycomment && i.tag.replycomment.user?(
+                                <img
+                                src={ i.tag.replycomment.user.display_photo_url}
                                 className="object-cover rounded-full z-40 h-[35px] w-[35px]"
                                 alt=""
                               />
@@ -262,7 +276,7 @@ const Notifications = () => {
                                 height={35}
                                 alt=""
                               />
-                              )))))
+                              )))))))
                              
                             )
                            
@@ -292,11 +306,13 @@ const Notifications = () => {
                             ):
                             (i.invite_friend && i.invite_friend.sender?(
                               i.invite_friend.sender.first_name+' '+i.invite_friend.sender.last_name
-                            ):(i.tag && i.tag.user?(i.tag.user.first_name+' '+i.tag.user.last_name):
+                            ):(i.tag && i.tag.newsfeed?(i.tag.newsfeed.user.first_name+' '+i.tag.newsfeed.user.last_name):
+                            (i.tag && i.tag.comment?(i.tag.comment.user.first_name+' '+i.tag.comment.user.last_name):
+                            (i.tag && i.tag.replycomment?(i.tag.replycomment.user.first_name+' '+i.tag.replycomment.user.last_name):
                             ( i.group_member && i.group_member.group_details.title ?(i.group_member.group_member.first_name+' '+i.group_member.group_member.last_name):
                             ( i.member_request  && currentUser && i.member_request.group_details.owner.id == currentUser.id ?(i.member_request.sender_details.first_name+' '+i.member_request.sender_details.last_name):
                             ( i.member_request  && currentUser && i.member_request.sender_details.id == currentUser.id  ?(i.member_request.group_details.owner.first_name+' '+i.member_request.group_details.owner.last_name):
-                            ( i.applied_job && i.applied_job.user  ?(i.applied_job.user.first_name+' '+i.applied_job.user.last_name):('')))))))
+                            ( i.applied_job && i.applied_job.user  ?(i.applied_job.user.first_name+' '+i.applied_job.user.last_name):('')))))))))
                           )}
                           
                         </div>
@@ -413,16 +429,54 @@ const Notifications = () => {
                                   </div>
                                 </a>
                               </Link>
-                            </div>) :( i.tag && i.tag?(
+                            </div>) :( i.tag && i.tag.newsfeed?(
                               <div className="flex justify-end gap-4">
-                                <Link href={{pathname: "/events-design/event-view", query:  i.tag.id,}}>
+                                <Link href={{pathname: "/events-design/event-view", query:  i.tag.newsfeed.id,}}>
                                   <a>
                                     <div className="py-2 font-bold">
                                       {i.body }
                                     </div>
                                   </a>
                                 </Link>
-                             </div>):(i.group_member ?(
+                             </div>):( i.tag && i.tag.comment && i.tag.comment.news_feed?(
+                              <div className="flex justify-end gap-4">
+                                <Link href={{pathname: "/events-design/event-view", query:  i.tag.comment.news_feed.id,}}>
+                                  <a>
+                                    <div className="py-2 font-bold">
+                                      {i.body }
+                                    </div>
+                                  </a>
+                                </Link>
+                             </div>):( i.tag && i.tag.comment && i.tag.comment.blog?(
+                              <div className="flex justify-end gap-4">
+                                <Link href={{pathname: "/blog/show", query:  i.tag.comment.blog.id,}}>
+                                  <a>
+                                    <div className="py-2 font-bold">
+                                      {i.body }
+                                    </div>
+                                  </a>
+                                </Link>
+                             </div>)
+                             :( i.tag && i.tag.replycomment && i.tag.replycomment.comment.news_feed?(
+                              <div className="flex justify-end gap-4">
+                                <Link href={{pathname: "/events-design/event-view", query:  i.tag.replycomment.comment.news_feed.id,}}>
+                                  <a>
+                                    <div className="py-2 font-bold">
+                                      {i.body }
+                                    </div>
+                                  </a>
+                                </Link>
+                             </div>):( i.tag && i.tag.replycomment && i.tag.replycomment.comment.blog?(
+                              <div className="flex justify-end gap-4">
+                                <Link href={{pathname: "/blog/show", query:  i.tag.replycomment.comment.blog.id,}}>
+                                  <a>
+                                    <div className="py-2 font-bold">
+                                      {i.body }
+                                    </div>
+                                  </a>
+                                </Link>
+                             </div>):
+                             (i.group_member ?(
                               <div className="flex justify-end gap-4">
                               <Link href={{pathname: "/group-page/joind-group", query:  i.group_member.group_details.id,}}>
                                 <a>
@@ -469,8 +523,8 @@ const Notifications = () => {
                                     </a>
                                   </Link>
                                   </div>
-                              </div>):(i.body)))))
-                            )))))))}
+                              </div>):(i.body))))))))
+                            ))))))))}
                         </div>
                       
                     </div>
