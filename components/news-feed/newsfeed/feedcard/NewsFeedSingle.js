@@ -17,6 +17,8 @@ import { CalendarIcon, ChevronRightIcon } from "@heroicons/react/solid";
 import { Popover, Transition } from "@headlessui/react";
 import Link from "next/link";
 import ProfileAvatar from "../../../../public/images/profile-avatar.png";
+
+import PagePhoto from "../../../../public/images/752126.jpg";
 import PostImage from "../../../../public/images/post-image.png";
 // import PostComments from "../comments/PostComments";
 // import FilterComments from "../comments/FilterComments";
@@ -276,24 +278,31 @@ const NewsFeedSingle = (singleItem) => {
   //   return false;
   // }
 
-
-
-//  console.log("newsfeed",singleItem)
   return (
     <>
       <div className="w-[600px] xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">
         <div className="flex gap-2 justify-between items-center px-[22px] py-[14px]">
           <div className="flex gap-2 items-center">
           
-          {items.page && items.page.display_photo_url?(
-              <img
-                src={items.page.display_photo_url} 
-                className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
-                width={45} 
-                height={45} 
-                alt="" 
-              />
-             ):(
+            {items && items.page?(
+              items.page.display_photo_url?(
+                <img
+                  src={items.page.display_photo_url} 
+                  className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
+                  width={45} 
+                  height={45} 
+                  alt="" 
+                />
+              ):(
+                <Image 
+                  src={PagePhoto} 
+                  className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
+                  width={45} 
+                  height={45} 
+                  alt="" 
+                />
+              )
+            ):(
               items && items.user && items.user.display_photo_url?(
                 <img
                   src={items.user.display_photo_url} 
@@ -310,7 +319,7 @@ const NewsFeedSingle = (singleItem) => {
                   alt="" 
                 />
               )
-             )}
+            )}
           
             <div>
               {items.page?(
@@ -324,7 +333,7 @@ const NewsFeedSingle = (singleItem) => {
                   /> */}
                   <div className="capitalize">{items.page.name}</div>
                 </h4>
-                <div className="font-light italic">  Page Post</div>
+                <div className="font-light text-gray-900 opacity-[0.8] italic">  Page Post</div>
                 </>
                 
               ):(
@@ -340,7 +349,7 @@ const NewsFeedSingle = (singleItem) => {
                       />
                       <div className="capitalize">{items.group.title}</div>
                     </h4>
-                    <div className="font-light italic">Group Post</div>
+                    <div className="font-light text-gray-900 opacity-[0.8] italic">Group Post</div>
                     {/* {items && items.group && items.user && items.group.owner.id==items.user.id?"Super Admin":GetAdmins(items.group.id, items.user.id)?"Admin":"Member"} */}
                   </>
                 ):(
@@ -354,7 +363,7 @@ const NewsFeedSingle = (singleItem) => {
                     />
                   </h4>
                   <div className="font-light text-gray-900 opacity-[0.8]">
-                    {/* {items.user.city?items.user.city+", ":""}{items.user.state?items.user.state+", ":""} {items.user.country} */}
+                    {items.user.city?items.user.city+", ":""}{items.user.state?items.user.state+", ":""} {items.user.country}
                   </div>
                 </>
                 )
@@ -451,14 +460,17 @@ const NewsFeedSingle = (singleItem) => {
               <div className="py-3 px-3">
                 <div className="flex justify-between items-center">
                   <div>
+                    {/* Date & Time */}
                     <div className="text-red-400 text-sm">
                       <span>{items.event.start_time}</span>
                       <span>-{items.event.end_time}</span>&nbsp;
                       <span>{items.event.start_date}</span>&nbsp;
                     </div>
+                    {/* Name */}
                     <div className="font-semibold text-lg">
                       {items.event.name}
                     </div>
+                    {/* Event-type */}
                     <div className="flex items-center gap-2">
                       <CalendarIcon
                         width={16}
@@ -468,6 +480,47 @@ const NewsFeedSingle = (singleItem) => {
                       <span className="text-gray-900 text-sm">
                         {items.event.event_type}
                       </span>
+                    </div>
+                    {items.event.event_type=== "online"?(''):(
+                      <>
+                        {/* Adress */}
+                        {items.event.address?(
+                          <div className="flex items-center gap-2">
+                            <CalendarIcon
+                              width={16}
+                              height={16}
+                              className="text-gray-900"
+                            />
+                            <span className="text-gray-900 text-sm">
+                              {items.event.address}
+                            </span>
+                          </div>
+                        ):('')}
+                        
+                        {/* Venue */}
+                        {items.event.venue?(
+                          <div className="flex items-center gap-2">
+                            <CalendarIcon
+                              width={16}
+                              height={16}
+                              className="text-gray-900"
+                            />
+                            <span className="text-gray-900 text-sm">
+                              {items.event.venue}
+                            </span>
+                          </div>
+                        ):('')}
+                        
+                      </>
+                    )}
+                    {/* Link */}
+                    <div className="text-gray-900 flex gap-2">
+                      <CalendarIcon
+                        width={16}
+                        height={16}
+                        className="text-gray-900"
+                      />
+                      <span>{items.event.event_link}</span>
                     </div>
                     {/* Speaker */}
                     <div className="text-gray-900">

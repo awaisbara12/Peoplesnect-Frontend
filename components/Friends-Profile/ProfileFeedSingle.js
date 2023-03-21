@@ -32,6 +32,7 @@ import {
 import PostComments from "../profile/comments/PostComments";
 import FilterComments from "../profile/comments/FilterComments";
 import ReplyComments from "../profile/comments/ReplyComments";
+import App from "../profile/Comment-Input/App";
 // import PostComments from "./comments/PostComments";
 // import Spinner from "../common/Spinner";
 
@@ -47,7 +48,23 @@ const cardDropdown = [
     icon: XCircleIcon,
   },
 ];
-
+const ReadMore = ({ children }) => {
+  const text = children;
+  const [isReadMore, setIsReadMore] = useState(true);
+  const toggleReadMore = () => {
+    setIsReadMore(!isReadMore);
+  };
+  return (
+    <p className="text">
+      {isReadMore ? text.slice(0, 300) + (text.length > 300?("......"):('')) : text}
+      {text.length > 300?(
+        <span onClick={toggleReadMore} className="text-indigo-400 cursor-pointer ml-2 font-bold">
+          {isReadMore ? "Read more" : "Show less"}
+        </span>
+      ):('')}
+    </p>
+  );
+};
 const ProfileFeedSingle = (singleItems) => {
   const [items, setItems] = useState(singleItems.lists);
   const [comments, setComments] = useState([]);
@@ -309,7 +326,7 @@ const ProfileFeedSingle = (singleItems) => {
                  />
                </h4>
                <div className="font-light text-gray-900 opacity-[0.8]">
-               {items.user.city} {items.user.country}
+               {items.user.city?items.user.city+", ":""}{items.user.state?items.user.state+", ":""} {items.user.country?items.user.country:''}
                </div>
              </div>
             ):('')}
@@ -371,7 +388,20 @@ const ProfileFeedSingle = (singleItems) => {
         {/* <div className="border-1 border-gray-100"></div> */}
 
         <div className="px-[22px] py-[14px]">
-          <p>{items.body ? items.body : ""}</p>
+          {/* <p>{items.body ? items.body : ""}</p> */}
+          {
+            items.tags && items.tags.length > 0 || (items.hashtags && items.hashtags.length > 0)?
+            (
+              <App state={items.body} website={items.tags} hashtags={items.hashtags}/>
+            )
+            :
+            (  
+              <ReadMore>
+              {items.body? items.body : ""}
+              </ReadMore>
+            )
+          } 
+          
           {items.event && items.event ? (
             <div className="rounded-xl bg-white border border-gray-100 my-2">
               {items.event.cover_photo_url ? (
