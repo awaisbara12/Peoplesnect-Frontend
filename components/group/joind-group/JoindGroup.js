@@ -100,7 +100,7 @@ const JoindGroup = (setList, singleItem) => {
   const [postImagePreview, setpostImagePreview] = useState();
   const [selectedTimezone, setSelectedTimezone] = useState({});
   const [isCheck, setIsCheck] = useState([]);
-  const [feedType, setFeedType] = useState("basic");
+  const [feedType, setFeedType] = useState("basic_feed");
   const [eventType, setEventType] = useState();
   const [videoSrc, setVideoSrc] = useState([]);
   const [videoPreview, setVideoPreview] = useState();
@@ -199,7 +199,7 @@ const JoindGroup = (setList, singleItem) => {
         }
       })
       .catch((err) => console.log(err));
-    setFeedType("basic");
+    setFeedType("basic_feed");
     setPostText("");
     setpostImagePreview("");
     setEventCoverImage("");

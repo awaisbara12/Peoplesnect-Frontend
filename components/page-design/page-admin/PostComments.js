@@ -25,7 +25,7 @@ const PostComments = () => {
   const [postImage, setPostImage] = useState([]);
   const [setpostImagePreview] = useState();
   const [selectedTimezone] = useState({});
-  const [feedType, setFeedType] = useState("basic");
+  const [feedType, setFeedType] = useState("basic_feed");
   const [eventType] = useState();
   const [videoSrc, setVideoSrc] = useState([]);
   const [videoPreview, setVideoPreview] = useState();

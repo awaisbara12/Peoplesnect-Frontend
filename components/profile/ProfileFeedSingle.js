@@ -1229,7 +1229,7 @@ const ProfileFeedSingle = (singleItems) => {
          
          
          {/* Update Button */}
-         {EditOn==items.id && (items.feed_type=="basic" || items.feed_type=="event_feed")?(
+         {EditOn==items.id && (items.feed_type=="basic_feed" || items.feed_type=="event_feed")?(
           <button className={`w-[100px] h-8 rounded-full flex gap-1 items-center justify-center bg-indigo-400 text-white cursor-pointer`}
               onClick={()=>UpdateFeed(items.id,items.feed_type )}>
               Update {spinner && true ? <Spinner /> : ""}
