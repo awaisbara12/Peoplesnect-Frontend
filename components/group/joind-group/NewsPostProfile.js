@@ -40,7 +40,7 @@ const NewsPostProfile = (setList) => {
   const [selectedTimezone, setSelectedTimezone] = useState({});
   const [inPerson, setInPerson] = useState(false);
   const [online, setOnline] = useState(false);
-  const [feedType, setFeedType] = useState("basic_feed");
+  const [feedType, setFeedType] = useState("basic");
   const [eventType, setEventType] = useState();
   const [videoSrc, setVideoSrc] = useState([]);
   const [videoPreview, setVideoPreview] = useState();
@@ -146,7 +146,7 @@ const NewsPostProfile = (setList) => {
     }
     dataForm.append("news_feeds[body]", postText.replace(/\[\@(.*?)\]\((.*?)\)/g, "@$1"));
     dataForm.append("news_feeds[feed_type]", feedType);
-    dataForm.append("news_feeds[feed_from]", "from_groups");
+    dataForm.append("news_feeds[feed_from]", "groups");
 
     dataForm.append("news_feeds[feed_attachments][]", postImage);
     dataForm.append("news_feeds[feed_attachments][]", videoSrc);
@@ -182,7 +182,7 @@ const NewsPostProfile = (setList) => {
         }
       })
       .catch((err) => console.log(err));
-    setFeedType("basic_feed");
+    setFeedType("basic");
     setPostText("");
     setpostImagePreview("");
     setEventCoverImage("");
