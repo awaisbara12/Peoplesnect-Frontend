@@ -1,14 +1,13 @@
 import React, { useState, Fragment, useEffect } from "react";
+// import { createConsumer } from '@rails/actioncable';
+// import actionCable from './Cable.js';
 import Link from "next/link";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 
 import ProfileAvatar from "../../../public/images/profile-avatar.png";
-import ProfileAvatar1 from "../../../public/images/mira.png";
-
 import InputEmoji from "react-input-emoji";
 const Picker = dynamic(() => import("emoji-picker-react"), { ssr: false });
-
 import {
   PhotographIcon,
   EmojiHappyIcon,
@@ -17,19 +16,23 @@ import {
   ChevronDownIcon,
   PencilAltIcon,
   QuestionMarkCircleIcon,
+  TrashIcon,
 } from "@heroicons/react/outline";
-import { CURENT_USER_LOGIN_API, MESSAGES_API } from "../../../pages/config";
-import { useRouter } from "next/router";
+import { CURENT_USER_LOGIN_API, MESSAGES_API, WS_PUBLIC_API } from "../../../pages/config";
 
+// actionCable = require('actioncable');
+import actionCable  from 'actioncable';
+
+// const actionCable = createConsumer('ws://localhost:3000/cable');
+
+import { useRouter } from "next/router";
+    
 const Messages = () => {
-  if (typeof window !== "undefined") {
-    var authKey = window.localStorage.getItem("keyStore");
-  }
   const [setLoading] = useState(false);
   const [postText, setPostText] = useState("");
   const [eventCoverImage, setEventCoverImage] = useState([]);
   const [postImage, setPostImage] = useState([]);
-  const [setpostImagePreview] = useState();
+  const [postImagePreview, setpostImagePreview] = useState();
   const [selectedTimezone] = useState({});
   const [feedType, setFeedType] = useState("basic");
   const [eventType] = useState();
@@ -37,26 +40,69 @@ const Messages = () => {
   const [videoPreview, setVideoPreview] = useState();
   let [setIsOpen] = useState(false);
 
+  const [attachment_type, setattachment_type] = useState("");
   const [text, setText] = useState("");
   const [messages, setmessages] = useState();
   const [senderDetails, setsenderDetails] = useState("");
+  const [cables, setcables] = useState();
+  const [channl, setchannl] = useState();
 
   const router = useRouter();
   const data = router.asPath;
   const myArray = data.split("?");
-
+  
+  if (typeof window !== "undefined") {
+    var authKey = window.localStorage.getItem("keyStore");
+  }
+  // Action Cable
+  const [sms, setsms] = useState();
+  const [Id, setId] = useState();
+  function createMessageChanel(id,CableApp) {
+    // const CableApp = {}
+    CableApp.subscriptions.create(
+      {
+        channel: 'MessageChannel',
+        current_user:  id,
+        recipient_id:  myArray[1]
+      },
+      {
+        connected: () => console.log('connected'),
+        disconnected: () => console.log('disconnected'),
+        received: data => {  GetConversation();  },
+      }
+    );
+  }
   function handleOnEnter(text) {
   }
-
   const handleImagePost = (e) => {
-    setPostImage(e.target.files[0]);
-    if (e.target.files.length !== 0) {
-      setpostImagePreview(window.URL.createObjectURL(e.target.files[0]));
+    if(e.target.files[0])
+    {
+      var type=e.target.files[0].type
+      var s=type.split("/")
+      setattachment_type(s[0])
+      setPostImage(e.target.files[0]);
+      
+      if (e.target.files.length !== 0 && s[0]=="application"){
+        setpostImagePreview(e.target.files[0].name)
+      }
+      else{
+        setpostImagePreview(window.URL.createObjectURL(e.target.files[0]));
+      }
     }
+    
+    
   };
-
+  const clearPic =()=>{
+    setpostImagePreview('');
+    setPostImage('');
+    setattachment_type('')
+  }
   const SendMessage=async()=>{
     const dataForm = new FormData();
+    if(postImagePreview){
+      dataForm.append("attachment_type", attachment_type);
+      dataForm.append("attachment", postImage);
+    }
     dataForm.append("body", text);
     dataForm.append("recipient_id",myArray[1] );      
     await fetch(MESSAGES_API, {
@@ -70,12 +116,12 @@ const Messages = () => {
       .then((result) => {
         if (result) {
           setText('');
+          clearPic();
           setmessages(result.data);
         }
       })
       .catch((err) => console.log(err)); 
   }
-
   const GetConversation=async()=>{     
     await fetch(MESSAGES_API+"?recipient_id="+myArray[1], {
       method: "GET",
@@ -88,12 +134,13 @@ const Messages = () => {
       .then((result) => {
         if (result && result.data) {
           setmessages(result.data);
+          console.log("d=>",result.data)
         }
         else{setmessages('');}
       })
       .catch((err) => console.log(err)); 
   }
-  const Current_User=async()=>{   
+  const recipientUserDetails=async()=>{   
     await fetch(CURENT_USER_LOGIN_API+"?id="+myArray[1], {
       method: "GET",
        headers: {
@@ -110,13 +157,47 @@ const Messages = () => {
       })
       .catch((err) => console.log(err)); 
   }
-
+  const Current_User=async(CableApp)=>{   
+    await fetch(CURENT_USER_LOGIN_API, {
+      method: "GET",
+       headers: {
+        Accept: "application/json", 
+         Authorization: `${authKey}`,
+       },
+    })
+       .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          recipientUserDetails();
+          createMessageChanel(result.data.id, CableApp);
+        }
+      })
+      .catch((err) => console.log(err)); 
+  }
   useEffect(() => {
-    Current_User();
+    const CableApp= actionCable.createConsumer(WS_PUBLIC_API);
+    Current_User(CableApp);
+    
+    
+    // socket.on('message', handleNewMessage);
+    
+    console.log("first")
+    return()=>{
+      
+      // socket.off('message', handleNewMessage);
+      // socket.disconnect();
+
+      console.log("2nd ff")
+      // cables.subscriptions.remove(channl);
+    }
+    // Current_User(CableApp); 
   }, [myArray[1]]);
+
+  
   return (
     <div>
       <div className="w-[340px] xl:w-[780px] lg:w-[419px] md:w-[540px] bg-white rounded-r-xl">
+        {/* Chat-Head */}
         <div className="flex justify-between bg-white sticky top-0 p-3 z-40 border-b rounded-tr-xl">
           {senderDetails?(
              <div className="font-bold flex items-center gap-2 ">{senderDetails.first_name} {senderDetails.last_name}</div>
@@ -127,15 +208,14 @@ const Messages = () => {
             </a>
           </Link>
         </div>
+        {/* Show Message */}
         <div className="overflow-y-scroll h-[650px]">
-          
-        {messages &&
-          messages.map((i)=>{
-            if(i.user.id==senderDetails.id)
-            {
-              return(
-                <div className="ml-2 mt-3" key={i.id}>
-                  
+          {messages &&
+            messages.map((i)=>{
+              if(i.user && i.user.id==senderDetails.id)
+              {
+                return(
+                  <div className="ml-2 mt-3" key={i.id}>
                     <div className="flex items-center gap-2">
                     {i.user.display_photo_url?(
                         <img
@@ -154,315 +234,166 @@ const Messages = () => {
                         alt=""
                       />)}
                       <div className=" bg-gray-100 w-60 p-2 border rounded-xl">
-                        <div className="">{i.body}</div>
+                       {i.attachment && i.attachment_type=="image"?(
+                            <div className="relative w-1/4 mt-2">
+                              <img
+                              src={i.attachment}
+                              className="rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
+                              alt=""/>
+                            </div>
+                          ):(
+                            i.attachment && i.attachment_type=="video"?(
+                              <div className="relative w-1/4 mt-2">
+                                <div className="relative w-1/4 mt-2">
+                                  <video controls className=" rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover">
+                                    <source src={i.attachment} type="video/mp4" />
+                                  </video> 
+                                </div>
+                              </div>
+
+                            ):(
+                              i.attachment && i.attachment_type=="application"?(
+                                <div className="relative w-1/4 mt-2">
+                                  {/* <video autoPlay="autoplay" controls className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover">
+                                    <source src={postImagePreview} type="video/mp4" />
+                                  </video> */}
+                                  {/* <iframe src={i.attachment} width="100%" height="300" >
+                                  </iframe> */}
+                                  
+                                  <div>{i.attachment_type}</div>
+                                </div>
+                              ):('')
+                            )
+                          )
+                        }
+                        <div className="">{i.body} </div>
+                          <div className=" flex justify-end mt-0 mr-2 text-xs">{i.time}</div>
                       </div>
                     </div>
-                </div>
-              )
-            }
-            else{
-              return(
-                <div className="flex justify-end mt-7 mr-2" key={i.id}>
-                  
-                    <div className="flex items-center gap-2">
-                      <div className=" bg-indigo-400 p-2 border w-60 rounded-xl">
-                        <div className="text-white">{i.body}</div>
+                  </div>
+                )
+              }
+              else
+              {
+                return(
+                    <div className="flex justify-end mt-7 mr-2" key={i.id}>
+                      <div className="flex items-center gap-2">
+                        <div className=" bg-indigo-400 p-2 border w-60 rounded-xl">
+                        {i.attachment && i.attachment_type=="image"?(
+                              <div className="relative w-1/4 mt-2">
+                                <img
+                                src={i.attachment}
+                                className="rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
+                                alt=""/>
+                                
+                              </div>
+                            ):(
+                              i.attachment && i.attachment_type=="video"?(
+                                <div className="relative w-1/4 mt-2">
+                                  <div className="relative w-1/4 mt-2">
+                                    <video controls className="rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover">
+                                      <source src={i.attachment} type="video/mp4" />
+                                    </video> 
+                                  </div>
+                                  
+                                </div>
+
+                              ):(
+                                i.attachment && i.attachment_type=="application"?(
+                                  <div className="relative w-1/4 mt-2">
+                                  {/* <video autoPlay="autoplay" controls className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover">
+                                    <source src={postImagePreview} type="video/mp4" />
+                                  </video> */}
+                                
+                                  <div className=" flex border w-56 p-2 justify-between ">
+                                    <div>{i.attachment_type}</div>
+                                    <a href={i.attachment} download>
+                                      <button className= "text-white p-0">Download</button>
+                                    </a>
+                                  </div>
+                                </div>
+                                ):('')
+                              )
+                            )
+                          }
+                          <div className="text-white">{i.body} </div>
+                          <div className=" flex justify-end mt-0 mr-2 text-xs text-white">{i.time}</div>
+                        </div>
+                        {i.user && i.user.display_photo_url?(
+                          <img
+                          className="object-cover w-[30px] h-[30px] rounded-full"
+                          src={i.user.display_photo_url}
+                          width={30}
+                          height={30}
+                          alt=""
+                        />
+                        ):(
+                        <Image
+                          className="object-cover"
+                          src={ProfileAvatar}
+                          width={30}
+                          height={30}
+                          alt=""
+                        />)}
                       </div>
-                      {i.user.display_photo_url?(
-                        <img
-                        className="object-cover w-[30px] h-[30px] rounded-full"
-                        src={i.user.display_photo_url}
-                        width={30}
-                        height={30}
-                        alt=""
-                      />
-                      ):(
-                      <Image
-                        className="object-cover"
-                        src={ProfileAvatar}
-                        width={30}
-                        height={30}
-                        alt=""
-                      />)}
                     </div>
-                </div>
-              )
-            }
-          })}
-          
-          
-
-
-          {/* <div className="ml-2 mt-3">
-            <Link href="">
-              <a className="flex items-center gap-2">
-                <Image
-                  className="object-cover"
-                  src={ProfileAvatar1}
-                  width={30}
-                  height={30}
-                  alt=""
-                />
-                <div className=" bg-gray-100 w-60 p-2 border rounded-xl">
-                  <div className="">user text as show as popup</div>
-                </div>
-              </a>
-            </Link>
-          </div>
-          <div className="flex justify-end mt-7 mr-2">
-            <Link href="">
-              <a className="flex items-center gap-2">
-                <div className=" bg-indigo-400 p-2 border w-60 rounded-xl">
-                  <div className="text-white">user text as show as popup</div>
-                </div>
-                <Image
-                  className="object-cover"
-                  src={ProfileAvatar}
-                  width={30}
-                  height={30}
-                  alt=""
-                />
-              </a>
-            </Link>
-          </div>
-          <div className="ml-2 mt-3">
-            <Link href="">
-              <a className="flex items-center gap-2">
-                <Image
-                  className="object-cover"
-                  src={ProfileAvatar1}
-                  width={30}
-                  height={30}
-                  alt=""
-                />
-                <div className=" bg-gray-100 w-60 p-2 border rounded-xl">
-                  <div className="">user text as show as popup</div>
-                </div>
-              </a>
-            </Link>
-          </div>
-          <div className="flex justify-end mt-7 mr-2">
-            <Link href="">
-              <a className="flex items-center gap-2">
-                <div className=" bg-indigo-400 p-2 border w-60 rounded-xl">
-                  <div className="text-white">user text as show as popup</div>
-                </div>
-                <Image
-                  className="object-cover"
-                  src={ProfileAvatar}
-                  width={30}
-                  height={30}
-                  alt=""
-                />
-              </a>
-            </Link>
-          </div>
-          <div className="ml-2 mt-3">
-            <Link href="">
-              <a className="flex items-center gap-2">
-                <Image
-                  className="object-cover"
-                  src={ProfileAvatar1}
-                  width={30}
-                  height={30}
-                  alt=""
-                />
-                <div className=" bg-gray-100 w-60 p-2 border rounded-xl">
-                  <div className="">
-                    user text user text as show as popup as show as user text as
-                    show as popup popup
-                  </div>
-                </div>
-              </a>
-            </Link>
-          </div>
-          <div className="flex justify-end mt-7 mr-2">
-            <Link href="">
-              <a className="flex items-center gap-2">
-                <div className=" bg-indigo-400 p-2 border w-60 rounded-xl">
-                  <div className="text-white">
-                    user text user text as show as popup as show user text as
-                    show as popup as popup
-                  </div>
-                </div>
-                <Image
-                  className="object-cover"
-                  src={ProfileAvatar}
-                  width={30}
-                  height={30}
-                  alt=""
-                />
-              </a>
-            </Link>
-          </div>
-          <div className="ml-2 mt-3">
-            <Link href="">
-              <a className="flex items-center gap-2">
-                <Image
-                  className="object-cover"
-                  src={ProfileAvatar1}
-                  width={30}
-                  height={30}
-                  alt=""
-                />
-                <div className=" bg-gray-100 w-60 p-2 border rounded-xl">
-                  <div className="">user text as show as popup</div>
-                </div>
-              </a>
-            </Link>
-          </div>
-          <div className="flex justify-end mt-7 mr-2">
-            <Link href="">
-              <a className="flex items-center gap-2">
-                <div className=" bg-indigo-400 p-2 border w-60 rounded-xl">
-                  <div className="text-white">user text as show as popup</div>
-                </div>
-                <Image
-                  className="object-cover"
-                  src={ProfileAvatar}
-                  width={30}
-                  height={30}
-                  alt=""
-                />
-              </a>
-            </Link>
-          </div>
-          <div className="ml-2 mt-3">
-            <Link href="">
-              <a className="flex items-center gap-2">
-                <Image
-                  className="object-cover"
-                  src={ProfileAvatar1}
-                  width={30}
-                  height={30}
-                  alt=""
-                />
-                <div className=" bg-gray-100 w-60 p-2 border rounded-xl">
-                  <div className="">user text as show as popup</div>
-                </div>
-              </a>
-            </Link>
-          </div>
-          <div className="flex justify-end mt-7 mr-2">
-            <Link href="">
-              <a className="flex items-center gap-2">
-                <div className=" bg-indigo-400 p-2 border w-60 rounded-xl">
-                  <div className="text-white">user text as show as popup</div>
-                </div>
-                <Image
-                  className="object-cover"
-                  src={ProfileAvatar}
-                  width={30}
-                  height={30}
-                  alt=""
-                />
-              </a>
-            </Link>
-          </div>
-          <div className="ml-2 mt-3">
-            <Link href="">
-              <a className="flex items-center gap-2">
-                <Image
-                  className="object-cover"
-                  src={ProfileAvatar1}
-                  width={30}
-                  height={30}
-                  alt=""
-                />
-                <div className=" bg-gray-100 w-60 p-2 border rounded-xl">
-                  <div className="">
-                    user text user text as show as popup as show as user text as
-                    show as popup popup
-                  </div>
-                </div>
-              </a>
-            </Link>
-          </div>
-          <div className="flex justify-end mt-7 mr-2">
-            <Link href="">
-              <a className="flex items-center gap-2">
-                <div className=" bg-indigo-400 p-2 border w-60 rounded-xl">
-                  <div className="text-white">
-                    user text user text as show as popup as show user text as
-                    show as popup as popup
-                  </div>
-                </div>
-                <Image
-                  className="object-cover"
-                  src={ProfileAvatar}
-                  width={30}
-                  height={30}
-                  alt=""
-                />
-              </a>
-            </Link>
-          </div>
-          <div className="ml-2 mt-3">
-            <Link href="">
-              <a className="flex items-center gap-2">
-                <Image
-                  className="object-cover"
-                  src={ProfileAvatar1}
-                  width={30}
-                  height={30}
-                  alt=""
-                />
-                <div className=" bg-gray-100 w-60 p-2 border rounded-xl">
-                  <div className="">user text as show as popup</div>
-                </div>
-              </a>
-            </Link>
-          </div>
-          <div className="flex justify-end mt-7 mr-2">
-            <Link href="">
-              <a className="flex items-center gap-2">
-                <div className=" bg-indigo-400 p-2 border w-60 rounded-xl">
-                  <div className="text-white">user text as show as popup</div>
-                </div>
-                <Image
-                  className="object-cover"
-                  src={ProfileAvatar}
-                  width={30}
-                  height={30}
-                  alt=""
-                />
-              </a>
-            </Link>
-          </div>
-          <div className="ml-2 mt-3">
-            <Link href="">
-              <a className="flex items-center gap-2">
-                <Image
-                  className="object-cover"
-                  src={ProfileAvatar1}
-                  width={30}
-                  height={30}
-                  alt=""
-                />
-                <div className=" bg-gray-100 w-60 p-2 border rounded-xl">
-                  <div className="">user text as show as popup</div>
-                </div>
-              </a>
-            </Link>
-          </div>
-          <div className="flex justify-end mt-7 mr-2">
-            <Link href="">
-              <a className="flex items-center gap-2">
-                <div className=" bg-indigo-400 p-2 border w-60 rounded-xl">
-                  <div className="text-white">user text as show as popup</div>
-                </div>
-                <Image
-                  className="object-cover"
-                  src={ProfileAvatar}
-                  width={30}
-                  height={30}
-                  alt=""
-                />
-              </a>
-            </Link>
-          </div> */}
+                )
+              }
+            })
+          }
         </div>
+
+
+
+
+
+
+
+        {/* Messgae Send-Bar */}
         <div className="sticky bottom-0 bg-white">
+        {  postImagePreview && attachment_type=="image"?(
+            <div className="relative w-1/4 mt-2">
+              <img
+              src={postImagePreview}
+              className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
+              alt=""/>
+              <div className="bg-indigo-100 absolute top-4 right-0 z-10 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
+              onClick={clearPic} >
+                <TrashIcon className="w-5 h-5 text-indigo-600" />
+              </div>
+            </div>
+          ):(
+            postImagePreview && attachment_type=="video"?(
+              <div className="relative w-1/4 mt-2">
+                <div className="relative w-1/4 mt-2">
+                  <video autoPlay="autoplay" controls className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover">
+                    <source src={postImagePreview} type="video/mp4" />
+                  </video> 
+                </div>
+                <div className="bg-indigo-100 absolute top-4 right-0 z-10 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
+                onClick={clearPic} >
+                  <TrashIcon className="w-5 h-5 text-indigo-600" />
+                </div>
+              </div>
+
+            ):(
+              postImagePreview && attachment_type=="application"?(
+                <div className="relative w-1/4 mt-2">
+                {/* <video autoPlay="autoplay" controls className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover">
+                  <source src={postImagePreview} type="video/mp4" />
+                </video> */}
+                
+                <div>{postImagePreview}</div>
+                
+                <div className="bg-indigo-100 absolute top-4 right-0 z-10 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
+                onClick={clearPic} >
+                  <TrashIcon className="w-5 h-5 text-indigo-600" />
+                </div>
+              </div>
+              ):('')
+              // application
+            )
+          )}
           <div className="flex items-center px-2">
             <InputEmoji
               type="text"
@@ -473,7 +404,24 @@ const Messages = () => {
               // onEnter={handleOnEnter}
               placeholder="Type Your Message"
             />
-            <PhotographIcon className="h-10 w-10 opacity-40" />
+            {/* <PhotographIcon className="h-10 w-10 opacity-40" /> */}
+            <div className="">
+                <div className="relative flex gap-2 items-center justify-center">
+                  <PhotographIcon
+                    className={"h-10 w-10 opacity-40"}
+                  />
+                  {/* <div className="font-extralight">Photo Upload</div> */}
+                  <input
+                    type={"file"}
+                    name="image"
+                    id="image"
+                    className="opacity-0 absolute w-6 h-6 -z-0"
+                    onChange={handleImagePost}
+                    title={""}
+                    multiple
+                  />
+                </div>
+              </div>
             <PaperAirplaneIcon className="h-10 w-10 rotate-90 opacity-40 ml-2" onClick={()=>{SendMessage()}}/>
           </div>
         </div>

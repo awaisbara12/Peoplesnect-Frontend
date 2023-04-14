@@ -54,7 +54,9 @@ export const CATEGORY_API= process.env.NEXT_PUBLIC_CATAGEROY_API
 export const PRODUCT_API= process.env.NEXT_PUBLIC_PRODUCT_API
 export const MESSAGES_API= process.env.NEXT_PUBLIC_MESSAGES_API
 export const CONVERSATION_API= process.env.NEXT_PUBLIC_CONVERSATION_API
+export const WS_PUBLIC_API= process.env.NEXT_PUBLIC_CABLE_API
 
+// NEXT_PUBLIC_CABLE_API
 function Config() {
   return <></>;
 }

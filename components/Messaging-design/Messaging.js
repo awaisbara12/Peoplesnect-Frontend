@@ -4,10 +4,6 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 
 import ProfileAvatar from "../../public/images/profile-avatar.png";
-import ProfileAvatar2 from "../../public/images/mira.png";
-import ProfileAvatar3 from "../../public/images/profile-avatar.png";
-
-import InputEmoji from "react-input-emoji";
 const Picker = dynamic(() => import("emoji-picker-react"), { ssr: false });
 
 import {
@@ -21,13 +17,10 @@ import {
 } from "@heroicons/react/outline";
 import { useFormik } from "formik";
 import { eventScheema } from "../auth/schemas/CreateEventScheema";
-import { CONVERSATION_API, CURENT_USER_LOGIN_API, POST_NEWSFEED_API_KEY, SEARCH_MULTIPLE } from "../../pages/config";
+import { CONVERSATION_API, CURENT_USER_LOGIN_API, SEARCH_MULTIPLE, WS_PUBLIC_API } from "../../pages/config";
 
 const Messaging = () => {
   const [openTab, setOpenTab] = React.useState(1);
-  if (typeof window !== "undefined") {
-    var authKey = window.localStorage.getItem("keyStore");
-  }
   const [postImage, setPostImage] = useState([]);
   const [postImagePreview, setpostImagePreview] = useState();
   let [results, setresults] = useState();
@@ -35,6 +28,12 @@ const Messaging = () => {
   const [text, setText] = useState("");
   const [Conversation, setConversation] = useState("");
   const [currentuser, setcurrentuser] = useState("");
+
+  if (typeof window !== "undefined") {
+    var authKey = window.localStorage.getItem("keyStore");
+  }
+
+  
   function handleOnEnter(text) {
   }
   const handleImagePost = (e) => {
@@ -61,12 +60,9 @@ const Messaging = () => {
     },
     validationSchema: eventScheema,
   });
-
-
   useEffect(() => {
     Current_User();
   }, []);
-
   const GetConversation=async()=>{     
     await fetch(CONVERSATION_API, {
       method: "GET",
@@ -79,7 +75,6 @@ const Messaging = () => {
       .then((result) => {
         if (result && result.data) {
           setConversation(result.data);
-          console.log(result.data)
         }
       })
       .catch((err) => console.log(err)); 
@@ -101,8 +96,6 @@ const Messaging = () => {
       })
       .catch((err) => console.log(err)); 
   }
-
-
   const searchmultiples  = async(event) =>{
     setvalue(event.target.value);
     if (event.target.value.length == 0)
@@ -130,7 +123,6 @@ const Messaging = () => {
         .catch((err) => console.log(err));
     }
   }
-
   return (
     <div className="">
       <div className="w-[240px] xl:w-[280px] lg:w-[300px] md:w-[260px] border rounded-l-xl">
@@ -248,201 +240,7 @@ const Messaging = () => {
                       }
                    })}
                     
-                    {/* <Link href="/messaging-design/inbox-design">
-                      <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
-                        <Image
-                          className="object-cover rounded-full"
-                          src={ProfileAvatar2}
-                          width={45}
-                          height={45}
-                          alt=""
-                        />
-                        <div className="">
-                          <div className="font-bold">Mishal javed</div>
-                          <div className="">user text as show as popup</div>
-                        </div>
-                      </a>
-                    </Link>
-                    <Link href="/messaging-design/inbox-design">
-                      <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
-                        <Image
-                          className="object-cover rounded-full"
-                          src={ProfileAvatar3}
-                          width={45}
-                          height={45}
-                          alt=""
-                        />
-                        <div className="">
-                          <div className="font-bold">Javeriya Latif</div>
-                          <div className="">user text as show as popup</div>
-                        </div>
-                      </a>
-                    </Link>
-                    <Link href="/messaging-design/inbox-design">
-                      <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
-                        <Image
-                          className="object-cover rounded-full"
-                          src={ProfileAvatar2}
-                          width={45}
-                          height={45}
-                          alt=""
-                        />
-                        <div className="">
-                          <div className="font-bold">Mishal javed</div>
-                          <div className="">user text as show as popup</div>
-                        </div>
-                      </a>
-                    </Link>
-                    <Link href="/messaging-design/inbox-design">
-                      <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
-                        <Image
-                          className="object-cover rounded-full"
-                          src={ProfileAvatar}
-                          width={45}
-                          height={45}
-                          alt=""
-                        />
-                        <div className="">
-                          <div className="font-bold">Ibrar Zahid</div>
-                          <div className="">user text as show as popup</div>
-                        </div>
-                      </a>
-                    </Link>
-                    <Link href="/messaging-design/inbox-design">
-                      <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
-                        <Image
-                          className="object-cover rounded-full"
-                          src={ProfileAvatar2}
-                          width={45}
-                          height={45}
-                          alt=""
-                        />
-                        <div className="">
-                          <div className="font-bold">Mishal javed</div>
-                          <div className="">user text as show as popup</div>
-                        </div>
-                      </a>
-                    </Link>
-                    <Link href="/messaging-design/inbox-design">
-                      <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
-                        <Image
-                          className="object-cover rounded-full"
-                          src={ProfileAvatar3}
-                          width={45}
-                          height={45}
-                          alt=""
-                        />
-                        <div className="">
-                          <div className="font-bold">Javeriya Latif</div>
-                          <div className="">user text as show as popup</div>
-                        </div>
-                      </a>
-                    </Link>
-                    <Link href="/messaging-design/inbox-design">
-                      <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
-                        <Image
-                          className="object-cover rounded-full"
-                          src={ProfileAvatar}
-                          width={45}
-                          height={45}
-                          alt=""
-                        />
-                        <div className="">
-                          <div className="font-bold">Ibrar Zahid</div>
-                          <div className="">user text as show as popup</div>
-                        </div>
-                      </a>
-                    </Link>
-                    <Link href="/messaging-design/inbox-design">
-                      <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
-                        <Image
-                          className="object-cover rounded-full"
-                          src={ProfileAvatar2}
-                          width={45}
-                          height={45}
-                          alt=""
-                        />
-                        <div className="">
-                          <div className="font-bold">Mishal javed</div>
-                          <div className="">user text as show as popup</div>
-                        </div>
-                      </a>
-                    </Link>
-                    <Link href="/messaging-design/inbox-design">
-                      <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
-                        <Image
-                          className="object-cover rounded-full"
-                          src={ProfileAvatar3}
-                          width={45}
-                          height={45}
-                          alt=""
-                        />
-                        <div className="">
-                          <div className="font-bold">Javeriya Latif</div>
-                          <div className="">user text as show as popup</div>
-                        </div>
-                      </a>
-                    </Link>
-                    <Link href="/messaging-design/inbox-design">
-                      <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
-                        <Image
-                          className="object-cover rounded-full"
-                          src={ProfileAvatar2}
-                          width={45}
-                          height={45}
-                          alt=""
-                        />
-                        <div className="">
-                          <div className="font-bold">Mishal javed</div>
-                          <div className="">user text as show as popup</div>
-                        </div>
-                      </a>
-                    </Link>
-                    <Link href="/messaging-design/inbox-design">
-                      <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
-                        <Image
-                          className="object-cover rounded-full"
-                          src={ProfileAvatar}
-                          width={45}
-                          height={45}
-                          alt=""
-                        />
-                        <div className="">
-                          <div className="font-bold">Ibrar Zahid</div>
-                          <div className="">user text as show as popup</div>
-                        </div>
-                      </a>
-                    </Link>
-                    <Link href="/messaging-design/inbox-design">
-                      <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
-                        <Image
-                          className="object-cover rounded-full"
-                          src={ProfileAvatar2}
-                          width={45}
-                          height={45}
-                          alt=""
-                        />
-                        <div className="">
-                          <div className="font-bold">Mishal javed</div>
-                          <div className="">user text as show as popup</div>
-                        </div>
-                      </a>
-                    </Link>
-                    <Link href="/messaging-design/inbox-design">
-                      <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
-                        <Image
-                          className="object-cover rounded-full"
-                          src={ProfileAvatar3}
-                          width={45}
-                          height={45}
-                          alt=""
-                        />
-                        <div className="">
-                          <div className="font-bold">Javeriya Latif</div>
-                          <div className="">user text as show as popup</div>
-                        </div>
-                      </a>
-                    </Link> */}
+                    
                   </div>
                 </div>
                 <div className={openTab === 2 ? "block" : "hidden"} id="link2">
