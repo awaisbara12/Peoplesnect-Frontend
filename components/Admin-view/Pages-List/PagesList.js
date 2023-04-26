@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { CogIcon, SearchIcon } from '@heroicons/react/solid';
+import { CogIcon, PencilAltIcon, SearchIcon } from '@heroicons/react/solid';
 import ProfileLogo from "../../../public/images/main-banners.jpg";
 import { EyeIcon, TrashIcon } from '@heroicons/react/outline';
 import { ADMIN_PAGE_API, CURENT_USER_LOGIN_API } from "../../../pages/config";
@@ -229,6 +229,11 @@ const PagesList =()=> {
                       </a>
                     </Link>
                     <div className="flex gap-1">
+                      <Link href={{pathname: "/page-design/page-admin/page-settings", query: page.id,}}>
+                          <a className="flex gap-1 mt-2">
+                            <PencilAltIcon className="h-5 w-5 text-indigo-400" />
+                          </a>
+                      </Link>
                       <Link href={{pathname: "/page-design/liked-pages", query: page.id}}>
                         <a>
                           <EyeIcon className="h-5 w-5 text-indigo-400" />

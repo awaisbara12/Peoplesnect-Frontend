@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { EyeIcon, SearchIcon } from '@heroicons/react/solid';
 import Post from "../../../public/images/groupcover.jpg";
-import { TrashIcon } from '@heroicons/react/outline';
+import { PencilAltIcon, TrashIcon } from '@heroicons/react/outline';
 import { ADMIN_PRODUCT_API, CURENT_USER_LOGIN_API } from '../../../pages/config';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import ClipLoader from 'react-spinners/ClipLoader';
@@ -228,6 +228,13 @@ const ProductsList =()=>{
                                   <Link href="">
                                     <a>
                                       <div className="flex gap-1">
+                                        <Link href={{pathname:"/markeet-place/add-your-items", query:product.id}}>
+                                          <a
+                                            className="text-sm flex gap-2 cursor-pointer"
+                                          >
+                                            <PencilAltIcon className="h-5 w-5 text-indigo-400" />
+                                          </a>
+                                        </Link>
                                         <Link href={{pathname: "/markeet-place/marketplace-show", query: product.id}}>
                                           <a>
                                             <EyeIcon className="h-5 w-5 text-indigo-400" />
