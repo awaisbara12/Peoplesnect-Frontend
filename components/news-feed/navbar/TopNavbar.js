@@ -192,7 +192,7 @@ const TopNavbar = () => {
                     </li>
                   </a>
                 </Link>
-              ):(userDetails && userDetails.role=="marketplace_admin"?(
+              ):(userDetails && (userDetails.role=="marketplace_admin" || userDetails.role=="job_marketplace_admin")?(
                 <Link href="/Admin/Products-list" className="">
                   <a>
                     <li className="flex font-normal text-xl items-center flex-col gap-1">
@@ -204,7 +204,7 @@ const TopNavbar = () => {
                   </a>
                 </Link>
               ):(
-                (userDetails && userDetails.role=="job_admin"?(
+                (userDetails && (userDetails.role=="job_admin")?(
                   <Link href="/Admin/Jobs-list" className="">
                     <a>
                       <li className="flex font-normal text-xl items-center flex-col gap-1">

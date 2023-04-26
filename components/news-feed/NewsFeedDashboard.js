@@ -81,9 +81,9 @@ const NewsFeedDashboard = () => {
             <div className="h-full bg-zinc-100 md:bg-transparent lg:bg-transparent xl:bg-transparent px-4 md:px-0 lg-px-0 xl:px-0">
               <NewsPost list={list} setList={setList} />
               <InfiniteScroll
-                dataLength={list.length}
+                dataLength={list && list.length}
                 next={fetchMoreData}
-                hasMore={currentpage != null}
+                hasMore={currentpage && currentpage != null}
                 loader={<div className="flex justify-center"><ClipLoader className="my-8" color="#818CF8" size={40} /> </div>}
               >
                 {list && list.length > 0 && list.map((items) => (
