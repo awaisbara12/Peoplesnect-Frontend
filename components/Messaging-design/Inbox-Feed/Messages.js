@@ -21,7 +21,7 @@ import {
 import { CURENT_USER_LOGIN_API, MESSAGES_API, WS_PUBLIC_API } from "../../../pages/config";
 
 // actionCable = require('actioncable');
-import actionCable  from 'actioncable';
+// import actionCable  from 'actioncable';
 
 // const actionCable = createConsumer('ws://localhost:3000/cable');
 
@@ -151,11 +151,11 @@ const Messages = () => {
        .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-          GetConversation();
           setsenderDetails(result.data);
         }
       })
       .catch((err) => console.log(err)); 
+      GetConversation();
   }
   const Current_User=async(CableApp)=>{   
     await fetch(CURENT_USER_LOGIN_API, {
@@ -173,26 +173,22 @@ const Messages = () => {
         }
       })
       .catch((err) => console.log(err)); 
+      recipientUserDetails();
   }
+
   useEffect(() => {
+    let actionCable;
+
+    if (typeof window !== 'undefined') {
+      actionCable = require('actioncable');
+      const CableApp= actionCable.createConsumer(WS_PUBLIC_API);
+      Current_User(CableApp);
+    }
     const CableApp= actionCable.createConsumer(WS_PUBLIC_API);
     Current_User(CableApp);
-    
-    
-    // socket.on('message', handleNewMessage);
-    
-    console.log("first")
-    return()=>{
-      
-      // socket.off('message', handleNewMessage);
-      // socket.disconnect();
-
-      console.log("2nd ff")
-      // cables.subscriptions.remove(channl);
-    }
-    // Current_User(CableApp); 
   }, [myArray[1]]);
 
+  // Render your component
   
   return (
     <div>
