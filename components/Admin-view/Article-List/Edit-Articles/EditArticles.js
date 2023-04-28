@@ -10,6 +10,7 @@ import PostComments from "../../../blog/comments/PostComments";
 import FilterComments from "../../../blog/comments/FilterComments";
 import ReplyComments from "../../../blog/comments/ReplyComments";
 import HashtagMentionInput from "../../../profile/Comment-Input/HashtagMentionInput";
+import App from "../../../profile/Comment-Input/App";
 const cardDropdown = [
   {
     name: "Edit",
