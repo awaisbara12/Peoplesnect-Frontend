@@ -1,6 +1,4 @@
-import React, { useState, Fragment, useEffect } from "react";
-// import { createConsumer } from '@rails/actioncable';
-// import actionCable from './Cable.js';
+import React, { useState,useRef, Fragment, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import dynamic from "next/dynamic";
@@ -19,14 +17,7 @@ import {
   TrashIcon,
 } from "@heroicons/react/outline";
 import { CURENT_USER_LOGIN_API, MESSAGES_API, WS_PUBLIC_API } from "../../../pages/config";
-
-// actionCable = require('actioncable');
-// import actionCable  from 'actioncable';
-
-// const actionCable = createConsumer('ws://localhost:3000/cable');
-
 import { useRouter } from "next/router";
-    
 const Messages = () => {
   const [setLoading] = useState(false);
   const [postText, setPostText] = useState("");
@@ -46,6 +37,7 @@ const Messages = () => {
   const [senderDetails, setsenderDetails] = useState("");
   const [cables, setcables] = useState();
   const [channl, setchannl] = useState();
+  const messageRef = useRef();
 
   const router = useRouter();
   const data = router.asPath;
@@ -98,31 +90,34 @@ const Messages = () => {
     setattachment_type('')
   }
   const SendMessage=async()=>{
-    const dataForm = new FormData();
-    if(postImagePreview){
-      dataForm.append("attachment_type", attachment_type);
-      dataForm.append("attachment", postImage);
-    }
-    dataForm.append("body", text);
-    dataForm.append("recipient_id",myArray[1] ); 
-    setText('');
-          clearPic();     
-    await fetch(MESSAGES_API, {
-      method: "POST",
-       headers: {
-        Accept: "application/json", 
-         Authorization: `${authKey}`,
-       },body: dataForm,
-    })
-       .then((resp) => resp.json())
-      .then((result) => {
-        if (result) {
-          
-          setmessages(result.data);
-
-        }
+    if (text)
+    {
+      const dataForm = new FormData();
+      if(postImagePreview){
+        dataForm.append("attachment_type", attachment_type);
+        dataForm.append("attachment", postImage);
+      }
+      dataForm.append("body", text);
+      dataForm.append("recipient_id",myArray[1] ); 
+      setText('');
+      clearPic();     
+      await fetch(MESSAGES_API, {
+        method: "POST",
+        headers: {
+          Accept: "application/json", 
+          Authorization: `${authKey}`,
+        },body: dataForm,
       })
-      .catch((err) => console.log(err)); 
+        .then((resp) => resp.json())
+        .then((result) => {
+          if (result) {
+            
+            setmessages(result.data);
+
+          }
+        })
+        .catch((err) => console.log(err)); 
+    }
   }
   const GetConversation=async()=>{     
     if(myArray[1])
@@ -138,6 +133,14 @@ const Messages = () => {
         .then((result) => {
           if (result && result.data) {
             setmessages(result.data);
+            if (messageRef.current) {
+              messageRef.current.scrollIntoView(
+                {
+                  behavior: 'smooth',
+                  block: 'end',  //center
+                  inline: 'nearest'
+                })
+            }
           }
           else{setmessages('');}
         })
@@ -212,13 +215,13 @@ const Messages = () => {
           </Link>
         </div>
         {/* Show Message */}
-        <div className="overflow-y-scroll h-[650px]">
+        <div className="overflow-y-scroll h-[550px]">
           {messages &&
             messages.map((i)=>{
               if(i.user && senderDetails&& i.user.id==senderDetails.id)
               {
                 return(
-                  <div className="ml-2 mt-3" key={i.id}>
+                  <div className="ml-2 mt-3" key={i.id} >
                     <div className="flex items-center gap-2">
                     {i.user.display_photo_url?(
                         <img
@@ -279,7 +282,7 @@ const Messages = () => {
               else
               {
                 return(
-                    <div className="flex justify-end mt-7 mr-2" key={i.id}>
+                    <div className="flex justify-end mt-7 mr-2" key={i.id} >
                       <div className="flex items-center gap-2">
                         <div className=" bg-indigo-400 p-2 border w-60 rounded-xl">
                         {i.attachment && i.attachment_type=="image"?(
@@ -344,13 +347,8 @@ const Messages = () => {
               }
             })
           }
+          <div ref={messageRef}></div>
         </div>
-
-
-
-
-
-
 
         {/* Messgae Send-Bar */}
         <div className="sticky bottom-0 bg-white">

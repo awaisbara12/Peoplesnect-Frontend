@@ -95,7 +95,6 @@ const TopNavbar = () => {
       .then((result) => {
         if (result && result.data) {
           setConversation(result.data);
-          console.log("message alert ", result.data)
         }
       })
       .catch((err) => console.log(err)); 

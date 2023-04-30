@@ -91,7 +91,6 @@ const Messaging = () => {
       .then((result) => {
         if (result && result.data) {
           setConversation(result.data);
-          // console.log("convsation",result.data)
         }
       })
       .catch((err) => console.log(err)); 
@@ -194,11 +193,12 @@ const Messaging = () => {
                 </li>
               </ul>
             </div>
+           
             <div className="flex-auto">
               <div className="tab-content tab-space pt-2.5">
                 <div className={openTab === 1 ? "block" : "hidden"} id="link1">
                   <div>
-                    <input placeholder="Search Friends.." className="border rounded border-indigo-400 w-full p-2 placeholder:font-light focus:border-indigo-400 active:border-indigo-400 focus-visible:border-indigo-400 " />
+                    <input onClick={()=> setOpenTab(2)} onChange={(e)=>{setOpenTab(2); e.target.value='';}} placeholder="Search Friends.." className="border rounded border-indigo-400 w-full p-2 placeholder:font-light focus:border-indigo-400 active:border-indigo-400 focus-visible:border-indigo-400 " />
                   </div>
                   <div className="overflow-y-scroll h-[620px] ">
                     {currentuser && Conversation && 
