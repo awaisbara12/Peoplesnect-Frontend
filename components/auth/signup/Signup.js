@@ -18,12 +18,16 @@ import { SignupSchema } from "../schemas/SignupSchema";
 const Signup = () => {
   const router = useRouter();
   const [passwordShow, setPasswordShow] = useState(false);
+  const [confirmpasswordShow, setconfirmPasswordShow] = useState(false);
   const [err, setErr] = useState();
   const [close, setClose] = useState(false);
   const [spinner, setSpinner] = useState(false);
 
   const showPassword = () => {
     setPasswordShow(!passwordShow);
+  };
+  const showPassword1 = () => {
+    setconfirmPasswordShow(!confirmpasswordShow);
   };
 
   const handleClose = () => {
@@ -282,7 +286,7 @@ const Signup = () => {
                     </label>
 
                     <input
-                      type="password"
+                       type={confirmpasswordShow ? "text" : "password"}
                       name="confirmPassword"
                       value={values.confirmPassword}
                       onChange={handleChange}
@@ -300,6 +304,10 @@ const Signup = () => {
                         {errors.confirmPassword}
                       </div>
                     ) : null}
+                    <EyeIcon
+                      onClick={() => showPassword1()}
+                      className="h-5 w-5 text-indigo-400 absolute top-10 right-3 cursor-pointer"
+                    />
                   </div>
 
                   <div className="flex items-start gap-2 justify-start mt-8 px-1">

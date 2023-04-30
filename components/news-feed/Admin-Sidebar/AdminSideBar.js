@@ -5,7 +5,7 @@ import {
   UserCircleIcon,
   UserGroupIcon,
   VideoCameraIcon,
-  BriefcaseIcon, ExclamationCircleIcon, FlagIcon, AdjustmentsIcon
+  BriefcaseIcon, ExclamationCircleIcon, FlagIcon, AdjustmentsIcon, DocumentTextIcon
 } from "@heroicons/react/outline";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
@@ -68,6 +68,14 @@ const AdminSideBAr = () => {
                     </div>
                   </a>
                   </Link>
+                  <Link href="/Admin/article-list">
+                  <a>
+                    <div className="flex justify-between font-light text-sm mt-4 border-b-1 pb-4">
+                      <div className="">Article List</div>
+                      <DocumentTextIcon className="w-5 h-5 text-indigo-400" />
+                    </div>
+                  </a>
+                  </Link>
                   <Link href="/Admin/Products-list">
                   <a>
                     <div className="flex justify-between font-light text-sm mt-4 border-b-1 pb-4">
@@ -127,7 +135,29 @@ const AdminSideBAr = () => {
               </div>
             </a>
           </Link>
-        ):('')))}
+        ):(
+          currentuser && currentuser.role=="job_marketplace_admin"?(
+            <div>
+              <Link href="/Admin/Jobs-list">
+                <a>
+                  <div className="flex justify-between font-light text-sm mt-4 border-b-1 pb-4">
+                    <div className="">Jobs List</div>
+                    <BriefcaseIcon className="w-5 h-5 text-indigo-400" />
+                  </div>
+                </a>
+              </Link>
+
+              <Link href="/Admin/Products-list">
+                <a>
+                  <div className="flex justify-between font-light text-sm mt-4 border-b-1 pb-4">
+                    <div className="">Product List</div>
+                    <LightBulbIcon className="w-5 h-5 text-indigo-400" />
+                  </div>
+                </a>
+              </Link>
+            </div>
+          ):('')
+        )))}
       </div>
     </div> 
   </div>

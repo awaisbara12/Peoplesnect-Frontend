@@ -3,10 +3,10 @@ import { Alert } from "@material-tailwind/react";
 import { update } from "draft-js/lib/DefaultDraftBlockRenderMap";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { CATEGORY_API, PRODUCT_API } from "../../../pages/config";
+import { ADMIN_PRODUCT_API, CATEGORY_API, PRODUCT_API } from "../../../../pages/config";
 import { Country, State, City }  from 'country-state-city';
 
-const AddYourItems = () => {
+const EditProducts = () => {
   const [selectCategory, setselectCategory] = useState();  // map on category's select
   const [category, setcategory] = useState();
   const [name, setname] = useState();
@@ -152,7 +152,7 @@ function UpdateProduct(id) {
       dataForm.append(`products[product_pic][]`, productPic[i]);
     }
   }
-  fetch(PRODUCT_API+"/"+id, {
+  fetch(ADMIN_PRODUCT_API+"/"+id, {
     method: "PUT",
     headers: {
       Accept: "application/json",
@@ -169,7 +169,8 @@ function UpdateProduct(id) {
     .catch((err) => console.log(err));
 }
   return (
-    <div className="">
+    <div className="mt-8">
+      <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
       <div className="bg-white p-5 rounded-xl">
         <div className="my-5 font-bold">Add Details About Ur Product</div>
         <div className="w-10/12 mx-auto">
@@ -206,7 +207,7 @@ function UpdateProduct(id) {
                 <div className="text-lg font-medium">Location:</div>
                 {/* <div></div> */}
                 <div className="flex gap-5">
-                  <select onChange={e=>setcountry(e.target.value)} className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none  w-40 lg:w-54 xs:w-auto md:w-52 placeholder:pl-2 rounded-xl placeholder:py-2">
+                  <select onChange={e=>setcountry(e.target.value)} className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none  w-40 lg:w-54 xs:w-auto md:min-w-[95%] placeholder:pl-2 rounded-xl placeholder:py-2">
                     <option value={country}>{country}</option>
                     {
                       Country.getAllCountries().map((item)=>(
@@ -215,7 +216,7 @@ function UpdateProduct(id) {
                     }
                   </select>
                   {/* For State */}
-                  <select onChange={e=>setstates(e.target.value)} className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-40 lg:w-54 xs:w-auto md:min-w-[13rem] placeholder:pl-2 rounded-full placeholder:py-2">
+                  <select onChange={e=>setstates(e.target.value)} className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-40 lg:w-54 xs:w-auto md:min-w-[95%] placeholder:pl-2 rounded-full placeholder:py-2">
                     <option value={states}>{states}</option>
                     {
                       State.getStatesOfCountry(country).map((item)=>(
@@ -224,7 +225,7 @@ function UpdateProduct(id) {
                     }
                   </select>
                   {/*  for city */}
-                  <select onChange={e=>setcity(e.target.value)} className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-40 lg:w-54 xs:w-auto md:min-w-[13rem] placeholder:pl-2 rounded-full placeholder:py-2">
+                  <select onChange={e=>setcity(e.target.value)} className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-40 lg:w-54 xs:w-auto md:min-w-[95%] placeholder:pl-2 rounded-full placeholder:py-2">
                     <option value={city}>{city}</option>
                     {
                       City.getCitiesOfState(country, states).map((item)=>(
@@ -331,7 +332,7 @@ function UpdateProduct(id) {
               <input id="dropzone-file" type="file" multiple onChange={handleImagePost} className="hidden" />
             </div>)}
             {P_productPic && P_productPic!=0?(
-            <div className="flex justify-center ">
+            <div className="flex justify-end ">
               {P_productPic.map((i)=>(
                 <img
                   src={i}
@@ -348,7 +349,7 @@ function UpdateProduct(id) {
                 </div> */}
               </div>
             </div>):('')}
-            <div className="flex justify-center mt-7">
+            <div className="flex justify-end mt-7">
               {myArray && myArray[1] && country && city && states && name && category && feature && des && contact && price && (productPic.length!==0 || P_productPic.length!==0)?(
                 <div onClick={()=>UpdateProduct(myArray[1])}
                   className="bg-indigo-400 text-white p-3 rounded-xl font-bold">
@@ -377,7 +378,8 @@ function UpdateProduct(id) {
         </div>
       </div>
     </div>
+    </div>
   );
 };
 
-export default AddYourItems;
+export default EditProducts;

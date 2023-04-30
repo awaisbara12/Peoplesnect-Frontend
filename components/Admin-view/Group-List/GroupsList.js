@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { CogIcon, SearchIcon } from '@heroicons/react/solid';
 import ProfileLogo from "../../../public/images/main-banners.jpg";
-import { EyeIcon, TrashIcon } from '@heroicons/react/outline';
+import { EyeIcon, PencilAltIcon, TrashIcon } from '@heroicons/react/outline';
 import { ADMIN_GROUP_API, CURENT_USER_LOGIN_API } from "../../../pages/config";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import ClipLoader from 'react-spinners/ClipLoader';
@@ -230,6 +230,11 @@ const GroupsList =()=> {
                         </a>
                       </Link>
                       <div className="flex gap-1">
+                        <Link href={{pathname: "/Admin/groups-list/Edit-Groups", query: group.id,}}>
+                            <a className="flex gap-1 mt-2">
+                              <PencilAltIcon className="h-5 w-5 text-indigo-400" />
+                            </a>
+                        </Link>
                         <Link href={{pathname: "/group-page/joind-group", query: group.id}}>
                           <a>
                             <EyeIcon className="h-5 w-5 text-indigo-400" />

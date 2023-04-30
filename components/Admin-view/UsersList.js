@@ -249,6 +249,7 @@ const UsersList = () => {
                               <div className="text-sm">
                                 <div className="font-bold text-indigo-400">{user.first_name+" "+user.last_name}</div>
                                 <div className="font-extralight">{user.city+", "+user.country}</div>
+                                <div className="font-extralight">email: {user.email}</div>
                               </div>
                             </div>
                           </a>
@@ -300,6 +301,18 @@ const UsersList = () => {
                                                     onClick={() => UpdateRole(user.id, "job_admin")}
                                                   >
                                                     <div className="">Job Admin</div>
+                                                  </button>
+                                                </div>
+                                              </a>
+                                            </Link>
+                                            <Link href="">
+                                              <a className="flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50">
+                                                <div className="flex text-gray-900 gap-2">
+                                                  <button
+                                                    key="Update"
+                                                    onClick={() => UpdateRole(user.id, "job_marketplace_admin")}
+                                                  >
+                                                    <div className="">Job&Marketplace Admin</div>
                                                   </button>
                                                 </div>
                                               </a>
