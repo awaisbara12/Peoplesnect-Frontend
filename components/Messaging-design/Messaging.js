@@ -2,10 +2,8 @@ import React, { useState, Fragment, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import dynamic from "next/dynamic";
-
 import ProfileAvatar from "../../public/images/profile-avatar.png";
 const Picker = dynamic(() => import("emoji-picker-react"), { ssr: false });
-
 import {
   PhotographIcon,
   EmojiHappyIcon,
@@ -33,7 +31,18 @@ const Messaging = () => {
     var authKey = window.localStorage.getItem("keyStore");
   }
 
-  
+  function createConversationSub(CableApp) {
+    CableApp.subscriptions.create(
+      {
+        channel: 'ConversationChannel',
+      },
+      {
+        connected: () => console.log('Converstion connected'),
+        disconnected: () => console.log('Converstion disconnected'),
+        received: data => {  console.log('Converstion received');GetConversation();}
+      } 
+    );
+  }
   function handleOnEnter(text) {
   }
   const handleImagePost = (e) => {
@@ -61,7 +70,14 @@ const Messaging = () => {
     validationSchema: eventScheema,
   });
   useEffect(() => {
-    Current_User();
+    let actionCable; let ReactDOM;
+    if (typeof window !== 'undefined') {
+      actionCable = require('actioncable');
+      const CableApp= actionCable.createConsumer(WS_PUBLIC_API);
+      Current_User(CableApp);
+    }
+    const CableApp= actionCable.createConsumer(WS_PUBLIC_API);
+    Current_User(CableApp);
   }, []);
   const GetConversation=async()=>{     
     await fetch(CONVERSATION_API, {
@@ -75,11 +91,12 @@ const Messaging = () => {
       .then((result) => {
         if (result && result.data) {
           setConversation(result.data);
+          // console.log("convsation",result.data)
         }
       })
       .catch((err) => console.log(err)); 
   }
-  const Current_User=async()=>{   
+  const Current_User=async(CableApp)=>{   
     await fetch(CURENT_USER_LOGIN_API, {
       method: "GET",
        headers: {
@@ -92,6 +109,7 @@ const Messaging = () => {
         if (result) {
           GetConversation();
           setcurrentuser(result.data);
+          createConversationSub(CableApp)
         }
       })
       .catch((err) => console.log(err)); 
@@ -146,6 +164,7 @@ const Messaging = () => {
                     onClick={(e) => {
                       e.preventDefault();
                       setOpenTab(1);
+                      GetConversation()
                     }}
                     data-toggle="tab"
                     href="#link1"
@@ -182,63 +201,73 @@ const Messaging = () => {
                     <input placeholder="Search Friends.." className="border rounded border-indigo-400 w-full p-2 placeholder:font-light focus:border-indigo-400 active:border-indigo-400 focus-visible:border-indigo-400 " />
                   </div>
                   <div className="overflow-y-scroll h-[620px] ">
-                   {currentuser && Conversation && 
-                   Conversation.map((i)=>{
-                    if(currentuser.id != i.recipient.id)
-                      {
-                        return(
-                          <Link href={{pathname:"/messaging-design/inbox-design",query:i.recipient.id}} key={i.id}>
-                            <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
-                              {i.recipient.display_photo_url?(
-                                <img
-                                  className="object-cover rounded-full w-[45px] h-[45px]"
-                                  src={i.recipient.display_photo_url}
-                                  alt=""
-                                />
-                              ):(
-                                <Image
-                                  className="object-cover rounded-full"
-                                  src={ProfileAvatar}
-                                  width={45}
-                                  height={45}
-                                  alt=""
-                                />
-                              )}
-                              <div className="">
-                                <div className="font-bold">{i.recipient.first_name} {i.recipient.last_name}</div>
-                                <div className="">user text as show as popup</div>
-                              </div>
-                            </a>
-                          </Link>
-                        )
-                      }else{
-                        return(
-                          <Link href={{pathname:"/messaging-design/inbox-design",query:i.sender.id}} key={i.id}>
-                            <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
-                            {i.sender.display_photo_url?(
-                                <img
-                                  className="object-cover rounded-full w-[45px] h-[45px]"
-                                  src={i.sender.display_photo_url}
-                                  alt=""
-                                />
-                              ):(
-                                <Image
-                                  className="object-cover rounded-full"
-                                  src={ProfileAvatar}
-                                  width={45}
-                                  height={45}
-                                  alt=""
-                                />
-                              )}
-                              <div className="">
-                                <div className="font-bold">{i.sender.first_name} {i.sender.last_name}</div>
-                                <div className="">user text as show as popup</div>
-                              </div>
-                            </a>
-                          </Link>
-                        )
-                      }
-                   })}
+                    {currentuser && Conversation && 
+                      Conversation.map((i)=>{
+                        if(currentuser.id != i.recipient.id)
+                          {
+                            return(
+                              <Link href={{pathname:"/messaging-design",query:i.recipient.id}} key={i.id}>
+                                <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
+                                  {i.recipient.display_photo_url?(
+                                    <img
+                                      className="object-cover rounded-full w-[45px] h-[45px]"
+                                      src={i.recipient.display_photo_url}
+                                      alt=""
+                                    />
+                                  ):(
+                                    <Image
+                                      className="object-cover rounded-full"
+                                      src={ProfileAvatar}
+                                      width={45}
+                                      height={45}
+                                      alt=""
+                                    />
+                                  )}
+                                  <div className="">
+                                    <div className="font-bold">{i.recipient.first_name} {i.recipient.last_name}</div>
+                                    {currentuser.id!=i.message_CID && i.status=="Unread"?(
+                                      <div className="">{i.status} message</div>
+                                    ):(
+                                      <div className="">Seen all message</div>
+                                    )}
+                                  </div>
+                                </a>
+                              </Link>
+                            )
+                          }else{
+                            return(
+                              <Link href={{pathname:"/messaging-design",query:i.sender.id}} key={i.id}>
+                                <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
+                                {i.sender.display_photo_url?(
+                                    <img
+                                      className="object-cover rounded-full w-[45px] h-[45px]"
+                                      src={i.sender.display_photo_url}
+                                      alt=""
+                                    />
+                                  ):(
+                                    <Image
+                                      className="object-cover rounded-full"
+                                      src={ProfileAvatar}
+                                      width={45}
+                                      height={45}
+                                      alt=""
+                                    />
+                                  )}
+                                  <div className="">
+                                    <div className="font-bold">{i.sender.first_name} {i.sender.last_name}</div>
+                                    {/* <div className="">user as show as popup</div> */}
+                                    {currentuser.id!=i.message_CID && i.status=="Unread"?(
+                                      <div className="">You {i.status} message</div>
+                                    ):(
+                                      <div className="">Seen all message</div>
+                                    )}
+                                  </div>
+                                </a>
+                              </Link>
+                            )
+                          }
+                      })
+                    }
                     
                     
                   </div>
@@ -251,7 +280,7 @@ const Messaging = () => {
                   </div>
                   <div className="overflow-y-scroll h-[620px] ">
                     {results && results.map((i)=>(
-                      <Link href={{pathname:"/messaging-design/inbox-design", query:i.user.id+"?user"}} key={i.id}>
+                      <Link href={{pathname:"/messaging-design", query:i.user.id}} key={i.id}>
                         <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
                           {i.user && i.user.display_photo_url?(
                             <img

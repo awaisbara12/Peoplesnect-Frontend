@@ -104,7 +104,9 @@ const Messages = () => {
       dataForm.append("attachment", postImage);
     }
     dataForm.append("body", text);
-    dataForm.append("recipient_id",myArray[1] );      
+    dataForm.append("recipient_id",myArray[1] ); 
+    setText('');
+          clearPic();     
     await fetch(MESSAGES_API, {
       method: "POST",
        headers: {
@@ -115,70 +117,75 @@ const Messages = () => {
        .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-          setText('');
-          clearPic();
+          
           setmessages(result.data);
+
         }
       })
       .catch((err) => console.log(err)); 
   }
   const GetConversation=async()=>{     
-    await fetch(MESSAGES_API+"?recipient_id="+myArray[1], {
-      method: "GET",
-       headers: {
-        Accept: "application/json", 
-         Authorization: `${authKey}`,
-       },
-    })
-       .then((resp) => resp.json())
-      .then((result) => {
-        if (result && result.data) {
-          setmessages(result.data);
-          console.log("d=>",result.data)
-        }
-        else{setmessages('');}
+    if(myArray[1])
+    {
+      await fetch(MESSAGES_API+"?recipient_id="+myArray[1], {
+        method: "GET",
+        headers: {
+          Accept: "application/json", 
+          Authorization: `${authKey}`,
+        },
       })
-      .catch((err) => console.log(err)); 
+        .then((resp) => resp.json())
+        .then((result) => {
+          if (result && result.data) {
+            setmessages(result.data);
+          }
+          else{setmessages('');}
+        })
+        .catch((err) => console.log(err)); 
+    }else{console.log("no user")}
   }
   const recipientUserDetails=async()=>{   
-    await fetch(CURENT_USER_LOGIN_API+"?id="+myArray[1], {
-      method: "GET",
-       headers: {
-        Accept: "application/json", 
-         Authorization: `${authKey}`,
-       },
-    })
-       .then((resp) => resp.json())
-      .then((result) => {
-        if (result) {
-          setsenderDetails(result.data);
-        }
+    if(myArray[1])
+      {
+        await fetch(CURENT_USER_LOGIN_API+"?id="+myArray[1], {
+            method: "GET",
+            headers: {
+              Accept: "application/json", 
+              Authorization: `${authKey}`,
+            },
+          })
+            .then((resp) => resp.json())
+            .then((result) => {
+              if (result) {
+                setsenderDetails(result.data);
+              }
+            })
+            .catch((err) => console.log(err)); 
+            GetConversation();
+      }
+    }
+    const Current_User=async(CableApp)=>{   
+      await fetch(CURENT_USER_LOGIN_API, {
+        method: "GET",
+         headers: {
+          Accept: "application/json", 
+           Authorization: `${authKey}`,
+         },
       })
-      .catch((err) => console.log(err)); 
-      GetConversation();
-  }
-  const Current_User=async(CableApp)=>{   
-    await fetch(CURENT_USER_LOGIN_API, {
-      method: "GET",
-       headers: {
-        Accept: "application/json", 
-         Authorization: `${authKey}`,
-       },
-    })
-       .then((resp) => resp.json())
-      .then((result) => {
-        if (result) {
-          recipientUserDetails();
-          createMessageChanel(result.data.id, CableApp);
-        }
-      })
-      .catch((err) => console.log(err)); 
-      recipientUserDetails();
-  }
+         .then((resp) => resp.json())
+        .then((result) => {
+          if (result) {
+            recipientUserDetails();
+            createMessageChanel(result.data.id, CableApp);
+          }
+        })
+        .catch((err) => console.log(err)); 
+        if(myArray[1])
+        {recipientUserDetails();} 
+    }
 
   useEffect(() => {
     let actionCable;
-
     if (typeof window !== 'undefined') {
       actionCable = require('actioncable');
       const CableApp= actionCable.createConsumer(WS_PUBLIC_API);
@@ -187,7 +194,7 @@ const Messages = () => {
     const CableApp= actionCable.createConsumer(WS_PUBLIC_API);
     Current_User(CableApp);
   }, [myArray[1]]);
-
+  
   // Render your component
   
   return (
@@ -208,7 +215,7 @@ const Messages = () => {
         <div className="overflow-y-scroll h-[650px]">
           {messages &&
             messages.map((i)=>{
-              if(i.user && i.user.id==senderDetails.id)
+              if(i.user && senderDetails&& i.user.id==senderDetails.id)
               {
                 return(
                   <div className="ml-2 mt-3" key={i.id}>
