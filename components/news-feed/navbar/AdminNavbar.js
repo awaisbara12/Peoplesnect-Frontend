@@ -26,14 +26,16 @@ const AdminNavbar =()=> {
        .then((resp) => resp.json())
       .then((result) => {
         if (result) {
+          console.log(result.data);
           setCurrent_User(result.data);
           if(result.data.role == "user"){
             Router.push("/news-feed");
-          }else if(result.data.role == "marketplace_admin"){
-            Router.push("/Admin/Products-list");
-          }else if(result.data.role == "job_admin"){
-            Router.push("/Admin/Jobs-list");
           }
+          // else if(result.data.role == "marketplace_admin"){
+          //   Router.push("/Admin/Products-list");
+          // }else if(result.data.role == "job_admin"){
+          //   Router.push("/Admin/Jobs-list");
+          // }
         }
       })
       .catch((err) => console.log(err)); 
