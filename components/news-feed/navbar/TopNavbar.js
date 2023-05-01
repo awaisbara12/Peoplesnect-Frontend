@@ -81,6 +81,7 @@ const TopNavbar = () => {
       .then((result) => {
         if (result) {
           setUserDetails(result.data);
+          console.log(result.data);
         }
       })
       .catch((err) => console.log(err));
