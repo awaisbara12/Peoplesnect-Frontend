@@ -174,7 +174,7 @@ const ProductsList =()=>{
         <div className="mt-8">
           <div className="">
             <div className="text-center">
-              <div className="heading text-4xl font-semibold text-indigo-400">Products List</div>
+              <div className="heading text-4xl font-semibold text-indigo-400">Productst List</div>
             </div>
             <div className="relative w-1/2 mx-auto mt-4">
               <input
@@ -228,7 +228,7 @@ const ProductsList =()=>{
                                   <Link href="">
                                     <a>
                                       <div className="flex gap-1">
-                                        <Link href={{pathname:"/Admin/Products-list/Edit-Products", query:product.id}}>
+                                        <Link href={{pathname:"/markeet-place/add-your-items", query:product.id}}>
                                           <a
                                             className="text-sm flex gap-2 cursor-pointer"
                                           >

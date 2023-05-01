@@ -229,7 +229,7 @@ const PagesList =()=> {
                       </a>
                     </Link>
                     <div className="flex gap-1">
-                      <Link href={{pathname: "/Admin/pages-list/Edit-Pages", query: page.id,}}>
+                      <Link href={{pathname: "/page-design/page-admin/page-settings", query: page.id,}}>
                           <a className="flex gap-1 mt-2">
                             <PencilAltIcon className="h-5 w-5 text-indigo-400" />
                           </a>
