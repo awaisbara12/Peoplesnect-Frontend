@@ -5,7 +5,7 @@ import {
   UserCircleIcon,
   UserGroupIcon,
   VideoCameraIcon,
-  BriefcaseIcon, ExclamationCircleIcon, FlagIcon, AdjustmentsIcon, DocumentTextIcon
+  BriefcaseIcon, ExclamationCircleIcon, FlagIcon, AdjustmentsIcon
 } from "@heroicons/react/outline";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
@@ -65,14 +65,6 @@ const AdminSideBAr = () => {
                     <div className="flex justify-between font-light text-sm mt-4 border-b-1 pb-4">
                       <div className="">Jobs List</div>
                       <BriefcaseIcon className="w-5 h-5 text-indigo-400" />
-                    </div>
-                  </a>
-                  </Link>
-                  <Link href="/Admin/article-list">
-                  <a>
-                    <div className="flex justify-between font-light text-sm mt-4 border-b-1 pb-4">
-                      <div className="">Article List</div>
-                      <DocumentTextIcon className="w-5 h-5 text-indigo-400" />
                     </div>
                   </a>
                   </Link>
