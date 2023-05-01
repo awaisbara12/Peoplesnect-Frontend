@@ -71,7 +71,78 @@ const Messaging = () => {
     },
     validationSchema: eventScheema,
   });
+  useEffect(() => {
+    let actionCable; let ReactDOM;
+    if (typeof window !== 'undefined') {
+      actionCable = require('actioncable');
+      const CableApp= actionCable.createConsumer(WS_PUBLIC_API);
+      Current_User(CableApp);
+    }
+    const CableApp= actionCable.createConsumer(WS_PUBLIC_API);
+    Current_User(CableApp);
+  }, []);
+  const GetConversation=async()=>{     
+    await fetch(CONVERSATION_API, {
+      method: "GET",
+       headers: {
+        Accept: "application/json", 
+         Authorization: `${authKey}`,
+       },
+    })
+       .then((resp) => resp.json())
+      .then((result) => {
+        if (result && result.data) {
+          setConversation(result.data);
+        } 
+      })
+      .catch((err) => console.log(err)); 
+  }
 
+  const Current_User=async(CableApp)=>{   
+    await fetch(CURENT_USER_LOGIN_API, {
+      method: "GET",
+       headers: {
+        Accept: "application/json", 
+         Authorization: `${authKey}`,
+       },
+    })
+       .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          GetConversation();
+          setcurrentuser(result.data);
+          createConversationSub(CableApp)
+        }
+      })
+      .catch((err) => console.log(err)); 
+  }
+  const searchmultiples  = async(event) =>{
+    setvalue(event.target.value);
+    if (event.target.value.length == 0)
+    {
+      setresults('');
+    }else{
+      await fetch(SEARCH_MULTIPLE+"?query="+event.target.value+"&type=User", {
+        method: "GET",
+         headers: {
+          Accept: "application/json", 
+           Authorization: `${authKey}`,
+         },
+      })
+         .then((resp) => resp.json())
+        .then((result) => {
+          if (result) {
+            if (event.target.value.length == 0)
+            {
+              setresults('');
+            }else{
+              setresults(result.data);
+            }
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+  }
   return (
     <div className="">
       <div className="w-[240px] xl:w-[280px] lg:w-[300px] md:w-[260px] border rounded-l-xl">

@@ -47,6 +47,123 @@ const Messages = () => {
     }
     setFeedType("image_feed");
   };
+  const clearPic =()=>{
+    setpostImagePreview('');
+    setPostImage('');
+    setattachment_type('')
+  }
+  const SendMessage=async()=>{
+    if (text)
+    {
+      const dataForm = new FormData();
+      if(postImagePreview){
+        dataForm.append("attachment_type", attachment_type);
+        dataForm.append("attachment", postImage);
+      }
+      dataForm.append("body", text);
+      dataForm.append("recipient_id",myArray[1] ); 
+      setText('');
+      clearPic();     
+      await fetch(MESSAGES_API, {
+        method: "POST",
+        headers: {
+          Accept: "application/json", 
+          Authorization: `${authKey}`,
+        },body: dataForm,
+      })
+        .then((resp) => resp.json())
+        .then((result) => {
+          if (result) {
+            
+            setmessages(result.data);
+
+          }
+        })
+        .catch((err) => console.log(err)); 
+    }
+  }
+  const GetConversation=async()=>{     
+    if(myArray[1])
+    {
+      await fetch(MESSAGES_API+"?recipient_id="+myArray[1], {
+        method: "GET",
+        headers: {
+          Accept: "application/json", 
+          Authorization: `${authKey}`,
+        },
+      })
+        .then((resp) => resp.json())
+        .then((result) => {
+          if (result && result.data) {
+            setmessages(result.data);
+            if (messageRef.current) {
+              messageRef.current.scrollIntoView(
+                {
+                  behavior: 'smooth',
+                  block: 'end',  //center
+                  inline: 'nearest' 
+                })
+            }
+          }
+          else{setmessages('');}
+        })
+        .catch((err) => console.log(err)); 
+
+    }else{console.log("no user")}
+  }
+  const recipientUserDetails=async()=>{   
+    if(myArray[1])
+      {
+        await fetch(CURENT_USER_LOGIN_API+"?id="+myArray[1], {
+            method: "GET",
+            headers: {
+              Accept: "application/json", 
+              Authorization: `${authKey}`,
+            },
+          })
+            .then((resp) => resp.json())
+            .then((result) => {
+              if (result) {
+                setsenderDetails(result.data);
+              }
+            })
+            .catch((err) => console.log(err)); 
+            GetConversation();
+      }
+    }
+    const Current_User=async(CableApp)=>{   
+      await fetch(CURENT_USER_LOGIN_API, {
+        method: "GET",
+         headers: {
+          Accept: "application/json", 
+           Authorization: `${authKey}`,
+         },
+      })
+         .then((resp) => resp.json())
+        .then((result) => {
+          if (result) {
+            recipientUserDetails();
+            createMessageChanel(result.data.id, CableApp);
+          }
+        })
+        .catch((err) => console.log(err)); 
+        if(myArray[1])
+        {recipientUserDetails();} 
+    }
+
+  useEffect(() => {
+    let actionCable;
+    if (typeof window !== 'undefined') {
+      actionCable = require('actioncable');
+      const CableApp= actionCable.createConsumer(WS_PUBLIC_API);
+      Current_User(CableApp);
+    }
+    const CableApp= actionCable.createConsumer(WS_PUBLIC_API);
+    Current_User(CableApp);
+  }, [myArray[1]]);
+  
+  // Render your component
+  
   return (
     <div>
       <div className="w-[340px] xl:w-[780px] lg:w-[419px] md:w-[540px] bg-white rounded-r-xl">
