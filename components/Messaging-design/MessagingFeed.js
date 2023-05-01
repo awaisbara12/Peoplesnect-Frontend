@@ -20,7 +20,7 @@ const MessagingFeed = () => {
   return (
     <div>
       <Head>
-        <title>Message - Peoples Nect</title>
+        <title>Message - Peoples Nect</title> 
         <meta name="description" content="Connect peoples proffasoinaly" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

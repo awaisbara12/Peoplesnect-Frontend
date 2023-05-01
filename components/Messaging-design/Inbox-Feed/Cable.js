@@ -1,3 +1,3 @@
 
-import actionCable from "actioncable"
+import actionCable from "actioncable" 
 export default actionCable;

@@ -64,7 +64,7 @@ const TopNavbar = () => {
           setcount(result.data);
           // router.push("/notifications");
         }
-      })
+      }) 
       .catch((err) => console.log(err));
   } 
   // ActionCable

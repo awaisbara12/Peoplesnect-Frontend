@@ -138,14 +138,14 @@ const Messages = () => {
                 {
                   behavior: 'smooth',
                   block: 'end',  //center
-                  inline: 'nearest'
+                  inline: 'nearest' 
                 })
             }
           }
           else{setmessages('');}
         })
         .catch((err) => console.log(err)); 
-        
+
     }else{console.log("no user")}
   }
   const recipientUserDetails=async()=>{   
