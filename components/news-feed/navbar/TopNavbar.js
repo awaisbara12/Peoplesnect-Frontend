@@ -66,7 +66,7 @@ const TopNavbar = () => {
         }
       })
       .catch((err) => console.log(err));
-  }
+  } 
   // ActionCable
   function createConversationAlertSub(CableApp , c_id) {
     CableApp.subscriptions.create(

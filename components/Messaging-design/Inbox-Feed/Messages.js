@@ -145,6 +145,7 @@ const Messages = () => {
           else{setmessages('');}
         })
         .catch((err) => console.log(err)); 
+        
     }else{console.log("no user")}
   }
   const recipientUserDetails=async()=>{   
