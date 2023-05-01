@@ -345,7 +345,7 @@ const ProfileFeedSingle = (singleItems) => {
                 {({ open }) => (
                   <>
                     <Popover.Button
-                      className={` ${
+                      className={` ${ 
                         open ? "" : "text-opacity-90 focus-visible:outline-none"
                       }`}
                     >
