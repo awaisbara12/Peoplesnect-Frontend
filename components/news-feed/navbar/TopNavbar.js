@@ -64,10 +64,41 @@ const TopNavbar = () => {
           setcount(result.data);
           // router.push("/notifications");
         }
-      })
+      }) 
       .catch((err) => console.log(err));
+  } 
+  // ActionCable
+  function createConversationAlertSub(CableApp , c_id) {
+    CableApp.subscriptions.create(
+      {
+        channel: 'AlertChannel',
+        id: c_id,
+      },
+      {
+        connected: () => console.log('alert connected'),
+        disconnected: () => console.log('alert disconnected'),
+        received: data => {  console.log('alert received');GetConversation();
+         },
+      } 
+    );
   }
-
+  // converstion Alert
+  const GetConversation=async()=>{     
+    await fetch(CONVERSATION_API+"/conversation_alert", {
+      method: "GET",
+       headers: {
+        Accept: "application/json", 
+         Authorization: `${authKey}`,
+       },
+    })
+       .then((resp) => resp.json())
+      .then((result) => {
+        if (result && result.data) {
+          setConversation(result.data);
+        }
+      })
+      .catch((err) => console.log(err)); 
+  }
   //  Current user
   const Current_User = async () => {
     await fetch(CURENT_USER_LOGIN_API, {
