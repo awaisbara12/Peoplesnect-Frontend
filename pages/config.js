@@ -58,6 +58,7 @@ export const ADMIN_PAGE_API= process.env.NEXT_PUBLIC_ADMIN_PAGE_API
 export const ADMIN_JOB_API= process.env.NEXT_PUBLIC_ADMIN_JOB_API
 export const ADMIN_PRODUCT_API= process.env.NEXT_PUBLIC_ADMIN_PRODUCT_API
 export const ADMIN_HASHTAG_API= process.env.NEXT_PUBLIC_ADMIN_HASHTAG_API
+export const ADMIN_BLOG_API= process.env.NEXT_PUBLIC_ADMIN_BLOG_API
 
 function Config() {
   return <></>;
