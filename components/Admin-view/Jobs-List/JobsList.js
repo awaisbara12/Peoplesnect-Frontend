@@ -251,7 +251,7 @@ function updateJob() {
   dataForm.append("jobs[job_skills]", Skills);
   if(PostImage){dataForm.append("jobs[company_photo]", PostImage);}
 
-  fetch(JOBS_API+"/"+updateId, {
+  fetch(ADMIN_JOB_API+"/"+updateId, {
     method: "PUT",
     headers: {
       Accept: "application/json",

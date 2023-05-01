@@ -230,7 +230,7 @@ const GroupsList =()=> {
                         </a>
                       </Link>
                       <div className="flex gap-1">
-                        <Link href={{pathname: "/group-page/admin-view/group-setting", query: group.id,}}>
+                        <Link href={{pathname: "/Admin/groups-list/Edit-Groups", query: group.id,}}>
                             <a className="flex gap-1 mt-2">
                               <PencilAltIcon className="h-5 w-5 text-indigo-400" />
                             </a>
