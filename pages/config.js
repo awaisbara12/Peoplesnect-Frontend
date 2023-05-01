@@ -52,13 +52,18 @@ export const USE_APPLY_JOB_API= process.env.NEXT_PUBLIC_APPLY_JOBS_API
 export const EVENT_API= process.env.NEXT_PUBLIC_EVENT_API
 export const CATEGORY_API= process.env.NEXT_PUBLIC_CATAGEROY_API
 export const PRODUCT_API= process.env.NEXT_PUBLIC_PRODUCT_API
+export const MESSAGES_API= process.env.NEXT_PUBLIC_MESSAGES_API
+export const CONVERSATION_API= process.env.NEXT_PUBLIC_CONVERSATION_API
+export const WS_PUBLIC_API= process.env.NEXT_PUBLIC_CABLE_API
 export const ADMIN_USER_API= process.env.NEXT_PUBLIC_ADMIN_USER_API
 export const ADMIN_GROUP_API= process.env.NEXT_PUBLIC_ADMIN_GROUP_API
 export const ADMIN_PAGE_API= process.env.NEXT_PUBLIC_ADMIN_PAGE_API
 export const ADMIN_JOB_API= process.env.NEXT_PUBLIC_ADMIN_JOB_API
 export const ADMIN_PRODUCT_API= process.env.NEXT_PUBLIC_ADMIN_PRODUCT_API
 export const ADMIN_HASHTAG_API= process.env.NEXT_PUBLIC_ADMIN_HASHTAG_API
+export const ADMIN_BLOG_API= process.env.NEXT_PUBLIC_ADMIN_BLOG_API
 
+// NEXT_PUBLIC_CABLE_API
 function Config() {
   return <></>;
 }
