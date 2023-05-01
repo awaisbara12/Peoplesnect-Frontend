@@ -15,7 +15,7 @@ const NewMessage = () => {
             </a>
           </Link>
         </div>
-      </div> 
+      </div>
     </div>
   );
 };

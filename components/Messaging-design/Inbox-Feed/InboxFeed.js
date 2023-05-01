@@ -9,7 +9,7 @@ import EventsCard from "../../news-feed/eventcard/EventsCard";
 import Messaging from ".././Messaging";
 import SugestedUser from "../../news-feed/sugesteduser/SugestedUser";
 import Messages from "./Messages";
-import TopNavbar from "../../news-feed/navbar/TopNavbar"; 
+import TopNavbar from "../../news-feed/navbar/TopNavbar";
 import FooterNewsFeed from "../../news-feed/newsfeed/newsfeedfooter/FooterNewsFeed";
 
 const InboxFeed = () => {
