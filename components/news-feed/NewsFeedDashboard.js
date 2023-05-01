@@ -15,7 +15,6 @@ import TopNavbar from "./navbar/TopNavbar";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import NewsFeedSingle from "./newsfeed/feedcard/NewsFeedSingle";
 import ClipLoader from 'react-spinners/ClipLoader';
-import Footer from "../footer/Footer";
 
 const NewsFeedDashboard = () => {
   const [list, setList] = useState([]);
@@ -102,7 +101,6 @@ const NewsFeedDashboard = () => {
               <div className="sticky top-20 z-10">
                 <EventsCard />
                 <SugestedUser />
-                <Footer />
                 <ChatBox />
               </div>
             </div>
