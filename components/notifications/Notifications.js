@@ -457,7 +457,7 @@ const Notifications = () => {
                                   </a>
                                 </Link>
                              </div>)
-                             :( i.tag && i.tag.replycomment && i.tag.replycomment.comment && i.tag.replycomment.comment.news_feed?(
+                             :( i.tag && i.tag.replycomment && i.tag.replycomment.comment.news_feed?(
                               <div className="flex justify-end gap-4">
                                 <Link href={{pathname: "/events-design/event-view", query:  i.tag.replycomment.comment.news_feed.id,}}>
                                   <a>
@@ -466,7 +466,7 @@ const Notifications = () => {
                                     </div>
                                   </a>
                                 </Link>
-                             </div>):( i.tag && i.tag.replycomment && i.tag.replycomment.comment &&  i.tag.replycomment.comment.blog?(
+                             </div>):( i.tag && i.tag.replycomment && i.tag.replycomment.comment.blog?(
                               <div className="flex justify-end gap-4">
                                 <Link href={{pathname: "/blog/show", query:  i.tag.replycomment.comment.blog.id,}}>
                                   <a>
