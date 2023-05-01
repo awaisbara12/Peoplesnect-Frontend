@@ -12,13 +12,14 @@ import {
   DotsHorizontalIcon,
 } from "@heroicons/react/outline";
 import { BookmarkIcon } from "@heroicons/react/solid";
-import { USE_APPLY_JOB_API } from "../../../pages/config";
+import { USE_APPLY_JOB_API, WS_PUBLIC_API} from "../../../pages/config";
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 const SavedJobs = () => {
   const [Applied_list, setApplied_list] = useState();
+
   
   // Bareer Key
   if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore");}
