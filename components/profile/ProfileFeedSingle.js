@@ -31,7 +31,8 @@ import {
   POST_NEWSFEED_API_KEY,
   GET_USER_BOOKMARKS,
   SEARCH_MULTIPLE,
-  HASHTAGS_API
+  HASHTAGS_API,
+  RECENT_ACTIVITY_API
 } from "../../pages/config";
 import PostComments from "./comments/PostComments";
 import FilterComments from "./comments/FilterComments";
@@ -167,6 +168,7 @@ const ProfileFeedSingle = (singleItems) => {
     try {
       if (result.status == 200) {
         getNewsFeed();
+        RecentActivity();
         alert("Record Deleted Succefully");
         
       }
@@ -301,6 +303,24 @@ const ProfileFeedSingle = (singleItems) => {
       setSpinner(false)
   }
 
+  const RecentActivity=async()=>{    //current User
+  
+    await fetch(RECENT_ACTIVITY_API, {
+      method: "GET",
+      headers: {
+        Accept: "application/json", 
+        Authorization: `${authKey}`,
+      },
+    })
+    .then((resp) => resp.json())
+    .then((result) => {
+      if (result) {
+        singleItems.setRecentActivity(result.data);
+      }
+    })
+    .catch((err) => console.log(err)); 
+  }
+
   function addHeart(feedId) {
     const dataForm = new FormData();
     dataForm.append("reactionable_id", feedId);
@@ -318,6 +338,7 @@ const ProfileFeedSingle = (singleItems) => {
       .then((result) => {
         if (result) {
           setItems(result.data);
+          RecentActivity();
         }
       })
       .catch((err) => console.log(err));
@@ -420,6 +441,7 @@ const ProfileFeedSingle = (singleItems) => {
     try {
       if (result) {
         setItems(result.data.data);
+        RecentActivity();
       }
     } catch (error) {
       console.log(error);
@@ -1324,9 +1346,9 @@ const ProfileFeedSingle = (singleItems) => {
             </div>
           </div>
           <Fragment>
-            <PostComments news_feed_id={items.id} setComments={setComments} setComments_count={setComments_count} setIs_deleted={setIs_deleted} dp={items.user.display_photo_url}/>
+            <PostComments news_feed_id={items.id} setComments={setComments} setComments_count={setComments_count} setIs_deleted={setIs_deleted} dp={items.user.display_photo_url} recentactivity={singleItems.recentactivity} setRecentActivity={singleItems.setRecentActivity}/>
             <FilterComments news_feed_id={items.id} comments={comments.data} setComments_count={setComments_count} setComments={setComments} next_page={nextPage} setNextPage={setNextPage} />
-            {!loading && <ReplyComments news_feed_id={items.id} comments={comments.data} comments_count={comments_count} setComments_count={setComments_count} setComments={setComments} setIs_deleted={setIs_deleted} items={items}/>}
+            {!loading && <ReplyComments news_feed_id={items.id} comments={comments.data} comments_count={comments_count} setComments_count={setComments_count} setComments={setComments} setIs_deleted={setIs_deleted} items={items} recentactivity={singleItems.recentactivity} setRecentActivity={singleItems.setRecentActivity}/>}
           </Fragment>
         </div>
       </div>

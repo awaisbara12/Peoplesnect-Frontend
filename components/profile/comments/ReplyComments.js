@@ -14,7 +14,7 @@ import {
 } from "@heroicons/react/outline";
 import ProfileAvatar from "../../../public/images/profile-avatar-2.png";
 import { Popover, Transition } from "@headlessui/react";
-import { COMMENT_API_KEY, COMMENT_REPLY, CURENT_USER_LOGIN_API, HASHTAGS_API, NEWSFEED_COMMENT_POST_KEY, REACTION_NEWSFEED_API_KEY, SEARCH_MULTIPLE } from "../../../pages/config";
+import { COMMENT_API_KEY, COMMENT_REPLY, CURENT_USER_LOGIN_API, HASHTAGS_API, NEWSFEED_COMMENT_POST_KEY, REACTION_NEWSFEED_API_KEY, RECENT_ACTIVITY_API, SEARCH_MULTIPLE } from "../../../pages/config";
 import axios from "axios";
 import App from "../Comment-Input/App";
 import HashtagMentionInput from "../Comment-Input/HashtagMentionInput";
@@ -62,6 +62,24 @@ const ReplyComments = (props) => {
   let [hastags, sethastags] = useState();
   //Bareer Key
   if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore");}
+
+  const RecentActivity=async()=>{    //current User
+  
+    await fetch(RECENT_ACTIVITY_API, {
+      method: "GET",
+      headers: {
+        Accept: "application/json", 
+        Authorization: `${authKey}`,
+      },
+    })
+    .then((resp) => resp.json())
+    .then((result) => {
+      if (result) {
+        props.setRecentActivity(result.data);
+      }
+    })
+    .catch((err) => console.log(err)); 
+  }
   
   const Current_User=async()=>{    
    
@@ -113,6 +131,7 @@ const ReplyComments = (props) => {
 
     try {
       if (result) {
+        RecentActivity();
         if(document.getElementById(`comment-${commentId}`)){
           document.getElementById(`comment-${commentId}`).classList.add("hidden");
           
@@ -226,6 +245,7 @@ const ReplyComments = (props) => {
 
     try {
       if (result.status == 200) {
+        RecentActivity();
         props.setComments(result.data);
       }
     } catch (error) {
@@ -256,6 +276,7 @@ const ReplyComments = (props) => {
       .then((resp) => resp.json())
       .then((result) => {
         if (result) {
+          RecentActivity();
           getFeedComments();
         }
       })
@@ -278,6 +299,7 @@ const ReplyComments = (props) => {
 
     try {
       if (result) {
+        RecentActivity();
         getFeedComments();
       }
     } catch (error) {
@@ -322,6 +344,7 @@ const ReplyComments = (props) => {
     try {
       if (result) {
         // console.log("Replies",result.data);
+        RecentActivity();
         setReplyOn(false);
         setReplyEditOn(false);
         setEditReply('');
@@ -395,6 +418,7 @@ const ReplyComments = (props) => {
         setReplyEditOn(false);   // close reply edit input
         setCommentReply('');     // clear body of editReply input
         getFeedComments();
+        RecentActivity();
        if (result) {
         
        }

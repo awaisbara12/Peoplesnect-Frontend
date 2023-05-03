@@ -13,7 +13,7 @@ import {
   TrashIcon,
 } from "@heroicons/react/outline";
 import { useFormik } from "formik";
-import { COMMENT_API_KEY, HASHTAGS_API, NEWSFEED_COMMENT_POST_KEY, SEARCH_MULTIPLE } from "../../../pages/config";
+import { COMMENT_API_KEY, HASHTAGS_API, NEWSFEED_COMMENT_POST_KEY, RECENT_ACTIVITY_API, SEARCH_MULTIPLE } from "../../../pages/config";
 import axios from "axios";
 import HashtagMentionInput from "../Comment-Input/HashtagMentionInput";
 import Picker from 'emoji-picker-react';
@@ -61,6 +61,24 @@ const PostComments = (props) => {
   const onSubmit = () => {
     resetForm();
   };
+
+  const RecentActivity=async()=>{    //current User
+  
+    await fetch(RECENT_ACTIVITY_API, {
+      method: "GET",
+      headers: {
+        Accept: "application/json", 
+        Authorization: `${authKey}`,
+      },
+    })
+    .then((resp) => resp.json())
+    .then((result) => {
+      if (result) {
+        props.setRecentActivity(result.data);
+      }
+    })
+    .catch((err) => console.log(err)); 
+  }
  
   function postComment(e) {
     e.preventDefault();
@@ -89,6 +107,7 @@ const PostComments = (props) => {
       .then((resp) => resp.json())
       .then((result) => {
         if (result) {
+          RecentActivity();
           setComments(result.data);
 
           async function getFeedComments (){

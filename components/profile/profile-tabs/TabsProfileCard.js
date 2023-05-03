@@ -29,11 +29,13 @@ import TabSavedProfile from "./TabSavedProfile";
 import {    
   CURENT_USER_LOGIN_API, GET_USER_BOOKMARKS
 } from "../../../pages/config";
+import { RECENT_ACTIVITY_API } from "../../../pages/config";
 
 const TabsProfileCard = () => {
   const [openTab, setOpenTab] = React.useState(1);
   const [userDetails, setUserDetails] = React.useState(1);
   const [bookmarks, setBookmarks] = useState([]);
+  const [recentactivity, setRecentActivity] = useState([]);
  
   // Bareer Key
   if (typeof window !== "undefined") {
@@ -54,6 +56,24 @@ const TabsProfileCard = () => {
       if (result) {
         setBookmarks(result.data);
 
+      }
+    })
+    .catch((err) => console.log(err)); 
+  }
+
+  const RecentActivity=async()=>{    //current User
+  
+    await fetch(RECENT_ACTIVITY_API, {
+      method: "GET",
+      headers: {
+        Accept: "application/json", 
+        Authorization: `${authKey}`,
+      },
+    })
+    .then((resp) => resp.json())
+    .then((result) => {
+      if (result) {
+        setRecentActivity(result.data);
       }
     })
     .catch((err) => console.log(err)); 
@@ -80,6 +100,7 @@ const TabsProfileCard = () => {
   useEffect(()=>{
     Current_User(); 
     UserBookmarks();
+    RecentActivity();
   },[])
   
   return (
@@ -229,7 +250,7 @@ const TabsProfileCard = () => {
         <div className="flex-auto">
           <div className="tab-content tab-space">
             <div className={openTab === 1 ? "block" : "hidden"} id="link1">
-              <TabProfile bookmarks={bookmarks} setBookmarks={setBookmarks}/>
+              <TabProfile bookmarks={bookmarks} setBookmarks={setBookmarks} recentactivity={recentactivity} setRecentActivity={setRecentActivity}/>
             </div>
             <div className={openTab === 2 ? "block" : "hidden"} id="link2">
               <TabContactProfile />
@@ -244,7 +265,7 @@ const TabsProfileCard = () => {
               <TabExperienceProfile />
             </div>
             <div className={openTab === 6 ? "block" : "hidden"} id="link6">
-              <TabRecentProfile />
+              <TabRecentProfile recentactivity={recentactivity} setRecentActivity={setRecentActivity}/>
             </div>
             <div className={openTab === 7 ? "block" : "hidden"} id="link7">
               <TabSavedProfile  bookmarks={bookmarks} setBookmarks={setBookmarks}/>
