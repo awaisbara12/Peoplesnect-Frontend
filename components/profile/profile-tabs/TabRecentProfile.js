@@ -11,7 +11,7 @@ const TabRecentProfile = (props) => {
         <div className="font-extrabold mb-5">Recent Activity</div>
         <div className="p-2">
         {props.recentactivity && props.recentactivity.map((i) =>(
-          <div className="border-b-1 py-5">
+          <div className="border-b-1 py-5" key={i.id}>
             <div className="flex justify-between gap-3">
               <div className="flex flex-col gap-2">
                 <a href="">
