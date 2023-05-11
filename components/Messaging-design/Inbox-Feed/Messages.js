@@ -18,6 +18,7 @@ import {
 } from "@heroicons/react/outline";
 import { CURENT_USER_LOGIN_API, MESSAGES_API, WS_PUBLIC_API } from "../../../pages/config";
 import { useRouter } from "next/router";
+import { array } from "yup";
 const Messages = () => {
   const [setLoading] = useState(false);
   const [postText, setPostText] = useState("");
@@ -30,27 +31,27 @@ const Messages = () => {
   const [videoSrc, setVideoSrc] = useState([]);
   const [videoPreview, setVideoPreview] = useState();
   let [setIsOpen] = useState(false);
-
+  const [currentuser, setcurrentuser] = useState("");           //current-user
+  
   const [attachment_type, setattachment_type] = useState("");
   const [text, setText] = useState("");
   const [messages, setmessages] = useState();
   const [senderDetails, setsenderDetails] = useState("");
-  const [cables, setcables] = useState();
+  const [cables, setcables] = useState(null);
   const [channl, setchannl] = useState();
   const messageRef = useRef();
+  const [Conversation_id, setConversation_id] = useState("");
 
   const router = useRouter();
   const data = router.asPath;
   const myArray = data.split("?");
-  
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
   }
   // Action Cable
   const [sms, setsms] = useState();
   const [Id, setId] = useState();
-  function createMessageChanel(id,CableApp) {
-    // const CableApp = {}
+  const createMessageChanel=async(id,CableApp)=> {
     CableApp.subscriptions.create(
       {
         channel: 'MessageChannel',
@@ -58,9 +59,22 @@ const Messages = () => {
         recipient_id:  myArray[1]
       },
       {
-        connected: () => console.log('connected'),
-        disconnected: () => console.log('disconnected'),
-        received: data => {  GetConversation();  },
+        connected: () => {
+          console.log('connected',myArray[1]);
+          setConversation_id(myArray[1]);
+        },
+        disconnected: () => {
+          console.log('disconnected',Conversation_id);
+
+        },
+        received: data => { 
+          console.log("conversation=> ",myArray[1]+" => data"+data)
+          if(myArray[1]==data){
+            console.log("received111",data);
+            GetConversation();
+          }
+         
+        },
       }
     );
   }
@@ -111,25 +125,21 @@ const Messages = () => {
         .then((resp) => resp.json())
         .then((result) => {
           if (result) {
-            
-            setmessages(result.data);
-
+            GetConversation();
           }
         })
         .catch((err) => console.log(err)); 
     }
   }
   const GetConversation=async()=>{     
-    if(myArray[1])
-    {
+    if(myArray[1]){
       await fetch(MESSAGES_API+"?recipient_id="+myArray[1], {
         method: "GET",
         headers: {
           Accept: "application/json", 
           Authorization: `${authKey}`,
         },
-      })
-        .then((resp) => resp.json())
+      }).then((resp) => resp.json())
         .then((result) => {
           if (result && result.data) {
             setmessages(result.data);
@@ -147,7 +157,7 @@ const Messages = () => {
         .catch((err) => console.log(err)); 
     }else{console.log("no user")}
   }
-  const recipientUserDetails=async()=>{   
+  const recipientUserDetails=async(id, cable)=>{   
     if(myArray[1])
       {
         await fetch(CURENT_USER_LOGIN_API+"?id="+myArray[1], {
@@ -161,45 +171,55 @@ const Messages = () => {
             .then((result) => {
               if (result) {
                 setsenderDetails(result.data);
+                createMessageChanel(id, cable);
+                GetConversation();
               }
             })
             .catch((err) => console.log(err)); 
-            GetConversation();
+           
       }
-    }
-    const Current_User=async(CableApp)=>{   
-      await fetch(CURENT_USER_LOGIN_API, {
-        method: "GET",
-         headers: {
-          Accept: "application/json", 
-           Authorization: `${authKey}`,
-         },
+  }
+  const Current_User=async(CableApp)=>{   
+    await fetch(CURENT_USER_LOGIN_API, {
+      method: "GET",
+        headers: {
+        Accept: "application/json", 
+          Authorization: `${authKey}`,
+        },
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          setcurrentuser(result.data.id)
+          recipientUserDetails(result.data.id,CableApp);
+        }
       })
-         .then((resp) => resp.json())
-        .then((result) => {
-          if (result) {
-            recipientUserDetails();
-            createMessageChanel(result.data.id, CableApp);
-          }
-        })
-        .catch((err) => console.log(err)); 
-        if(myArray[1])
-        {recipientUserDetails();} 
-    }
+      .catch((err) => console.log(err)); 
+  }
 
   useEffect(() => {
     let actionCable;
     if (typeof window !== 'undefined') {
       actionCable = require('actioncable');
       const CableApp= actionCable.createConsumer(WS_PUBLIC_API);
+      setcables(CableApp);
       Current_User(CableApp);
     }
     const CableApp= actionCable.createConsumer(WS_PUBLIC_API);
+    setcables(CableApp);
     Current_User(CableApp);
+    setConversation_id(myArray[1]);
+    
+    
+
+    return ()=>{
+      if (cables) {
+         cables.disconnect(); 
+      }
+    }
   }, [myArray[1]]);
   
   // Render your component
-  
   return (
     <div>
       <div className="w-[340px] xl:w-[780px] lg:w-[419px] md:w-[540px] bg-white rounded-r-xl">
@@ -265,63 +285,61 @@ const Messages = () => {
                                   </video> */}
                                   {/* <iframe src={i.attachment} width="100%" height="300" >
                                   </iframe> */}
-                                  
-                                  <div>{i.attachment_type}</div>
+                                  <div className=" flex border-b w-56 p-2 justify-between ">
+                                    <div>{i.attachment_type}</div>
+                                    <a href={i.attachment} download>
+                                      <button className= "text-black p-0">Download</button>
+                                    </a>
+                                  </div>
+                                  {/* <div>{i.attachment_type}</div> */}
                                 </div>
                               ):('')
                             )
                           )
                         }
                         <div className="">{i.body} </div>
-                          <div className=" flex justify-end mt-0 mr-2 text-xs">{i.time}</div>
+                        <div className=" flex justify-end mt-0 mr-2 text-xs">{i.time}</div>
                       </div>
                     </div>
                   </div>
                 )
               }
-              else
+              else 
               {
                 return(
                     <div className="flex justify-end mt-7 mr-2" key={i.id} >
                       <div className="flex items-center gap-2">
                         <div className=" bg-indigo-400 p-2 border w-60 rounded-xl">
                         {i.attachment && i.attachment_type=="image"?(
+                            <div className="relative w-1/4 mt-2">
+                              <img
+                              src={i.attachment}
+                              className="rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
+                              alt=""/>
+                            </div>
+                          ):(
+                            i.attachment && i.attachment_type=="video"?(
                               <div className="relative w-1/4 mt-2">
-                                <img
-                                src={i.attachment}
-                                className="rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
-                                alt=""/>
-                                
+                                <div className="relative w-1/4 mt-2">
+                                  <video controls className=" rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover">
+                                    <source src={i.attachment} type="video/mp4" />
+                                  </video> 
+                                </div>
                               </div>
                             ):(
-                              i.attachment && i.attachment_type=="video"?(
+                              i.attachment && i.attachment_type=="application"?(
                                 <div className="relative w-1/4 mt-2">
-                                  <div className="relative w-1/4 mt-2">
-                                    <video controls className="rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover">
-                                      <source src={i.attachment} type="video/mp4" />
-                                    </video> 
-                                  </div>
-                                  
-                                </div>
-
-                              ):(
-                                i.attachment && i.attachment_type=="application"?(
-                                  <div className="relative w-1/4 mt-2">
-                                  {/* <video autoPlay="autoplay" controls className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover">
-                                    <source src={postImagePreview} type="video/mp4" />
-                                  </video> */}
-                                
-                                  <div className=" flex border w-56 p-2 justify-between ">
+                                  <div className=" flex border-b w-56 p-2 justify-between ">
                                     <div>{i.attachment_type}</div>
                                     <a href={i.attachment} download>
-                                      <button className= "text-white p-0">Download</button>
+                                      <button className= "text-black p-0">Download</button>
                                     </a>
                                   </div>
                                 </div>
-                                ):('')
-                              )
+                              ):('')
                             )
-                          }
+                          )
+                        }
                           <div className="text-white">{i.body} </div>
                           <div className=" flex justify-end mt-0 mr-2 text-xs text-white">{i.time}</div>
                         </div>
@@ -407,22 +425,22 @@ const Messages = () => {
             />
             {/* <PhotographIcon className="h-10 w-10 opacity-40" /> */}
             <div className="">
-                <div className="relative flex gap-2 items-center justify-center">
-                  <PhotographIcon
-                    className={"h-10 w-10 opacity-40"}
-                  />
-                  {/* <div className="font-extralight">Photo Upload</div> */}
-                  <input
-                    type={"file"}
-                    name="image"
-                    id="image"
-                    className="opacity-0 absolute w-6 h-6 -z-0"
-                    onChange={handleImagePost}
-                    title={""}
-                    multiple
-                  />
-                </div>
+              <div className="relative flex gap-2 items-center justify-center">
+                <PhotographIcon
+                  className={"h-10 w-10 opacity-40"}
+                />
+                {/* <div className="font-extralight">Photo Upload</div> */}
+                <input
+                  type={"file"}
+                  name="image"
+                  id="image"
+                  className="opacity-0 absolute w-6 h-6 -z-0"
+                  onChange={handleImagePost}
+                  title={""}
+                  multiple
+                />
               </div>
+            </div>
             <PaperAirplaneIcon className="h-10 w-10 rotate-90 opacity-40 ml-2" onClick={()=>{SendMessage()}}/>
           </div>
         </div>

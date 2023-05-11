@@ -26,6 +26,7 @@ const Messaging = () => {
   const [text, setText] = useState("");
   const [Conversation, setConversation] = useState("");
   const [currentuser, setcurrentuser] = useState("");
+  const [Conversation_id, setConversation_id] = useState("");
 
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
@@ -91,6 +92,7 @@ const Messaging = () => {
       .then((result) => {
         if (result && result.data) {
           setConversation(result.data);
+          // console.log("Result",result.data)
         }
       })
       .catch((err) => console.log(err)); 
