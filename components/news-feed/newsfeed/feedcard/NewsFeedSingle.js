@@ -12,6 +12,7 @@ import {
   ShareIcon,
   DocumentReportIcon,
   XCircleIcon,
+  XIcon,
 } from "@heroicons/react/outline";
 import { CalendarIcon, ChevronRightIcon } from "@heroicons/react/solid";
 import { Popover, Transition } from "@headlessui/react";
@@ -38,6 +39,8 @@ import {
   GROUP_API,
 } from "../../../../pages/config";
 import App from "../newspost/App";
+import HashtagMentionInput from "../newspost/HashtagMentionInput";
+import ShareModal from "./ShareModal";
 // import Spinner from "../../../common/Spinner";
 
 const cardDropdown = [
@@ -70,12 +73,12 @@ const ReadMore = ({ children }) => {
   };
   return (
     <p className="text">
-      {isReadMore ? text.slice(0, 300) + (text.length > 300?("......"):('')) : text}
-      {text.length > 300?(
+      {isReadMore ? text.slice(0, 300) + (text.length > 300 ? ("......") : ('')) : text}
+      {text.length > 300 ? (
         <span onClick={toggleReadMore} className="text-indigo-400 cursor-pointer ml-2 font-bold">
           {isReadMore ? "Read more" : "Show less"}
         </span>
-      ):('')}
+      ) : ('')}
     </p>
   );
 };
@@ -88,20 +91,27 @@ const NewsFeedSingle = (singleItem) => {
   const [loading, setLoading] = useState(true);
   const [nextPage, setNextPage] = useState('');
   const [CurrentUser, setCurrentUser] = useState();
+  const [postText, setPostText] = useState("");
+  let [isOpen, setIsOpen] = useState(false);
+  const [tags, settags] = useState([]);
+  const [mentioned, setMentioned] = useState([]);
+  const [hashtaged, setHashtaged] = useState([]);
+  let [hastags, sethastags] = useState();
 
 
-  const [admins,setadmins] = useState();
+
+  const [admins, setadmins] = useState();
   // console.log("items = >",items)
   // Bareer key
-  if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore");}
+  if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore"); }
   // copy link to clipboard
-  const copylink=(postid)=>{    
-    const links=window.location.href        // get Full Link
-    const links1=window.location.pathname   // get link after localhost
+  const copylink = (postid) => {
+    const links = window.location.href        // get Full Link
+    const links1 = window.location.pathname   // get link after localhost
     const copylink = links.split(links1)    // get link domain like(localhost..etc)
-    navigator.clipboard.writeText(copylink[0]+"/events-design/event-view?"+postid);
+    navigator.clipboard.writeText(copylink[0] + "/events-design/event-view?" + postid);
     alert("Link Copied to your Clipboard");
-  } 
+  }
   // Add Heart
   function addHeart(feedId) {
     const dataForm = new FormData();
@@ -191,22 +201,22 @@ const NewsFeedSingle = (singleItem) => {
       console.log(error);
     }
   }
-  
-  const Current_User=async()=>{  
+
+  const Current_User = async () => {
     await fetch(CURENT_USER_LOGIN_API, {
       method: "GET",
-       headers: {
-        Accept: "application/json", 
-         Authorization: `${authKey}`,
-       },
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
     })
-       .then((resp) => resp.json())
+      .then((resp) => resp.json())
       .then((result) => {
         if (result) {
           setCurrentUser(result.data);
         }
       })
-      .catch((err) => console.log(err)); 
+      .catch((err) => console.log(err));
   }
 
   useEffect(() => {
@@ -277,69 +287,77 @@ const NewsFeedSingle = (singleItem) => {
   //   }
   //   return false;
   // }
+  function closeModal() {
+    setIsOpen(false);
+  }
+
+  function openModal2() {
+    setIsOpen(true);
+  }
+
 
   return (
     <>
       <div className="w-[600px] xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">
         <div className="flex gap-2 justify-between items-center px-[22px] py-[14px]">
           <div className="flex gap-2 items-center">
-          
-            {items && items.page?(
-              items.page.display_photo_url?(
+
+            {items && items.page ? (
+              items.page.display_photo_url ? (
                 <img
-                  src={items.page.display_photo_url} 
+                  src={items.page.display_photo_url}
                   className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
-                  width={45} 
-                  height={45} 
-                  alt="" 
+                  width={45}
+                  height={45}
+                  alt=""
                 />
-              ):(
-                <Image 
-                  src={PagePhoto} 
+              ) : (
+                <Image
+                  src={PagePhoto}
                   className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
-                  width={45} 
-                  height={45} 
-                  alt="" 
+                  width={45}
+                  height={45}
+                  alt=""
                 />
               )
-            ):(
-              items && items.user && items.user.display_photo_url?(
+            ) : (
+              items && items.user && items.user.display_photo_url ? (
                 <img
-                  src={items.user.display_photo_url} 
+                  src={items.user.display_photo_url}
                   className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
-                  width={45} 
-                  height={45} 
-                  alt="" 
+                  width={45}
+                  height={45}
+                  alt=""
                 />
-              ):(
-                <Image 
-                  src={ProfileAvatar} 
-                  width={45} 
-                  height={45} 
-                  alt="" 
+              ) : (
+                <Image
+                  src={ProfileAvatar}
+                  width={45}
+                  height={45}
+                  alt=""
                 />
               )
             )}
-          
+
             <div>
-              {items.page?(
+              {items.page ? (
                 <>
-                <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
-                  {/* {items.user.first_name} {items.user.last_name} */}
-                  {/* <ChevronRightIcon
+                  <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
+                    {/* {items.user.first_name} {items.user.last_name} */}
+                    {/* <ChevronRightIcon
                     width={24}
                     height={24}
                     className="text-indigo-400"
                   /> */}
-                  <div className="capitalize">{items.page.name}</div>
-                </h4>
-                <div className="font-light text-gray-900 opacity-[0.8] italic">  Page Post</div>
+                    <div className="capitalize">{items.page.name}</div>
+                  </h4>
+                  <div className="font-light text-gray-900 opacity-[0.8] italic">  Page Post</div>
                 </>
-                
-              ):(
-                items.group?(
+
+              ) : (
+                items.group ? (
                   <>
-                    
+
                     <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
                       {items.user.first_name} {items.user.last_name}
                       <ChevronRightIcon
@@ -352,23 +370,23 @@ const NewsFeedSingle = (singleItem) => {
                     <div className="font-light text-gray-900 opacity-[0.8] italic">Group Post</div>
                     {/* {items && items.group && items.user && items.group.owner.id==items.user.id?"Super Admin":GetAdmins(items.group.id, items.user.id)?"Admin":"Member"} */}
                   </>
-                ):(
-                <>
-                  <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
-                    {items.user.first_name} {items.user.last_name}
-                    <BadgeCheckIcon
-                      width={14}
-                      height={14}
-                      className="text-indigo-400"
-                    />
-                  </h4>
-                  <div className="font-light text-gray-900 opacity-[0.8]">
-                    {items.user.city?items.user.city+", ":""}{items.user.state?items.user.state+", ":""} {items.user.country}
-                  </div>
-                </>
+                ) : (
+                  <>
+                    <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
+                      {items.user.first_name} {items.user.last_name}
+                      <BadgeCheckIcon
+                        width={14}
+                        height={14}
+                        className="text-indigo-400"
+                      />
+                    </h4>
+                    <div className="font-light text-gray-900 opacity-[0.8]">
+                      {items.user.city ? items.user.city + ", " : ""}{items.user.state ? items.user.state + ", " : ""} {items.user.country}
+                    </div>
+                  </>
                 )
               )}
-              
+
             </div>
           </div>
           <div className="">
@@ -377,9 +395,8 @@ const NewsFeedSingle = (singleItem) => {
                 {({ open }) => (
                   <>
                     <Popover.Button
-                      className={` ${
-                        open ? "" : "text-opacity-90 focus-visible:outline-none"
-                      }`}
+                      className={` ${open ? "" : "text-opacity-90 focus-visible:outline-none"
+                        }`}
                     >
                       <div className="hover:bg-indigo-100 focus:bg-indigo-100 rounded-full h-8 w-8 flex items-center justify-center">
                         <DotsHorizontalIcon className="w-5 h-5" />
@@ -430,156 +447,156 @@ const NewsFeedSingle = (singleItem) => {
             query: items.id,
           }} > 
           <a> */}
-            {/* <App state={items.body}/> */}
+          {/* <App state={items.body}/> */}
 
-            {items.tags && items.tags.length > 0 || (items.hashtags && items.hashtags.length > 0)?
-             <App state={items.body} website={items.tags} hashtags={items.hashtags}/> 
-             :<ReadMore>
-             {items.body? items.body : ""}
-             </ReadMore>}
+          {items.tags && items.tags.length > 0 || (items.hashtags && items.hashtags.length > 0) ?
+            <App state={items.body} website={items.tags} hashtags={items.hashtags} />
+            : <ReadMore>
+              {items.body ? items.body : ""}
+            </ReadMore>}
           {/* </a>
           
           </Link> */}
           {items.event && items.event ? (
-            <Link 
-            href={{
-            pathname: "/events-design/event-view",
-            query: items.id,
-          }} > 
-          <a>
-            <div className="rounded-xl bg-white border border-gray-100 my-2">
-              {items.event.cover_photo_url ? (
-                <img
-                  src={items.event.cover_photo_url}
-                  className="aspect-video object-cover rounded-t-xl h-[390px] w-[952px]"
-                  alt=""
-                />
-              ) : (
-                ""
-              )}
-              <div className="py-3 px-3">
-                <div className="flex justify-between items-center">
-                  <div>
-                    {/* Date & Time */}
-                    <div className="text-red-400 text-sm">
-                      <span>{items.event.start_time}</span>
-                      <span>-{items.event.end_time}</span>&nbsp;
-                      <span>{items.event.start_date}</span>&nbsp;
-                    </div>
-                    {/* Name */}
-                    <div className="font-semibold text-lg">
-                      {items.event.name}
-                    </div>
-                    {/* Event-type */}
-                    <div className="flex items-center gap-2">
-                      <CalendarIcon
-                        width={16}
-                        height={16}
-                        className="text-gray-900"
-                      />
-                      <span className="text-gray-900 text-sm">
-                        {items.event.event_type}
-                      </span>
-                    </div>
-                    {items.event.event_type=== "online"?(''):(
-                      <>
-                        {/* Adress */}
-                        {items.event.address?(
-                          <div className="flex items-center gap-2">
-                            <CalendarIcon
-                              width={16}
-                              height={16}
-                              className="text-gray-900"
-                            />
-                            <span className="text-gray-900 text-sm">
-                              {items.event.address}
-                            </span>
-                          </div>
-                        ):('')}
-                        
-                        {/* Venue */}
-                        {items.event.venue?(
-                          <div className="flex items-center gap-2">
-                            <CalendarIcon
-                              width={16}
-                              height={16}
-                              className="text-gray-900"
-                            />
-                            <span className="text-gray-900 text-sm">
-                              {items.event.venue}
-                            </span>
-                          </div>
-                        ):('')}
-                        
-                      </>
-                    )}
-                    {/* Link */}
-                    <div className="text-gray-900 flex gap-2">
-                      <CalendarIcon
-                        width={16}
-                        height={16}
-                        className="text-gray-900"
-                      />
-                      <span>{items.event.event_link}</span>
-                    </div>
-                    {/* Speaker */}
-                    <div className="text-gray-900">
-                      {items.event.tags && items.event.tags.length > 0?
-                        <App state={items.event.speaker} website={items.event.tags} /> 
-                      : items.event.body? items.event.body : ""}
+            <Link
+              href={{
+                pathname: "/events-design/event-view",
+                query: items.id,
+              }} >
+              <a>
+                <div className="rounded-xl bg-white border border-gray-100 my-2">
+                  {items.event.cover_photo_url ? (
+                    <img
+                      src={items.event.cover_photo_url}
+                      className="aspect-video object-cover rounded-t-xl h-[390px] w-[952px]"
+                      alt=""
+                    />
+                  ) : (
+                    ""
+                  )}
+                  <div className="py-3 px-3">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        {/* Date & Time */}
+                        <div className="text-red-400 text-sm">
+                          <span>{items.event.start_time}</span>
+                          <span>-{items.event.end_time}</span>&nbsp;
+                          <span>{items.event.start_date}</span>&nbsp;
+                        </div>
+                        {/* Name */}
+                        <div className="font-semibold text-lg">
+                          {items.event.name}
+                        </div>
+                        {/* Event-type */}
+                        <div className="flex items-center gap-2">
+                          <CalendarIcon
+                            width={16}
+                            height={16}
+                            className="text-gray-900"
+                          />
+                          <span className="text-gray-900 text-sm">
+                            {items.event.event_type}
+                          </span>
+                        </div>
+                        {items.event.event_type === "online" ? ('') : (
+                          <>
+                            {/* Adress */}
+                            {items.event.address ? (
+                              <div className="flex items-center gap-2">
+                                <CalendarIcon
+                                  width={16}
+                                  height={16}
+                                  className="text-gray-900"
+                                />
+                                <span className="text-gray-900 text-sm">
+                                  {items.event.address}
+                                </span>
+                              </div>
+                            ) : ('')}
+
+                            {/* Venue */}
+                            {items.event.venue ? (
+                              <div className="flex items-center gap-2">
+                                <CalendarIcon
+                                  width={16}
+                                  height={16}
+                                  className="text-gray-900"
+                                />
+                                <span className="text-gray-900 text-sm">
+                                  {items.event.venue}
+                                </span>
+                              </div>
+                            ) : ('')}
+
+                          </>
+                        )}
+                        {/* Link */}
+                        <div className="text-gray-900 flex gap-2">
+                          <CalendarIcon
+                            width={16}
+                            height={16}
+                            className="text-gray-900"
+                          />
+                          <span>{items.event.event_link}</span>
+                        </div>
+                        {/* Speaker */}
+                        <div className="text-gray-900">
+                          {items.event.tags && items.event.tags.length > 0 ?
+                            <App state={items.event.speaker} website={items.event.tags} />
+                            : items.event.body ? items.event.body : ""}
+                        </div>
+                      </div>
+                      <Link
+                        href={{
+                          pathname: "/events-design/event-view",
+                          query: items.id,
+                        }}
+                      >
+                        <a className="text-sm text-gray-600 cursor-pointer flex items-center border border-gray-100 rounded-full py-1 px-3">
+                          View Event
+                        </a>
+                      </Link>
                     </div>
                   </div>
-                  <Link 
-                    href={{
-                    pathname: "/events-design/event-view",
-                    query: items.id,
-                  }}
-                   >
-                    <a className="text-sm text-gray-600 cursor-pointer flex items-center border border-gray-100 rounded-full py-1 px-3">
-                      View Event
-                    </a>
-                  </Link>
                 </div>
-              </div>
-            </div>
-            </a>
+              </a>
             </Link>
           ) : (
             ""
           )}
           {items.feed_type && items.feed_type === "video_feed" ? (
-            <Link 
-            href={{
-            pathname: "/events-design/event-view",
-            query: items.id,
-          }} > 
-          <a>
-              <video controls className="aspect-video w-full rounded-xl my-4">
-                <source src={items.attachments_link} type="video/mp4" />
-              </video>
-          </a>
-          </Link>
+            <Link
+              href={{
+                pathname: "/events-design/event-view",
+                query: items.id,
+              }} >
+              <a>
+                <video controls className="aspect-video w-full rounded-xl my-4">
+                  <source src={items.attachments_link} type="video/mp4" />
+                </video>
+              </a>
+            </Link>
           ) : (
             ""
           )}
           {items.attachments_link && items.feed_type === "image_feed" ? (
-            <Link 
-            href={{
-            pathname: "/events-design/event-view",
-            query: items.id,
-          }} > 
-          <a>
-            <div className="mt-[14px]">
-              <img
-                src={items.attachments_link}
-                width={952}
-                height={240}
-                layout="responsive"
-                className="aspect-video object-cover rounded-lg mx-auto h-[390px]"
-                alt=""
-              />
-            </div>
-            </a>
+            <Link
+              href={{
+                pathname: "/events-design/event-view",
+                query: items.id,
+              }} >
+              <a>
+                <div className="mt-[14px]">
+                  <img
+                    src={items.attachments_link}
+                    width={952}
+                    height={240}
+                    layout="responsive"
+                    className="aspect-video object-cover rounded-lg mx-auto h-[390px]"
+                    alt=""
+                  />
+                </div>
+              </a>
             </Link>
           ) : (
             ""
@@ -622,7 +639,7 @@ const NewsFeedSingle = (singleItem) => {
                   height={24}
                   className="text-gray-600 cursor-pointer"
                 />
-                <span className="font-light text-gray-600 cursor-pointer">{comments_count>=0 && is_deleted==true?(comments_count):(items.comments_count==0?(0):(items.comments_count))}</span>
+                <span className="font-light text-gray-600 cursor-pointer">{comments_count >= 0 && is_deleted == true ? (comments_count) : (items.comments_count == 0 ? (0) : (items.comments_count))}</span>
               </div>
             </div>
             <div className="flex gap-6">
@@ -660,22 +677,15 @@ const NewsFeedSingle = (singleItem) => {
                   </>
                 )}
               </div>
-              <div>
-                <ShareIcon
-                  width={24}
-                  height={24}
-                  className="text-indigo-400 cursor-pointer"
-                  onClick={() => copylink(items.id)}
-                />
-              </div>
+              <ShareModal />
             </div>
           </div>
           <Fragment>
-            {CurrentUser && items && items.page && items.page.can_comment!="all_member" && (CurrentUser.id !=items.page.user_id) ?(''):(
-              <PostComments news_feed_id={items.id} setComments={setComments} setComments_count={setComments_count} setIs_deleted={setIs_deleted} dp={items.user.display_photo_url}/>
+            {CurrentUser && items && items.page && items.page.can_comment != "all_member" && (CurrentUser.id != items.page.user_id) ? ('') : (
+              <PostComments news_feed_id={items.id} setComments={setComments} setComments_count={setComments_count} setIs_deleted={setIs_deleted} dp={items.user.display_photo_url} />
             )}
             <FilterComments news_feed_id={items.id} comments={comments.data} setComments_count={setComments_count} setComments={setComments} next_page={nextPage} setNextPage={setNextPage} />
-            {!loading && <ReplyComments news_feed_id={items.id} comments={comments.data} comments_count={comments_count} setComments_count={setComments_count} setComments={setComments} setIs_deleted={setIs_deleted} items={items}/>}
+            {!loading && <ReplyComments news_feed_id={items.id} comments={comments.data} comments_count={comments_count} setComments_count={setComments_count} setComments={setComments} setIs_deleted={setIs_deleted} items={items} />}
           </Fragment>
         </div>
       </div>
