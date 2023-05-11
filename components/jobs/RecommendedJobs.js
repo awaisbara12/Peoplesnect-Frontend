@@ -46,7 +46,8 @@ const RecommendedJobs = () => {
       .then((result) => {
         if (result) {
           // setRecomend(result.data)
-          Recomended();
+          // Recomended();
+          document.getElementById(`job-${job_id}`).classList.add("hidden");
         }
       })
       .catch((err) => console.log(err));
@@ -97,7 +98,10 @@ const RecommendedJobs = () => {
                 loader={<div className="flex justify-center "><ClipLoader className="my-8" color="#818CF8" size={40} /> </div>}
               >
               {Recomend.map((i)=>(
-                <div className="jobs-profile bg-white rounded-xl p-4" key={i.id}>
+                <div className="jobs-profile bg-white rounded-xl p-4" 
+                  id={`job-${i.id}`}
+                  key={i.id}
+                >
                   <div className="flex  justify-between">
                     <div className="">
                           {i.company_photo?

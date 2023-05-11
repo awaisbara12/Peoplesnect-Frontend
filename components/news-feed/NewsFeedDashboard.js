@@ -42,6 +42,7 @@ const NewsFeedDashboard = () => {
 
     try {
       if (result.status == 200) {
+        console.log(result.data.data);
         const mergedata = [...list, ...result.data.data]
         setList(mergedata);
         setcurrentpage(result.data.pages.next_page)

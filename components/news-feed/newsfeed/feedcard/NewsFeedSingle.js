@@ -36,16 +36,12 @@ import {
   NEWSFEED_COMMENT_POST_KEY,
   CURENT_USER_LOGIN_API,
   GROUP_API,
+  REPORT_API,
 } from "../../../../pages/config";
 import App from "../newspost/App";
 // import Spinner from "../../../common/Spinner";
 
 const cardDropdown = [
-  {
-    name: "Save",
-    href: "#",
-    icon: BookmarkIcon,
-  },
   {
     name: "Share",
     href: "#",
@@ -55,11 +51,6 @@ const cardDropdown = [
     name: "Report",
     href: "#",
     icon: DocumentReportIcon,
-  },
-  {
-    name: "Unfollow",
-    href: "#",
-    icon: XCircleIcon,
   },
 ];
 const ReadMore = ({ children }) => {
@@ -200,14 +191,46 @@ const NewsFeedSingle = (singleItem) => {
          Authorization: `${authKey}`,
        },
     })
-       .then((resp) => resp.json())
+    .then((resp) => resp.json())
+    .then((result) => {
+      if (result) {
+        setCurrentUser(result.data);
+      }
+    })
+    .catch((err) => console.log(err)); 
+  }
+
+  function createReport(feedId) {
+    const dataForm = new FormData();
+    dataForm.append("reportable_id", feedId);
+    dataForm.append("reportable_type", "NewsFeed");
+    fetch(REPORT_API, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
+      body: dataForm,
+    })
+      .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-          setCurrentUser(result.data);
+          // console.log("Hello");
+          alert("Your report send to Admin");
         }
       })
-      .catch((err) => console.log(err)); 
+      .catch((err) => console.log(err));
   }
+
+  const optionConfirm=(name,item)=>{
+    // console.log(item)
+    if(name=="Report"){
+      var a = confirm(name);
+      if(a){
+        createReport(item.id);
+      }
+    }
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -400,6 +423,7 @@ const NewsFeedSingle = (singleItem) => {
                             {cardDropdown.map((card) => (
                               <a
                                 key={card.name}
+                                onClick={()=>optionConfirm(card.name,items)}
                                 href={card.id}
                                 className="-m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
                               >
@@ -678,6 +702,246 @@ const NewsFeedSingle = (singleItem) => {
             {!loading && <ReplyComments news_feed_id={items.id} comments={comments.data} comments_count={comments_count} setComments_count={setComments_count} setComments={setComments} setIs_deleted={setIs_deleted} items={items}/>}
           </Fragment>
         </div>
+
+        {/* <div className="flex gap-2 justify-between items-center px-[22px] py-[14px]">
+          <div className="flex gap-2 items-center">
+          
+            {items && items.page?(
+              items.page.display_photo_url?(
+                <img
+                  src={items.page.display_photo_url} 
+                  className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
+                  width={45} 
+                  height={45} 
+                  alt="" 
+                />
+              ):(
+                <Image 
+                  src={PagePhoto} 
+                  className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
+                  width={45} 
+                  height={45} 
+                  alt="" 
+                />
+              )
+            ):(
+              items && items.user && items.user.display_photo_url?(
+                <img
+                  src={items.user.display_photo_url} 
+                  className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
+                  width={45} 
+                  height={45} 
+                  alt="" 
+                />
+              ):(
+                <Image 
+                  src={ProfileAvatar} 
+                  width={45} 
+                  height={45} 
+                  alt="" 
+                />
+              )
+            )}
+          
+            <div>
+              {items.page?(
+                <>
+                <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
+                  <div className="capitalize">{items.page.name}</div>
+                </h4>
+                <div className="font-light text-gray-900 opacity-[0.8] italic">  Page Post</div>
+                </>
+                
+              ):(
+                items.group?(
+                  <>
+                    <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
+                      {items.user.first_name} {items.user.last_name}
+                      <ChevronRightIcon
+                        width={24}
+                        height={24}
+                        className="text-indigo-400"
+                      />
+                      <div className="capitalize">{items.group.title}</div>
+                    </h4>
+                    <div className="font-light text-gray-900 opacity-[0.8] italic">Group Post</div>
+                    
+                  </>
+                ):(
+                <>
+                  <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
+                    {items.user.first_name} {items.user.last_name}
+                    <BadgeCheckIcon
+                      width={14}
+                      height={14}
+                      className="text-indigo-400"
+                    />
+                  </h4>
+                  <div className="font-light text-gray-900 opacity-[0.8]">
+                    {items.user.city?items.user.city+", ":""}{items.user.state?items.user.state+", ":""} {items.user.country}
+                  </div>
+                  <div className="flex gap-2 mt-2">
+                    Share a
+                    <Link href={""}>
+                      <a  className="text-indigo-400">
+                      Post
+                      </a>
+                    </Link>
+                  </div>
+                </>
+                )
+              )}
+              
+            </div>
+          </div>
+          <div className="">
+            <div className="">
+              <Popover className="relative">
+                {({ open }) => (
+                  <>
+                    <Popover.Button
+                      className={` ${
+                        open ? "" : "text-opacity-90 focus-visible:outline-none"
+                      }`}
+                    >
+                      <div className="hover:bg-indigo-100 focus:bg-indigo-100 rounded-full h-8 w-8 flex items-center justify-center">
+                        <DotsHorizontalIcon className="w-5 h-5" />
+                      </div>
+                    </Popover.Button>
+                    <Transition
+                      as={Fragment}
+                      enter="transition ease-out duration-200"
+                      enterFrom="opacity-0 translate-y-1"
+                      enterTo="opacity-100 translate-y-0"
+                      leave="transition ease-in duration-150"
+                      leaveFrom="opacity-100 translate-y-0"
+                      leaveTo="opacity-0 translate-y-1"
+                    >
+                      <Popover.Panel className="absolute left-1/2 z-10 mt-3 w-72 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-3xl">
+                        <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                          <div className="relative bg-white py-2">
+                            {cardDropdown.map((card) => (
+                              <a
+                                key={card.name}
+                                onClick={()=>optionConfirm(card.name,items)}
+                                href={card.id}
+                                className="-m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
+                              >
+                                <div className="flex h-10 w-10 shrink-0 items-center justify-center text-white sm:h-12 sm:w-12 pl-2">
+                                  <card.icon className="h-6 w-6 text-gray-900" />
+                                </div>
+                                <div>
+                                  <p className="text-sm font-medium text-gray-900">
+                                    {card.name}
+                                  </p>
+                                </div>
+                              </a>
+                            ))}
+                          </div>
+                        </div>
+                      </Popover.Panel>
+                    </Transition>
+                  </>
+                )}
+              </Popover>
+            </div>
+          </div>
+        </div>
+        <div className="border p-4 m-4">
+        <div className="flex gap-2 items-center">
+          
+          {items && items.page?(
+            items.page.display_photo_url?(
+              <img
+                src={items.page.display_photo_url} 
+                className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
+                width={45} 
+                height={45} 
+                alt="" 
+              />
+            ):(
+              <Image 
+                src={PagePhoto} 
+                className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
+                width={45} 
+                height={45} 
+                alt="" 
+              />
+            )
+          ):(
+            items && items.user && items.user.display_photo_url?(
+              <img
+                src={items.user.display_photo_url} 
+                className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
+                width={45} 
+                height={45} 
+                alt="" 
+              />
+            ):(
+              <Image 
+                src={ProfileAvatar} 
+                width={45} 
+                height={45} 
+                alt="" 
+              />
+            )
+          )}
+        
+          <div>
+            {items.page?(
+              <>
+              <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
+                
+                <div className="capitalize">{items.page.name}</div>
+              </h4>
+              <div className="font-light text-gray-900 opacity-[0.8] italic">  Page Post</div>
+              </>
+              
+            ):(
+              items.group?(
+                <>
+                  <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
+                    {items.user.first_name} {items.user.last_name}
+                    <ChevronRightIcon
+                      width={24}
+                      height={24}
+                      className="text-indigo-400"
+                    />
+                    <div className="capitalize">{items.group.title}</div>
+                  </h4>
+                  <div className="font-light text-gray-900 opacity-[0.8] italic">Group Post</div>
+                 
+                </>
+              ):(
+              <>
+                <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
+                  {items.user.first_name} {items.user.last_name}
+                  <BadgeCheckIcon
+                    width={14}
+                    height={14}
+                    className="text-indigo-400"
+                  />
+                </h4>
+                <div className="font-light text-gray-900 opacity-[0.8]">
+                  {items.user.city?items.user.city+", ":""}{items.user.state?items.user.state+", ":""} {items.user.country}
+                </div>
+              </>
+              )
+            )}
+            
+          </div>
+        </div>
+        <div className="p-2 pb-2">
+          Discription of the post must show here</div>
+          <div className="mt-[14px] mx-auto">
+            <Image
+              src={PostImage}
+              width="980px"
+              className="aspect-video object-cover rounded-lg mx-auto h-[390px]"
+              alt=""
+            />
+          </div>
+        </div> */}
       </div>
       {/* <div className="w-[600px] xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">
         <div className="flex gap-2 justify-between items-center px-[22px] py-[14px]">
