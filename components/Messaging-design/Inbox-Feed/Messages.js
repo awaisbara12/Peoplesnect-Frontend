@@ -19,38 +19,28 @@ import {
 import { CURENT_USER_LOGIN_API, MESSAGES_API, WS_PUBLIC_API } from "../../../pages/config";
 import { useRouter } from "next/router";
 import { array } from "yup";
+import InfiniteScroll from 'react-infinite-scroll-component';
+import ClipLoader from 'react-spinners/ClipLoader';
 const Messages = () => {
-  const [setLoading] = useState(false);
-  const [postText, setPostText] = useState("");
-  const [eventCoverImage, setEventCoverImage] = useState([]);
-  const [postImage, setPostImage] = useState([]);
-  const [postImagePreview, setpostImagePreview] = useState();
-  const [selectedTimezone] = useState({});
-  const [feedType, setFeedType] = useState("basic");
-  const [eventType] = useState();
-  const [videoSrc, setVideoSrc] = useState([]);
-  const [videoPreview, setVideoPreview] = useState();
-  let [setIsOpen] = useState(false);
-  const [currentuser, setcurrentuser] = useState("");           //current-user
-  
-  const [attachment_type, setattachment_type] = useState("");
-  const [text, setText] = useState("");
-  const [messages, setmessages] = useState();
-  const [senderDetails, setsenderDetails] = useState("");
-  const [cables, setcables] = useState(null);
-  const [channl, setchannl] = useState();
-  const messageRef = useRef();
-  const [Conversation_id, setConversation_id] = useState("");
-
-  const router = useRouter();
-  const data = router.asPath;
-  const myArray = data.split("?");
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
   }
-  // Action Cable
-  const [sms, setsms] = useState();
-  const [Id, setId] = useState();
+  const [text, setText] = useState("");                          // SMS BODY
+  const [attachment_type, setattachment_type] = useState("");    // TYPE [:- IMAGE/VEDIO/Doc]
+  const [postImage, setPostImage] = useState([]);                // UPLOAD [:- IMAGE/VEDIO/Doc]
+  const [postImagePreview, setpostImagePreview] = useState();    // PREVIEW [:- IMAGE/VEDIO/Doc]
+  const [messages, setmessages] = useState([]);                  // GET SMS OF Certain CONVERSATON 
+  const [senderDetails, setsenderDetails] = useState("");        // 2nd USER
+  const [cables, setcables] = useState(null);                    // ACTIONCABLE CONNECTION
+  const [currentpagemy, setcurrentpagemy] = useState(1);         // PAGE PARAM [:- PAGY]
+  const router = useRouter();
+  const data = router.asPath;
+  const myArray = data.split("?");
+
+  const messageRef = useRef();                // FOR MSG_DIV SCROLLING DOWN
+  const myDivRef = useRef(null);              // FOR MSG DIV_ID REFERENCENC
+  
+  //  Subscribe Message Channel
   const createMessageChanel=async(id,CableApp)=> {
     CableApp.subscriptions.create(
       {
@@ -60,26 +50,44 @@ const Messages = () => {
       },
       {
         connected: () => {
-          console.log('connected',myArray[1]);
-          setConversation_id(myArray[1]);
+          console.log('Chat-connected');
         },
         disconnected: () => {
-          console.log('disconnected',Conversation_id);
+          console.log('Chat-disconnected');
 
         },
         received: data => { 
-          console.log("conversation=> ",myArray[1]+" => data"+data)
-          if(myArray[1]==data){
-            console.log("received111",data);
-            GetConversation();
+          if (myDivRef.current.id == myArray[1]){
+            GetMessages();
+            downfunction();
+            console.log("Chat-received");
           }
          
         },
       }
     );
   }
-  function handleOnEnter(text) {
+  //  For Scroll Down
+  const downfunction=()=>{
+    const scroll =messageRef.current.scrollHeight - messageRef.current.clientHeight;
+    messageRef.current.scrollTo(0, scroll);
+
+   // if (messageRef.current) {
+      //   messageRef.current.scrollIntoView(
+      //     {
+      //       behavior: 'smooth',
+      //       block: 'end',  //center
+      //       inline: 'nearest'
+      //     })
+      // }
   }
+  //  Send On Enter
+  function handleOnEnter() {
+    if (text){
+      SendMessage();
+    }
+  }
+  //  Uploading Attachment
   const handleImagePost = (e) => {
     if(e.target.files[0])
     {
@@ -98,11 +106,13 @@ const Messages = () => {
     
     
   };
+  //  Clearing attachments
   const clearPic =()=>{
     setpostImagePreview('');
     setPostImage('');
     setattachment_type('')
   }
+  //  Create/ Send Messsage
   const SendMessage=async()=>{
     if (text)
     {
@@ -125,13 +135,16 @@ const Messages = () => {
         .then((resp) => resp.json())
         .then((result) => {
           if (result) {
-            GetConversation();
+            const mergedata = [...result.data, ...messages]
+            setmessages(mergedata);
+            downfunction();
           }
         })
         .catch((err) => console.log(err)); 
     }
   }
-  const GetConversation=async()=>{     
+  //  Get Message
+  const GetMessages=async()=>{     
     if(myArray[1]){
       await fetch(MESSAGES_API+"?recipient_id="+myArray[1], {
         method: "GET",
@@ -143,20 +156,14 @@ const Messages = () => {
         .then((result) => {
           if (result && result.data) {
             setmessages(result.data);
-            if (messageRef.current) {
-              messageRef.current.scrollIntoView(
-                {
-                  behavior: 'smooth',
-                  block: 'end',  //center
-                  inline: 'nearest'
-                })
-            }
+            setcurrentpagemy(result.pages.next_page)
           }
           else{setmessages('');}
         })
         .catch((err) => console.log(err)); 
     }else{console.log("no user")}
   }
+  //  Fing @nd User
   const recipientUserDetails=async(id, cable)=>{   
     if(myArray[1])
       {
@@ -172,13 +179,14 @@ const Messages = () => {
               if (result) {
                 setsenderDetails(result.data);
                 createMessageChanel(id, cable);
-                GetConversation();
+                GetMessages();
               }
             })
             .catch((err) => console.log(err)); 
            
       }
   }
+  //  Get Current User
   const Current_User=async(CableApp)=>{   
     await fetch(CURENT_USER_LOGIN_API, {
       method: "GET",
@@ -190,7 +198,6 @@ const Messages = () => {
       .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-          setcurrentuser(result.data.id)
           recipientUserDetails(result.data.id,CableApp);
         }
       })
@@ -208,10 +215,6 @@ const Messages = () => {
     const CableApp= actionCable.createConsumer(WS_PUBLIC_API);
     setcables(CableApp);
     Current_User(CableApp);
-    setConversation_id(myArray[1]);
-    
-    
-
     return ()=>{
       if (cables) {
          cables.disconnect(); 
@@ -219,131 +222,70 @@ const Messages = () => {
     }
   }, [myArray[1]]);
   
-  // Render your component
+  //  Fetch Sms OnScroll [:pagy ]
+  const fetchMoreSMS = async() => {
+    if(myArray[1]){
+      await fetch(MESSAGES_API+"?recipient_id="+myArray[1]+"&page="+currentpagemy, {
+        method: "GET",
+        headers: {
+          Accept: "application/json", 
+          Authorization: `${authKey}`,
+        },
+      }).then((resp) => resp.json())
+        .then((result) => {
+          if (result && result.data) {
+            const mergedata = [...messages, ...result.data ]
+            setmessages(mergedata);
+            setcurrentpagemy(result.pages.next_page)
+          }
+          else{setmessages('');}
+        })
+        .catch((err) => console.log(err)); 
+    }else{console.log("no user")}
+  }
+
   return (
-    <div>
+    <div
+      ref={myDivRef}
+      id={senderDetails && senderDetails.id}>
       <div className="w-[340px] xl:w-[780px] lg:w-[419px] md:w-[540px] bg-white rounded-r-xl">
         {/* Chat-Head */}
         <div className="flex justify-between bg-white sticky top-0 p-3 z-40 border-b rounded-tr-xl">
           {senderDetails?(
              <div className="font-bold flex items-center gap-2 ">{senderDetails.first_name} {senderDetails.last_name}</div>
           ):('')}
-         <Link href="">
+          <Link href="">
             <a>
               <QuestionMarkCircleIcon className="h-5 w-5" />
             </a>
           </Link>
         </div>
         {/* Show Message */}
-        <div className="overflow-y-scroll h-[550px]">
-          {messages &&
-            messages.map((i)=>{
-              if(i.user && senderDetails&& i.user.id==senderDetails.id)
-              {
-                return(
-                  <div className="ml-2 mt-3" key={i.id} >
-                    <div className="flex items-center gap-2">
-                    {i.user.display_photo_url?(
-                        <img
-                        className="object-cover w-[30px] h-[30px] rounded-full"
-                        src={i.user.display_photo_url}
-                        width={30}
-                        height={30}
-                        alt=""
-                      />
-                      ):(
-                      <Image
-                        className="object-cover"
-                        src={ProfileAvatar}
-                        width={30}
-                        height={30}
-                        alt=""
-                      />)}
-                      <div className=" bg-gray-100 w-60 p-2 border rounded-xl">
-                       {i.attachment && i.attachment_type=="image"?(
-                            <div className="relative w-1/4 mt-2">
-                              <img
-                              src={i.attachment}
-                              className="rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
-                              alt=""/>
-                            </div>
-                          ):(
-                            i.attachment && i.attachment_type=="video"?(
-                              <div className="relative w-1/4 mt-2">
-                                <div className="relative w-1/4 mt-2">
-                                  <video controls className=" rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover">
-                                    <source src={i.attachment} type="video/mp4" />
-                                  </video> 
-                                </div>
-                              </div>
-
-                            ):(
-                              i.attachment && i.attachment_type=="application"?(
-                                <div className="relative w-1/4 mt-2">
-                                  {/* <video autoPlay="autoplay" controls className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover">
-                                    <source src={postImagePreview} type="video/mp4" />
-                                  </video> */}
-                                  {/* <iframe src={i.attachment} width="100%" height="300" >
-                                  </iframe> */}
-                                  <div className=" flex border-b w-56 p-2 justify-between ">
-                                    <div>{i.attachment_type}</div>
-                                    <a href={i.attachment} download>
-                                      <button className= "text-black p-0">Download</button>
-                                    </a>
-                                  </div>
-                                  {/* <div>{i.attachment_type}</div> */}
-                                </div>
-                              ):('')
-                            )
-                          )
-                        }
-                        <div className="">{i.body} </div>
-                        <div className=" flex justify-end mt-0 mr-2 text-xs">{i.time}</div>
-                      </div>
-                    </div>
-                  </div>
-                )
-              }
-              else 
-              {
-                return(
-                    <div className="flex justify-end mt-7 mr-2" key={i.id} >
+        <div id="scrollableDiv" ref={messageRef}
+          style={{
+            height: 400,
+            overflow: 'auto',
+            display: 'flex',
+            flexDirection: 'column-reverse',
+          }}
+        >
+          <InfiniteScroll
+            dataLength={messages.length}
+            next={fetchMoreSMS}
+            style={{ display: 'flex', flexDirection: 'column-reverse' }} 
+            hasMore={currentpagemy != null}
+            inverse={true}
+            scrollableTarget="scrollableDiv"
+            loader={<div className="flex justify-center "><ClipLoader className="my-8" color="#818CF8" size={40} /> </div>}
+          >
+            {messages &&
+              messages.map((i)=>{
+                if(i.user && senderDetails&& i.user.id==senderDetails.id)
+                {
+                  return(
+                    <div className="ml-2 mt-3" key={i.id} >
                       <div className="flex items-center gap-2">
-                        <div className=" bg-indigo-400 p-2 border w-60 rounded-xl">
-                        {i.attachment && i.attachment_type=="image"?(
-                            <div className="relative w-1/4 mt-2">
-                              <img
-                              src={i.attachment}
-                              className="rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
-                              alt=""/>
-                            </div>
-                          ):(
-                            i.attachment && i.attachment_type=="video"?(
-                              <div className="relative w-1/4 mt-2">
-                                <div className="relative w-1/4 mt-2">
-                                  <video controls className=" rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover">
-                                    <source src={i.attachment} type="video/mp4" />
-                                  </video> 
-                                </div>
-                              </div>
-                            ):(
-                              i.attachment && i.attachment_type=="application"?(
-                                <div className="relative w-1/4 mt-2">
-                                  <div className=" flex border-b w-56 p-2 justify-between ">
-                                    <div>{i.attachment_type}</div>
-                                    <a href={i.attachment} download>
-                                      <button className= "text-black p-0">Download</button>
-                                    </a>
-                                  </div>
-                                </div>
-                              ):('')
-                            )
-                          )
-                        }
-                          <div className="text-white">{i.body} </div>
-                          <div className=" flex justify-end mt-0 mr-2 text-xs text-white">{i.time}</div>
-                        </div>
-                        {i.user && i.user.display_photo_url?(
+                      {i.user.display_photo_url?(
                           <img
                           className="object-cover w-[30px] h-[30px] rounded-full"
                           src={i.user.display_photo_url}
@@ -359,91 +301,193 @@ const Messages = () => {
                           height={30}
                           alt=""
                         />)}
+                        <div className=" bg-gray-100 w-60 p-2 border rounded-xl">
+                        {i.attachment && i.attachment_type=="image"?(
+                              <div className="relative w-1/4 mt-2">
+                                <img
+                                src={i.attachment}
+                                className="rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
+                                alt=""/>
+                              </div>
+                            ):(
+                              i.attachment && i.attachment_type=="video"?(
+                                <div className="relative w-1/4 mt-2">
+                                  <div className="relative w-1/4 mt-2">
+                                    <video controls className=" rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover">
+                                      <source src={i.attachment} type="video/mp4" />
+                                    </video> 
+                                  </div>
+                                </div>
+
+                              ):(
+                                i.attachment && i.attachment_type=="application"?(
+                                  <div className="relative w-1/4 mt-2">
+                                    {/* <video autoPlay="autoplay" controls className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover">
+                                      <source src={postImagePreview} type="video/mp4" />
+                                    </video> */}
+                                    {/* <iframe src={i.attachment} width="100%" height="300" >
+                                    </iframe> */}
+                                    <div className=" flex border-b w-56 p-2 justify-between ">
+                                      <div>{i.attachment_type}</div>
+                                      <a href={i.attachment} download>
+                                        <button className= "text-black p-0">Download</button>
+                                      </a>
+                                    </div>
+                                    {/* <div>{i.attachment_type}</div> */}
+                                  </div>
+                                ):('')
+                              )
+                            )
+                          }
+                          <div className="">{i.body} </div>
+                          <div className=" flex justify-end mt-0 mr-2 text-xs">{i.time}</div>
+                        </div>
                       </div>
                     </div>
-                )
-              }
-            })
-          }
-          <div ref={messageRef}></div>
+                  )
+                }
+                else 
+                {
+                  return(
+                      <div className="flex justify-end mt-7 mr-2" key={i.id} >
+                        <div className="flex items-center gap-2">
+                          <div className=" bg-indigo-400 p-2 border w-60 rounded-xl">
+                          {i.attachment && i.attachment_type=="image"?(
+                              <div className="relative w-1/4 mt-2">
+                                <img
+                                src={i.attachment}
+                                className="rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
+                                alt=""/>
+                              </div>
+                            ):(
+                              i.attachment && i.attachment_type=="video"?(
+                                <div className="relative w-1/4 mt-2">
+                                  <div className="relative w-1/4 mt-2">
+                                    <video controls className=" rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover">
+                                      <source src={i.attachment} type="video/mp4" />
+                                    </video> 
+                                  </div>
+                                </div>
+                              ):(
+                                i.attachment && i.attachment_type=="application"?(
+                                  <div className="relative w-1/4 mt-2">
+                                    <div className=" flex border-b w-56 p-2 justify-between ">
+                                      <div>{i.attachment_type}</div>
+                                      <a href={i.attachment} download>
+                                        <button className= "text-black p-0">Download</button>
+                                      </a>
+                                    </div>
+                                  </div>
+                                ):('')
+                              )
+                            )
+                          }
+                            <div className="text-white">{i.body} </div>
+                            <div className=" flex justify-end mt-0 mr-2 text-xs text-white">{i.time}</div>
+                          </div>
+                          {i.user && i.user.display_photo_url?(
+                            <img
+                            className="object-cover w-[30px] h-[30px] rounded-full"
+                            src={i.user.display_photo_url}
+                            width={30}
+                            height={30}
+                            alt=""
+                          />
+                          ):(
+                          <Image
+                            className="object-cover"
+                            src={ProfileAvatar}
+                            width={30}
+                            height={30}
+                            alt=""
+                          />)}
+                        </div>
+                      </div>
+                  )
+                }
+              })
+            }
+            {/* <div ref={messageRef}></div> */}
+          </InfiniteScroll>
         </div>
-
         {/* Messgae Send-Bar */}
-        <div className="sticky bottom-0 bg-white">
-        {  postImagePreview && attachment_type=="image"?(
-            <div className="relative w-1/4 mt-2">
-              <img
-              src={postImagePreview}
-              className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
-              alt=""/>
-              <div className="bg-indigo-100 absolute top-4 right-0 z-10 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
-              onClick={clearPic} >
-                <TrashIcon className="w-5 h-5 text-indigo-600" />
-              </div>
-            </div>
-          ):(
-            postImagePreview && attachment_type=="video"?(
+        {myArray[1]?( 
+          <div className=" bottom-0 bg-white">
+          {  postImagePreview && attachment_type=="image"?(
               <div className="relative w-1/4 mt-2">
-                <div className="relative w-1/4 mt-2">
-                  <video autoPlay="autoplay" controls className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover">
-                    <source src={postImagePreview} type="video/mp4" />
-                  </video> 
-                </div>
+                <img
+                src={postImagePreview}
+                className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
+                alt=""/>
                 <div className="bg-indigo-100 absolute top-4 right-0 z-10 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
                 onClick={clearPic} >
                   <TrashIcon className="w-5 h-5 text-indigo-600" />
                 </div>
               </div>
-
             ):(
-              postImagePreview && attachment_type=="application"?(
+              postImagePreview && attachment_type=="video"?(
                 <div className="relative w-1/4 mt-2">
-                {/* <video autoPlay="autoplay" controls className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover">
-                  <source src={postImagePreview} type="video/mp4" />
-                </video> */}
-                
-                <div>{postImagePreview}</div>
-                
-                <div className="bg-indigo-100 absolute top-4 right-0 z-10 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
-                onClick={clearPic} >
-                  <TrashIcon className="w-5 h-5 text-indigo-600" />
+                  <div className="relative w-1/4 mt-2">
+                    <video autoPlay="autoplay" controls className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover">
+                      <source src={postImagePreview} type="video/mp4" />
+                    </video> 
+                  </div>
+                  <div className="bg-indigo-100 absolute top-4 right-0 z-10 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
+                  onClick={clearPic} >
+                    <TrashIcon className="w-5 h-5 text-indigo-600" />
+                  </div>
+                </div>
+
+              ):(
+                postImagePreview && attachment_type=="application"?(
+                  <div className="relative w-1/4 mt-2">
+                  {/* <video autoPlay="autoplay" controls className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover">
+                    <source src={postImagePreview} type="video/mp4" />
+                  </video> */}
+                  
+                  <div>{postImagePreview}</div>
+                  
+                  <div className="bg-indigo-100 absolute top-4 right-0 z-10 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
+                  onClick={clearPic} >
+                    <TrashIcon className="w-5 h-5 text-indigo-600" />
+                  </div>
+                </div>
+                ):('')
+                // application
+              )
+            )}
+            <div className="flex items-center px-2">
+              <InputEmoji
+                type="text"
+                react-emoji="w-{100%}"
+                value={text}
+                onChange={setText}
+                // cleanOnEnter
+                onEnter={handleOnEnter}
+                placeholder="Type Your Message"
+              />
+              {/* <PhotographIcon className="h-10 w-10 opacity-40" /> */}
+              <div className="">
+                <div className="relative flex gap-2 items-center justify-center">
+                  <PhotographIcon
+                    className={"h-10 w-10 opacity-40"}
+                  />
+                  {/* <div className="font-extralight">Photo Upload</div> */}
+                  <input
+                    type={"file"}
+                    name="image"
+                    id="image"
+                    className="opacity-0 absolute w-6 h-6 -z-0"
+                    onChange={handleImagePost}
+                    title={""}
+                    multiple
+                  />
                 </div>
               </div>
-              ):('')
-              // application
-            )
-          )}
-          <div className="flex items-center px-2">
-            <InputEmoji
-              type="text"
-              react-emoji="w-{100%}"
-              value={text}
-              onChange={setText}
-              // cleanOnEnter
-              // onEnter={handleOnEnter}
-              placeholder="Type Your Message"
-            />
-            {/* <PhotographIcon className="h-10 w-10 opacity-40" /> */}
-            <div className="">
-              <div className="relative flex gap-2 items-center justify-center">
-                <PhotographIcon
-                  className={"h-10 w-10 opacity-40"}
-                />
-                {/* <div className="font-extralight">Photo Upload</div> */}
-                <input
-                  type={"file"}
-                  name="image"
-                  id="image"
-                  className="opacity-0 absolute w-6 h-6 -z-0"
-                  onChange={handleImagePost}
-                  title={""}
-                  multiple
-                />
-              </div>
+              <PaperAirplaneIcon className="h-10 w-10 rotate-90 opacity-40 ml-2" onClick={()=>{SendMessage()}}/>
             </div>
-            <PaperAirplaneIcon className="h-10 w-10 rotate-90 opacity-40 ml-2" onClick={()=>{SendMessage()}}/>
           </div>
-        </div>
+        ):('')}
       </div>
     </div>
   );

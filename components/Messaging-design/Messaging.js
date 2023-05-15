@@ -202,7 +202,7 @@ const Messaging = () => {
                   <div>
                     <input onClick={()=> setOpenTab(2)} onChange={(e)=>{setOpenTab(2); e.target.value='';}} placeholder="Search Friends.." className="border rounded border-indigo-400 w-full p-2 placeholder:font-light focus:border-indigo-400 active:border-indigo-400 focus-visible:border-indigo-400 " />
                   </div>
-                  <div className="overflow-y-scroll h-[620px] ">
+                  <div className="overflow-y-scroll h-[370px] ">
                     {currentuser && Conversation && 
                       Conversation.map((i)=>{
                         if(currentuser.id != i.recipient.id)
@@ -280,7 +280,7 @@ const Messaging = () => {
                     className="border rounded border-indigo-400 w-full p-2 placeholder:font-light focus:border-indigo-400 active:border-indigo-400 focus-visible:border-indigo-400 " 
                     onChange={searchmultiples}/>
                   </div>
-                  <div className="overflow-y-scroll h-[620px] ">
+                  <div className="overflow-y-scroll h-[370px] ">
                     {results && results.map((i)=>(
                       <Link href={{pathname:"/messaging-design", query:i.user.id}} key={i.id}>
                         <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">

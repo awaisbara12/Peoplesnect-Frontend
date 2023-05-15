@@ -44,7 +44,10 @@ const Dropdown = ({ color }) => {
   const [postImagePreview, setpostImagePreview] = useState();
   const [subscribed, setsubscribed] = useState();
   const messageRef = useRef();
- var tomsgid;
+  var tomsgid;
+  const myDivRef = useRef(null); 
+
+
   // Box Open
   const openDropdownPopover = () => {
     let actionCable;
@@ -73,7 +76,7 @@ const Dropdown = ({ color }) => {
     console.log("close/hode")
     setDropdownPopoverShow(false);
   };
-  
+
 
   // open chat-popover
   const openDropdownPopover1 = (i) => {
@@ -83,20 +86,18 @@ const Dropdown = ({ color }) => {
     createPopper(btnDropdownRef1.current, popoverDropdownRef1.current, {
       placement: "bottom-end",
     });
-
     createMessageSub(i.id)
     setDropdownPopoverShow1(true);
   };
   // back chat-popover
   const closeDropdownPopover1 = () => {
-    // tomsgid="0";
     setOpenTab(1);
     setmsguser(''); 
     setmessages('');
     setDropdownPopoverShow1(false);
   };
 
-
+ 
   function handleOnEnter(text) {
   }
   const handleImagePost = (e) => {
@@ -179,7 +180,8 @@ const Dropdown = ({ color }) => {
         .then((resp) => resp.json())
         .then((result) => {
           if (result && result.data) {
-            console.log(result.data)
+            console.log("sms",result.data)
+            console.log("sms",result.data)
             setmessages(result.data);
             if (messageRef.current) {
               messageRef.current.scrollIntoView(
@@ -217,7 +219,7 @@ const Dropdown = ({ color }) => {
         .then((resp) => resp.json())
         .then((result) => {
           if (result) {
-            setmessages(result.data);
+            GetMessages(msguser.id)
           }
         })
         .catch((err) => console.log(err)); 
@@ -263,7 +265,7 @@ const Dropdown = ({ color }) => {
         connected: () => console.log('connected'),
         disconnected: () => console.log('disconnected'),
         received: data => {  console.log('recieved',data);
-        if(tomsgid)GetMessages(tomsgid); 
+        if(myDivRef.current.id ==  data){GetMessages(tomsgid)}; 
        },
       }
     );
@@ -539,139 +541,141 @@ const Dropdown = ({ color }) => {
                         </div>
                       </div>
                       {/* chat-Box body */}
-                      <div>
+                      <div ref={myDivRef} id={currentuser && currentuser.id}>
                         {/* Show Messages */}
                         <div className="w-full bg-white h-[280px] overflow-y-scroll">
-                          <div className="">
-                            {messages && messages.map((i)=>{
-                              if(i.user && msguser&& i.user.id==msguser.id)
-                              {
-                                return(
-                                  <div className="ml-2 mt-3">
-                                    <div className="flex items-center gap-2">
-                                    {i.user.display_photo_url?(
-                                      <img
-                                        className="object-cover w-[30px] h-[30px] rounded-full"
-                                        src={i.user.display_photo_url}
-                                        width={30}
-                                        height={30}
-                                        alt=""
-                                      />
-                                      ):(
-                                      <Image
-                                        className="object-cover"
-                                        src={ProfileAvatar}
-                                        width={30}
-                                        height={30}
-                                        alt=""
-                                      />)}
-                                      <div className=" bg-gray-100 w-60 p-2 border rounded-xl">
-                                      {i.attachment && i.attachment_type=="image"?(
-                                        <div className="relative w-1/4 mt-2">
-                                          <img
-                                          src={i.attachment}
-                                          className="rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
-                                          alt=""/>
-                                        </div>
-                                        ):(
-                                          i.attachment && i.attachment_type=="video"?(
-                                            <div className="relative w-1/4 mt-2">
-                                              <div className="relative w-1/4 mt-2">
-                                                <video controls className=" rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover">
-                                                  <source src={i.attachment} type="video/mp4" />
-                                                </video> 
-                                              </div>
-                                            </div>
-
-                                          ):(
-                                            i.attachment && i.attachment_type=="application"?(
-                                              <div className="relative w-1/4 mt-2">
-                                                <div className=" flex border-b w-56 pb-2 justify-between ">
-                                                  <div>{i.attachment_type}</div>
-                                                  <a href={i.attachment} download>
-                                                    <button className= "text-black p-0">Download</button>
-                                                  </a>
-                                                </div>
-                                              </div>
-                                            ):('')
-                                          )
-                                        )
-                                      }
-                                        <div className="">{i.body }</div>
-                                        <div className=" flex justify-end mt-0 mr-2 text-xs text-black">{i.time}</div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                )
-                              }else{
-                                return(
-                                  <div className="flex justify-end mt-7 mr-2">
-                                    <div className="flex items-center gap-2">
-                                      <div className="bg-gray-100 p-2 border w-60 rounded-xl">
-                                      {i.attachment && i.attachment_type=="image"?(
-                                        <div className="relative w-1/4 mt-2">
-                                          <img
-                                          src={i.attachment}
-                                          className="rounded-xl my-4 max-h-[150px] max-w-[280px] object-cover"
-                                          alt=""/>
-                                        </div>
-                                        ):(
-                                          i.attachment && i.attachment_type=="video"?(
-                                            <div className="relative w-1/4 mt-2">
-                                              <div className="relative w-1/4 mt-2">
-                                                <video controls className=" rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover">
-                                                  <source src={i.attachment} type="video/mp4" />
-                                                </video> 
-                                              </div>
-                                            </div>
-
-                                          ):(
-                                            i.attachment && i.attachment_type=="application"?(
-                                              <div className="relative w-1/4 mt-2">
-                                                {/* <video autoPlay="autoplay" controls className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover">
-                                                  <source src={postImagePreview} type="video/mp4" />
-                                                </video> */}
-                                                {/* <iframe src={i.attachment} width="100%" height="300" >
-                                                </iframe> */}
-                                                {/* <a href={i.attachment} download>Click to download</a>
-                                                <div>{i.attachment_type}</div> */}
-                                                <div className=" flex border-b w-56 pb-2 justify-between ">
-                                                  <div>{i.attachment_type}</div>
-                                                  <a href={i.attachment} download>
-                                                    <button className= "text-black p-0">Download</button>
-                                                  </a>
-                                                </div>
-                                              </div>
-                                            ):('')
-                                          )
-                                        )
-                                      }
-                                        <div className="">{i.body}</div>
-                                        <div className=" flex justify-end mt-0 mr-2 text-xs text-black">{i.time}</div>
-                                      </div>
+                          {messages?(
+                            <div className="">
+                              {messages.reverse().map((i)=>{
+                                if(i.user && msguser&& i.user.id==msguser.id)
+                                {
+                                  return(
+                                    <div className="ml-2 mt-3">
+                                      <div className="flex items-center gap-2">
                                       {i.user.display_photo_url?(
-                                      <img
-                                        className="object-cover w-[30px] h-[30px] rounded-full"
-                                        src={i.user.display_photo_url}
-                                        width={30}
-                                        height={30}
-                                        alt=""
-                                      />
-                                      ):(
-                                      <Image
-                                        className="object-cover"
-                                        src={ProfileAvatar}
-                                        width={30}
-                                        height={30}
-                                        alt=""
-                                      />)}
+                                        <img
+                                          className="object-cover w-[30px] h-[30px] rounded-full"
+                                          src={i.user.display_photo_url}
+                                          width={30}
+                                          height={30}
+                                          alt=""
+                                        />
+                                        ):(
+                                        <Image
+                                          className="object-cover"
+                                          src={ProfileAvatar}
+                                          width={30}
+                                          height={30}
+                                          alt=""
+                                        />)}
+                                        <div className=" bg-gray-100 w-60 p-2 border rounded-xl">
+                                        {i.attachment && i.attachment_type=="image"?(
+                                          <div className="relative w-1/4 mt-2">
+                                            <img
+                                            src={i.attachment}
+                                            className="rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
+                                            alt=""/>
+                                          </div>
+                                          ):(
+                                            i.attachment && i.attachment_type=="video"?(
+                                              <div className="relative w-1/4 mt-2">
+                                                <div className="relative w-1/4 mt-2">
+                                                  <video controls className=" rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover">
+                                                    <source src={i.attachment} type="video/mp4" />
+                                                  </video> 
+                                                </div>
+                                              </div>
+
+                                            ):(
+                                              i.attachment && i.attachment_type=="application"?(
+                                                <div className="relative w-1/4 mt-2">
+                                                  <div className=" flex border-b w-56 pb-2 justify-between ">
+                                                    <div>{i.attachment_type}</div>
+                                                    <a href={i.attachment} download>
+                                                      <button className= "text-black p-0">Download</button>
+                                                    </a>
+                                                  </div>
+                                                </div>
+                                              ):('')
+                                            )
+                                          )
+                                        }
+                                          <div className="">{i.body }</div>
+                                          <div className=" flex justify-end mt-0 mr-2 text-xs text-black">{i.time}</div>
+                                        </div>
+                                      </div>
                                     </div>
-                                  </div>
-                                )
-                              }
-                            })}
-                             <div ref={messageRef}></div>
-                          </div>
+                                  )
+                                }else{
+                                  return(
+                                    <div className="flex justify-end mt-7 mr-2">
+                                      <div className="flex items-center gap-2">
+                                        <div className="bg-gray-100 p-2 border w-60 rounded-xl">
+                                        {i.attachment && i.attachment_type=="image"?(
+                                          <div className="relative w-1/4 mt-2">
+                                            <img
+                                            src={i.attachment}
+                                            className="rounded-xl my-4 max-h-[150px] max-w-[280px] object-cover"
+                                            alt=""/>
+                                          </div>
+                                          ):(
+                                            i.attachment && i.attachment_type=="video"?(
+                                              <div className="relative w-1/4 mt-2">
+                                                <div className="relative w-1/4 mt-2">
+                                                  <video controls className=" rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover">
+                                                    <source src={i.attachment} type="video/mp4" />
+                                                  </video> 
+                                                </div>
+                                              </div>
+
+                                            ):(
+                                              i.attachment && i.attachment_type=="application"?(
+                                                <div className="relative w-1/4 mt-2">
+                                                  {/* <video autoPlay="autoplay" controls className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover">
+                                                    <source src={postImagePreview} type="video/mp4" />
+                                                  </video> */}
+                                                  {/* <iframe src={i.attachment} width="100%" height="300" >
+                                                  </iframe> */}
+                                                  {/* <a href={i.attachment} download>Click to download</a>
+                                                  <div>{i.attachment_type}</div> */}
+                                                  <div className=" flex border-b w-56 pb-2 justify-between ">
+                                                    <div>{i.attachment_type}</div>
+                                                    <a href={i.attachment} download>
+                                                      <button className= "text-black p-0">Download</button>
+                                                    </a>
+                                                  </div>
+                                                </div>
+                                              ):('')
+                                            )
+                                          )
+                                        }
+                                          <div className="">{i.body}</div>
+                                          <div className=" flex justify-end mt-0 mr-2 text-xs text-black">{i.time}</div>
+                                        </div>
+                                        {i.user.display_photo_url?(
+                                        <img
+                                          className="object-cover w-[30px] h-[30px] rounded-full"
+                                          src={i.user.display_photo_url}
+                                          width={30}
+                                          height={30}
+                                          alt=""
+                                        />
+                                        ):(
+                                        <Image
+                                          className="object-cover"
+                                          src={ProfileAvatar}
+                                          width={30}
+                                          height={30}
+                                          alt=""
+                                        />)}
+                                      </div>
+                                    </div>
+                                  )
+                                }
+                              })}
+                              <div ref={messageRef}></div>
+                            </div>
+                          ):('')}
                         </div>
                         {/*  Create Msgs */}
                         <div className="sticky bottom-0 bg-white">
