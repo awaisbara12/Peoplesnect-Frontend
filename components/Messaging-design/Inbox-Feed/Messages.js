@@ -114,7 +114,7 @@ const Messages = () => {
   }
   //  Create/ Send Messsage
   const SendMessage=async()=>{
-    if (text)
+    if (text && myArray[1])
     {
       const dataForm = new FormData();
       if(postImagePreview){
@@ -254,7 +254,7 @@ const Messages = () => {
           {senderDetails?(
              <div className="font-bold flex items-center gap-2 ">{senderDetails.first_name} {senderDetails.last_name}</div>
           ):('')}
-          <Link href="">
+         <Link href="">
             <a>
               <QuestionMarkCircleIcon className="h-5 w-5" />
             </a>
@@ -410,84 +410,83 @@ const Messages = () => {
             {/* <div ref={messageRef}></div> */}
           </InfiniteScroll>
         </div>
+
         {/* Messgae Send-Bar */}
-        {myArray[1]?( 
-          <div className=" bottom-0 bg-white">
-          {  postImagePreview && attachment_type=="image"?(
+        <div className=" bottom-0 bg-white">
+        {  postImagePreview && attachment_type=="image"?(
+            <div className="relative w-1/4 mt-2">
+              <img
+              src={postImagePreview}
+              className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
+              alt=""/>
+              <div className="bg-indigo-100 absolute top-4 right-0 z-10 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
+              onClick={clearPic} >
+                <TrashIcon className="w-5 h-5 text-indigo-600" />
+              </div>
+            </div>
+          ):(
+            postImagePreview && attachment_type=="video"?(
               <div className="relative w-1/4 mt-2">
-                <img
-                src={postImagePreview}
-                className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
-                alt=""/>
+                <div className="relative w-1/4 mt-2">
+                  <video autoPlay="autoplay" controls className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover">
+                    <source src={postImagePreview} type="video/mp4" />
+                  </video> 
+                </div>
                 <div className="bg-indigo-100 absolute top-4 right-0 z-10 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
                 onClick={clearPic} >
                   <TrashIcon className="w-5 h-5 text-indigo-600" />
                 </div>
               </div>
-            ):(
-              postImagePreview && attachment_type=="video"?(
-                <div className="relative w-1/4 mt-2">
-                  <div className="relative w-1/4 mt-2">
-                    <video autoPlay="autoplay" controls className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover">
-                      <source src={postImagePreview} type="video/mp4" />
-                    </video> 
-                  </div>
-                  <div className="bg-indigo-100 absolute top-4 right-0 z-10 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
-                  onClick={clearPic} >
-                    <TrashIcon className="w-5 h-5 text-indigo-600" />
-                  </div>
-                </div>
 
-              ):(
-                postImagePreview && attachment_type=="application"?(
-                  <div className="relative w-1/4 mt-2">
-                  {/* <video autoPlay="autoplay" controls className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover">
-                    <source src={postImagePreview} type="video/mp4" />
-                  </video> */}
-                  
-                  <div>{postImagePreview}</div>
-                  
-                  <div className="bg-indigo-100 absolute top-4 right-0 z-10 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
-                  onClick={clearPic} >
-                    <TrashIcon className="w-5 h-5 text-indigo-600" />
-                  </div>
-                </div>
-                ):('')
-                // application
-              )
-            )}
-            <div className="flex items-center px-2">
-              <InputEmoji
-                type="text"
-                react-emoji="w-{100%}"
-                value={text}
-                onChange={setText}
-                // cleanOnEnter
-                onEnter={handleOnEnter}
-                placeholder="Type Your Message"
-              />
-              {/* <PhotographIcon className="h-10 w-10 opacity-40" /> */}
-              <div className="">
-                <div className="relative flex gap-2 items-center justify-center">
-                  <PhotographIcon
-                    className={"h-10 w-10 opacity-40"}
-                  />
-                  {/* <div className="font-extralight">Photo Upload</div> */}
-                  <input
-                    type={"file"}
-                    name="image"
-                    id="image"
-                    className="opacity-0 absolute w-6 h-6 -z-0"
-                    onChange={handleImagePost}
-                    title={""}
-                    multiple
-                  />
+            ):(
+              postImagePreview && attachment_type=="application"?(
+                <div className="relative w-1/4 mt-2">
+                {/* <video autoPlay="autoplay" controls className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover">
+                  <source src={postImagePreview} type="video/mp4" />
+                </video> */}
+                
+                <div>{postImagePreview}</div>
+                
+                <div className="bg-indigo-100 absolute top-4 right-0 z-10 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
+                onClick={clearPic} >
+                  <TrashIcon className="w-5 h-5 text-indigo-600" />
                 </div>
               </div>
-              <PaperAirplaneIcon className="h-10 w-10 rotate-90 opacity-40 ml-2" onClick={()=>{SendMessage()}}/>
+              ):('')
+              // application
+            )
+          )}
+          <div className="flex items-center px-2">
+            <InputEmoji
+              type="text"
+              react-emoji="w-{100%}"
+              value={text}
+              onChange={setText}
+              // cleanOnEnter
+              onEnter={handleOnEnter}
+              placeholder="Type Your Message"
+            />
+            {/* <PhotographIcon className="h-10 w-10 opacity-40" /> */}
+            <div className="">
+              <div className="relative flex gap-2 items-center justify-center">
+                <PhotographIcon
+                  className={"h-10 w-10 opacity-40"}
+                />
+                {/* <div className="font-extralight">Photo Upload</div> */}
+                <input
+                  type={"file"}
+                  name="image"
+                  id="image"
+                  className="opacity-0 absolute w-6 h-6 -z-0"
+                  onChange={handleImagePost}
+                  title={""}
+                  multiple
+                />
+              </div>
             </div>
+            <PaperAirplaneIcon className="h-10 w-10 rotate-90 opacity-40 ml-2" onClick={()=>{SendMessage()}}/>
           </div>
-        ):('')}
+        </div>
       </div>
     </div>
   );
