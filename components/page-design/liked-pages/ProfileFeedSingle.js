@@ -44,6 +44,7 @@ import App from "../../news-feed/newsfeed/newspost/App";
 import PostComments from "../../profile/comments/PostComments";
 import FilterComments from "../../profile/comments/FilterComments";
 import ReplyComments from "../../profile/comments/ReplyComments";
+import ShareModal from "../../news-feed/newsfeed/feedcard/ShareModal";
 
 const ReadMore = ({ children }) => {
   const text = children;
@@ -1149,14 +1150,7 @@ const ProfileFeedSingle = (singleItems) => {
                   </>
                 )}
               </div>
-              <div>
-                <ShareIcon
-                  width={24}
-                  height={24}
-                  className="text-indigo-400 cursor-pointer"
-                  onClick={() => copylink(items.id)}
-                />
-              </div>
+              <ShareModal items={items && items.feed_type=="share"?(items.share):(items)} currentuser={singleItems.currentUser}/>
             </div>
           </div>
           <Fragment>

@@ -70,7 +70,7 @@ const ProfileFeed = (props) => {
           loader={ <div className="flex justify-center"><ClipLoader className="my-8" color="#818CF8" size={40}/> </div>}
         >
           {list && list.length > 0 && list.map((item) => (
-              <ProfileFeedSingle lists={item} setList={setList} key={item.id} bookmarks={props.bookmarks} setBookmarks={props.setBookmarks} recentactivity={props.recentactivity} setRecentActivity={props.setRecentActivity}/>        
+              <ProfileFeedSingle lists={item} setList={setList} key={item.id} bookmarks={props.bookmarks} setBookmarks={props.setBookmarks} recentactivity={props.recentactivity} setRecentActivity={props.setRecentActivity} currentuser={props.currentuser}/>        
             )
             )
           }

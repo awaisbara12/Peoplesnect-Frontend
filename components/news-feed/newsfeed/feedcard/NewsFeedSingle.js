@@ -37,6 +37,7 @@ import {
   NEWSFEED_COMMENT_POST_KEY,
   CURENT_USER_LOGIN_API,
   GROUP_API,
+  REPORT_API,
 } from "../../../../pages/config";
 import App from "../newspost/App";
 import HashtagMentionInput from "../newspost/HashtagMentionInput";
@@ -44,11 +45,6 @@ import ShareModal from "./ShareModal";
 // import Spinner from "../../../common/Spinner";
 
 const cardDropdown = [
-  {
-    name: "Save",
-    href: "#",
-    icon: BookmarkIcon,
-  },
   {
     name: "Share",
     href: "#",
@@ -58,11 +54,6 @@ const cardDropdown = [
     name: "Report",
     href: "#",
     icon: DocumentReportIcon,
-  },
-  {
-    name: "Unfollow",
-    href: "#",
-    icon: XCircleIcon,
   },
 ];
 const ReadMore = ({ children }) => {
@@ -210,14 +201,46 @@ const NewsFeedSingle = (singleItem) => {
         Authorization: `${authKey}`,
       },
     })
+    .then((resp) => resp.json())
+    .then((result) => {
+      if (result) {
+        setCurrentUser(result.data);
+      }
+    })
+    .catch((err) => console.log(err)); 
+  }
+
+  function createReport(feedId) {
+    const dataForm = new FormData();
+    dataForm.append("reportable_id", feedId);
+    dataForm.append("reportable_type", "NewsFeed");
+    fetch(REPORT_API, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
+      body: dataForm,
+    })
       .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-          setCurrentUser(result.data);
+          // console.log("Hello");
+          alert("Your report send to Admin");
         }
       })
       .catch((err) => console.log(err));
   }
+
+  const optionConfirm=(name,item)=>{
+    // console.log(item)
+    if(name=="Report"){
+      var a = confirm(name);
+      if(a){
+        createReport(item.id);
+      }
+    }
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -417,6 +440,7 @@ const NewsFeedSingle = (singleItem) => {
                             {cardDropdown.map((card) => (
                               <a
                                 key={card.name}
+                                onClick={()=>optionConfirm(card.name,items)}
                                 href={card.id}
                                 className="-m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
                               >
@@ -601,6 +625,247 @@ const NewsFeedSingle = (singleItem) => {
           ) : (
             ""
           )}
+          
+          {items.feed_type && items.feed_type === "share" ? (
+          <div className="border p-4 m-2">
+            <div className="flex gap-2 items-center">
+              
+              {items && items.share.page?(
+                items.share.page.display_photo_url?(
+                  <img
+                    src={items.share.page.display_photo_url} 
+                    className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
+                    width={45} 
+                    height={45} 
+                    alt="" 
+                  />
+                ):(
+                  <Image 
+                    src={PagePhoto} 
+                    className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
+                    width={45} 
+                    height={45} 
+                    alt="" 
+                  />
+                )
+              ):(
+                items && items.share.user && items.share.user.display_photo_url?(
+                  <img
+                    src={items.share.user.display_photo_url} 
+                    className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
+                    width={45} 
+                    height={45} 
+                    alt="" 
+                  />
+                ):(
+                  <Image 
+                    src={ProfileAvatar} 
+                    width={45} 
+                    height={45} 
+                    alt="" 
+                  />
+                )
+              )}
+            
+              <div>
+                {items.share.page?(
+                  <>
+                  <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
+                    
+                    <div className="capitalize">{items.share.page.name}</div>
+                  </h4>
+                  <div className="font-light text-gray-900 opacity-[0.8] italic">  Page Post</div>
+                  </>
+                  
+                ):(
+                  items.share.group?(
+                    <>
+                      <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
+                        {items.share.user.first_name} {items.share.user.last_name}
+                        <ChevronRightIcon
+                          width={24}
+                          height={24}
+                          className="text-indigo-400"
+                        />
+                        <div className="capitalize">{items.share.group.title}</div>
+                      </h4>
+                      <div className="font-light text-gray-900 opacity-[0.8] italic">Group Post</div>
+                    
+                    </>
+                  ):(
+                  <>
+                    <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
+                      {items.share.user.first_name} {items.share.user.last_name}
+                      <BadgeCheckIcon
+                        width={14}
+                        height={14}
+                        className="text-indigo-400"
+                      />
+                    </h4>
+                    <div className="font-light text-gray-900 opacity-[0.8]">
+                      {items.share.user.city?items.share.user.city+", ":""}{items.share.user.state?items.share.user.state+", ":""} {items.share.user.country}
+                    </div>
+                  </>
+                  )
+                )}
+                
+              </div>
+            </div>
+            <div className="p-2 pb-2">
+              {items.share.tags && items.share.tags.length > 0 || (items.share.hashtags && items.share.hashtags.length > 0) ?
+              <App state={items.share.body} website={items.share.tags} hashtags={items.share.hashtags} />
+              : <ReadMore>
+                {items.share.body ? items.share.body : ""}
+              </ReadMore>}
+            </div>
+            <div className="mt-[14px] mx-auto">
+              {items.share.event && items.share.event ? (
+                <Link
+                  href={{
+                    pathname: "/events-design/event-view",
+                    query: items.share.id,
+                  }} >
+                  <a>
+                    <div className="rounded-xl bg-white border border-gray-100 my-2">
+                      {items.share.event.cover_photo_url ? (
+                        <img
+                          src={items.share.event.cover_photo_url}
+                          className="aspect-video object-cover rounded-t-xl h-[390px] w-[952px]"
+                          alt=""
+                        />
+                      ) : (
+                        ""
+                      )}
+                      <div className="py-3 px-3">
+                        <div className="flex justify-between items-center">
+                          <div>
+                            {/* Date & Time */}
+                            <div className="text-red-400 text-sm">
+                              <span>{items.share.event.start_time}</span>
+                              <span>-{items.share.event.end_time}</span>&nbsp;
+                              <span>{items.share.event.start_date}</span>&nbsp;
+                            </div>
+                            {/* Name */}
+                            <div className="font-semibold text-lg">
+                              {items.share.event.name}
+                            </div>
+                            {/* Event-type */}
+                            <div className="flex items-center gap-2">
+                              <CalendarIcon
+                                width={16}
+                                height={16}
+                                className="text-gray-900"
+                              />
+                              <span className="text-gray-900 text-sm">
+                                {items.share.event.event_type}
+                              </span>
+                            </div>
+                            {items.share.event.event_type === "online" ? ('') : (
+                              <>
+                                {/* Adress */}
+                                {items.share.event.address ? (
+                                  <div className="flex items-center gap-2">
+                                    <CalendarIcon
+                                      width={16}
+                                      height={16}
+                                      className="text-gray-900"
+                                    />
+                                    <span className="text-gray-900 text-sm">
+                                      {items.share.event.address}
+                                    </span>
+                                  </div>
+                                ) : ('')}
+
+                                {/* Venue */}
+                                {items.share.event.venue ? (
+                                  <div className="flex items-center gap-2">
+                                    <CalendarIcon
+                                      width={16}
+                                      height={16}
+                                      className="text-gray-900"
+                                    />
+                                    <span className="text-gray-900 text-sm">
+                                      {items.share.event.venue}
+                                    </span>
+                                  </div>
+                                ) : ('')}
+
+                              </>
+                            )}
+                            {/* Link */}
+                            <div className="text-gray-900 flex gap-2">
+                              <CalendarIcon
+                                width={16}
+                                height={16}
+                                className="text-gray-900"
+                              />
+                              <span>{items.share.event.event_link}</span>
+                            </div>
+                            {/* Speaker */}
+                            <div className="text-gray-900">
+                              {items.share.event.tags && items.share.event.tags.length > 0 ?
+                                <App state={items.share.event.speaker} website={items.share.event.tags} />
+                                : items.share.event.body ? items.share.event.body : ""}
+                            </div>
+                          </div>
+                          <Link
+                            href={{
+                              pathname: "/events-design/event-view",
+                              query: items.share.id,
+                            }}
+                          >
+                            <a className="text-sm text-gray-600 cursor-pointer flex items-center border border-gray-100 rounded-full py-1 px-3">
+                              View Event
+                            </a>
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </Link>
+              ) : (
+                ""
+              )}
+              {items.share.feed_type && items.share.feed_type === "video_feed" ? (
+                <Link
+                  href={{
+                    pathname: "/events-design/event-view",
+                    query: items.share.id,
+                  }} >
+                  <a>
+                    <video controls className="aspect-video w-full rounded-xl my-4">
+                      <source src={items.share.attachments_link} type="video/mp4" />
+                    </video>
+                  </a>
+                </Link>
+              ) : (
+                ""
+              )}
+              {items.share.attachments_link && items.share.feed_type === "image_feed" ? (
+                <Link
+                  href={{
+                    pathname: "/events-design/event-view",
+                    query: items.share.id,
+                  }} >
+                  <a>
+                    <div className="mt-[14px]">
+                      <img
+                        src={items.share.attachments_link}
+                        width={952}
+                        height={240}
+                        layout="responsive"
+                        className="aspect-video object-cover rounded-lg mx-auto h-[390px]"
+                        alt=""
+                      />
+                    </div>
+                  </a>
+                </Link>
+              ) : (
+                ""
+              )}
+            </div>
+          </div>):("")}
+
           <div className="flex justify-between mt-[14px]">
             <div className="flex gap-6">
               <div className="flex gap-2 items-center">
@@ -677,9 +942,11 @@ const NewsFeedSingle = (singleItem) => {
                   </>
                 )}
               </div>
-              <ShareModal />
+              
+              <ShareModal items={items && items.feed_type=="share"?(items.share):(items)} currentuser={CurrentUser && CurrentUser}/>
             </div>
           </div>
+          
           <Fragment>
             {CurrentUser && items && items.page && items.page.can_comment != "all_member" && (CurrentUser.id != items.page.user_id) ? ('') : (
               <PostComments news_feed_id={items.id} setComments={setComments} setComments_count={setComments_count} setIs_deleted={setIs_deleted} dp={items.user.display_photo_url} />
@@ -688,6 +955,7 @@ const NewsFeedSingle = (singleItem) => {
             {!loading && <ReplyComments news_feed_id={items.id} comments={comments.data} comments_count={comments_count} setComments_count={setComments_count} setComments={setComments} setIs_deleted={setIs_deleted} items={items} />}
           </Fragment>
         </div>
+
       </div>
       {/* <div className="w-[600px] xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">
         <div className="flex gap-2 justify-between items-center px-[22px] py-[14px]">

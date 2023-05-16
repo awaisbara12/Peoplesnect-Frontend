@@ -50,7 +50,7 @@ const ProfileFeed = (props) => {
         <div>
           {list&&
             list.map((item) => (
-              <ProfileFeedSingle lists={item} key={item.id} follow={props.follow} connection={props.connection}/>        
+              <ProfileFeedSingle lists={item} key={item.id} follow={props.follow} connection={props.connection} currentuser={props.currentuser}/>        
             )
             )
           }
