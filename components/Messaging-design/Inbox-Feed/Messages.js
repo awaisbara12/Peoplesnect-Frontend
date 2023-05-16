@@ -57,11 +57,14 @@ const Messages = () => {
 
         },
         received: data => { 
-          if (myDivRef.current.id == myArray[1]){
-            GetMessages();
-            downfunction();
-            console.log("Chat-received");
+          if(myDivRef.current){
+            if (myDivRef.current.id == myArray[1]){
+              GetMessages();
+              downfunction();
+              console.log("Chat-received");
+            }
           }
+          
          
         },
       }
@@ -134,7 +137,7 @@ const Messages = () => {
       })
         .then((resp) => resp.json())
         .then((result) => {
-          if (result) {
+          if (result && result.data) {
             const mergedata = [...result.data, ...messages]
             setmessages(mergedata);
             downfunction();
@@ -407,10 +410,8 @@ const Messages = () => {
                 }
               })
             }
-            {/* <div ref={messageRef}></div> */}
           </InfiniteScroll>
         </div>
-
         {/* Messgae Send-Bar */}
         <div className=" bottom-0 bg-white">
         {  postImagePreview && attachment_type=="image"?(

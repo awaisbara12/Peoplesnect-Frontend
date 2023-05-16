@@ -17,6 +17,8 @@ import ProfileAvatar2 from "../../../public/images/mira.png";
 import InputEmoji from "react-input-emoji";
 import { CONVERSATION_API, CURENT_USER_LOGIN_API, MESSAGES_API, SEARCH_MULTIPLE, WS_PUBLIC_API } from "../../../pages/config";
 const Picker = dynamic(() => import("emoji-picker-react"), { ssr: false });
+import InfiniteScroll from 'react-infinite-scroll-component';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 const Dropdown = ({ color }) => {
   const [openTab, setOpenTab] = React.useState(1);
@@ -32,19 +34,21 @@ const Dropdown = ({ color }) => {
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
   }
-  const [Conversation, setConversation] = useState("");         // all Conversation
-  const [currentuser, setcurrentuser] = useState("");           //current-user
-  let [value, setvalue] = useState();                           // Searching value fron 2nd tab
-  let [results, setresults] = useState();                       // Searched-User
-  const [msguser, setmsguser] = useState();                     //  user whom you want to chat
-  const [messages, setmessages] = useState();                   // all msgs
+  const [Conversation, setConversation] = useState("");          // all Conversation
+  const [currentuser, setcurrentuser] = useState("");            //current-user
+  let [value, setvalue] = useState();                            // Searching value fron 2nd tab
+  let [results, setresults] = useState();                        // Searched-User
+  const [msguser, setmsguser] = useState();                      //  user whom you want to chat
+  const [messages, setmessages] = useState([]);                  // all msgs
   const [attachment_type, setattachment_type] = useState("");
   const [text, setText] = useState("");
   const [postImage, setPostImage] = useState([]);
   const [postImagePreview, setpostImagePreview] = useState();
-  const [subscribed, setsubscribed] = useState();
+  const [subscribed, setsubscribed] = useState();                // Sms Subscription
+  const [currentpagemy, setcurrentpagemy] = useState(1);         // PAGE PARAM [:- PAGY]
+
   const messageRef = useRef();
-  var tomsgid;
+  var tomsgid;                                                   
   const myDivRef = useRef(null); 
 
 
@@ -96,10 +100,13 @@ const Dropdown = ({ color }) => {
     setmessages('');
     setDropdownPopoverShow1(false);
   };
-
- 
-  function handleOnEnter(text) {
+  // Send sms On-Enter
+  function handleOnEnter() {
+    if(text){
+      SendMessage()
+    }
   }
+  // Upload Attachments [:- image/vedio/file ]
   const handleImagePost = (e) => {
     if(e.target.files[0])
     {
@@ -118,6 +125,7 @@ const Dropdown = ({ color }) => {
     
     
   };
+  //  Clearing Preview/attachment
   const clearPic =()=>{
     setpostImagePreview('');
     setPostImage('');
@@ -134,6 +142,7 @@ const Dropdown = ({ color }) => {
   useEffect(() => {
     Current_User();
   },[])
+  // Current User Detail
   const Current_User=async()=>{   
     await fetch(CURENT_USER_LOGIN_API, {
       method: "GET",
@@ -145,13 +154,12 @@ const Dropdown = ({ color }) => {
        .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-          // GetConversation();
           setcurrentuser(result.data);
-          // createConversationSub(CableApp)
         }
       })
       .catch((err) => console.log(err)); 
   }
+  //  Get All Converstion
   const GetConversation=async()=>{     
     await fetch(CONVERSATION_API, {
       method: "GET",
@@ -164,11 +172,11 @@ const Dropdown = ({ color }) => {
       .then((result) => {
         if (result && result.data) {
           setConversation(result.data);
-          console.log("conversation",result.data)
         }
       })
       .catch((err) => console.log(err)); 
   }
+  // Get All SMS of any Conversation
   const GetMessages=async(id)=>{  
       await fetch(MESSAGES_API+"?recipient_id="+id, {
         method: "GET",
@@ -180,9 +188,8 @@ const Dropdown = ({ color }) => {
         .then((resp) => resp.json())
         .then((result) => {
           if (result && result.data) {
-            console.log("sms",result.data)
-            console.log("sms",result.data)
             setmessages(result.data);
+            setcurrentpagemy(result.pages.next_page);
             if (messageRef.current) {
               messageRef.current.scrollIntoView(
                 {
@@ -197,6 +204,7 @@ const Dropdown = ({ color }) => {
         })
         .catch((err) => console.log(err)); 
   }
+  //  Send/Create Sms
   const SendMessage=async()=>{
     if (text)
     {
@@ -225,6 +233,7 @@ const Dropdown = ({ color }) => {
         .catch((err) => console.log(err)); 
     }
   }
+  //  Search User Only
   const searchmultiples  = async(event) =>{
     setvalue(event.target.value);
     if (event.target.value.length == 0)
@@ -252,25 +261,26 @@ const Dropdown = ({ color }) => {
         .catch((err) => console.log(err));
     }
   }
-
-
+  // SMS Subscription
   function createMessageSub(r_id) {
     subscribed.subscriptions.create(
       {
         channel: 'MessageChannel',
         current_user:  currentuser.id,
-        recipient_id:  r_id
+        recipient_id:  r_id,
       },
       {
-        connected: () => console.log('connected'),
-        disconnected: () => console.log('disconnected'),
-        received: data => {  console.log('recieved',data);
-        if(myDivRef.current.id ==  data){GetMessages(tomsgid)}; 
+        connected: () => console.log('Box-connected'),
+        disconnected: () => console.log('Box-disconnected'),
+        received: data => {  console.log('Box-recieved');
+        if(myDivRef.current){
+          if( myDivRef.current.id ==  data){GetMessages(tomsgid)}; 
+        }
        },
       }
     );
   }
-  
+  // Converstion Subscription
   function createConversationSub(CableApp) {
     CableApp.subscriptions.create(
       {
@@ -283,8 +293,41 @@ const Dropdown = ({ color }) => {
       } 
     );
   }
+  //  For Scroll Down
+  const downfunction=()=>{
+    const scroll =messageRef.current.scrollHeight - messageRef.current.clientHeight;
+    messageRef.current.scrollTo(0, scroll);
 
-
+   // if (messageRef.current) {
+      //   messageRef.current.scrollIntoView(
+      //     {
+      //       behavior: 'smooth',
+      //       block: 'end',  //center
+      //       inline: 'nearest'
+      //     })
+      // }
+  }
+  //  Fetch Sms OnScroll [:pagy ]
+  const fetchMoreSMS = async() => {
+    if(msguser){
+      await fetch(MESSAGES_API+"?recipient_id="+msguser.id+"&page="+currentpagemy, {
+        method: "GET",
+        headers: {
+          Accept: "application/json", 
+          Authorization: `${authKey}`,
+        },
+      }).then((resp) => resp.json())
+        .then((result) => {
+          if (result && result.data) {
+            const mergedata = [...messages, ...result.data ]
+            setmessages(mergedata);
+            setcurrentpagemy(result.pages.next_page)
+          }
+          else{setmessages('');}
+        })
+        .catch((err) => console.log(err)); 
+    }else{console.log("no user")}
+  }
   return (
     <>
       <div className="flex flex-wrap">
@@ -541,142 +584,187 @@ const Dropdown = ({ color }) => {
                         </div>
                       </div>
                       {/* chat-Box body */}
-                      <div ref={myDivRef} id={currentuser && currentuser.id}>
-                        {/* Show Messages */}
-                        <div className="w-full bg-white h-[280px] overflow-y-scroll">
-                          {messages?(
-                            <div className="">
-                              {messages.reverse().map((i)=>{
-                                if(i.user && msguser&& i.user.id==msguser.id)
-                                {
-                                  return(
-                                    <div className="ml-2 mt-3">
-                                      <div className="flex items-center gap-2">
-                                      {i.user.display_photo_url?(
-                                        <img
-                                          className="object-cover w-[30px] h-[30px] rounded-full"
-                                          src={i.user.display_photo_url}
-                                          width={30}
-                                          height={30}
-                                          alt=""
-                                        />
-                                        ):(
-                                        <Image
-                                          className="object-cover"
-                                          src={ProfileAvatar}
-                                          width={30}
-                                          height={30}
-                                          alt=""
-                                        />)}
-                                        <div className=" bg-gray-100 w-60 p-2 border rounded-xl">
-                                        {i.attachment && i.attachment_type=="image"?(
-                                          <div className="relative w-1/4 mt-2">
-                                            <img
-                                            src={i.attachment}
-                                            className="rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
-                                            alt=""/>
-                                          </div>
-                                          ):(
-                                            i.attachment && i.attachment_type=="video"?(
-                                              <div className="relative w-1/4 mt-2">
-                                                <div className="relative w-1/4 mt-2">
-                                                  <video controls className=" rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover">
-                                                    <source src={i.attachment} type="video/mp4" />
-                                                  </video> 
-                                                </div>
-                                              </div>
+                      
+                      <div ref={myDivRef} id={msguser && msguser.id}>
+                        
+                      {/* Show Messages */}
+                      
+                        <div id="scrollableDiv" ref={messageRef}
+                          style={{
+                            height: 280,
+                            overflow: 'auto',
+                            display: 'flex',
+                            flexDirection: 'column-reverse',
+                            backgroundColor: 'white'
+                          }}
+                          // className="w-full bg-white"
+                          // className="w-full bg-white h-[280px] overflow-y-scroll"
+                        >
+                        {/* <div id="scrollableDiv" ref={messageRef}
+                          style={{
+                            height: 400,
+                            overflow: 'auto',
+                            display: 'flex',
+                            flexDirection: 'column-reverse',
+                          }}
+                        > */}
+                          
+                          <InfiniteScroll
 
-                                            ):(
-                                              i.attachment && i.attachment_type=="application"?(
-                                                <div className="relative w-1/4 mt-2">
-                                                  <div className=" flex border-b w-56 pb-2 justify-between ">
-                                                    <div>{i.attachment_type}</div>
-                                                    <a href={i.attachment} download>
-                                                      <button className= "text-black p-0">Download</button>
-                                                    </a>
-                                                  </div>
-                                                </div>
-                                              ):('')
-                                            )
-                                          )
-                                        }
-                                          <div className="">{i.body }</div>
-                                          <div className=" flex justify-end mt-0 mr-2 text-xs text-black">{i.time}</div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  )
-                                }else{
-                                  return(
-                                    <div className="flex justify-end mt-7 mr-2">
-                                      <div className="flex items-center gap-2">
-                                        <div className="bg-gray-100 p-2 border w-60 rounded-xl">
-                                        {i.attachment && i.attachment_type=="image"?(
-                                          <div className="relative w-1/4 mt-2">
-                                            <img
-                                            src={i.attachment}
-                                            className="rounded-xl my-4 max-h-[150px] max-w-[280px] object-cover"
-                                            alt=""/>
-                                          </div>
-                                          ):(
-                                            i.attachment && i.attachment_type=="video"?(
-                                              <div className="relative w-1/4 mt-2">
-                                                <div className="relative w-1/4 mt-2">
-                                                  <video controls className=" rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover">
-                                                    <source src={i.attachment} type="video/mp4" />
-                                                  </video> 
-                                                </div>
-                                              </div>
-
-                                            ):(
-                                              i.attachment && i.attachment_type=="application"?(
-                                                <div className="relative w-1/4 mt-2">
-                                                  {/* <video autoPlay="autoplay" controls className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover">
-                                                    <source src={postImagePreview} type="video/mp4" />
-                                                  </video> */}
-                                                  {/* <iframe src={i.attachment} width="100%" height="300" >
-                                                  </iframe> */}
-                                                  {/* <a href={i.attachment} download>Click to download</a>
-                                                  <div>{i.attachment_type}</div> */}
-                                                  <div className=" flex border-b w-56 pb-2 justify-between ">
-                                                    <div>{i.attachment_type}</div>
-                                                    <a href={i.attachment} download>
-                                                      <button className= "text-black p-0">Download</button>
-                                                    </a>
-                                                  </div>
-                                                </div>
-                                              ):('')
-                                            )
-                                          )
-                                        }
-                                          <div className="">{i.body}</div>
-                                          <div className=" flex justify-end mt-0 mr-2 text-xs text-black">{i.time}</div>
-                                        </div>
+                            dataLength={messages.length}
+                            next={fetchMoreSMS}
+                            style={{ display: 'flex', flexDirection: 'column-reverse' }} 
+                            hasMore={currentpagemy != null}
+                            inverse={true}
+                            scrollableTarget="scrollableDiv"
+                            loader={<div className="flex justify-center "><ClipLoader className="my-8" color="#818CF8" size={40} /> </div>}
+                          >
+                            {messages?(
+                              <div className="">
+                                {messages.slice(0).reverse().map((i)=>{
+                                  if(i.user && msguser&& i.user.id==msguser.id)
+                                  {
+                                    return(
+                                      <div className="ml-2 mt-3">
+                                        <div className="flex items-center gap-2">
                                         {i.user.display_photo_url?(
-                                        <img
-                                          className="object-cover w-[30px] h-[30px] rounded-full"
-                                          src={i.user.display_photo_url}
-                                          width={30}
-                                          height={30}
-                                          alt=""
-                                        />
-                                        ):(
-                                        <Image
-                                          className="object-cover"
-                                          src={ProfileAvatar}
-                                          width={30}
-                                          height={30}
-                                          alt=""
-                                        />)}
+                                          <img
+                                            className="object-cover w-[30px] h-[30px] rounded-full"
+                                            src={i.user.display_photo_url}
+                                            width={30}
+                                            height={30}
+                                            alt=""
+                                          />
+                                          ):(
+                                          <Image
+                                            className="object-cover"
+                                            src={ProfileAvatar}
+                                            width={30}
+                                            height={30}
+                                            alt=""
+                                          />)}
+                                          <div className=" bg-gray-100 w-60 p-2 border rounded-xl">
+                                          {i.attachment && i.attachment_type=="image"?(
+                                            <div className="relative w-1/4 mt-2">
+                                              <img
+                                              src={i.attachment}
+                                              className="rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
+                                              alt=""/>
+                                            </div>
+                                            ):(
+                                              i.attachment && i.attachment_type=="video"?(
+                                                <div className="relative w-1/4 mt-2">
+                                                  <div className="relative w-1/4 mt-2">
+                                                    <video controls className=" rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover">
+                                                      <source src={i.attachment} type="video/mp4" />
+                                                    </video> 
+                                                  </div>
+                                                </div>
+
+                                              ):(
+                                                i.attachment && i.attachment_type=="application"?(
+                                                  <div className="relative w-1/4 mt-2">
+                                                    <div className=" flex border-b w-56 pb-2 justify-between ">
+                                                      <div>{i.attachment_type}</div>
+                                                      <a href={i.attachment} download>
+                                                        <button className= "text-black p-0">Download</button>
+                                                      </a>
+                                                    </div>
+                                                  </div>
+                                                ):('')
+                                              )
+                                            )
+                                          }
+                                            <div className="">{i.body }</div>
+                                            <div className=" flex justify-end mt-0 mr-2 text-xs text-black">{i.time}</div>
+                                          </div>
+                                        </div>
                                       </div>
-                                    </div>
-                                  )
-                                }
-                              })}
-                              <div ref={messageRef}></div>
-                            </div>
-                          ):('')}
+                                    )
+                                  }else{
+                                    return(
+                                      <div className="flex justify-end mt-7 mr-2">
+                                        <div className="flex items-center gap-2">
+                                          <div className="bg-gray-100 p-2 border w-60 rounded-xl">
+                                          {i.attachment && i.attachment_type=="image"?(
+                                            <div className="relative w-1/4 mt-2">
+                                              <img
+                                              src={i.attachment}
+                                              className="rounded-xl my-4 max-h-[150px] max-w-[280px] object-cover"
+                                              alt=""/>
+                                            </div>
+                                            ):(
+                                              i.attachment && i.attachment_type=="video"?(
+                                                <div className="relative w-1/4 mt-2">
+                                                  <div className="relative w-1/4 mt-2">
+                                                    <video controls className=" rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover">
+                                                      <source src={i.attachment} type="video/mp4" />
+                                                    </video> 
+                                                  </div>
+                                                </div>
+
+                                              ):(
+                                                i.attachment && i.attachment_type=="application"?(
+                                                  <div className="relative w-1/4 mt-2">
+                                                    {/* <video autoPlay="autoplay" controls className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover">
+                                                      <source src={postImagePreview} type="video/mp4" />
+                                                    </video> */}
+                                                    {/* <iframe src={i.attachment} width="100%" height="300" >
+                                                    </iframe> */}
+                                                    {/* <a href={i.attachment} download>Click to download</a>
+                                                    <div>{i.attachment_type}</div> */}
+                                                    <div className=" flex border-b w-56 pb-2 justify-between ">
+                                                      <div>{i.attachment_type}</div>
+                                                      <a href={i.attachment} download>
+                                                        <button className= "text-black p-0">Download</button>
+                                                      </a>
+                                                    </div>
+                                                  </div>
+                                                ):('')
+                                              )
+                                            )
+                                          }
+                                            <div className="">{i.body}</div>
+                                            <div className=" flex justify-end mt-0 mr-2 text-xs text-black">{i.time}</div>
+                                          </div>
+                                          {i.user.display_photo_url?(
+                                          <img
+                                            className="object-cover w-[30px] h-[30px] rounded-full"
+                                            src={i.user.display_photo_url}
+                                            width={30}
+                                            height={30}
+                                            alt=""
+                                          />
+                                          ):(
+                                          <Image
+                                            className="object-cover"
+                                            src={ProfileAvatar}
+                                            width={30}
+                                            height={30}
+                                            alt=""
+                                          />)}
+                                        </div>
+                                      </div>
+                                    )
+                                  }
+                                })}
+                              </div>
+                            ):('')}
+                          </InfiniteScroll>
                         </div>
+                      
+                         
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
                         {/*  Create Msgs */}
                         <div className="sticky bottom-0 bg-white">
                           {postImagePreview && attachment_type=="image"?(
@@ -729,7 +817,7 @@ const Dropdown = ({ color }) => {
                               value={text}
                               onChange={setText}
                               // cleanOnEnter
-                              // onEnter={handleOnEnter}
+                              onEnter={handleOnEnter}
                               placeholder="Type Your Message"
                             />
                             
