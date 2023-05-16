@@ -930,7 +930,7 @@ const NewsFeedSingle = (singleItem) => {
                   </>
                 ) : (
                   <>
-                    <BookmarkIcon
+                    <BookmarkIcon 
                       width={24}
                       height={24}
                       className="text-indigo-400 cursor-pointer"
