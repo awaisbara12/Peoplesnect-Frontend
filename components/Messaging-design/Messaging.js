@@ -19,8 +19,6 @@ import { CONVERSATION_API, CURENT_USER_LOGIN_API, SEARCH_MULTIPLE, WS_PUBLIC_API
 
 const Messaging = () => {
   const [openTab, setOpenTab] = React.useState(1);
-  const [postImage, setPostImage] = useState([]);
-  const [postImagePreview, setpostImagePreview] = useState();
   let [results, setresults] = useState();
   let [value, setvalue] = useState();
   const [text, setText] = useState("");
@@ -46,12 +44,7 @@ const Messaging = () => {
   }
   function handleOnEnter(text) {
   }
-  const handleImagePost = (e) => {
-    setPostImage(e.target.files[0]);
-    if (e.target.files.length !== 0) {
-      setpostImagePreview(window.URL.createObjectURL(e.target.files[0]));
-    }
-  };
+  
   const { values } = useFormik({
     initialValues: {
       eventOnline: "online",
