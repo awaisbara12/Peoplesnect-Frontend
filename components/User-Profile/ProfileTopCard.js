@@ -379,7 +379,7 @@ const ProfileTopCard = (props) => {
           </div>
         </div>
         <div className="">
-          <TabsProfileCard user={userDetails} connection={connection} follow={btn1 && btn1.length>0 ?(true):(false)}/>
+          <TabsProfileCard user={userDetails} connection={connection} follow={btn1 && btn1.length>0 ?(true):(false)} currentuser={currentuser}/>
         </div>
       </div>
     </>

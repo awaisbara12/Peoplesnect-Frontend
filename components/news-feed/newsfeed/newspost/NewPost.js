@@ -1,4 +1,4 @@
-import React, { Component} from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { convertToRaw } from 'draft-js';
 import Editor from 'draft-js-plugins-editor';
@@ -8,39 +8,38 @@ import { SEARCH_MULTIPLE } from '../../../../pages/config';
 const Draft = require('draft-js');
 
 let mentions = [];
-let a= [];
+let a = [];
 
 const mention = () => {
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
   }
   // const [mention,setmention] = useState([]);
-  fetch(SEARCH_MULTIPLE+"/gettags?query="+'friends', {
-      method: "GET",
-       headers: {
-        Accept: "application/json", 
-         Authorization: `${authKey}`,
-       },
-    })
-       .then((resp) => resp.json())
-      .then((result) => {
-        if (result) {
-          let awa =[];
+  fetch(SEARCH_MULTIPLE + "/gettags?query=" + 'friends', {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      Authorization: `${authKey}`,
+    },
+  })
+    .then((resp) => resp.json())
+    .then((result) => {
+      if (result) {
+        let awa = [];
 
-          for(let i =0; i<result.data.length ; i++)
-          {
-              awa[i] ={
-                name: '@'+result.data[i].first_name + " " + result.data[i].last_name,
-                link: 'Friends-Profile?'+result.data[i].id,
-                avatar: result.data[i].display_photo_url,
-                id: result.data[i].id,
-                type : 'User'
-              }
+        for (let i = 0; i < result.data.length; i++) {
+          awa[i] = {
+            name: '@' + result.data[i].first_name + " " + result.data[i].last_name,
+            link: 'Friends-Profile?' + result.data[i].id,
+            avatar: result.data[i].display_photo_url,
+            id: result.data[i].id,
+            type: 'User'
           }
-          a = awa;
         }
-      })
-      .catch((err) => console.log(err));
+        a = awa;
+      }
+    })
+    .catch((err) => console.log(err));
 };
 
 const mentionpages = () => {
@@ -48,33 +47,32 @@ const mentionpages = () => {
     var authKey = window.localStorage.getItem("keyStore");
   }
   // const [mention,setmention] = useState([]);
-  fetch(SEARCH_MULTIPLE+"/gettags?query="+'pages', {
-      method: "GET",
-       headers: {
-        Accept: "application/json", 
-         Authorization: `${authKey}`,
-       },
-    })
-       .then((resp) => resp.json())
-      .then((result) => {
-        if (result) {
-          let awa =[];
+  fetch(SEARCH_MULTIPLE + "/gettags?query=" + 'pages', {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      Authorization: `${authKey}`,
+    },
+  })
+    .then((resp) => resp.json())
+    .then((result) => {
+      if (result) {
+        let awa = [];
 
-          for(let i = 0; i<result.data.length ; i++)
-          {
-              awa[i] ={
-                name: '@'+result.data[i].name ,
-                link: 'Liked-Pages?'+result.data[i].id,
-                avatar: result.data[i].display_photo_url,
-                id: result.data[i].id,
-                type : 'Page'
-              }
+        for (let i = 0; i < result.data.length; i++) {
+          awa[i] = {
+            name: '@' + result.data[i].name,
+            link: 'Liked-Pages?' + result.data[i].id,
+            avatar: result.data[i].display_photo_url,
+            id: result.data[i].id,
+            type: 'Page'
           }
-          mentions = [...a,...awa]
-          // console.log(mentions);
         }
-      })
-      .catch((err) => console.log(err));
+        mentions = [...a, ...awa]
+        // console.log(mentions);
+      }
+    })
+    .catch((err) => console.log(err));
 };
 
 export default class SimpleMentionEditor extends Component {
@@ -86,7 +84,7 @@ export default class SimpleMentionEditor extends Component {
       positionSuggestions: (settings) => {
         return {
           left: settings.decoratorRect.left + 'px',
-          bottom: settings.decoratorRect.bottom -120 + 'px',
+          bottom: settings.decoratorRect.bottom - 120 + 'px',
           display: 'block',
           transform: 'scale(1) translateY(-100%)',
           transformOrigin: '1em 0% 0px',
@@ -105,16 +103,15 @@ export default class SimpleMentionEditor extends Component {
     this.setState({
       editorState,
     });
-    
+
     mention();
     mentionpages();
     const contentState = this.state.editorState.getCurrentContent();
     const raw = convertToRaw(contentState);
-    if (this.props.results == 0)
-    {
+    if (this.props.results == 0) {
       this.props.setPostText(raw.blocks[0].text);
     }
-    else{
+    else {
       console.log(raw.blocks[0].text);
       this.setState({
         editorState: Draft.EditorState.createWithContent(emptyContentState)
@@ -126,7 +123,7 @@ export default class SimpleMentionEditor extends Component {
     for (let key in raw.entityMap) {
       const ent = raw.entityMap[key];
       if (ent.type === "mention") {
-        mentionedUsers.push(ent.data.mention);  
+        mentionedUsers.push(ent.data.mention);
       }
     }
     this.props.settags(mentionedUsers);
@@ -156,30 +153,30 @@ export default class SimpleMentionEditor extends Component {
         color: 'gray'
       }
     }
-    
+
     const { MentionSuggestions } = this.mentionPlugin;
     const plugins = [this.mentionPlugin];
 
     return (
       <>
-            <div onClick={this.focus} style={styles.root}>
-        <Editor
-          editorState={this.state.editorState}
-          onChange={this.onChange}
-          value ={this.props.PostText}
-          plugins={plugins}
-          ref={(element) => { this.editor = element; }}
-          className="w-full pt-0 resize-none border-0 px-0 text-base overflow-y-hidden outline-none focus:outline focus:ring-0"
-          placeholder="Start a post?"
-        />
-        <div style={{ visibility: this.state.suggestions.length ? 'visible' : 'visible'}}>
-          <MentionSuggestions
-            onSearchChange={this.onSearchChange}
-            suggestions={this.state.suggestions}
-            onAddMention={this.onAddMention}
+        <div onClick={this.focus} style={styles.root}>
+          <Editor
+            editorState={this.state.editorState}
+            onChange={this.onChange}
+            value={this.props.PostText}
+            plugins={plugins}
+            ref={(element) => { this.editor = element; }}
+            className="w-full pt-0 resize-none border-0 px-0 text-base overflow-y-hidden outline-none focus:outline focus:ring-0"
+            placeholder="Start a post?"
           />
+          <div style={{ visibility: this.state.suggestions.length ? 'visible' : 'visible' }}>
+            <MentionSuggestions
+              onSearchChange={this.onSearchChange}
+              suggestions={this.state.suggestions}
+              onAddMention={this.onAddMention}
+            />
+          </div>
         </div>
-      </div>
       </>
     );
   }

@@ -100,6 +100,14 @@ const AdminSideBAr = () => {
                     </div>
                   </a>
                   </Link>
+                  <Link href="/Admin/Reports-list">
+                  <a>
+                    <div className="flex justify-between font-light text-sm mt-4 border-b-1 pb-4">
+                      <div className="">Report</div>
+                      <BriefcaseIcon className="w-5 h-5 text-indigo-400" />
+                    </div>
+                  </a>
+                  </Link>
                   <Link href="/Admin/hashtags-list">
                   <a href="">
                     <div className="flex justify-between font-light text-sm mt-4 border-b-1 pb-4">

@@ -10,21 +10,23 @@ import {
   HeartIcon,
   SaveAsIcon,
   ShareIcon,
+  TrashIcon,
 } from "@heroicons/react/outline";
 import { BadgeCheckIcon, DotsHorizontalIcon, VideoCameraIcon, XIcon } from "@heroicons/react/solid";
 import { Dialog, Popover, Transition } from "@headlessui/react";
-import { BOOKMARK_NEWSFEED_API_KEY, EVENT_API, GET_USER_BOOKMARKS, NEWSFEED_COMMENT_POST_KEY, POST_NEWSFEED_API_KEY, REACTION_NEWSFEED_API_KEY } from "../../../pages/config";
+import { BOOKMARK_NEWSFEED_API_KEY, CURENT_USER_LOGIN_API, EVENT_API, GET_USER_BOOKMARKS, NEWSFEED_COMMENT_POST_KEY, POST_NEWSFEED_API_KEY, REACTION_NEWSFEED_API_KEY } from "../../../pages/config";
 import axios from "axios";
 // import PostComments from "../comments/PostComments";
 // import FilterComments from "../comments/FilterComments";
 // import ReplyComments from "../comments/ReplyComments";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
 import ProfileAvatar from "../../../public/images/profile-avatar.png";
 import PagePhoto from "../../../public/images/752126.jpg";
 import App from "../../news-feed/newsfeed/newspost/App";
 import PostComments from "../../profile/comments/PostComments";
 import FilterComments from "../../profile/comments/FilterComments";
 import ReplyComments from "../../profile/comments/ReplyComments";
+import ShareModal from "../../news-feed/newsfeed/feedcard/ShareModal";
 
 const ReadMore = ({ children }) => {
   const text = children;
@@ -51,6 +53,7 @@ const EventView = () => {
   const [is_deleted, setIs_deleted] = useState(0);
   const [loading, setLoading] = useState(true);
   const [nextPage, setNextPage] = useState('');
+  const [currentUser, setCurrentUser] = useState();
 
   //  ******** Modal ***********
 
@@ -94,6 +97,7 @@ const EventView = () => {
   
   useEffect(() => {
     getNewsFeed();
+    Current_User();
   },[]);
 
   const getFeedComments = async () => {
@@ -288,6 +292,50 @@ const EventView = () => {
       setseat(e.target.value);
     }
   }
+
+  const Current_User=async()=>{    
+   
+    await fetch(CURENT_USER_LOGIN_API, {
+      method: "GET",
+       headers: {
+        Accept: "application/json", 
+         Authorization: `${authKey}`,
+       },
+    })
+       .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          setCurrentUser(result.data);
+        }
+      })
+      .catch((err) => console.log(err)); 
+  }
+
+  const DeleteNewsFeed = async (uid) => {
+    console.log(uid);
+    const res = await axios(POST_NEWSFEED_API_KEY + "/" + uid, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-type": "application/json; charset=utf-8",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true,
+        Authorization: authKey,
+      },
+      credentials: "same-origin",
+    });
+    const result = await res;
+
+    try {
+      if (result.status == 200) {
+        Router.push("/Admin/Reports-list");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    return result;
+  };
+
   return (
     <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
       <div className="blogs bg-white rounded-xl my-8 pb-4 ">
@@ -406,12 +454,14 @@ const EventView = () => {
                       <Popover.Panel className="absolute left-1/2 z-10 mt-3 w-72 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-3xl">
                         <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                           <div className="relative bg-white py-2">
-                            {/* <a className="flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50">
+                            {currentUser && currentUser.role == "admin"?(
+                            <a className="flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50">
                               <div className="flex text-gray-900 gap-2">
-                                <BookmarkIcon className="h-6 w-6 " />
-                                <div className="">Save</div>
+                                <TrashIcon className="h-6 w-6 " />
+                                <div className="" onClick={() => DeleteNewsFeed(items.id)}>Delete</div>
                               </div>
-                            </a> */}
+                            </a>
+                            ):('')}
                             <a className="flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50">
                               <div className="flex text-gray-900 gap-2">
                                 <ShareIcon className=" h-5 w-5" />
@@ -745,14 +795,7 @@ const EventView = () => {
                     </>
                   )}
                 </div>
-                <div>
-                  <ShareIcon
-                    width={24}
-                    height={24}
-                    className="text-indigo-400 cursor-pointer"
-                    onClick={() => copylink(items.id)}
-                  />
-                </div>
+                <ShareModal items={items && items.feed_type=="share"?(items.share):(items)} currentuser={currentUser}/>
               </div>
             </div>
             <Fragment>

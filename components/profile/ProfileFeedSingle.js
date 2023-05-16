@@ -16,6 +16,7 @@ import {
   TrashIcon,
   VideoCameraIcon,
   PhotographIcon,
+  ChevronRightIcon,
 } from "@heroicons/react/outline";
 import { CalendarIcon } from "@heroicons/react/solid";
 import { Popover, Transition } from "@headlessui/react";
@@ -31,7 +32,8 @@ import {
   POST_NEWSFEED_API_KEY,
   GET_USER_BOOKMARKS,
   SEARCH_MULTIPLE,
-  HASHTAGS_API
+  HASHTAGS_API,
+  RECENT_ACTIVITY_API
 } from "../../pages/config";
 import PostComments from "./comments/PostComments";
 import FilterComments from "./comments/FilterComments";
@@ -39,6 +41,7 @@ import ReplyComments from "./comments/ReplyComments";
 import Spinner from "../common/Spinner";
 import App from "../news-feed/newsfeed/newspost/App";
 import HashtagMentionInput from "../news-feed/newsfeed/newspost/HashtagMentionInput";
+import ShareModal from "../news-feed/newsfeed/feedcard/ShareModal";
 // import Spinner from "../common/Spinner";
 
 const cardDropdown = [
@@ -167,6 +170,7 @@ const ProfileFeedSingle = (singleItems) => {
     try {
       if (result.status == 200) {
         getNewsFeed();
+        RecentActivity();
         alert("Record Deleted Succefully");
         
       }
@@ -301,6 +305,24 @@ const ProfileFeedSingle = (singleItems) => {
       setSpinner(false)
   }
 
+  const RecentActivity=async()=>{    //current User
+  
+    await fetch(RECENT_ACTIVITY_API, {
+      method: "GET",
+      headers: {
+        Accept: "application/json", 
+        Authorization: `${authKey}`,
+      },
+    })
+    .then((resp) => resp.json())
+    .then((result) => {
+      if (result) {
+        singleItems.setRecentActivity(result.data);
+      }
+    })
+    .catch((err) => console.log(err)); 
+  }
+
   function addHeart(feedId) {
     const dataForm = new FormData();
     dataForm.append("reactionable_id", feedId);
@@ -318,6 +340,7 @@ const ProfileFeedSingle = (singleItems) => {
       .then((result) => {
         if (result) {
           setItems(result.data);
+          RecentActivity();
         }
       })
       .catch((err) => console.log(err));
@@ -420,6 +443,7 @@ const ProfileFeedSingle = (singleItems) => {
     try {
       if (result) {
         setItems(result.data.data);
+        RecentActivity();
       }
     } catch (error) {
       console.log(error);
@@ -1228,15 +1252,255 @@ const ProfileFeedSingle = (singleItems) => {
           ):('')}
          
          
-         {/* Update Button */}
-         {EditOn==items.id && (items.feed_type=="basic" || items.feed_type=="event_feed")?(
-          <button className={`w-[100px] h-8 rounded-full flex gap-1 items-center justify-center bg-indigo-400 text-white cursor-pointer`}
-              onClick={()=>UpdateFeed(items.id,items.feed_type )}>
-              Update {spinner && true ? <Spinner /> : ""}
-          </button>
-         ):('')}
+          {items.feed_type && items.feed_type === "share" ? (
+          <div className="border p-4 m-2">
+            <div className="flex gap-2 items-center">
+              
+              {items && items.share.page?(
+                items.share.page.display_photo_url?(
+                  <img
+                    src={items.share.page.display_photo_url} 
+                    className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
+                    width={45} 
+                    height={45} 
+                    alt="" 
+                  />
+                ):(
+                  <Image 
+                    src={PagePhoto} 
+                    className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
+                    width={45} 
+                    height={45} 
+                    alt="" 
+                  />
+                )
+              ):(
+                items && items.share.user && items.share.user.display_photo_url?(
+                  <img
+                    src={items.share.user.display_photo_url} 
+                    className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
+                    width={45} 
+                    height={45} 
+                    alt="" 
+                  />
+                ):(
+                  <Image 
+                    src={ProfileAvatar} 
+                    width={45} 
+                    height={45} 
+                    alt="" 
+                  />
+                )
+              )}
+            
+              <div>
+                {items.share.page?(
+                  <>
+                  <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
+                    
+                    <div className="capitalize">{items.share.page.name}</div>
+                  </h4>
+                  <div className="font-light text-gray-900 opacity-[0.8] italic">  Page Post</div>
+                  </>
+                  
+                ):(
+                  items.share.group?(
+                    <>
+                      <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
+                        {items.share.user.first_name} {items.share.user.last_name}
+                        <ChevronRightIcon
+                          width={24}
+                          height={24}
+                          className="text-indigo-400"
+                        />
+                        <div className="capitalize">{items.share.group.title}</div>
+                      </h4>
+                      <div className="font-light text-gray-900 opacity-[0.8] italic">Group Post</div>
+                    
+                    </>
+                  ):(
+                  <>
+                    <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
+                      {items.share.user.first_name} {items.share.user.last_name}
+                      <BadgeCheckIcon
+                        width={14}
+                        height={14}
+                        className="text-indigo-400"
+                      />
+                    </h4>
+                    <div className="font-light text-gray-900 opacity-[0.8]">
+                      {items.share.user.city?items.share.user.city+", ":""}{items.share.user.state?items.share.user.state+", ":""} {items.share.user.country}
+                    </div>
+                  </>
+                  )
+                )}
+                
+              </div>
+            </div>
+            <div className="p-2 pb-2">
+              {items.share.tags && items.share.tags.length > 0 || (items.share.hashtags && items.share.hashtags.length > 0) ?
+              <App state={items.share.body} website={items.share.tags} hashtags={items.share.hashtags} />
+              : <ReadMore>
+                {items.share.body ? items.share.body : ""}
+              </ReadMore>}
+            </div>
+            <div className="mt-[14px] mx-auto">
+              {items.share.event && items.share.event ? (
+                <Link
+                  href={{
+                    pathname: "/events-design/event-view",
+                    query: items.share.id,
+                  }} >
+                  <a>
+                    <div className="rounded-xl bg-white border border-gray-100 my-2">
+                      {items.share.event.cover_photo_url ? (
+                        <img
+                          src={items.share.event.cover_photo_url}
+                          className="aspect-video object-cover rounded-t-xl h-[390px] w-[952px]"
+                          alt=""
+                        />
+                      ) : (
+                        ""
+                      )}
+                      <div className="py-3 px-3">
+                        <div className="flex justify-between items-center">
+                          <div>
+                            {/* Date & Time */}
+                            <div className="text-red-400 text-sm">
+                              <span>{items.share.event.start_time}</span>
+                              <span>-{items.share.event.end_time}</span>&nbsp;
+                              <span>{items.share.event.start_date}</span>&nbsp;
+                            </div>
+                            {/* Name */}
+                            <div className="font-semibold text-lg">
+                              {items.share.event.name}
+                            </div>
+                            {/* Event-type */}
+                            <div className="flex items-center gap-2">
+                              <CalendarIcon
+                                width={16}
+                                height={16}
+                                className="text-gray-900"
+                              />
+                              <span className="text-gray-900 text-sm">
+                                {items.share.event.event_type}
+                              </span>
+                            </div>
+                            {items.share.event.event_type === "online" ? ('') : (
+                              <>
+                                {/* Adress */}
+                                {items.share.event.address ? (
+                                  <div className="flex items-center gap-2">
+                                    <CalendarIcon
+                                      width={16}
+                                      height={16}
+                                      className="text-gray-900"
+                                    />
+                                    <span className="text-gray-900 text-sm">
+                                      {items.share.event.address}
+                                    </span>
+                                  </div>
+                                ) : ('')}
 
+                                {/* Venue */}
+                                {items.share.event.venue ? (
+                                  <div className="flex items-center gap-2">
+                                    <CalendarIcon
+                                      width={16}
+                                      height={16}
+                                      className="text-gray-900"
+                                    />
+                                    <span className="text-gray-900 text-sm">
+                                      {items.share.event.venue}
+                                    </span>
+                                  </div>
+                                ) : ('')}
 
+                              </>
+                            )}
+                            {/* Link */}
+                            <div className="text-gray-900 flex gap-2">
+                              <CalendarIcon
+                                width={16}
+                                height={16}
+                                className="text-gray-900"
+                              />
+                              <span>{items.share.event.event_link}</span>
+                            </div>
+                            {/* Speaker */}
+                            <div className="text-gray-900">
+                              {items.share.event.tags && items.share.event.tags.length > 0 ?
+                                <App state={items.share.event.speaker} website={items.share.event.tags} />
+                                : items.share.event.body ? items.share.event.body : ""}
+                            </div>
+                          </div>
+                          <Link
+                            href={{
+                              pathname: "/events-design/event-view",
+                              query: items.share.id,
+                            }}
+                          >
+                            <a className="text-sm text-gray-600 cursor-pointer flex items-center border border-gray-100 rounded-full py-1 px-3">
+                              View Event
+                            </a>
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </Link>
+              ) : (
+                ""
+              )}
+              {items.share.feed_type && items.share.feed_type === "video_feed" ? (
+                <Link
+                  href={{
+                    pathname: "/events-design/event-view",
+                    query: items.share.id,
+                  }} >
+                  <a>
+                    <video controls className="aspect-video w-full rounded-xl my-4">
+                      <source src={items.share.attachments_link} type="video/mp4" />
+                    </video>
+                  </a>
+                </Link>
+              ) : (
+                ""
+              )}
+              {items.share.attachments_link && items.share.feed_type === "image_feed" ? (
+                <Link
+                  href={{
+                    pathname: "/events-design/event-view",
+                    query: items.share.id,
+                  }} >
+                  <a>
+                    <div className="mt-[14px]">
+                      <img
+                        src={items.share.attachments_link}
+                        width={952}
+                        height={240}
+                        layout="responsive"
+                        className="aspect-video object-cover rounded-lg mx-auto h-[390px]"
+                        alt=""
+                      />
+                    </div>
+                  </a>
+                </Link>
+              ) : (
+                ""
+              )}
+            </div>
+          </div>):("")}
+
+          {/* Update Button */}
+          <div>
+            {EditOn==items.id && (items.feed_type=="share" || items.feed_type=="basic" || items.feed_type=="event_feed")?(
+              <button className={`w-[100px] h-8 rounded-full flex gap-1 items-center justify-center bg-indigo-400 text-white cursor-pointer`}
+                  onClick={()=>UpdateFeed(items.id,items.feed_type )}>
+                  Update {spinner && true ? <Spinner /> : ""}
+              </button>
+            ):('')}
+          </div>
           <div className="flex justify-between mt-[14px]">
             <div className="flex gap-6">
               <div className="flex gap-2 items-center">
@@ -1313,20 +1577,13 @@ const ProfileFeedSingle = (singleItems) => {
                   </>
                 )}
               </div>
-              <div>
-                <ShareIcon
-                  width={24}
-                  height={24}
-                  className="text-indigo-400 cursor-pointer"
-                  onClick={() => copylink(items.id)}
-                />
-              </div>
+              <ShareModal items={items && items.feed_type=="share"?(items.share):(items)} currentuser={singleItems.currentuser}/>
             </div>
           </div>
           <Fragment>
-            <PostComments news_feed_id={items.id} setComments={setComments} setComments_count={setComments_count} setIs_deleted={setIs_deleted} dp={items.user.display_photo_url}/>
+            <PostComments news_feed_id={items.id} setComments={setComments} setComments_count={setComments_count} setIs_deleted={setIs_deleted} dp={items.user.display_photo_url} recentactivity={singleItems.recentactivity} setRecentActivity={singleItems.setRecentActivity}/>
             <FilterComments news_feed_id={items.id} comments={comments.data} setComments_count={setComments_count} setComments={setComments} next_page={nextPage} setNextPage={setNextPage} />
-            {!loading && <ReplyComments news_feed_id={items.id} comments={comments.data} comments_count={comments_count} setComments_count={setComments_count} setComments={setComments} setIs_deleted={setIs_deleted} items={items}/>}
+            {!loading && <ReplyComments news_feed_id={items.id} comments={comments.data} comments_count={comments_count} setComments_count={setComments_count} setComments={setComments} setIs_deleted={setIs_deleted} items={items} recentactivity={singleItems.recentactivity} setRecentActivity={singleItems.setRecentActivity}/>}
           </Fragment>
         </div>
       </div>

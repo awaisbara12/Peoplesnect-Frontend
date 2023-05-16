@@ -125,6 +125,9 @@ const ProfileCard = () => {
           </button>
         </a>
         </Link>
+        <div className="mt-4 text-indigo-400 px-3 rounded-full font-medium">
+          Profile Views : {userDetails && userDetails.user && userDetails.user.views_count? userDetails.user.views_count: 0}
+        </div>
         </div>
         {/* <div className="border-1 text-gray-100 my-5"></div>
         <div className="mx-5 flex justify-between items-center">
