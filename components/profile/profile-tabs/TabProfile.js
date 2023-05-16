@@ -190,7 +190,7 @@ const TabProfile = (props) => {
        </div>
        ):("")}
       </div>
-      <ProfileFeed bookmarks={props.bookmarks} setBookmarks={props.setBookmarks} recentactivity={props.recentactivity} setRecentActivity={props.setRecentActivity}/>
+      <ProfileFeed bookmarks={props.bookmarks} setBookmarks={props.setBookmarks} recentactivity={props.recentactivity} setRecentActivity={props.setRecentActivity} currentuser={userDetails}/>
     </>
   );
 };
