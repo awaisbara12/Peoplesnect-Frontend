@@ -17,8 +17,9 @@ import ProfileAvatar2 from "../../../public/images/mira.png";
 import InputEmoji from "react-input-emoji";
 import { CONVERSATION_API, CURENT_USER_LOGIN_API, MESSAGES_API, SEARCH_MULTIPLE, WS_PUBLIC_API } from "../../../pages/config";
 const Picker = dynamic(() => import("emoji-picker-react"), { ssr: false });
-import InfiniteScroll from 'react-infinite-scroll-component';
-import ClipLoader from 'react-spinners/ClipLoader';
+import InfiniteScroll from "react-infinite-scroll-component";
+import { ClipLoader } from "react-spinners";
+
 
 const Dropdown = ({ color }) => {
   const [openTab, setOpenTab] = React.useState(1);
@@ -34,7 +35,7 @@ const Dropdown = ({ color }) => {
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
   }
-  const [Conversation, setConversation] = useState("");          // all Conversation
+  const [Conversation, setConversation] = useState([]);          // all Conversation
   const [currentuser, setcurrentuser] = useState("");            //current-user
   let [value, setvalue] = useState();                            // Searching value fron 2nd tab
   let [results, setresults] = useState();                        // Searched-User
@@ -46,7 +47,8 @@ const Dropdown = ({ color }) => {
   const [postImagePreview, setpostImagePreview] = useState();
   const [subscribed, setsubscribed] = useState();                // Sms Subscription
   const [currentpagemy, setcurrentpagemy] = useState(1);         // PAGE PARAM [:- PAGY]
-
+  let [smsFriends, setsmsFriends] = useState([]);                  // Get all Friends
+  
   const messageRef = useRef();
   var tomsgid;                                                   
   const myDivRef = useRef(null); 
@@ -64,7 +66,7 @@ const Dropdown = ({ color }) => {
     const CableApp= actionCable.createConsumer(WS_PUBLIC_API);
     // createMessageSub(CableApp);
     createConversationSub(CableApp)
-    
+    ShowFriends();
     
     if(currentuser){
       GetConversation();
@@ -77,7 +79,7 @@ const Dropdown = ({ color }) => {
   };
   // Box close
   const closeDropdownPopover = () => {
-    console.log("close/hode")
+    console.log("close/hode");
     setDropdownPopoverShow(false);
   };
 
@@ -172,6 +174,7 @@ const Dropdown = ({ color }) => {
       .then((result) => {
         if (result && result.data) {
           setConversation(result.data);
+          // setc_pageConversation(result.pages.next_page)
         }
       })
       .catch((err) => console.log(err)); 
@@ -234,13 +237,13 @@ const Dropdown = ({ color }) => {
     }
   }
   //  Search User Only
-  const searchmultiples  = async(event) =>{
+  const FriendSearch  = async(event) =>{
     setvalue(event.target.value);
     if (event.target.value.length == 0)
     {
       setresults('');
     }else{
-      await fetch(SEARCH_MULTIPLE+"?query="+event.target.value+"&type=User", {
+      await fetch(SEARCH_MULTIPLE+"/messengerfriends?query="+event.target.value+"&type=User", {
         method: "GET",
          headers: {
           Accept: "application/json", 
@@ -260,6 +263,26 @@ const Dropdown = ({ color }) => {
         })
         .catch((err) => console.log(err));
     }
+  }
+  //  Get Friends
+  const ShowFriends  = async() =>{
+    if (typeof window !== "undefined") {
+      var authKey = window.localStorage.getItem("keyStore");
+    }
+    await fetch(SEARCH_MULTIPLE+"/messengerfriends?type=friends", {
+      method: "GET",
+        headers: {
+        Accept: "application/json", 
+          Authorization: `${authKey}`,
+        },
+    })
+      .then((resp) => resp.json())
+      .then((result ) => {
+        if (result && result.data) {
+          setsmsFriends(result.data);
+        }
+      })
+      .catch((err) => console.log(err));
   }
   // SMS Subscription
   function createMessageSub(r_id) {
@@ -327,7 +350,8 @@ const Dropdown = ({ color }) => {
         })
         .catch((err) => console.log(err)); 
     }else{console.log("no user")}
-  }
+  } 
+  
   return (
     <>
       <div className="flex flex-wrap">
@@ -420,7 +444,8 @@ const Dropdown = ({ color }) => {
                   {/* Recent-Chats */}
                   <div className={openTab === 1 ? "block" : "hidden"} id="link1">
                     <div>
-                      <input placeholder="Search Chat.." className="border-1 border-indigo-400 w-full p-2 placeholder:font-light focus:border-indigo-400 active:border-indigo-400 focus-visible:border-indigo-400 " />
+                      <input onClick={()=> setOpenTab(2)} onChange={(e)=>{setOpenTab(2); e.target.value='';}} 
+                        placeholder="Search Chat.." className="border-1 border-indigo-400 w-full p-2 placeholder:font-light focus:border-indigo-400 active:border-indigo-400 focus-visible:border-indigo-400 " />
                     </div>
                     <div className="h-[256px] overflow-y-scroll">
                       {Conversation && currentuser &&
@@ -475,11 +500,11 @@ const Dropdown = ({ color }) => {
                                 <Link href="">
                                   <a className="flex items-center gap-2">
                                   {i.sender.display_photo_url?(
-                                     <img
-                                     className="object-cover rounded-full w-[40px] h-[40px]"
-                                     src={i.sender.display_photo_url}
-                                     alt=""
-                                   />
+                                    <img
+                                    className="object-cover rounded-full w-[40px] h-[40px]"
+                                    src={i.sender.display_photo_url}
+                                    alt=""
+                                  />
                                   ):(
                                     <Image
                                       className="object-cover"
@@ -511,43 +536,83 @@ const Dropdown = ({ color }) => {
                   {/* New Messages tab */}
                   <div className={openTab === 2 ? "block" : "hidden"} id="link2">
                     <div>
-                      <input onChange={searchmultiples} placeholder="Search New Friends.." className="border-1 border-indigo-400 w-full p-2 placeholder:font-light focus:border-indigo-400 active:border-indigo-400 focus-visible:border-indigo-400 " />
+                      <input onChange={FriendSearch} placeholder="Search New Friends.." className="border-1 border-indigo-400 w-full p-2 placeholder:font-light focus:border-indigo-400 active:border-indigo-400 focus-visible:border-indigo-400 " />
                     </div>
-                    <div className="h-[256px] overflow-y-scroll">
-                      {results && results.map((i)=>(
-                        <div className=" bg-gray-100 p-2 border-b"
-                          ref={btnDropdownRef1}
-                          onClick={() => {
-                            dropdownPopoverShow1
-                            : openDropdownPopover1(i.user);
-                          }} key={i.id}>
-                          <Link href="">
-                            <a className="flex items-center gap-2">
-                            {i.user && i.user.display_photo_url?(
-                              <img
-                                className="object-cover rounded-full w-[40px] h-[40px] "
-                                src={i.user.display_photo_url}
-                                alt=""
-                              />
-                            ):(
-                              <Image
-                                className="object-cover"
-                                src={ProfileAvatar}
-                                width={40}
-                                height={40}
-                                alt=""
-                              />
-                            )}
-                              <div>
-                                <div className="font-bold capitalize">{i.user.first_name} {i.user.last_name}</div>
-                                <div className="font-light">Search User </div>
-                              </div>
-                            </a>
-                          </Link>
-                        </div>
-                        ))
-                      }
-                    </div>
+                    {results?(
+                      <div className="h-[256px] overflow-y-scroll">
+                        {results && results.map((i)=>(
+                          <div className=" bg-gray-100 p-2 border-b"
+                            ref={btnDropdownRef1}
+                            onClick={() => {
+                              dropdownPopoverShow1
+                              : openDropdownPopover1(i.user);
+                            }} key={i.id}>
+                            <Link href="">
+                              <a className="flex items-center gap-2">
+                              {i.user && i.user.display_photo_url?(
+                                <img
+                                  className="object-cover rounded-full w-[40px] h-[40px] "
+                                  src={i.user.display_photo_url}
+                                  alt=""
+                                />
+                              ):(
+                                <Image
+                                  className="object-cover"
+                                  src={ProfileAvatar}
+                                  width={40}
+                                  height={40}
+                                  alt=""
+                                />
+                              )}
+                                <div>
+                                  <div className="font-bold capitalize">{i.user.first_name} {i.user.last_name}</div>
+                                  <div className="font-light">Search User </div>
+                                </div>
+                              </a>
+                            </Link>
+                          </div>
+                          ))
+                        }
+                      </div>
+                    ):(
+                      smsFriends?(
+                        <div className="h-[256px] overflow-y-scroll">
+                          {smsFriends && smsFriends.map((i)=>(
+                            <div className=" bg-gray-100 p-2 border-b"
+                              ref={btnDropdownRef1}
+                              onClick={() => {
+                                dropdownPopoverShow1
+                                : openDropdownPopover1(i);
+                              }} key={i.id}>
+                              <Link href="">
+                                <a className="flex items-center gap-2">
+                                {i && i.display_photo_url?(
+                                  <img
+                                    className="object-cover rounded-full w-[40px] h-[40px] "
+                                    src={i.display_photo_url}
+                                    alt=""
+                                  />
+                                ):(
+                                  <Image
+                                    className="object-cover"
+                                    src={ProfileAvatar}
+                                    width={40}
+                                    height={40}
+                                    alt=""
+                                  />
+                                )}
+                                  <div>
+                                    <div className="font-bold capitalize">{i.first_name} {i.last_name}</div>
+                                    <div className="font-light">Friends  </div>
+                                  </div>
+                                </a>
+                              </Link>
+                            </div>
+                          ))
+                        }
+                        </div> 
+                      ):('')
+                    )}
                   </div>
                   {/* Chat-Box */}
                   {msguser?(
