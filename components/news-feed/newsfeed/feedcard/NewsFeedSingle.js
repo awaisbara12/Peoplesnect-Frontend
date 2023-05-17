@@ -239,6 +239,12 @@ const NewsFeedSingle = (singleItem) => {
       if(a){
         createReport(item.id);
       }
+    }else if(name=="Share"){
+      const links = window.location.href        // get Full Link
+      const links1 = window.location.pathname   // get link after localhost
+      const copylink = links.split(links1)    // get link domain like(localhost..etc)
+      navigator.clipboard.writeText(copylink[0] + "/events-design/event-view?" + item.id);
+      alert("Link Copied to your Clipboard");
     }
   };
 
@@ -723,7 +729,7 @@ const NewsFeedSingle = (singleItem) => {
                 <Link
                   href={{
                     pathname: "/events-design/event-view",
-                    query: items.share.id,
+                    query: items.id,
                   }} >
                   <a>
                     <div className="rounded-xl bg-white border border-gray-100 my-2">
@@ -811,7 +817,7 @@ const NewsFeedSingle = (singleItem) => {
                           <Link
                             href={{
                               pathname: "/events-design/event-view",
-                              query: items.share.id,
+                              query: items.id,
                             }}
                           >
                             <a className="text-sm text-gray-600 cursor-pointer flex items-center border border-gray-100 rounded-full py-1 px-3">
@@ -830,7 +836,7 @@ const NewsFeedSingle = (singleItem) => {
                 <Link
                   href={{
                     pathname: "/events-design/event-view",
-                    query: items.share.id,
+                    query: items.id,
                   }} >
                   <a>
                     <video controls className="aspect-video w-full rounded-xl my-4">
@@ -845,7 +851,7 @@ const NewsFeedSingle = (singleItem) => {
                 <Link
                   href={{
                     pathname: "/events-design/event-view",
-                    query: items.share.id,
+                    query: items.id,
                   }} >
                   <a>
                     <div className="mt-[14px]">
