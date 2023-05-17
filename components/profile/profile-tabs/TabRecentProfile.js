@@ -59,6 +59,13 @@ const TabRecentProfile = (props) => {
                     </a>
                   </Link>
                 ):('')}
+                {i.recent_activeable_type && i.recent_activeable_type=="NewsFeed"?(
+                  <Link href={{pathname: "/events-design/event-view", query: i.news_feed.id}}>
+                    <a >
+                    <div className="">You share a Post</div>
+                    </a>
+                  </Link>
+                ):('')}
               </div>
               <div className="time font-light text-xs">{i.created_at}</div>
             </div>

@@ -580,7 +580,7 @@ const ProfileFeedSingle = (singleItems) => {
                 <Link
                   href={{
                     pathname: "/events-design/event-view",
-                    query: items.share.id,
+                    query: items.id,
                   }} >
                   <a>
                     <div className="rounded-xl bg-white border border-gray-100 my-2">
@@ -668,7 +668,7 @@ const ProfileFeedSingle = (singleItems) => {
                           <Link
                             href={{
                               pathname: "/events-design/event-view",
-                              query: items.share.id,
+                              query: items.id,
                             }}
                           >
                             <a className="text-sm text-gray-600 cursor-pointer flex items-center border border-gray-100 rounded-full py-1 px-3">
@@ -687,7 +687,7 @@ const ProfileFeedSingle = (singleItems) => {
                 <Link
                   href={{
                     pathname: "/events-design/event-view",
-                    query: items.share.id,
+                    query: items.id,
                   }} >
                   <a>
                     <video controls className="aspect-video w-full rounded-xl my-4">
@@ -702,7 +702,7 @@ const ProfileFeedSingle = (singleItems) => {
                 <Link
                   href={{
                     pathname: "/events-design/event-view",
-                    query: items.share.id,
+                    query: items.id,
                   }} >
                   <a>
                     <div className="mt-[14px]">
