@@ -32,6 +32,8 @@ const Messages = () => {
   const [messages, setmessages] = useState([]);                  // GET SMS OF Certain CONVERSATON 
   const [senderDetails, setsenderDetails] = useState("");        // 2nd USER
   const [cables, setcables] = useState(null);                    // ACTIONCABLE CONNECTION
+  const [currentuser, setcurrentuser] = useState(null);          // current user
+  
   const [currentpagemy, setcurrentpagemy] = useState(1);         // PAGE PARAM [:- PAGY]
   const router = useRouter();
   const data = router.asPath;
@@ -117,7 +119,7 @@ const Messages = () => {
   }
   //  Create/ Send Messsage
   const SendMessage=async()=>{
-    if (text && myArray[1])
+    if ((text || attachment_type) && myArray[1])
     {
       const dataForm = new FormData();
       if(postImagePreview){
@@ -137,9 +139,27 @@ const Messages = () => {
       })
         .then((resp) => resp.json())
         .then((result) => {
-          if (result && result.data) {
-            const mergedata = [...result.data, ...messages]
-            setmessages(mergedata);
+            if (result && result.data) {
+              if(messages.length==0){
+                let actionCable;
+                if (typeof window !== 'undefined') {
+                  actionCable = require('actioncable');
+                  const CableApp= actionCable.createConsumer(WS_PUBLIC_API);
+                }
+                const CableApp= actionCable.createConsumer(WS_PUBLIC_API);
+                createMessageChanel(currentuser.id, CableApp);
+              }
+              if (messages) {
+                let mergedData;
+                if (Array.isArray(result.data)) {
+                  mergedData = [...result.data, ...messages];
+                } else {
+                  mergedData = [result.data, ...messages];
+                }
+                setmessages(mergedData);
+              } else {
+                setmessages(Array.isArray(result.data) ? result.data : [result.data]);
+              }
             downfunction();
           }
         })
@@ -201,6 +221,7 @@ const Messages = () => {
       .then((resp) => resp.json())
       .then((result) => {
         if (result) {
+          setcurrentuser(result.data);
           recipientUserDetails(result.data.id,CableApp);
         }
       })
@@ -279,7 +300,7 @@ const Messages = () => {
             hasMore={currentpagemy != null}
             inverse={true}
             scrollableTarget="scrollableDiv"
-            loader={<div className="flex justify-center "><ClipLoader className="my-8" color="#818CF8" size={40} /> </div>}
+            loader={messages?(<div className="flex justify-center "><ClipLoader className="my-8" color="#818CF8" size={40} /> </div>):('')}
           >
             {messages &&
               messages.map((i)=>{
