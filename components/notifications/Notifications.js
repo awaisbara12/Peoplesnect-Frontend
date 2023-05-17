@@ -202,8 +202,8 @@ const Notifications = () => {
                 <div className="request-profile flex  px-4 py-3 justify-between items-center">
                   <div className="flex items-center gap-3">
                   <Link href={{
-                          pathname:"/Friends-Profile",
-                          query: i.invite_friend ? (i.invite_friend.sender.id):(i.sender?(i.sender.id):(i.tag && i.tag.newsfeed?(i.tag.newsfeed.user.id):(i.tag && i.tag.replycomment?(i.tag.replycomment.user.id):(i.tag && i.tag.comment?(i.tag.comment.user.id):(i.group_member? (i.group_member.group_member.id):(i.member_request && currentUser && i.member_request.status == "pending"? (i.member_request.sender_details.id == currentUser.id ?(i.member_request.group_details.owner.id):(i.member_request.sender_details.id)):i.member_request && currentUser && i.member_request.status == "accepted"? (i.member_request.group_details.owner.id == currentUser.id?(i.member_request.sender_details.id):(i.member_request.group_details.owner.id)):i.applied_job ?(i.applied_job.user.id):('')))))))
+                          pathname:"/User-Profile",
+                          query: i.invite_friend ? (i.invite_friend.sender.id):(i.sender?(i.sender.id):(i.tag && i.tag.newsfeed?(i.tag.newsfeed.user.id):(i.tag && i.tag.replycomment?(i.tag.replycomment.user.id):(i.tag && i.tag.comment?(i.tag.comment.user.id):(i.group_member? (i.group_member.group_member.id):(i.member_request && currentUser && i.member_request.status == "pending"? (i.member_request.sender_details.id == currentUser.id ?(i.member_request.group_details.owner.id):(i.member_request.sender_details.id)):i.member_request && currentUser && i.member_request.status == "accepted"? (i.member_request.group_details.owner.id == currentUser.id?(i.member_request.sender_details.id):(i.member_request.group_details.owner.id)):i.applied_job ?(i.applied_job.user.id):i.news_feed ?(i.news_feed.user.id):('')))))))
                         }}>
                       <a>
                         {i.sender && i.sender.display_photo_url?(
@@ -268,6 +268,13 @@ const Notifications = () => {
                                   className="object-cover rounded-full z-40 h-[35px] w-[35px]"
                                   alt=""
                                 />
+                              ):(
+                                i.news_feed && i.news_feed.user.display_photo_url ?(
+                                  <img
+                                  src={ i.news_feed.user.display_photo_url}
+                                  className="object-cover rounded-full z-40 h-[35px] w-[35px]"
+                                  alt=""
+                                />
                               )
                               :(
                                 <Image
@@ -276,7 +283,7 @@ const Notifications = () => {
                                 height={35}
                                 alt=""
                               />
-                              )))))))
+                              ))))))))
                              
                             )
                            
@@ -293,8 +300,8 @@ const Notifications = () => {
                     </Link>
                     <div className="">
                     <Link href={{
-                          pathname: "/Friends-Profile",
-                          query: i.invite_friend ? (i.invite_friend.sender.id):(i.sender?(i.sender.id):(i.tag && i.tag.user?(i.tag.user.id):(i.group_member? (i.group_member.group_member.id):(i.member_request && currentUser && i.member_request.status == "pending"? (i.member_request.sender_details.id == currentUser.id ?(i.member_request.group_details.owner.id):(i.member_request.sender_details.id)):i.member_request && currentUser && i.member_request.status == "accepted"? (i.member_request.group_details.owner.id == currentUser.id?(i.member_request.sender_details.id):(i.member_request.group_details.owner.id)):i.applied_job ?(i.applied_job.user.id):('')))))
+                          pathname: "/User-Profile",
+                          query: i.invite_friend ? (i.invite_friend.sender.id):(i.sender?(i.sender.id):(i.tag && i.tag.newsfeed?(i.tag.newsfeed.user.id):(i.tag && i.tag.replycomment?(i.tag.replycomment.user.id):(i.tag && i.tag.comment?(i.tag.comment.user.id):(i.group_member? (i.group_member.group_member.id):(i.member_request && currentUser && i.member_request.status == "pending"? (i.member_request.sender_details.id == currentUser.id ?(i.member_request.group_details.owner.id):(i.member_request.sender_details.id)):i.member_request && currentUser && i.member_request.status == "accepted"? (i.member_request.group_details.owner.id == currentUser.id?(i.member_request.sender_details.id):(i.member_request.group_details.owner.id)):i.applied_job ?(i.applied_job.user.id):i.news_feed ?(i.news_feed.user.id):('')))))))
                         }}>
                         <a>
                         <div className="username text-sm font-bold">
@@ -312,7 +319,8 @@ const Notifications = () => {
                             ( i.group_member && i.group_member.group_details.title ?(i.group_member.group_member.first_name+' '+i.group_member.group_member.last_name):
                             ( i.member_request  && currentUser && i.member_request.group_details.owner.id == currentUser.id ?(i.member_request.sender_details.first_name+' '+i.member_request.sender_details.last_name):
                             ( i.member_request  && currentUser && i.member_request.sender_details.id == currentUser.id  ?(i.member_request.group_details.owner.first_name+' '+i.member_request.group_details.owner.last_name):
-                            ( i.applied_job && i.applied_job.user  ?(i.applied_job.user.first_name+' '+i.applied_job.user.last_name):('')))))))))
+                            ( i.applied_job && i.applied_job.user  ?(i.applied_job.user.first_name+' '+i.applied_job.user.last_name):
+                            ( i.news_feed && i.news_feed.user  ?(i.news_feed.user.first_name+' '+i.news_feed.user.last_name):(''))))))))))
                           )}
                           
                         </div>
@@ -523,7 +531,16 @@ const Notifications = () => {
                                     </a>
                                   </Link>
                                   </div>
-                              </div>):(i.body))))))))
+                              </div>):( i.news_feed && i.news_feed.id ?(
+                              <div className="flex justify-end gap-4">
+                                <Link href={{pathname: "/events-design/event-view", query:  i.news_feed.id,}}>
+                                  <a>
+                                    <div className="py-2 font-bold">
+                                      {i.body }
+                                    </div>
+                                  </a>
+                                </Link>
+                             </div>):(i.body)))))))))
                             ))))))))}
                         </div>
                       
