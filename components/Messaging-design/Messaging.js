@@ -16,16 +16,20 @@ import {
 import { useFormik } from "formik";
 import { eventScheema } from "../auth/schemas/CreateEventScheema";
 import { CONVERSATION_API, CURENT_USER_LOGIN_API, SEARCH_MULTIPLE, WS_PUBLIC_API } from "../../pages/config";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { ClipLoader } from "react-spinners";
 
 const Messaging = () => {
   const [openTab, setOpenTab] = React.useState(1);
-  const [postImage, setPostImage] = useState([]);
-  const [postImagePreview, setpostImagePreview] = useState();
   let [results, setresults] = useState();
+  let [smsFriends, setsmsFriends] = useState([]);
   let [value, setvalue] = useState();
   const [text, setText] = useState("");
-  const [Conversation, setConversation] = useState("");
+  const [Conversation, setConversation] = useState([]);
   const [currentuser, setcurrentuser] = useState("");
+  const [Conversation_id, setConversation_id] = useState("");
+  const [c_pageConversation, setc_pageConversation] = useState(1);         // PAGE PARAM [:- PAGY]
+  const [c_pageFriend, setc_pageFriend] = useState(1);         // PAGE PARAM [:- PAGY]
 
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
@@ -45,12 +49,7 @@ const Messaging = () => {
   }
   function handleOnEnter(text) {
   }
-  const handleImagePost = (e) => {
-    setPostImage(e.target.files[0]);
-    if (e.target.files.length !== 0) {
-      setpostImagePreview(window.URL.createObjectURL(e.target.files[0]));
-    }
-  };
+  
   const { values } = useFormik({
     initialValues: {
       eventOnline: "online",
@@ -78,9 +77,11 @@ const Messaging = () => {
     }
     const CableApp= actionCable.createConsumer(WS_PUBLIC_API);
     Current_User(CableApp);
+    ShowFriends();
   }, []);
+  // Get All Conversation
   const GetConversation=async()=>{     
-    await fetch(CONVERSATION_API, {
+    await fetch(CONVERSATION_API+"?page="+c_pageConversation, {
       method: "GET",
        headers: {
         Accept: "application/json", 
@@ -90,11 +91,15 @@ const Messaging = () => {
        .then((resp) => resp.json())
       .then((result) => {
         if (result && result.data) {
-          setConversation(result.data);
+          const mergedata = [...Conversation, ...result.data ]
+          setConversation(mergedata);
+          setc_pageConversation(result.pages.next_page)
+          // console.log("Result",result.data)
         }
       })
       .catch((err) => console.log(err)); 
   }
+  // Current User
   const Current_User=async(CableApp)=>{   
     await fetch(CURENT_USER_LOGIN_API, {
       method: "GET",
@@ -113,13 +118,14 @@ const Messaging = () => {
       })
       .catch((err) => console.log(err)); 
   }
-  const searchmultiples  = async(event) =>{
+  // For Search The Friends
+  const FriendSearch  = async(event) =>{
     setvalue(event.target.value);
     if (event.target.value.length == 0)
     {
       setresults('');
     }else{
-      await fetch(SEARCH_MULTIPLE+"?query="+event.target.value+"&type=User", {
+      await fetch(SEARCH_MULTIPLE+"/messengerfriends?query="+event.target.value+"&type=User", {
         method: "GET",
          headers: {
           Accept: "application/json", 
@@ -140,6 +146,38 @@ const Messaging = () => {
         .catch((err) => console.log(err));
     }
   }
+  //  Get Friends
+  const ShowFriends  = async() =>{
+    if (typeof window !== "undefined") {
+      var authKey = window.localStorage.getItem("keyStore");
+    }
+    await fetch(SEARCH_MULTIPLE+"/messengerfriends?type=friends&page="+c_pageFriend, {
+      method: "GET",
+        headers: {
+        Accept: "application/json", 
+          Authorization: `${authKey}`,
+        },
+    })
+      .then((resp) => resp.json())
+      .then((result ) => {
+        if (result && result.data) {
+          const mergedata = [...smsFriends, ...result.data ]
+          setsmsFriends(mergedata);
+          setc_pageFriend(result.pages.next_page)
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+
+  //  Fetch Conversation OnScroll [:pagy ]
+  const fetchMoreConversation = async() => {
+    GetConversation();
+  }
+  //  Fetch Friends OnScroll [:pagy ] 
+  const fetchMoreFriend = async() => {
+    ShowFriends();
+  }
+
   return (
     <div className="">
       <div className="w-[240px] xl:w-[280px] lg:w-[300px] md:w-[260px] border rounded-l-xl">
@@ -200,7 +238,13 @@ const Messaging = () => {
                   <div>
                     <input onClick={()=> setOpenTab(2)} onChange={(e)=>{setOpenTab(2); e.target.value='';}} placeholder="Search Friends.." className="border rounded border-indigo-400 w-full p-2 placeholder:font-light focus:border-indigo-400 active:border-indigo-400 focus-visible:border-indigo-400 " />
                   </div>
-                  <div className="overflow-y-scroll h-[620px] ">
+                  <InfiniteScroll
+                    dataLength={Conversation.length}
+                    next={fetchMoreConversation}
+                    hasMore={c_pageConversation != null}
+                    loader={<div className="flex justify-center"><ClipLoader className="my-8" color="#818CF8" size={40} /> </div>}
+                  >
+                  <div className="overflow-y-scroll h-[370px] ">
                     {currentuser && Conversation && 
                       Conversation.map((i)=>{
                         if(currentuser.id != i.recipient.id)
@@ -271,42 +315,82 @@ const Messaging = () => {
                     
                     
                   </div>
+                  </InfiniteScroll>
                 </div>
                 <div className={openTab === 2 ? "block" : "hidden"} id="link2">
                   <div>
                     <input placeholder="Search Friends.." 
                     className="border rounded border-indigo-400 w-full p-2 placeholder:font-light focus:border-indigo-400 active:border-indigo-400 focus-visible:border-indigo-400 " 
-                    onChange={searchmultiples}/>
+                    onChange={FriendSearch}/>
                   </div>
-                  <div className="overflow-y-scroll h-[620px] ">
-                    {results && results.map((i)=>(
-                      <Link href={{pathname:"/messaging-design", query:i.user.id}} key={i.id}>
-                        <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
-                          {i.user && i.user.display_photo_url?(
-                            <img
-                              className="object-cover rounded-full w-[45px] h-[45px] "
-                              src={i.user.display_photo_url}
-                              alt=""
-                            />
-                          ):(
-                            <Image
-                              className="object-cover rounded-full"
-                              src={ProfileAvatar}
-                              width={45}
-                              height={45}
-                              alt=""
-                            />
-                          )}
-                          
-                          <div className="">
-                            <div className="font-bold">{i.user.first_name} {i.user.last_name}</div>
-                            <div className="">user text as show as popup</div>
-                          </div>
-                        </a>
-                      </Link>
-                    ))}
-                    
-                  </div>
+                  {results?(
+                    <div className="overflow-y-scroll h-[370px] ">
+                      {results && results.map((i)=>(
+                        <Link href={{pathname:"/messaging-design", query:i.user.id}} key={i.id}>
+                          <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
+                            {i.user && i.user.display_photo_url?(
+                              <img
+                                className="object-cover rounded-full w-[45px] h-[45px] "
+                                src={i.user.display_photo_url}
+                                alt=""
+                              />
+                            ):(
+                              <Image
+                                className="object-cover rounded-full"
+                                src={ProfileAvatar}
+                                width={45}
+                                height={45}
+                                alt=""
+                              />
+                            )}
+                            
+                            <div className="">
+                              <div className="font-bold">{i.user.first_name} {i.user.last_name}</div>
+                              <div className="">user text as show as popup</div>
+                            </div>
+                          </a>
+                        </Link>
+                      ))}
+                    </div>
+                  ):(
+                    smsFriends?(
+                      <InfiniteScroll
+                        dataLength={smsFriends.length}
+                        next={fetchMoreFriend}
+                        hasMore={c_pageFriend != null}
+                        loader={<div className="flex justify-center"><ClipLoader className="my-8" color="#818CF8" size={40} /> </div>}
+                      >
+                        <div className="overflow-y-scroll h-[370px] ">
+                          {smsFriends && smsFriends.map((i)=>(
+                            <Link href={{pathname:"/messaging-design", query:i.id}} key={i.id}>
+                              <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
+                                {i && i.display_photo_url?(
+                                  <img
+                                    className="object-cover rounded-full w-[45px] h-[45px] "
+                                    src={i.display_photo_url}
+                                    alt=""
+                                  />
+                                ):(
+                                  <Image
+                                    className="object-cover rounded-full"
+                                    src={ProfileAvatar}
+                                    width={45}
+                                    height={45}
+                                    alt=""
+                                  />
+                                )}
+                                
+                                <div className="">
+                                  <div className="font-bold">{i.first_name} {i.last_name}</div>
+                                  <div className="">Friends</div>
+                                </div>
+                              </a>
+                            </Link>
+                          ))}
+                        </div>
+                      </InfiniteScroll>
+                    ):('')
+                  )}
                 </div>
               </div>
             </div>
