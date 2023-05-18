@@ -7,6 +7,9 @@ const FooterNewsFeed = () => {
     <div className="bg-white mt-5 rounded-xl">
       <div className=" p-5 text-sm font-light">
         <div className="grid grid-cols-2">
+          <Link href="/Contact-us">
+            <a className="">Contact Us</a>
+          </Link>
           <Link href="/">
             <a className="">about Us</a>
           </Link>
