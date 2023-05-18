@@ -45,6 +45,8 @@ const Dropdown = ({ color }) => {
   const [text, setText] = useState("");
   const [postImage, setPostImage] = useState([]);
   const [postImagePreview, setpostImagePreview] = useState();
+  let [smsNotify, setsmsNotify] = useState();                  // Get all Friends
+  
   const [subscribed, setsubscribed] = useState();                // Sms Subscription
   const [currentpagemy, setcurrentpagemy] = useState(1);         // PAGE PARAM [:- PAGY]
   let [smsFriends, setsmsFriends] = useState([]);                  // Get all Friends
@@ -64,7 +66,6 @@ const Dropdown = ({ color }) => {
       createConversationSub(CableApp);
     }
     const CableApp= actionCable.createConsumer(WS_PUBLIC_API);
-    // createMessageSub(CableApp);
     createConversationSub(CableApp)
     ShowFriends();
     
@@ -92,7 +93,7 @@ const Dropdown = ({ color }) => {
     createPopper(btnDropdownRef1.current, popoverDropdownRef1.current, {
       placement: "bottom-end",
     });
-    createMessageSub(i.id)
+    createMessageSub(subscribed , i.id)
     setDropdownPopoverShow1(true);
   };
   // back chat-popover
@@ -142,10 +143,17 @@ const Dropdown = ({ color }) => {
 
 
   useEffect(() => {
-    Current_User();
+    let actionCable;
+    if (typeof window !== 'undefined') {
+      actionCable = require('actioncable');
+      const CableApp= actionCable.createConsumer(WS_PUBLIC_API);
+    }
+    const CableApp= actionCable.createConsumer(WS_PUBLIC_API);
+    Current_User(CableApp);
+    ConversationAlert()
   },[])
   // Current User Detail
-  const Current_User=async()=>{   
+  const Current_User=async(CableApp)=>{   
     await fetch(CURENT_USER_LOGIN_API, {
       method: "GET",
        headers: {
@@ -157,6 +165,7 @@ const Dropdown = ({ color }) => {
       .then((result) => {
         if (result) {
           setcurrentuser(result.data);
+          createAlertSub(CableApp, result.data.id)
         }
       })
       .catch((err) => console.log(err)); 
@@ -209,7 +218,7 @@ const Dropdown = ({ color }) => {
   }
   //  Send/Create Sms
   const SendMessage=async()=>{
-    if (text)
+    if (text || attachment_type)
     {
       const dataForm = new FormData();
       if(postImagePreview){
@@ -229,8 +238,32 @@ const Dropdown = ({ color }) => {
       })
         .then((resp) => resp.json())
         .then((result) => {
+          // if (result) {
+          //   GetMessages(msguser.id)
+          // }
           if (result) {
-            GetMessages(msguser.id)
+            if(messages.length==0){
+              let actionCable;
+              if (typeof window !== 'undefined') {
+                actionCable = require('actioncable');
+                const CableApp= actionCable.createConsumer(WS_PUBLIC_API);
+              }
+              const CableApp= actionCable.createConsumer(WS_PUBLIC_API);
+              createMessageSub(CableApp, msguser.id);
+            }
+            // GetMessages(msguser.id)
+            if (messages) {
+              let mergedData;
+              if (Array.isArray(result.data)) {
+                mergedData = [...result.data, ...messages];
+              } else {
+                mergedData = [result.data, ...messages];
+              }
+              setmessages(mergedData);
+            } else {
+              setmessages(Array.isArray(result.data) ? result.data : [result.data]);
+            }
+            // downfunction();
           }
         })
         .catch((err) => console.log(err)); 
@@ -284,9 +317,13 @@ const Dropdown = ({ color }) => {
       })
       .catch((err) => console.log(err));
   }
+
+
+// ****** Subscription ******
+
   // SMS Subscription
-  function createMessageSub(r_id) {
-    subscribed.subscriptions.create(
+  function createMessageSub(subscribeds,  r_id) {
+    subscribeds.subscriptions.create(
       {
         channel: 'MessageChannel',
         current_user:  currentuser.id,
@@ -295,10 +332,13 @@ const Dropdown = ({ color }) => {
       {
         connected: () => console.log('Box-connected'),
         disconnected: () => console.log('Box-disconnected'),
-        received: data => {  console.log('Box-recieved');
-        if(myDivRef.current){
-          if( myDivRef.current.id ==  data){GetMessages(tomsgid)}; 
-        }
+        received: data => {  
+          if(myDivRef.current){
+            if( myDivRef.current.id ==  data){
+              console.log('Box-recieved');
+              GetMessages(data);
+            }
+          }
        },
       }
     );
@@ -316,6 +356,24 @@ const Dropdown = ({ color }) => {
       } 
     );
   }
+  // Alert Subscription
+  function createAlertSub(CableApp , c_id) {
+    CableApp.subscriptions.create(
+      {
+        channel: 'AlertChannel',
+        id: c_id,
+      },
+      {
+        connected: () => console.log('Box-alert connected'),
+        disconnected: () => console.log('Box-alert disconnected'),
+        received: data => {  console.log('Box-alert received');ConversationAlert();
+         },
+      } 
+    );
+  }
+
+
+
   //  For Scroll Down
   const downfunction=()=>{
     const scroll =messageRef.current.scrollHeight - messageRef.current.clientHeight;
@@ -351,7 +409,24 @@ const Dropdown = ({ color }) => {
         .catch((err) => console.log(err)); 
     }else{console.log("no user")}
   } 
-  
+  // converstion Alert
+  const ConversationAlert=async()=>{     
+    await fetch(CONVERSATION_API+"/conversation_alert", {
+      method: "GET",
+       headers: {
+        Accept: "application/json", 
+         Authorization: `${authKey}`,
+       },
+    })
+       .then((resp) => resp.json())
+      .then((result) => {
+        if (result && result.data) {
+          setsmsNotify(result.data);
+          console.log("ssssssssssssss",result.data);
+        }
+      })
+      .catch((err) => console.log(err)); 
+  }
   return (
     <>
       <div className="flex flex-wrap">
@@ -370,6 +445,10 @@ const Dropdown = ({ color }) => {
               }}
             >
               <ChatAlt2Icon className="h-10 w-10" />
+              {smsNotify && smsNotify=="true"? (
+                <div className="bg-red-400 h-5 w-5 text-white -top-1 left-3 rounded-full flex justify-center items-center absolute">
+                </div>
+              ) : ('')}
             </a>
             <div
               ref={popoverDropdownRef}
@@ -461,21 +540,45 @@ const Dropdown = ({ color }) => {
                                 }} key={i.id}>
                                 <Link href="">
                                   <a className="flex items-center gap-2">
-                                    {i.recipient.display_photo_url?(
-                                      <img
-                                      className="object-cover rounded-full w-[40px] h-[40px]"
-                                      src={i.recipient.display_photo_url}
-                                      alt=""
-                                    />
+                                    { currentuser.id!=i.message_CID && i.status=="Unread"?(
+                                        i.recipient.display_photo_url?(
+                                        <div className="relative">
+                                          <img
+                                            className="object-cover rounded-full w-[40px] h-[40px]"
+                                            src={i.recipient.display_photo_url}
+                                            alt=""
+                                          />
+                                          <div className="bg-red-400 h-2.5 w-2.5 -left-1 -top-1 rounded-full absolute"></div> 
+                                        </div>
+                                        ):(
+                                          <div className="relative">
+                                            <Image
+                                              className="object-cover"
+                                              src={ProfileAvatar}
+                                              width={40}
+                                              height={40}
+                                              alt=""
+                                            />
+                                            <div className="bg-red-400 h-2.5 w-2.5 -left-1 -top-1 rounded-full absolute"></div> 
+                                          </div>
+                                      )
                                     ):(
-                                      <Image
-                                        className="object-cover"
-                                        src={ProfileAvatar}
-                                        width={40}
-                                        height={40}
+                                      i.recipient.display_photo_url?(
+                                        <img
+                                        className="object-cover rounded-full w-[40px] h-[40px]"
+                                        src={i.recipient.display_photo_url}
                                         alt=""
                                       />
-                                    )}
+                                      ):(
+                                        <Image
+                                          className="object-cover"
+                                          src={ProfileAvatar}
+                                          width={40}
+                                          height={40}
+                                          alt=""
+                                        />
+                                      ))
+                                    }
                                     <div>
                                       <div className="font-bold capitalize">{i.recipient.first_name} {i.recipient.last_name}</div>
                                       {/* <div className="font-light">Your Conversations</div></div> */}
@@ -499,21 +602,45 @@ const Dropdown = ({ color }) => {
                                 }} key={i.id}>
                                 <Link href="">
                                   <a className="flex items-center gap-2">
-                                  {i.sender.display_photo_url?(
-                                    <img
-                                    className="object-cover rounded-full w-[40px] h-[40px]"
-                                    src={i.sender.display_photo_url}
-                                    alt=""
-                                  />
-                                  ):(
-                                    <Image
-                                      className="object-cover"
-                                      src={ProfileAvatar}
-                                      width={40}
-                                      height={40}
-                                      alt=""
-                                    />
-                                  )}
+                                  {currentuser.id!=i.message_CID && i.status=="Unread"?(
+                                    i.sender.display_photo_url?(
+                                      <div className="relative"> 
+                                       <img
+                                          className="object-cover rounded-full w-[40px] h-[40px]"
+                                          src={i.sender.display_photo_url}
+                                          alt=""
+                                        />
+                                        <div className="bg-red-400 h-2.5 w-2.5 -left-1 -top-1 rounded-full absolute"></div> 
+                                      </div>
+                                    ):(
+                                      <div className="relative">
+                                      <Image
+                                        className="object-cover"
+                                        src={ProfileAvatar}
+                                        width={40}
+                                        height={40}
+                                        alt=""
+                                      />
+                                      <div className="bg-red-400 h-2.5 w-2.5 -left-1 -top-1 rounded-full absolute"></div> 
+                                      </div>
+                                    )):(
+                                      i.sender.display_photo_url?(
+                                        <img
+                                          className="object-cover rounded-full w-[40px] h-[40px]"
+                                          src={i.sender.display_photo_url}
+                                          alt=""
+                                        />
+                                      ):(
+                                        <Image
+                                          className="object-cover"
+                                          src={ProfileAvatar}
+                                          width={40}
+                                          height={40}
+                                          alt=""
+                                        />
+                                      )
+                                    )
+                                  }
                                     <div>
                                       <div className="font-bold capitalize">{i.sender.first_name} {i.sender.last_name}</div>
                                       {currentuser.id!=i.message_CID && i.status=="Unread"?(
@@ -682,7 +809,7 @@ const Dropdown = ({ color }) => {
                             hasMore={currentpagemy != null}
                             inverse={true}
                             scrollableTarget="scrollableDiv"
-                            loader={<div className="flex justify-center "><ClipLoader className="my-8" color="#818CF8" size={40} /> </div>}
+                            loader={messages && messages.length>0?(<div className="flex justify-center "><ClipLoader className="my-8" color="#818CF8" size={40} /> </div>):('')}
                           >
                             {messages?(
                               <div className="">

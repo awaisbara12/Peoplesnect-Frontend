@@ -252,21 +252,44 @@ const Messaging = () => {
                             return(
                               <Link href={{pathname:"/messaging-design",query:i.recipient.id}} key={i.id}>
                                 <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
-                                  {i.recipient.display_photo_url?(
-                                    <img
-                                      className="object-cover rounded-full w-[45px] h-[45px]"
-                                      src={i.recipient.display_photo_url}
-                                      alt=""
-                                    />
-                                  ):(
-                                    <Image
-                                      className="object-cover rounded-full"
-                                      src={ProfileAvatar}
-                                      width={45}
-                                      height={45}
-                                      alt=""
-                                    />
-                                  )}
+                                  {currentuser.id!=i.message_CID && i.status=="Unread"?(
+                                    i.recipient.display_photo_url?(
+                                      <div className="relative">
+                                        <img
+                                          className="object-cover rounded-full w-[45px] h-[45px]"
+                                          src={i.recipient.display_photo_url}
+                                          alt=""
+                                        />
+                                        <div className="bg-red-400 h-2.5 w-2.5 -left-1 -top-1 rounded-full absolute"></div> 
+                                      </div>
+                                    ):(
+                                      <div className="relative">
+                                        <Image
+                                          className="object-cover rounded-full"
+                                          src={ProfileAvatar}
+                                          width={45}
+                                          height={45}
+                                          alt=""
+                                        />
+                                        <div className="bg-red-400 h-2.5 w-2.5 -left-1 -top-1 rounded-full absolute"></div> 
+                                      </div>
+                                    )):(
+                                      i.recipient.display_photo_url?(
+                                        <img
+                                          className="object-cover rounded-full w-[45px] h-[45px]"
+                                          src={i.recipient.display_photo_url}
+                                          alt=""
+                                        />
+                                      ):( 
+                                      <Image
+                                        className="object-cover rounded-full"
+                                        src={ProfileAvatar}
+                                        width={45}
+                                        height={45}
+                                        alt=""
+                                      />)
+                                    )
+                                  }
                                   <div className="">
                                     <div className="font-bold">{i.recipient.first_name} {i.recipient.last_name}</div>
                                     {currentuser.id!=i.message_CID && i.status=="Unread"?(
@@ -282,20 +305,44 @@ const Messaging = () => {
                             return(
                               <Link href={{pathname:"/messaging-design",query:i.sender.id}} key={i.id}>
                                 <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
-                                {i.sender.display_photo_url?(
+                                {currentuser.id!=i.message_CID && i.status=="Unread"?(
+                                  i.sender.display_photo_url?(
+                                    <div className="relative">
+                                      <img
+                                        className="object-cover rounded-full w-[45px] h-[45px]"
+                                        src={i.sender.display_photo_url}
+                                        alt=""
+                                      />
+                                      <div className="bg-red-400 h-2.5 w-2.5 -left-1 -top-1 rounded-full absolute"></div> 
+                                    </div>  
+                                    ):(
+                                      <div className="relative">
+                                        <Image
+                                          className="object-cover rounded-full"
+                                          src={ProfileAvatar}
+                                          width={45}
+                                          height={45}
+                                          alt=""
+                                        />
+                                        <div className="bg-red-400 h-2.5 w-2.5 -left-1 -top-1 rounded-full absolute"></div> 
+                                      </div>
+                                    )
+                                ):(
+                                  i.sender.display_photo_url?(
                                     <img
                                       className="object-cover rounded-full w-[45px] h-[45px]"
                                       src={i.sender.display_photo_url}
                                       alt=""
                                     />
-                                  ):(
-                                    <Image
-                                      className="object-cover rounded-full"
-                                      src={ProfileAvatar}
-                                      width={45}
-                                      height={45}
-                                      alt=""
-                                    />
+                                    ):(
+                                      <Image
+                                        className="object-cover rounded-full"
+                                        src={ProfileAvatar}
+                                        width={45}
+                                        height={45}
+                                        alt=""
+                                      />
+                                    )
                                   )}
                                   <div className="">
                                     <div className="font-bold">{i.sender.first_name} {i.sender.last_name}</div>
