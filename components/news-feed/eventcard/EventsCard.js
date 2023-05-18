@@ -13,7 +13,7 @@ return (
  <div className="w-64 lg:w-auto">
     <div className="mt-8 mx-auto bg-white rounded-xl w-full h-auto p-4">
       <Link href="/group-page">
-      <a href="">
+      <a>
         <div className="flex justify-between font-light text-sm  border-b-1 pb-4">
           <div className="">Groups</div>
           <UserGroupIcon className="w-5 h-5 text-indigo-400" />
@@ -37,7 +37,7 @@ return (
       </a>
       </Link>
       <Link href="/hashtag-design">
-      <a href="">
+      <a>
         <div className="flex justify-between font-light text-sm mt-4">
           <div className="">Explore Hashtags</div>
           <HashtagIcon className="w-5 h-5 text-indigo-400" />
