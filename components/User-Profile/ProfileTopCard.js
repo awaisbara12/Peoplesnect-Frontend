@@ -243,7 +243,7 @@ const ProfileTopCard = (props) => {
   },[props]);
   return (
     <>
-    <div className="mt-8 w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
+    <div className="mt-8 w-full xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
         <div className="w-full bg-white p-5 rounded-t-xl">
           <div className="w-full">
             <div className="">

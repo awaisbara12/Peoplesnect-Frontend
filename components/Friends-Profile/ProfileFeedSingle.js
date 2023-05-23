@@ -56,12 +56,12 @@ const ReadMore = ({ children }) => {
   };
   return (
     <p className="text">
-      {isReadMore ? text.slice(0, 300) + (text.length > 300?("......"):('')) : text}
-      {text.length > 300?(
+      {isReadMore ? text.slice(0, 300) + (text.length > 300 ? ("......") : ('')) : text}
+      {text.length > 300 ? (
         <span onClick={toggleReadMore} className="text-indigo-400 cursor-pointer ml-2 font-bold">
           {isReadMore ? "Read more" : "Show less"}
         </span>
-      ):('')}
+      ) : ('')}
     </p>
   );
 };
@@ -72,17 +72,17 @@ const ProfileFeedSingle = (singleItems) => {
   const [is_deleted, setIs_deleted] = useState(0);
   const [loading, setLoading] = useState(true);
   const [nextPage, setNextPage] = useState('');
-    // Bareer Key
-  if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore");}
-    // CopyLink
-  const copylink=(postid)=>{    
-    const links=window.location.href        // get Full Link
-    const links1=window.location.pathname   // get link after localhost
+  // Bareer Key
+  if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore"); }
+  // CopyLink
+  const copylink = (postid) => {
+    const links = window.location.href        // get Full Link
+    const links1 = window.location.pathname   // get link after localhost
     const copylink1 = links.split(links1)    // get link domain like(localhost..etc)
-    navigator.clipboard.writeText(copylink1[0]+"/events-design/event-view?"+postid);
+    navigator.clipboard.writeText(copylink1[0] + "/events-design/event-view?" + postid);
     alert("Link Copied to your Clipboard");
   }
-    // Get NewsFeed for the updation Lists
+  // Get NewsFeed for the updation Lists
   const getNewsFeed = async () => {
     const res = await axios(POST_NEWSFEED_API_KEY, {
       method: "GET",
@@ -107,7 +107,7 @@ const ProfileFeedSingle = (singleItems) => {
     setLoading(false);
     return result;
   };
-    // delete user newsfeed's post
+  // delete user newsfeed's post
   const DeleteNewsFeed = async (uid) => {
     const res = await axios(POST_NEWSFEED_API_KEY + "/" + uid, {
       method: "DELETE",
@@ -126,7 +126,7 @@ const ProfileFeedSingle = (singleItems) => {
       if (result.status == 200) {
         getNewsFeed();
         alert("Record Deleted Succefully");
-        
+
       }
     } catch (error) {
       console.log(error);
@@ -134,14 +134,14 @@ const ProfileFeedSingle = (singleItems) => {
     setLoading(false);
     return result;
   };
-    // update user newsfeed's post
- const EditFeed=(uid)=>{
-   alert(" ues"+uid);
+  // update user newsfeed's post
+  const EditFeed = (uid) => {
+    alert(" ues" + uid);
   };
-    // Confirmation Edit Or Delete
-  const optionConfirm=(uid,name)=>{
-    if (name=="Delete"){DeleteNewsFeed(uid);}
-    if (name=="Edit"){EditFeed(uid);}
+  // Confirmation Edit Or Delete
+  const optionConfirm = (uid, name) => {
+    if (name == "Delete") { DeleteNewsFeed(uid); }
+    if (name == "Edit") { EditFeed(uid); }
   };
 
   function addHeart(feedId) {
@@ -166,23 +166,23 @@ const ProfileFeedSingle = (singleItems) => {
       .catch((err) => console.log(err));
   }
 
-  const UserBookmarks=async()=>{    //current User
-  
+  const UserBookmarks = async () => {    //current User
+
     await fetch(GET_USER_BOOKMARKS, {
       method: "GET",
       headers: {
-        Accept: "application/json", 
+        Accept: "application/json",
         Authorization: `${authKey}`,
       },
     })
-    .then((resp) => resp.json())
-    .then((result) => {
-      if (result) {
-        singleItems.setBookmarks(result.data);
-        singleItems.setBookmarks(result.data);
-      }
-    })
-    .catch((err) => console.log(err)); 
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          singleItems.setBookmarks(result.data);
+          singleItems.setBookmarks(result.data);
+        }
+      })
+      .catch((err) => console.log(err));
   }
 
   function createBookmark(feedId) {
@@ -253,9 +253,9 @@ const ProfileFeedSingle = (singleItems) => {
       console.log(error);
     }
   }
-  
+
   useEffect(() => {
-   //console.log("yes")
+    //console.log("yes")
     setLoading(true);
     const getFeedComments = async () => {
       const res = await axios(
@@ -294,43 +294,43 @@ const ProfileFeedSingle = (singleItems) => {
   const handleClick = () => {
     setIsActive((current) => !current);
   };
-  
+
   return (
     <>
-     <div className="w-[600px] xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">
+      <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">
         <div className="flex gap-2 justify-between items-center px-[22px] py-[14px]">
           <div className="flex gap-2">
-           {items && items.user && items.user.display_photo_url?
-            (
-             <img 
-              src={items.user.display_photo_url} 
-              className="object-cover rounded-full z-40 h-[42px] w-[42px]" 
-              alt=""
-             />
-            ):(
-             <Image 
-              src={ProfileAvatar} 
-              width={45} 
-              height={45} 
-              alt=""
-             />
-            )}
-            {items && items.user?(
+            {items && items.user && items.user.display_photo_url ?
+              (
+                <img
+                  src={items.user.display_photo_url}
+                  className="object-cover rounded-full z-40 h-[42px] w-[42px]"
+                  alt=""
+                />
+              ) : (
+                <Image
+                  src={ProfileAvatar}
+                  width={45}
+                  height={45}
+                  alt=""
+                />
+              )}
+            {items && items.user ? (
               <div>
-               <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
-                {items.user.first_name} {items.user.last_name}
-                 <BadgeCheckIcon
-                   width={14}
-                   height={14}
-                   className="text-indigo-400"
-                 />
-               </h4>
-               <div className="font-light text-gray-900 opacity-[0.8]">
-               {items.user.city?items.user.city+", ":""}{items.user.state?items.user.state+", ":""} {items.user.country?items.user.country:''}
-               </div>
-             </div>
-            ):('')}
-           
+                <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
+                  {items.user.first_name} {items.user.last_name}
+                  <BadgeCheckIcon
+                    width={14}
+                    height={14}
+                    className="text-indigo-400"
+                  />
+                </h4>
+                <div className="font-light text-gray-900 opacity-[0.8]">
+                  {items.user.city ? items.user.city + ", " : ""}{items.user.state ? items.user.state + ", " : ""} {items.user.country ? items.user.country : ''}
+                </div>
+              </div>
+            ) : ('')}
+
           </div>
           <div className="">
             <div className="">
@@ -338,9 +338,8 @@ const ProfileFeedSingle = (singleItems) => {
                 {({ open }) => (
                   <>
                     <Popover.Button
-                      className={` ${
-                        open ? "" : "text-opacity-90 focus-visible:outline-none"
-                      }`}
+                      className={` ${open ? "" : "text-opacity-90 focus-visible:outline-none"
+                        }`}
                     >
                       <div className="hover:bg-indigo-100 focus:bg-indigo-100 rounded-full h-8 w-8 flex items-center justify-center">
                         <DotsHorizontalIcon className="w-5 h-5" />
@@ -361,7 +360,7 @@ const ProfileFeedSingle = (singleItems) => {
                             {cardDropdown.map((card) => (
                               <a
                                 key={card.name}
-                                onClick={()=>optionConfirm(items.id,card.name)}
+                                onClick={() => optionConfirm(items.id, card.name)}
                                 href={card.id}
                                 className="-m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
                               >
@@ -390,18 +389,18 @@ const ProfileFeedSingle = (singleItems) => {
         <div className="px-[22px] py-[14px]">
           {/* <p>{items.body ? items.body : ""}</p> */}
           {
-            items.tags && items.tags.length > 0 || (items.hashtags && items.hashtags.length > 0)?
-            (
-              <App state={items.body} website={items.tags} hashtags={items.hashtags}/>
-            )
-            :
-            (  
-              <ReadMore>
-              {items.body? items.body : ""}
-              </ReadMore>
-            )
-          } 
-          
+            items.tags && items.tags.length > 0 || (items.hashtags && items.hashtags.length > 0) ?
+              (
+                <App state={items.body} website={items.tags} hashtags={items.hashtags} />
+              )
+              :
+              (
+                <ReadMore>
+                  {items.body ? items.body : ""}
+                </ReadMore>
+              )
+          }
+
           {items.event && items.event ? (
             <div className="rounded-xl bg-white border border-gray-100 my-2">
               {items.event.cover_photo_url ? (
@@ -431,10 +430,10 @@ const ProfileFeedSingle = (singleItems) => {
                         className="text-gray-900"
                       />
                       <span className="text-gray-900 text-sm">
-                        {items.event.event_type=== "in_person"?(
+                        {items.event.event_type === "in_person" ? (
                           'In Person'
-                        ):(items.event.event_type)}
-                       
+                        ) : (items.event.event_type)}
+
                       </span>
                     </div>
                     <div className="text-gray-900"></div>
@@ -511,7 +510,7 @@ const ProfileFeedSingle = (singleItems) => {
                   height={24}
                   className="text-gray-600 cursor-pointer"
                 />
-                <span className="font-light text-gray-600 cursor-pointer">{comments_count>=0 && is_deleted==true?(comments_count):(items.comments_count==0?(0):(items.comments_count))}</span>
+                <span className="font-light text-gray-600 cursor-pointer">{comments_count >= 0 && is_deleted == true ? (comments_count) : (items.comments_count == 0 ? (0) : (items.comments_count))}</span>
               </div>
             </div>
             <div className="flex gap-6">
@@ -560,9 +559,9 @@ const ProfileFeedSingle = (singleItems) => {
             </div>
           </div>
           <Fragment>
-            <PostComments news_feed_id={items.id} setComments={setComments} setComments_count={setComments_count} setIs_deleted={setIs_deleted} dp={items.user.display_photo_url}/>
+            <PostComments news_feed_id={items.id} setComments={setComments} setComments_count={setComments_count} setIs_deleted={setIs_deleted} dp={items.user.display_photo_url} />
             <FilterComments news_feed_id={items.id} comments={comments.data} setComments_count={setComments_count} setComments={setComments} next_page={nextPage} setNextPage={setNextPage} />
-            {!loading && <ReplyComments news_feed_id={items.id} comments={comments.data} comments_count={comments_count} setComments_count={setComments_count} setComments={setComments} setIs_deleted={setIs_deleted} items={items}/>}
+            {!loading && <ReplyComments news_feed_id={items.id} comments={comments.data} comments_count={comments_count} setComments_count={setComments_count} setComments={setComments} setIs_deleted={setIs_deleted} items={items} />}
           </Fragment>
         </div>
       </div>

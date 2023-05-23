@@ -110,7 +110,7 @@ const TabsProfileCard = () => {
           <div className="border-t-1 w-full">
             <div className="w-full md:w-full xl:w-5/6 pt-8 pb-7 text-sm">
               <ul className="flex justify-between" role="tablist">
-                <li className="">
+                <li className="text-xs md:text-base">
                   <a
                     className={
                       "" +
@@ -129,7 +129,7 @@ const TabsProfileCard = () => {
                     Profile
                   </a>
                 </li>
-                <li className="">
+                <li className="text-xs md:text-base">
                   <a
                     className={
                       "" +
@@ -148,7 +148,7 @@ const TabsProfileCard = () => {
                     Contact Info
                   </a>
                 </li>
-                <li className="">
+                <li className="text-xs md:text-base">
                   <a
                     className={
                       "" +
@@ -167,7 +167,7 @@ const TabsProfileCard = () => {
                     Skills
                   </a>
                 </li>
-                <li className="">
+                <li className="text-xs md:text-base">
                   <a
                     className={
                       "" +
@@ -186,7 +186,7 @@ const TabsProfileCard = () => {
                     Education
                   </a>
                 </li>
-                <li className="">
+                <li className="text-xs md:text-base">
                   <a
                     className={
                       "" +
@@ -205,7 +205,7 @@ const TabsProfileCard = () => {
                     Professional Experience
                   </a>
                 </li>
-                <li className="">
+                <li className="text-xs md:text-base">
                   <a
                     className={
                       "" +
@@ -224,7 +224,7 @@ const TabsProfileCard = () => {
                     Recent Activity
                   </a>
                 </li>
-                <li className="">
+                <li className="text-xs md:text-base">
                   <a
                     className={
                       "" +

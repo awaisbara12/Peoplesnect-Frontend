@@ -10,9 +10,9 @@ import ClipLoader from 'react-spinners/ClipLoader';
 
 const ProfileFeed = (props) => {
   const [list, setList] = useState([]);
-  const [admins,setadmins] = useState(props.admins);
-  const [lastpage,setlastpage] = useState(0);
-  const [currentpage,setcurrentpage] = useState(1);
+  const [admins, setadmins] = useState(props.admins);
+  const [lastpage, setlastpage] = useState(0);
+  const [currentpage, setcurrentpage] = useState(1);
 
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
@@ -21,13 +21,11 @@ const ProfileFeed = (props) => {
   const data = router.asPath;
   const myArray = data.split("?");
 
-  function isadmin(admin,user_id)
-  {
-    for(var i=0; i < admin.length; i++){
-     if (admin[i].group_member.id == user_id)
-     {
-      return true;
-     }
+  function isadmin(admin, user_id) {
+    for (var i = 0; i < admin.length; i++) {
+      if (admin[i].group_member.id == user_id) {
+        return true;
+      }
     }
     return false;
   }
@@ -48,7 +46,7 @@ const ProfileFeed = (props) => {
 
     try {
       if (result.status == 200) {
-        const mergedata = [...list,...result.data.data]
+        const mergedata = [...list, ...result.data.data]
         setList(mergedata);
         // console.log(result);
         setcurrentpage(result.data.pages.next_page)
@@ -93,41 +91,42 @@ const ProfileFeed = (props) => {
 
   useEffect(() => {
     getNewsFeeds();
-  },[props.group]);
- 
+  }, [props.group]);
+
   return (
     <div className="mt-8">
-      <div className="w-[750px] md:w-full xl:w-full">
-        {props.group && props.group.can_post == "all_member" ?(
-          <NewsPostProfile lists={list}  setList={setList} />
-        ):(
-          props.currentUser && props.group?(
-            (admins && isadmin(admins,props.currentUser.id)) || props.group.owner.id == props.currentUser.id?(
+      <div className="w-full">
+        {props.group && props.group.can_post == "all_member" ? (
+          <NewsPostProfile lists={list} setList={setList} />
+        ) : (
+          props.currentUser && props.group ? (
+            (admins && isadmin(admins, props.currentUser.id)) || props.group.owner.id == props.currentUser.id ? (
               <NewsPostProfile lists={list} setList={setList} />
-            ):("")
-          ):("")
+            ) : ("")
+          ) : ("")
         )}
         <div>
 
-        <InfiniteScroll
-          dataLength={list.length}
-          next={fetchMoreData}
-          hasMore={ currentpage != null }
-          loader={ <div className="flex justify-center"><ClipLoader className="my-8" color="#818CF8" size={40}/> </div>}
-        >
-          {list&&
-            list.map((item) => {
-              
-              
-              return(
-                <ProfileFeedSingle lists={item} setList={setList} key={item.id} memberstatus={isadmin(props.admins, item.user.id)} admin = {props.admins}  group = {props.group} currentUser = {props.currentUser}/>        
-             )}
-            )
-          }
-        </InfiniteScroll>
-          
+          <InfiniteScroll
+            dataLength={list.length}
+            next={fetchMoreData}
+            hasMore={currentpage != null}
+            loader={<div className="flex justify-center"><ClipLoader className="my-8" color="#818CF8" size={40} /> </div>}
+          >
+            {list &&
+              list.map((item) => {
+
+
+                return (
+                  <ProfileFeedSingle lists={item} setList={setList} key={item.id} memberstatus={isadmin(props.admins, item.user.id)} admin={props.admins} group={props.group} currentUser={props.currentUser} />
+                )
+              }
+              )
+            }
+          </InfiniteScroll>
+
         </div>
-         
+
       </div>
     </div>
   );

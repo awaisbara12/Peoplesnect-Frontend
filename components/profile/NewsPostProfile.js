@@ -20,13 +20,13 @@ import { XCircleIcon } from "@heroicons/react/solid";
 import { useFormik } from "formik";
 import { eventScheema } from "../auth/schemas/CreateEventScheema";
 import { Dialog, Popover, Transition } from "@headlessui/react";
-import { POST_NEWSFEED_API_KEY , CURENT_USER_LOGIN_API} from "../../pages/config";
+import { POST_NEWSFEED_API_KEY, CURENT_USER_LOGIN_API } from "../../pages/config";
 import ImageUpload from "image-upload-react";
 import Link from "next/link";
 import Spinner from "../common/Spinner";
 import axios from "axios";
 
-const NewsPostProfile = ( setList ) => {
+const NewsPostProfile = (setList) => {
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
   }
@@ -45,26 +45,26 @@ const NewsPostProfile = ( setList ) => {
   const [videoPreview, setVideoPreview] = useState();
   const [userDetails, setUserDetails] = useState();
   let [isOpen, setIsOpen] = useState(false);
-  
- // Bareer Key
- if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore");}
- // Current User
-  const Current_User=async()=>{     
+
+  // Bareer Key
+  if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore"); }
+  // Current User
+  const Current_User = async () => {
     await fetch(CURENT_USER_LOGIN_API, {
       method: "GET",
-       headers: {
-        Accept: "application/json", 
-         Authorization: `${authKey}`,
-       },
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
     })
       .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-          setUserDetails(result.data);  
+          setUserDetails(result.data);
           //console.log("Current Userss",result.data)
         }
       })
-      .catch((err) => console.log(err)); 
+      .catch((err) => console.log(err));
   }
   const handleImageSelect = (e) => {
     setEventCoverImage(e.target.files[0]);
@@ -160,7 +160,7 @@ const NewsPostProfile = ( setList ) => {
       .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-          const mergedata = [result.data,...setList.lists]
+          const mergedata = [result.data, ...setList.lists]
           setList.setList(mergedata);
           setLoading(false);
         }
@@ -173,7 +173,7 @@ const NewsPostProfile = ( setList ) => {
     setVideoSrc("");
     setVideoPreview("");
     onSubmit();
-   
+
   }
 
   function closeModal() {
@@ -183,34 +183,34 @@ const NewsPostProfile = ( setList ) => {
   function openModal() {
     setIsOpen(true);
   }
-  useEffect(()=>{
-    Current_User(); 
-  },[])
+  useEffect(() => {
+    Current_User();
+  }, [])
   return (
     <div className="mt-8 z-20">
-      <div className="w-[600px] xl:w-[980px] lg:w-[730px] md:w-[780px] rounded-xl bg-white p-[22px]">
+      <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] rounded-xl bg-white p-[22px]">
         <form onSubmit={postNewsData}>
           <div className="w-full flex justify-start gap-[22px]">
             <div className="w-[42px] h-[42px]">
-             {userDetails && userDetails.display_photo_url?(
-               <img
-               src={userDetails.display_photo_url}
-               className="rounded-full w-[42px] h-[42px] object-cover"
-               width={42}
-               height={42}
-               placeholder="empty"
-               alt="profile-image"
-             />
-             ):(
+              {userDetails && userDetails.display_photo_url ? (
+                <img
+                  src={userDetails.display_photo_url}
+                  className="rounded-full w-[42px] h-[42px] object-cover"
+                  width={42}
+                  height={42}
+                  placeholder="empty"
+                  alt="profile-image"
+                />
+              ) : (
                 <Image
-                src={ProfileAvatar}
-                width={42}
-                height={42}
-                placeholder="empty"
-                alt="profile-image"
-              />
-             )}
-             
+                  src={ProfileAvatar}
+                  width={42}
+                  height={42}
+                  placeholder="empty"
+                  alt="profile-image"
+                />
+              )}
+
             </div>
 
             <textarea
@@ -372,13 +372,12 @@ const NewsPostProfile = ( setList ) => {
                     <NewspaperIcon
                       width={22}
                       height={22}
-                      className={` ${
-                        values.eventName ||
+                      className={` ${values.eventName ||
                         (postImagePreview && true) ||
                         videoPreview
-                          ? "text-indigo-100"
-                          : "text-indigo-400 cursor-pointer"
-                      }`}
+                        ? "text-indigo-100"
+                        : "text-indigo-400 cursor-pointer"
+                        }`}
                     />
                   </Link>
                 </div>
@@ -388,9 +387,8 @@ const NewsPostProfile = ( setList ) => {
             <button
               disabled={postText == 0 ? true : false}
               type="submit"
-              className={`w-[100px] h-8 rounded-full flex gap-1 items-center justify-center bg-indigo-400 text-white cursor-pointer ${
-                postText == 0 ? `bg-indigo-200` : ``
-              }`}
+              className={`w-[100px] h-8 rounded-full flex gap-1 items-center justify-center bg-indigo-400 text-white cursor-pointer ${postText == 0 ? `bg-indigo-200` : ``
+                }`}
             >
               {loading ? <Spinner /> : "Public"}
             </button>
@@ -452,9 +450,8 @@ const NewsPostProfile = ( setList ) => {
                           onChange={handleImageSelect}
                         />
                         <div
-                          className={`text-center	${
-                            previewEventCoverImage ? "hidden" : "visible"
-                          }`}
+                          className={`text-center	${previewEventCoverImage ? "hidden" : "visible"
+                            }`}
                         >
                           <CameraIcon className="h-8 w-8 mx-auto mb-1 text-indigo-400" />
                           <h4 className="font-semibold text-xl">
@@ -539,11 +536,10 @@ const NewsPostProfile = ( setList ) => {
                             }}
                             onBlur={handleBlur}
                             placeholder="Event Name"
-                            className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400 ${
-                              errors.eventName && touched.eventName
-                                ? "border-red-600"
-                                : ""
-                            }`}
+                            className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400 ${errors.eventName && touched.eventName
+                              ? "border-red-600"
+                              : ""
+                              }`}
                             id="eventName"
                             required="required"
                           />
@@ -586,11 +582,10 @@ const NewsPostProfile = ( setList ) => {
                               onChange={handleChange}
                               onBlur={handleBlur}
                               placeholder="Event Name"
-                              className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400 ${
-                                errors.startDate && touched.startDate
-                                  ? "border-red-600"
-                                  : ""
-                              }`}
+                              className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400 ${errors.startDate && touched.startDate
+                                ? "border-red-600"
+                                : ""
+                                }`}
                               id="startDate"
                               required="required"
                             />
@@ -632,11 +627,10 @@ const NewsPostProfile = ( setList ) => {
                               onChange={handleChange}
                               onBlur={handleBlur}
                               placeholder="Event Name"
-                              className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400 ${
-                                errors.startTime && touched.startTime
-                                  ? "border-red-600"
-                                  : ""
-                              }`}
+                              className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400 ${errors.startTime && touched.startTime
+                                ? "border-red-600"
+                                : ""
+                                }`}
                               id="startTime"
                               required="required"
                             />
@@ -680,11 +674,10 @@ const NewsPostProfile = ( setList ) => {
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 placeholder="Event Name"
-                                className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400 ${
-                                  errors.address && touched.address
-                                    ? "border-red-600"
-                                    : ""
-                                }`}
+                                className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400 ${errors.address && touched.address
+                                  ? "border-red-600"
+                                  : ""
+                                  }`}
                                 id="address"
                               />
                               {errors.address && touched.address ? (
@@ -707,11 +700,10 @@ const NewsPostProfile = ( setList ) => {
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 placeholder="Event Name"
-                                className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400 ${
-                                  errors.venue && touched.venue
-                                    ? "border-red-600"
-                                    : ""
-                                }`}
+                                className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400 ${errors.venue && touched.venue
+                                  ? "border-red-600"
+                                  : ""
+                                  }`}
                                 id="venue"
                               />
                               {errors.venue && touched.venue ? (
@@ -799,23 +791,23 @@ const NewsPostProfile = ( setList ) => {
                     </div>
                     <div className="flex justify-end mt-6">
                       {
-                        previewEventCoverImage && values.eventName && values.startTime  && selectedTimezone.label && values.endTime?(
-                        <button
-                          type="button"
-                          onClick={closeModal}
-                          className="w-[100] h-[32px] inline-flex justify-center rounded-md border border-transparent bg-indigo-100 px-4 py-2 text-sm font-medium text-indigo-600 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2"
+                        previewEventCoverImage && values.eventName && values.startTime && selectedTimezone.label && values.endTime ? (
+                          <button
+                            type="button"
+                            onClick={closeModal}
+                            className="w-[100] h-[32px] inline-flex justify-center rounded-md border border-transparent bg-indigo-100 px-4 py-2 text-sm font-medium text-indigo-600 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2"
                           >
-                          Continue
-                        </button>
-                        ):(
-                        <button
-                          type="disable"
-                          className="w-[100] cursor-not-allowed h-[32px] inline-flex justify-center rounded-md border border-transparent bg-indigo-100 px-4 py-2 text-sm font-medium text-indigo-400">
-                           Continue
-                        </button>)
-                      
+                            Continue
+                          </button>
+                        ) : (
+                          <button
+                            type="disable"
+                            className="w-[100] cursor-not-allowed h-[32px] inline-flex justify-center rounded-md border border-transparent bg-indigo-100 px-4 py-2 text-sm font-medium text-indigo-400">
+                            Continue
+                          </button>)
+
                       }
-                      
+
                     </div>
                   </div>
                 </Dialog.Panel>

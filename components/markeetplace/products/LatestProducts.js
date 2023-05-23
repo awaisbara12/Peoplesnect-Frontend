@@ -65,7 +65,7 @@ const HomeProducts = () => {
       <div className="flex justify-between font-semibold text-xl">
         <div className="">Latest Product</div>
       </div>
-      <div className="w-[720px] xl:w-[1020px] lg:w-[700px] md:w-[760px] px-5 md:px-0 lg:px-0">
+      <div className="w-[620px] xl:w-[1020px] lg:w-[700px] md:w-[760px] px-5 md:px-0 lg:px-0">
         {/* <div className="grid xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2 grid-cols-1 gap-8 mx-auto"> */}
           {Product?
            (<InfiniteScroll

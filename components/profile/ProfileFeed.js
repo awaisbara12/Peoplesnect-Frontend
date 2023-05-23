@@ -13,15 +13,15 @@ const ProfileFeed = (props) => {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [bookmarks, setBookmarks] = useState(props.bookmarks);
-  const [lastpage,setlastpage] = useState(0);
-  const [currentpage,setcurrentpage] = useState(1);
+  const [lastpage, setlastpage] = useState(0);
+  const [currentpage, setcurrentpage] = useState(1);
 
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
   }
   const getNewsFeed = async () => {
     // const pageno = Math.ceil(list.length/10) + 1;
-    const res = await axios(POST_NEWSFEED_API_KEY + "?page="+currentpage, {
+    const res = await axios(POST_NEWSFEED_API_KEY + "?page=" + currentpage, {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -36,7 +36,7 @@ const ProfileFeed = (props) => {
 
     try {
       if (result.status == 200) {
-        const mergedata = [...list,...result.data.data]
+        const mergedata = [...list, ...result.data.data]
         setList(mergedata);
         setcurrentpage(result.data.pages.next_page)
         setlastpage(result.data.pages.total_pages)
@@ -54,27 +54,27 @@ const ProfileFeed = (props) => {
   useEffect(() => {
     getNewsFeed();
     setLoading(false);
-  },[]);
- 
+  }, []);
+
   return (
     <div className="mt-8">
-      <div className="w-[750px] md:w-full xl:w-full">
+      <div className="w-full">
         {/* <NewsPost lists={list} setList={setList} bookmarks={props.bookmarks} setBookmarks={props.setBookmarks}/> */}
         {/* NewsPostProfile */}
         <NewsPost list={list} setList={setList} />
         <div>
-        <InfiniteScroll
-          dataLength={list.length}
-          next={fetchMoreData}
-          hasMore={ currentpage != null }
-          loader={ <div className="flex justify-center"><ClipLoader className="my-8" color="#818CF8" size={40}/> </div>}
-        >
-          {list && list.length > 0 && list.map((item) => (
-              <ProfileFeedSingle lists={item} setList={setList} key={item.id} bookmarks={props.bookmarks} setBookmarks={props.setBookmarks} recentactivity={props.recentactivity} setRecentActivity={props.setRecentActivity} currentuser={props.currentuser}/>        
+          <InfiniteScroll
+            dataLength={list.length}
+            next={fetchMoreData}
+            hasMore={currentpage != null}
+            loader={<div className="flex justify-center"><ClipLoader className="my-8" color="#818CF8" size={40} /> </div>}
+          >
+            {list && list.length > 0 && list.map((item) => (
+              <ProfileFeedSingle lists={item} setList={setList} key={item.id} bookmarks={props.bookmarks} setBookmarks={props.setBookmarks} recentactivity={props.recentactivity} setRecentActivity={props.setRecentActivity} currentuser={props.currentuser} />
             )
             )
-          }
-        </InfiniteScroll>
+            }
+          </InfiniteScroll>
         </div>
       </div>
     </div>

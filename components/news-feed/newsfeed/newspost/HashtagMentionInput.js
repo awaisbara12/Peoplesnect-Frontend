@@ -6,7 +6,7 @@ import Image from "next/image";
 
 
 const HashtagMentionInput = (props) => {
-//     const [value, setValue] = useState("");
+  //     const [value, setValue] = useState("");
   //   const [selectedHashtags, setSelectedHashtags] = useState([]);
   // const [selectedMentions, setSelectedMentions] = useState([]);
 
@@ -23,9 +23,9 @@ const HashtagMentionInput = (props) => {
   // const handleMentionAdd = mention => {
   //   setSelectedMentions([...selectedMentions, mention.id]);
   // };
-const [value, setValue] = useState(props.postText);
-const [hashtags, setHashtags] = useState([]);
-const [mentions, setMentions] = useState([]);
+  const [value, setValue] = useState(props.postText);
+  const [hashtags, setHashtags] = useState([]);
+  const [mentions, setMentions] = useState([]);
 
 
   const handleChange = event => {
@@ -71,14 +71,14 @@ const [mentions, setMentions] = useState([]);
   );
   const renderMentionSuggestion = (suggestion, search, highlightedDisplay) => (
     <div className="flex gap-1 items-center mt-2 px-2 border-b pb-2">
-      {suggestion && suggestion.avatar?(
+      {suggestion && suggestion.avatar ? (
         <img src={suggestion.avatar} className="w-7 h-7 rounded-full" />
-      ):(
-        <Image 
-            src={ProfileAvatar} 
-            width={28} 
-            height={28} 
-            alt="" />)}
+      ) : (
+        <Image
+          src={ProfileAvatar}
+          width={28}
+          height={28}
+          alt="" />)}
       <span><b>{highlightedDisplay}</b></span>
     </div>
   );
@@ -88,11 +88,11 @@ const [mentions, setMentions] = useState([]);
 
   return (
     <div>
-      <MentionsInput className="w-[890px] mention-input pt-0 resize-none border-0 px-0 text-base overflow-y-hidden outline-none focus:none focus:ring-0"
-      value={props.postText} onChange={handleChange}
-      placeholder={"Enter text..."}
-      allowSpaceInQuery={true}
-    >
+      <MentionsInput className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] mention-input pt-0 resize-none border-0 px-0 text-base overflow-y-hidden outline-none focus:none focus:ring-0"
+        value={props.postText} onChange={handleChange}
+        placeholder={"Enter text..."}
+        allowSpaceInQuery={true}
+      >
         <Mention
           trigger="#"
           data={props.hastags}
@@ -101,12 +101,12 @@ const [mentions, setMentions] = useState([]);
         />
         <Mention
           trigger="@"
-          data={props.mentioned} 
+          data={props.mentioned}
           markup="@[__display__](__id__)"
           renderSuggestion={renderMentionSuggestion}
         />
       </MentionsInput>
-     
+
     </div>
   );
 };
