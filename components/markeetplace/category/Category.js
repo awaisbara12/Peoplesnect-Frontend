@@ -11,11 +11,14 @@ import productImage5 from "../../../public/images/266-hero.jpg";
 import { PRODUCT_API } from "../../../pages/config";
 import { useRouter } from "next/router";
 import { DocumentDuplicateIcon, LocationMarkerIcon } from "@heroicons/react/outline";
+import InfiniteScroll from 'react-infinite-scroll-component';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 
 
 const Category = () => {
-  const [Product, setProduct] = useState();
+  const [Product, setProduct] = useState([]);
+  const [currentpage, setcurrentpage] = useState(1);
   const router = useRouter();
   const data = router.asPath;
   const myArray = data.split("?");
@@ -23,7 +26,7 @@ const Category = () => {
   if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore"); }
   //  Get All product
   function product() {
-    fetch(PRODUCT_API+"/category_product?id="+myArray[1], {
+    fetch(PRODUCT_API+"/category_product?id="+myArray[1]+"&page=" + currentpage, {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -33,7 +36,10 @@ const Category = () => {
       .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-          setProduct(result.data)
+          // setProduct(result.data)
+          const mergedata = [...Product, ...result.data]
+          setProduct(mergedata);
+          setcurrentpage(result.pages.next_page)
         }
       })
       .catch((err) => console.log(err));
@@ -42,6 +48,10 @@ const Category = () => {
   useEffect(() => {
     product();
   },[myArray[1]])
+  
+  const fetchMoreData = async()=>{
+    product();
+  }
   return (
     <div className="w-[720px] xl:w-[1050px] lg:w-[780px] md:w-[850px] px-5 md:px-0 lg:px-0">
      {Product && Product.length !=0?( 
@@ -53,19 +63,20 @@ const Category = () => {
           <div className="">No Product Found</div>
         </div>
       )}
-      <div className="w-[620px] xl:w-[1020px] lg:w-[700px] md:w-[760px] px-5 md:px-0 lg:px-0">
-      <div className="grid xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2 grid-cols-1 gap-8 mx-auto">
+      <div className="w-[720px] xl:w-[1020px] lg:w-[700px] md:w-[760px] px-5 md:px-0 lg:px-0">
+        <div >
+          
+        <InfiniteScroll
+          dataLength={Product && Product.length }
+          next={fetchMoreData}
+          hasMore={currentpage != null }
+          loader={<div className="flex justify-center"><ClipLoader className="my-8" color="#818CF8" size={40} /> </div>}
+          className="grid xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2 grid-cols-1 gap-8 mx-auto"
+        >
           {Product && Product.length !=0 &&  Product.map((i) => (
             <div key={i.id} className="bg-white w-auto h-auto rounded-xl mt-6">
              
                 <div className="relative">
-                  {/* <img
-                    src={i.product_pic}
-                    width={726}
-                    height={530}
-                    className="object-cover rounded-xl w-[726px] h-[200px]"
-                    placeholder="blur"
-                  /> */}
                   <AliceCarousel>
                     {
                       i.product_pic && i.product_pic.map((j)=>(
@@ -121,6 +132,7 @@ const Category = () => {
                 </div>
             </div>
           ))}
+        </InfiniteScroll>
         </div>
       </div>
     </div>
