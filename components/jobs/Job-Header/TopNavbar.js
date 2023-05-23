@@ -13,6 +13,7 @@ import {
   ChatAltIcon,
   BellIcon,
   NewspaperIcon,
+  UserIcon,
 } from "@heroicons/react/solid";
 import {
   ChevronDownIcon,
@@ -231,6 +232,43 @@ const TopNavbar = () => {
                 </li>
               </a>
             </Link>
+
+            {userDetails && userDetails.role=="admin"?(
+                <Link href="/Admin" className="">
+                  <a>
+                    <li className="flex font-normal text-xl items-center flex-col gap-1">
+                      <div className="">
+                        <UserIcon className="h-5 w-5 text-indigo-400" />
+                      </div>
+                      <div className="text-sm md:text-xs">Admin view</div>
+                    </li>
+                  </a>
+                </Link>
+              ):(userDetails && (userDetails.role=="marketplace_admin" || userDetails.role=="job_marketplace_admin")?(
+                <Link href="/Admin/Products-list" className="">
+                  <a>
+                    <li className="flex font-normal text-xl items-center flex-col gap-1">
+                      <div className="">
+                        <UserIcon className="h-5 w-5 text-indigo-400" />
+                      </div>
+                      <div className="text-sm md:text-xs">Admin view</div>
+                    </li>
+                  </a>
+                </Link>
+              ):(
+                (userDetails && (userDetails.role=="job_admin")?(
+                  <Link href="/Admin/Jobs-list" className="">
+                    <a>
+                      <li className="flex font-normal text-xl items-center flex-col gap-1">
+                        <div className="">
+                          <UserIcon className="h-5 w-5 text-indigo-400" />
+                        </div>
+                        <div className="text-sm md:text-xs">Admin view</div>
+                      </li>
+                    </a>
+                  </Link>
+                ):(''))
+              ))}
             <div className="">
               <div className="">
                 <Popover className="relative">
