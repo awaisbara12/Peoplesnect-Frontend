@@ -76,14 +76,14 @@ const JobsSideBar = () => {
             </div>
           </a>
         </Link>
-        <Link href="/jobs" className="">
+        {/* <Link href="/jobs" className="">
           <a>
             <div className="flex font-normal text-xl items-center gap-3 mt-2">
               <AcademicCapIcon className="h-5 w-5" />
               <div className="">New Jobs</div>
             </div>
           </a>
-        </Link>
+        </Link> */}
       </div>
     </div>
   );

@@ -61,7 +61,7 @@ const ProductsList =()=>{
   }
 
   async function deteleProduct(productId){
-    var checks =confirm("Are you sure..?");
+    var checks =confirm("Are you sure..?"+productId);
     if(checks){
       const res = await axios(ADMIN_PRODUCT_API + "/" + productId, {
         method: "DELETE",
@@ -173,7 +173,7 @@ const ProductsList =()=>{
       <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
         <div className="mt-8">
           <div className="">
-            <div className="text-center">
+            <div className=" flex justify-center">
               <div className="heading text-4xl font-semibold text-indigo-400">Products List</div>
             </div>
             <div className="relative w-1/2 mx-auto mt-4">
@@ -189,6 +189,7 @@ const ProductsList =()=>{
                 <SearchIcon className="h-5 w-5 text-indigo-400" />
               </div>
             </div>
+            
             <div className="mt-8">
               <div className="">
                 <InfiniteScroll
@@ -204,11 +205,11 @@ const ProductsList =()=>{
                         id={`product-${product.id}`}
                         key={product.id}>
                         <div className="">
-                          <Link href={{pathname: "/markeet-place/marketplace-show", query: product.id}}>
-                            <a>
+                          {/* <Link href={{pathname: "/markeet-place/marketplace-show", query: product.id}}>
+                            <a> */}
                             {product && product.product_pic?(
                                 <img
-                                  src={product.product_pic}
+                                  src={product.product_pic[0]}
                                   className="object-fit rounded-t-xl h-[180px] w-[380px]"
                                   placeholder="empty"
                                   alt="profile-image"
@@ -224,9 +225,9 @@ const ProductsList =()=>{
                               )}
                               <div className="p-3">
                                 <div className="flex justify-between items-center mb-1">
-                                  <div className="font-bold text-indigo-400">{product.name}</div>
-                                  <Link href="">
-                                    <a>
+                                  <div className="font-bold text-indigo-400">{product.name.slice(0,25)}</div>
+                                  {/* <Link href=""> */}
+                                    {/* <a> */}
                                       <div className="flex gap-1">
                                         <Link href={{pathname:"/Admin/Products-list/Edit-Products", query:product.id}}>
                                           <a
@@ -247,14 +248,14 @@ const ProductsList =()=>{
                                           <TrashIcon className="h-5 w-5 text-indigo-400" />
                                         </button>
                                       </div>
-                                    </a>
-                                  </Link>
+                                    {/* </a> */}
+                                  {/* </Link> */}
                                 </div>
-                                <div className="font-extralight"><b className="font-bold text-indigo-400">discription:</b> {product.description}
+                                <div className="font-extralight"><b className="font-bold text-indigo-400">discription:</b> {product.description.slice(0,85)}
                                 </div>
                               </div>
-                            </a>
-                          </Link>
+                            {/* </a>
+                          </Link> */}
                         </div>
                       </div>
                     ))}

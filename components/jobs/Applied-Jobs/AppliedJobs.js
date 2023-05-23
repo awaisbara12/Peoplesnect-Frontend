@@ -72,7 +72,7 @@ const AppliedJobs = () => {
                         </div>
                       </a>
                     </Link>
-                    <Menu as="div" className="relative inline-block text-left">
+                    {/* <Menu as="div" className="relative inline-block text-left">
                       <div>
                         <Menu.Button className="inline-flex justify-center">
                           <DotsHorizontalIcon
@@ -118,7 +118,7 @@ const AppliedJobs = () => {
                           </div>
                         </Menu.Items>
                       </Transition>
-                    </Menu>
+                    </Menu> */}
                   </div>
                 </div>
               </div>

@@ -79,10 +79,22 @@ const SugestedUser = () => {
         {!loading ?
           (suggestedUsers.data && suggestedUsers.data.map((user) => (
             <div className="flex items-start mt-4" key={user.id}>
-              <Image src={SugestionProfile} width={35} height={35} alt="" />
+              <Link href={{pathname: "/User-Profile", query: user.id}}>
+                <a>
+                  {user.display_photo_url?(
+                    <img
+                      src={user.display_photo_url}
+                      className="aspect-video object-cover rounded-full h-[25px] w-[25px]"
+                      alt=""
+                    />
+                  ):(
+                    <Image src={SugestionProfile} width={35} height={35} alt="" />
+                  )}
+                </a>
+              </Link>
               <div className="flex w-full items-center justify-between ">
                 <div className="ml-2">
-                  <Link href="news-feed">
+                  <Link href={{pathname: "/User-Profile", query: user.id}}>
                     <a>
                       <p className="text-base font-normal leading-5">{user.first_name} {user.last_name}</p>
                     </a>
@@ -104,9 +116,10 @@ const SugestedUser = () => {
           ("")
         }
 
-        <Link href="/">
-          <a>
-            <DotsHorizontalIcon className="h-5 w-5 mx-auto mt-5" />
+        <Link href="/my-network/Peending-Request">
+          <a className="flex justify-center mt-5 underline ">
+            {/* <DotsHorizontalIcon className="h-5 w-5 mx-auto mt-5" /> */}
+            <div>Show more</div>
           </a>
         </Link>
       </div>
