@@ -90,13 +90,14 @@ const RecommendedJobs = () => {
           </div>
           <div className="">
             {Recomend?(
-              <InfiniteScroll
-                dataLength={Recomend.length}
-                next={fetchMoreData}
-                className="grid grid-cols-2 gap-12"
-                hasMore={currentpage != null}
-                loader={<div className="flex justify-center "><ClipLoader className="my-8" color="#818CF8" size={40} /> </div>}
-              >
+              // <InfiniteScroll
+              //   dataLength={Recomend.length}
+              //   next={fetchMoreData}
+              //   className="grid grid-cols-2 gap-12"
+              //   hasMore={currentpage != null}
+              //   loader={<div className="flex justify-center "><ClipLoader className="my-8" color="#818CF8" size={40} /> </div>}
+              // >
+              <div className="grid grid-cols-2 gap-12">
               {Recomend.map((i)=>(
                 <div className="jobs-profile bg-white rounded-xl p-4" 
                   id={`job-${i.id}`}
@@ -145,7 +146,7 @@ const RecommendedJobs = () => {
                         <button className="bg-indigo-400 p-2 text-white rounded-full" >Apply Now</button>
                         </a>
                       </Link>
-                        <button className="border-indigo-400 border p-2 text-indigo-400 rounded-full">Message</button>
+                        {/* <button className="border-indigo-400 border p-2 text-indigo-400 rounded-full">Message</button> */}
                       </div>
                     </div>
                     <Menu as="div" className="relative inline-block text-left">
@@ -199,7 +200,8 @@ const RecommendedJobs = () => {
                   </div>
                 </div>
               ))}
-              </InfiniteScroll>
+              </div>
+              //  </InfiniteScroll>
             ):('')}
           </div>
 

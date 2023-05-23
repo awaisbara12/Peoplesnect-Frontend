@@ -32,8 +32,6 @@ const AdminSideBAr = () => {
           setCurrent_User(result.data);
           if(result.data.role == "user"){
             Router.push("/news-feed");
-          }else if(result.data.role == "marketplace_admin"){
-            Router.push("/Admin/Products-list");
           }else if(result.data.role == "job_admin"){
             Router.push("/Admin/Jobs-list");
           }
@@ -83,6 +81,14 @@ const AdminSideBAr = () => {
                       <LightBulbIcon className="w-5 h-5 text-indigo-400" />
                     </div>
                   </a>
+                  </Link>
+                  <Link href="/Admin/Categories">
+                    <a>
+                      <div className="flex justify-between font-light text-sm mt-4 border-b-1 pb-4">
+                        <div className="">Product Category</div>
+                        <BriefcaseIcon className="w-5 h-5 text-indigo-400" />
+                      </div>
+                    </a>
                   </Link>
                   <Link href="/Admin/groups-list">
                   <a>
@@ -135,14 +141,24 @@ const AdminSideBAr = () => {
             </a>
           </Link>
         ):(currentuser && currentuser.role=="marketplace_admin"?(
-          <Link href="/Admin/Products-list">
-            <a>
-              <div className="flex justify-between font-light text-sm mt-4 border-b-1 pb-4">
-                <div className="">Product List</div>
-                <LightBulbIcon className="w-5 h-5 text-indigo-400" />
-              </div>
-            </a>
-          </Link>
+            <>
+              <Link href="/Admin/Products-list">
+                <a>
+                  <div className="flex justify-between font-light text-sm mt-4 border-b-1 pb-4">
+                    <div className="">Product List</div>
+                    <LightBulbIcon className="w-5 h-5 text-indigo-400" />
+                  </div>
+                </a>
+              </Link>
+              <Link href="/Admin/Categories">
+                <a>
+                  <div className="flex justify-between font-light text-sm mt-4 border-b-1 pb-4">
+                    <div className="">Product Category</div>
+                    <BriefcaseIcon className="w-5 h-5 text-indigo-400" />
+                  </div>
+                </a>
+              </Link>
+            </>
         ):(
           currentuser && currentuser.role=="job_marketplace_admin"?(
             <div>
@@ -160,6 +176,15 @@ const AdminSideBAr = () => {
                   <div className="flex justify-between font-light text-sm mt-4 border-b-1 pb-4">
                     <div className="">Product List</div>
                     <LightBulbIcon className="w-5 h-5 text-indigo-400" />
+                  </div>
+                </a>
+              </Link>
+
+              <Link href="/Admin/Categories">
+                <a>
+                  <div className="flex justify-between font-light text-sm mt-4 border-b-1 pb-4">
+                    <div className="">Product Category</div>
+                    <BriefcaseIcon className="w-5 h-5 text-indigo-400" />
                   </div>
                 </a>
               </Link>

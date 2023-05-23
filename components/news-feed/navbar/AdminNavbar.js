@@ -26,7 +26,6 @@ const AdminNavbar =()=> {
        .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-          console.log(result.data);
           setCurrent_User(result.data);
           if(result.data.role == "user"){
             Router.push("/news-feed");
