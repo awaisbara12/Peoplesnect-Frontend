@@ -78,12 +78,12 @@ const ReadMore = ({ children }) => {
   };
   return (
     <p className="text">
-      {isReadMore ? text.slice(0, 355) + (text.length > 355?("......"):('')) : text}
-      {text.length > 355?(
+      {isReadMore ? text.slice(0, 355) + (text.length > 355 ? ("......") : ('')) : text}
+      {text.length > 355 ? (
         <span onClick={toggleReadMore} className="text-indigo-400 cursor-pointer ml-2 font-bold">
           {isReadMore ? "Read more" : "Show less"}
         </span>
-      ):('')}
+      ) : ('')}
     </p>
   );
 };
@@ -111,7 +111,7 @@ const JoindGroup = (setList, singleItem) => {
   const [spinner, setSpinner] = useState(false);
 
   const [group, setgroup] = useState();
-  const [admins,setadmins] = useState();
+  const [admins, setadmins] = useState();
 
   const router = useRouter();
   const data = router.asPath;
@@ -214,13 +214,13 @@ const JoindGroup = (setList, singleItem) => {
     setIsOpen(false);
   }
 
-  function closeinviteModal(){
+  function closeinviteModal() {
     setIsCheck([]);
     setIsOpen(false);
   }
 
   const SendInviteRequest = async () => {
-    const res = await axios(InviteFriends+"/invite_friend?group_id="+myArray[1]+"&invite_list="+isCheck, {
+    const res = await axios(InviteFriends + "/invite_friend?group_id=" + myArray[1] + "&invite_list=" + isCheck, {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -245,13 +245,11 @@ const JoindGroup = (setList, singleItem) => {
     return result;
   };
 
-  function inviteModal(){
-    if (isCheck.length > 0)
-    {
+  function inviteModal() {
+    if (isCheck.length > 0) {
       SendInviteRequest();
     }
-    else
-    {
+    else {
       alert("Select Friend to Invite");
     }
   }
@@ -265,138 +263,134 @@ const JoindGroup = (setList, singleItem) => {
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
   }
-  const Current_User=async()=>{    
-   
+  const Current_User = async () => {
+
     await fetch(CURENT_USER_LOGIN_API, {
       method: "GET",
-       headers: {
-        Accept: "application/json", 
-         Authorization: `${authKey}`,
-       },
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
     })
-       .then((resp) => resp.json())
+      .then((resp) => resp.json())
       .then((result) => {
         if (result) {
           setCurrentUser(result.data);
         }
       })
-      .catch((err) => console.log(err)); 
+      .catch((err) => console.log(err));
   }
 
-  const LeaveGroup =()=>{
-    const res = fetch(GROUP_API +"/leave_group?id="+myArray[1] , {
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-      Authorization: `${authKey}`,
-    },
+  const LeaveGroup = () => {
+    const res = fetch(GROUP_API + "/leave_group?id=" + myArray[1], {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
     })
-    .then((resp) => resp.json())
-    .then((result) => {
-      router.push("/group-page");
-    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        router.push("/group-page");
+      })
   }
-  const GetGroup =()=>{
-    const res = fetch(GROUP_API +"/"+myArray[1] , {
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-      Authorization: `${authKey}`,
-    },
+  const GetGroup = () => {
+    const res = fetch(GROUP_API + "/" + myArray[1], {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
     })
-    .then((resp) => resp.json())
-    .then((result) => {
-      // console.log("Group Data=>", result.data)
-      setgroup(result.data);
-    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        // console.log("Group Data=>", result.data)
+        setgroup(result.data);
+      })
   }
 
-  function isadmin(admin,user_id)
-  {
+  function isadmin(admin, user_id) {
     // console.log("hrllo");
-    for(var i=0; i < admin.length; i++){
-     if (admin[i].group_member.id == user_id)
-     {
-      return true;
-     }
+    for (var i = 0; i < admin.length; i++) {
+      if (admin[i].group_member.id == user_id) {
+        return true;
+      }
     }
     return false;
   }
 
-  const GetAdmins =()=>{
-    fetch(GROUP_API +"/get_group_admin?group_id="+myArray[1] , {
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-      Authorization: `${authKey}`,
-    },
+  const GetAdmins = () => {
+    fetch(GROUP_API + "/get_group_admin?group_id=" + myArray[1], {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
     })
-    .then((resp) => resp.json())
-    .then((result) => {
-      setadmins(result.data);
-    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        setadmins(result.data);
+      })
   };
 
-  const GroupJoinFun =event=>{
+  const GroupJoinFun = event => {
     setSpinner(true);
     event.currentTarget.disabled = true;
-    const res = fetch(JOIN_GROUP_API +"?id="+myArray[1], {
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-      Authorization: `${authKey}`,
-    },
-    })
-    .then((resp) => resp.json())
-    .then((result) => {
-      if(group && group.group_type != "private_group"){
-        setjoin(true);
-      }else{
-        // setjoin(true);
-        // router.push('/group-page');
-        GetMemberRequest();
-      }
-      
-    })
-  }
-
-  const Ismember =()=>{
-    const res = fetch(GROUP_API +"/ismember?group_id="+myArray[1], {
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-      Authorization: `${authKey}`,
-    },
-    })
-    .then((resp) => resp.json())
-    .then((result) => {
-     if(result.data)
-     {
-        setjoin(true);
-     }
-    })
-  }
-
-  const GetMemberRequest=async()=>{    
-   
-    await fetch(GROUP_MEMBER_Request+"?group_id="+myArray[1], {
+    const res = fetch(JOIN_GROUP_API + "?id=" + myArray[1], {
       method: "GET",
-       headers: {
+      headers: {
         Accept: "application/json",
-         Authorization: `${authKey}`,
-       },
+        Authorization: `${authKey}`,
+      },
     })
-       .then((resp) => resp.json())
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (group && group.group_type != "private_group") {
+          setjoin(true);
+        } else {
+          // setjoin(true);
+          // router.push('/group-page');
+          GetMemberRequest();
+        }
+
+      })
+  }
+
+  const Ismember = () => {
+    const res = fetch(GROUP_API + "/ismember?group_id=" + myArray[1], {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result.data) {
+          setjoin(true);
+        }
+      })
+  }
+
+  const GetMemberRequest = async () => {
+
+    await fetch(GROUP_MEMBER_Request + "?group_id=" + myArray[1], {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
+    })
+      .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-          if (result.data)
-          {
+          if (result.data) {
             setMemberRequest(result.data);
             // console.log(result.data);
           }
         }
       })
-      .catch((err) => console.log(err)); 
+      .catch((err) => console.log(err));
   }
 
   useEffect(() => {
@@ -405,178 +399,178 @@ const JoindGroup = (setList, singleItem) => {
     Ismember();
     GetGroup();
     GetAdmins();
-  },[myArray[1]])
+  }, [myArray[1]])
 
   return (
-    <div className="mt-8 w-[600px] xl:w-[980px] lg:w-[710px] md:w-[780px] px-auto md:px-0 lg:px-0 xl:px-0">
+    <div className="mt-8 w-[620px] xl:w-[980px] lg:w-[710px] md:w-[780px] px-auto md:px-0 lg:px-0 xl:px-0">
       {/* Group Profile */}
       <div className="">
         <div className="blogs bg-white rounded-xl">
           <div className="image">
-            
-              {group?(
-                group.cover_image_url?(
-                  <img
-                    src={group.cover_image_url}
-                    className="object-cover rounded-xl h-[350px] w-[1350px]"
-                    alt=""
-                  />
-                ):(
-                  <Image
+
+            {group ? (
+              group.cover_image_url ? (
+                <img
+                  src={group.cover_image_url}
+                  className="object-cover rounded-xl h-[350px] w-[1350px]"
+                  alt=""
+                />
+              ) : (
+                <Image
                   src={postimage}
                   className="object-cover rounded-xl"
                   width={1350}
                   height={450}
                   alt=""
                 />
-                )
               )
-              :(<Image
-                  src={postimage}
-                  className="object-cover rounded-xl"
-                  width={1350}
-                  height={450}
-                  alt=""
-                />
-                )}
-              
+            )
+              : (<Image
+                src={postimage}
+                className="object-cover rounded-xl"
+                width={1350}
+                height={450}
+                alt=""
+              />
+              )}
+
           </div>
           <div className="absolute  p-2 -mt-10 ml-14 rounded-full bg-white">
             <div className="relative">
-              {group && group.display_image_url?(
-              <img
-                src={group.display_image_url}
-                className="object-cover rounded-full z-40 h-[100px] w-[100px]"
-                alt=""
-              /> 
-              ):(
-              <Image
-                src={postimage}
-                className="object-cover rounded-full z-40"
-                width={96}
-                height={96}
-                alt=""
-              />
+              {group && group.display_image_url ? (
+                <img
+                  src={group.display_image_url}
+                  className="object-cover rounded-full z-40 h-[100px] w-[100px]"
+                  alt=""
+                />
+              ) : (
+                <Image
+                  src={postimage}
+                  className="object-cover rounded-full z-40"
+                  width={96}
+                  height={96}
+                  alt=""
+                />
               )}
             </div>
           </div>
           <div className="p-5 mt-14">
-              <div className=" flex justify-between items-center">
-                <div className="heading text-2xl text-indigo-400 font-bold">
-                  {group?(group.title):('')}
-                </div>
-                <div className="">
-                  <Menu as="div" className="relative inline-block text-left">
-                    <div>
-                      <Menu.Button className="">
-                        <div className="hover:bg-indigo-100 focus:bg-indigo-100 rounded-full h-8 w-8 flex items-center justify-center">
-                          <DotsHorizontalIcon
-                            className="h-5 w-5"
-                            aria-hidden="true"
-                          />
-                        </div>
-                      </Menu.Button>
-                    </div>
+            <div className=" flex justify-between items-center">
+              <div className="heading text-2xl text-indigo-400 font-bold">
+                {group ? (group.title) : ('')}
+              </div>
+              <div className="">
+                <Menu as="div" className="relative inline-block text-left">
+                  <div>
+                    <Menu.Button className="">
+                      <div className="hover:bg-indigo-100 focus:bg-indigo-100 rounded-full h-8 w-8 flex items-center justify-center">
+                        <DotsHorizontalIcon
+                          className="h-5 w-5"
+                          aria-hidden="true"
+                        />
+                      </div>
+                    </Menu.Button>
+                  </div>
 
-                    <Transition
-                      as={Fragment}
-                      enter="transition ease-out duration-200"
-                      enterFrom="opacity-0 translate-y-1"
-                      enterTo="opacity-100 translate-y-0"
-                      leave="transition ease-in duration-150"
-                      leaveFrom="opacity-100 translate-y-0"
-                      leaveTo="opacity-0 translate-y-1"
-                    >
-                      <Menu.Items className="absolute left-1/2 z-10 mt-3 w-48 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-3xl">
-                        <div className="flex items-start flex-col gap-2 border-1 bg-white rounded-xl p-3">
-                          {/* <Menu.Item className="flex gap-1">
+                  <Transition
+                    as={Fragment}
+                    enter="transition ease-out duration-200"
+                    enterFrom="opacity-0 translate-y-1"
+                    enterTo="opacity-100 translate-y-0"
+                    leave="transition ease-in duration-150"
+                    leaveFrom="opacity-100 translate-y-0"
+                    leaveTo="opacity-0 translate-y-1"
+                  >
+                    <Menu.Items className="absolute left-1/2 z-10 mt-3 w-48 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-3xl">
+                      <div className="flex items-start flex-col gap-2 border-1 bg-white rounded-xl p-3">
+                        {/* <Menu.Item className="flex gap-1">
                             <a href="">
                               <BellIcon className="w-5 h-5" />
                               Notifications
                             </a>
                           </Menu.Item> */}
-                          { currentUser && join == true && group ?(!(admins && isadmin(admins,currentUser.id)) && currentUser.id != group.owner.id ? (
-                            <div>
-                              <Menu.Item className="flex gap-1 mt-2">
-                                <a href="">
-                                  <MailIcon className="h-5 w-5" />
-                                  Report
-                                </a>
-                              </Menu.Item> 
-                              <Menu.Item className="flex gap-1 mt-2">
-                                
-                                  <a onClick={()=>LeaveGroup()}>
-                                    <LogoutIcon className="h-5 w-5" />
-                                    Leave
-                                  </a>
-                                
-                              </Menu.Item>
-                            </div>
-                          ):(
+                        {currentUser && join == true && group ? (!(admins && isadmin(admins, currentUser.id)) && currentUser.id != group.owner.id ? (
+                          <div>
+                            <Menu.Item className="flex gap-1 mt-2">
+                              <a href="">
+                                <MailIcon className="h-5 w-5" />
+                                Report
+                              </a>
+                            </Menu.Item>
+                            <Menu.Item className="flex gap-1 mt-2">
+
+                              <a onClick={() => LeaveGroup()}>
+                                <LogoutIcon className="h-5 w-5" />
+                                Leave
+                              </a>
+
+                            </Menu.Item>
+                          </div>
+                        ) : (
                           ""
-                          )):("")
-                          }
-                          {
-                            currentUser && group?(
-                              (admins && isadmin(admins,currentUser.id)) || group.owner.id == currentUser.id?(
-                                <Menu.Item className="flex gap-1 mt-2">
-                                <Link href={{pathname: "/group-page/admin-view", query: myArray[1]}} onClick={()=>alert("yes")}>      
+                        )) : ("")
+                        }
+                        {
+                          currentUser && group ? (
+                            (admins && isadmin(admins, currentUser.id)) || group.owner.id == currentUser.id ? (
+                              <Menu.Item className="flex gap-1 mt-2">
+                                <Link href={{ pathname: "/group-page/admin-view", query: myArray[1] }} onClick={() => alert("yes")}>
                                   <a className="flex">
                                     <UserCircleIcon className="h-5 w-5" />
                                     View As Admin
                                   </a>
                                 </Link>
                               </Menu.Item>
-                              ):("")
-                            ):("")
-                          }
-                        </div>
-                      </Menu.Items>
-                    </Transition>
-                  </Menu>
-                </div>
-                {currentUser && join == true && group ? (!(admins && isadmin(admins,currentUser.id)) && group.owner.id != currentUser.id?(
-                <Link href={{pathname: "/group-page/joind-group/group-members", query: myArray[1]}}>
-                <a>
-                  <div className="border border-indigo-400 py-2 px-3 text-indigo-400 rounded-full">
-                    Group Details
-                  </div>
-                </a>
-                </Link>
-                ):("")):("")}
+                            ) : ("")
+                          ) : ("")
+                        }
+                      </div>
+                    </Menu.Items>
+                  </Transition>
+                </Menu>
               </div>
-              <div className="Details mt-5">
-                <div className="font-extralight">
-                  <ReadMore>
-                    {group?(group.description):('')}
-                  </ReadMore>
-                </div>
+              {currentUser && join == true && group ? (!(admins && isadmin(admins, currentUser.id)) && group.owner.id != currentUser.id ? (
+                <Link href={{ pathname: "/group-page/joind-group/group-members", query: myArray[1] }}>
+                  <a>
+                    <div className="border border-indigo-400 py-2 px-3 text-indigo-400 rounded-full">
+                      Group Details
+                    </div>
+                  </a>
+                </Link>
+              ) : ("")) : ("")}
+            </div>
+            <div className="Details mt-5">
+              <div className="font-extralight">
+                <ReadMore>
+                  {group ? (group.description) : ('')}
+                </ReadMore>
               </div>
             </div>
-            <div className="flex justify-end">
-              <a>
-              {memberrequest && memberrequest.status=="pending"?(
-                  <button disabled={true} className=" bg-indigo-400 text-sm text-white rounded-br-lg p-3 cursor-pointer">
-                    Request Send
+          </div>
+          <div className="flex justify-end">
+            <a>
+              {memberrequest && memberrequest.status == "pending" ? (
+                <button disabled={true} className=" bg-indigo-400 text-sm text-white rounded-br-lg p-3 cursor-pointer">
+                  Request Send
+                </button>
+              ) : (
+                currentUser && group && (join == true || currentUser.id == group.owner.id || (admins && isadmin(admins, currentUser.id))) ? (
+                  <button
+                    onClick={openModal}
+                    type="submit"
+                    className=" bg-indigo-400 text-sm text-white rounded-br-lg p-3 cursor-pointer"
+                  >
+                    Invite Friends
                   </button>
-                ):(
-                  currentUser && group && (join == true || currentUser.id== group.owner.id || (admins && isadmin(admins,currentUser.id)))?(
-                    <button
-                      onClick={openModal}
-                      type="submit"
-                      className=" bg-indigo-400 text-sm text-white rounded-br-lg p-3 cursor-pointer"
-                    >
-                      Invite Friends
-                    </button>
-                  ):(
-                    <button onClick={GroupJoinFun} className=" bg-indigo-400 text-sm text-white rounded-br-lg p-3 cursor-pointer">
-                      Join Group {spinner && true ? <Spinner /> : ""}
-                    </button>
-                  )
-                )}
-                
-              </a>
-              <div>
+                ) : (
+                  <button onClick={GroupJoinFun} className=" bg-indigo-400 text-sm text-white rounded-br-lg p-3 cursor-pointer">
+                    Join Group {spinner && true ? <Spinner /> : ""}
+                  </button>
+                )
+              )}
+
+            </a>
+            <div>
               <div className="">
                 <Transition appear show={isOpen} as={Fragment}>
                   <Dialog
@@ -609,42 +603,42 @@ const JoindGroup = (setList, singleItem) => {
                           leaveTo="opacity-0 scale-95"
                         >
                           <Dialog.Panel className="w-[620px] relative bg-white rounded-xl xl:w-[580px] lg:w-[730px] md:w-[680px] px-5 md:px-0 lg:px-0 py-4 text-left align-middle shadow-xl transition-all h-[700px] overflow-y-scroll">
-                              <Dialog.Title>
-                            <div className="sticky top-10 flex justify-between items-center mx-4">
-                              <div
+                            <Dialog.Title>
+                              <div className="sticky top-10 flex justify-between items-center mx-4">
+                                <div
                                   className="text-lg font-medium leading-6 text-gray-900 px-8"
-                                  >
+                                >
                                   Invite Friends
-                                  </div>
-                                  <XIcon
+                                </div>
+                                <XIcon
                                   onClick={closeinviteModal}
                                   className="w-5 h-5 cursor-pointer"
                                 />
                               </div>
-                              </Dialog.Title>
-                              <div className="p-8">
-                              <InviteFriendsGroup group={group} isCheck={isCheck} setIsCheck={setIsCheck}/>
-                              </div>
-                              <div className="sticky bottom-0 right-0">
-                                <div className="p-2 rounded-xl">
-                                  <div className="flex gap-4 justify-end"> 
-                                    <button
-                                        onClick={closeinviteModal}
-                                        type="submit"
-                                        className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
-                                        >
-                                          Close
-                                    </button>
-                                    <button
-                                      onClick={inviteModal}
-                                      type="submit"
-                                      className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
-                                      >
-                                      Invite
-                                    </button>
-                                  </div>
+                            </Dialog.Title>
+                            <div className="p-8">
+                              <InviteFriendsGroup group={group} isCheck={isCheck} setIsCheck={setIsCheck} />
+                            </div>
+                            <div className="sticky bottom-0 right-0">
+                              <div className="p-2 rounded-xl">
+                                <div className="flex gap-4 justify-end">
+                                  <button
+                                    onClick={closeinviteModal}
+                                    type="submit"
+                                    className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
+                                  >
+                                    Close
+                                  </button>
+                                  <button
+                                    onClick={inviteModal}
+                                    type="submit"
+                                    className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
+                                  >
+                                    Invite
+                                  </button>
                                 </div>
                               </div>
+                            </div>
                           </Dialog.Panel>
                         </Transition.Child>
                       </div>
@@ -656,9 +650,9 @@ const JoindGroup = (setList, singleItem) => {
           </div>
         </div>
       </div>
-      {currentUser && group && (join == true || group.group_type != "private_group" || currentUser.id== group.owner.id || (admins && isadmin(admins,currentUser.id)))?(
-        <ProfileFeed currentUser={currentUser} group={group} admins={admins}/>
-      ):("")}
+      {currentUser && group && (join == true || group.group_type != "private_group" || currentUser.id == group.owner.id || (admins && isadmin(admins, currentUser.id))) ? (
+        <ProfileFeed currentUser={currentUser} group={group} admins={admins} />
+      ) : ("")}
     </div>
   );
 };

@@ -65,8 +65,9 @@ export const ADMIN_BLOG_API= process.env.NEXT_PUBLIC_ADMIN_BLOG_API
 export const RECENT_ACTIVITY_API= process.env.NEXT_PUBLIC_ADMIN_RECENT_ACTIVITY_API
 export const REPORT_API= process.env.NEXT_PUBLIC_REPORT_API
 export const ADMIN_REPORT_API= process.env.NEXT_PUBLIC_ADMIN_REPORT_API
+export const ADMIN_CATEGORY_API= process.env.NEXT_PUBLIC_ADMIN_CATEGORY_API
 
-// NEXT_PUBLIC_CABLE_API
+// 
 function Config() {
   return <></>;
 }

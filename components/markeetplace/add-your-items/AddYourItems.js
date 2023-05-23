@@ -163,7 +163,7 @@ function UpdateProduct(id) {
     .then((result) => {
       if (result) {
         alert('Update Successfully')
-        // router.push("/markeet-place/my-listing");
+        router.push("/markeet-place/marketplace-show?"+id);
       }
     })
     .catch((err) => console.log(err));

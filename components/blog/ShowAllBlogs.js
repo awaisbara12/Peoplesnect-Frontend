@@ -5,7 +5,7 @@ import Blog1 from "../../public/images/pagecover.jpg";
 
 const ShowAllBlogs = () => {
   return (
-    <div className="w-[600px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
+    <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
       <div className="">
         <div>
           <div className="flex justify-between align-item-center mt-12">
@@ -23,12 +23,12 @@ const ShowAllBlogs = () => {
                     href=""
                   >
                     <a>
-                        <Image
-                          className="object-cover rounded-t-lg h-56"
-                          src={Blog1}
-                          width={600}
-                          min-height={400}
-                        />
+                      <Image
+                        className="object-cover rounded-t-lg h-56"
+                        src={Blog1}
+                        width={600}
+                        min-height={400}
+                      />
                     </a>
                   </Link>
                 </div>
@@ -65,12 +65,12 @@ const ShowAllBlogs = () => {
                     href=""
                   >
                     <a>
-                        <Image
-                          className="object-cover rounded-t-lg h-56"
-                          src={Blog1}
-                          width={600}
-                          min-height={400}
-                        />
+                      <Image
+                        className="object-cover rounded-t-lg h-56"
+                        src={Blog1}
+                        width={600}
+                        min-height={400}
+                      />
                     </a>
                   </Link>
                 </div>
@@ -107,12 +107,12 @@ const ShowAllBlogs = () => {
                     href=""
                   >
                     <a>
-                        <Image
-                          className="object-cover rounded-t-lg h-56"
-                          src={Blog1}
-                          width={600}
-                          min-height={400}
-                        />
+                      <Image
+                        className="object-cover rounded-t-lg h-56"
+                        src={Blog1}
+                        width={600}
+                        min-height={400}
+                      />
                     </a>
                   </Link>
                 </div>

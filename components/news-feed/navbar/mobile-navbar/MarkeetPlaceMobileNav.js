@@ -15,11 +15,12 @@ import {
   SearchIcon,
   UserGroupIcon,
   VideoCameraIcon,
+  StarIcon,
 } from "@heroicons/react/outline";
-import { Popover, Transition } from "@headlessui/react";
 import Spinner from "../../../common/Spinner";
+import TopNavbarSearch from "../../../markeetplace/MarketPlace-Header/TopNavbarSearch ";
 
-const Blogsnav = () => {
+const MarkeetPlaceMobileNav = () => {
   const [open, setOpen] = useState(true);
   return (
     <div className="block lg:hidden md:hidden">
@@ -32,21 +33,9 @@ const Blogsnav = () => {
               </a>
             </Link>
           </div>
-          <label className="relative block">
-            <span className="absolute inset-y-0 left-0 flex items-center pl-4">
-              <Link href="/news-feed">
-                <a>
-                  <SearchIcon className="text-slate-400 h-5 w-5" />
-                </a>
-              </Link>
-            </span>
-            <input
-              className="placeholder:text-slate-400 bg-zinc-100 placeholder:text-xl w-48 h-7 rounded-full py-2 border-none pl-10"
-              placeholder="Search"
-              type="text"
-              name="search"
-            />
-          </label>
+          <div className="w-full">
+          <TopNavbarSearch />
+          </div>
         </div>
         <div className="relative">
           <Image
@@ -64,7 +53,7 @@ const Blogsnav = () => {
           >
             <div className="p-5">
               <div>
-                <Link href="">
+                <Link href="/profile">
                   <a className="flex items-center mb-8 gap-2">
                     <UserIcon className="h-7 w-7" />
                     <div className="font-bold">Profile</div>
@@ -72,10 +61,19 @@ const Blogsnav = () => {
                 </Link>
               </div>
               <div>
-                <Link href="">
+                <Link href="/news-feed">
                   <a className="flex items-center mb-8 gap-2">
                     <BookmarkIcon className="h-7 w-7" />
                     <div className="font-bold">Saved Items</div>
+                  </a>
+                </Link>
+              </div>
+
+              <div>
+                <Link href="/markeet-place">
+                  <a className="flex items-center mb-8 gap-2">
+                    <StarIcon className="h-7 w-7" />
+                    <div className="font-bold">MarketPlace</div>
                   </a>
                 </Link>
               </div>
@@ -132,4 +130,4 @@ const Blogsnav = () => {
   );
 };
 
-export default Blogsnav;
+export default MarkeetPlaceMobileNav;

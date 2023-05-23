@@ -95,7 +95,7 @@ const TopNavbarSearch = () => {
           </Link>
         </span>
         <div
-          className="text-slate-400 hover:shadow-xl bg-gray-100 w-62 md:w-56  rounded-xl border-none pl-14 cursor-text"
+          className="text-slate-400 hover:shadow-xl bg-gray-100 w-48 md:w-56  rounded-xl border-none pl-14 cursor-text"
           placeholder="Search"
           onClick={openModal}
           type="text"

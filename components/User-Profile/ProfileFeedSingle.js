@@ -50,7 +50,7 @@ const cardDropdown = [
     href: "#",
     icon: TrashIcon,
   },
-  
+
 ];
 const ReadMore = ({ children }) => {
   const text = children;
@@ -60,12 +60,12 @@ const ReadMore = ({ children }) => {
   };
   return (
     <p className="text">
-      {isReadMore ? text.slice(0, 300) + (text.length > 300?("......"):('')) : text}
-      {text.length > 300?(
+      {isReadMore ? text.slice(0, 300) + (text.length > 300 ? ("......") : ('')) : text}
+      {text.length > 300 ? (
         <span onClick={toggleReadMore} className="text-indigo-400 cursor-pointer ml-2 font-bold">
           {isReadMore ? "Read more" : "Show less"}
         </span>
-      ):('')}
+      ) : ('')}
     </p>
   );
 };
@@ -76,21 +76,21 @@ const ProfileFeedSingle = (singleItems) => {
   const [is_deleted, setIs_deleted] = useState(0);
   const [loading, setLoading] = useState(true);
   const [nextPage, setNextPage] = useState('');
-   // console.log("i =>", singleItems)
+  // console.log("i =>", singleItems)
   if (typeof window !== "undefined") {
     // console.log("ju",singleItems);
     var authKey = window.localStorage.getItem("keyStore");
   }
 
-  const copylink=(postid)=>{
-    const links=window.location.href        // get Full Link
-    const links1=window.location.pathname   // get link after localhost
+  const copylink = (postid) => {
+    const links = window.location.href        // get Full Link
+    const links1 = window.location.pathname   // get link after localhost
     const copylink1 = links.split(links1)    // get link domain like(localhost..etc)
-    navigator.clipboard.writeText(copylink1[0]+"/events-design/event-view?"+postid)
-    alert("Link Copied to your Clipboard");    
-    
+    navigator.clipboard.writeText(copylink1[0] + "/events-design/event-view?" + postid)
+    alert("Link Copied to your Clipboard");
+
   }
-   // Get NewsFeed for the updation Lists
+  // Get NewsFeed for the updation Lists
   const getNewsFeed = async () => {
     const res = await axios(POST_NEWSFEED_API_KEY, {
       method: "GET",
@@ -115,7 +115,7 @@ const ProfileFeedSingle = (singleItems) => {
     setLoading(false);
     return result;
   };
- // delete user newsfeed's post
+  // delete user newsfeed's post
   const DeleteNewsFeed = async (uid) => {
     const res = await axios(POST_NEWSFEED_API_KEY + "/" + uid, {
       method: "DELETE",
@@ -134,7 +134,7 @@ const ProfileFeedSingle = (singleItems) => {
       if (result.status == 200) {
         getNewsFeed();
         alert("Record Deleted Succefully");
-        
+
       }
     } catch (error) {
       console.log(error);
@@ -143,13 +143,13 @@ const ProfileFeedSingle = (singleItems) => {
     return result;
   };
   // update user newsfeed's post
- const EditFeed=(uid)=>{
-   alert(" ues"+uid);
+  const EditFeed = (uid) => {
+    alert(" ues" + uid);
   };
   // Confirmation Edit Or Delete
-  const optionConfirm=(uid,name)=>{
-    if (name=="Delete"){DeleteNewsFeed(uid);}
-    if (name=="Edit"){EditFeed(uid);}
+  const optionConfirm = (uid, name) => {
+    if (name == "Delete") { DeleteNewsFeed(uid); }
+    if (name == "Edit") { EditFeed(uid); }
   };
 
   function addHeart(feedId) {
@@ -174,23 +174,23 @@ const ProfileFeedSingle = (singleItems) => {
       .catch((err) => console.log(err));
   }
 
-  const UserBookmarks=async()=>{    //current User
-  
+  const UserBookmarks = async () => {    //current User
+
     await fetch(GET_USER_BOOKMARKS, {
       method: "GET",
       headers: {
-        Accept: "application/json", 
+        Accept: "application/json",
         Authorization: `${authKey}`,
       },
     })
-    .then((resp) => resp.json())
-    .then((result) => {
-      if (result) {
-        singleItems.setBookmarks(result.data);
-        singleItems.setBookmarks(result.data);
-      }
-    })
-    .catch((err) => console.log(err)); 
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          singleItems.setBookmarks(result.data);
+          singleItems.setBookmarks(result.data);
+        }
+      })
+      .catch((err) => console.log(err));
   }
 
   function createBookmark(feedId) {
@@ -261,9 +261,9 @@ const ProfileFeedSingle = (singleItems) => {
       console.log(error);
     }
   }
-  
+
   useEffect(() => {
-   //console.log("yes")
+    //console.log("yes")
     setLoading(true);
     const getFeedComments = async () => {
       const res = await axios(
@@ -302,31 +302,31 @@ const ProfileFeedSingle = (singleItems) => {
   const handleClick = () => {
     setIsActive((current) => !current);
   };
-  
+
   return (
     <>
-     <div className="w-[600px] xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">
+      <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">
         <div className="flex gap-2 justify-between items-center px-[22px] py-[14px]">
           <div className="flex gap-2">
-           {items && items.user && items.user.display_photo_url?
-            (
-             <img 
-              src={items.user.display_photo_url} 
-              className="object-cover rounded-full z-40 h-[42px] w-[42px]" 
-              alt=""
-             />
-            ):(
-             <Image 
-              src={ProfileAvatar} 
-              width={45} 
-              height={45} 
-              alt=""
-             />
-            )}
-            
+            {items && items.user && items.user.display_photo_url ?
+              (
+                <img
+                  src={items.user.display_photo_url}
+                  className="object-cover rounded-full z-40 h-[42px] w-[42px]"
+                  alt=""
+                />
+              ) : (
+                <Image
+                  src={ProfileAvatar}
+                  width={45}
+                  height={45}
+                  alt=""
+                />
+              )}
+
             <div>
               <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
-               {items.user.first_name} {items.user.last_name}
+                {items.user.first_name} {items.user.last_name}
                 <BadgeCheckIcon
                   width={14}
                   height={14}
@@ -334,8 +334,8 @@ const ProfileFeedSingle = (singleItems) => {
                 />
               </h4>
               <div className="font-light text-gray-900 opacity-[0.8]">
-               {items.user.city?items.user.city+", ":""}{items.user.state?items.user.state+", ":""} {items.user.country?items.user.country:''}
-               </div>
+                {items.user.city ? items.user.city + ", " : ""}{items.user.state ? items.user.state + ", " : ""} {items.user.country ? items.user.country : ''}
+              </div>
               <div className="font-light text-gray-900 opacity-[0.8]">
                 {items.user.recent_job}
               </div>
@@ -347,9 +347,8 @@ const ProfileFeedSingle = (singleItems) => {
                 {({ open }) => (
                   <>
                     <Popover.Button
-                      className={` ${ 
-                        open ? "" : "text-opacity-90 focus-visible:outline-none"
-                      }`}
+                      className={` ${open ? "" : "text-opacity-90 focus-visible:outline-none"
+                        }`}
                     >
                       <div className="hover:bg-indigo-100 focus:bg-indigo-100 rounded-full h-8 w-8 flex items-center justify-center">
                         <DotsHorizontalIcon className="w-5 h-5" />
@@ -370,7 +369,7 @@ const ProfileFeedSingle = (singleItems) => {
                             {cardDropdown.map((card) => (
                               <a
                                 key={card.name}
-                                onClick={()=>optionConfirm(items.id,card.name)}
+                                onClick={() => optionConfirm(items.id, card.name)}
                                 href={card.id}
                                 className="-m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
                               >
@@ -397,19 +396,19 @@ const ProfileFeedSingle = (singleItems) => {
         {/* <div className="border-1 border-gray-100"></div> */}
 
         <div className="px-[22px] py-[14px]">
-          
+
           {/* <p>{items.body ? items.body : ""}</p> */}
           {
-            items.tags && items.tags.length > 0 || (items.hashtags && items.hashtags.length > 0)?
-            (
-              <App state={items.body} website={items.tags} hashtags={items.hashtags}/>
-            )
-            :
-            (  
-              <ReadMore>
-              {items.body? items.body : ""}
-              </ReadMore>
-            )
+            items.tags && items.tags.length > 0 || (items.hashtags && items.hashtags.length > 0) ?
+              (
+                <App state={items.body} website={items.tags} hashtags={items.hashtags} />
+              )
+              :
+              (
+                <ReadMore>
+                  {items.body ? items.body : ""}
+                </ReadMore>
+              )
           }
           {items.event && items.event ? (
             <div className="rounded-xl bg-white border border-gray-100 my-2">
@@ -440,10 +439,10 @@ const ProfileFeedSingle = (singleItems) => {
                         className="text-gray-900"
                       />
                       <span className="text-gray-900 text-sm">
-                        {items.event.event_type=== "in_person"?(
+                        {items.event.event_type === "in_person" ? (
                           'In Person'
-                        ):(items.event.event_type)}
-                       
+                        ) : (items.event.event_type)}
+
                       </span>
                     </div>
                     <div className="text-gray-900"></div>
@@ -484,246 +483,246 @@ const ProfileFeedSingle = (singleItems) => {
           )}
 
           {items.feed_type && items.feed_type === "share" ? (
-          <div className="border p-4 m-2">
-            <div className="flex gap-2 items-center">
-              
-              {items && items.share.page?(
-                items.share.page.display_photo_url?(
-                  <img
-                    src={items.share.page.display_photo_url} 
-                    className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
-                    width={45} 
-                    height={45} 
-                    alt="" 
-                  />
-                ):(
-                  <Image 
-                    src={PagePhoto} 
-                    className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
-                    width={45} 
-                    height={45} 
-                    alt="" 
-                  />
-                )
-              ):(
-                items && items.share.user && items.share.user.display_photo_url?(
-                  <img
-                    src={items.share.user.display_photo_url} 
-                    className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
-                    width={45} 
-                    height={45} 
-                    alt="" 
-                  />
-                ):(
-                  <Image 
-                    src={ProfileAvatar} 
-                    width={45} 
-                    height={45} 
-                    alt="" 
-                  />
-                )
-              )}
-            
-              <div>
-                {items.share.page?(
-                  <>
-                  <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
-                    
-                    <div className="capitalize">{items.share.page.name}</div>
-                  </h4>
-                  <div className="font-light text-gray-900 opacity-[0.8] italic">  Page Post</div>
-                  </>
-                  
-                ):(
-                  items.share.group?(
-                    <>
-                      <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
-                        {items.share.user.first_name} {items.share.user.last_name}
-                        <ChevronRightIcon
-                          width={24}
-                          height={24}
-                          className="text-indigo-400"
-                        />
-                        <div className="capitalize">{items.share.group.title}</div>
-                      </h4>
-                      <div className="font-light text-gray-900 opacity-[0.8] italic">Group Post</div>
-                    
-                    </>
-                  ):(
-                  <>
-                    <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
-                      {items.share.user.first_name} {items.share.user.last_name}
-                      <BadgeCheckIcon
-                        width={14}
-                        height={14}
-                        className="text-indigo-400"
-                      />
-                    </h4>
-                    <div className="font-light text-gray-900 opacity-[0.8]">
-                      {items.share.user.city?items.share.user.city+", ":""}{items.share.user.state?items.share.user.state+", ":""} {items.share.user.country}
-                    </div>
-                  </>
+            <div className="border p-4 m-2">
+              <div className="flex gap-2 items-center">
+
+                {items && items.share.page ? (
+                  items.share.page.display_photo_url ? (
+                    <img
+                      src={items.share.page.display_photo_url}
+                      className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
+                      width={45}
+                      height={45}
+                      alt=""
+                    />
+                  ) : (
+                    <Image
+                      src={PagePhoto}
+                      className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
+                      width={45}
+                      height={45}
+                      alt=""
+                    />
+                  )
+                ) : (
+                  items && items.share.user && items.share.user.display_photo_url ? (
+                    <img
+                      src={items.share.user.display_photo_url}
+                      className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
+                      width={45}
+                      height={45}
+                      alt=""
+                    />
+                  ) : (
+                    <Image
+                      src={ProfileAvatar}
+                      width={45}
+                      height={45}
+                      alt=""
+                    />
                   )
                 )}
-                
+
+                <div>
+                  {items.share.page ? (
+                    <>
+                      <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
+
+                        <div className="capitalize">{items.share.page.name}</div>
+                      </h4>
+                      <div className="font-light text-gray-900 opacity-[0.8] italic">  Page Post</div>
+                    </>
+
+                  ) : (
+                    items.share.group ? (
+                      <>
+                        <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
+                          {items.share.user.first_name} {items.share.user.last_name}
+                          <ChevronRightIcon
+                            width={24}
+                            height={24}
+                            className="text-indigo-400"
+                          />
+                          <div className="capitalize">{items.share.group.title}</div>
+                        </h4>
+                        <div className="font-light text-gray-900 opacity-[0.8] italic">Group Post</div>
+
+                      </>
+                    ) : (
+                      <>
+                        <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
+                          {items.share.user.first_name} {items.share.user.last_name}
+                          <BadgeCheckIcon
+                            width={14}
+                            height={14}
+                            className="text-indigo-400"
+                          />
+                        </h4>
+                        <div className="font-light text-gray-900 opacity-[0.8]">
+                          {items.share.user.city ? items.share.user.city + ", " : ""}{items.share.user.state ? items.share.user.state + ", " : ""} {items.share.user.country}
+                        </div>
+                      </>
+                    )
+                  )}
+
+                </div>
               </div>
-            </div>
-            <div className="p-2 pb-2">
-              {items.share.tags && items.share.tags.length > 0 || (items.share.hashtags && items.share.hashtags.length > 0) ?
-              <App state={items.share.body} website={items.share.tags} hashtags={items.share.hashtags} />
-              : <ReadMore>
-                {items.share.body ? items.share.body : ""}
-              </ReadMore>}
-            </div>
-            <div className="mt-[14px] mx-auto">
-              {items.share.event && items.share.event ? (
-                <Link
-                  href={{
-                    pathname: "/events-design/event-view",
-                    query: items.id,
-                  }} >
-                  <a>
-                    <div className="rounded-xl bg-white border border-gray-100 my-2">
-                      {items.share.event.cover_photo_url ? (
-                        <img
-                          src={items.share.event.cover_photo_url}
-                          className="aspect-video object-cover rounded-t-xl h-[390px] w-[952px]"
-                          alt=""
-                        />
-                      ) : (
-                        ""
-                      )}
-                      <div className="py-3 px-3">
-                        <div className="flex justify-between items-center">
-                          <div>
-                            {/* Date & Time */}
-                            <div className="text-red-400 text-sm">
-                              <span>{items.share.event.start_time}</span>
-                              <span>-{items.share.event.end_time}</span>&nbsp;
-                              <span>{items.share.event.start_date}</span>&nbsp;
-                            </div>
-                            {/* Name */}
-                            <div className="font-semibold text-lg">
-                              {items.share.event.name}
-                            </div>
-                            {/* Event-type */}
-                            <div className="flex items-center gap-2">
-                              <CalendarIcon
-                                width={16}
-                                height={16}
-                                className="text-gray-900"
-                              />
-                              <span className="text-gray-900 text-sm">
-                                {items.share.event.event_type}
-                              </span>
-                            </div>
-                            {items.share.event.event_type === "online" ? ('') : (
-                              <>
-                                {/* Adress */}
-                                {items.share.event.address ? (
-                                  <div className="flex items-center gap-2">
-                                    <CalendarIcon
-                                      width={16}
-                                      height={16}
-                                      className="text-gray-900"
-                                    />
-                                    <span className="text-gray-900 text-sm">
-                                      {items.share.event.address}
-                                    </span>
-                                  </div>
-                                ) : ('')}
+              <div className="p-2 pb-2">
+                {items.share.tags && items.share.tags.length > 0 || (items.share.hashtags && items.share.hashtags.length > 0) ?
+                  <App state={items.share.body} website={items.share.tags} hashtags={items.share.hashtags} />
+                  : <ReadMore>
+                    {items.share.body ? items.share.body : ""}
+                  </ReadMore>}
+              </div>
+              <div className="mt-[14px] mx-auto">
+                {items.share.event && items.share.event ? (
+                  <Link
+                    href={{
+                      pathname: "/events-design/event-view",
+                      query: items.id,
+                    }} >
+                    <a>
+                      <div className="rounded-xl bg-white border border-gray-100 my-2">
+                        {items.share.event.cover_photo_url ? (
+                          <img
+                            src={items.share.event.cover_photo_url}
+                            className="aspect-video object-cover rounded-t-xl h-[390px] w-[952px]"
+                            alt=""
+                          />
+                        ) : (
+                          ""
+                        )}
+                        <div className="py-3 px-3">
+                          <div className="flex justify-between items-center">
+                            <div>
+                              {/* Date & Time */}
+                              <div className="text-red-400 text-sm">
+                                <span>{items.share.event.start_time}</span>
+                                <span>-{items.share.event.end_time}</span>&nbsp;
+                                <span>{items.share.event.start_date}</span>&nbsp;
+                              </div>
+                              {/* Name */}
+                              <div className="font-semibold text-lg">
+                                {items.share.event.name}
+                              </div>
+                              {/* Event-type */}
+                              <div className="flex items-center gap-2">
+                                <CalendarIcon
+                                  width={16}
+                                  height={16}
+                                  className="text-gray-900"
+                                />
+                                <span className="text-gray-900 text-sm">
+                                  {items.share.event.event_type}
+                                </span>
+                              </div>
+                              {items.share.event.event_type === "online" ? ('') : (
+                                <>
+                                  {/* Adress */}
+                                  {items.share.event.address ? (
+                                    <div className="flex items-center gap-2">
+                                      <CalendarIcon
+                                        width={16}
+                                        height={16}
+                                        className="text-gray-900"
+                                      />
+                                      <span className="text-gray-900 text-sm">
+                                        {items.share.event.address}
+                                      </span>
+                                    </div>
+                                  ) : ('')}
 
-                                {/* Venue */}
-                                {items.share.event.venue ? (
-                                  <div className="flex items-center gap-2">
-                                    <CalendarIcon
-                                      width={16}
-                                      height={16}
-                                      className="text-gray-900"
-                                    />
-                                    <span className="text-gray-900 text-sm">
-                                      {items.share.event.venue}
-                                    </span>
-                                  </div>
-                                ) : ('')}
+                                  {/* Venue */}
+                                  {items.share.event.venue ? (
+                                    <div className="flex items-center gap-2">
+                                      <CalendarIcon
+                                        width={16}
+                                        height={16}
+                                        className="text-gray-900"
+                                      />
+                                      <span className="text-gray-900 text-sm">
+                                        {items.share.event.venue}
+                                      </span>
+                                    </div>
+                                  ) : ('')}
 
-                              </>
-                            )}
-                            {/* Link */}
-                            <div className="text-gray-900 flex gap-2">
-                              <CalendarIcon
-                                width={16}
-                                height={16}
-                                className="text-gray-900"
-                              />
-                              <span>{items.share.event.event_link}</span>
+                                </>
+                              )}
+                              {/* Link */}
+                              <div className="text-gray-900 flex gap-2">
+                                <CalendarIcon
+                                  width={16}
+                                  height={16}
+                                  className="text-gray-900"
+                                />
+                                <span>{items.share.event.event_link}</span>
+                              </div>
+                              {/* Speaker */}
+                              <div className="text-gray-900">
+                                {items.share.event.tags && items.share.event.tags.length > 0 ?
+                                  <App state={items.share.event.speaker} website={items.share.event.tags} />
+                                  : items.share.event.body ? items.share.event.body : ""}
+                              </div>
                             </div>
-                            {/* Speaker */}
-                            <div className="text-gray-900">
-                              {items.share.event.tags && items.share.event.tags.length > 0 ?
-                                <App state={items.share.event.speaker} website={items.share.event.tags} />
-                                : items.share.event.body ? items.share.event.body : ""}
-                            </div>
+                            <Link
+                              href={{
+                                pathname: "/events-design/event-view",
+                                query: items.id,
+                              }}
+                            >
+                              <a className="text-sm text-gray-600 cursor-pointer flex items-center border border-gray-100 rounded-full py-1 px-3">
+                                View Event
+                              </a>
+                            </Link>
                           </div>
-                          <Link
-                            href={{
-                              pathname: "/events-design/event-view",
-                              query: items.id,
-                            }}
-                          >
-                            <a className="text-sm text-gray-600 cursor-pointer flex items-center border border-gray-100 rounded-full py-1 px-3">
-                              View Event
-                            </a>
-                          </Link>
                         </div>
                       </div>
-                    </div>
-                  </a>
-                </Link>
-              ) : (
-                ""
-              )}
-              {items.share.feed_type && items.share.feed_type === "video_feed" ? (
-                <Link
-                  href={{
-                    pathname: "/events-design/event-view",
-                    query: items.id,
-                  }} >
-                  <a>
-                    <video controls className="aspect-video w-full rounded-xl my-4">
-                      <source src={items.share.attachments_link} type="video/mp4" />
-                    </video>
-                  </a>
-                </Link>
-              ) : (
-                ""
-              )}
-              {items.share.attachments_link && items.share.feed_type === "image_feed" ? (
-                <Link
-                  href={{
-                    pathname: "/events-design/event-view",
-                    query: items.id,
-                  }} >
-                  <a>
-                    <div className="mt-[14px]">
-                      <img
-                        src={items.share.attachments_link}
-                        width={952}
-                        height={240}
-                        layout="responsive"
-                        className="aspect-video object-cover rounded-lg mx-auto h-[390px]"
-                        alt=""
-                      />
-                    </div>
-                  </a>
-                </Link>
-              ) : (
-                ""
-              )}
-            </div>
-          </div>):("")}
+                    </a>
+                  </Link>
+                ) : (
+                  ""
+                )}
+                {items.share.feed_type && items.share.feed_type === "video_feed" ? (
+                  <Link
+                    href={{
+                      pathname: "/events-design/event-view",
+                      query: items.id,
+                    }} >
+                    <a>
+                      <video controls className="aspect-video w-full rounded-xl my-4">
+                        <source src={items.share.attachments_link} type="video/mp4" />
+                      </video>
+                    </a>
+                  </Link>
+                ) : (
+                  ""
+                )}
+                {items.share.attachments_link && items.share.feed_type === "image_feed" ? (
+                  <Link
+                    href={{
+                      pathname: "/events-design/event-view",
+                      query: items.id,
+                    }} >
+                    <a>
+                      <div className="mt-[14px]">
+                        <img
+                          src={items.share.attachments_link}
+                          width={952}
+                          height={240}
+                          layout="responsive"
+                          className="aspect-video object-cover rounded-lg mx-auto h-[390px]"
+                          alt=""
+                        />
+                      </div>
+                    </a>
+                  </Link>
+                ) : (
+                  ""
+                )}
+              </div>
+            </div>) : ("")}
 
-          {singleItems && (singleItems.connection || singleItems.follow)?(
+          {singleItems && (singleItems.connection || singleItems.follow) ? (
             <>
               <div className="flex justify-between mt-[14px]">
                 <div className="flex gap-6">
@@ -763,7 +762,7 @@ const ProfileFeedSingle = (singleItems) => {
                       height={24}
                       className="text-gray-600 cursor-pointer"
                     />
-                    <span className="font-light text-gray-600 cursor-pointer">{comments_count>=0 && is_deleted==true?(comments_count):(items.comments_count==0?(0):(items.comments_count))}</span>
+                    <span className="font-light text-gray-600 cursor-pointer">{comments_count >= 0 && is_deleted == true ? (comments_count) : (items.comments_count == 0 ? (0) : (items.comments_count))}</span>
                   </div>
                 </div>
                 <div className="flex gap-6">
@@ -801,17 +800,17 @@ const ProfileFeedSingle = (singleItems) => {
                       </>
                     )}
                   </div>
-                  <ShareModal items={items && items.feed_type=="share"?(items.share):(items)} currentuser={singleItems.currentuser}/>
+                  <ShareModal items={items && items.feed_type == "share" ? (items.share) : (items)} currentuser={singleItems.currentuser} />
                 </div>
               </div>
               <Fragment>
-                <PostComments news_feed_id={items.id} setComments={setComments} setComments_count={setComments_count} setIs_deleted={setIs_deleted} dp={items.user.display_photo_url}/>
+                <PostComments news_feed_id={items.id} setComments={setComments} setComments_count={setComments_count} setIs_deleted={setIs_deleted} dp={items.user.display_photo_url} />
                 <FilterComments news_feed_id={items.id} comments={comments.data} setComments_count={setComments_count} setComments={setComments} next_page={nextPage} setNextPage={setNextPage} />
-                {!loading && <ReplyComments news_feed_id={items.id} comments={comments.data} comments_count={comments_count} setComments_count={setComments_count} setComments={setComments} setIs_deleted={setIs_deleted} items={items}/>}
+                {!loading && <ReplyComments news_feed_id={items.id} comments={comments.data} comments_count={comments_count} setComments_count={setComments_count} setComments={setComments} setIs_deleted={setIs_deleted} items={items} />}
               </Fragment>
-           </>
-          ):("")}
-         
+            </>
+          ) : ("")}
+
         </div>
       </div>
     </>

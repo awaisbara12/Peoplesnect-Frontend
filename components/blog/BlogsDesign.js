@@ -48,29 +48,29 @@ const BlogsDesign = () => {
       </div>
     );
   return (
-    <div className="w-[600px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
+    <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
       <div className="" key="items.id">
         <div>
           <div className="flex justify-between align-item-center mt-12">
-          <div className="text-lg font-bold">My Articles</div>
-          <div className="add_new_button text-center">
-          <Link href={{pathname: "/blog/show-all", query: "my",}}>
-            <a>  
-              <button
-                type="submit"
-                className="border-2 border-indigo-400 text-indigo-400 text-md cursor-pointer font-bold py-2 px-4 rounded-full"
-              >
-                Show More
-              </button>
-            </a>
-          </Link>
+            <div className="text-lg font-bold">My Articles</div>
+            <div className="add_new_button text-center">
+              <Link href={{ pathname: "/blog/show-all", query: "my", }}>
+                <a>
+                  <button
+                    type="submit"
+                    className="border-2 border-indigo-400 text-indigo-400 text-md cursor-pointer font-bold py-2 px-4 rounded-full"
+                  >
+                    Show More
+                  </button>
+                </a>
+              </Link>
 
-          </div>
+            </div>
           </div>
         </div>
         <div className="grid flex grid-cols-1 gap-6 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2">
-        {list && list.data &&
-            list.data.slice(0,3).map((item) => (
+          {list && list.data &&
+            list.data.slice(0, 3).map((item) => (
               <div
                 className="w-full mt-8 blogs bg-white rounded-xl"
                 key={item.id}
@@ -78,7 +78,7 @@ const BlogsDesign = () => {
                 <div className="">
                   <div className="image">
                     <div className="">
-                    <Link href={{pathname: "/blog/show", query: item.id,}}>
+                      <Link href={{ pathname: "/blog/show", query: item.id, }}>
                         <a>
                           {item.photos_link ? (
                             <img
@@ -99,7 +99,7 @@ const BlogsDesign = () => {
                       {item.title}
                     </div>
                     <div className="text-right">
-                    <Link href={{pathname: "/blog/show", query: item.id,}}>
+                      <Link href={{ pathname: "/blog/show", query: item.id, }}>
                         {/* href={{
                           pathname: "/blog/[id]",
                           query: { id: item.id },
@@ -119,7 +119,7 @@ const BlogsDesign = () => {
                   </div>
                 </div>
               </div>
-              ))}
+            ))}
         </div>
       </div>
     </div>

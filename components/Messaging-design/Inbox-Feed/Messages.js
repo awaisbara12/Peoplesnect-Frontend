@@ -300,7 +300,7 @@ const Messages = () => {
             hasMore={currentpagemy != null}
             inverse={true}
             scrollableTarget="scrollableDiv"
-            loader={messages?(<div className="flex justify-center "><ClipLoader className="my-8" color="#818CF8" size={40} /> </div>):('')}
+            loader={messages && messages.length>0?(<div className="flex justify-center "><ClipLoader className="my-8" color="#818CF8" size={40} /> </div>):('')}
           >
             {messages &&
               messages.map((i)=>{
@@ -363,6 +363,15 @@ const Messages = () => {
                               )
                             )
                           }
+
+                          {i.productPic?(
+                            <div className="relative w-1/4 mt-2">
+                              <img
+                              src={i.productPic}
+                              className="rounded-xl my-2 max-h-[150px] max-w-[230px] object-cover"
+                              alt=""/>
+                            </div>
+                          ):('')}
                           <div className="">{i.body} </div>
                           <div className=" flex justify-end mt-0 mr-2 text-xs">{i.time}</div>
                         </div>
@@ -406,6 +415,15 @@ const Messages = () => {
                               )
                             )
                           }
+                            
+                            {i.productPic?(
+                              <div className="relative w-1/4 mt-2">
+                                <img
+                                src={i.productPic}
+                                className="rounded-xl my-2 max-h-[150px] max-w-[230px] object-cover"
+                                alt=""/>
+                              </div>
+                            ):('')}
                             <div className="text-white">{i.body} </div>
                             <div className=" flex justify-end mt-0 mr-2 text-xs text-white">{i.time}</div>
                           </div>

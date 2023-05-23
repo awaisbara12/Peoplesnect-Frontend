@@ -18,12 +18,13 @@ import {
   StarIcon,
 } from "@heroicons/react/outline";
 import Spinner from "../../../common/Spinner";
+import TopNavbarSearch from "../../search/TopNavbarSearch ";
 
 const MobileNav = () => {
   const [open, setOpen] = useState(true);
   return (
     <div className="block lg:hidden md:hidden">
-      <div className="flex justify-between w-[625px] mx-auto h-14 items-center bg-white rounded-b-2xl px-4">
+      <div className="flex justify-between w-[620px] mx-auto h-14 items-center bg-white rounded-b-2xl px-4">
         <div className="flex items-center gap-4">
           <div className="">
             <Link href="/news-feed">
@@ -32,7 +33,7 @@ const MobileNav = () => {
               </a>
             </Link>
           </div>
-          <label className="relative block">
+          {/* <label className="relative block">
             <span className="absolute inset-y-0 left-0 flex items-center pl-4">
               <Link href="/news-feed">
                 <a>
@@ -46,7 +47,9 @@ const MobileNav = () => {
               type="text"
               name="search"
             />
-          </label>
+          </label> */}
+
+          <TopNavbarSearch/>
         </div>
         <div className="relative">
           <Image

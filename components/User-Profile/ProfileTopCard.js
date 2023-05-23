@@ -127,7 +127,7 @@ const ProfileTopCard = (props) => {
         .then((resp) => resp.json())
         .then((result) => {
           if (result && result.data) {
-           console.log("Connection",result.data);
+          //  console.log("Connection",result.data);
            setconnection(true);
            setbtn2("Request_Available");
           }
@@ -145,7 +145,7 @@ const ProfileTopCard = (props) => {
                     setrequest(result.data);
                     setbtn2("");
                     setconnection(false);
-                   console.log("Requests",result.data);  
+                  //  console.log("Requests",result.data);  
                   }
                   else{
                     // console.log("No Connection");
@@ -172,7 +172,7 @@ const ProfileTopCard = (props) => {
       .then((result) => {
         if (result) {
           setbtn1(result.data);
-          console.log("Follower",result.data)
+          // console.log("Follower",result.data)
         }
       })
       .catch((err) => console.log(err)); 
@@ -205,7 +205,7 @@ const ProfileTopCard = (props) => {
     .then((resp) => resp.json())
       .then((result) => {
         if (result.datas) {
-         console.log(result.data);
+        //  console.log(result.data);
          setbtn2("Request_Not_Available");
          setconnection(false);
         }else if(result.data){
@@ -243,7 +243,7 @@ const ProfileTopCard = (props) => {
   },[props]);
   return (
     <>
-    <div className="mt-8 w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
+    <div className="mt-8 w-full xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
         <div className="w-full bg-white p-5 rounded-t-xl">
           <div className="w-full">
             <div className="">
@@ -323,6 +323,16 @@ const ProfileTopCard = (props) => {
             <div>
 
             <div className="Request-button flex items-center gap-2">
+            
+            { ( btn1 && btn1.length>0  && userDetails && userDetails.profile_type=="public_profile" ) || ( btn2  && btn2=="Request_Available" && userDetails )?(
+              <Link href={{pathname: "/messaging-design", query: props.id}}>
+                <a>
+                <Button className="bg-indigo-400 rounded-full mt-4" >
+                  Message
+                </Button>
+                </a>
+              </Link>
+            ):('')}
 
             {btn1 && btn1.length==0 && userDetails && userDetails.profile_type=="public_profile"?(
               <Button className="bg-indigo-400 rounded-full mt-4" onClick={()=>CreateFollower(userDetails.id)}>

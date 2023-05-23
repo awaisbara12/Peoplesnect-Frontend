@@ -46,7 +46,7 @@ const ProfileFeed = () => {
  
   return (
     <div className="mt-8">
-      <div className="w-[750px] md:w-full xl:w-full">
+      <div className="w-full">
         <div>
           {list&&
             list.map((item) => (
