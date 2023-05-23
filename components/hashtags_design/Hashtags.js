@@ -6,15 +6,15 @@ import { HASHTAGS_API } from "../../pages/config";
 const Hashtags = () => {
   let [hastags, sethastags] = useState();
   // Bareer Key
-  if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore");}
+  if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore"); }
   // Get All Hashtags
-  const HashTags=async()=>{
+  const HashTags = async () => {
     await fetch(HASHTAGS_API, {
       method: "GET",
-       headers: {
+      headers: {
         Accept: "application/json",
-         Authorization: `${authKey}`,
-       },
+        Authorization: `${authKey}`,
+      },
     })
       .then((resp) => resp.json())
       .then((result) => {
@@ -26,11 +26,11 @@ const Hashtags = () => {
   }
   useEffect(() => {
     HashTags();
-  },[]);
+  }, []);
   return (
     <div>
       <div className="mt-8">
-      <div className="mt-8 w-[600px] xl:w-[980px] lg:w-[710px] md:w-[780px] px-5 md:px-0 lg:px-0 xl:px-0">
+        <div className="mt-8 w-[620px] xl:w-[980px] lg:w-[710px] md:w-[780px] px-5 md:px-0 lg:px-0 xl:px-0">
           <div className="">
             <div className="relative">
               <input
@@ -49,9 +49,9 @@ const Hashtags = () => {
             <div className=" border bg-white mt-4 px-4 py-6 rounded-xl">
               <div className="text-lg font-bold">Top Trending Hashtags</div>
               <div className="mt-4">
-                {hastags?(
-                  hastags.map((i)=>(
-                    <Link  href={{pathname: "hashtag-design/hashtags-show", query: i.id}} key={i.id}>
+                {hastags ? (
+                  hastags.map((i) => (
+                    <Link href={{ pathname: "hashtag-design/hashtags-show", query: i.id }} key={i.id}>
                       <a >
                         <div className="flex justify-between items-center hover:bg-gray-100" >
                           <div className="py-2 px-4 rounded-full hover:bg-gray-100">
@@ -63,7 +63,7 @@ const Hashtags = () => {
                       </a>
                     </Link>
                   ))
-                ):('')}
+                ) : ('')}
               </div>
             </div>
           </div>

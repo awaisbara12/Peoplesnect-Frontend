@@ -57,7 +57,7 @@ const BlogPosts = () => {
         getBlog.data.map((item) => (
           <article
             key={item.id}
-            className="w-[600px] rounded-xl bg-white p-[22px] mb-4"
+            className="w-[620px]rounded-xl bg-white p-[22px] mb-4"
           >
             <img
               src={item.photos_link}

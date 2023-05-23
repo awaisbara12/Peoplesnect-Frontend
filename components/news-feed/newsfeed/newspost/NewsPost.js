@@ -30,7 +30,7 @@ import NewsFeedUserCard from "../../../news-feed/newsfeed/feedcard/NewsFeedUserC
 import App from "./App";
 import HashtagMentionInput from "./HashtagMentionInput";
 
-const NewsPost = ( setList ) => {
+const NewsPost = (setList) => {
   const [loading, setLoading] = useState(false);
   const [postText, setPostText] = useState("");
   const [eventCoverImage, setEventCoverImage] = useState([]);
@@ -58,29 +58,28 @@ const NewsPost = ( setList ) => {
   let [hastags, sethastags] = useState();
   // console.log("setListsetList",setList)
   // Bareer Key
-  if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore");}
-  
-  
-  const HashTags=async()=>{
+  if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore"); }
+
+
+  const HashTags = async () => {
     await fetch(HASHTAGS_API, {
       method: "GET",
-       headers: {
+      headers: {
         Accept: "application/json",
-         Authorization: `${authKey}`,
-       },
+        Authorization: `${authKey}`,
+      },
     })
       .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-          let awa =[];
-  
-          for(let i =0; i<result.data.length ; i++)
-          {
-              awa[i] ={
-                display: result.data[i].name  ,
-                id: result.data[i].id,
-    
-              }
+          let awa = [];
+
+          for (let i = 0; i < result.data.length; i++) {
+            awa[i] = {
+              display: result.data[i].name,
+              id: result.data[i].id,
+
+            }
           }
           sethastags(awa);
         }
@@ -89,32 +88,30 @@ const NewsPost = ( setList ) => {
   }
   //  For image [Feed-type-Event]
   const handleImageSelect = (e) => {
-    var type=e.target.files[0].type
-     var s=type.split("/")
-    if(s[0]=='image'){
+    var type = e.target.files[0].type
+    var s = type.split("/")
+    if (s[0] == 'image') {
       setEventCoverImage(e.target.files[0]);
       if (e.target.files.length !== 0) {
         setPreviewEventCoverImage(window.URL.createObjectURL(e.target.files[0]));
       }
-    }else{alert("Please Select Image")}
-    
+    } else { alert("Please Select Image") }
+
   };
 
   //  For image [Feed-type-Image]
   const handleImagePost = (e) => {
-    if(e.target.files[0])
-    {
-      var type=e.target.files[0].type
-      var s=type.split("/")
-      if(s[0]=='image')
-      {
+    if (e.target.files[0]) {
+      var type = e.target.files[0].type
+      var s = type.split("/")
+      if (s[0] == 'image') {
         setPostImage(e.target.files[0]);
         if (e.target.files.length !== 0) {
           setpostImagePreview(window.URL.createObjectURL(e.target.files[0]));
         }
         setFeedType("image_feed");
-      }else{alert("Please Select Image")}
-    } 
+      } else { alert("Please Select Image") }
+    }
   };
 
   const handleCoverReomve = (e) => {
@@ -122,18 +119,17 @@ const NewsPost = ( setList ) => {
     setPreviewEventCoverImage(window.URL.revokeObjectURL(e.target.files));
     setVideoPreview(window.URL.revokeObjectURL(e.target.files));
   };
- //  For Vedio [Feed-type-Vedio]
+  //  For Vedio [Feed-type-Vedio]
   const handleVideo = (e) => {
-    var type=e.target.files[0].type
-    var s=type.split("/")
-    if(s[0]=='video')
-    { 
+    var type = e.target.files[0].type
+    var s = type.split("/")
+    if (s[0] == 'video') {
       setFeedType("video_feed");
       setVideoSrc(e.target.files[0]);
       if (e.target.files.length !== 0) {
         setVideoPreview(URL.createObjectURL(e.target.files[0]));
       }
-    }else{alert("Please Select Vedio")}
+    } else { alert("Please Select Vedio") }
   };
 
   const onSubmit = () => {
@@ -162,11 +158,11 @@ const NewsPost = ( setList ) => {
       externalLink: "",
       description: "",
       speakers: "",
-      total_seat:0,
+      total_seat: 0,
     },
     validationSchema: eventScheema,
   });
-  
+
   function postNewsData(e) {
     e.preventDefault();
     const dataForm = new FormData();
@@ -177,7 +173,7 @@ const NewsPost = ( setList ) => {
         dataForm.append("tags[]", tags[i]);
       }
     }
-  // dataForm.append("news_feeds[tags][]", tags);
+    // dataForm.append("news_feeds[tags][]", tags);
     dataForm.append("news_feeds[feed_attachments][]", postImage);
     dataForm.append("news_feeds[feed_attachments][]", videoSrc);
     if (feedType === "event_feed") {
@@ -212,7 +208,7 @@ const NewsPost = ( setList ) => {
       .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-          const mergedata = [result.data,...setList.list]
+          const mergedata = [result.data, ...setList.list]
           setList.setList(mergedata);
           setLoading(false);
           setPostText("");
@@ -228,73 +224,71 @@ const NewsPost = ( setList ) => {
     setVideoPreview("");
     onSubmit();
   }
-  let a ='';
+  let a = '';
   const mentioneds = () => {
     if (typeof window !== "undefined") {
       var authKey = window.localStorage.getItem("keyStore");
     }
     // const [mention,setmention] = useState([]);
-    fetch(SEARCH_MULTIPLE+"/gettags?query="+'friends', {
-        method: "GET",
-         headers: {
-          Accept: "application/json", 
-           Authorization: `${authKey}`,
-         },
-      })
-         .then((resp) => resp.json())
-        .then((result) => {
-          if (result) {
-            let awa =[];
-            for(let i =0; i<result.data.length ; i++)
-            {
-                awa[i] ={
-                  display: '@'+result.data[i].first_name+" "+result.data[i].last_name ,
-                  link: 'Friends-Profile?'+result.data[i].id,
-                  avatar: result.data[i].display_photo_url,
-                  id: result.data[i].id,
-                  type : 'User'
-                }
+    fetch(SEARCH_MULTIPLE + "/gettags?query=" + 'friends', {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          let awa = [];
+          for (let i = 0; i < result.data.length; i++) {
+            awa[i] = {
+              display: '@' + result.data[i].first_name + " " + result.data[i].last_name,
+              link: 'Friends-Profile?' + result.data[i].id,
+              avatar: result.data[i].display_photo_url,
+              id: result.data[i].id,
+              type: 'User'
             }
-            a=awa;
-            setspeakerMention(a);
-            mentionpages();
-            // console.log("grie",awa);
           }
-        })
-        .catch((err) => console.log(err));
+          a = awa;
+          setspeakerMention(a);
+          mentionpages();
+          // console.log("grie",awa);
+        }
+      })
+      .catch((err) => console.log(err));
   };
   const mentionpages = () => {
     if (typeof window !== "undefined") {
       var authKey = window.localStorage.getItem("keyStore");
     }
-    fetch(SEARCH_MULTIPLE+"/gettags?query="+'pages', {
-        method: "GET",
-         headers: {
-          Accept: "application/json", 
-           Authorization: `${authKey}`,
-         },
-      })
-         .then((resp) => resp.json())
-        .then((result) => {
-          if (result) {
-            let awa =[];
-            for(let i = 0; i<result.data.length ; i++)
-            {
-                awa[i] ={
-                  display: '@'+result.data[i].name ,
-                  link: 'Liked-Pages?'+result.data[i].id,
-                  avatar: result.data[i].display_photo_url,
-                  id: result.data[i].id,
-                  type : 'Page'
-                }
+    fetch(SEARCH_MULTIPLE + "/gettags?query=" + 'pages', {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          let awa = [];
+          for (let i = 0; i < result.data.length; i++) {
+            awa[i] = {
+              display: '@' + result.data[i].name,
+              link: 'Liked-Pages?' + result.data[i].id,
+              avatar: result.data[i].display_photo_url,
+              id: result.data[i].id,
+              type: 'Page'
             }
-            let dbc = [...a,...awa]
-            setMentioned(dbc);
-            // setspeakerMention(dbc);
-          //  console.log("ment",mentioned);
           }
-        })
-        .catch((err) => console.log(err));
+          let dbc = [...a, ...awa]
+          setMentioned(dbc);
+          // setspeakerMention(dbc);
+          //  console.log("ment",mentioned);
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
   // const searchmultiples  = async(event) =>{
@@ -341,43 +335,43 @@ const NewsPost = ( setList ) => {
 
   // console.log(example.indexOf(ourSubstring));
   // console.log("mention",tags)
-  useEffect(()=>{
+  useEffect(() => {
     mentioneds();
     HashTags();
     Current_User();
-  },[])
+  }, [])
 
   //current User
-  const Current_User=async()=>{    
+  const Current_User = async () => {
     await fetch(CURENT_USER_LOGIN_API, {
       method: "GET",
-       headers: {
-        Accept: "application/json", 
-         Authorization: `${authKey}`,
-       },
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
     })
-       .then((resp) => resp.json())
+      .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-          setcurrentuser(result.data); 
+          setcurrentuser(result.data);
         }
       })
-      .catch((err) => console.log(err)); 
+      .catch((err) => console.log(err));
   }
   return (
     <div className="mt-8 z-20">
-      <div className="w-[600px] xl:w-[980px] lg:w-[730px] md:w-[780px] rounded-xl bg-white p-[22px]">
+      <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] rounded-xl bg-white p-[22px]">
         <form onSubmit={postNewsData}>
           <div className="w-full flex justify-start gap-[22px]">
             <div className="w-[42px] h-[42px]">
-             {/* display_photo_url */}
-             {currentuser && currentuser.display_photo_url?(
-                  <img
-                  src={currentuser.display_photo_url} 
-                  className="aspect-video object-cover rounded-full h-[42px] w-[42px] mb-2" 
+              {/* display_photo_url */}
+              {currentuser && currentuser.display_photo_url ? (
+                <img
+                  src={currentuser.display_photo_url}
+                  className="aspect-video object-cover rounded-full h-[42px] w-[42px] mb-2"
                   alt=""
                 />
-              ):(
+              ) : (
                 <Image
                   src={ProfileAvatar}
                   className="rounded-full"
@@ -388,7 +382,7 @@ const NewsPost = ( setList ) => {
                 />
               )}
             </div>
-            <HashtagMentionInput postText={postText} setPostText={setPostText} mentioned={mentioned}  tags={tags} settags={settags} hastags={hastags}/>
+            <HashtagMentionInput postText={postText} setPostText={setPostText} mentioned={mentioned} tags={tags} settags={settags} hastags={hastags} />
             {/* <NewPost postText={postText} setPostText={setPostText} tags={tags} settags={settags} results={results} setresults={setresults}/> */}
             {/* <textarea
               type="text"
@@ -551,13 +545,12 @@ const NewsPost = ( setList ) => {
                     <NewspaperIcon
                       width={22}
                       height={22}
-                      className={` ${
-                        values.eventName ||
+                      className={` ${values.eventName ||
                         (postImagePreview && true) ||
                         videoPreview
-                          ? "text-indigo-100"
-                          : "text-indigo-400 cursor-pointer"
-                      }`}
+                        ? "text-indigo-100"
+                        : "text-indigo-400 cursor-pointer"
+                        }`}
                     />
                   </Link>
                 </div>
@@ -567,9 +560,8 @@ const NewsPost = ( setList ) => {
             <button
               disabled={postText == 0 ? true : false}
               type="submit"
-              className={`w-[100px] h-8 rounded-full flex gap-1 items-center justify-center bg-indigo-400 text-white cursor-pointer ${
-                postText == 0 ? `bg-indigo-200` : ``
-              }`}
+              className={`w-[100px] h-8 rounded-full flex gap-1 items-center justify-center bg-indigo-400 text-white cursor-pointer ${postText == 0 ? `bg-indigo-200` : ``
+                }`}
             >
               {loading ? <Spinner /> : "Public"}
             </button>
@@ -630,9 +622,8 @@ const NewsPost = ( setList ) => {
                           onChange={handleImageSelect}
                         />
                         <div
-                          className={`text-center	${
-                            previewEventCoverImage ? "hidden" : "visible"
-                          }`}
+                          className={`text-center	${previewEventCoverImage ? "hidden" : "visible"
+                            }`}
                         >
                           <CameraIcon className="h-8 w-8 mx-auto mb-1 text-indigo-400" />
                           <h4 className="font-semibold text-xl">
@@ -716,11 +707,10 @@ const NewsPost = ( setList ) => {
                             }}
                             onBlur={handleBlur}
                             placeholder="Event Name"
-                            className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400 ${
-                              errors.eventName && touched.eventName
-                                ? "border-red-600"
-                                : ""
-                            }`}
+                            className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400 ${errors.eventName && touched.eventName
+                              ? "border-red-600"
+                              : ""
+                              }`}
                             id="eventName"
                             required="required"
                           />
@@ -763,11 +753,10 @@ const NewsPost = ( setList ) => {
                               onChange={handleChange}
                               onBlur={handleBlur}
                               placeholder="Event Name"
-                              className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400 ${
-                                errors.startDate && touched.startDate
-                                  ? "border-red-600"
-                                  : ""
-                              }`}
+                              className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400 ${errors.startDate && touched.startDate
+                                ? "border-red-600"
+                                : ""
+                                }`}
                               id="startDate"
                               required="required"
                             />
@@ -809,11 +798,10 @@ const NewsPost = ( setList ) => {
                               onChange={handleChange}
                               onBlur={handleBlur}
                               placeholder="Event Name"
-                              className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400 ${
-                                errors.startTime && touched.startTime
-                                  ? "border-red-600"
-                                  : ""
-                              }`}
+                              className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400 ${errors.startTime && touched.startTime
+                                ? "border-red-600"
+                                : ""
+                                }`}
                               id="startTime"
                               required="required"
                             />
@@ -857,11 +845,10 @@ const NewsPost = ( setList ) => {
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 placeholder="Event Name"
-                                className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400 ${
-                                  errors.address && touched.address
-                                    ? "border-red-600"
-                                    : ""
-                                }`}
+                                className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400 ${errors.address && touched.address
+                                  ? "border-red-600"
+                                  : ""
+                                  }`}
                                 id="address"
                               />
                               {errors.address && touched.address ? (
@@ -884,11 +871,10 @@ const NewsPost = ( setList ) => {
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 placeholder="Event Name"
-                                className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400 ${
-                                  errors.venue && touched.venue
-                                    ? "border-red-600"
-                                    : ""
-                                }`}
+                                className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400 ${errors.venue && touched.venue
+                                  ? "border-red-600"
+                                  : ""
+                                  }`}
                                 id="venue"
                               />
                               {errors.venue && touched.venue ? (
@@ -919,13 +905,13 @@ const NewsPost = ( setList ) => {
                           />
                         </div>
                         {/* <div className="form-group w-full py-3"> */}
-                          {/* <label
+                        {/* <label
                             htmlFor="description"
                             className="text-neutral-900 text-sm"
                           >
                             Description{" "}
                           </label> */}
-                          {/* <textarea
+                        {/* <textarea
                             type="text"
                             value={values.description}
                             onChange={handleChange}
@@ -934,8 +920,8 @@ const NewsPost = ( setList ) => {
                             className="w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400"
                             id="description"
                           /> */}
-                          {/* <HashtagMentionInput postText={postText} setPostText={setPostText} mentioned={mentioned}  tags={tags} settags={settags} hastags={hastags}/> */}
-            
+                        {/* <HashtagMentionInput postText={postText} setPostText={setPostText} mentioned={mentioned}  tags={tags} settags={settags} hastags={hastags}/> */}
+
                         {/* </div> */}
                         <div className="form-group w-full py-3">
                           <label
@@ -945,7 +931,7 @@ const NewsPost = ( setList ) => {
                             Total Seats*{" "}
                           </label>
                           <input
-                             type="Number"
+                            type="Number"
                             value={values.total_seat}
                             onChange={handleChange}
                             name="total_seat"
@@ -971,8 +957,8 @@ const NewsPost = ( setList ) => {
                               className="w-full border-gray-100 border pl-10 py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400"
                               id="speakers"
                             /> */}
-                            <HashtagMentionInput postText={speakerText} setPostText={setspeakerText} mentioned={speakerMention}  tags={speakertags} settags={setspeakertags} hastags={hastags}/>
-            
+                            <HashtagMentionInput postText={speakerText} setPostText={setspeakerText} mentioned={speakerMention} tags={speakertags} settags={setspeakertags} hastags={hastags} />
+
                             <div className="absolute inset-y-[18px] left-3">
                               🔍
                             </div>

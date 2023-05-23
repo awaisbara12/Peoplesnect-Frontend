@@ -23,7 +23,7 @@ const MobileProfileNav = () => {
   const [open, setOpen] = useState(true);
   return (
     <div className="block lg:hidden md:hidden">
-      <div className="flex justify-between w-[780px] mx-auto h-14 items-center bg-white rounded-b-2xl px-4">
+      <div className="flex justify-between w-[625px] mx-auto h-14 items-center bg-white rounded-b-2xl px-4">
         <div className="flex items-center gap-4">
           <div className="">
             <Link href="/news-feed">

@@ -14,7 +14,7 @@ const TabsProfileCard = (props) => {
           <div className="border-t-1 w-full">
             <div className="w-full md:w-full xl:w-5/6 pt-8 pb-7 text-sm">
               <ul className="flex gap-10" role="tablist">
-                <li className="">
+                <li className="text-base">
                   <a
                     className={
                       "" +
@@ -33,7 +33,7 @@ const TabsProfileCard = (props) => {
                     Profile
                   </a>
                 </li>
-                <li className="">
+                <li className="text-base">
                   <a
                     className={
                       "" +
@@ -52,7 +52,7 @@ const TabsProfileCard = (props) => {
                     Skills
                   </a>
                 </li>
-                <li className="">
+                <li className="text-base">
                   <a
                     className={
                       "" +
@@ -71,7 +71,7 @@ const TabsProfileCard = (props) => {
                     Eduction
                   </a>
                 </li>
-                <li className="">
+                <li className="text-base">
                   <a
                     className={
                       "" +

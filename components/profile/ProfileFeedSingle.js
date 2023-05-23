@@ -55,7 +55,7 @@ const cardDropdown = [
     href: "#",
     icon: TrashIcon,
   },
-  
+
 ];
 
 const ReadMore = ({ children }) => {
@@ -66,12 +66,12 @@ const ReadMore = ({ children }) => {
   };
   return (
     <p className="text">
-      {isReadMore ? text.slice(0, 300) + (text.length > 300?("......"):('')) : text}
-      {text.length > 300?(
+      {isReadMore ? text.slice(0, 300) + (text.length > 300 ? ("......") : ('')) : text}
+      {text.length > 300 ? (
         <span onClick={toggleReadMore} className="text-indigo-400 cursor-pointer ml-2 font-bold">
           {isReadMore ? "Read more" : "Show less"}
         </span>
-      ):('')}
+      ) : ('')}
     </p>
   );
 };
@@ -116,13 +116,13 @@ const ProfileFeedSingle = (singleItems) => {
   const [speakertags, setspeakertags] = useState([]);
 
   // Bareer Key
-  if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore");}
+  if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore"); }
   // Copy Link
-  const copylink=(postid)=>{
-    const links=window.location.href        // get Full Link
-    const links1=window.location.pathname   // get link after localhost
-    const copylink1 = links.split(links1)    
-    navigator.clipboard.writeText(copylink1[0]+"/events-design/event-view?"+postid);    // get link domain like(localhost..etc)
+  const copylink = (postid) => {
+    const links = window.location.href        // get Full Link
+    const links1 = window.location.pathname   // get link after localhost
+    const copylink1 = links.split(links1)
+    navigator.clipboard.writeText(copylink1[0] + "/events-design/event-view?" + postid);    // get link domain like(localhost..etc)
     alert("Link Copied to your Clipboard");
   }
   // Get NewsFeed for the updation Lists
@@ -172,7 +172,7 @@ const ProfileFeedSingle = (singleItems) => {
         getNewsFeed();
         RecentActivity();
         alert("Record Deleted Succefully");
-        
+
       }
     } catch (error) {
       console.log(error);
@@ -181,20 +181,17 @@ const ProfileFeedSingle = (singleItems) => {
     return result;
   };
   // update user newsfeed's post
- const EditFeed=(uid)=>{
-   setEditOn(uid);
+  const EditFeed = (uid) => {
+    setEditOn(uid);
   };
   // Confirmation Edit Or Delete
-  const optionConfirm=(uid,name,item)=>{
-    if (name=="Delete")
-    {
+  const optionConfirm = (uid, name, item) => {
+    if (name == "Delete") {
       let a = confirm("Are yuo Sure ?");
-      if(a){DeleteNewsFeed(uid);}
+      if (a) { DeleteNewsFeed(uid); }
     }
-    if (name=="Edit")
-    { 
-      if(item && item.event)
-      {
+    if (name == "Edit") {
+      if (item && item.event) {
         EditFeed(uid);
         setEditPic(item.event.cover_photo_url);
         setS_time(item.event.start_time)
@@ -211,42 +208,40 @@ const ProfileFeedSingle = (singleItems) => {
         setvenue(item.event.venue)
         // console.log(item.event)
       }
-      else if(item && item.attachments_link){
+      else if (item && item.attachments_link) {
         EditFeed(uid);
         setEditPic(item.attachments_link);
       }
-      else if(item){
+      else if (item) {
         EditFeed(uid);
       }
     }
   };
   //Edited image
   const handleImage = (e) => {
-    var type=e.target.files[0].type
-    var s=type.split("/")
-    if(s[0]=='image')
-    {
+    var type = e.target.files[0].type
+    var s = type.split("/")
+    if (s[0] == 'image') {
       setU_pic(e.target.files[0]);
       if (e.target.files.length !== 0) {
         setUP_pic(window.URL.createObjectURL(e.target.files[0]));
       }
-    }else{alert("Please Select Image")}
-    
+    } else { alert("Please Select Image") }
+
   };
   //Edited vedio
   const handleVideo = (e) => {
-    var type=e.target.files[0].type
-    var s=type.split("/")
-    if(s[0]=='video')
-    {
+    var type = e.target.files[0].type
+    var s = type.split("/")
+    if (s[0] == 'video') {
       setUP_pic('');
       setU_pic(e.target.files[0]);
       if (e.target.files.length !== 0) {
         setUP_pic(URL.createObjectURL(e.target.files[0]));
         //  console.log("Check",URL.createObjectURL(U_pic))
       }
-    }else{alert("Please Select video")}
-    
+    } else { alert("Please Select video") }
+
   };
   //  remover preview
   const handleCoverReomve = (e) => {
@@ -255,7 +250,7 @@ const ProfileFeedSingle = (singleItems) => {
   // Update feed
   function UpdateFeed(id, feedType) {
     setEditOn('');
-    if (feedType != "video_feed") {setUP_pic('');}
+    if (feedType != "video_feed") { setUP_pic(''); }
     const dataForm = new FormData();
     dataForm.append("news_feeds[body]", EditText.replace(/\[\@(.*?)\]\((.*?)\)/g, "@$1"));
     if (tags.length > 0) {
@@ -271,7 +266,7 @@ const ProfileFeedSingle = (singleItems) => {
       }
       dataForm.append("events[name]", eventame);
       dataForm.append("events[event_type]", event_type);
-      if(U_pic){dataForm.append("events[cover_photo]", U_pic);}
+      if (U_pic) { dataForm.append("events[cover_photo]", U_pic); }
       dataForm.append("events[start_date]", S_date);
       dataForm.append("events[end_date]", E_date);
       dataForm.append("events[start_time]", S_time);
@@ -283,10 +278,10 @@ const ProfileFeedSingle = (singleItems) => {
       dataForm.append("events[venue]", venue);
       dataForm.append("events[total_seats]", seats);
     }
-    else{
-      if(U_pic){dataForm.append("news_feeds[feed_attachments][]", U_pic);}
+    else {
+      if (U_pic) { dataForm.append("news_feeds[feed_attachments][]", U_pic); }
     }
-    fetch(POST_NEWSFEED_API_KEY+"/"+id, {
+    fetch(POST_NEWSFEED_API_KEY + "/" + id, {
       method: "PUT",
       headers: {
         Accept: "application/json",
@@ -302,25 +297,25 @@ const ProfileFeedSingle = (singleItems) => {
         }
       })
       .catch((err) => console.log(err));
-      setSpinner(false)
+    setSpinner(false)
   }
 
-  const RecentActivity=async()=>{    //current User
-  
+  const RecentActivity = async () => {    //current User
+
     await fetch(RECENT_ACTIVITY_API, {
       method: "GET",
       headers: {
-        Accept: "application/json", 
+        Accept: "application/json",
         Authorization: `${authKey}`,
       },
     })
-    .then((resp) => resp.json())
-    .then((result) => {
-      if (result) {
-        singleItems.setRecentActivity(result.data);
-      }
-    })
-    .catch((err) => console.log(err)); 
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          singleItems.setRecentActivity(result.data);
+        }
+      })
+      .catch((err) => console.log(err));
   }
 
   function addHeart(feedId) {
@@ -346,36 +341,33 @@ const ProfileFeedSingle = (singleItems) => {
       .catch((err) => console.log(err));
   }
 
-  const UserBookmarks=async()=>{    //current User
-  
+  const UserBookmarks = async () => {    //current User
+
     await fetch(GET_USER_BOOKMARKS, {
       method: "GET",
       headers: {
-        Accept: "application/json", 
+        Accept: "application/json",
         Authorization: `${authKey}`,
       },
     })
-    .then((resp) => resp.json())
-    .then((result) => {
-      if (result) {
-        singleItems.setBookmarks(result.data);
-        singleItems.setBookmarks(result.data);
-        // console.log(result.data);
-      }
-    })
-    .catch((err) => console.log(err)); 
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          singleItems.setBookmarks(result.data);
+          singleItems.setBookmarks(result.data);
+          // console.log(result.data);
+        }
+      })
+      .catch((err) => console.log(err));
   }
 
-  function is_bookmark(item_id)
-  {
-    for(var i=0; i < singleItems.bookmarks.length; i++){
-      if (singleItems.bookmarks[i].news_feed)
-     {
-      if (singleItems.bookmarks[i].news_feed.id == item_id)
-      {
-        return true;
+  function is_bookmark(item_id) {
+    for (var i = 0; i < singleItems.bookmarks.length; i++) {
+      if (singleItems.bookmarks[i].news_feed) {
+        if (singleItems.bookmarks[i].news_feed.id == item_id) {
+          return true;
+        }
       }
-    }
     }
     return false;
   }
@@ -449,7 +441,7 @@ const ProfileFeedSingle = (singleItems) => {
       console.log(error);
     }
   }
-  
+
   useEffect(() => {
 
     setLoading(true);
@@ -491,22 +483,21 @@ const ProfileFeedSingle = (singleItems) => {
     setIsActive((current) => !current);
   };
 
-  const HashTags=async()=>{
+  const HashTags = async () => {
     await fetch(HASHTAGS_API, {
       method: "GET",
-       headers: {
+      headers: {
         Accept: "application/json",
-         Authorization: `${authKey}`,
-       },
+        Authorization: `${authKey}`,
+      },
     })
       .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-          let awa =[];
-          for(let i =0; i<result.data.length ; i++)
-          {
-            awa[i] ={
-              display: result.data[i].name  ,
+          let awa = [];
+          for (let i = 0; i < result.data.length; i++) {
+            awa[i] = {
+              display: result.data[i].name,
               id: result.data[i].id,
             }
           }
@@ -515,104 +506,102 @@ const ProfileFeedSingle = (singleItems) => {
       })
       .catch((err) => console.log(err));
   }
-  let a ='';
+  let a = '';
   const mentioneds = () => {
     if (typeof window !== "undefined") {
       var authKey = window.localStorage.getItem("keyStore");
     }
     // const [mention,setmention] = useState([]);
-    fetch(SEARCH_MULTIPLE+"/gettags?query="+'friends', {
-        method: "GET",
-         headers: {
-          Accept: "application/json", 
-           Authorization: `${authKey}`,
-         },
-      })
-         .then((resp) => resp.json())
-        .then((result) => {
-          if (result) {
-            let awa =[];
-  
-            for(let i =0; i<result.data.length ; i++)
-            {
-                awa[i] ={
-                  display: '@'+result.data[i].first_name+" "+result.data[i].last_name ,
-                  link: 'Friends-Profile?'+result.data[i].id,
-                  avatar: result.data[i].display_photo_url,
-                  id: result.data[i].id,
-                  type : 'User'
-                }
+    fetch(SEARCH_MULTIPLE + "/gettags?query=" + 'friends', {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          let awa = [];
+
+          for (let i = 0; i < result.data.length; i++) {
+            awa[i] = {
+              display: '@' + result.data[i].first_name + " " + result.data[i].last_name,
+              link: 'Friends-Profile?' + result.data[i].id,
+              avatar: result.data[i].display_photo_url,
+              id: result.data[i].id,
+              type: 'User'
             }
-            a=awa;
-            setspeakerMention(awa);
-            mentionpages();
-            // console.log("frie",awa);
           }
-        })
-        .catch((err) => console.log(err));
+          a = awa;
+          setspeakerMention(awa);
+          mentionpages();
+          // console.log("frie",awa);
+        }
+      })
+      .catch((err) => console.log(err));
   };
   const mentionpages = () => {
     if (typeof window !== "undefined") {
       var authKey = window.localStorage.getItem("keyStore");
     }
     // const [mention,setmention] = useState([]);
-    fetch(SEARCH_MULTIPLE+"/gettags?query="+'pages', {
-        method: "GET",
-         headers: {
-          Accept: "application/json", 
-           Authorization: `${authKey}`,
-         },
-      })
-         .then((resp) => resp.json())
-        .then((result) => {
-          if (result) {
-            let awa =[];
-  
-            for(let i = 0; i<result.data.length ; i++)
-            {
-                awa[i] ={
-                  display: '@'+result.data[i].name ,
-                  link: 'Liked-Pages?'+result.data[i].id,
-                  avatar: result.data[i].display_photo_url,
-                  id: result.data[i].id,
-                  type : 'Page'
-                }
+    fetch(SEARCH_MULTIPLE + "/gettags?query=" + 'pages', {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          let awa = [];
+
+          for (let i = 0; i < result.data.length; i++) {
+            awa[i] = {
+              display: '@' + result.data[i].name,
+              link: 'Liked-Pages?' + result.data[i].id,
+              avatar: result.data[i].display_photo_url,
+              id: result.data[i].id,
+              type: 'Page'
             }
-            let dbc = [...a,...awa]
-            setMentioned(dbc);
-            // setspeakerMention(dbc);
-          //  console.log("ment",mentioned);
           }
-        })
-        .catch((err) => console.log(err));
+          let dbc = [...a, ...awa]
+          setMentioned(dbc);
+          // setspeakerMention(dbc);
+          //  console.log("ment",mentioned);
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
   // console.log("itemsitems ", items)
   return (
     <>
-      <div className="w-[600px] xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">
+      <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">
         <div className="flex gap-2 justify-between items-center px-[22px] py-[14px]">
           <div className="flex gap-2">
-           {items && items.user && items.user.display_photo_url?
-            (
-             <img
-              src={items.user.display_photo_url} 
-              className="object-cover rounded-full z-40 h-[42px] w-[42px]" 
-              alt=""
-             />
-            ):(
-             <Image 
-              src={ProfileAvatar} 
-              className="object-cover rounded-full " 
-              width={45} 
-              height={45} 
-              alt=""
-             />
-            )}
-            
+            {items && items.user && items.user.display_photo_url ?
+              (
+                <img
+                  src={items.user.display_photo_url}
+                  className="object-cover rounded-full z-40 h-[42px] w-[42px]"
+                  alt=""
+                />
+              ) : (
+                <Image
+                  src={ProfileAvatar}
+                  className="object-cover rounded-full "
+                  width={45}
+                  height={45}
+                  alt=""
+                />
+              )}
+
             <div>
               <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
-               {items.user.first_name} {items.user.last_name}
+                {items.user.first_name} {items.user.last_name}
                 <BadgeCheckIcon
                   width={14}
                   height={14}
@@ -630,10 +619,9 @@ const ProfileFeedSingle = (singleItems) => {
                 {({ open }) => (
                   <>
                     <Popover.Button
-                      className={` ${
-                        open ? "" : "text-opacity-90 focus-visible:outline-none"
-                      }`}
-                      // onClick={()=>setEditOn('')}
+                      className={` ${open ? "" : "text-opacity-90 focus-visible:outline-none"
+                        }`}
+                    // onClick={()=>setEditOn('')}
                     >
                       <div className="hover:bg-indigo-100 focus:bg-indigo-100 rounded-full h-8 w-8 flex items-center justify-center">
                         <DotsHorizontalIcon className="w-5 h-5" />
@@ -654,7 +642,7 @@ const ProfileFeedSingle = (singleItems) => {
                             {cardDropdown.map((card) => (
                               <a
                                 key={card.name}
-                                onClick={()=>optionConfirm(items.id,card.name,items)}
+                                onClick={() => optionConfirm(items.id, card.name, items)}
                                 href={card.id}
                                 className="-m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
                               >
@@ -663,7 +651,7 @@ const ProfileFeedSingle = (singleItems) => {
                                 </div>
                                 <div>
                                   <p className="text-sm font-medium text-gray-900 cursor-pointer">
-                                    {card.name} 
+                                    {card.name}
                                   </p>
                                 </div>
                               </a>
@@ -681,84 +669,84 @@ const ProfileFeedSingle = (singleItems) => {
         {/* <div className="border-1 border-gray-100"></div> */}
 
         <div className="px-[22px] py-[14px]">
-          {EditOn==items.id?(
-          //   <textarea
-          //   type="text"
-          //   name="post-text"
-          //   value={EditText}
-          //   onChange={(e) => setEditText(e.target.value)}
-          //   className="w-full pt-0 resize-none border-0 px-0 text-base overflow-y-hidden outline-none focus:outline focus:ring-0"
-          //   placeholder="Start a post?"
-          // />
-          <HashtagMentionInput postText={EditText} setPostText={setEditText} mentioned={mentioned}  tags={tags} settags={settags} hastags={hastags}/>
-          ):(// <p>{items.body ? items.body : ""}</p>
-              items.tags && items.tags.length > 0 || (items.hashtags && items.hashtags.length > 0)?
-                (
-                  <App state={items.body} website={items.tags} hashtags={items.hashtags}/>
-                )
-                :
-                (  
-                  <ReadMore>
-                  {items.body? items.body : ""}
-                  </ReadMore>
-                )
-            )}
-          
-          {items.event && items.event ? (    
+          {EditOn == items.id ? (
+            //   <textarea
+            //   type="text"
+            //   name="post-text"
+            //   value={EditText}
+            //   onChange={(e) => setEditText(e.target.value)}
+            //   className="w-full pt-0 resize-none border-0 px-0 text-base overflow-y-hidden outline-none focus:outline focus:ring-0"
+            //   placeholder="Start a post?"
+            // />
+            <HashtagMentionInput postText={EditText} setPostText={setEditText} mentioned={mentioned} tags={tags} settags={settags} hastags={hastags} />
+          ) : (// <p>{items.body ? items.body : ""}</p>
+            items.tags && items.tags.length > 0 || (items.hashtags && items.hashtags.length > 0) ?
+              (
+                <App state={items.body} website={items.tags} hashtags={items.hashtags} />
+              )
+              :
+              (
+                <ReadMore>
+                  {items.body ? items.body : ""}
+                </ReadMore>
+              )
+          )}
+
+          {items.event && items.event ? (
             <div className="rounded-xl bg-white border border-gray-100 my-2">
               {items.event.cover_photo_url ? (
-                EditOn==items.id?(
+                EditOn == items.id ? (
                   <>
-                    {UP_pic?(
-                        <div className={`relative`}>
-                          <img src={UP_pic} className="aspect-video object-cover rounded-xl mb-4" alt=""/>
-                          <div onClick={handleCoverReomve} className="bg-indigo-100 absolute top-4 right-4 z-50 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full" >
-                            <TrashIcon className="w-5 h-5 text-indigo-600" />
-                          </div>
+                    {UP_pic ? (
+                      <div className={`relative`}>
+                        <img src={UP_pic} className="aspect-video object-cover rounded-xl mb-4" alt="" />
+                        <div onClick={handleCoverReomve} className="bg-indigo-100 absolute top-4 right-4 z-50 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full" >
+                          <TrashIcon className="w-5 h-5 text-indigo-600" />
                         </div>
-                    ):(
+                      </div>
+                    ) : (
                       <>
                         <img
-                        src={EditPic}
-                        className="aspect-video object-cover rounded-t-xl h-[390px] w-[952px]"
-                        alt=""
+                          src={EditPic}
+                          className="aspect-video object-cover rounded-t-xl h-[390px] w-[952px]"
+                          alt=""
                         />
-                         <div className="flex">
-                        <div className="relative flex gap-1 md:gap-2 items-center justify-center">
-                          <div className="relative flex items-center justify-center">
-                            <PhotographIcon
-                              width={22}
-                              height={22}
-                              className="text-indigo-400"
-                            />
-                            <input
-                              type="file"
-                              name="image"
-                              id="image"
-                              className="opacity-0 absolute w-6 h-6 -z-0"
-                              onChange={handleImage}
-                              title={""}
-                              multiple
-                            />
+                        <div className="flex">
+                          <div className="relative flex gap-1 md:gap-2 items-center justify-center">
+                            <div className="relative flex items-center justify-center">
+                              <PhotographIcon
+                                width={22}
+                                height={22}
+                                className="text-indigo-400"
+                              />
+                              <input
+                                type="file"
+                                name="image"
+                                id="image"
+                                className="opacity-0 absolute w-6 h-6 -z-0"
+                                onChange={handleImage}
+                                title={""}
+                                multiple
+                              />
+                            </div>
+                            <div className="font-extralight">Photo Upload</div>
                           </div>
-                          <div className="font-extralight">Photo Upload</div>
-                        </div>
-                        {/* <button className={`w-[100px] h-8 rounded-full flex gap-1 items-center justify-center bg-indigo-400 text-white cursor-pointer`}
+                          {/* <button className={`w-[100px] h-8 rounded-full flex gap-1 items-center justify-center bg-indigo-400 text-white cursor-pointer`}
                             onClick={()=>UpdateFeed(items.id,items.feed_type )}>
                             Update {spinner && true ? <Spinner /> : ""}
                         </button> */}
-                   </div>
-                        
+                        </div>
+
                       </>
                     )}
                   </>
-                  ):(
-                    <img
-                      src={items.event.cover_photo_url}
-                      className="aspect-video object-cover rounded-t-xl h-[390px] w-[952px]"
-                      alt=""
-                    />
-                    )
+                ) : (
+                  <img
+                    src={items.event.cover_photo_url}
+                    className="aspect-video object-cover rounded-t-xl h-[390px] w-[952px]"
+                    alt=""
+                  />
+                )
               ) : (
                 ""
               )}
@@ -767,305 +755,305 @@ const ProfileFeedSingle = (singleItems) => {
                 <div className="flex justify-between items-center">
                   <div>
                     <div className="text-red-400 text-sm">
-                      {EditOn==items.id?(
-                      <div className="">
-                        {/* Event Name */}
-                        <>
-                          <label htmlFor="startdate" className="text-neutral-900 text-sm">
-                            Event Name <span className="text-red-500">*</span>
-                          </label>
-                          <input
-                            placeholder="Event Name"
-                            className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
-                            value={eventame}
-                            onChange={(e)=>seteventname(e.target.value)}
-                          />
-                            
-                        </>
-                        {/*  Radio button */}
-                        <div>
-                          <div className="flex items-center gap-4">
-                            <fieldset className="flex items-center gap-2 pt-3">
-                              <input
-                                checked={event_type=="online"}
-                                type="radio"
-                                name="event-radio"
-                                id="online"
-                                value="online"
-                                onChange={(e) => setevent_type(e.target.value)}
-                              />
-                              <label htmlFor="online">Online</label>
-                            </fieldset>
-                            <fieldset className="flex items-center gap-2 pt-3">
+                      {EditOn == items.id ? (
+                        <div className="">
+                          {/* Event Name */}
+                          <>
+                            <label htmlFor="startdate" className="text-neutral-900 text-sm">
+                              Event Name <span className="text-red-500">*</span>
+                            </label>
                             <input
-                                checked={event_type=="in person"}
-                                type="radio"
-                                name="event-radio"
-                                id="online"
-                                value="in person"
-                                onChange={(e) => setevent_type(e.target.value)}
-                              />
-                              <label htmlFor="in-person">In Person</label>
-                            </fieldset>
+                              placeholder="Event Name"
+                              className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
+                              value={eventame}
+                              onChange={(e) => seteventname(e.target.value)}
+                            />
+
+                          </>
+                          {/*  Radio button */}
+                          <div>
+                            <div className="flex items-center gap-4">
+                              <fieldset className="flex items-center gap-2 pt-3">
+                                <input
+                                  checked={event_type == "online"}
+                                  type="radio"
+                                  name="event-radio"
+                                  id="online"
+                                  value="online"
+                                  onChange={(e) => setevent_type(e.target.value)}
+                                />
+                                <label htmlFor="online">Online</label>
+                              </fieldset>
+                              <fieldset className="flex items-center gap-2 pt-3">
+                                <input
+                                  checked={event_type == "in person"}
+                                  type="radio"
+                                  name="event-radio"
+                                  id="online"
+                                  value="in person"
+                                  onChange={(e) => setevent_type(e.target.value)}
+                                />
+                                <label htmlFor="in-person">In Person</label>
+                              </fieldset>
+                            </div>
                           </div>
-                        </div> 
-                        {/* Selct Zone */}
-                        <>
-                          <label htmlFor="startdate" className="text-neutral-900 text-sm">
-                            Time Zone <span className="text-red-500">*</span>
-                          </label>
-                          {/* <input
+                          {/* Selct Zone */}
+                          <>
+                            <label htmlFor="startdate" className="text-neutral-900 text-sm">
+                              Time Zone <span className="text-red-500">*</span>
+                            </label>
+                            {/* <input
                             placeholder="Event Name"
                             className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
                             value={timezone}
                             onChange={(e)=>settimezone(e.target.value)}
                           /> */}
-                          <TimezoneSelect
-                            value={timezone}
-                            onChange={settimezone}
-                            timezones={{
-                              ...allTimezones,
-                              "America/Lima": "Pittsburgh",
-                            }}
-                          />
-                        </>
-                        {/* Time */}
-                        <div className="flex justify-end ">
-                          <>
-                            <label htmlFor="startTime" className="text-neutral-900 text-sm">
-                              Start Time <span className="text-red-500">*</span>
-                            </label>
-                            <input
-                              type="time"
-                              name="startTime"
-                              value={S_time}
-                              onChange={(e)=>setS_time(e.target.value)}
-                              placeholder="Event Name"
-                              className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
-                              id="startTime"
-                              required="required"
+                            <TimezoneSelect
+                              value={timezone}
+                              onChange={settimezone}
+                              timezones={{
+                                ...allTimezones,
+                                "America/Lima": "Pittsburgh",
+                              }}
                             />
                           </>
-                          <>
-                            <label htmlFor="startTime" className="text-neutral-900 text-sm">
-                            End Time <span className="text-red-500">*</span>
-                            </label>
-                            <input
-                              type="time"
-                              name="startTime"
-                              value={E_time}
-                              onChange={(e)=>setE_time(e.target.value)}
-                              placeholder="Event Name"
-                              className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
-                              id="startTime"
-                              required="required"
-                            />
-                          </>
-                        </div>
-                        {/* Date */}
-                        <div className="flex justify-end ">
-                          <>
-                            <label htmlFor="startdate" className="text-neutral-900 text-sm">
-                              Start Date <span className="text-red-500">*</span>
-                            </label>
-                            <input
-                              type="date"
-                              name="startdate"
-                              // value={S_date}
-                              defaultValue={S_date}
-                              onChange={(e)=>setS_date(e.target.value)}
-                              placeholder="dd-mm-yyyy"
-                              className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
-                              id="startTime"
-                            />
-                          </>
-                          <>
-                            <label htmlFor="endDate" className="text-neutral-900 text-sm">
-                            End Date <span className="text-red-500">*</span>
-                            </label>
-                            <input
-                              type="date"
-                              name="endDate"
-                              value={E_date}
-                              onChange={(e)=>setE_date(e.target.value)}
-                              placeholder="dd-mm-yyyy"
-                              className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
-                              id="startTime"
-                            />
-                          </>
-                        </div>
-
-                        {event_type=="online"?(
-                          ''
-                        ):(
-                          <>
+                          {/* Time */}
+                          <div className="flex justify-end ">
                             <>
-                              <label htmlFor="startdate" className="text-neutral-900 text-sm">
-                              Adress<span className="text-red-500">*</span>
+                              <label htmlFor="startTime" className="text-neutral-900 text-sm">
+                                Start Time <span className="text-red-500">*</span>
                               </label>
                               <input
-                                placeholder="Event Adress"
+                                type="time"
+                                name="startTime"
+                                value={S_time}
+                                onChange={(e) => setS_time(e.target.value)}
+                                placeholder="Event Name"
                                 className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
-                                value={address}
-                                onChange={(e)=>setaddress(e.target.value)}
+                                id="startTime"
+                                required="required"
                               />
                             </>
                             <>
-                              <label htmlFor="startdate" className="text-neutral-900 text-sm">
-                              Venue <span className="text-red-500">*</span>
+                              <label htmlFor="startTime" className="text-neutral-900 text-sm">
+                                End Time <span className="text-red-500">*</span>
                               </label>
                               <input
-                                placeholder="Event Venue"
+                                type="time"
+                                name="startTime"
+                                value={E_time}
+                                onChange={(e) => setE_time(e.target.value)}
+                                placeholder="Event Name"
                                 className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
-                                value={venue}
-                                onChange={(e)=>setvenue(e.target.value)}
+                                id="startTime"
+                                required="required"
                               />
-                            </> 
-                          </>
-                        )}
+                            </>
+                          </div>
+                          {/* Date */}
+                          <div className="flex justify-end ">
+                            <>
+                              <label htmlFor="startdate" className="text-neutral-900 text-sm">
+                                Start Date <span className="text-red-500">*</span>
+                              </label>
+                              <input
+                                type="date"
+                                name="startdate"
+                                // value={S_date}
+                                defaultValue={S_date}
+                                onChange={(e) => setS_date(e.target.value)}
+                                placeholder="dd-mm-yyyy"
+                                className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
+                                id="startTime"
+                              />
+                            </>
+                            <>
+                              <label htmlFor="endDate" className="text-neutral-900 text-sm">
+                                End Date <span className="text-red-500">*</span>
+                              </label>
+                              <input
+                                type="date"
+                                name="endDate"
+                                value={E_date}
+                                onChange={(e) => setE_date(e.target.value)}
+                                placeholder="dd-mm-yyyy"
+                                className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
+                                id="startTime"
+                              />
+                            </>
+                          </div>
 
-                        {/* External Event Link */}
-                        <>
-                          <label htmlFor="startdate" className="text-neutral-900 text-sm">
-                            External Event Link <span className="text-red-500">*</span>
-                          </label>
-                          <input
-                            placeholder="Event Event Link"
-                            className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
-                            value={eventlink}
-                            onChange={(e)=>seteventlink(e.target.value)}
-                          />
-                           
-                        </>
-                        {/* total Seat */}
-                        <>
-                          <label htmlFor="startdate" className="text-neutral-900 text-sm">
-                           Total Seat <span className="text-red-500">*</span>
-                          </label>
-                          <input
-                            placeholder="Enter Seat"
-                            className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
-                            value={seats}
-                            onChange={(e)=>setseats(e.target.value)}
-                          />
-                           
-                        </>
-                        {/* Speaker */}
-                        <>
-                          <label htmlFor="startdate" className="text-neutral-900 text-sm">
-                            Speaker <span className="text-red-500">*</span>
-                          </label>
-                          {/* <input
+                          {event_type == "online" ? (
+                            ''
+                          ) : (
+                            <>
+                              <>
+                                <label htmlFor="startdate" className="text-neutral-900 text-sm">
+                                  Adress<span className="text-red-500">*</span>
+                                </label>
+                                <input
+                                  placeholder="Event Adress"
+                                  className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
+                                  value={address}
+                                  onChange={(e) => setaddress(e.target.value)}
+                                />
+                              </>
+                              <>
+                                <label htmlFor="startdate" className="text-neutral-900 text-sm">
+                                  Venue <span className="text-red-500">*</span>
+                                </label>
+                                <input
+                                  placeholder="Event Venue"
+                                  className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
+                                  value={venue}
+                                  onChange={(e) => setvenue(e.target.value)}
+                                />
+                              </>
+                            </>
+                          )}
+
+                          {/* External Event Link */}
+                          <>
+                            <label htmlFor="startdate" className="text-neutral-900 text-sm">
+                              External Event Link <span className="text-red-500">*</span>
+                            </label>
+                            <input
+                              placeholder="Event Event Link"
+                              className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
+                              value={eventlink}
+                              onChange={(e) => seteventlink(e.target.value)}
+                            />
+
+                          </>
+                          {/* total Seat */}
+                          <>
+                            <label htmlFor="startdate" className="text-neutral-900 text-sm">
+                              Total Seat <span className="text-red-500">*</span>
+                            </label>
+                            <input
+                              placeholder="Enter Seat"
+                              className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
+                              value={seats}
+                              onChange={(e) => setseats(e.target.value)}
+                            />
+
+                          </>
+                          {/* Speaker */}
+                          <>
+                            <label htmlFor="startdate" className="text-neutral-900 text-sm">
+                              Speaker <span className="text-red-500">*</span>
+                            </label>
+                            {/* <input
                             placeholder="Event Name"
                             className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
                             value={eventame}
                             onChange={(e)=>seteventname(e.target.value)}
                           /> */}
-                           <HashtagMentionInput postText={speakerText} setPostText={setspeakerText} mentioned={speakerMention}  tags={speakertags} settags={setspeakertags} hastags={hastags}/>
-            
-                            
-                            
-                        </>
-                      </div >
-                      ):(
-                      <div className="py-3 px-3">
-                        <div className="flex justify-between items-center">
-                          <div>
-                            <span>{items.event.start_time}</span>
-                            <span>-{items.event.end_time}</span>&nbsp;
-                            <span>{items.event.start_date}</span>&nbsp;
-                            {/* Event Name/title */}
-                            <div className="font-semibold text-lg">
-                              {items.event.name}
+                            <HashtagMentionInput postText={speakerText} setPostText={setspeakerText} mentioned={speakerMention} tags={speakertags} settags={setspeakertags} hastags={hastags} />
+
+
+
+                          </>
+                        </div >
+                      ) : (
+                        <div className="py-3 px-3">
+                          <div className="flex justify-between items-center">
+                            <div>
+                              <span>{items.event.start_time}</span>
+                              <span>-{items.event.end_time}</span>&nbsp;
+                              <span>{items.event.start_date}</span>&nbsp;
+                              {/* Event Name/title */}
+                              <div className="font-semibold text-lg">
+                                {items.event.name}
+                              </div>
+                              {/* Event type online/offline/in_persone */}
+                              <div className="flex items-center gap-2">
+                                <CalendarIcon
+                                  width={16}
+                                  height={16}
+                                  className="text-gray-900"
+                                />
+                                <span className="text-gray-900 text-sm">
+                                  {items.event.event_type === "online" ? (
+                                    items.event.event_type
+                                  ) : ('In Person')}
+                                </span>
+                              </div>
+                              {/* Venue and adress */}
+                              {items.event.event_type === "online" ? ('') : (
+                                <>
+                                  {/* Adress */}
+                                  {items.event.address ? (
+                                    <div className="flex items-center gap-2">
+                                      <CalendarIcon
+                                        width={16}
+                                        height={16}
+                                        className="text-gray-900"
+                                      />
+                                      <span className="text-gray-900 text-sm">
+                                        {items.event.address}
+                                      </span>
+                                    </div>
+                                  ) : ('')}
+
+                                  {/* Venue */}
+                                  {items.event.venue ? (
+                                    <div className="flex items-center gap-2">
+                                      <CalendarIcon
+                                        width={16}
+                                        height={16}
+                                        className="text-gray-900"
+                                      />
+                                      <span className="text-gray-900 text-sm">
+                                        {items.event.venue}
+                                      </span>
+                                    </div>
+                                  ) : ('')}
+
+                                </>
+                              )}
+                              {/*  Event link */}
+                              <div className="flex items-center gap-2">
+                                <CalendarIcon
+                                  width={16}
+                                  height={16}
+                                  className="text-gray-900"
+                                />
+                                <span className="text-gray-900 text-sm">
+                                  {items.event.event_link}
+                                </span>
+                              </div>
+                              {/* Speaker  */}
+                              {items.event.tags && items.event.tags.length > 0 ?
+                                <App state={items.event.speaker} website={items.event.tags} />
+                                : items.event.body ? items.event.body : ""
+                              }
+                              {/* Remaining Seats */}
+                              <div className="text-gray-900 flex gap-2">
+                                <CalendarIcon
+                                  width={16}
+                                  height={16}
+                                  className="text-gray-900"
+                                />
+                                <span>{items.event.total_seats - items.event.booked_seat}</span>
+                              </div>
                             </div>
-                            {/* Event type online/offline/in_persone */}
-                            <div className="flex items-center gap-2">
-                              <CalendarIcon
-                                width={16}
-                                height={16}
-                                className="text-gray-900"
-                              />
-                              <span className="text-gray-900 text-sm">
-                                {items.event.event_type=== "online"?(
-                                  items.event.event_type
-                                ):('In Person')}
-                              </span>
-                            </div>
-                            {/* Venue and adress */}
-                            {items.event.event_type=== "online"?(''):(
-                              <>
-                                {/* Adress */}
-                                {items.event.address?(
-                                  <div className="flex items-center gap-2">
-                                    <CalendarIcon
-                                      width={16}
-                                      height={16}
-                                      className="text-gray-900"
-                                    />
-                                    <span className="text-gray-900 text-sm">
-                                      {items.event.address}
-                                    </span>
-                                  </div>
-                                ):('')}
-                               
-                               {/* Venue */}
-                               {items.event.venue?(
-                                  <div className="flex items-center gap-2">
-                                    <CalendarIcon
-                                      width={16}
-                                      height={16}
-                                      className="text-gray-900"
-                                    />
-                                    <span className="text-gray-900 text-sm">
-                                      {items.event.venue}
-                                    </span>
-                                  </div>
-                               ):('')}
-                                
-                              </>
-                            )}
-                            {/*  Event link */}
-                            <div className="flex items-center gap-2">
-                              <CalendarIcon
-                                width={16}
-                                height={16}
-                                className="text-gray-900"
-                              />
-                              <span className="text-gray-900 text-sm">
-                                {items.event.event_link}
-                              </span>
-                            </div>
-                            {/* Speaker  */}
-                            {items.event.tags && items.event.tags.length > 0?
-                              <App state={items.event.speaker} website={items.event.tags} /> 
-                              : items.event.body? items.event.body : ""
-                            }
-                            {/* Remaining Seats */}
-                            <div className="text-gray-900 flex gap-2">
-                              <CalendarIcon
-                                width={16}
-                                height={16}
-                                className="text-gray-900"
-                              />
-                              <span>{items.event.total_seats - items.event.booked_seat}</span>
-                            </div>
+                            <Link
+                              href={{
+                                pathname: "/events-design/event-view",
+                                query: items.id,
+                              }}
+                            >
+                              <a className="text-sm text-gray-600 cursor-pointer flex items-center border border-gray-100 rounded-full py-1 px-3">
+                                View Event
+                              </a>
+                            </Link>
                           </div>
-                          <Link 
-                            href={{
-                            pathname: "/events-design/event-view",
-                            query: items.id,
-                          }}
-                          >
-                            <a className="text-sm text-gray-600 cursor-pointer flex items-center border border-gray-100 rounded-full py-1 px-3">
-                              View Event
-                            </a>
-                          </Link>
-                        </div>
-                        
 
-                        
 
-                      </div>)}
+
+
+                        </div>)}
                     </div>
                     {/* <div className="text-gray-900"></div> */}
                   </div>
@@ -1075,52 +1063,52 @@ const ProfileFeedSingle = (singleItems) => {
           ) : (
             ""
           )}
-          
-          {items.feed_type && items.feed_type === "video_feed" ? (
-            EditOn==items.id?(
-              <>
-                {UP_pic?(""):
-                (
-                  <>
-                    <video controls className="aspect-video w-full rounded-xl my-4">
-                      <source src={EditPic} type="video/mp4" />
-                    </video>
-                    <div className="flex gap-5">
-                      <div className="relative flex gap-1 md:gap-2 items-center justify-center">
-                        <div className="relative flex items-center justify-center">
-                          <VideoCameraIcon
-                            width={22}
-                            height={22}
-                            className="text-indigo-400"
-                          />
 
-                          <input
-                            type={`file`}
-                            name="video"
-                            id="video"
-                            onChange={handleVideo}
-                            title={""}
-                            className="opacity-0 absolute w-6 h-6 -z-0"
-                          />
+          {items.feed_type && items.feed_type === "video_feed" ? (
+            EditOn == items.id ? (
+              <>
+                {UP_pic ? ("") :
+                  (
+                    <>
+                      <video controls className="aspect-video w-full rounded-xl my-4">
+                        <source src={EditPic} type="video/mp4" />
+                      </video>
+                      <div className="flex gap-5">
+                        <div className="relative flex gap-1 md:gap-2 items-center justify-center">
+                          <div className="relative flex items-center justify-center">
+                            <VideoCameraIcon
+                              width={22}
+                              height={22}
+                              className="text-indigo-400"
+                            />
+
+                            <input
+                              type={`file`}
+                              name="video"
+                              id="video"
+                              onChange={handleVideo}
+                              title={""}
+                              className="opacity-0 absolute w-6 h-6 -z-0"
+                            />
+                          </div>
+                          <div className="font-extralight">Video Upload</div>
                         </div>
-                        <div className="font-extralight">Video Upload</div>
+                        <button className={`w-[100px] h-8 rounded-full flex gap-1 items-center justify-center bg-indigo-400 text-white cursor-pointer`}
+                          onClick={() => UpdateFeed(items.id, items.feed_type)}>
+                          Update {spinner && true ? <Spinner /> : ""}
+                        </button>
                       </div>
-                      <button className={`w-[100px] h-8 rounded-full flex gap-1 items-center justify-center bg-indigo-400 text-white cursor-pointer`}
-                        onClick={()=>UpdateFeed(items.id,items.feed_type )}>
-                        Update {spinner && true ? <Spinner /> : ""}
-                      </button>
-                    </div>
-                  </>                
-                )}
+                    </>
+                  )}
               </>
-            ):(
-            <>
-              <video controls className="aspect-video w-full rounded-xl my-4">
-                <source src={UP_pic? UP_pic : items.attachments_link} type="video/mp4" />
-              </video>
-            </>)
+            ) : (
+              <>
+                <video controls className="aspect-video w-full rounded-xl my-4">
+                  <source src={UP_pic ? UP_pic : items.attachments_link} type="video/mp4" />
+                </video>
+              </>)
           ) : ("")}
-          {EditOn && UP_pic && items.feed_type && items.feed_type === "video_feed"?(
+          {EditOn && UP_pic && items.feed_type && items.feed_type === "video_feed" ? (
             <>
               <div className="relative">
                 <video autoPlay="autoplay" controls className="aspect-video rounded-xl mb-4">
@@ -1150,75 +1138,75 @@ const ProfileFeedSingle = (singleItems) => {
                   <div className="font-extralight">Video Upload</div>
                 </div>
                 <button className={`w-[100px] h-8 rounded-full flex gap-1 items-center justify-center bg-indigo-400 text-white cursor-pointer`}
-                  onClick={()=>UpdateFeed(items.id,items.feed_type )}>
+                  onClick={() => UpdateFeed(items.id, items.feed_type)}>
                   Update {spinner && true ? <Spinner /> : ""}
                 </button>
               </div>
             </>
-          ):(
-          ""           
+          ) : (
+            ""
           )}
 
 
           {items.attachments_link && items.feed_type === "image_feed" ? (
-            EditOn==items.id?(
+            EditOn == items.id ? (
               <>
-                {UP_pic?(
+                {UP_pic ? (
                   ''
-                ):(
+                ) : (
                   <>
                     <img
                       src={EditPic}
                       className="aspect-video object-cover rounded-t-xl h-[390px] w-[952px]"
                       alt=""
                     />
-                   <div className="flex">
-                    <div className="relative flex gap-1 md:gap-2 items-center justify-center">
-                      <div className="relative flex items-center justify-center">
-                        <PhotographIcon
-                          width={22}
-                          height={22}
-                          className="text-indigo-400"
-                        />
-                        <input
-                          type="file"
-                          name="image"
-                          id="image"
-                          className="opacity-0 absolute w-6 h-6 -z-0"
-                          onChange={handleImage}
-                          title={""}
-                          multiple
-                        />
+                    <div className="flex">
+                      <div className="relative flex gap-1 md:gap-2 items-center justify-center">
+                        <div className="relative flex items-center justify-center">
+                          <PhotographIcon
+                            width={22}
+                            height={22}
+                            className="text-indigo-400"
+                          />
+                          <input
+                            type="file"
+                            name="image"
+                            id="image"
+                            className="opacity-0 absolute w-6 h-6 -z-0"
+                            onChange={handleImage}
+                            title={""}
+                            multiple
+                          />
+                        </div>
+                        <div className="font-extralight">Photo Upload</div>
                       </div>
-                      <div className="font-extralight">Photo Upload</div>
-                    </div>
-                    <button className={`w-[100px] h-8 rounded-full flex gap-1 items-center justify-center bg-indigo-400 text-white cursor-pointer`}
-                        onClick={()=>UpdateFeed(items.id,items.feed_type )}>
+                      <button className={`w-[100px] h-8 rounded-full flex gap-1 items-center justify-center bg-indigo-400 text-white cursor-pointer`}
+                        onClick={() => UpdateFeed(items.id, items.feed_type)}>
                         Update {spinner && true ? <Spinner /> : ""}
-                    </button>
-                   </div>
+                      </button>
+                    </div>
                   </>
                 )}
               </>
-            ):(
-            <div className="mt-[14px]">
-              <img
-                src={items.attachments_link}
-                width={952}
-                height={240}
-                layout="responsive"
-                className="aspect-video object-cover rounded-lg mx-auto h-[390px]"
-                alt=""
-              />
-            </div>)
+            ) : (
+              <div className="mt-[14px]">
+                <img
+                  src={items.attachments_link}
+                  width={952}
+                  height={240}
+                  layout="responsive"
+                  className="aspect-video object-cover rounded-lg mx-auto h-[390px]"
+                  alt=""
+                />
+              </div>)
           ) : (
             ""
           )}
-          
-          {UP_pic && items.attachments_link && items.feed_type === "image_feed" ?(
+
+          {UP_pic && items.attachments_link && items.feed_type === "image_feed" ? (
             <>
               <div className={`relative`}>
-                <img src={UP_pic} className="aspect-video object-cover rounded-xl mb-4" alt=""/>
+                <img src={UP_pic} className="aspect-video object-cover rounded-xl mb-4" alt="" />
                 <div onClick={handleCoverReomve} className="bg-indigo-100 absolute top-4 right-4 z-50 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full" >
                   <TrashIcon className="w-5 h-5 text-indigo-600" />
                 </div>
@@ -1244,262 +1232,262 @@ const ProfileFeedSingle = (singleItems) => {
                   <div className="font-extralight">Photo Upload</div>
                 </div>
                 <button className={`w-[100px] h-8 rounded-full flex gap-1 items-center justify-center bg-indigo-400 text-white cursor-pointer`}
-                    onClick={()=>UpdateFeed(items.id,items.feed_type )}>
-                    Update {spinner && true ? <Spinner /> : ""}
+                  onClick={() => UpdateFeed(items.id, items.feed_type)}>
+                  Update {spinner && true ? <Spinner /> : ""}
                 </button>
               </div>
             </>
-          ):('')}
-         
-         
+          ) : ('')}
+
+
           {items.feed_type && items.feed_type === "share" ? (
-          <div className="border p-4 m-2">
-            <div className="flex gap-2 items-center">
-              
-              {items && items.share.page?(
-                items.share.page.display_photo_url?(
-                  <img
-                    src={items.share.page.display_photo_url} 
-                    className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
-                    width={45} 
-                    height={45} 
-                    alt="" 
-                  />
-                ):(
-                  <Image 
-                    src={PagePhoto} 
-                    className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
-                    width={45} 
-                    height={45} 
-                    alt="" 
-                  />
-                )
-              ):(
-                items && items.share.user && items.share.user.display_photo_url?(
-                  <img
-                    src={items.share.user.display_photo_url} 
-                    className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
-                    width={45} 
-                    height={45} 
-                    alt="" 
-                  />
-                ):(
-                  <Image 
-                    src={ProfileAvatar} 
-                    width={45} 
-                    height={45} 
-                    alt="" 
-                  />
-                )
-              )}
-            
-              <div>
-                {items.share.page?(
-                  <>
-                  <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
-                    
-                    <div className="capitalize">{items.share.page.name}</div>
-                  </h4>
-                  <div className="font-light text-gray-900 opacity-[0.8] italic">  Page Post</div>
-                  </>
-                  
-                ):(
-                  items.share.group?(
-                    <>
-                      <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
-                        {items.share.user.first_name} {items.share.user.last_name}
-                        <ChevronRightIcon
-                          width={24}
-                          height={24}
-                          className="text-indigo-400"
-                        />
-                        <div className="capitalize">{items.share.group.title}</div>
-                      </h4>
-                      <div className="font-light text-gray-900 opacity-[0.8] italic">Group Post</div>
-                    
-                    </>
-                  ):(
-                  <>
-                    <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
-                      {items.share.user.first_name} {items.share.user.last_name}
-                      <BadgeCheckIcon
-                        width={14}
-                        height={14}
-                        className="text-indigo-400"
-                      />
-                    </h4>
-                    <div className="font-light text-gray-900 opacity-[0.8]">
-                      {items.share.user.city?items.share.user.city+", ":""}{items.share.user.state?items.share.user.state+", ":""} {items.share.user.country}
-                    </div>
-                  </>
+            <div className="border p-4 m-2">
+              <div className="flex gap-2 items-center">
+
+                {items && items.share.page ? (
+                  items.share.page.display_photo_url ? (
+                    <img
+                      src={items.share.page.display_photo_url}
+                      className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
+                      width={45}
+                      height={45}
+                      alt=""
+                    />
+                  ) : (
+                    <Image
+                      src={PagePhoto}
+                      className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
+                      width={45}
+                      height={45}
+                      alt=""
+                    />
+                  )
+                ) : (
+                  items && items.share.user && items.share.user.display_photo_url ? (
+                    <img
+                      src={items.share.user.display_photo_url}
+                      className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
+                      width={45}
+                      height={45}
+                      alt=""
+                    />
+                  ) : (
+                    <Image
+                      src={ProfileAvatar}
+                      width={45}
+                      height={45}
+                      alt=""
+                    />
                   )
                 )}
-                
+
+                <div>
+                  {items.share.page ? (
+                    <>
+                      <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
+
+                        <div className="capitalize">{items.share.page.name}</div>
+                      </h4>
+                      <div className="font-light text-gray-900 opacity-[0.8] italic">  Page Post</div>
+                    </>
+
+                  ) : (
+                    items.share.group ? (
+                      <>
+                        <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
+                          {items.share.user.first_name} {items.share.user.last_name}
+                          <ChevronRightIcon
+                            width={24}
+                            height={24}
+                            className="text-indigo-400"
+                          />
+                          <div className="capitalize">{items.share.group.title}</div>
+                        </h4>
+                        <div className="font-light text-gray-900 opacity-[0.8] italic">Group Post</div>
+
+                      </>
+                    ) : (
+                      <>
+                        <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
+                          {items.share.user.first_name} {items.share.user.last_name}
+                          <BadgeCheckIcon
+                            width={14}
+                            height={14}
+                            className="text-indigo-400"
+                          />
+                        </h4>
+                        <div className="font-light text-gray-900 opacity-[0.8]">
+                          {items.share.user.city ? items.share.user.city + ", " : ""}{items.share.user.state ? items.share.user.state + ", " : ""} {items.share.user.country}
+                        </div>
+                      </>
+                    )
+                  )}
+
+                </div>
               </div>
-            </div>
-            <div className="p-2 pb-2">
-              {items.share.tags && items.share.tags.length > 0 || (items.share.hashtags && items.share.hashtags.length > 0) ?
-              <App state={items.share.body} website={items.share.tags} hashtags={items.share.hashtags} />
-              : <ReadMore>
-                {items.share.body ? items.share.body : ""}
-              </ReadMore>}
-            </div>
-            <div className="mt-[14px] mx-auto">
-              {items.share.event && items.share.event ? (
-                <Link
-                  href={{
-                    pathname: "/events-design/event-view",
-                    query: items.id,
-                  }} >
-                  <a>
-                    <div className="rounded-xl bg-white border border-gray-100 my-2">
-                      {items.share.event.cover_photo_url ? (
-                        <img
-                          src={items.share.event.cover_photo_url}
-                          className="aspect-video object-cover rounded-t-xl h-[390px] w-[952px]"
-                          alt=""
-                        />
-                      ) : (
-                        ""
-                      )}
-                      <div className="py-3 px-3">
-                        <div className="flex justify-between items-center">
-                          <div>
-                            {/* Date & Time */}
-                            <div className="text-red-400 text-sm">
-                              <span>{items.share.event.start_time}</span>
-                              <span>-{items.share.event.end_time}</span>&nbsp;
-                              <span>{items.share.event.start_date}</span>&nbsp;
-                            </div>
-                            {/* Name */}
-                            <div className="font-semibold text-lg">
-                              {items.share.event.name}
-                            </div>
-                            {/* Event-type */}
-                            <div className="flex items-center gap-2">
-                              <CalendarIcon
-                                width={16}
-                                height={16}
-                                className="text-gray-900"
-                              />
-                              <span className="text-gray-900 text-sm">
-                                {items.share.event.event_type}
-                              </span>
-                            </div>
-                            {items.share.event.event_type === "online" ? ('') : (
-                              <>
-                                {/* Adress */}
-                                {items.share.event.address ? (
-                                  <div className="flex items-center gap-2">
-                                    <CalendarIcon
-                                      width={16}
-                                      height={16}
-                                      className="text-gray-900"
-                                    />
-                                    <span className="text-gray-900 text-sm">
-                                      {items.share.event.address}
-                                    </span>
-                                  </div>
-                                ) : ('')}
+              <div className="p-2 pb-2">
+                {items.share.tags && items.share.tags.length > 0 || (items.share.hashtags && items.share.hashtags.length > 0) ?
+                  <App state={items.share.body} website={items.share.tags} hashtags={items.share.hashtags} />
+                  : <ReadMore>
+                    {items.share.body ? items.share.body : ""}
+                  </ReadMore>}
+              </div>
+              <div className="mt-[14px] mx-auto">
+                {items.share.event && items.share.event ? (
+                  <Link
+                    href={{
+                      pathname: "/events-design/event-view",
+                      query: items.id,
+                    }} >
+                    <a>
+                      <div className="rounded-xl bg-white border border-gray-100 my-2">
+                        {items.share.event.cover_photo_url ? (
+                          <img
+                            src={items.share.event.cover_photo_url}
+                            className="aspect-video object-cover rounded-t-xl h-[390px] w-[952px]"
+                            alt=""
+                          />
+                        ) : (
+                          ""
+                        )}
+                        <div className="py-3 px-3">
+                          <div className="flex justify-between items-center">
+                            <div>
+                              {/* Date & Time */}
+                              <div className="text-red-400 text-sm">
+                                <span>{items.share.event.start_time}</span>
+                                <span>-{items.share.event.end_time}</span>&nbsp;
+                                <span>{items.share.event.start_date}</span>&nbsp;
+                              </div>
+                              {/* Name */}
+                              <div className="font-semibold text-lg">
+                                {items.share.event.name}
+                              </div>
+                              {/* Event-type */}
+                              <div className="flex items-center gap-2">
+                                <CalendarIcon
+                                  width={16}
+                                  height={16}
+                                  className="text-gray-900"
+                                />
+                                <span className="text-gray-900 text-sm">
+                                  {items.share.event.event_type}
+                                </span>
+                              </div>
+                              {items.share.event.event_type === "online" ? ('') : (
+                                <>
+                                  {/* Adress */}
+                                  {items.share.event.address ? (
+                                    <div className="flex items-center gap-2">
+                                      <CalendarIcon
+                                        width={16}
+                                        height={16}
+                                        className="text-gray-900"
+                                      />
+                                      <span className="text-gray-900 text-sm">
+                                        {items.share.event.address}
+                                      </span>
+                                    </div>
+                                  ) : ('')}
 
-                                {/* Venue */}
-                                {items.share.event.venue ? (
-                                  <div className="flex items-center gap-2">
-                                    <CalendarIcon
-                                      width={16}
-                                      height={16}
-                                      className="text-gray-900"
-                                    />
-                                    <span className="text-gray-900 text-sm">
-                                      {items.share.event.venue}
-                                    </span>
-                                  </div>
-                                ) : ('')}
+                                  {/* Venue */}
+                                  {items.share.event.venue ? (
+                                    <div className="flex items-center gap-2">
+                                      <CalendarIcon
+                                        width={16}
+                                        height={16}
+                                        className="text-gray-900"
+                                      />
+                                      <span className="text-gray-900 text-sm">
+                                        {items.share.event.venue}
+                                      </span>
+                                    </div>
+                                  ) : ('')}
 
-                              </>
-                            )}
-                            {/* Link */}
-                            <div className="text-gray-900 flex gap-2">
-                              <CalendarIcon
-                                width={16}
-                                height={16}
-                                className="text-gray-900"
-                              />
-                              <span>{items.share.event.event_link}</span>
+                                </>
+                              )}
+                              {/* Link */}
+                              <div className="text-gray-900 flex gap-2">
+                                <CalendarIcon
+                                  width={16}
+                                  height={16}
+                                  className="text-gray-900"
+                                />
+                                <span>{items.share.event.event_link}</span>
+                              </div>
+                              {/* Speaker */}
+                              <div className="text-gray-900">
+                                {items.share.event.tags && items.share.event.tags.length > 0 ?
+                                  <App state={items.share.event.speaker} website={items.share.event.tags} />
+                                  : items.share.event.body ? items.share.event.body : ""}
+                              </div>
                             </div>
-                            {/* Speaker */}
-                            <div className="text-gray-900">
-                              {items.share.event.tags && items.share.event.tags.length > 0 ?
-                                <App state={items.share.event.speaker} website={items.share.event.tags} />
-                                : items.share.event.body ? items.share.event.body : ""}
-                            </div>
+                            <Link
+                              href={{
+                                pathname: "/events-design/event-view",
+                                query: items.id,
+                              }}
+                            >
+                              <a className="text-sm text-gray-600 cursor-pointer flex items-center border border-gray-100 rounded-full py-1 px-3">
+                                View Event
+                              </a>
+                            </Link>
                           </div>
-                          <Link
-                            href={{
-                              pathname: "/events-design/event-view",
-                              query: items.id,
-                            }}
-                          >
-                            <a className="text-sm text-gray-600 cursor-pointer flex items-center border border-gray-100 rounded-full py-1 px-3">
-                              View Event
-                            </a>
-                          </Link>
                         </div>
                       </div>
-                    </div>
-                  </a>
-                </Link>
-              ) : (
-                ""
-              )}
-              {items.share.feed_type && items.share.feed_type === "video_feed" ? (
-                <Link
-                  href={{
-                    pathname: "/events-design/event-view",
-                    query: items.id,
-                  }} >
-                  <a>
-                    <video controls className="aspect-video w-full rounded-xl my-4">
-                      <source src={items.share.attachments_link} type="video/mp4" />
-                    </video>
-                  </a>
-                </Link>
-              ) : (
-                ""
-              )}
-              {items.share.attachments_link && items.share.feed_type === "image_feed" ? (
-                <Link
-                  href={{
-                    pathname: "/events-design/event-view",
-                    query: items.id,
-                  }} >
-                  <a>
-                    <div className="mt-[14px]">
-                      <img
-                        src={items.share.attachments_link}
-                        width={952}
-                        height={240}
-                        layout="responsive"
-                        className="aspect-video object-cover rounded-lg mx-auto h-[390px]"
-                        alt=""
-                      />
-                    </div>
-                  </a>
-                </Link>
-              ) : (
-                ""
-              )}
-            </div>
-          </div>):("")}
+                    </a>
+                  </Link>
+                ) : (
+                  ""
+                )}
+                {items.share.feed_type && items.share.feed_type === "video_feed" ? (
+                  <Link
+                    href={{
+                      pathname: "/events-design/event-view",
+                      query: items.id,
+                    }} >
+                    <a>
+                      <video controls className="aspect-video w-full rounded-xl my-4">
+                        <source src={items.share.attachments_link} type="video/mp4" />
+                      </video>
+                    </a>
+                  </Link>
+                ) : (
+                  ""
+                )}
+                {items.share.attachments_link && items.share.feed_type === "image_feed" ? (
+                  <Link
+                    href={{
+                      pathname: "/events-design/event-view",
+                      query: items.id,
+                    }} >
+                    <a>
+                      <div className="mt-[14px]">
+                        <img
+                          src={items.share.attachments_link}
+                          width={952}
+                          height={240}
+                          layout="responsive"
+                          className="aspect-video object-cover rounded-lg mx-auto h-[390px]"
+                          alt=""
+                        />
+                      </div>
+                    </a>
+                  </Link>
+                ) : (
+                  ""
+                )}
+              </div>
+            </div>) : ("")}
 
           {/* Update Button */}
           <div>
-            {EditOn==items.id && (items.feed_type=="share" || items.feed_type=="basic" || items.feed_type=="event_feed")?(
+            {EditOn == items.id && (items.feed_type == "share" || items.feed_type == "basic" || items.feed_type == "event_feed") ? (
               <button className={`w-[100px] h-8 rounded-full flex gap-1 items-center justify-center bg-indigo-400 text-white cursor-pointer`}
-                  onClick={()=>UpdateFeed(items.id,items.feed_type )}>
-                  Update {spinner && true ? <Spinner /> : ""}
+                onClick={() => UpdateFeed(items.id, items.feed_type)}>
+                Update {spinner && true ? <Spinner /> : ""}
               </button>
-            ):('')}
+            ) : ('')}
           </div>
           <div className="flex justify-between mt-[14px]">
             <div className="flex gap-6">
@@ -1539,7 +1527,7 @@ const ProfileFeedSingle = (singleItems) => {
                   height={24}
                   className="text-gray-600 cursor-pointer"
                 />
-                <span className="font-light text-gray-600 cursor-pointer">{comments_count>=0 && is_deleted==true?(comments_count):(items.comments_count==0?(0):(items.comments_count))}</span>
+                <span className="font-light text-gray-600 cursor-pointer">{comments_count >= 0 && is_deleted == true ? (comments_count) : (items.comments_count == 0 ? (0) : (items.comments_count))}</span>
               </div>
             </div>
             <div className="flex gap-6">
@@ -1577,13 +1565,13 @@ const ProfileFeedSingle = (singleItems) => {
                   </>
                 )}
               </div>
-              <ShareModal items={items && items.feed_type=="share"?(items.share):(items)} currentuser={singleItems.currentuser}/>
+              <ShareModal items={items && items.feed_type == "share" ? (items.share) : (items)} currentuser={singleItems.currentuser} />
             </div>
           </div>
           <Fragment>
-            <PostComments news_feed_id={items.id} setComments={setComments} setComments_count={setComments_count} setIs_deleted={setIs_deleted} dp={items.user.display_photo_url} recentactivity={singleItems.recentactivity} setRecentActivity={singleItems.setRecentActivity}/>
+            <PostComments news_feed_id={items.id} setComments={setComments} setComments_count={setComments_count} setIs_deleted={setIs_deleted} dp={items.user.display_photo_url} recentactivity={singleItems.recentactivity} setRecentActivity={singleItems.setRecentActivity} />
             <FilterComments news_feed_id={items.id} comments={comments.data} setComments_count={setComments_count} setComments={setComments} next_page={nextPage} setNextPage={setNextPage} />
-            {!loading && <ReplyComments news_feed_id={items.id} comments={comments.data} comments_count={comments_count} setComments_count={setComments_count} setComments={setComments} setIs_deleted={setIs_deleted} items={items} recentactivity={singleItems.recentactivity} setRecentActivity={singleItems.setRecentActivity}/>}
+            {!loading && <ReplyComments news_feed_id={items.id} comments={comments.data} comments_count={comments_count} setComments_count={setComments_count} setComments={setComments} setIs_deleted={setIs_deleted} items={items} recentactivity={singleItems.recentactivity} setRecentActivity={singleItems.setRecentActivity} />}
           </Fragment>
         </div>
       </div>

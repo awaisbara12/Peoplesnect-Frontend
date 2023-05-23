@@ -7,12 +7,12 @@ import ProfileFeedSingle from "./ProfileFeedSingle";
 const ProfileFeed = (props) => {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
-  
+
   const router = useRouter();
   const data = router.asPath;
   const myArray = data.split("?");
   // bareer key
-  if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore");}
+  if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore"); }
   // ShowUser NewFeed
   const getNewsFeed = async () => {
     const res = await axios(`${Show_USER_NEWS_FEEDS}?user_id=${myArray[1]}`, {
@@ -39,23 +39,23 @@ const ProfileFeed = (props) => {
     return result;
   };
   useEffect(() => {
-   
+
     setLoading(false);
     getNewsFeed();
-  },[props]);
- 
+  }, [props]);
+
   return (
     <div className="mt-8">
-      <div className="w-[750px] md:w-full xl:w-full">
+      <div className="w-full">
         <div>
-          {list&&
+          {list &&
             list.map((item) => (
-              <ProfileFeedSingle lists={item} key={item.id} follow={props.follow} connection={props.connection} currentuser={props.currentuser}/>        
+              <ProfileFeedSingle lists={item} key={item.id} follow={props.follow} connection={props.connection} currentuser={props.currentuser} />
             )
             )
           }
         </div>
-         
+
       </div>
     </div>
   );

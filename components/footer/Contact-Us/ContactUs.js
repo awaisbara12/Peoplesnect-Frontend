@@ -4,33 +4,32 @@ import ContactUsCover from "../../../public/images/contactUs.jpg";
 import { Select, Option } from "@material-tailwind/react";
 import Subject from "./Subject.js"
 import { currentBlockContainsLink } from 'draft-js/lib/RichTextEditorUtil';
-import {  CURENT_USER_LOGIN_API } from "../../../pages/config";
+import { CURENT_USER_LOGIN_API } from "../../../pages/config";
 import { Field } from 'formik';
 
 
-const ContactUs =()=> {
+const ContactUs = () => {
   // Bareer Key
-  if (typeof window !== "undefined") 
-  { var authKey = window.localStorage.getItem("keyStore");}
-  
-  const [currentuser,setcurrentuser] = useState();   // current user
-  const [first_name,setfirst_name] = useState();     // first name
-  const [last_name,setlast_name] = useState();       // last name
-  const [email,setemail] = useState();               // email
-  const [body,setbody] = useState();                 // Body
-  
-  useEffect(()=>{
+  if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore"); }
+
+  const [currentuser, setcurrentuser] = useState();   // current user
+  const [first_name, setfirst_name] = useState();     // first name
+  const [last_name, setlast_name] = useState();       // last name
+  const [email, setemail] = useState();               // email
+  const [body, setbody] = useState();                 // Body
+
+  useEffect(() => {
     Current_User();
-  },[])
-  const Current_User = async()=>{
+  }, [])
+  const Current_User = async () => {
     await fetch(CURENT_USER_LOGIN_API, {
       method: "GET",
-       headers: {
-        Accept: "application/json", 
-         Authorization: `${authKey}`,
-       },
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
     })
-       .then((resp) => resp.json())
+      .then((resp) => resp.json())
       .then((result) => {
         if (result) {
           setcurrentuser(result.data)
@@ -38,15 +37,15 @@ const ContactUs =()=> {
           console.log(result.data);
         }
       })
-      .catch((err) => console.log(err)); 
+      .catch((err) => console.log(err));
   }
-  const fieldValue=(i)=>{
+  const fieldValue = (i) => {
     setfirst_name(i.first_name);
     setlast_name(i.last_name);
     setemail(i.email);
   }
   return (
-    <div className="mt-8 w-[600px] xl:w-[980px] lg:w-[710px] md:w-[780px] px-5 md:px-0 lg:px-0 xl:px-0">
+    <div className="mt-8 w-[620px] xl:w-[980px] lg:w-[710px] md:w-[780px] px-5 md:px-0 lg:px-0 xl:px-0">
       <div className='bg-white rounded-xl'>
         <div className="relative">
           <Image
@@ -71,7 +70,7 @@ const ContactUs =()=> {
                 placeholder='First Name'
                 type='text'
                 value={first_name}
-                onChange={(e)=>setfirst_name(e.target.value)}
+                onChange={(e) => setfirst_name(e.target.value)}
               />
             </div>
             {/* Last Name */}
@@ -82,7 +81,7 @@ const ContactUs =()=> {
                 placeholder='Last Name'
                 type='text'
                 value={last_name}
-                onChange={(e)=>setlast_name(e.target.value)}
+                onChange={(e) => setlast_name(e.target.value)}
               />
             </div>
             {/* Email */}
@@ -93,7 +92,7 @@ const ContactUs =()=> {
                 placeholder='Enter Your Email'
                 type='email'
                 value={email}
-                onChange={(e)=>setemail(e.target.value)}
+                onChange={(e) => setemail(e.target.value)}
               />
             </div>
             {/* Subject */}
@@ -118,22 +117,22 @@ const ContactUs =()=> {
                 type="textarea"
                 name="search"
                 value={body}
-                onChange={(e)=>setbody(e.target.value)}
+                onChange={(e) => setbody(e.target.value)}
                 rows={5}
                 cols={10}
               />
             </div>
           </div>
-          {first_name && last_name && email &&body?(
+          {first_name && last_name && email && body ? (
             <div className='text-center mt-8'>
               <button className="bg-indigo-400 text-white px-3 py-2 rounded-full font-medium">
-                Submit 
+                Submit
               </button>
             </div>
-          ):(
+          ) : (
             <div className='text-center mt-8'>
               <button className="bg-indigo-100 text-white px-3 py-2 rounded-full font-medium">
-                Submit 
+                Submit
               </button>
             </div>
           )}
