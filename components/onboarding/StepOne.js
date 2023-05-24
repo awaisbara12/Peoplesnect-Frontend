@@ -6,7 +6,7 @@ import { XIcon } from "@heroicons/react/outline";
 import { XCircleIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/router";
 import { OnboardingSchemaFitst } from "../auth/schemas/OnboardSchema";
-import { ONBOARDING_STEP_ONE_URL } from "../../pages/config";
+import { ONBOARDING_STEP_ONE_URL, ONBOARDING_STEP_THREE_URL } from "../../pages/config";
 import { fetchUser } from "../../store/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Country, State, City }  from 'country-state-city';
@@ -68,7 +68,37 @@ const StepOne = () => {
                     setErr(result.error);
                   } else {
                       if (result && 200) {
-                          router.push("/onboarding/step-two");
+                          // router.push("/onboarding/step-two");
+
+                          const otps = {
+                            user: {
+                              otp: 123456,
+                            },
+                          };
+                          const resp = await fetch(ONBOARDING_STEP_THREE_URL, {
+                            method: "PUT",
+                            headers: {
+                              Accept: "application/json",
+                              "Content-Type": "application/json",
+                              Authorization: `${authKey}`,
+                            },
+                            body: JSON.stringify(otps),
+                          });
+                            const result = await resp.json();
+                            try {
+                              if (result && result.error) {
+                                alert("Enter OTP")
+                              } else {
+                                if (result && 200) {
+                                  router.push("/news-feed");
+                                }
+                              }
+                            } catch (err) {
+                              console.log(err);
+                            }
+
+
+
                         }
                       }
               } catch (err) {
@@ -109,8 +139,6 @@ const StepOne = () => {
     };
     getUser();
   }, [user]);
-  console.log("country",Errcountry)
-  console.log("city",Errcity)
   return (
     <>
       <div className="signUp--background min-h-screen overflow-y-auto">
