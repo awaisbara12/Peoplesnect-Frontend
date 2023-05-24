@@ -4,7 +4,7 @@ import ContactUsCover from "../../../public/images/contactUs.jpg";
 import { Select, Option } from "@material-tailwind/react";
 import Subject from "./Subject.js"
 import { currentBlockContainsLink } from 'draft-js/lib/RichTextEditorUtil';
-import { CURENT_USER_LOGIN_API } from "../../../pages/config";
+import { CATEGORY_API, CONTACT_US_API, CURENT_USER_LOGIN_API } from "../../../pages/config";
 import { Field } from 'formik';
 
 
@@ -17,6 +17,29 @@ const ContactUs = () => {
   const [last_name, setlast_name] = useState();       // last name
   const [email, setemail] = useState();               // email
   const [body, setbody] = useState();                 // Body
+
+
+
+  const contact_US = async () => {
+    // first_name=Awais&last_name=Bara&company=BrainArcs&phone=123&email=abc@gmail.com&message=say hello
+    await fetch(CATEGORY_API+"/reach_us?first_name="+first_name+"&last_name="+last_name+"&email="+email+"&message="+body, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+         setbody("");
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+
+
+
 
   useEffect(() => {
     Current_User();
@@ -125,7 +148,7 @@ const ContactUs = () => {
           </div>
           {first_name && last_name && email && body ? (
             <div className='text-center mt-8'>
-              <button className="bg-indigo-400 text-white px-3 py-2 rounded-full font-medium">
+              <button onClick={()=>contact_US()} className="bg-indigo-400 text-white px-3 py-2 rounded-full font-medium">
                 Submit
               </button>
             </div>
