@@ -11,6 +11,7 @@ import MarkeetplaceNavbar from "../navbar/MarkeetplaceNavbar";
 import TopNavbar from "../MarketPlace-Header/TopNavbar";
 import EventsCard from "../../news-feed/eventcard/EventsCard";
 import FooterNewsFeed from "../../news-feed/newsfeed/newsfeedfooter/FooterNewsFeed";
+import MarkeetPlaceMobileNav from "../../news-feed/navbar/mobile-navbar/MarkeetPlaceMobileNav";
 
 const MarketplaceShowFeed = () => {
   return (
@@ -24,7 +25,7 @@ const MarketplaceShowFeed = () => {
         <div className="xl:max-w-[1340px] container mx-auto">
             <TopNavbar />
           <div className="block md:hidden lg:hidden">
-            <MarkeetplaceNavbar />
+          <MarkeetPlaceMobileNav />
           </div>
           <div className="flex xl:px-0 lg:px-4 md:px-8 sm:px-0 lg:gap-6 md:gap-4 justify-between">
             <div className="mt-8 mx-auto">

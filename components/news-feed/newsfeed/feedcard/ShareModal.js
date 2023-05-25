@@ -477,15 +477,13 @@ const ShareModal = (props) => {
                             >
                               Cancel
                             </button>
-                            <Link href="">
-                              <button
-                                type="submit"
-                                className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
-                                onClick={()=>postNewsData(props && props.items)}
-                              >
-                                Share
-                              </button>
-                            </Link>
+                            <button
+                              type="submit"
+                              className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
+                              onClick={()=>postNewsData(props && props.items)}
+                            >
+                              Share
+                            </button>
                           </div>
                         </div>
                       </div>

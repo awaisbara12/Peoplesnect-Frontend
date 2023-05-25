@@ -32,7 +32,8 @@ import {
   GET_USER_BOOKMARKS,
   Show_USER_NEWS_FEEDS,
   SEARCH_MULTIPLE,
-  HASHTAGS_API
+  HASHTAGS_API,
+  REPORT_API
 } from "../../../pages/config";
 // import Postt from "./comments/PostComments";
 // import FilterComments from "./comments/FilterComments";
@@ -177,6 +178,29 @@ const ProfileFeedSingle = (singleItems) => {
   const EditFeed = (uid) => {
     setEditOn(uid);
   };
+
+  function createReport(feedId) {
+    const dataForm = new FormData();
+    dataForm.append("reportable_id", feedId);
+    dataForm.append("reportable_type", "NewsFeed");
+    fetch(REPORT_API, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
+      body: dataForm,
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          // console.log("Hello");
+          alert("Your report send to Admin");
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+
   // Confirmation Edit Or Delete
   const optionConfirm = (uid, name, item) => {
     if (name == "Delete") { DeleteNewsFeed(uid); }
@@ -197,6 +221,12 @@ const ProfileFeedSingle = (singleItems) => {
       }
       else if (item) {
         EditFeed(uid);
+      }
+    }
+    if (name == "Report") {
+      var a = confirm(name);
+      if (a) {
+        createReport(item.id);
       }
     }
 
@@ -534,37 +564,83 @@ const ProfileFeedSingle = (singleItems) => {
     <>
       <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">
         <div className="flex gap-2 justify-between items-center px-[22px] py-[14px]">
-          <div className="flex gap-2">
-            {items && items.user && items.user.display_photo_url ?
-              (
-                <img
-                  src={items.user.display_photo_url}
-                  className="object-cover rounded-full z-40 h-[42px] w-[42px]"
-                  alt=""
-                />
-              ) : (
-                <Image
-                  src={ProfileAvatar}
-                  width={45}
-                  height={45}
-                  alt=""
-                />
-              )}
+          
+            {singleItems && singleItems.currentUser && singleItems.currentUser.id==items.user.id?(
+              <Link href="/profile">
+                <a>
+                <div className="flex gap-2">
+                  {items && items.user && items.user.display_photo_url ?
+                    (
+                      <img
+                        src={items.user.display_photo_url}
+                        className="object-cover rounded-full z-40 h-[42px] w-[42px]"
+                        alt=""
+                      />
+                    ) : (
+                      <Image
+                        src={ProfileAvatar}
+                        width={45}
+                        height={45}
+                        alt=""
+                      />
+                    )
+                  }
 
-            <div>
-              <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
-                {items.user.first_name} {items.user.last_name}
-                <BadgeCheckIcon
-                  width={14}
-                  height={14}
-                  className="text-indigo-400"
-                />
-              </h4>
-              <div className="font-light text-gray-900 opacity-[0.8]">
-                {items && items.group && items.user && items.group.owner.id == items.user.id ? "Super Admin" : singleItems.memberstatus ? "Admin" : "Member"}
-              </div>
-            </div>
-          </div>
+                  <div>
+                    <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
+                      {items.user.first_name} {items.user.last_name}
+                      <BadgeCheckIcon
+                        width={14}
+                        height={14}
+                        className="text-indigo-400"
+                      />
+                    </h4>
+                    <div className="font-light text-gray-900 opacity-[0.8]">
+                      {items && items.group && items.user && items.group.owner.id == items.user.id ? "Super Admin" : singleItems.memberstatus ? "Admin" : "Member"}
+                    </div>
+                  </div>
+                </div>
+                </a>
+              </Link>):(
+                
+                  <Link href={{ pathname: "/User-Profile", query: items.user.id,}}>
+                    <a>
+                    <div className="flex gap-2">
+                      {items && items.user && items.user.display_photo_url ?
+                        (
+                          <img
+                            src={items.user.display_photo_url}
+                            className="object-cover rounded-full z-40 h-[42px] w-[42px]"
+                            alt=""
+                          />
+                        ) : (
+                          <Image
+                            src={ProfileAvatar}
+                            width={45}
+                            height={45}
+                            alt=""
+                          />
+                        )
+                      }
+
+                      <div>
+                        <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
+                          {items.user.first_name} {items.user.last_name}
+                          <BadgeCheckIcon
+                            width={14}
+                            height={14}
+                            className="text-indigo-400"
+                          />
+                        </h4>
+                        <div className="font-light text-gray-900 opacity-[0.8]">
+                          {items && items.group && items.user && items.group.owner.id == items.user.id ? "Super Admin" : singleItems.memberstatus ? "Admin" : "Member"}
+                        </div>
+                      </div>
+                    </div>
+                    </a>
+                  </Link>
+            )}
+          
           <div className="">
             <div className="">
               <Popover className="relative">
@@ -626,10 +702,45 @@ const ProfileFeedSingle = (singleItems) => {
                                 </button>
                               ) : ('')}
 
+                                <button
+                                  key="Report"
+                                  onClick={() => optionConfirm(items.id, "Report", items)}
+                                  className="flex items-center w-full rounded-lg hover:bg-gray-50 h-6"
+                                >
+                                  <div className="flex items-center gap-3 justify-center text-white pl-2">
+                                    <DocumentReportIcon className="h-4 w-4 text-gray-900" />
+                                    <div>
+                                      <p className="text-sm font-medium text-gray-900">
+                                        Report
+                                      </p>
+                                    </div>
+                                  </div>
+                                </button>
+
 
                             </div>
                           </div>
-                        ) : ('')}
+                        ) : (
+                          <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                            <div className="relative bg-white py-1">
+                            <button
+                                key="Report"
+                                onClick={() => optionConfirm(items.id, "Report", items)}
+                                className="flex items-center w-full rounded-lg hover:bg-gray-50 h-6"
+                              >
+                                <div className="flex items-center gap-3 justify-center text-white pl-2">
+                                  <DocumentReportIcon className="h-4 w-4 text-gray-900" />
+                                  <div>
+                                    <p className="text-sm font-medium text-gray-900">
+                                      Report
+                                    </p>
+                                  </div>
+                                </div>
+                              </button>
+                            </div>
+                          </div>
+                        )}
+                         
                       </Popover.Panel>
                     </Transition>
                   </>

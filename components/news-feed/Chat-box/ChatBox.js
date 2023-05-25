@@ -241,7 +241,7 @@ const Dropdown = ({ color }) => {
           // if (result) {
           //   GetMessages(msguser.id)
           // }
-          if (result) {
+          if (result && result.data) {
             if(messages.length==0){
               let actionCable;
               if (typeof window !== 'undefined') {
@@ -264,6 +264,8 @@ const Dropdown = ({ color }) => {
               setmessages(Array.isArray(result.data) ? result.data : [result.data]);
             }
             // downfunction();
+          }else if(result && result.block){
+            alert("You can't send Message");
           }
         })
         .catch((err) => console.log(err)); 

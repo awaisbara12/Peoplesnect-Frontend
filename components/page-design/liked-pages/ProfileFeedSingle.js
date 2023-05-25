@@ -32,7 +32,8 @@ import {
   GET_USER_BOOKMARKS,
   Show_USER_NEWS_FEEDS,
   SEARCH_MULTIPLE,
-  HASHTAGS_API
+  HASHTAGS_API,
+  REPORT_API
 } from "../../../pages/config";
 // import FilterComments from "./comments/FilterComments";
 // import ReplyComments from "./comments/ReplyComments";
@@ -173,6 +174,29 @@ const ProfileFeedSingle = (singleItems) => {
     setLoading(false);
     return result;
   };
+
+  function createReport(feedId) {
+    const dataForm = new FormData();
+    dataForm.append("reportable_id", feedId);
+    dataForm.append("reportable_type", "NewsFeed");
+    fetch(REPORT_API, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
+      body: dataForm,
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          // console.log("Hello");
+          alert("Your report send to Admin");
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+
   // update user newsfeed's post
   const EditFeed = (uid) => {
     setEditOn(uid);
@@ -197,6 +221,12 @@ const ProfileFeedSingle = (singleItems) => {
       }
       else if (item) {
         EditFeed(uid);
+      }
+    }
+    if (name == "Report") {
+      var a = confirm(name);
+      if (a) {
+        createReport(item.id);
       }
     }
 
@@ -628,11 +658,44 @@ const ProfileFeedSingle = (singleItems) => {
                                   </div>
                                 </button>
                               ) : ('')}
-
+                              
+                                <button
+                                  key="Report"
+                                  onClick={() => optionConfirm(items.id, "Report", items)}
+                                  className="flex items-center w-full rounded-lg hover:bg-gray-50 h-6"
+                                >
+                                  <div className="flex items-center gap-3 justify-center text-white pl-2">
+                                    <DocumentReportIcon className="h-4 w-4 text-gray-900" />
+                                    <div>
+                                      <p className="text-sm font-medium text-gray-900">
+                                        Report
+                                      </p>
+                                    </div>
+                                  </div>
+                                </button>
 
                             </div>
                           </div>
-                        ) : ('')}
+                        ) : (
+                          <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                            <div className="relative bg-white py-1">
+                            <button
+                                key="Report"
+                                onClick={() => optionConfirm(items.id, "Report", items)}
+                                className="flex items-center w-full rounded-lg hover:bg-gray-50 h-6"
+                              >
+                                <div className="flex items-center gap-3 justify-center text-white pl-2">
+                                  <DocumentReportIcon className="h-4 w-4 text-gray-900" />
+                                  <div>
+                                    <p className="text-sm font-medium text-gray-900">
+                                      Report
+                                    </p>
+                                  </div>
+                                </div>
+                              </button>
+                            </div>
+                          </div>
+                        )}
                       </Popover.Panel>
                     </Transition>
                   </>
