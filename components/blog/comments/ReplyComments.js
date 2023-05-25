@@ -520,26 +520,75 @@ const ReplyComments = (props) => {
               <div className="flex justify-between">
                 <div className="flex items-start  gap-[10px]">
                   {comment.user.display_photo_url?(
-                    <img
-                      src={comment.user.display_photo_url}
-                      className="object-cover rounded-full z-40 h-[38px] w-[38px]"
-                      alt=""
-                    />
+                    currentUser && currentUser==comment.user.id?(
+                      <Link href="/profile">
+                      <a>
+                        <img
+                          src={comment.user.display_photo_url}
+                          className="object-cover rounded-full z-40 h-[38px] w-[38px]"
+                          alt=""
+                        />
+                      </a>
+                    </Link>
+                    ):(
+                      <Link href={{ pathname: "/User-Profile", query: comment.user.id,}}>
+                        <a>
+                          <img
+                            src={comment.user.display_photo_url}
+                            className="object-cover rounded-full z-40 h-[38px] w-[38px]"
+                            alt=""
+                          />
+                        </a>
+                      </Link>
+                    )
+                   
                   ):(
-                    <Image src={ProfileAvatar}  className="object-cover rounded-full " 
-                    width={38} height={38} alt="" />
+                    currentUser && currentUser==comment.user.id?(
+                      <Link href="/profile">
+                        <a>
+                          <Image src={ProfileAvatar} width={38} height={38} alt="" />
+                        </a>
+                      </Link>
+                    ):(
+                      <Link href={{ pathname: "/User-Profile", query: comment.user.id,}}>
+                      <a>
+                          <Image src={ProfileAvatar} width={38} height={38} alt="" />
+                        </a>
+                      </Link>
+                    )
                   )}
                   
-                  <div>
-                    <span className="text-slate-900 flex gap-[6px] items-center capitalize">
-                      {comment.user.first_name} {comment.user.last_name}
-                      <div className="w-1 h-1 rounded-full bg-slate-400"></div>
-                      <div className="text-gray-400">{comment.created_at} | {comment.time}</div>
-                    </span>
-                    <div className="text-gray-900 text-sm">
-                    {comment.user && comment.user.city?comment.user.city+", ":""}{comment.user && comment.user.state?comment.user.state+", ":""}{comment.user && comment.user.country?comment.user.country:""}
-                    </div>
-                  </div>
+                  {currentUser && currentUser==comment.user.id?(
+                    <Link href="/profile">
+                      <a>
+                        <div>
+                          <span className="text-slate-900 flex gap-[6px] items-center capitalize">
+                            {comment.user.first_name} {comment.user.last_name}
+                            <div className="w-1 h-1 rounded-full bg-slate-400"></div>
+                            <div className="text-gray-400">{comment.created_at} | {comment.time}</div>
+                          </span>
+                          <div className="text-gray-900 text-sm">
+                            {comment.user && comment.user.city?comment.user.city+", ":""}{comment.user && comment.user.state?comment.user.state+", ":""}{comment.user && comment.user.country?comment.user.country:""}
+                          </div>
+                        </div>
+                      </a>
+                    </Link>
+                  ):(
+                    <Link href={{ pathname: "/User-Profile", query: comment.user.id,}}>
+                      <a>
+                        <div>
+                          <span className="text-slate-900 flex gap-[6px] items-center capitalize">
+                            {comment.user.first_name} {comment.user.last_name}
+                            <div className="w-1 h-1 rounded-full bg-slate-400"></div>
+                            <div className="text-gray-400">{comment.created_at} | {comment.time}</div>
+                          </span>
+                          <div className="text-gray-900 text-sm">
+                            {comment.user && comment.user.city?comment.user.city+", ":""}{comment.user && comment.user.state?comment.user.state+", ":""}{comment.user && comment.user.country?comment.user.country:""}
+                          </div>
+                        </div>
+                      </a>
+                    </Link>
+                  )}
                 </div>
               {/*  Comment Pooper */}
                 <div className="">
@@ -863,26 +912,77 @@ const ReplyComments = (props) => {
                       <div className="flex justify-between">
                         <div className="flex items-start  gap-[10px]">
                           {i.user.display_photo_url?(
-                            <img
-                              src={i.user.display_photo_url} 
-                              className="object-cover rounded-full z-40 h-[38px] w-[38px]"
-                              alt=""
-                            />
+                            currentUser && currentUser==i.user.id?(
+                              <Link href="/profile">
+                                <a>
+                                  <img
+                                    src={i.user.display_photo_url} 
+                                    className="object-cover rounded-full z-40 h-[38px] w-[38px]"
+                                    alt=""
+                                  />
+                                </a>
+                              </Link>
+                            ):(
+                              <Link href={{ pathname: "/User-Profile", query: i.user.id,}}>
+                                <a>
+                                  <img
+                                    src={i.user.display_photo_url} 
+                                    className="object-cover rounded-full z-40 h-[38px] w-[38px]"
+                                    alt=""
+                                  />
+                                </a>
+                              </Link>
+                            )
                           ):(
-                            <Image src={ProfileAvatar}  className="object-cover rounded-full " 
-                            width={38} height={38} alt="" />
+                            currentUser && currentUser==i.user.id?(
+                              <Link href="/profile">
+                                <a>
+                                  <Image src={ProfileAvatar}  className="object-cover rounded-full " 
+                                  width={38} height={38} alt="" />
+                                </a>
+                              </Link>
+                            ):(
+                              <Link href={{ pathname: "/User-Profile", query: i.user.id,}}>
+                                <a>
+                                  <Image src={ProfileAvatar}  className="object-cover rounded-full " 
+                                  width={38} height={38} alt="" />
+                                </a>
+                              </Link>
+                            )
                           )}
                           
-                          <div>
-                            <span className="text-slate-900 flex gap-[6px] items-center capitalize">
-                              {i.user.first_name} {i.user.last_name}
-                              <div className="w-1 h-1 rounded-full bg-slate-400"></div>
-                              <div className="text-gray-400">{i.created_at} | {i.time}</div>
-                            </span>
-                            <div className="text-gray-900 text-sm ">
-                              {i.user.city?i.user.city+", ":''}{i.user.state?i.user.state+", ":''} {i.user.country?i.user.country:''}
-                            </div>
-                          </div>
+                          {currentUser && currentUser==i.user.id?(
+                            <Link href="/profile">
+                              <a>
+                                <div>
+                                  <span className="text-slate-900 flex gap-[6px] items-center capitalize">
+                                    {i.user.first_name} {i.user.last_name}
+                                    <div className="w-1 h-1 rounded-full bg-slate-400"></div>
+                                    <div className="text-gray-400">{i.created_at} | {i.time}</div>
+                                  </span>
+                                  <div className="text-gray-900 text-sm ">
+                                    {i.user.city?i.user.city+", ":''}{i.user.state?i.user.state+", ":''} {i.user.country?i.user.country:''}
+                                  </div>
+                                </div>
+                              </a>
+                            </Link>
+                          ):(
+                            <Link href={{ pathname: "/User-Profile", query: i.user.id,}}>
+                              <a>
+                                <div>
+                                  <span className="text-slate-900 flex gap-[6px] items-center capitalize">
+                                    {i.user.first_name} {i.user.last_name}
+                                    <div className="w-1 h-1 rounded-full bg-slate-400"></div>
+                                    <div className="text-gray-400">{i.created_at} | {i.time}</div>
+                                  </span>
+                                  <div className="text-gray-900 text-sm ">
+                                    {i.user.city?i.user.city+", ":''}{i.user.state?i.user.state+", ":''} {i.user.country?i.user.country:''}
+                                  </div>
+                                </div>
+                              </a>
+                            </Link>
+                           
+                          )}
                         </div>
                         {/* Reply poper */}
                         <div className="">

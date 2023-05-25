@@ -91,28 +91,28 @@ const SuggestedBlogs = () => {
             {myArray && myArray[1] == "suggested" ? (
               <>
                 <div className="text-lg font-bold">Suggested Articles</div>
-                <div className="add_new_button text-center">
+                {/* <div className="add_new_button text-center">
                   <button
                     type="submit"
                     className="border-2 border-indigo-400 text-indigo-400 text-md cursor-pointer font-bold py-2 px-4 rounded-full"
                   >
                     {list ? list.data.length : ''}
                   </button>
-                </div>
+                </div> */}
               </>
             ) : ('')}
 
             {myArray && myArray[1] == "my" ? (
               <>
                 <div className="text-lg font-bold">My Articles</div>
-                <div className="add_new_button text-center">
+                {/* <div className="add_new_button text-center">
                   <button
                     type="submit"
                     className="border-2 border-indigo-400 text-indigo-400 text-md cursor-pointer font-bold py-2 px-4 rounded-full"
                   >
                     {list ? list.data.length : ''}
                   </button>
-                </div>
+                </div> */}
               </>
             ) : ('')}
 

@@ -60,7 +60,7 @@ const BlogsDesign = () => {
                     type="submit"
                     className="border-2 border-indigo-400 text-indigo-400 text-md cursor-pointer font-bold py-2 px-4 rounded-full"
                   >
-                    Show More
+                    Show All
                   </button>
                 </a>
               </Link>
