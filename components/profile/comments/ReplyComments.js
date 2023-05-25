@@ -563,27 +563,76 @@ const ReplyComments = (props) => {
             >
               <div className="flex justify-between">
                 <div className="flex items-start  gap-[10px]">
-                  {comment.user.display_photo_url?(
-                    <img
-                      src={comment.user.display_photo_url}
-                      className="object-cover rounded-full z-40 h-[38px] w-[38px]"
-                      alt=""
-                    />
+                {comment.user.display_photo_url?(
+                    currentUser && currentUser==comment.user.id?(
+                      <Link href="/profile">
+                        <a>
+                          <img
+                            src={comment.user.display_photo_url}
+                            className="object-cover rounded-full z-40 h-[38px] w-[38px]"
+                            alt=""
+                          />
+                        </a>
+                      </Link>
+                    ):(
+                      <Link href={{ pathname: "/User-Profile", query: comment.user.id,}}>
+                        <a>
+                          <img
+                            src={comment.user.display_photo_url}
+                            className="object-cover rounded-full z-40 h-[38px] w-[38px]"
+                            alt=""
+                          />
+                        </a>
+                      </Link>
+                    )
                   ):(
-                    <Image src={ProfileAvatar}  className="object-cover rounded-full " 
-                    width={38} height={38} alt="" />
+                    currentUser && currentUser==comment.user.id?(
+                      <Link href="/profile">
+                        <a>
+                          <Image src={ProfileAvatar} width={38} height={38} alt="" />
+                        </a>
+                      </Link>
+                    ):(
+                      <Link href={{ pathname: "/User-Profile", query: comment.user.id,}}>
+                      <a>
+                          <Image src={ProfileAvatar} width={38} height={38} alt="" />
+                        </a>
+                      </Link>
+                    )
                   )}
-                  
-                  <div>
-                    <span className="text-slate-900 flex gap-[6px] items-center capitalize">
-                      {comment.user.first_name} {comment.user.last_name}
-                      <div className="w-1 h-1 rounded-full bg-slate-400"></div>
-                      <div className="text-gray-400">{comment.created_at} | {comment.time}</div>
-                    </span>
-                    <div className="text-gray-900 text-sm">
-                    {comment.user && comment.user.city?comment.user.city+", ":""}{comment.user && comment.user.state?comment.user.state+", ":""}{comment.user && comment.user.country?comment.user.country:""}
-                    </div>
-                  </div>
+
+                  {currentUser && currentUser==comment.user.id?(
+                    <Link href="/profile">
+                      <a>
+                        <div>
+                          <span className="text-slate-900 flex gap-[6px] items-center capitalize">
+                            {comment.user.first_name} {comment.user.last_name}
+                            <div className="w-1 h-1 rounded-full bg-slate-400"></div>
+                            <div className="text-gray-400">{comment.created_at} | {comment.time}</div>
+                          </span>
+                          <div className="text-gray-900 text-sm">
+                            {comment.user && comment.user.city?comment.user.city+", ":""}{comment.user && comment.user.state?comment.user.state+", ":""}{comment.user && comment.user.country?comment.user.country:""}
+                          </div>
+                        </div>
+                      </a>
+                    </Link>
+                  ):(
+                    <Link href={{ pathname: "/User-Profile", query: comment.user.id,}}>
+                      <a>
+                        <div>
+                          <span className="text-slate-900 flex gap-[6px] items-center capitalize">
+                            {comment.user.first_name} {comment.user.last_name}
+                            <div className="w-1 h-1 rounded-full bg-slate-400"></div>
+                            <div className="text-gray-400">{comment.created_at} | {comment.time}</div>
+                          </span>
+                          <div className="text-gray-900 text-sm">
+                            {comment.user && comment.user.city?comment.user.city+", ":""}{comment.user && comment.user.state?comment.user.state+", ":""}{comment.user && comment.user.country?comment.user.country:""}
+                          </div>
+                        </div>
+                      </a>
+                    </Link>
+                  )}
+                    
                 </div>
               {/*  Comment Pooper */}
                 <div className="">
@@ -827,75 +876,75 @@ const ReplyComments = (props) => {
               </div>
 
               {/* hide or Show Reply Input */}
-                  {reply_on && editCommentId==comment.id?(
-                    <>
-              {/* Reply On Commet Input Bar */}
-                      <div className="relative -ml-5">
-                        <div className="flex items-center">
-                          {/* <InputEmoji
-                          value={CommentReply}
-                            className="ml-0"
-                            type="text"
-                            onChange={setCommentReply}
-                            react-emoji="w-{80%}"
-                            placeholder="Reply Here"
-                          /> */}
-                           {chosenEmoji ? (
-                              <Picker onEmojiClick={onEmojiClickReply}className="w-[50px] h-[50px]" />
-                            ) : ('')}
-                           <div className="w-[97%]">
-                              <HashtagMentionInput postText={CommentReply} setPostText={setCommentReply} mentioned={mentioned}  tags={tags} settags={settags} hastags={hastags}/>
-                            </div>
-                          <div className="flex">
-                          <div>
-                            {chosenEmoji ? ('') : (
-                              <EmojiHappyIcon
-                                width={28}
-                                height={28}
-                                className="text-gray-500"
-                                onClick={()=>setChosenEmoji(true)}
-                              />
-                            )}
-                          </div>
-                            <div className="relative flex items-center justify-center">
-                              <PhotographIcon
-                                width={28}
-                                height={28}
-                                className="text-gray-500"
-                              />
-                              <input
-                                type="file"
-                                name="image"
-                                id="image"
-                                className="opacity-0 absolute w-6 h-6 -z-0"
-                                onChange={handleImagePost}
-                                title={""}
-                                multiple
-                              />
-                            </div>
-                          </div>
-                          <PaperAirplaneIcon className="h-7 w-7 rotate-90 text-gray-500" onClick={() => POSTReplies(comment.id)} />
-                          {/* <button onClick={() => POSTReplies(comment.id)} className="bg-indigo-400 text-white border-2  px-2 py-1 rounded-xl">
-                            Send
-                          </button> */}
+              {reply_on && editCommentId==comment.id?(
+                <>
+          {/* Reply On Commet Input Bar */}
+                  <div className="relative -ml-5">
+                    <div className="flex items-center">
+                      {/* <InputEmoji
+                      value={CommentReply}
+                        className="ml-0"
+                        type="text"
+                        onChange={setCommentReply}
+                        react-emoji="w-{80%}"
+                        placeholder="Reply Here"
+                      /> */}
+                        {chosenEmoji ? (
+                          <Picker onEmojiClick={onEmojiClickReply}className="w-[50px] h-[50px]" />
+                        ) : ('')}
+                        <div className="w-[97%]">
+                          <HashtagMentionInput postText={CommentReply} setPostText={setCommentReply} mentioned={mentioned}  tags={tags} settags={settags} hastags={hastags}/>
+                        </div>
+                      <div className="flex">
+                      <div>
+                        {chosenEmoji ? ('') : (
+                          <EmojiHappyIcon
+                            width={28}
+                            height={28}
+                            className="text-gray-500"
+                            onClick={()=>setChosenEmoji(true)}
+                          />
+                        )}
+                      </div>
+                        <div className="relative flex items-center justify-center">
+                          <PhotographIcon
+                            width={28}
+                            height={28}
+                            className="text-gray-500"
+                          />
+                          <input
+                            type="file"
+                            name="image"
+                            id="image"
+                            className="opacity-0 absolute w-6 h-6 -z-0"
+                            onChange={handleImagePost}
+                            title={""}
+                            multiple
+                          />
                         </div>
                       </div>
-                      {/* show or remove preview of image In Comment'sReply */}
-                      {C_postImagePreview?(
-                          <div className="relative w-1/4 mt-2">
-                            <img
-                              src={C_postImagePreview}
-                              className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
-                              alt=""
-                            />
-                              <div className="bg-indigo-100 absolute top-4 right-0 z-10 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
-                              onClick={clearPic}>
-                                <TrashIcon className="w-5 h-5 text-indigo-600" />
-                              </div>
-                            </div>
-                          ):('')}
-                    </>
-                  ):('')}
+                      <PaperAirplaneIcon className="h-7 w-7 rotate-90 text-gray-500" onClick={() => POSTReplies(comment.id)} />
+                      {/* <button onClick={() => POSTReplies(comment.id)} className="bg-indigo-400 text-white border-2  px-2 py-1 rounded-xl">
+                        Send
+                      </button> */}
+                    </div>
+                  </div>
+                  {/* show or remove preview of image In Comment'sReply */}
+                  {C_postImagePreview?(
+                      <div className="relative w-1/4 mt-2">
+                        <img
+                          src={C_postImagePreview}
+                          className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
+                          alt=""
+                        />
+                          <div className="bg-indigo-100 absolute top-4 right-0 z-10 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
+                          onClick={clearPic}>
+                            <TrashIcon className="w-5 h-5 text-indigo-600" />
+                          </div>
+                        </div>
+                      ):('')}
+                </>
+              ):('')}
 
 
               {/* Show Reply */}
@@ -907,26 +956,78 @@ const ReplyComments = (props) => {
                       <div className="flex justify-between">
                         <div className="flex items-start  gap-[10px]">
                           {i.user.display_photo_url?(
-                            <img
-                              src={i.user.display_photo_url} 
-                              className="object-cover rounded-full z-40 h-[38px] w-[38px]"
-                              alt=""
-                            />
+                            currentUser && currentUser==i.user.id?(
+                              <Link href="/profile">
+                                <a>
+                                  <img
+                                    src={i.user.display_photo_url} 
+                                    className="object-cover rounded-full z-40 h-[38px] w-[38px]"
+                                    alt=""
+                                  />
+                                </a>
+                              </Link>
+                            ):(
+                              <Link href={{ pathname: "/User-Profile", query: i.user.id,}}>
+                                <a>
+                                  <img
+                                    src={i.user.display_photo_url} 
+                                    className="object-cover rounded-full z-40 h-[38px] w-[38px]"
+                                    alt=""
+                                  />
+                                </a>
+                              </Link>
+                            )
                           ):(
-                            <Image src={ProfileAvatar}  className="object-cover rounded-full " 
-                            width={38} height={38} alt="" />
+                            currentUser && currentUser==i.user.id?(
+                              <Link href="/profile">
+                                <a>
+                                  <Image src={ProfileAvatar}  className="object-cover rounded-full " 
+                                  width={38} height={38} alt="" />
+                                </a>
+                              </Link>
+                            ):(
+                              <Link href={{ pathname: "/User-Profile", query: i.user.id,}}>
+                                <a>
+                                  <Image src={ProfileAvatar}  className="object-cover rounded-full " 
+                                  width={38} height={38} alt="" />
+                                </a>
+                              </Link>
+                            )
                           )}
                           
-                          <div>
-                            <span className="text-slate-900 flex gap-[6px] items-center capitalize">
-                              {i.user.first_name} {i.user.last_name}
-                              <div className="w-1 h-1 rounded-full bg-slate-400"></div>
-                              <div className="text-gray-400">{i.created_at} | {i.time}</div>
-                            </span>
-                            <div className="text-gray-900 text-sm ">
-                              {i.user.city?i.user.city+", ":''}{i.user.state?i.user.state+", ":''} {i.user.country?i.user.country:''}
-                            </div>
-                          </div>
+                          {currentUser && currentUser==i.user.id?(
+                            <Link href="/profile">
+                              <a>
+                                <div>
+                                  <span className="text-slate-900 flex gap-[6px] items-center capitalize">
+                                    {i.user.first_name} {i.user.last_name}
+                                    <div className="w-1 h-1 rounded-full bg-slate-400"></div>
+                                    <div className="text-gray-400">{i.created_at} | {i.time}</div>
+                                  </span>
+                                  <div className="text-gray-900 text-sm ">
+                                    {i.user.city?i.user.city+", ":''}{i.user.state?i.user.state+", ":''} {i.user.country?i.user.country:''}
+                                  </div>
+                                </div>
+                              </a>
+                            </Link>
+                          ):(
+                            <Link href={{ pathname: "/User-Profile", query: i.user.id,}}>
+                              <a>
+                                <div>
+                                  <span className="text-slate-900 flex gap-[6px] items-center capitalize">
+                                    {i.user.first_name} {i.user.last_name}
+                                    <div className="w-1 h-1 rounded-full bg-slate-400"></div>
+                                    <div className="text-gray-400">{i.created_at} | {i.time}</div>
+                                  </span>
+                                  <div className="text-gray-900 text-sm ">
+                                    {i.user.city?i.user.city+", ":''}{i.user.state?i.user.state+", ":''} {i.user.country?i.user.country:''}
+                                  </div>
+                                </div>
+                              </a>
+                            </Link>
+                           
+                          )}
+                          
                         </div>
                         {/* Reply poper */}
                         <div className="">

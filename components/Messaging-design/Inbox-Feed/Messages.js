@@ -160,8 +160,11 @@ const Messages = () => {
               } else {
                 setmessages(Array.isArray(result.data) ? result.data : [result.data]);
               }
-            downfunction();
-          }
+             downfunction();
+            }
+            else if(result && result.block){
+              alert("You can't Send Message");
+            }
         })
         .catch((err) => console.log(err)); 
     }
@@ -310,21 +313,31 @@ const Messages = () => {
                     <div className="ml-2 mt-3" key={i.id} >
                       <div className="flex items-center gap-2">
                       {i.user.display_photo_url?(
-                          <img
-                          className="object-cover w-[30px] h-[30px] rounded-full"
-                          src={i.user.display_photo_url}
-                          width={30}
-                          height={30}
-                          alt=""
-                        />
+                          <Link href={{ pathname: "/User-Profile", query: i.user.id,}}>
+                            <a>
+                              <img
+                                className="object-cover w-[30px] h-[30px] rounded-full"
+                                src={i.user.display_photo_url}
+                                width={30}
+                                height={30}
+                                alt=""
+                              />
+                            </a>
+                          </Link>
+                          
                         ):(
-                        <Image
-                          className="object-cover"
-                          src={ProfileAvatar}
-                          width={30}
-                          height={30}
-                          alt=""
-                        />)}
+                          <Link href={{ pathname: "/User-Profile", query: i.user.id,}}>
+                            <a>
+                              <Image
+                                className="object-cover"
+                                src={ProfileAvatar}
+                                width={30}
+                                height={30}
+                                alt=""
+                              />
+                            </a>
+                          </Link>
+                        )}
                         <div className=" bg-gray-100 w-60 p-2 border rounded-xl">
                         {i.attachment && i.attachment_type=="image"?(
                               <div className="relative w-1/4 mt-2">
@@ -428,24 +441,34 @@ const Messages = () => {
                             <div className=" flex justify-end mt-0 mr-2 text-xs text-white">{i.time}</div>
                           </div>
                           {i.user && i.user.display_photo_url?(
-                            <img
-                            className="object-cover w-[30px] h-[30px] rounded-full"
-                            src={i.user.display_photo_url}
-                            width={30}
-                            height={30}
-                            alt=""
-                          />
+                            <Link href="profile">
+                              <a>
+                                <img
+                                  className="object-cover w-[30px] h-[30px] rounded-full"
+                                  src={i.user.display_photo_url}
+                                  width={30}
+                                  height={30}
+                                  alt=""
+                                />
+                              </a>
+                            </Link>
+                            
                           ):(
-                          <Image
-                            className="object-cover"
-                            src={ProfileAvatar}
-                            width={30}
-                            height={30}
-                            alt=""
-                          />)}
+                            <Link href="profile">
+                              <a>
+                                <Image
+                                  className="object-cover"
+                                  src={ProfileAvatar}
+                                  width={30}
+                                  height={30}
+                                  alt=""
+                                />
+                              </a>
+                            </Link>
+                          )}
                         </div>
                       </div>
-                  )
+                    )
                 }
               })
             }

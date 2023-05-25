@@ -387,25 +387,61 @@ const ReplyComments = (props) => {
               <div className="flex justify-between">
                 <div className="flex items-start  gap-[10px]">
                   {comment.user.display_photo_url?(
-                    <img
-                      src={comment.user.display_photo_url}
-                      className="object-cover rounded-full z-40 h-[38px] w-[38px]"
-                      alt=""
-                    />
+                    currentUser && currentUser==comment.user?(
+                      <Link href="Profile">
+                        <a>
+                          <img
+                            src={comment.user.display_photo_url}
+                            className="object-cover rounded-full z-40 h-[38px] w-[38px]"
+                            alt=""
+                          />
+                        </a>
+                      </Link>
+                    ):(
+                      <Link href={{ pathname: "/User-Profile", query: comment.user.id,}}>
+                        <a>
+                          <img
+                            src={comment.user.display_photo_url}
+                            className="object-cover rounded-full z-40 h-[38px] w-[38px]"
+                            alt=""
+                          />
+                        </a>
+                      </Link>
+                    )
+                    
                   ):(
-                    <Image src={ProfileAvatar} width={38} height={38} alt="" />
+                    currentUser && currentUser==comment.user?(
+                      <Link href="Profile">
+                        <a>
+                          <Image src={ProfileAvatar} width={38} height={38} alt="" />
+                        </a>
+                      </Link>
+                    ):(
+                      <Link href={{ pathname: "/User-Profile", query: comment.user.id,}}>
+                      <a>
+                          <Image src={ProfileAvatar} width={38} height={38} alt="" />
+                        </a>
+                      </Link>
+                    )
                   )}
                   
-                  <div>
-                    <span className="text-slate-900 flex gap-[6px] items-center">
-                      {comment.user.first_name} {comment.user.last_name}
-                      <div className="w-1 h-1 rounded-full bg-slate-400"></div>
-                      <div className="text-gray-400">{comment.created_at} | {comment.time}</div>
-                    </span>
-                    <div className="text-gray-900 text-sm">
-                      {comment.user.city}, {comment.user.country}
+                  {currentUser && currentUser==comment.user?(""):(
+                    <div>
+                      <Link href={{ pathname: "/User-Profile", query: comment.user.id,}}>
+                      <a>
+                        <span className="text-slate-900 flex gap-[6px] items-center">
+                          {comment.user.first_name} {comment.user.last_name}
+                          <div className="w-1 h-1 rounded-full bg-slate-400"></div>
+                          <div className="text-gray-400">{comment.created_at} | {comment.time}</div>
+                        </span>
+                        <div className="text-gray-900 text-sm">
+                          {comment.user.city}, {comment.user.country}
+                        </div>
+                      </a>
+                      </Link>
                     </div>
-                  </div>
+                  )}
+                  
                 </div>
               {/*  Comment Pooper */}
                 <div className="">

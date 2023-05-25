@@ -325,6 +325,7 @@ const NewsFeedSingle = (singleItem) => {
   }
 
 
+  console.log("itemsitems ", CurrentUser)
   return (
     <>
       <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">
@@ -333,44 +334,90 @@ const NewsFeedSingle = (singleItem) => {
 
             {items && items.page ? (
               items.page.display_photo_url ? (
-                <img
-                  src={items.page.display_photo_url}
-                  className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
-                  width={45}
-                  height={45}
-                  alt=""
-                />
+                <Link href={{ pathname: "/page-design/suggested-pages", query: items.page.id,}}>
+                <a>
+                  <img
+                    src={items.page.display_photo_url}
+                    className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
+                    width={45}
+                    height={45}
+                    alt=""
+                  />
+                </a>
+                </Link>
               ) : (
-                <Image
-                  src={PagePhoto}
-                  className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
-                  width={45}
-                  height={45}
-                  alt=""
-                />
+                <Link href={{ pathname: "/page-design/suggested-pages", query: items.page.id,}}>
+                <a>
+                  <Image
+                    src={PagePhoto}
+                    className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
+                    width={45}
+                    height={45}
+                    alt=""
+                  />
+                </a>
+                </Link>
               )
             ) : (
               items && items.user && items.user.display_photo_url ? (
-                <img
-                  src={items.user.display_photo_url}
-                  className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
-                  width={45}
-                  height={45}
-                  alt=""
-                />
+                CurrentUser && CurrentUser.id==items.user.id?(
+                  <Link href="/profile">
+                    <a>
+                      <img
+                        src={items.user.display_photo_url}
+                        className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
+                        width={45}
+                        height={45}
+                        alt=""
+                      />
+                    </a>
+                  </Link>
+                ):(
+                  <Link href={{ pathname: "/User-Profile", query: items.user.id,}}>
+                    <a>
+                      <img
+                        src={items.user.display_photo_url}
+                        className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
+                        width={45}
+                        height={45}
+                        alt=""
+                      />
+                    </a>
+                  </Link>
+                )
+                
               ) : (
-                <Image
-                  src={ProfileAvatar}
-                  width={45}
-                  height={45}
-                  alt=""
-                />
+                CurrentUser && CurrentUser.id==items.user.id?(
+                  <Link href="/profile">
+                  <a>
+                    <Image
+                      src={ProfileAvatar}
+                      width={45}
+                      height={45}
+                      alt=""
+                    />
+                  </a>
+                </Link>
+                ):(
+                  <Link href={{ pathname: "/User-Profile", query: items.user.id,}}>
+                    <a>
+                      <Image
+                        src={ProfileAvatar}
+                        width={45}
+                        height={45}
+                        alt=""
+                      />
+                    </a>
+                  </Link>
+                )
               )
             )}
 
             <div>
               {items.page ? (
                 <>
+                  <Link href={{ pathname: "/page-design/suggested-pages", query: items.page.id,}}>
+                  <a>
                   <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
                     {/* {items.user.first_name} {items.user.last_name} */}
                     {/* <ChevronRightIcon
@@ -378,37 +425,75 @@ const NewsFeedSingle = (singleItem) => {
                     height={24}
                     className="text-indigo-400"
                   /> */}
+                    
                     <div className="capitalize">{items.page.name}</div>
                   </h4>
                   <div className="font-light text-gray-900 opacity-[0.8] italic">  Page Post</div>
+                  </a>
+                  </Link>
                 </>
 
               ) : (
                 items.group ? (
                   <>
-
                     <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
-                      {items.user.first_name} {items.user.last_name}
+                      {CurrentUser && CurrentUser.id==items.user.id?(
+                         <Link href="/profile">
+                         <a>
+                           {items.user.first_name} {items.user.last_name}
+                         </a>
+                       </Link>
+                      ):(
+                        <Link href={{ pathname: "/User-Profile", query: items.user.id,}}>
+                          <a>
+                            {items.user.first_name} {items.user.last_name}
+                          </a>
+                        </Link>
+                      )}
                       <ChevronRightIcon
                         width={24}
                         height={24}
                         className="text-indigo-400"
                       />
-                      <div className="capitalize">{items.group.title}</div>
+                      <Link href={{ pathname: "/group-page/joind-group", query: items.group.id,}}>
+                        <a>
+                          <div className="capitalize">{items.group.title}</div>
+                        </a>
+                      </Link>
                     </h4>
                     <div className="font-light text-gray-900 opacity-[0.8] italic">Group Post</div>
                     {/* {items && items.group && items.user && items.group.owner.id==items.user.id?"Super Admin":GetAdmins(items.group.id, items.user.id)?"Admin":"Member"} */}
                   </>
                 ) : (
                   <>
-                    <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
-                      {items.user.first_name} {items.user.last_name}
-                      <BadgeCheckIcon
-                        width={14}
-                        height={14}
-                        className="text-indigo-400"
-                      />
-                    </h4>
+                    {CurrentUser && CurrentUser.id==items.user.id?(
+                      <Link href="/profile">
+                      <a>
+                        <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
+                        {items.user.first_name} {items.user.last_name}
+                        <BadgeCheckIcon
+                          width={14}
+                          height={14}
+                          className="text-indigo-400"
+                        />
+                        </h4>
+                      </a>
+                    </Link>
+                    ):(
+                      <Link href={{ pathname: "/User-Profile", query: items.user.id,}}>
+                        <a>
+                          <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
+                          {items.user.first_name} {items.user.last_name}
+                          <BadgeCheckIcon
+                            width={14}
+                            height={14}
+                            className="text-indigo-400"
+                          />
+                          </h4>
+                        </a>
+                      </Link>
+                    )}
+                    
                     <div className="font-light text-gray-900 opacity-[0.8]">
                       {items.user.city ? items.user.city + ", " : ""}{items.user.state ? items.user.state + ", " : ""} {items.user.country}
                     </div>
@@ -638,79 +723,166 @@ const NewsFeedSingle = (singleItem) => {
 
                 {items && items.share.page ? (
                   items.share.page.display_photo_url ? (
-                    <img
-                      src={items.share.page.display_photo_url}
-                      className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
-                      width={45}
-                      height={45}
-                      alt=""
-                    />
+                    <Link href={{ pathname: "/page-design/suggested-pages", query: items.share.page.id,}}>
+                      <a>
+                        <img
+                          src={items.share.page.display_photo_url}
+                          className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
+                          width={45}
+                          height={45}
+                          alt=""
+                        />
+                      </a>
+                    </Link>
                   ) : (
-                    <Image
-                      src={PagePhoto}
-                      className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
-                      width={45}
-                      height={45}
-                      alt=""
-                    />
+                    <Link href={{ pathname: "/page-design/suggested-pages", query: items.share.page.id,}}>
+                      <a>
+                        <Image
+                          src={PagePhoto}
+                          className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
+                          width={45}
+                          height={45}
+                          alt=""
+                        />
+                      </a>
+                    </Link>
                   )
                 ) : (
                   items && items.share.user && items.share.user.display_photo_url ? (
-                    <img
-                      src={items.share.user.display_photo_url}
-                      className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
-                      width={45}
-                      height={45}
-                      alt=""
-                    />
+                    CurrentUser && CurrentUser.id==items.share.user.id?(
+                      <Link href="/profile">
+                        <a>
+                          <img
+                            src={items.share.user.display_photo_url}
+                            className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
+                            width={45}
+                            height={45}
+                            alt=""
+                          />
+                        </a>
+                      </Link>
+                    ):(
+                      <Link href={{ pathname: "/User-Profile", query: items.share.user.id,}}>
+                        <a>
+                          <img
+                            src={items.share.user.display_photo_url}
+                            className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
+                            width={45}
+                            height={45}
+                            alt=""
+                          />
+                        </a>
+                      </Link>
+                    )
                   ) : (
-                    <Image
-                      src={ProfileAvatar}
-                      width={45}
-                      height={45}
-                      alt=""
-                    />
+                    CurrentUser && CurrentUser.id==items.share.user.id?(
+                      <Link href="/profile">
+                        <a>
+                          <Image
+                            src={ProfileAvatar}
+                            width={45}
+                            height={45}
+                            alt=""
+                          />
+                        </a>
+                      </Link>
+                    ):(
+                      <Link href={{ pathname: "/User-Profile", query: items.share.user.id,}}>
+                        <a>
+                          <Image
+                            src={ProfileAvatar}
+                            width={45}
+                            height={45}
+                            alt=""
+                          />
+                        </a>
+                      </Link>
+                    )
+                   
                   )
                 )}
 
                 <div>
                   {items.share.page ? (
                     <>
+                    <Link href={{ pathname: "/page-design/suggested-pages", query: items.share.page.id,}}>
+                    <a>
                       <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
 
                         <div className="capitalize">{items.share.page.name}</div>
                       </h4>
                       <div className="font-light text-gray-900 opacity-[0.8] italic">  Page Post</div>
+                    </a>
+                    </Link>
                     </>
 
                   ) : (
                     items.share.group ? (
                       <>
                         <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
-                          {items.share.user.first_name} {items.share.user.last_name}
+                          {CurrentUser && CurrentUser.id==items.share.user.id?(
+                            <Link href="/profile">
+                              <a>
+                                {items.share.user.first_name} {items.share.user.last_name}
+                              </a>
+                            </Link>
+                          ):(
+                            <Link href={{ pathname: "/User-Profile", query: items.share.user.id,}}>
+                              <a>
+                                {items.share.user.first_name} {items.share.user.last_name}
+                              </a>
+                            </Link>
+                          )}
                           <ChevronRightIcon
                             width={24}
                             height={24}
                             className="text-indigo-400"
                           />
-                          <div className="capitalize">{items.share.group.title}</div>
+                          <Link href={{ pathname: "/group-page/joind-group", query: items.share.group.id,}}>
+                            <a>
+                              <div className="capitalize">{items.share.group.title}</div>
+                            </a>
+                          </Link>
                         </h4>
                         <div className="font-light text-gray-900 opacity-[0.8] italic">Group Post</div>
 
                       </>
                     ) : (
                       <>
-                        <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
-                          {items.share.user.first_name} {items.share.user.last_name}
-                          <BadgeCheckIcon
-                            width={14}
-                            height={14}
-                            className="text-indigo-400"
-                          />
-                        </h4>
-                        <div className="font-light text-gray-900 opacity-[0.8]">
-                          {items.share.user.city ? items.share.user.city + ", " : ""}{items.share.user.state ? items.share.user.state + ", " : ""} {items.share.user.country}
-                        </div>
+                      {CurrentUser && CurrentUser.id==items.user.id?(
+                        <Link href="/profile">
+                          <a>
+                            <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
+                              {items.share.user.first_name} {items.share.user.last_name}
+                              <BadgeCheckIcon
+                                width={14}
+                                height={14}
+                                className="text-indigo-400"
+                              />
+                            </h4>
+                            <div className="font-light text-gray-900 opacity-[0.8]">
+                              {items.share.user.city ? items.share.user.city + ", " : ""}{items.share.user.state ? items.share.user.state + ", " : ""} {items.share.user.country}
+                            </div>
+                          </a>
+                        </Link>
+                      ):(
+                        <Link href={{ pathname: "/User-Profile", query: items.share.user.id,}}>
+                          <a>
+                            <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
+                              {items.share.user.first_name} {items.share.user.last_name}
+                              <BadgeCheckIcon
+                                width={14}
+                                height={14}
+                                className="text-indigo-400"
+                              />
+                            </h4>
+                            <div className="font-light text-gray-900 opacity-[0.8]">
+                              {items.share.user.city ? items.share.user.city + ", " : ""}{items.share.user.state ? items.share.user.state + ", " : ""} {items.share.user.country}
+                            </div>
+                          </a>
+                        </Link>
+                      )}
+                      
                       </>
                     )
                   )}

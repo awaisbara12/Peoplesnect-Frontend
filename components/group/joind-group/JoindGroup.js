@@ -650,9 +650,17 @@ const JoindGroup = (setList, singleItem) => {
           </div>
         </div>
       </div>
-      {currentUser && group && (join == true || group.group_type != "private_group" || currentUser.id == group.owner.id || (admins && isadmin(admins, currentUser.id))) ? (
+
+      {/* Don't Remove this Commented Section */}
+
+      {/* {currentUser && group && (join == true || group.group_type != "private_group" || currentUser.id == group.owner.id || (admins && isadmin(admins, currentUser.id))) ? (
+        <ProfileFeed currentUser={currentUser} group={group} admins={admins} />
+      ) : ("")} */}
+
+       {currentUser && group && (join == true|| currentUser.id == group.owner.id || (admins && isadmin(admins, currentUser.id))) ? (
         <ProfileFeed currentUser={currentUser} group={group} admins={admins} />
       ) : ("")}
+      
     </div>
   );
 };

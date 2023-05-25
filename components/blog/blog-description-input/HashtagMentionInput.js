@@ -91,7 +91,7 @@ const [mentions, setMentions] = useState([]);
       // className="w-{100%} mention-input resize-none border- text-base overflow-y-hidden outline-none focus:none focus:ring-0 m-6 "
       // className="placeholder:text-md bg-gray-100 placeholder:rounded-full  border-none w-96 rounded-xl"
                   
-      className="w-{100%} h-[500px] p-3 m-4"
+      className="w-{100%} p-3 m-4"
       value={props.postText} onChange={handleChange}
       placeholder={"Description .."}
       allowSpaceInQuery={true}
