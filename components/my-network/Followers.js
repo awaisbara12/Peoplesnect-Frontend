@@ -88,7 +88,7 @@ const Followers = (props) => {
                 {i.follower.display_photo_url?(
                    <Link 
                    href={{
-                    pathname: "/Friends-Profile",
+                    pathname: "/User-Profile",
                     query: i.follower.id}}>
                    <a>
                      <img 
@@ -102,7 +102,7 @@ const Followers = (props) => {
                    </Link>
                 ):(
                    <Link href={{
-                    pathname: "/Friends-Profile",
+                    pathname: "/User-Profile",
                     query: i.follower.id}}>
                    <a>
                      <Image 
@@ -116,7 +116,7 @@ const Followers = (props) => {
                
                 <div className="">
                  <Link href={{
-                    pathname: "/Friends-Profile",
+                    pathname: "/User-Profile",
                     query: i.follower.id}}>
                     <a>
                       <div className="username text-sm font-bold capitalize">{i.follower.first_name} {i.follower.last_name}</div>

@@ -244,7 +244,7 @@ const PageSettings = () => {
                 </button>
               </div>
             </div>
-            {c_user && page && c_user.id==page.owner.id?(
+            {c_user && page && page.owner && c_user.id==page.owner.id?(
             <div className=" border bg-white mt-4 px-4 py-6 rounded-xl">
               <div className="heading text-lg font-bold">
                 Permanent Delete Your Page

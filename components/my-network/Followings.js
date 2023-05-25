@@ -90,7 +90,7 @@ const Followings = (props) => {
             <div className="Followings-profile flex  px-4 py-10 justify-between items-center">
             <Link 
               href={{
-              pathname: "/Friends-Profile",
+              pathname: "/User-Profile",
               query: i.followee.id,
             }}>
             <a>

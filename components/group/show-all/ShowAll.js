@@ -355,7 +355,7 @@ const ShowAll = () => {
                     >
                     {joingroups.map((i)=>(
                         <div className=" bg-white profile mt-10 border rounded-xl" key={i.id}>
-                          <Link href={{pathname: "suggest-group", query: i.id,}}>
+                          <Link href={{pathname: "/group-page/joind-group", query: i.id,}}>
                           <a>
                             <div className="relative cover">      
                               {/* Cover Photo */}
@@ -405,7 +405,7 @@ const ShowAll = () => {
                           </a>
                           </Link>
                           <div className="Details px-4 ">
-                            <Link href={{pathname: "suggest-group", query: i.id,}}>
+                            <Link href={{pathname: "/group-page/joind-group", query: i.id,}}>
                             <a>
                               <div className="ml-16">
                                 <div className="User-Name font-bold capitalize">{i.title.substring(0,25)}</div>
