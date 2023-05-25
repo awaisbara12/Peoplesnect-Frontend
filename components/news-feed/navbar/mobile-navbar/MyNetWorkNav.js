@@ -17,13 +17,14 @@ import {
   VideoCameraIcon,
 } from "@heroicons/react/outline";
 import Spinner from "../../../common/Spinner";
+import TopNavbarSearch from "../../search/TopNavbarSearch ";
 const MyNetWorkNav = () => {
   const [open, setOpen] = useState(true);
 
   return (
     <div className="block lg:hidden md:hidden">
       <div className="flex sticky top-0 justify-between w-[625px] mx-auto h-14 items-center bg-white rounded-b-2xl px-4">
-        <div className="flex items-center gap-4">
+        {/* <div className="flex items-center gap-4">
           <div className="">
             <Link href="/news-feed">
               <a>
@@ -46,7 +47,8 @@ const MyNetWorkNav = () => {
               name="search"
             />
           </label>
-        </div>
+        </div> */}
+        <TopNavbarSearch/>
         <div className="relative">
           <Image
             src={ProfileAvatar}

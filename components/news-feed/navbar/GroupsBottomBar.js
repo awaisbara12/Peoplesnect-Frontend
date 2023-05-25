@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
+import { CONVERSATION_API, CURENT_USER_LOGIN_API, GET_NOTIFICATIONS,WS_PUBLIC_API } from "../../../pages/config";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -22,6 +24,113 @@ import {
 import { PlusSmIcon } from "@heroicons/react/outline";
 
 const GroupsBottomBar = () => {
+  const [count, setcount] = useState();
+  const [userDetails, setUserDetails] = useState();
+  const [Conversation, setConversation] = useState();
+  const router = useRouter();
+  // Bareer Key
+  if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore"); }
+  // for count notification (on-click)
+  const updateCount = async () => {
+    await fetch(GET_NOTIFICATIONS + "/count_update", {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          setcount(result.data);
+          console.log("sdjdsad", result.data);
+          // router.push("/notifications");
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+  // by-Default
+  const updateCounts = async () => {
+    await fetch(GET_NOTIFICATIONS + "/count_updates", {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          setcount(result.data);
+          // router.push("/notifications");
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+  // ActionCable
+  function createConversationAlertSub(CableApp , c_id) {
+    CableApp.subscriptions.create(
+      {
+        channel: 'AlertChannel',
+        id: c_id,
+      },
+      {
+        connected: () => console.log('alert connected'),
+        disconnected: () => console.log('alert disconnected'),
+        received: data => {  console.log('alert received');GetConversation();
+         },
+      } 
+    );
+  }
+  // converstion Alert
+  const GetConversation=async()=>{     
+    await fetch(CONVERSATION_API+"/conversation_alert", {
+      method: "GET",
+       headers: {
+        Accept: "application/json", 
+         Authorization: `${authKey}`,
+       },
+    })
+       .then((resp) => resp.json())
+      .then((result) => {
+        if (result && result.data) {
+          setConversation(result.data);
+          console.log(result.data);
+        }
+      })
+      .catch((err) => console.log(err)); 
+  }
+  //  Current user
+  const Current_User = async (CableApp) => {
+    await fetch(CURENT_USER_LOGIN_API, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result && result.data &&  result.data.id) {
+          setUserDetails(result.data);
+          createConversationAlertSub(CableApp, result.data.id)
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+  useEffect(() => {
+    // Current_User();
+    let actionCable;
+    if (typeof window !== 'undefined') {
+      actionCable = require('actioncable');
+      const CableApp= actionCable.createConsumer(WS_PUBLIC_API);
+      Current_User(CableApp);
+    }
+    const CableApp= actionCable.createConsumer(WS_PUBLIC_API);
+    Current_User(CableApp);
+    GetConversation();
+    updateCounts();
+  }, [])
   return (
     <div className="fixed bottom-0 block lg:hidden md:hidden bg-white w-full rounded-t-2xl">
       <div className="h-14 px-4 flex justify-between items-center">
@@ -161,23 +270,32 @@ const GroupsBottomBar = () => {
           </Transition>
         </Menu>
         <div className="">
-          <Link href="/news-feed">
+          <Link href="/messaging-design" className="">
             <a className="flex flex-col items-center">
-              <ChatAltIcon className="h-7 w-7" />
-              <div className="">Chat</div>
+              <div className="relative">
+                <ChatAltIcon className="h-5 w-7" />
+                {Conversation && Conversation== 'true' ? (
+                  <div className="bg-red-400 h-3 w-3 text-white -top-1 left-3 rounded-full flex justify-center items-center absolute">
+                  </div>
+                ) : ('')
+                }
+                <div className="text-sm md:text-xs">chat</div>
+              </div>
             </a>
           </Link>
         </div>
         <div className="">
-          <Link href="/notifications">
-            <a className="flex flex-col items-center">
-            <div className="relative">
-                  <BellIcon className="h-7 w-7" />
+          <Link href="/notifications" className="">
+            <a onClick={() => updateCount()} className="flex flex-col items-center" >
+              <div className="relative">
+                <BellIcon className="h-7 w-7" />
+                {count && count != '0' ? (
                   <div className="bg-red-400 h-4 w-4 text-white -top-1 left-3 rounded-full flex justify-center items-center absolute">
-                    <p className="text-[8px]">2</p>
+                    <p className="text-[8px]">{count}</p>
                   </div>
-                </div>
-              <div className="">Notifications</div>
+                ) : ('')}
+              </div>
+              <div className="text-sm md:text-xs">Notifications</div>
             </a>
           </Link>
         </div>

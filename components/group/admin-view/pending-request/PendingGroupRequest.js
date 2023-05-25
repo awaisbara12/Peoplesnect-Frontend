@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 
 const PendingGroupRequest = () => {
   const [all_reaquest, setall_reaquest] = useState();
+  const [disabled, setdisabled] = useState(false);
   const router = useRouter();
   const data = router.asPath;
   const myArray = data.split("?");
@@ -14,6 +15,7 @@ const PendingGroupRequest = () => {
   if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore"); }
   // Accepted or Cancelled the request
   const ActionButton = (status, Id) => {
+    setdisabled(true);
     fetch(PAGE_REQUEST_API + "/" + Id + "?member_requests[status]=" + status, {
       method: "PUT",
       headers: {
@@ -25,6 +27,7 @@ const PendingGroupRequest = () => {
       .then((result) => {
         PendingRequest();
         alert("Request has been " + status);
+        setdisabled(false);
       })
   }
   // Get Pending_Request
@@ -52,7 +55,6 @@ const PendingGroupRequest = () => {
         <div className="bg-white rounded-xl">
           <div className="flex justify-between items-center border-b-1 p-4">
             <div className="heading">Group Joining Request</div>
-            <div className="request-counting">99+</div>
           </div>
           <div className="border-b-1">
             {all_reaquest ? (
@@ -91,11 +93,13 @@ const PendingGroupRequest = () => {
                     </div>
                   </div>
                   <div className="Request-button flex items-center gap-2">
-                    <button onClick={() => ActionButton("accepted", i.id)}
+                    <button onClick={() => ActionButton("accepted", i.id) }
+                      disabled={disabled}
                       className="border-1 border-indigo-400 rounded-full text-indigo-400 px-3 py-1 hover:bg-indigo-400 hover:text-white">
                       Add To Group
                     </button>
                     <button onClick={() => ActionButton("cancelled", i.id)}
+                      disabled={disabled}
                       className="text-gray-600 border-1 border-gray-600 rounded-full px-3 py-1 hover:bg-gray-600 hover:text-white">
                       Reject
                     </button>
