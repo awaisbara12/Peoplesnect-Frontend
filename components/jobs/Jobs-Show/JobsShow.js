@@ -139,7 +139,7 @@ const JobsShow = () => {
                     </div>
                     <div className="font-light">
                       {/* Compnay Type */}
-                      {Recomend.email_address}
+                      {/* {Recomend.email_address} */}
                     </div>
                     {/* <div className="mt-2 flex text-sm font-light">
                       <StarIcon className="text-amber-400 w-5 h-5" />
