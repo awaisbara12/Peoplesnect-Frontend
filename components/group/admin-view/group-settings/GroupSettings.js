@@ -283,7 +283,7 @@ const GroupSettings = () => {
               </button>
             </div>
             {/* Delete */}
-            {currentUser && currentUser.id == group.owner.id ? (
+            {group && group.owner && currentUser && currentUser.id == group.owner.id ? (
               <div className=" border bg-white mt-4 px-4 py-6 rounded-xl">
                 <div className="heading text-lg font-bold">
                   Permanent Delete Your Group

@@ -247,7 +247,7 @@ const Messaging = () => {
                   <div className="overflow-y-scroll h-[370px] ">
                     {currentuser && Conversation && 
                       Conversation.map((i)=>{
-                        if(currentuser.id != i.recipient.id)
+                        if(i.recipient && currentuser.id != i.recipient.id)
                           {
                             return(
                               <Link href={{pathname:"/messaging-design",query:i.recipient.id}} key={i.id}>

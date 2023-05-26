@@ -146,7 +146,7 @@ const PageMembers = () => {
               <div className="">0</div>
             )}
           </div>
-          <div className="relative text-gray-500 flex justify-end mt-5 mr-5">
+          {/* <div className="relative text-gray-500 flex justify-end mt-5 mr-5">
             <input
               className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-48 xs:w-auto placeholder:pl-2 rounded-full placeholder:py-2"
               placeholder="Search by Name"
@@ -158,9 +158,9 @@ const PageMembers = () => {
                 <SearchIcon className="w-5 h-5 absolute top-3 right-3" />
               </a>
             </Link>
-          </div>
+          </div> */}
           {/* For Creater/Super-admin */}
-          {admin ? (
+          {admin && admin.owner? (
             <div className="border-b-1">
               <div className="request-profile flex  px-4 py-3 justify-between items-center">
                 <div className="flex items-center gap-3">

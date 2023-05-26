@@ -320,7 +320,7 @@ const LikedPages = (setList, singleItem) => {
                     >
                       <Menu.Items className="absolute left-1/2 z-10 mt-3 w-48 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-3xl">
                         <div className="flex items-start flex-col gap-2 border-1 bg-white rounded-xl p-3">
-                        {currentUser && Page && admins && (isadmin(admins,currentUser.id)!=true  && currentUser.id!=Page.owner.id)?(
+                        {currentUser && Page && admins && (isadmin(admins,currentUser.id)!=true && Page.owner && currentUser.id!=Page.owner.id)?(
                           <>
                             <Menu.Item className="flex gap-1 mt-2">
                               <a href="">
@@ -336,7 +336,7 @@ const LikedPages = (setList, singleItem) => {
                             </Menu.Item>
                           </>
                           ):('')} 
-                         {currentUser && Page && admins && (isadmin(admins,currentUser.id)  || currentUser.id==Page.owner.id)?(
+                         {currentUser && Page && admins && (isadmin(admins,currentUser.id)  ||Page.owner && currentUser.id==Page.owner.id)?(
                           <Menu.Item className="flex gap-1 mt-2">
                             <Link href={{pathname: "page-admin", query: Page.id,}}>
                             {/* <Link href="page-admin"> */}

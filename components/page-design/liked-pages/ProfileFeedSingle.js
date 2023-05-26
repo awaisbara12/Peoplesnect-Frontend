@@ -565,6 +565,7 @@ const ProfileFeedSingle = (singleItems) => {
 
   return (
     <>
+      {items.user?(
       <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">
         <div className="flex gap-2 justify-between items-center px-[22px] py-[14px]">
           <div className="flex gap-2">
@@ -594,7 +595,7 @@ const ProfileFeedSingle = (singleItems) => {
                 />
               </h4>
               <div className="font-light text-gray-900 opacity-[0.8]">
-                {items.user.recent_job}
+                {/* {items.user.recent_job} */}
               </div>
             </div>
           </div>
@@ -622,7 +623,7 @@ const ProfileFeedSingle = (singleItems) => {
                       leaveTo="opacity-0 translate-y-1"
                     >
                       <Popover.Panel className="absolute left-1/2 z-10 mt-3 w-72 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-3xl">
-                        {singleItems.currentUser.id == items.user.id || isadmin(admins, singleItems.currentUser.id) || singleItems.group.owner.id == singleItems.currentUser.id ? (
+                        {items.user && singleItems.currentUser.id == items.user.id || isadmin(admins, singleItems.currentUser.id) || singleItems.group.owner && singleItems.group.owner.id == singleItems.currentUser.id ? (
                           <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                             <div className="relative bg-white py-1">
                               {singleItems.currentUser.id == items.user.id ? (
@@ -1209,10 +1210,11 @@ const ProfileFeedSingle = (singleItems) => {
             </div>
           </div>
           <Fragment>
-            {singleItems.group.can_comment == "all_member" ? (
+            {items.user && singleItems.group.can_comment == "all_member" ? (
+              
               <PostComments news_feed_id={items.id} currentUser={singleItems.currentUser} setComments={setComments} setComments_count={setComments_count} setIs_deleted={setIs_deleted} dp={items.user.display_photo_url} />
             ) : (
-              singleItems.currentUser && singleItems.group ? (
+              items.user && singleItems.currentUser && singleItems.group ? (
                 (admins && isadmin(admins, singleItems.currentUser.id)) || singleItems.group.owner.id == singleItems.currentUser.id ? (
                   <PostComments news_feed_id={items.id} currentUser={singleItems.currentUser.id} setComments={setComments} setComments_count={setComments_count} setIs_deleted={setIs_deleted} dp={items.user.display_photo_url} />
                 ) : ("")
@@ -1224,6 +1226,7 @@ const ProfileFeedSingle = (singleItems) => {
         </div>
 
       </div>
+      ):("")}
     </>
   );
 };

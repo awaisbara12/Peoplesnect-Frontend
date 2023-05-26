@@ -233,7 +233,6 @@ const NewsFeedSingle = (singleItem) => {
   }
 
   const optionConfirm = (name, item) => {
-    // console.log(item)
     if (name == "Report") {
       var a = confirm(name);
       if (a) {
@@ -325,7 +324,6 @@ const NewsFeedSingle = (singleItem) => {
   }
 
 
-  console.log("itemsitems ", CurrentUser)
   return (
     <>
       <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">

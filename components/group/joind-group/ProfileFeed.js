@@ -118,7 +118,7 @@ const ProfileFeed = (props) => {
 
 
                 return (
-                  <ProfileFeedSingle lists={item} setList={setList} key={item.id} memberstatus={isadmin(props.admins, item.user.id)} admin={props.admins} group={props.group} currentUser={props.currentUser} />
+                  <ProfileFeedSingle lists={item} setList={setList} key={item.id} memberstatus={isadmin(props.admins, item.user && item.user.id)} admin={props.admins} group={props.group} currentUser={props.currentUser} />
                 )
               }
               )

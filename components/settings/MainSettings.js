@@ -52,14 +52,14 @@ const MainSettings = () => {
               </div>
             </a>
           </div>
-          <div className="border hover:bg-gray-50 mt-4 p-4 bg-white hover:shadow-lg rounded-xl">
+          {/* <div className="border hover:bg-gray-50 mt-4 p-4 bg-white hover:shadow-lg rounded-xl">
             <a href="settings/payment-subscription">
               <div className="username flex gap-2 text-lg font-medium">
                 <ShoppingBagIcon className="h-7 w-7" />
                 Payments & Subscription
               </div>
             </a>
-          </div>
+          </div> */}
           <div className="border hover:bg-gray-50 mt-4 p-4 bg-white hover:shadow-lg rounded-xl">
             <a href="settings/account-managment">
               <div className="username flex gap-2 text-lg font-medium">

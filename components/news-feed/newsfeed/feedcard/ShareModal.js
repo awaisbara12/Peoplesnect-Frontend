@@ -201,6 +201,7 @@ const ShareModal = (props) => {
   return (
     <div>
       <div>
+      
         <div>
           <ShareIcon
             width={24}
@@ -315,7 +316,7 @@ const ShareModal = (props) => {
                                   </>
 
                                 ) : (
-                                  props.items.group ? (
+                                  props.items.user && props.items.group ? (
                                     <>
 
                                       <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
@@ -331,25 +332,28 @@ const ShareModal = (props) => {
                                       {/* {items && props.items.group && props.items.user && props.items.group.owner.id==props.items.user.id?"Super Admin":GetAdmins(props.items.group.id, props.items.user.id)?"Admin":"Member"} */}
                                     </>
                                   ) : (
-                                    <>
-                                      <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
-                                        {props.items.user.first_name} {props.items.user.last_name}
-                                        <BadgeCheckIcon
-                                          width={14}
-                                          height={14}
-                                          className="text-indigo-400"
-                                        />
-                                      </h4>
-                                      <div className="font-light text-gray-900 opacity-[0.8]">
-                                        {props.items.user.city ? props.items.user.city + ", " : ""}{props.items.user.state ? props.items.user.state + ", " : ""} {props.items.user.country}
-                                      </div>
-                                    </>
+                                    props.items && props.items.user?(
+                                      <>
+                                        <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
+                                          {props.items.user.first_name} {props.items.user.last_name}
+                                          <BadgeCheckIcon
+                                            width={14}
+                                            height={14}
+                                            className="text-indigo-400"
+                                          />
+                                        </h4>
+                                        <div className="font-light text-gray-900 opacity-[0.8]">
+                                          {props.items.user.city ? props.items.user.city + ", " : ""}{props.items.user.state ? props.items.user.state + ", " : ""} {props.items.user.country}
+                                        </div>
+                                        
+                                      </>
+                                    ):("")
                                   )
                                 )}
 
                               </div>
 
-                              {props.items.tags && props.items.tags.length > 0 || (props.items.hashtags && props.items.hashtags.length > 0) ?
+                              {props.items && props.items.user && props.items.tags && props.items.tags.length > 0 || (props.items.hashtags && props.items.hashtags.length > 0) ?
                                 <App state={props.items.body} website={props.items.tags} hashtags={props.items.hashtags} />
                                 : <ReadMore>
                                   {props.items.body ? props.items.body : ""}
