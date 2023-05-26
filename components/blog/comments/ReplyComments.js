@@ -512,6 +512,7 @@ const ReplyComments = (props) => {
         {/* Show Comments */}
         {props.comments &&
           props.comments.map((comment) => (
+            comment.user?(
             <div
               className="w-full bg-zinc-100 mt-[14px] p-[16px] rounded-xl"
               id={`comment-${comment.id}`}
@@ -908,306 +909,309 @@ const ReplyComments = (props) => {
 
                 {comment.reply_comments?(
                     comment.reply_comments.slice(0, replyShow).map(i=>(
-                     <div className="bg-white mt-[8px] py-[16px] mx-6 px-6 rounded-xl" id={`comment-${i.id}`} key={i.id}>
-                      <div className="flex justify-between">
-                        <div className="flex items-start  gap-[10px]">
-                          {i.user.display_photo_url?(
-                            currentUser && currentUser==i.user.id?(
-                              <Link href="/profile">
-                                <a>
-                                  <img
-                                    src={i.user.display_photo_url} 
-                                    className="object-cover rounded-full z-40 h-[38px] w-[38px]"
-                                    alt=""
-                                  />
-                                </a>
-                              </Link>
-                            ):(
-                              <Link href={{ pathname: "/User-Profile", query: i.user.id,}}>
-                                <a>
-                                  <img
-                                    src={i.user.display_photo_url} 
-                                    className="object-cover rounded-full z-40 h-[38px] w-[38px]"
-                                    alt=""
-                                  />
-                                </a>
-                              </Link>
-                            )
-                          ):(
-                            currentUser && currentUser==i.user.id?(
-                              <Link href="/profile">
-                                <a>
-                                  <Image src={ProfileAvatar}  className="object-cover rounded-full " 
-                                  width={38} height={38} alt="" />
-                                </a>
-                              </Link>
-                            ):(
-                              <Link href={{ pathname: "/User-Profile", query: i.user.id,}}>
-                                <a>
-                                  <Image src={ProfileAvatar}  className="object-cover rounded-full " 
-                                  width={38} height={38} alt="" />
-                                </a>
-                              </Link>
-                            )
-                          )}
-                          
-                          {currentUser && currentUser==i.user.id?(
-                            <Link href="/profile">
-                              <a>
-                                <div>
-                                  <span className="text-slate-900 flex gap-[6px] items-center capitalize">
-                                    {i.user.first_name} {i.user.last_name}
-                                    <div className="w-1 h-1 rounded-full bg-slate-400"></div>
-                                    <div className="text-gray-400">{i.created_at} | {i.time}</div>
-                                  </span>
-                                  <div className="text-gray-900 text-sm ">
-                                    {i.user.city?i.user.city+", ":''}{i.user.state?i.user.state+", ":''} {i.user.country?i.user.country:''}
-                                  </div>
-                                </div>
-                              </a>
-                            </Link>
-                          ):(
-                            <Link href={{ pathname: "/User-Profile", query: i.user.id,}}>
-                              <a>
-                                <div>
-                                  <span className="text-slate-900 flex gap-[6px] items-center capitalize">
-                                    {i.user.first_name} {i.user.last_name}
-                                    <div className="w-1 h-1 rounded-full bg-slate-400"></div>
-                                    <div className="text-gray-400">{i.created_at} | {i.time}</div>
-                                  </span>
-                                  <div className="text-gray-900 text-sm ">
-                                    {i.user.city?i.user.city+", ":''}{i.user.state?i.user.state+", ":''} {i.user.country?i.user.country:''}
-                                  </div>
-                                </div>
-                              </a>
-                            </Link>
-                           
-                          )}
-                        </div>
-                        {/* Reply poper */}
-                        <div className="">
-                          <Popover className="relative">
-                            {({ open }) => (
-                              <>
-                                <Popover.Button
-                                  className={` ${
-                                    open
-                                      ? ""
-                                      : "text-opacity-90 focus-visible:outline-none"
-                                  }`}
-                                >
-                                  <div className="hover:bg-indigo-100 focus:bg-indigo-100 rounded-full h-8 w-8 flex items-center justify-center">
-                                    <DotsHorizontalIcon className="w-5 h-5" />
-                                  </div>
-                                </Popover.Button>
-                                {currentUser==i.user.id ||currentUser==props.items.user.id || currentUser==comment.user.id?(
-                                   <Transition
-                                   as={Fragment}
-                                   enter="transition ease-out duration-200"
-                                   enterFrom="opacity-0 translate-y-1"
-                                   enterTo="opacity-100 translate-y-0"
-                                   leave="transition ease-in duration-150"
-                                   leaveFrom="opacity-100 translate-y-0"
-                                   leaveTo="opacity-0 translate-y-1"
-                                 >
-                                   <Popover.Panel className="absolute left-7 z-10 top-6 w-36 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-3xl">
-                                     <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
-                                       <div className="relative bg-white py-1">
-                                         {currentUser==i.user.id?(
-                                           <button
-                                             key="Edit"
-                                             onClick={() => replyEdit(i.id, i.body)}
-                                             className="flex items-center w-full rounded-lg hover:bg-gray-50 h-6"
-                                           >
-                                             <div className="flex items-center gap-3 justify-center text-white pl-2">
-                                               <PencilIcon className="h-4 w-4 text-gray-900" />
-                                               <div>
-                                                 <p className="text-sm font-medium text-gray-900">
-                                                   Edit
-                                                 </p>
-                                               </div>
-                                             </div>
-                                           </button>
-                                         ):('')}
-                                         
-                                         {currentUser==i.user.id ||currentUser==props.items.user.id || currentUser==comment.user.id?(
-                                             <button
-                                             key="Delete"
-                                             onClick={() => deleteReply(i.id)}
-                                             className="flex items-center w-full rounded-lg hover:bg-gray-50 h-6"
-                                           >
-                                             <div className="flex items-center gap-3 justify-center text-white pl-2">
-                                               <TrashIcon className="h-4 w-4 text-gray-900" />
-                                               <div>
-                                                 <p className="text-sm font-medium text-gray-900">
-                                                   Delete
-                                                 </p>
-                                               </div>
-                                             </div>
-                                           </button>
-                                         ):('')}
-                                        
-                                       </div>
-                                     </div>
-                                   </Popover.Panel>
-                                 </Transition>
-                                ):('')}
-                               
-                              </>
-                            )}
-                          </Popover>
-                        </div>
-                      </div>
-
-
-                      {/* Edit Reply Input */}
-
-                      
-                      {reply_edit_on && editCommentId==i.id?(
-                        <>
-                          {/* Edit Reply Input Bar */}
-                          <div className="relative -ml-5">
-                            <div className="flex items-center">
-                              {/* <InputEmoji
-                                value={i.body}
-                                className="ml-0"
-                                type="text"
-                                onChange={setEditReply}
-                                react-emoji="w-{80%}"
-                                placeholder={i.body}
-                              /> */}
-                              {chosenEmoji ? (
-                              <Picker onEmojiClick={onEmojiClickEditReply}className="w-[50px] h-[50px]" />
-                                ) : ('')}
-                              <div className="w-[97%]">
-                                  <HashtagMentionInput postText={edit_reply} setPostText={setEditReply} mentioned={mentioned}  tags={tags} settags={settags} hastags={hastags}/>
-                                </div>
-                              <div className="flex">
-                                {chosenEmoji ? ('') : (
-                                  <EmojiHappyIcon
-                                    width={28}
-                                    height={28}
-                                    className="text-gray-500"
-                                    onClick={()=>setChosenEmoji(true)}
-                                  />
+                      i.user?(
+                        <div className="bg-white mt-[8px] py-[16px] mx-6 px-6 rounded-xl" id={`comment-${i.id}`} key={i.id}>
+                            <div className="flex justify-between">
+                              <div className="flex items-start  gap-[10px]">
+                                {i.user.display_photo_url?(
+                                  currentUser && currentUser==i.user.id?(
+                                    <Link href="/profile">
+                                      <a>
+                                        <img
+                                          src={i.user.display_photo_url} 
+                                          className="object-cover rounded-full z-40 h-[38px] w-[38px]"
+                                          alt=""
+                                        />
+                                      </a>
+                                    </Link>
+                                  ):(
+                                    <Link href={{ pathname: "/User-Profile", query: i.user.id,}}>
+                                      <a>
+                                        <img
+                                          src={i.user.display_photo_url} 
+                                          className="object-cover rounded-full z-40 h-[38px] w-[38px]"
+                                          alt=""
+                                        />
+                                      </a>
+                                    </Link>
+                                  )
+                                ):(
+                                  currentUser && currentUser==i.user.id?(
+                                    <Link href="/profile">
+                                      <a>
+                                        <Image src={ProfileAvatar}  className="object-cover rounded-full " 
+                                        width={38} height={38} alt="" />
+                                      </a>
+                                    </Link>
+                                  ):(
+                                    <Link href={{ pathname: "/User-Profile", query: i.user.id,}}>
+                                      <a>
+                                        <Image src={ProfileAvatar}  className="object-cover rounded-full " 
+                                        width={38} height={38} alt="" />
+                                      </a>
+                                    </Link>
+                                  )
                                 )}
-                                <div className="relative flex items-center justify-center">
-                                  <PhotographIcon
-                                    width={28}
-                                    height={28}
-                                    className="text-gray-500"
-                                  />
-                                  <input
-                                    type="file"
-                                    name="image"
-                                    id="image"
-                                    className="opacity-0 absolute w-6 h-6 -z-0"
-                                    onChange={handleImagePost}
-                                    title={""}
-                                    multiple
-                                  />
-                                </div>
+                                
+                                {currentUser && currentUser==i.user.id?(
+                                  <Link href="/profile">
+                                    <a>
+                                      <div>
+                                        <span className="text-slate-900 flex gap-[6px] items-center capitalize">
+                                          {i.user.first_name} {i.user.last_name}
+                                          <div className="w-1 h-1 rounded-full bg-slate-400"></div>
+                                          <div className="text-gray-400">{i.created_at} | {i.time}</div>
+                                        </span>
+                                        <div className="text-gray-900 text-sm ">
+                                          {i.user.city?i.user.city+", ":''}{i.user.state?i.user.state+", ":''} {i.user.country?i.user.country:''}
+                                        </div>
+                                      </div>
+                                    </a>
+                                  </Link>
+                                ):(
+                                  <Link href={{ pathname: "/User-Profile", query: i.user.id,}}>
+                                    <a>
+                                      <div>
+                                        <span className="text-slate-900 flex gap-[6px] items-center capitalize">
+                                          {i.user.first_name} {i.user.last_name}
+                                          <div className="w-1 h-1 rounded-full bg-slate-400"></div>
+                                          <div className="text-gray-400">{i.created_at} | {i.time}</div>
+                                        </span>
+                                        <div className="text-gray-900 text-sm ">
+                                          {i.user.city?i.user.city+", ":''}{i.user.state?i.user.state+", ":''} {i.user.country?i.user.country:''}
+                                        </div>
+                                      </div>
+                                    </a>
+                                  </Link>
+                                
+                                )}
+                              </div>
+                              {/* Reply poper */}
+                              <div className="">
+                                <Popover className="relative">
+                                  {({ open }) => (
+                                    <>
+                                      <Popover.Button
+                                        className={` ${
+                                          open
+                                            ? ""
+                                            : "text-opacity-90 focus-visible:outline-none"
+                                        }`}
+                                      >
+                                        <div className="hover:bg-indigo-100 focus:bg-indigo-100 rounded-full h-8 w-8 flex items-center justify-center">
+                                          <DotsHorizontalIcon className="w-5 h-5" />
+                                        </div>
+                                      </Popover.Button>
+                                      {currentUser==i.user.id ||currentUser==props.items.user.id || currentUser==comment.user.id?(
+                                        <Transition
+                                        as={Fragment}
+                                        enter="transition ease-out duration-200"
+                                        enterFrom="opacity-0 translate-y-1"
+                                        enterTo="opacity-100 translate-y-0"
+                                        leave="transition ease-in duration-150"
+                                        leaveFrom="opacity-100 translate-y-0"
+                                        leaveTo="opacity-0 translate-y-1"
+                                      >
+                                        <Popover.Panel className="absolute left-7 z-10 top-6 w-36 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-3xl">
+                                          <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                                            <div className="relative bg-white py-1">
+                                              {currentUser==i.user.id?(
+                                                <button
+                                                  key="Edit"
+                                                  onClick={() => replyEdit(i.id, i.body)}
+                                                  className="flex items-center w-full rounded-lg hover:bg-gray-50 h-6"
+                                                >
+                                                  <div className="flex items-center gap-3 justify-center text-white pl-2">
+                                                    <PencilIcon className="h-4 w-4 text-gray-900" />
+                                                    <div>
+                                                      <p className="text-sm font-medium text-gray-900">
+                                                        Edit
+                                                      </p>
+                                                    </div>
+                                                  </div>
+                                                </button>
+                                              ):('')}
+                                              
+                                              {currentUser==i.user.id ||currentUser==props.items.user.id || currentUser==comment.user.id?(
+                                                  <button
+                                                  key="Delete"
+                                                  onClick={() => deleteReply(i.id)}
+                                                  className="flex items-center w-full rounded-lg hover:bg-gray-50 h-6"
+                                                >
+                                                  <div className="flex items-center gap-3 justify-center text-white pl-2">
+                                                    <TrashIcon className="h-4 w-4 text-gray-900" />
+                                                    <div>
+                                                      <p className="text-sm font-medium text-gray-900">
+                                                        Delete
+                                                      </p>
+                                                    </div>
+                                                  </div>
+                                                </button>
+                                              ):('')}
+                                              
+                                            </div>
+                                          </div>
+                                        </Popover.Panel>
+                                      </Transition>
+                                      ):('')}
+                                    
+                                    </>
+                                  )}
+                                </Popover>
                               </div>
                             </div>
-                          </div>
-                          {/* Preview of Image in Edit Reply */}
-                          {C_postImagePreview?(
-                            <div className="relative w-1/4 mt-2">
-                              <img
-                                src={C_postImagePreview}
-                                className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
-                                alt=""
-                              />
-                                <div className="bg-indigo-100 absolute top-4 right-0 z-10 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
-                                onClick={clearPic} >
-                                  <TrashIcon className="w-5 h-5 text-indigo-600" />
+
+
+                          {/* Edit Reply Input */}
+
+                          
+                            {reply_edit_on && editCommentId==i.id?(
+                              <>
+                                {/* Edit Reply Input Bar */}
+                                <div className="relative -ml-5">
+                                  <div className="flex items-center">
+                                    {/* <InputEmoji
+                                      value={i.body}
+                                      className="ml-0"
+                                      type="text"
+                                      onChange={setEditReply}
+                                      react-emoji="w-{80%}"
+                                      placeholder={i.body}
+                                    /> */}
+                                    {chosenEmoji ? (
+                                    <Picker onEmojiClick={onEmojiClickEditReply}className="w-[50px] h-[50px]" />
+                                      ) : ('')}
+                                    <div className="w-[97%]">
+                                        <HashtagMentionInput postText={edit_reply} setPostText={setEditReply} mentioned={mentioned}  tags={tags} settags={settags} hastags={hastags}/>
+                                      </div>
+                                    <div className="flex">
+                                      {chosenEmoji ? ('') : (
+                                        <EmojiHappyIcon
+                                          width={28}
+                                          height={28}
+                                          className="text-gray-500"
+                                          onClick={()=>setChosenEmoji(true)}
+                                        />
+                                      )}
+                                      <div className="relative flex items-center justify-center">
+                                        <PhotographIcon
+                                          width={28}
+                                          height={28}
+                                          className="text-gray-500"
+                                        />
+                                        <input
+                                          type="file"
+                                          name="image"
+                                          id="image"
+                                          className="opacity-0 absolute w-6 h-6 -z-0"
+                                          onChange={handleImagePost}
+                                          title={""}
+                                          multiple
+                                        />
+                                      </div>
+                                    </div>
+                                  </div>
                                 </div>
-                            </div>
-                          ):( 
-                            <div className="relative w-1/4 mt-2">
-                              {i.attachments_link?(
+                                {/* Preview of Image in Edit Reply */}
+                                {C_postImagePreview?(
+                                  <div className="relative w-1/4 mt-2">
+                                    <img
+                                      src={C_postImagePreview}
+                                      className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
+                                      alt=""
+                                    />
+                                      <div className="bg-indigo-100 absolute top-4 right-0 z-10 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
+                                      onClick={clearPic} >
+                                        <TrashIcon className="w-5 h-5 text-indigo-600" />
+                                      </div>
+                                  </div>
+                                ):( 
+                                  <div className="relative w-1/4 mt-2">
+                                    {i.attachments_link?(
+                                        <img
+                                        src={i.attachments_link}
+                                        className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
+                                        alt=""
+                                      />
+                                    ):('')}
+                                  </div>
+                                  )}
+                                {/* Edit Reply Button */}
+                                <div className="flex gap-2 mt-2">
+                                  <button className="bg-transparent border-2 border-indigo-400 text-indigo-400 px-2 py-1 rounded-xl"
+                                  onClick={() => replyEdit(i.id)}>
+                                    Cancel
+                                  </button>
+                                  <button onClick={() => updateReply(i.id,i.body)} className="bg-indigo-400 text-white border-2  px-2 py-1 rounded-xl">
+                                    Update
+                                  </button>
+                                </div>
+                              </>
+                            ) : (
+                              <>
+                                {/* <p className="text-gray-900 mt-[2px] text-sm">{i.body}</p> */}
+                                { i.tags && i.tags.length > 0 || (i.hashtags && i.hashtags.length > 0)?
+                                  (
+                                    <App state={i.body} website={i.tags} hashtags={i.hashtags}/>
+                                  )
+                                  :
+                                  (  
+                                    <ReadMore>
+                                    {i.body? i.body : ""}
+                                    </ReadMore>
+                                  )
+                                }
+                                {i.attachments_link ? (
                                   <img
-                                  src={i.attachments_link}
-                                  className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
-                                  alt=""
-                                />
-                              ):('')}
-                            </div>
-                            )}
-                          {/* Edit Reply Button */}
-                          <div className="flex gap-2 mt-2">
-                            <button className="bg-transparent border-2 border-indigo-400 text-indigo-400 px-2 py-1 rounded-xl"
-                             onClick={() => replyEdit(i.id)}>
-                              Cancel
-                            </button>
-                            <button onClick={() => updateReply(i.id,i.body)} className="bg-indigo-400 text-white border-2  px-2 py-1 rounded-xl">
-                              Update
-                            </button>
-                          </div>
-                        </>
-                      ) : (
-                        <>
-                          {/* <p className="text-gray-900 mt-[2px] text-sm">{i.body}</p> */}
-                          { i.tags && i.tags.length > 0 || (i.hashtags && i.hashtags.length > 0)?
-                            (
-                              <App state={i.body} website={i.tags} hashtags={i.hashtags}/>
-                            )
-                            :
-                            (  
-                              <ReadMore>
-                              {i.body? i.body : ""}
-                              </ReadMore>
-                            )
-                          }
-                          {i.attachments_link ? (
-                            <img
-                              src={i.attachments_link[0]}
-                              className=" rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
-                              alt=""
-                            />
-                          ) : (
-                            ""
-                          )}
-                          <div className="flex items-center gap-[14px] mt-[10px]">
-                            {/* <HeartIcon className="w-5 h-5 cursor-pointer" onClick={() => likeComment(comment.id)}/> */}
-                            <div className="flex gap-2 items-center">
-                              {i.is_heart && i.is_heart == true ? (
-                                <>
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24"
-                                    fill="Red"
-                                    className="w-6 h-6 cursor-pointer"
-                                    onClick={() => deteleHeart(i.heart_id)}
-                                  >
-                                    <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
-                                  </svg>
-                                  <span className="font-light text-gray-900">
-                                    {i.reactions_count}
-                                  </span>
-                                </>
-                              ) : (
-                                <>
-                                  <HeartIcon
-                                    width={24}
-                                    height={24}
-                                    className="text-gray-600 cursor-pointer"
-                                    onClick={() => addHeart("ReplyComment",i.id)}
+                                    src={i.attachments_link[0]}
+                                    className=" rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
+                                    alt=""
                                   />
-                                  <span className="font-light text-gray-600 cursor-pointer">
-                                    {i.reactions_count}
-                                  </span>
-                                </>
-                              )}
-                            </div>
-                          </div>
-                        </>
-                        
-                      )}
-                    </div>
+                                ) : (
+                                  ""
+                                )}
+                                <div className="flex items-center gap-[14px] mt-[10px]">
+                                  {/* <HeartIcon className="w-5 h-5 cursor-pointer" onClick={() => likeComment(comment.id)}/> */}
+                                  <div className="flex gap-2 items-center">
+                                    {i.is_heart && i.is_heart == true ? (
+                                      <>
+                                        <svg
+                                          xmlns="http://www.w3.org/2000/svg"
+                                          viewBox="0 0 24 24"
+                                          fill="Red"
+                                          className="w-6 h-6 cursor-pointer"
+                                          onClick={() => deteleHeart(i.heart_id)}
+                                        >
+                                          <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
+                                        </svg>
+                                        <span className="font-light text-gray-900">
+                                          {i.reactions_count}
+                                        </span>
+                                      </>
+                                    ) : (
+                                      <>
+                                        <HeartIcon
+                                          width={24}
+                                          height={24}
+                                          className="text-gray-600 cursor-pointer"
+                                          onClick={() => addHeart("ReplyComment",i.id)}
+                                        />
+                                        <span className="font-light text-gray-600 cursor-pointer">
+                                          {i.reactions_count}
+                                        </span>
+                                      </>
+                                    )}
+                                  </div>
+                                </div>
+                              </>
+                              
+                            )}
+                        </div>
+                      ):("")
                     ))
                 ):('')}
             </div>
+            ):("")
           ))}
       </div>
     </Fragment>

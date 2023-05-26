@@ -284,7 +284,7 @@ const SuggestedPages = (setList, singleItem) => {
                 <div className="Creat-Name mt-5 font-bold">
                   Page Admin Name :{" "}
                   <span className="text-indigo-400 ml-2 cursor-pointer capitalize ">
-                  {Page?(Page.owner.first_name+" "+ Page.owner.last_name):('')}
+                  {Page && Page.owner?(Page.owner.first_name+" "+ Page.owner.last_name):('')}
                   </span>
                 </div>
                 {join==true?(

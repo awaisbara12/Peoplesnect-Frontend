@@ -424,7 +424,6 @@ const Dropdown = ({ color }) => {
       .then((result) => {
         if (result && result.data) {
           setsmsNotify(result.data);
-          console.log("ssssssssssssss",result.data);
         }
       })
       .catch((err) => console.log(err)); 

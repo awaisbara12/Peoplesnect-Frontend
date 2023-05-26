@@ -98,7 +98,7 @@ const AccountSecurity = () => {
                 <EyeIcon className="absolute right-4 top-2 h-5 w-5" onClick={()=>show("type3")} />
                 </div>
               </div>
-              <div className="mt-5 flex justify-center">
+              {/* <div className="mt-5 flex justify-center">
                 <div className="flex items-center justify-between w-[580px] border bg-white px-4 py-4 rounded-xl">
                   <div className="">Two Step Verification</div>
                   <div className="">
@@ -116,7 +116,7 @@ const AccountSecurity = () => {
                     </label>
                   </div>
                 </div>
-              </div>
+              </div> */}
               <div className="flex justify-end mt-8">
                 <button className="border-2 border-indigo-400 bg-indigo-400 p-2 rounded-full text-white font-bold"
                  onClick={UpdatePassword}>

@@ -489,7 +489,7 @@ const JoindGroup = (setList, singleItem) => {
                               Notifications
                             </a>
                           </Menu.Item> */}
-                        {currentUser && join == true && group ? (!(admins && isadmin(admins, currentUser.id)) && currentUser.id != group.owner.id ? (
+                        {currentUser && join == true && group ? (!(admins && isadmin(admins, currentUser.id)) && group.owner && currentUser.id != group.owner.id ? (
                           <div>
                             <Menu.Item className="flex gap-1 mt-2">
                               <a href="">
@@ -512,7 +512,7 @@ const JoindGroup = (setList, singleItem) => {
                         }
                         {
                           currentUser && group ? (
-                            (admins && isadmin(admins, currentUser.id)) || group.owner.id == currentUser.id ? (
+                            (admins && isadmin(admins, currentUser.id)) || group.owner && group.owner.id == currentUser.id ? (
                               <Menu.Item className="flex gap-1 mt-2">
                                 <Link href={{ pathname: "/group-page/admin-view", query: myArray[1] }} onClick={() => alert("yes")}>
                                   <a className="flex">
@@ -529,7 +529,7 @@ const JoindGroup = (setList, singleItem) => {
                   </Transition>
                 </Menu>
               </div>
-              {currentUser && join == true && group ? (!(admins && isadmin(admins, currentUser.id)) && group.owner.id != currentUser.id ? (
+              {currentUser && join == true && group ? (!(admins && isadmin(admins, currentUser.id)) && group.owner && group.owner.id != currentUser.id ? (
                 <Link href={{ pathname: "/group-page/joind-group/group-members", query: myArray[1] }}>
                   <a>
                     <div className="border border-indigo-400 py-2 px-3 text-indigo-400 rounded-full">
@@ -554,7 +554,7 @@ const JoindGroup = (setList, singleItem) => {
                   Request Send
                 </button>
               ) : (
-                currentUser && group && (join == true || currentUser.id == group.owner.id || (admins && isadmin(admins, currentUser.id))) ? (
+                currentUser && group && (join == true ||group.owner &&  currentUser.id == group.owner.id || (admins && isadmin(admins, currentUser.id))) ? (
                   <button
                     onClick={openModal}
                     type="submit"
@@ -657,7 +657,7 @@ const JoindGroup = (setList, singleItem) => {
         <ProfileFeed currentUser={currentUser} group={group} admins={admins} />
       ) : ("")} */}
 
-       {currentUser && group && (join == true|| currentUser.id == group.owner.id || (admins && isadmin(admins, currentUser.id))) ? (
+       {currentUser && group && (join == true||group.owner && currentUser.id == group.owner.id || (admins && isadmin(admins, currentUser.id))) ? (
         <ProfileFeed currentUser={currentUser} group={group} admins={admins} />
       ) : ("")}
       

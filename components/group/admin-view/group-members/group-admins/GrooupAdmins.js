@@ -111,7 +111,7 @@ const GrooupAdmins = () => {
             <div className="">{count + 1}</div>
           </div>
           {/* For Creater/Super-admin */}
-          {admin ? (
+          {admin && admin.owner? (
             <div className="border-b-1">
               <div className="request-profile flex  px-4 py-3 justify-between items-center">
                 <div className="flex items-center gap-3">

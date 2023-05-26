@@ -305,6 +305,7 @@ const ProfileFeedSingle = (singleItems) => {
 //  console.log("ddddddddd",singleItems.currentuser)
   return (
     <>
+      {items && items.user ?(
       <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">
         <div className="flex gap-2 justify-between items-center px-[22px] py-[14px]">
           <div className="flex gap-2">
@@ -333,7 +334,7 @@ const ProfileFeedSingle = (singleItems) => {
                 )
                 
               ) : (
-                items?(
+                items && items.user?(
                   singleItems && singleItems.currentuser && singleItems.currentuser.id==items.user.id?(
                     <Link href="/profile">
                       <a>
@@ -360,7 +361,7 @@ const ProfileFeedSingle = (singleItems) => {
                 ):("")
               )}
               
-              {items && singleItems && singleItems.currentuser && singleItems.currentuser.id==items.user.id?(
+              {items && items.user && singleItems && singleItems.currentuser && singleItems.currentuser.id==items.user.id?(
                 <Link href="/profile">
                   <a>
                     <div>
@@ -383,6 +384,7 @@ const ProfileFeedSingle = (singleItems) => {
                   </a>
                 </Link>
               ):(
+                items && items.user?(
                 <Link href={{ pathname: "/User-Profile", query: items.user.id,}}>
                   <a>
                     <div>
@@ -404,9 +406,11 @@ const ProfileFeedSingle = (singleItems) => {
                     </div>
                   </a>
                 </Link>
+                ):("")
               )}
                   
           </div>
+                  
           <div className="">
             <div className="">
               <Popover className="relative">
@@ -465,15 +469,17 @@ const ProfileFeedSingle = (singleItems) => {
 
           {/* <p>{items.body ? items.body : ""}</p> */}
           {
-            items.tags && items.tags.length > 0 || (items.hashtags && items.hashtags.length > 0) ?
+            items && items.tags && items.tags.length > 0 || (items.hashtags && items.hashtags.length > 0) ?
               (
                 <App state={items.body} website={items.tags} hashtags={items.hashtags} />
               )
               :
               (
+                items?(
                 <ReadMore>
                   {items.body ? items.body : ""}
                 </ReadMore>
+                ):("")
               )
           }
           {items.event && items.event ? (
@@ -680,7 +686,7 @@ const ProfileFeedSingle = (singleItems) => {
                     ) : (
                       <>
                         <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
-                        {singleItems && singleItems.currentuser && singleItems.currentuser.id==items.share.user.id?(
+                        {items && items.share && items.share.user && singleItems && singleItems.currentuser && singleItems.currentuser.id==items.share.user.id?(
                           <Link href="/profile">
                             <a>
                               <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
@@ -722,7 +728,7 @@ const ProfileFeedSingle = (singleItems) => {
                 </div>
               </div>
               <div className="p-2 pb-2">
-                {items.share.tags && items.share.tags.length > 0 || (items.share.hashtags && items.share.hashtags.length > 0) ?
+                {items.share && items.share.user && items.share.tags && items.share.tags.length > 0 || (items.share.hashtags && items.share.hashtags.length > 0) ?
                   <App state={items.share.body} website={items.share.tags} hashtags={items.share.hashtags} />
                   : <ReadMore>
                     {items.share.body ? items.share.body : ""}
@@ -957,16 +963,19 @@ const ProfileFeedSingle = (singleItems) => {
                   <ShareModal items={items && items.feed_type == "share" ? (items.share) : (items)} currentuser={singleItems.currentuser} />
                 </div>
               </div>
+              {items && items.user?(
               <Fragment>
                 <PostComments news_feed_id={items.id} setComments={setComments} setComments_count={setComments_count} setIs_deleted={setIs_deleted} dp={items.user.display_photo_url} />
                 <FilterComments news_feed_id={items.id} comments={comments.data} setComments_count={setComments_count} setComments={setComments} next_page={nextPage} setNextPage={setNextPage} />
                 {!loading && <ReplyComments news_feed_id={items.id} comments={comments.data} comments_count={comments_count} setComments_count={setComments_count} setComments={setComments} setIs_deleted={setIs_deleted} items={items} />}
               </Fragment>
+              ):("")}
             </>
           ) : ("")}
 
         </div>
       </div>
+      ):("")}
     </>
   );
 };

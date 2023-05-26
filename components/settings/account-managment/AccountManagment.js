@@ -16,7 +16,7 @@ const AccountManagment = () => {
     // confirmation 
   const Accountmang=()=>{
     if(defaultvalue){
-      const a=confirm("are u sure")
+      const a=confirm("Are you sure?")
     if (a===true){UpdateAccountPreference()}
     if (a===false){
       // console.log("confirm",a)
@@ -36,14 +36,19 @@ const AccountManagment = () => {
      .then((resp) => resp.json())
     .then((result) => {
       if (result) {
-          if (result.datas.message)
+          if (result.datas && result.datas.message)
           {
             router.push("/login");
           }else{
-            setUserDetails(result.data);
-            settemporary(result.data.is_deleted);
-            setpermanent(false);
-            alert("Your Information has been Updated! ") 
+            if(result && result.data && result.data.is_deleted){
+              signout(); 
+            }else{
+              setUserDetails(result.data);
+              settemporary(result.data.is_deleted);
+              setpermanent(false);
+              alert("Your Account has been Activated!") 
+            }
+            
           }
       }
     })
@@ -71,7 +76,7 @@ const AccountManagment = () => {
   }
   const toggler =(e)=>{ 
     if(e=="temporary"){ 
-    var a = confirm("Are You Sure?");
+    var a = confirm("Are You Sure you want to Deactivate your account?");
     if(a)
     { settemporary(true);
       setdefaultvalue("temporary");

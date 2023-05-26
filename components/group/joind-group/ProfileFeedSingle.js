@@ -562,10 +562,11 @@ const ProfileFeedSingle = (singleItems) => {
 
   return (
     <>
+      {items.user?(
       <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">
         <div className="flex gap-2 justify-between items-center px-[22px] py-[14px]">
           
-            {singleItems && singleItems.currentUser && singleItems.currentUser.id==items.user.id?(
+            {items.user && singleItems && singleItems.currentUser && singleItems.currentUser.id==items.user.id?(
               <Link href="/profile">
                 <a>
                 <div className="flex gap-2">
@@ -596,13 +597,13 @@ const ProfileFeedSingle = (singleItems) => {
                       />
                     </h4>
                     <div className="font-light text-gray-900 opacity-[0.8]">
-                      {items && items.group && items.user && items.group.owner.id == items.user.id ? "Super Admin" : singleItems.memberstatus ? "Admin" : "Member"}
+                      {items && items.group && items.user  && items.group.owner&& items.group.owner.id == items.user.id ? "Super Admin" : singleItems.memberstatus ? "Admin" : "Member"}
                     </div>
                   </div>
                 </div>
                 </a>
               </Link>):(
-                
+                items.user?(
                   <Link href={{ pathname: "/User-Profile", query: items.user.id,}}>
                     <a>
                     <div className="flex gap-2">
@@ -633,12 +634,13 @@ const ProfileFeedSingle = (singleItems) => {
                           />
                         </h4>
                         <div className="font-light text-gray-900 opacity-[0.8]">
-                          {items && items.group && items.user && items.group.owner.id == items.user.id ? "Super Admin" : singleItems.memberstatus ? "Admin" : "Member"}
+                          {items && items.group && items.group.owner && items.user && items.group.owner.id == items.user.id ? "Super Admin" : singleItems.memberstatus ? "Admin" : "Member"}
                         </div>
                       </div>
                     </div>
                     </a>
                   </Link>
+                ):("")
             )}
           
           <div className="">
@@ -665,7 +667,7 @@ const ProfileFeedSingle = (singleItems) => {
                       leaveTo="opacity-0 translate-y-1"
                     >
                       <Popover.Panel className="absolute left-1/2 z-10 mt-3 w-72 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-3xl">
-                        {singleItems.currentUser.id == items.user.id || isadmin(admins, singleItems.currentUser.id) || singleItems.group.owner.id == singleItems.currentUser.id ? (
+                        {items && items.user && singleItems.currentUser.id == items.user.id || isadmin(admins, singleItems.currentUser.id) || singleItems.group.owner && singleItems.group.owner.id == singleItems.currentUser.id ? (
                           <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                             <div className="relative bg-white py-1">
                               {singleItems.currentUser.id == items.user.id ? (
@@ -766,15 +768,17 @@ const ProfileFeedSingle = (singleItems) => {
 
           ) : (
             // <p>{items.body ? items.body: ""}</p>
-            items.tags && items.tags.length > 0 || (items.hashtags && items.hashtags.length > 0) ?
+            items.user && items.tags && items.tags.length > 0 || (items.hashtags && items.hashtags.length > 0) ?
               (
                 <App state={items.body} website={items.tags} hashtags={items.hashtags} />
               )
               :
               (
+                items.user?(
                 <ReadMore>
                   {items.body ? items.body : ""}
                 </ReadMore>
+                ):("")
               )
           )}
 
@@ -1266,13 +1270,16 @@ const ProfileFeedSingle = (singleItems) => {
             </div>
           </div>
           <Fragment>
+            {items.user?(
             <PostComments news_feed_id={items.id} setComments={setComments} setComments_count={setComments_count} setIs_deleted={setIs_deleted} dp={items.user.display_photo_url} />
+            ):("")}
             <FilterComments news_feed_id={items.id} comments={comments.data} setComments_count={setComments_count} setComments={setComments} next_page={nextPage} setNextPage={setNextPage} />
             {!loading && <ReplyComments news_feed_id={items.id} comments={comments.data} comments_count={comments_count} setComments_count={setComments_count} setComments={setComments} setIs_deleted={setIs_deleted} items={items} />}
           </Fragment>
         </div>
 
       </div>
+      ):("")}
     </>
   );
 };

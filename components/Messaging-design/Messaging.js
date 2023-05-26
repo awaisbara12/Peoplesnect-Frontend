@@ -247,7 +247,7 @@ const Messaging = () => {
                   <div className="overflow-y-scroll h-[370px] ">
                     {currentuser && Conversation && 
                       Conversation.map((i)=>{
-                        if(currentuser.id != i.recipient.id)
+                        if(i.recipient && currentuser.id != i.recipient.id)
                           {
                             return(
                               <Link href={{pathname:"/messaging-design",query:i.recipient.id}} key={i.id}>
@@ -393,7 +393,7 @@ const Messaging = () => {
                             
                             <div className="">
                               <div className="font-bold">{i.user.first_name} {i.user.last_name}</div>
-                              <div className="">user text as show as popup</div>
+                              <div className="">Search User</div>
                             </div>
                           </a>
                         </Link>
