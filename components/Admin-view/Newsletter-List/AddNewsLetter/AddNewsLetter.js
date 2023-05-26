@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 const AddNewsLetter = () => {
   const [subject, setsubject] = useState();
   const [email, setemail] = useState([]);
-  const [email_type, setemail_type] = useState();
+  const [email_type, setemail_type] = useState('all_user');
   const [body, setbody] = useState();
 
   const router = useRouter();
@@ -146,7 +146,7 @@ const AddNewsLetter = () => {
               </div>
               {/* Add Custum Emails */}
                 <div className="grid grid-cols-5 items-center mt-5">
-                  <div className="text-lg font-medium">Add Custom Email:</div>
+                  <div className="text-lg font-medium">Select Mailing List:</div>
                   <div className='col-span-3'>
                     <div>                                   
                       <TagsInput

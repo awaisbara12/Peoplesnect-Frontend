@@ -330,7 +330,7 @@ function openModal(i) {
                                     <b>Status: </b> {status && status}
                                   </div>
                                   <div className="border p-2 rounded-xl text-sm">
-                                    <b>Custum Type: </b> {email && email}
+                                    <b>Custom Emails: </b> {email && email}
                                   </div>
                                   <div className="border p-2 rounded-xl text-sm">
                                     <b>Email Type: </b> {email_type && email_type}
