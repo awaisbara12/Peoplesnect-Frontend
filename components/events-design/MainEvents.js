@@ -134,6 +134,7 @@ const MainEvents = (props) => {
                       <div className="User-Name font-bold capitalize">
                         {i.name}
                       </div>
+                      {i.owner?(
                       <div className="Locations mt-2 font-light">
                         Event organized by{" "}
                         <Link href={{pathname:"/User-Profile",query: i.owner.id,}}>
@@ -144,6 +145,7 @@ const MainEvents = (props) => {
                           </a>
                         </Link>
                       </div>
+                      ):("")}
                     </div>
                   </div>
                   <div className="mt-2">

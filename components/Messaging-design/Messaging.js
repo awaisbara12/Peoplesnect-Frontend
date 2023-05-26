@@ -393,7 +393,7 @@ const Messaging = () => {
                             
                             <div className="">
                               <div className="font-bold">{i.user.first_name} {i.user.last_name}</div>
-                              <div className="">user text as show as popup</div>
+                              <div className="">Search User</div>
                             </div>
                           </a>
                         </Link>
