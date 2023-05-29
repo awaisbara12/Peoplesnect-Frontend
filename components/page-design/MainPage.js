@@ -392,7 +392,7 @@ const MainPage = () => {
             </div>
             <div className="grid grid-cols-1 gap-6 xl:grid-cols-3 lg:grid-cols-2  md:grid-cols-2">
             {SugestPages?(
-                SugestPages.slice(SugestPages.length-3,SugestPages.length).map((i)=>(
+                SugestPages.map((i)=>(
                   <div className="profile mt-10 border rounded-xl" key={i.id}>
                     {/* page-design/suggested-pages */}
                     <Link  href={{pathname: "page-design/suggested-pages", query: i.id,}}>
