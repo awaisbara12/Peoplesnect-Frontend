@@ -18,12 +18,12 @@ const ReadMore = ({ children }) => {
   };
   return (
     <p className="text">
-      {isReadMore ? text.slice(0, 300) + (text.length > 300?("......"):('')) : text}
-      {text.length > 300?(
+      {isReadMore ? text.slice(0, 300) + (text.length > 300 ? ("......") : ('')) : text}
+      {text.length > 300 ? (
         <span onClick={toggleReadMore} className="text-indigo-400 cursor-pointer ml-2 font-bold">
           {isReadMore ? "Read more" : "Show less"}
         </span>
-      ):('')}
+      ) : ('')}
     </p>
   );
 };
@@ -45,7 +45,7 @@ const NewPost = () => {
   const [hashtaged, setHashtaged] = useState([]);
   let [hastags, sethastags] = useState();
 
-  if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore");}
+  if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore"); }
   const handleEditorChange = (e) => {
     setBlogContent(e.target.getContent({ format: "text" }));
   };
@@ -97,7 +97,7 @@ const NewPost = () => {
         if (result) {
           setLoading(false);
           // console.log("uploaded",result.data)
-          router.push("/blog/show?"+result.data.id);
+          router.push("/blog/show?" + result.data.id);
           setTitle("")
           setBlogImage("");
           setBlogImagePreview("");
@@ -106,7 +106,7 @@ const NewPost = () => {
         }
       })
       .catch((err) => console.log(err));
-    
+
   }
 
 
@@ -114,26 +114,25 @@ const NewPost = () => {
   useEffect(() => {
     mentioneds();
     HashTags();
-  },[]);
+  }, []);
 
 
 
-  const HashTags=async()=>{
+  const HashTags = async () => {
     await fetch(HASHTAGS_API, {
       method: "GET",
-       headers: {
+      headers: {
         Accept: "application/json",
-         Authorization: `${authKey}`,
-       },
+        Authorization: `${authKey}`,
+      },
     })
       .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-          let awa =[];
-          for(let i =0; i<result.data.length ; i++)
-          {
-            awa[i] ={
-              display: result.data[i].name  ,
+          let awa = [];
+          for (let i = 0; i < result.data.length; i++) {
+            awa[i] = {
+              display: result.data[i].name,
               id: result.data[i].id,
             }
           }
@@ -142,76 +141,74 @@ const NewPost = () => {
       })
       .catch((err) => console.log(err));
   }
-  let a ='';
+  let a = '';
   const mentioneds = () => {
     if (typeof window !== "undefined") {
       var authKey = window.localStorage.getItem("keyStore");
     }
     // const [mention,setmention] = useState([]);
-    fetch(SEARCH_MULTIPLE+"/gettags?query="+'friends', {
-        method: "GET",
-         headers: {
-          Accept: "application/json", 
-           Authorization: `${authKey}`,
-         },
-      })
-         .then((resp) => resp.json())
-        .then((result) => {
-          if (result) {
-            let awa =[];
-  
-            for(let i =0; i<result.data.length ; i++)
-            {
-                awa[i] ={
-                  display: '@'+result.data[i].first_name+" "+result.data[i].last_name ,
-                  link: 'Friends-Profile?'+result.data[i].id,
-                  avatar: result.data[i].display_photo_url,
-                  id: result.data[i].id,
-                  type : 'User'
-                }
+    fetch(SEARCH_MULTIPLE + "/gettags?query=" + 'friends', {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          let awa = [];
+
+          for (let i = 0; i < result.data.length; i++) {
+            awa[i] = {
+              display: '@' + result.data[i].first_name + " " + result.data[i].last_name,
+              link: 'Friends-Profile?' + result.data[i].id,
+              avatar: result.data[i].display_photo_url,
+              id: result.data[i].id,
+              type: 'User'
             }
-            a=awa;
-            // setspeakerMention(awa);
-            mentionpages();
-            // console.log("frie",awa);
           }
-        })
-        .catch((err) => console.log(err));
+          a = awa;
+          // setspeakerMention(awa);
+          mentionpages();
+          // console.log("frie",awa);
+        }
+      })
+      .catch((err) => console.log(err));
   };
   const mentionpages = () => {
     if (typeof window !== "undefined") {
       var authKey = window.localStorage.getItem("keyStore");
     }
     // const [mention,setmention] = useState([]);
-    fetch(SEARCH_MULTIPLE+"/gettags?query="+'pages', {
-        method: "GET",
-         headers: {
-          Accept: "application/json", 
-           Authorization: `${authKey}`,
-         },
-      })
-         .then((resp) => resp.json())
-        .then((result) => {
-          if (result) {
-            let awa =[];
-  
-            for(let i = 0; i<result.data.length ; i++)
-            {
-                awa[i] ={
-                  display: '@'+result.data[i].name ,
-                  link: 'Liked-Pages?'+result.data[i].id,
-                  avatar: result.data[i].display_photo_url,
-                  id: result.data[i].id,
-                  type : 'Page'
-                }
+    fetch(SEARCH_MULTIPLE + "/gettags?query=" + 'pages', {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          let awa = [];
+
+          for (let i = 0; i < result.data.length; i++) {
+            awa[i] = {
+              display: '@' + result.data[i].name,
+              link: 'Liked-Pages?' + result.data[i].id,
+              avatar: result.data[i].display_photo_url,
+              id: result.data[i].id,
+              type: 'Page'
             }
-            let dbc = [...a,...awa]
-            setMentioned(dbc);
-            // setspeakerMention(dbc);
-          //  console.log("ment",mentioned);
           }
-        })
-        .catch((err) => console.log(err));
+          let dbc = [...a, ...awa]
+          setMentioned(dbc);
+          // setspeakerMention(dbc);
+          //  console.log("ment",mentioned);
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -223,22 +220,21 @@ const NewPost = () => {
               type="text"
               name="title"
               value={title}
-              onChange={(e)=>setTitle(e.target.value)}
+              onChange={(e) => setTitle(e.target.value)}
               onBlur={handleBlur}
               placeholder="Article title here"
               required="required"
               className={`w-full border-gray-100 font-semibold placeholder:text-gray-900 border py-2 px-3 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400
-                ${title==""? "border-red-600" : ""}`}
+                ${title == "" ? "border-red-600" : ""}`}
             />
-            {title==""?(
+            {title == "" ? (
               <div className="text-red-600 pt-2 pl-1">{errors.title}</div>
             ) : null}
           </div>
           <div className="form-group mt-4">
             <div
-              className={`relative flex justify-center items-center bg-zinc-100 aspect-video text-center rounded-sm ${
-                BlogImagePreview ? "hidden" : "visible"
-              }`}
+              className={`relative flex justify-center items-center bg-zinc-100 aspect-video text-center rounded-sm ${BlogImagePreview ? "hidden" : "visible"
+                }`}
             >
               <div className="absolute">
                 <div className="text-center">
@@ -293,61 +289,70 @@ const NewPost = () => {
               initialValue=""
               onChange={handleEditorChange}
             /> */}
-            <HashtagMentionInput postText={blogContent} setPostText={setBlogContent} mentioned={mentioned}  tags={tags} settags={settags} hastags={hastags}/>
-          
+            <HashtagMentionInput postText={blogContent} setPostText={setBlogContent} mentioned={mentioned} tags={tags} settags={settags} hastags={hastags} />
+
             {errors.description && touched.description ? (
               <div className="text-red-600 pt-2 pl-1">{errors.description}</div>
             ) : null}
           </div>
           <div className="flex items-center justify-between border bg-white mt-4 px-4 py-6 rounded-xl">
-              <div className="">Blog Type</div>
-              <div className="flex items-center gap-4">
-                <div className="flex items-center">
-                  <input
-                    id="default-radio-1"
-                    type="radio"
-                    value="public_blog"
-                    onChange={(e)=>setblog_type(e.target.value)}
-                    name="default-radio"
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-indigo-400 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                  /> 
-                  <label
-                    htmlFor="default-radio-1"
-                    className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                  >
-                    Public
-                  </label>
-                </div>
-                <div className="flex items-center">
-                  <input
-                    
-                    id="default-radio-1"
-                    type="radio"
-                    value="private_blog"
-                    onChange={(e)=>setblog_type(e.target.value)}
-                    name="default-radio"
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-indigo-400 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                  />
-                  <label
-                    htmlFor="default-radio-2"
-                    className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                  >
-                    Private
-                  </label>
-                </div>
+            <div className="">Blog Type</div>
+            <div className="flex items-center gap-4">
+              <div className="flex items-center">
+                <input
+                  id="default-radio-1"
+                  type="radio"
+                  value="public_blog"
+                  onChange={(e) => setblog_type(e.target.value)}
+                  name="default-radio"
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-indigo-400 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                />
+                <label
+                  htmlFor="default-radio-1"
+                  className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                >
+                  Public
+                </label>
+              </div>
+              <div className="flex items-center">
+                <input
+
+                  id="default-radio-1"
+                  type="radio"
+                  value="private_blog"
+                  onChange={(e) => setblog_type(e.target.value)}
+                  name="default-radio"
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-indigo-400 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                />
+                <label
+                  htmlFor="default-radio-2"
+                  className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                >
+                  Private
+                </label>
               </div>
             </div>
-          {title && BlogImagePreview && blogContent && blog_type && blogImage?(
-          <div className="flex justify-end">
-            <button
-              type="submit"
-              className="rounded-lg w-32 h-10 bg-indigo-400 py-2 px-4 mt-4 text-white font-semibold "
-            >
-              {loading ? <Spinner /> : "Publish"}
-            </button>
           </div>
-          ):(
-            ''
+          {title && BlogImagePreview && blogContent && blog_type && blogImage ? (
+            <div className="flex justify-end">
+              <button
+                type="submit"
+                className="rounded-lg w-32 h-10 bg-indigo-400 py-2 px-4 mt-4 text-white font-semibold "
+              >
+                {loading ? <Spinner /> : "Publish"}
+              </button>
+            </div>
+          ) : (
+            <>
+              <div className="flex justify-end">
+                <button
+                  type="submit"
+                  className="rounded-lg w-32 h-10 bg-indigo-400 cursor-not-allowed py-2 px-4 mt-4 text-white font-semibold "
+                >
+                  {loading ? <Spinner /> : "Publish"}
+                </button>
+              </div>
+            </>
           )}
         </form>
       </div>

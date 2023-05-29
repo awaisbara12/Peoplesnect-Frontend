@@ -12,6 +12,7 @@ import TopNavbar from "../news-feed/navbar/TopNavbar";
 import EventsCard from "../news-feed/eventcard/EventsCard";
 import FooterNewsFeed from "../news-feed/newsfeed/newsfeedfooter/FooterNewsFeed";
 import SugestedUser from "../news-feed/sugesteduser/SugestedUser";
+import Footer from "../footer/Footer";
 
 const BlogShowallFeed = () => {
   return (
@@ -36,7 +37,7 @@ const BlogShowallFeed = () => {
               <div className="sticky top-20">
                 <EventsCard />
                 <SugestedUser />
-                <FooterNewsFeed />
+                <Footer />
                 <AddNewBlog />
               </div>
             </div>

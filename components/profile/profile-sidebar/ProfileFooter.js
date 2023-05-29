@@ -6,20 +6,18 @@ const ProfileFooter = () => {
   return (
     <div className="bg-white sticky top-5 w-full mt-5 rounded-xl">
       <div className=" p-5 font-light text-base">
-        <div className=" flex gap-4">
+        <div className=" flex gap-3 flex-wrap">
           <Link href="/">
-            <a className="">about Us</a>
+            <a>about Us</a>
           </Link>
           <Link href="/">
-            <a className="">Privacy & Terms</a>
+            <a>Privacy & Terms</a>
           </Link>
-        </div>
-        <div className="flex mt-2 gap-5">
-          <Link href="/">
-            <a className="">Pages</a>
+          <Link href="/page-design">
+            <a>Pages</a>
           </Link>
           <Link href="/">
-            <a className="">Advertising</a>
+            <a>Advertising</a>
           </Link>
         </div>
       </div>

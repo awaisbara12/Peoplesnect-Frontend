@@ -10,16 +10,16 @@ const FooterNewsFeed = () => {
           <Link href="/Contact-us">
             <a className="">Contact Us</a>
           </Link>
-          <Link href="/">
+          <Link href="/About-us">
             <a className="">about Us</a>
           </Link>
-          <Link href="/">
+          <Link href="/news-feed">
             <a className="">Privacy & Terms</a>
           </Link>
-          <Link href="/">
+          <Link href="/Pages">
             <a className="">Pages</a>
           </Link>
-          <Link href="/">
+          <Link href="/page">
             <a className="">Advertising</a>
           </Link>
       </div>
