@@ -452,7 +452,7 @@ function BlogShow() {
                 {UP_pic?(
                   <div className={`relative`}>
                   <img src={UP_pic} className="aspect-video object-cover rounded-xl mb-4" alt=""/>
-                  <div onClick={handleCoverReomve} className="absolute bg-indigo-100 absolute top-4 right-4 z-50 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full" >
+                  <div onClick={handleCoverReomve} className="absolute bg-indigo-100 top-4 right-4 z-50 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full" >
                     <TrashIcon className="w-5 h-5 text-indigo-600" />
                   </div>
                 </div>
