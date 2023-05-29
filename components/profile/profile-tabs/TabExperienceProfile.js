@@ -429,7 +429,7 @@ const TabExperienceProfile = () => {
                           </div>
                           {/* For Country */}
                           <div className="mt-5">
-                            <select onChange={e=>setusercountry(e.target.value)} className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-40 lg:w-54 xs:w-auto md:w-52 placeholder:pl-2 rounded-full placeholder:py-2">
+                            <select onChange={e=>setusercountry(e.target.value)} className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full placeholder:pl-2 rounded-full placeholder:py-2">
                               <option value={country}>{country}</option>
                               {
                                 Country.getAllCountries().map((item)=>(
@@ -440,7 +440,7 @@ const TabExperienceProfile = () => {
                           </div>
                           {/* For State */}
                           <div className="mt-5">
-                            <select onChange={e=>setuserstate(e.target.value)} className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-40 lg:w-54 xs:w-auto md:min-w-[13rem] placeholder:pl-2 rounded-full placeholder:py-2">
+                            <select onChange={e=>setuserstate(e.target.value)} className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full placeholder:pl-2 rounded-full placeholder:py-2">
                               <option value={state}>{state}</option>
                               {
                                 State.getStatesOfCountry(country).map((item)=>(
@@ -451,7 +451,7 @@ const TabExperienceProfile = () => {
                           </div>
                           {/* For City */}
                           <div className="mt-5">
-                            <select onChange={e=>setusercity(e.target.value)} className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-40 lg:w-54 xs:w-auto md:min-w-[13rem] placeholder:pl-2 rounded-full placeholder:py-2">
+                            <select onChange={e=>setusercity(e.target.value)} className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full placeholder:pl-2 rounded-full placeholder:py-2">
                               <option value={city}>{city}</option>
                               {
                                 City.getCitiesOfState(country, state).map((item)=>(

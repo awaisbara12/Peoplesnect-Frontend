@@ -170,11 +170,11 @@ const MobileBottomBar = () => {
               <div className="flex justify-between items-center">
                 <Menu.Item>
                   {({ active }) => (
-                    <Link href="/jobs" className="">
+                    <Link href="/jobs/saved-jobs" className="">
                       <a>
                         <div className="flex flex-col items-center">
                           <BookmarkIcon className="h-7 w-7" />
-                          <div className="">My Jobs</div>
+                          <div className="">Saved Jobs</div>
                         </div>
                       </a>
                     </Link>
@@ -182,7 +182,7 @@ const MobileBottomBar = () => {
                 </Menu.Item>
                 <Menu.Item>
                   {({ active }) => (
-                    <Link href="/jobs" className="">
+                    <Link href="/jobs/applied-jobs" className="">
                       <a>
                         <div className="flex flex-col items-center">
                           <ShieldCheckIcon className="h-7 w-7" />
@@ -194,11 +194,11 @@ const MobileBottomBar = () => {
                 </Menu.Item>
                 <Menu.Item>
                   {({ active }) => (
-                    <Link href="/jobs" className="">
+                    <Link href="/jobs/posted-jobs" className="">
                       <a>
                         <div className="flex flex-col items-center">
                           <AcademicCapIcon className="h-7 w-7" />
-                          <div className="">Find Jobs</div>
+                          <div className="">Posted Jobs</div>
                         </div>
                       </a>
                     </Link>
@@ -271,7 +271,7 @@ const MobileBottomBar = () => {
           <Link href="/messaging-design" className="">
             <a className="flex flex-col items-center">
               <div className="relative">
-                <ChatAltIcon className="h-5 w-7" />
+                <ChatAltIcon className="h-7 w-7" />
                 {Conversation && Conversation== 'true' ? (
                   <div className="bg-red-400 h-3 w-3 text-white -top-1 left-3 rounded-full flex justify-center items-center absolute">
                   </div>

@@ -180,7 +180,7 @@ const Messaging = () => {
 
   return (
     <div className="">
-      <div className="w-[240px] xl:w-[280px] lg:w-[300px] md:w-[260px] border rounded-l-xl">
+      <div className="w-full border rounded-l-xl">
         <div className="border bg-white rounded-l-xl">
           <div className="sticky z-40 top-0 bg-white rounded-l-xl">
             <div className="flex justify-between p-3 border-b">
@@ -195,7 +195,7 @@ const Messaging = () => {
                     className={
                       "" +
                       (openTab === 1
-                        ? "py-2 font-bold border-2 border-b-0 text-indigo-400 bg-slate-200 px-3 border-indigo-400"
+                        ? "py-2 text-xs font-bold border-2 border-b-0 text-indigo-400 bg-slate-200 px-3 border-indigo-400"
                         : "px-3 py-2")
                     }
                     onClick={(e) => {
@@ -215,8 +215,8 @@ const Messaging = () => {
                     className={
                       "" +
                       (openTab === 2
-                        ? "py-2 font-bold border-2 border-b-0 text-indigo-400 bg-slate-200 px-3 border-indigo-400"
-                        : "px-3 py-2")
+                        ? "py-2 text-xs font-bold border-2 border-b-0 text-indigo-400 bg-slate-200 px-3 border-indigo-400"
+                        : "px-3 py-2 text-sm")
                     }
                     onClick={(e) => {
                       e.preventDefault();

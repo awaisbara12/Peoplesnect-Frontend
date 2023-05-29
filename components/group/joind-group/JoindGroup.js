@@ -9,6 +9,7 @@ import ProfileAvatar from "../../../public/images/profile-avatar.png";
 import {
   BellIcon,
   BookmarkIcon,
+  DeviceTabletIcon,
   DotsHorizontalIcon,
   LogoutIcon,
   MailIcon,
@@ -454,7 +455,7 @@ const JoindGroup = (setList, singleItem) => {
               )}
             </div>
           </div>
-          <div className="p-5 mt-14">
+          <div className="p-5 ml-44 -mt-0">
             <div className=" flex justify-between items-center">
               <div className="heading text-2xl text-indigo-400 font-bold">
                 {group ? (group.title) : ('')}
@@ -483,6 +484,16 @@ const JoindGroup = (setList, singleItem) => {
                   >
                     <Menu.Items className="absolute left-1/2 z-10 mt-3 w-48 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-3xl">
                       <div className="flex items-start flex-col gap-2 border-1 bg-white rounded-xl p-3">
+                      {currentUser && join == true && group ? (!(admins && isadmin(admins, currentUser.id)) && group.owner && group.owner.id != currentUser.id ? (
+                          <Link href={{ pathname: "/group-page/joind-group/group-members", query: myArray[1] }}>
+                            <a>
+                              <div className="flex gap-1">
+                                <DeviceTabletIcon className="h-5 w-5" />
+                                Group Members
+                              </div>
+                            </a>
+                          </Link>
+                        ) : ("")) : ("")}
                         {/* <Menu.Item className="flex gap-1">
                             <a href="">
                               <BellIcon className="w-5 h-5" />
@@ -491,7 +502,7 @@ const JoindGroup = (setList, singleItem) => {
                           </Menu.Item> */}
                         {currentUser && join == true && group ? (!(admins && isadmin(admins, currentUser.id)) && group.owner && currentUser.id != group.owner.id ? (
                           <div>
-                            <Menu.Item className="flex gap-1 mt-2">
+                            <Menu.Item className="flex gap-1">
                               <a href="">
                                 <MailIcon className="h-5 w-5" />
                                 Report
@@ -529,17 +540,9 @@ const JoindGroup = (setList, singleItem) => {
                   </Transition>
                 </Menu>
               </div>
-              {currentUser && join == true && group ? (!(admins && isadmin(admins, currentUser.id)) && group.owner && group.owner.id != currentUser.id ? (
-                <Link href={{ pathname: "/group-page/joind-group/group-members", query: myArray[1] }}>
-                  <a>
-                    <div className="border border-indigo-400 py-2 px-3 text-indigo-400 rounded-full">
-                      Group Details
-                    </div>
-                  </a>
-                </Link>
-              ) : ("")) : ("")}
+
             </div>
-            <div className="Details mt-5">
+            <div className="Details mt-2">
               <div className="font-extralight">
                 <ReadMore>
                   {group ? (group.description) : ('')}
@@ -554,7 +557,7 @@ const JoindGroup = (setList, singleItem) => {
                   Request Send
                 </button>
               ) : (
-                currentUser && group && (join == true ||group.owner &&  currentUser.id == group.owner.id || (admins && isadmin(admins, currentUser.id))) ? (
+                currentUser && group && (join == true || group.owner && currentUser.id == group.owner.id || (admins && isadmin(admins, currentUser.id))) ? (
                   <button
                     onClick={openModal}
                     type="submit"
@@ -657,10 +660,10 @@ const JoindGroup = (setList, singleItem) => {
         <ProfileFeed currentUser={currentUser} group={group} admins={admins} />
       ) : ("")} */}
 
-       {currentUser && group && (join == true||group.owner && currentUser.id == group.owner.id || (admins && isadmin(admins, currentUser.id))) ? (
+      {currentUser && group && (join == true || group.owner && currentUser.id == group.owner.id || (admins && isadmin(admins, currentUser.id))) ? (
         <ProfileFeed currentUser={currentUser} group={group} admins={admins} />
       ) : ("")}
-      
+
     </div>
   );
 };
