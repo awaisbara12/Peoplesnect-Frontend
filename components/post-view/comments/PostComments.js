@@ -125,7 +125,7 @@ const PostComments = (props) => {
   return (
     <Fragment>
       <div className="relative w-full mt-[14px]">
-        <div className="w-[460px] md:w-[640px] lg:md:w-[590px] xl:w-[840px] ml-9">
+        <div className="w-[433px] md:w-[640px] lg:md:w-[590px] xl:w-[840px] ml-9">
           <InputEmoji
             type="text"
             react-emoji="w-{100%}"
