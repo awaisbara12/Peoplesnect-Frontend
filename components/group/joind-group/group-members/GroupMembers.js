@@ -98,7 +98,7 @@ const GroupMembers = () => {
   }, [])
   return (
     <div className="mt-8">
-      <div className="image">
+      <div className="image  bg-white rounded-b-xl">
         {/* Cover Photo */}
         {admin ? (
           admin.cover_image_url ? (

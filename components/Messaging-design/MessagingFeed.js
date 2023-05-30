@@ -31,17 +31,20 @@ const MessagingFeed = () => {
             <MobileNav />
           </div>
           <div className="flex px-2 xl:px-0 lg:px-4 md:px-4 gap-[65px] md:gap-8 lg:gap-6 justify-between">
-            <div className="h-full bg-zinc-100 md:bg-transparent lg:bg-transparent xl:bg-transparent px-4 md:px-0 lg-px-0 xl:px-0">
-              <div className="flex mt-8">
-                <Messaging />
-                {/* <NewMessage /> */}
-                <Messages/>
+            <div className="h-full bg-zinc-100 md:bg-transparent px-4 md:px-0">
+              <div className="mt-8 grid grid-cols-6 md:grid-cols-6 w-[580px] xl:w-[980px] lg:w-[730px] md:w-[780px] ">
+                <div className="col-span-3 md:col-span-2">
+                  <Messaging />
+                </div>
+                <div className="col-span-3 md:col-span-4">
+                  <Messages />
+                </div>
               </div>
             </div>
             <div className="w-72 hidden md:block lg:block">
               <ProfileCard />
               <EventsCard />
-              <SugestedUser /> 
+              <SugestedUser />
               <FooterNewsFeed />
             </div>
           </div>

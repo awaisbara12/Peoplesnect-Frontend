@@ -275,7 +275,7 @@ const Messages = () => {
     <div
       ref={myDivRef}
       id={senderDetails && senderDetails.id}>
-      <div className="w-[340px] xl:w-[780px] lg:w-[419px] md:w-[540px] bg-white rounded-r-xl">
+      <div className="w-full bg-white rounded-r-xl">
         {/* Chat-Head */}
         <div className="flex justify-between bg-white sticky top-0 p-3 z-40 border-b rounded-tr-xl">
           {senderDetails?(

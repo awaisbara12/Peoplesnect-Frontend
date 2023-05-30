@@ -113,7 +113,7 @@ const ProfileTopCard = () => {
   return (
     <>
       <div className="mt-8 w-full xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
-        <div className="w-full bg-white p-5 rounded-t-xl">
+        <div className="w-[620px] md:w-full h-[275px] md:h-auto bg-white p-5 rounded-t-xl">
           <div className="group relative w-full">
             <div className="">
               <Link href="/">
