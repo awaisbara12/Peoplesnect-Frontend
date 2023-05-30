@@ -7,6 +7,7 @@ import MarkeetplaceSuggestion from "./markeetplace-rightbar/MarkeetplaceSuggesti
 import TopNavbar from "./MarketPlace-Header/TopNavbar";
 import FooterNewsFeed from "../news-feed/newsfeed/newsfeedfooter/FooterNewsFeed";
 import MarkeetPlaceMobileNav from "../news-feed/navbar/mobile-navbar/MarkeetPlaceMobileNav";
+import MarketplaceBottomBar from "../news-feed/navbar/MarketplaceBotoombar";
 
 const MarkeetPlaceFeed = () => {
 return (
@@ -39,7 +40,8 @@ return (
       </div>
     </div>
   </div>
-  <MobileBottomBar />
+  <MarketplaceBottomBar />
+
 </div>
 );
 };

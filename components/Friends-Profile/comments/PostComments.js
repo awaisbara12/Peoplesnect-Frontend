@@ -26,11 +26,11 @@ const PostComments = (props) => {
   const [postImagePreview, setpostImagePreview] = useState();
   const [comments, setComments] = useState([]);
   const [currentUser, setCurrentUser] = useState();
- 
+
   function handleOnEnter() {
     console.log("enter", postText);
   }
-  
+
   const handleImagePost = (e) => {
     setPostImage(e.target.files);
     if (e.target.files.length !== 0) {
@@ -51,25 +51,25 @@ const PostComments = (props) => {
     resetForm();
   };
 
-  const Current_User=async()=>{    
-   
+  const Current_User = async () => {
+
     await fetch(CURENT_USER_LOGIN_API, {
       method: "GET",
-       headers: {
-        Accept: "application/json", 
-         Authorization: `${authKey}`,
-       },
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
     })
-       .then((resp) => resp.json())
+      .then((resp) => resp.json())
       .then((result) => {
         if (result) {
           setCurrentUser(result.data);
           // console.log("user",result.data);
         }
       })
-      .catch((err) => console.log(err)); 
+      .catch((err) => console.log(err));
   }
- 
+
   function postComment(e) {
     e.preventDefault();
 
@@ -81,7 +81,7 @@ const PostComments = (props) => {
     if (postImage.length > 0) {
       for (let i = 0; i < postImage.length; i++) {
         dataForm.append("comments[comment_attachments][]", postImage[i]);
-       
+
       }
     }
     // setLoading(true);
@@ -99,7 +99,7 @@ const PostComments = (props) => {
         if (result) {
           setComments(result.data);
 
-          async function getFeedComments (){
+          async function getFeedComments() {
             const res = await axios(
               NEWSFEED_COMMENT_POST_KEY + "/" + props.news_feed_id + "/comments",
               {
@@ -115,7 +115,7 @@ const PostComments = (props) => {
               }
             );
             const result = await res;
-      
+
             try {
               if (result.status == 200) {
                 props.setComments(result.data);
@@ -126,7 +126,7 @@ const PostComments = (props) => {
             } catch (error) {
               console.log(error);
             }
-            
+
             return result;
           };
           getFeedComments();
@@ -138,13 +138,13 @@ const PostComments = (props) => {
     setPostImage("");
   }
 
-  const clearPic =()=>{
+  const clearPic = () => {
     setpostImagePreview('');
     setPostImage('');
   }
   useEffect(() => {
     Current_User();
-  },[])
+  }, [])
   return (
     <Fragment>
       <div className="relative w-full mt-[14px]">
@@ -157,37 +157,37 @@ const PostComments = (props) => {
             onEnter={handleOnEnter}
             placeholder="Your comment"
           />
-            {postImagePreview?(
-              <div className="relative w-1/4 mt-2">
-                <img
+          {postImagePreview ? (
+            <div className="relative w-1/4 mt-2">
+              <img
                 src={postImagePreview}
                 className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
-                alt=""/>
-                
-                <div className="bg-indigo-100 absolute top-4 right-0 z-10 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
+                alt="" />
+
+              <div className="bg-indigo-100 absolute top-4 right-0 z-10 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
                 onClick={clearPic} >
-                  <TrashIcon className="w-5 h-5 text-indigo-600" />
-                </div>
+                <TrashIcon className="w-5 h-5 text-indigo-600" />
               </div>
-              ):('')}
+            </div>
+          ) : ('')}
         </div>
         <div className="absolute top-2 left-0">
-          {currentUser? (
-            currentUser.display_photo_url?(
+          {currentUser ? (
+            currentUser.display_photo_url ? (
               <img
-              src={currentUser.display_photo_url}
-              className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
-              width={34} 
-              height={34} alt="" />
-            ):(
-              <Image 
-             src={ProfileAvatar} 
-             width={34} 
-             height={34} alt="" />
+                src={currentUser.display_photo_url}
+                className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
+                width={34}
+                height={34} alt="" />
+            ) : (
+              <Image
+                src={ProfileAvatar}
+                width={34}
+                height={34} alt="" />
             )
-          ):("")}
-          
-         
+          ) : ("")}
+
+
         </div>
         <div className="flex items-center absolute top-3 right-0 ">
           <div className="">
@@ -209,14 +209,14 @@ const PostComments = (props) => {
             </div>
           </div>
 
-          <div className="flex gap-2 z-10">
+          <div className="flex gap-2 z-0 md:z-10">
             <button className="bg-transparent px-1 rounded-r-full text-gray-500 hover:text-indigo-400">
               <PaperAirplaneIcon
                 className="h-7 w-7 rotate-90"
                 onClick={postComment}
               />
             </button>
-          </div>         
+          </div>
         </div>
       </div>
     </Fragment>

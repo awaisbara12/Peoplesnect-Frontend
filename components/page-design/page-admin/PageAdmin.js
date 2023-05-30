@@ -328,7 +328,7 @@ const PageAdmin = (setList, singleItem) => {
 
   return (
     <div className="mt-8">
-    <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
+    <div className="w-full xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
         <div className="blogs bg-white rounded-xl">
           <div className="group relative w-full">
               {postImagePreview?(

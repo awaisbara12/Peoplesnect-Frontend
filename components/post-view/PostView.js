@@ -200,7 +200,7 @@ const PostView = () => {
   }, []);
 
   return (
-    <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">
+    <div className="w-full xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">
       <div className="blogs bg-white rounded-xl my-8 ">
         <div className="px-5 py-4 flex justify-between">
           {/*  For Post Header(uder pic, name... etc)  */}

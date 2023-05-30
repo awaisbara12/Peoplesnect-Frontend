@@ -66,7 +66,7 @@ const PostComments = () => {
   return (
     <Fragment>
       <div className="relative w-full mt-[14px]">
-      <div className="w-[440px] md:w-[640px] lg:w-[590px] xl:w-[840px] ml-9">
+        <div className="w-[440px] md:w-[640px] lg:w-[590px] xl:w-[840px] ml-9">
           <InputEmoji
             type="text"
             react-emoji="w-{80%}"
@@ -103,7 +103,7 @@ const PostComments = () => {
             </div>
           </div>
           <a href="">
-            <div className="flex gap-2 z-50">
+            <div className="flex gap-2 z-0 md:z-50">
               <button className="bg-transparent px-1 rounded-r-full text-gray-500 hover:text-indigo-400">
                 <PaperAirplaneIcon className="h-7 w-7 rotate-90" />
               </button>

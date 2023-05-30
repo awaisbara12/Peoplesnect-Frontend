@@ -309,7 +309,7 @@ const NewsPostProfile = (setList) => {
   // console.log("setList",setList)
   return (
     <div className="mt-8 z-20">
-      <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] rounded-xl bg-white p-[22px]">
+      <div className="w-full xl:w-[980px] lg:w-[730px] md:w-[780px] rounded-xl bg-white p-[22px]">
         <form onSubmit={postNewsData}>
           <div className="w-full flex justify-start gap-[22px]">
             <div className="w-[42px] h-[42px]">

@@ -34,10 +34,10 @@ const PostComments = (props) => {
   const [mentioned, setMentioned] = useState([]);
   const [hashtaged, setHashtaged] = useState([]);
   let [hastags, sethastags] = useState();
- 
+
   function handleOnEnter() {
   }
-  
+
   const handleImagePost = (e) => {
     setPostImage(e.target.files);
     if (e.target.files.length !== 0) {
@@ -59,7 +59,7 @@ const PostComments = (props) => {
   };
   // Post Comment 
   function postComment(e) {
-    if(comments){
+    if (comments) {
       e.preventDefault();
       const dataForm = new FormData();
       if (tags.length > 0) {
@@ -72,7 +72,7 @@ const PostComments = (props) => {
       dataForm.append("comments[commentable_type]", "Blog");
       if (postImage.length > 0) {
         for (let i = 0; i < postImage.length; i++) {
-          dataForm.append("comments[comment_attachments][]", postImage[i]);  
+          dataForm.append("comments[comment_attachments][]", postImage[i]);
         }
       }
       fetch(COMMENT_API_KEY, {
@@ -91,68 +91,67 @@ const PostComments = (props) => {
           }
         })
         .catch((err) => console.log(err));
-        setPostText("");
-        setpostImagePreview("");
-        setPostImage("");
+      setPostText("");
+      setpostImagePreview("");
+      setPostImage("");
     }
-    
-  }
- // get all data of this blog
- const getBlogs = async () => {
-  const res = await axios(BLOG_POST_USER_API_KEY + "/" + props.news_feed_id, {
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-      "Content-type": "application/json; charset=utf-8",
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Credentials": true,
-      Authorization: authKey,
-    },
-    credentials: "same-origin",
-  });
-  const result = await res;
 
-  try {
-    if (result.status == 200) {
-      props.setComments(result.data.data.comments);
-      props.setComments_count(result.data.data.comments.length)
-      setComments(result.data.data.comments);
-      props.setIs_deleted(1);
-    }
-  } catch (error) {setLoading(true);}
-  return result;
-};
-  const clearPic =()=>{
+  }
+  // get all data of this blog
+  const getBlogs = async () => {
+    const res = await axios(BLOG_POST_USER_API_KEY + "/" + props.news_feed_id, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-type": "application/json; charset=utf-8",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true,
+        Authorization: authKey,
+      },
+      credentials: "same-origin",
+    });
+    const result = await res;
+
+    try {
+      if (result.status == 200) {
+        props.setComments(result.data.data.comments);
+        props.setComments_count(result.data.data.comments.length)
+        setComments(result.data.data.comments);
+        props.setIs_deleted(1);
+      }
+    } catch (error) { setLoading(true); }
+    return result;
+  };
+  const clearPic = () => {
     setpostImagePreview('');
     setPostImage('');
   }
 
 
 
-  useEffect(()=>{
+  useEffect(() => {
     mentioneds();
     HashTags();
-  },[])
+  }, [])
   const onEmojiClick = (event) => {
     setChosenEmoji(false);
-    setPostText(postText+" "+event.emoji+" ");
+    setPostText(postText + " " + event.emoji + " ");
   };
-  const HashTags=async()=>{
+  const HashTags = async () => {
     await fetch(HASHTAGS_API, {
       method: "GET",
-       headers: {
+      headers: {
         Accept: "application/json",
-         Authorization: `${authKey}`,
-       },
+        Authorization: `${authKey}`,
+      },
     })
       .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-          let awa =[];
-          for(let i =0; i<result.data.length ; i++)
-          {
-            awa[i] ={
-              display: result.data[i].name  ,
+          let awa = [];
+          for (let i = 0; i < result.data.length; i++) {
+            awa[i] = {
+              display: result.data[i].name,
               id: result.data[i].id,
             }
           }
@@ -161,77 +160,75 @@ const PostComments = (props) => {
       })
       .catch((err) => console.log(err));
   }
-  let a ='';
+  let a = '';
   const mentioneds = () => {
     if (typeof window !== "undefined") {
       var authKey = window.localStorage.getItem("keyStore");
     }
     // const [mention,setmention] = useState([]);
-    fetch(SEARCH_MULTIPLE+"/gettags?query="+'friends', {
-        method: "GET",
-         headers: {
-          Accept: "application/json", 
-           Authorization: `${authKey}`,
-         },
-      })
-         .then((resp) => resp.json())
-        .then((result) => {
-          if (result) {
-            let awa =[];
-  
-            for(let i =0; i<result.data.length ; i++)
-            {
-                awa[i] ={
-                  display: '@'+result.data[i].first_name+" "+result.data[i].last_name ,
-                  link: 'Friends-Profile?'+result.data[i].id,
-                  avatar: result.data[i].display_photo_url,
-                  id: result.data[i].id,
-                  type : 'User'
-                }
+    fetch(SEARCH_MULTIPLE + "/gettags?query=" + 'friends', {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          let awa = [];
+
+          for (let i = 0; i < result.data.length; i++) {
+            awa[i] = {
+              display: '@' + result.data[i].first_name + " " + result.data[i].last_name,
+              link: 'Friends-Profile?' + result.data[i].id,
+              avatar: result.data[i].display_photo_url,
+              id: result.data[i].id,
+              type: 'User'
             }
-            a=awa;
-            // setspeakerMention(a);
-            mentionpages();
-            // console.log("frie",awa);
           }
-        })
-        .catch((err) => console.log(err));
+          a = awa;
+          // setspeakerMention(a);
+          mentionpages();
+          // console.log("frie",awa);
+        }
+      })
+      .catch((err) => console.log(err));
   };
-  
+
   const mentionpages = () => {
     if (typeof window !== "undefined") {
       var authKey = window.localStorage.getItem("keyStore");
     }
     // const [mention,setmention] = useState([]);
-    fetch(SEARCH_MULTIPLE+"/gettags?query="+'pages', {
-        method: "GET",
-         headers: {
-          Accept: "application/json", 
-           Authorization: `${authKey}`,
-         },
-      })
-         .then((resp) => resp.json())
-        .then((result) => {
-          if (result) {
-            let awa =[];
-  
-            for(let i = 0; i<result.data.length ; i++)
-            {
-                awa[i] ={
-                  display: '@'+result.data[i].name ,
-                  link: 'Liked-Pages?'+result.data[i].id,
-                  avatar: result.data[i].display_photo_url,
-                  id: result.data[i].id,
-                  type : 'Page'
-                }
+    fetch(SEARCH_MULTIPLE + "/gettags?query=" + 'pages', {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          let awa = [];
+
+          for (let i = 0; i < result.data.length; i++) {
+            awa[i] = {
+              display: '@' + result.data[i].name,
+              link: 'Liked-Pages?' + result.data[i].id,
+              avatar: result.data[i].display_photo_url,
+              id: result.data[i].id,
+              type: 'Page'
             }
-            let dbc = [...a,...awa]
-            setMentioned(dbc);
-            // setspeakerMention(dbc);
-          //  console.log("ment",mentioned);
           }
-        })
-        .catch((err) => console.log(err));
+          let dbc = [...a, ...awa]
+          setMentioned(dbc);
+          // setspeakerMention(dbc);
+          //  console.log("ment",mentioned);
+        }
+      })
+      .catch((err) => console.log(err));
   };
   return (
     <Fragment>
@@ -246,52 +243,52 @@ const PostComments = (props) => {
             placeholder="Your comment"
           /> */}
           {chosenEmoji ? (
-              <Picker onEmojiClick={onEmojiClick}className="w-[50px] h-[50px]" />
-            ) : ('')}
-             <div className="w-[97%]">
-              <HashtagMentionInput postText={postText} setPostText={setPostText} mentioned={mentioned}  tags={tags} settags={settags} hastags={hastags}/>
-            </div>
-            {postImagePreview?(
-              <div className="relative w-1/4 mt-2">
-                <img
+            <Picker onEmojiClick={onEmojiClick} className="w-[50px] h-[50px]" />
+          ) : ('')}
+          <div className="w-[82%]">
+            <HashtagMentionInput postText={postText} setPostText={setPostText} mentioned={mentioned} tags={tags} settags={settags} hastags={hastags} />
+          </div>
+          {postImagePreview ? (
+            <div className="relative w-1/4 mt-2">
+              <img
                 src={postImagePreview}
                 className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
-                alt=""/>
-                
-                <div className="bg-indigo-100 absolute top-4 right-0 z-10 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
+                alt="" />
+
+              <div className="bg-indigo-100 absolute top-4 right-0 z-10 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
                 onClick={clearPic} >
-                  <TrashIcon className="w-5 h-5 text-indigo-600" />
-                </div>
+                <TrashIcon className="w-5 h-5 text-indigo-600" />
               </div>
-              ):('')}
+            </div>
+          ) : ('')}
         </div>
         <div className="absolute top-2 left-0">
-          {props.dp?(
-             <img
-             src={props.dp}
-             className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
-              
-             width={34} 
-             height={34} alt="" />
-          ):(
-             <Image 
-             src={ProfileAvatar} 
-             width={34} 
-             height={34} alt="" />
+          {props.dp ? (
+            <img
+              src={props.dp}
+              className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
+
+              width={34}
+              height={34} alt="" />
+          ) : (
+            <Image
+              src={ProfileAvatar}
+              width={34}
+              height={34} alt="" />
           )}
-         
+
         </div>
         <div className="flex items-center absolute top-3 right-0 ">
-        <div>
+          <div>
             {chosenEmoji ? ('') : (
               <EmojiHappyIcon
                 width={28}
                 height={28}
                 className="text-gray-500"
-                onClick={()=>setChosenEmoji(true)}
+                onClick={() => setChosenEmoji(true)}
               />
             )}
-            
+
           </div>
           <div className="">
             <div className="relative flex items-center justify-center">
@@ -312,14 +309,14 @@ const PostComments = (props) => {
             </div>
           </div>
 
-          <div className="flex gap-2 z-10">
+          <div className="flex gap-2 z-0 md:z-10">
             <button className="bg-transparent px-1 rounded-r-full text-gray-500 hover:text-indigo-400">
               <PaperAirplaneIcon
                 className="h-7 w-7 rotate-90"
                 onClick={postComment}
               />
             </button>
-          </div>         
+          </div>
         </div>
       </div>
     </Fragment>

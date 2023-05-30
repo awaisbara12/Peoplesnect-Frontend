@@ -98,7 +98,7 @@ const PostComments = () => {
             </div>
           </div>
 
-          <div className="flex gap-2 z-50">
+          <div className="flex gap-2 z-0 md:z-50">
             <button className="bg-transparent px-1 rounded-r-full text-gray-500 hover:text-indigo-400">
               <PaperAirplaneIcon
                 className="h-7 w-7 rotate-90"

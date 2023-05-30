@@ -578,7 +578,7 @@ const ProfileFeedSingle = (singleItems) => {
 
   return (
     <>
-      <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">
+      <div className="w-full xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">
         <div className="flex gap-2 justify-between items-center px-[22px] py-[14px]">
           <div className="flex gap-2">
             {items && items.user && items.user.display_photo_url ?
@@ -1245,7 +1245,7 @@ const ProfileFeedSingle = (singleItems) => {
 
                 {items && items.share.page ? (
                   items.share.page.display_photo_url ? (
-                    <Link href={{ pathname: "/page-design/suggested-pages", query: items.share.page.id,}}>
+                    <Link href={{ pathname: "/page-design/suggested-pages", query: items.share.page.id, }}>
                       <a>
                         <img
                           src={items.share.page.display_photo_url}
@@ -1257,7 +1257,7 @@ const ProfileFeedSingle = (singleItems) => {
                       </a>
                     </Link>
                   ) : (
-                    <Link href={{ pathname: "/page-design/suggested-pages", query: items.share.page.id,}}>
+                    <Link href={{ pathname: "/page-design/suggested-pages", query: items.share.page.id, }}>
                       <a>
                         <Image
                           src={PagePhoto}
@@ -1272,50 +1272,50 @@ const ProfileFeedSingle = (singleItems) => {
                 ) : (
                   items && items.share.user && items.share.user.display_photo_url ? (
                     <>
-                    {singleItems && singleItems.currentuser && singleItems.currentuser.id==items.share.user.id?(
-                      <img
-                        src={items.share.user.display_photo_url}
-                        className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
-                        width={45}
-                        height={45}
-                        alt=""
-                      />
-                    ):(
-                      <Link href={{ pathname: "/User-Profile", query: items.share.user.id,}}>
-                      <a>
+                      {singleItems && singleItems.currentuser && singleItems.currentuser.id == items.share.user.id ? (
                         <img
-                            src={items.share.user.display_photo_url}
-                            className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
-                            width={45}
-                            height={45}
-                            alt=""
-                          />
-                        </a>
-                      </Link>
-                    )} 
-                  </>
+                          src={items.share.user.display_photo_url}
+                          className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
+                          width={45}
+                          height={45}
+                          alt=""
+                        />
+                      ) : (
+                        <Link href={{ pathname: "/User-Profile", query: items.share.user.id, }}>
+                          <a>
+                            <img
+                              src={items.share.user.display_photo_url}
+                              className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
+                              width={45}
+                              height={45}
+                              alt=""
+                            />
+                          </a>
+                        </Link>
+                      )}
+                    </>
                   ) : (
                     <>
-                    {singleItems && singleItems.currentuser && singleItems.currentuser.id==items.share.user.id?(
-                      <Image
-                      src={ProfileAvatar}
-                      width={45}
-                      height={45}
-                      alt=""
-                    />
-                    ):(
-                      <Link href={{ pathname: "/User-Profile", query: items.share.user.id,}}>
-                        <a>
-                          <Image
-                            src={ProfileAvatar}
-                            width={45}
-                            height={45}
-                            alt=""
-                          />
-                        </a>
-                      </Link>
-                    )}
-                      
+                      {singleItems && singleItems.currentuser && singleItems.currentuser.id == items.share.user.id ? (
+                        <Image
+                          src={ProfileAvatar}
+                          width={45}
+                          height={45}
+                          alt=""
+                        />
+                      ) : (
+                        <Link href={{ pathname: "/User-Profile", query: items.share.user.id, }}>
+                          <a>
+                            <Image
+                              src={ProfileAvatar}
+                              width={45}
+                              height={45}
+                              alt=""
+                            />
+                          </a>
+                        </Link>
+                      )}
+
                     </>
                   )
                 )}
@@ -1323,7 +1323,7 @@ const ProfileFeedSingle = (singleItems) => {
                 <div>
                   {items.share.page ? (
                     <>
-                      <Link href={{ pathname: "/page-design/suggested-pages", query: items.share.page.id,}}>
+                      <Link href={{ pathname: "/page-design/suggested-pages", query: items.share.page.id, }}>
                         <a>
                           <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
                             <div className="capitalize">{items.share.page.name}</div>
@@ -1337,22 +1337,22 @@ const ProfileFeedSingle = (singleItems) => {
                     items.share.group ? (
                       <>
                         <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
-                        {singleItems && singleItems.currentuser && singleItems.currentuser.id==items.share.user.id?(
-                          items.share?(<>{items.share.user.first_name} {items.share.user.last_name}</>):('')
-                        ):(
-                          <Link href={{ pathname: "/User-Profile", query: items.share.user.id,}}>
-                            <a>
-                              {items.share.user.first_name} {items.share.user.last_name}
-                            </a>
-                        </Link>
-                        )}
-                         
-                         <ChevronRightIcon
+                          {singleItems && singleItems.currentuser && singleItems.currentuser.id == items.share.user.id ? (
+                            items.share ? (<>{items.share.user.first_name} {items.share.user.last_name}</>) : ('')
+                          ) : (
+                            <Link href={{ pathname: "/User-Profile", query: items.share.user.id, }}>
+                              <a>
+                                {items.share.user.first_name} {items.share.user.last_name}
+                              </a>
+                            </Link>
+                          )}
+
+                          <ChevronRightIcon
                             width={24}
                             height={24}
                             className="text-indigo-400"
                           />
-                          <Link href={{ pathname: "/group-page/joind-group", query: items.share.group.id,}}>
+                          <Link href={{ pathname: "/group-page/joind-group", query: items.share.group.id, }}>
                             <a>
                               <div className="capitalize">{items.share.group.title}</div>
                             </a>
@@ -1364,18 +1364,18 @@ const ProfileFeedSingle = (singleItems) => {
                     ) : (
                       <>
                         <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
-                        {singleItems && singleItems.currentuser && singleItems.currentuser.id==items.share.user.id?(
-                          <>
-                            {items.share.user.first_name} {items.share.user.last_name}
-                          </>
-                        ):(
-                          <Link href={{ pathname: "/User-Profile", query: items.share.user.id,}}>
-                            <a>
+                          {singleItems && singleItems.currentuser && singleItems.currentuser.id == items.share.user.id ? (
+                            <>
                               {items.share.user.first_name} {items.share.user.last_name}
-                            </a>
-                          </Link>
-                        )}
-                          
+                            </>
+                          ) : (
+                            <Link href={{ pathname: "/User-Profile", query: items.share.user.id, }}>
+                              <a>
+                                {items.share.user.first_name} {items.share.user.last_name}
+                              </a>
+                            </Link>
+                          )}
+
                           <BadgeCheckIcon
                             width={14}
                             height={14}

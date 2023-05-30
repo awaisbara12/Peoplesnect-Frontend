@@ -22,8 +22,8 @@ const MyNetWorkNav = () => {
   const [open, setOpen] = useState(true);
 
   return (
-    <div className="block lg:hidden md:hidden">
-      <div className="flex sticky top-0 justify-between w-[625px] mx-auto h-14 items-center bg-white rounded-b-2xl px-4">
+    <div className="fixed top-0 block lg:hidden md:hidden bg-white w-full rounded-b-2xl">
+      <div className="h-14 px-4 flex justify-between items-center">
         {/* <div className="flex items-center gap-4">
           <div className="">
             <Link href="/news-feed">
@@ -48,7 +48,7 @@ const MyNetWorkNav = () => {
             />
           </label>
         </div> */}
-        <TopNavbarSearch/>
+        <TopNavbarSearch />
         <div className="relative">
           <Image
             src={ProfileAvatar}
@@ -59,9 +59,8 @@ const MyNetWorkNav = () => {
             onClick={() => setOpen(!open)}
           />
           <div
-            className={`${
-              open ? "w-0" : "w-96"
-            } absolute h-screen z-50 right-0 overflow-hidden duration-500 rounded-xl bg-white`}
+            className={`${open ? "w-0" : "w-96"
+              } absolute h-screen z-50 right-0 overflow-hidden duration-500 rounded-xl bg-white`}
           >
             <div className="p-5">
               <div>
