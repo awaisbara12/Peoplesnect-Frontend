@@ -12,7 +12,7 @@ import ApplyJob from './ApplyJob';
 import MostSearchedJobs from './MostSearchedJobs';
 import RecommendedJobs from './RecommendedJobs';
 
-const ApplyJobFeed  = () =>  {
+const ApplyJobFeed = () => {
   return (
     <div>
       <Head>
@@ -26,7 +26,7 @@ const ApplyJobFeed  = () =>  {
             <TopNavbar />
             <JobsNav />
           </div>
-          <div className="flex xl:px-0 lg:px-4 md:px-8 sm:px-0 gap-[65px] lg:gap-6 md:gap-4 justify-between">
+          <div className="flex xl:px-0 lg:px-4 md:px-8 sm:px-0 gap-[65px] lg:gap-6 md:gap-4 justify-between mt-12 md:mt-0">
             <div className="h-full bg-zinc-100">
               <ApplyJob />
             </div>

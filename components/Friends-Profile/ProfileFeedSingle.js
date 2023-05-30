@@ -297,7 +297,7 @@ const ProfileFeedSingle = (singleItems) => {
 
   return (
     <>
-      <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">
+      <div className="w-full xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">
         <div className="flex gap-2 justify-between items-center px-[22px] py-[14px]">
           <div className="flex gap-2">
             {items && items.user && items.user.display_photo_url ?

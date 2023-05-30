@@ -97,7 +97,7 @@ const RecommendedJobs = () => {
               //   hasMore={currentpage != null}
               //   loader={<div className="flex justify-center "><ClipLoader className="my-8" color="#818CF8" size={40} /> </div>}
               // >
-              <div className="grid grid-cols-2 gap-12">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
               {Recomend.map((i)=>(
                 <div className="jobs-profile bg-white rounded-xl p-4" 
                   id={`job-${i.id}`}

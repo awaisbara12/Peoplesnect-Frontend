@@ -113,7 +113,7 @@ const ProfileTopCard = () => {
   return (
     <>
       <div className="mt-8 w-full xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
-        <div className="w-[620px] md:w-full h-[275px] md:h-auto bg-white p-5 rounded-t-xl">
+        <div className="w-full md:w-full h-[275px] md:h-auto bg-white p-5 rounded-t-xl">
           <div className="group relative w-full">
             <div className="">
               <Link href="/">
@@ -235,7 +235,7 @@ const ProfileTopCard = () => {
                 <a className="text-gray-500 text-xs font-semibold">
                   <div className="flex gap-1 items-center capitalize">
                     <LocationMarkerIcon className="w-5 h-5" />
-                    {userDetails.city?userDetails.city+", ":""} {userDetails.state?userDetails.state+", ":""} {userDetails.country?userDetails.country:''}
+                    {userDetails.city ? userDetails.city + ", " : ""} {userDetails.state ? userDetails.state + ", " : ""} {userDetails.country ? userDetails.country : ''}
                   </div>
                 </a>
               </Link>

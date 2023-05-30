@@ -565,101 +565,101 @@ const ProfileFeedSingle = (singleItems) => {
 
   return (
     <>
-      {items.user?(
-      <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">
-        <div className="flex gap-2 justify-between items-center px-[22px] py-[14px]">
-          <div className="flex gap-2">
-            {singleItems.group && singleItems.group.display_photo_url ?
-              (
-                <img
-                  src={singleItems.group.display_photo_url}
-                  className="object-cover rounded-full z-40 h-[42px] w-[42px]"
-                  alt=""
-                />
-              ) : (
-                <Image
-                  src={ProfileAvatar}
-                  width={45}
-                  height={45}
-                  alt=""
-                />
-              )}
+      {items.user ? (
+        <div className="w-full xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">
+          <div className="flex gap-2 justify-between items-center px-[22px] py-[14px]">
+            <div className="flex gap-2">
+              {singleItems.group && singleItems.group.display_photo_url ?
+                (
+                  <img
+                    src={singleItems.group.display_photo_url}
+                    className="object-cover rounded-full z-40 h-[42px] w-[42px]"
+                    alt=""
+                  />
+                ) : (
+                  <Image
+                    src={ProfileAvatar}
+                    width={45}
+                    height={45}
+                    alt=""
+                  />
+                )}
 
-            <div>
-              <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
-                {singleItems.group.name}
-                <BadgeCheckIcon
-                  width={14}
-                  height={14}
-                  className="text-indigo-400"
-                />
-              </h4>
-              <div className="font-light text-gray-900 opacity-[0.8]">
-                {/* {items.user.recent_job} */}
+              <div>
+                <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
+                  {singleItems.group.name}
+                  <BadgeCheckIcon
+                    width={14}
+                    height={14}
+                    className="text-indigo-400"
+                  />
+                </h4>
+                <div className="font-light text-gray-900 opacity-[0.8]">
+                  {/* {items.user.recent_job} */}
+                </div>
               </div>
             </div>
-          </div>
-          <div className="">
             <div className="">
-              <Popover className="relative">
-                {({ open }) => (
-                  <>
-                    <Popover.Button
-                      className={` ${open ? "" : "text-opacity-90 focus-visible:outline-none"
-                        }`}
-                    // onClick={()=>setEditOn('')}
-                    >
-                      <div className="hover:bg-indigo-100 focus:bg-indigo-100 rounded-full h-8 w-8 flex items-center justify-center">
-                        <DotsHorizontalIcon className="w-5 h-5" />
-                      </div>
-                    </Popover.Button>
-                    <Transition
-                      as={Fragment}
-                      enter="transition ease-out duration-200"
-                      enterFrom="opacity-0 translate-y-1"
-                      enterTo="opacity-100 translate-y-0"
-                      leave="transition ease-in duration-150"
-                      leaveFrom="opacity-100 translate-y-0"
-                      leaveTo="opacity-0 translate-y-1"
-                    >
-                      <Popover.Panel className="absolute left-1/2 z-10 mt-3 w-72 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-3xl">
-                        {items.user && singleItems.currentUser.id == items.user.id || isadmin(admins, singleItems.currentUser.id) || singleItems.group.owner && singleItems.group.owner.id == singleItems.currentUser.id ? (
-                          <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
-                            <div className="relative bg-white py-1">
-                              {singleItems.currentUser.id == items.user.id ? (
-                                <button
-                                  key="Edit"
-                                  onClick={() => optionConfirm(items.id, "Edit", items)}
-                                  className="flex items-center w-full rounded-lg hover:bg-gray-50 h-6"
-                                >
-                                  <div className="flex items-center gap-3 justify-center text-white pl-2">
-                                    <PencilIcon className="h-4 w-4 text-gray-900" />
-                                    <div>
-                                      <p className="text-sm font-medium text-gray-900">
-                                        Edit
-                                      </p>
+              <div className="">
+                <Popover className="relative">
+                  {({ open }) => (
+                    <>
+                      <Popover.Button
+                        className={` ${open ? "" : "text-opacity-90 focus-visible:outline-none"
+                          }`}
+                      // onClick={()=>setEditOn('')}
+                      >
+                        <div className="hover:bg-indigo-100 focus:bg-indigo-100 rounded-full h-8 w-8 flex items-center justify-center">
+                          <DotsHorizontalIcon className="w-5 h-5" />
+                        </div>
+                      </Popover.Button>
+                      <Transition
+                        as={Fragment}
+                        enter="transition ease-out duration-200"
+                        enterFrom="opacity-0 translate-y-1"
+                        enterTo="opacity-100 translate-y-0"
+                        leave="transition ease-in duration-150"
+                        leaveFrom="opacity-100 translate-y-0"
+                        leaveTo="opacity-0 translate-y-1"
+                      >
+                        <Popover.Panel className="absolute left-1/2 z-10 mt-3 w-72 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-3xl">
+                          {items.user && singleItems.currentUser.id == items.user.id || isadmin(admins, singleItems.currentUser.id) || singleItems.group.owner && singleItems.group.owner.id == singleItems.currentUser.id ? (
+                            <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                              <div className="relative bg-white py-1">
+                                {singleItems.currentUser.id == items.user.id ? (
+                                  <button
+                                    key="Edit"
+                                    onClick={() => optionConfirm(items.id, "Edit", items)}
+                                    className="flex items-center w-full rounded-lg hover:bg-gray-50 h-6"
+                                  >
+                                    <div className="flex items-center gap-3 justify-center text-white pl-2">
+                                      <PencilIcon className="h-4 w-4 text-gray-900" />
+                                      <div>
+                                        <p className="text-sm font-medium text-gray-900">
+                                          Edit
+                                        </p>
+                                      </div>
                                     </div>
-                                  </div>
-                                </button>
-                              ) : ('')}
+                                  </button>
+                                ) : ('')}
 
-                              {singleItems.currentUser.id == items.user.id || isadmin(admins, singleItems.currentUser.id) || singleItems.group.owner.id == singleItems.currentUser.id ? (
-                                <button
-                                  key="Delete"
-                                  onClick={() => optionConfirm(items.id, "Delete", items)}
-                                  className="flex items-center w-full rounded-lg hover:bg-gray-50 h-6"
-                                >
-                                  <div className="flex items-center gap-3 justify-center text-white pl-2">
-                                    <TrashIcon className="h-4 w-4 text-gray-900" />
-                                    <div>
-                                      <p className="text-sm font-medium text-gray-900">
-                                        Delete
-                                      </p>
+                                {singleItems.currentUser.id == items.user.id || isadmin(admins, singleItems.currentUser.id) || singleItems.group.owner.id == singleItems.currentUser.id ? (
+                                  <button
+                                    key="Delete"
+                                    onClick={() => optionConfirm(items.id, "Delete", items)}
+                                    className="flex items-center w-full rounded-lg hover:bg-gray-50 h-6"
+                                  >
+                                    <div className="flex items-center gap-3 justify-center text-white pl-2">
+                                      <TrashIcon className="h-4 w-4 text-gray-900" />
+                                      <div>
+                                        <p className="text-sm font-medium text-gray-900">
+                                          Delete
+                                        </p>
+                                      </div>
                                     </div>
-                                  </div>
-                                </button>
-                              ) : ('')}
-                              
+                                  </button>
+                                ) : ('')}
+
                                 <button
                                   key="Report"
                                   onClick={() => optionConfirm(items.id, "Report", items)}
@@ -675,305 +675,392 @@ const ProfileFeedSingle = (singleItems) => {
                                   </div>
                                 </button>
 
+                              </div>
                             </div>
-                          </div>
-                        ) : (
-                          <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
-                            <div className="relative bg-white py-1">
-                            <button
-                                key="Report"
-                                onClick={() => optionConfirm(items.id, "Report", items)}
-                                className="flex items-center w-full rounded-lg hover:bg-gray-50 h-6"
-                              >
-                                <div className="flex items-center gap-3 justify-center text-white pl-2">
-                                  <DocumentReportIcon className="h-4 w-4 text-gray-900" />
-                                  <div>
-                                    <p className="text-sm font-medium text-gray-900">
-                                      Report
-                                    </p>
+                          ) : (
+                            <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                              <div className="relative bg-white py-1">
+                                <button
+                                  key="Report"
+                                  onClick={() => optionConfirm(items.id, "Report", items)}
+                                  className="flex items-center w-full rounded-lg hover:bg-gray-50 h-6"
+                                >
+                                  <div className="flex items-center gap-3 justify-center text-white pl-2">
+                                    <DocumentReportIcon className="h-4 w-4 text-gray-900" />
+                                    <div>
+                                      <p className="text-sm font-medium text-gray-900">
+                                        Report
+                                      </p>
+                                    </div>
                                   </div>
-                                </div>
-                              </button>
+                                </button>
+                              </div>
                             </div>
-                          </div>
-                        )}
-                      </Popover.Panel>
-                    </Transition>
-                  </>
-                )}
-              </Popover>
+                          )}
+                        </Popover.Panel>
+                      </Transition>
+                    </>
+                  )}
+                </Popover>
+              </div>
             </div>
           </div>
-        </div>
-        {/* <div className="border-1 border-gray-100"></div> */}
+          {/* <div className="border-1 border-gray-100"></div> */}
 
 
-        <div className="px-[22px] py-[14px]">
-          {EditOn == items.id ? (
-            //   <textarea
-            //   type="text"
-            //   name="post-text"
-            //   value={EditText}
-            //   onChange={(e) => setEditText(e.target.value)}
-            //   className="w-full pt-0 resize-none border-0 px-0 text-base overflow-y-hidden outline-none focus:outline focus:ring-0"
-            //   placeholder="Start a post?"
-            // />
-            <HashtagMentionInput postText={EditText} setPostText={setEditText} mentioned={mentioned} tags={tags} settags={settags} hastags={hastags} />
+          <div className="px-[22px] py-[14px]">
+            {EditOn == items.id ? (
+              //   <textarea
+              //   type="text"
+              //   name="post-text"
+              //   value={EditText}
+              //   onChange={(e) => setEditText(e.target.value)}
+              //   className="w-full pt-0 resize-none border-0 px-0 text-base overflow-y-hidden outline-none focus:outline focus:ring-0"
+              //   placeholder="Start a post?"
+              // />
+              <HashtagMentionInput postText={EditText} setPostText={setEditText} mentioned={mentioned} tags={tags} settags={settags} hastags={hastags} />
 
-          ) : (
-            // <p>{items.body ? items.body : ""}</p>
-            items.tags && items.tags.length > 0 || (items.hashtags && items.hashtags.length > 0) ?
-              (
-                <App state={items.body} website={items.tags} hashtags={items.hashtags} />
-              )
-              :
-              (
-                <ReadMore>
-                  {items.body ? items.body : ""}
-                </ReadMore>
-              )
-          )}
+            ) : (
+              // <p>{items.body ? items.body : ""}</p>
+              items.tags && items.tags.length > 0 || (items.hashtags && items.hashtags.length > 0) ?
+                (
+                  <App state={items.body} website={items.tags} hashtags={items.hashtags} />
+                )
+                :
+                (
+                  <ReadMore>
+                    {items.body ? items.body : ""}
+                  </ReadMore>
+                )
+            )}
 
-          {items.event && items.event ? (
-            <div className="rounded-xl bg-white border border-gray-100 my-2">
-              {items.event.cover_photo_url ? (
-                EditOn == items.id ? (
-                  <>
-                    {UP_pic ? (
-                      <div className={`relative`}>
-                        <img src={UP_pic} className="aspect-video object-cover rounded-xl mb-4" alt="" />
-                        <div onClick={handleCoverReomve} className="bg-indigo-100 absolute top-4 right-4 z-50 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full" >
-                          <TrashIcon className="w-5 h-5 text-indigo-600" />
+            {items.event && items.event ? (
+              <div className="rounded-xl bg-white border border-gray-100 my-2">
+                {items.event.cover_photo_url ? (
+                  EditOn == items.id ? (
+                    <>
+                      {UP_pic ? (
+                        <div className={`relative`}>
+                          <img src={UP_pic} className="aspect-video object-cover rounded-xl mb-4" alt="" />
+                          <div onClick={handleCoverReomve} className="bg-indigo-100 absolute top-4 right-4 z-50 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full" >
+                            <TrashIcon className="w-5 h-5 text-indigo-600" />
+                          </div>
                         </div>
+                      ) : (
+                        <>
+                          <img
+                            src={EditPic}
+                            className="aspect-video object-cover rounded-t-xl h-[390px] w-[952px]"
+                            alt=""
+                          />
+                          <div className="flex">
+                            <div className="relative flex gap-1 md:gap-2 items-center justify-center">
+                              <div className="relative flex items-center justify-center">
+                                <PhotographIcon
+                                  width={22}
+                                  height={22}
+                                  className="text-indigo-400"
+                                />
+                                <input
+                                  type="file"
+                                  name="image"
+                                  id="image"
+                                  className="opacity-0 absolute w-6 h-6 -z-0"
+                                  onChange={handleImage}
+                                  title={""}
+                                  multiple
+                                />
+                              </div>
+                              <div className="font-extralight">Photo Upload</div>
+                            </div>
+                            {/* <button className={`w-[100px] h-8 rounded-full flex gap-1 items-center justify-center bg-indigo-400 text-white cursor-pointer`}
+                            onClick={()=>UpdateFeed(items.id,items.feed_type )}>
+                            Update {spinner && true ? <Spinner /> : ""}
+                        </button> */}
+                          </div>
+
+                        </>
+                      )}
+                    </>
+                  ) : (
+                    <img
+                      src={items.event.cover_photo_url}
+                      className="aspect-video object-cover rounded-t-xl h-[390px] w-[952px]"
+                      alt=""
+                    />
+                  )
+                ) : (
+                  ""
+                )}
+                <div className="py-3 px-3">
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <div className="text-red-400 text-sm">
+                        {EditOn == items.id ? (
+                          <div className="">
+                            {/* Event Name */}
+                            <>
+                              <label htmlFor="startdate" className="text-neutral-900 text-sm">
+                                Event Name <span className="text-red-500">*</span>
+                              </label>
+                              <input
+                                placeholder="Event Name"
+                                className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
+                                value={eventame}
+                                onChange={(e) => seteventname(e.target.value)}
+                              />
+
+                            </>
+                            {/*  Radio button */}
+                            <div>
+                              <div className="flex items-center gap-4">
+                                <fieldset className="flex items-center gap-2 pt-3">
+                                  <input
+                                    checked={event_type == "online"}
+                                    type="radio"
+                                    name="event-radio"
+                                    id="online"
+                                    value="online"
+                                    onChange={(e) => setevent_type(e.target.value)}
+                                  />
+                                  <label htmlFor="online">Online</label>
+                                </fieldset>
+                                <fieldset className="flex items-center gap-2 pt-3">
+                                  <input
+                                    checked={event_type == "in_person"}
+                                    type="radio"
+                                    name="event-radio"
+                                    id="online"
+                                    value="in_person"
+                                    onChange={(e) => setevent_type(e.target.value)}
+                                  />
+                                  <label htmlFor="in-person">In Person</label>
+                                </fieldset>
+                              </div>
+                            </div>
+                            {/* Time */}
+                            <div className="flex justify-end ">
+                              <>
+                                <label htmlFor="startTime" className="text-neutral-900 text-sm">
+                                  Start Time <span className="text-red-500">*</span>
+                                </label>
+                                <input
+                                  type="time"
+                                  name="startTime"
+                                  value={S_time}
+                                  onChange={(e) => setS_time(e.target.value)}
+                                  placeholder="Event Name"
+                                  className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
+                                  id="startTime"
+                                  required="required"
+                                />
+                              </>
+                              <>
+                                <label htmlFor="startTime" className="text-neutral-900 text-sm">
+                                  End Time <span className="text-red-500">*</span>
+                                </label>
+                                <input
+                                  type="time"
+                                  name="startTime"
+                                  value={E_time}
+                                  onChange={(e) => setE_time(e.target.value)}
+                                  placeholder="Event Name"
+                                  className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
+                                  id="startTime"
+                                  required="required"
+                                />
+                              </>
+                            </div>
+                            {/* Date */}
+                            <div className="flex justify-end ">
+                              <>
+                                <label htmlFor="startdate" className="text-neutral-900 text-sm">
+                                  Start Date <span className="text-red-500">*</span>
+                                </label>
+                                <input
+                                  type="date"
+                                  name="startdate"
+                                  // value={S_date}
+                                  defaultValue={S_date}
+                                  onChange={(e) => setS_date(e.target.value)}
+                                  placeholder="dd-mm-yyyy"
+                                  className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
+                                  id="startTime"
+                                />
+                              </>
+                              <>
+                                <label htmlFor="startTime" className="text-neutral-900 text-sm">
+                                  End Date <span className="text-red-500">*</span>
+                                </label>
+                                <input
+                                  type="date"
+                                  name="startTime"
+                                  value={E_date}
+                                  onChange={(e) => setE_date(e.target.value)}
+                                  placeholder="Event Name"
+                                  className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
+                                  id="startTime"
+                                />
+                              </>
+                            </div>
+                          </div >
+                        ) : (
+                          <>
+                            <span>{items.event.start_time}</span>
+                            <span>-{items.event.end_time}</span>&nbsp;
+                            <span>{items.event.start_date}</span>&nbsp;
+
+                            <div className="flex items-center gap-2">
+                              <CalendarIcon
+                                width={16}
+                                height={16}
+                                className="text-gray-900"
+                              />
+                              <span className="text-gray-900 text-sm">
+                                {items.event.event_type === "in_person" ? (
+                                  'In Person'
+                                ) : (items.event.event_type)}
+                              </span>
+                            </div>
+
+                            <div className="font-semibold text-lg">
+                              {items.event.name}
+                            </div>
+
+                            <Link href="/events-design/event-view">
+                              <a className="text-sm text-gray-600 cursor-pointer flex items-center border border-gray-100 rounded-full py-1 px-3">
+                                View Event
+                              </a>
+                            </Link>
+
+                          </>)}
                       </div>
-                    ) : (
+                      {/* <div className="text-gray-900"></div> */}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
+
+
+
+            {items.feed_type && items.feed_type === "video_feed" ? (
+              EditOn == items.id ? (
+                <>
+                  {UP_pic ? ("") :
+                    (
                       <>
-                        <img
-                          src={EditPic}
-                          className="aspect-video object-cover rounded-t-xl h-[390px] w-[952px]"
-                          alt=""
-                        />
-                        <div className="flex">
+                        <video controls className="aspect-video w-full rounded-xl my-4">
+                          <source src={EditPic} type="video/mp4" />
+                        </video>
+                        <div className="flex gap-5">
                           <div className="relative flex gap-1 md:gap-2 items-center justify-center">
                             <div className="relative flex items-center justify-center">
-                              <PhotographIcon
+                              <VideoCameraIcon
                                 width={22}
                                 height={22}
                                 className="text-indigo-400"
                               />
+
                               <input
-                                type="file"
-                                name="image"
-                                id="image"
-                                className="opacity-0 absolute w-6 h-6 -z-0"
-                                onChange={handleImage}
+                                type={`file`}
+                                name="video"
+                                id="video"
+                                onChange={handleVideo}
                                 title={""}
-                                multiple
+                                className="opacity-0 absolute w-6 h-6 -z-0"
                               />
                             </div>
-                            <div className="font-extralight">Photo Upload</div>
+                            <div className="font-extralight">Video Upload</div>
                           </div>
-                          {/* <button className={`w-[100px] h-8 rounded-full flex gap-1 items-center justify-center bg-indigo-400 text-white cursor-pointer`}
-                            onClick={()=>UpdateFeed(items.id,items.feed_type )}>
+                          <button className={`w-[100px] h-8 rounded-full flex gap-1 items-center justify-center bg-indigo-400 text-white cursor-pointer`}
+                            onClick={() => UpdateFeed(items.id, items.feed_type)}>
                             Update {spinner && true ? <Spinner /> : ""}
-                        </button> */}
+                          </button>
                         </div>
-
                       </>
                     )}
-                  </>
-                ) : (
-                  <img
-                    src={items.event.cover_photo_url}
-                    className="aspect-video object-cover rounded-t-xl h-[390px] w-[952px]"
-                    alt=""
-                  />
-                )
+                </>
               ) : (
-                ""
-              )}
-              <div className="py-3 px-3">
-                <div className="flex justify-between items-center">
-                  <div>
-                    <div className="text-red-400 text-sm">
-                      {EditOn == items.id ? (
-                        <div className="">
-                          {/* Event Name */}
-                          <>
-                            <label htmlFor="startdate" className="text-neutral-900 text-sm">
-                              Event Name <span className="text-red-500">*</span>
-                            </label>
-                            <input
-                              placeholder="Event Name"
-                              className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
-                              value={eventame}
-                              onChange={(e) => seteventname(e.target.value)}
-                            />
-
-                          </>
-                          {/*  Radio button */}
-                          <div>
-                            <div className="flex items-center gap-4">
-                              <fieldset className="flex items-center gap-2 pt-3">
-                                <input
-                                  checked={event_type == "online"}
-                                  type="radio"
-                                  name="event-radio"
-                                  id="online"
-                                  value="online"
-                                  onChange={(e) => setevent_type(e.target.value)}
-                                />
-                                <label htmlFor="online">Online</label>
-                              </fieldset>
-                              <fieldset className="flex items-center gap-2 pt-3">
-                                <input
-                                  checked={event_type == "in_person"}
-                                  type="radio"
-                                  name="event-radio"
-                                  id="online"
-                                  value="in_person"
-                                  onChange={(e) => setevent_type(e.target.value)}
-                                />
-                                <label htmlFor="in-person">In Person</label>
-                              </fieldset>
-                            </div>
-                          </div>
-                          {/* Time */}
-                          <div className="flex justify-end ">
-                            <>
-                              <label htmlFor="startTime" className="text-neutral-900 text-sm">
-                                Start Time <span className="text-red-500">*</span>
-                              </label>
-                              <input
-                                type="time"
-                                name="startTime"
-                                value={S_time}
-                                onChange={(e) => setS_time(e.target.value)}
-                                placeholder="Event Name"
-                                className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
-                                id="startTime"
-                                required="required"
-                              />
-                            </>
-                            <>
-                              <label htmlFor="startTime" className="text-neutral-900 text-sm">
-                                End Time <span className="text-red-500">*</span>
-                              </label>
-                              <input
-                                type="time"
-                                name="startTime"
-                                value={E_time}
-                                onChange={(e) => setE_time(e.target.value)}
-                                placeholder="Event Name"
-                                className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
-                                id="startTime"
-                                required="required"
-                              />
-                            </>
-                          </div>
-                          {/* Date */}
-                          <div className="flex justify-end ">
-                            <>
-                              <label htmlFor="startdate" className="text-neutral-900 text-sm">
-                                Start Date <span className="text-red-500">*</span>
-                              </label>
-                              <input
-                                type="date"
-                                name="startdate"
-                                // value={S_date}
-                                defaultValue={S_date}
-                                onChange={(e) => setS_date(e.target.value)}
-                                placeholder="dd-mm-yyyy"
-                                className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
-                                id="startTime"
-                              />
-                            </>
-                            <>
-                              <label htmlFor="startTime" className="text-neutral-900 text-sm">
-                                End Date <span className="text-red-500">*</span>
-                              </label>
-                              <input
-                                type="date"
-                                name="startTime"
-                                value={E_date}
-                                onChange={(e) => setE_date(e.target.value)}
-                                placeholder="Event Name"
-                                className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none focus:border-indigo-400 focus:drop-shadow-indigo-400`}
-                                id="startTime"
-                              />
-                            </>
-                          </div>
-                        </div >
-                      ) : (
-                        <>
-                          <span>{items.event.start_time}</span>
-                          <span>-{items.event.end_time}</span>&nbsp;
-                          <span>{items.event.start_date}</span>&nbsp;
-
-                          <div className="flex items-center gap-2">
-                            <CalendarIcon
-                              width={16}
-                              height={16}
-                              className="text-gray-900"
-                            />
-                            <span className="text-gray-900 text-sm">
-                              {items.event.event_type === "in_person" ? (
-                                'In Person'
-                              ) : (items.event.event_type)}
-                            </span>
-                          </div>
-
-                          <div className="font-semibold text-lg">
-                            {items.event.name}
-                          </div>
-
-                          <Link href="/events-design/event-view">
-                            <a className="text-sm text-gray-600 cursor-pointer flex items-center border border-gray-100 rounded-full py-1 px-3">
-                              View Event
-                            </a>
-                          </Link>
-
-                        </>)}
-                    </div>
-                    {/* <div className="text-gray-900"></div> */}
+                <>
+                  <video controls className="aspect-video w-full rounded-xl my-4">
+                    <source src={UP_pic ? UP_pic : items.attachments_link} type="video/mp4" />
+                  </video>
+                </>)
+            ) : ("")}
+            {EditOn && UP_pic && items.feed_type && items.feed_type === "video_feed" ? (
+              <>
+                <div className="relative">
+                  <video autoPlay="autoplay" controls className="aspect-video rounded-xl mb-4">
+                    <source src={UP_pic} type="video/mp4" />
+                  </video>
+                  <div onClick={handleCoverReomve} className="bg-indigo-100 absolute top-4 right-4 z-50 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full">
+                    <TrashIcon className="w-5 h-5 text-indigo-600" />
                   </div>
                 </div>
-              </div>
-            </div>
-          ) : (
-            ""
-          )}
+                <div className="flex gap-5">
+                  <div className="relative flex gap-1 md:gap-2 items-center justify-center">
+                    <div className="relative flex items-center justify-center">
+                      <VideoCameraIcon
+                        width={22}
+                        height={22}
+                        className="text-indigo-400"
+                      />
+                      <input
+                        type={`file`}
+                        name="video"
+                        id="video"
+                        onChange={handleVideo}
+                        title={""}
+                        className="opacity-0 absolute w-6 h-6 -z-0"
+                      />
+                    </div>
+                    <div className="font-extralight">Video Upload</div>
+                  </div>
+                  <button className={`w-[100px] h-8 rounded-full flex gap-1 items-center justify-center bg-indigo-400 text-white cursor-pointer`}
+                    onClick={() => UpdateFeed(items.id, items.feed_type)}>
+                    Update {spinner && true ? <Spinner /> : ""}
+                  </button>
+                </div>
+              </>
+            ) : (
+              ""
+            )}
 
 
-
-          {items.feed_type && items.feed_type === "video_feed" ? (
-            EditOn == items.id ? (
-              <>
-                {UP_pic ? ("") :
-                  (
+            {items.attachments_link && items.feed_type === "image_feed" ? (
+              EditOn == items.id ? (
+                <>
+                  {UP_pic ? (
+                    ''
+                  ) : (
                     <>
-                      <video controls className="aspect-video w-full rounded-xl my-4">
-                        <source src={EditPic} type="video/mp4" />
-                      </video>
-                      <div className="flex gap-5">
+                      <img
+                        src={EditPic}
+                        className="aspect-video object-cover rounded-t-xl h-[390px] w-[952px]"
+                        alt=""
+                      />
+                      <div className="flex">
                         <div className="relative flex gap-1 md:gap-2 items-center justify-center">
                           <div className="relative flex items-center justify-center">
-                            <VideoCameraIcon
+                            <PhotographIcon
                               width={22}
                               height={22}
                               className="text-indigo-400"
                             />
-
                             <input
-                              type={`file`}
-                              name="video"
-                              id="video"
-                              onChange={handleVideo}
-                              title={""}
+                              type="file"
+                              name="image"
+                              id="image"
                               className="opacity-0 absolute w-6 h-6 -z-0"
+                              onChange={handleImage}
+                              title={""}
+                              multiple
                             />
                           </div>
-                          <div className="font-extralight">Video Upload</div>
+                          <div className="font-extralight">Photo Upload</div>
                         </div>
                         <button className={`w-[100px] h-8 rounded-full flex gap-1 items-center justify-center bg-indigo-400 text-white cursor-pointer`}
                           onClick={() => UpdateFeed(items.id, items.feed_type)}>
@@ -982,251 +1069,164 @@ const ProfileFeedSingle = (singleItems) => {
                       </div>
                     </>
                   )}
-              </>
+                </>
+              ) : (
+                <div className="mt-[14px]">
+                  <img
+                    src={items.attachments_link}
+                    width={952}
+                    height={240}
+                    layout="responsive"
+                    className="aspect-video object-cover rounded-lg mx-auto h-[390px]"
+                    alt=""
+                  />
+                </div>)
             ) : (
-              <>
-                <video controls className="aspect-video w-full rounded-xl my-4">
-                  <source src={UP_pic ? UP_pic : items.attachments_link} type="video/mp4" />
-                </video>
-              </>)
-          ) : ("")}
-          {EditOn && UP_pic && items.feed_type && items.feed_type === "video_feed" ? (
-            <>
-              <div className="relative">
-                <video autoPlay="autoplay" controls className="aspect-video rounded-xl mb-4">
-                  <source src={UP_pic} type="video/mp4" />
-                </video>
-                <div onClick={handleCoverReomve} className="bg-indigo-100 absolute top-4 right-4 z-50 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full">
-                  <TrashIcon className="w-5 h-5 text-indigo-600" />
-                </div>
-              </div>
-              <div className="flex gap-5">
-                <div className="relative flex gap-1 md:gap-2 items-center justify-center">
-                  <div className="relative flex items-center justify-center">
-                    <VideoCameraIcon
-                      width={22}
-                      height={22}
-                      className="text-indigo-400"
-                    />
-                    <input
-                      type={`file`}
-                      name="video"
-                      id="video"
-                      onChange={handleVideo}
-                      title={""}
-                      className="opacity-0 absolute w-6 h-6 -z-0"
-                    />
-                  </div>
-                  <div className="font-extralight">Video Upload</div>
-                </div>
-                <button className={`w-[100px] h-8 rounded-full flex gap-1 items-center justify-center bg-indigo-400 text-white cursor-pointer`}
-                  onClick={() => UpdateFeed(items.id, items.feed_type)}>
-                  Update {spinner && true ? <Spinner /> : ""}
-                </button>
-              </div>
-            </>
-          ) : (
-            ""
-          )}
-
-
-          {items.attachments_link && items.feed_type === "image_feed" ? (
-            EditOn == items.id ? (
-              <>
-                {UP_pic ? (
-                  ''
-                ) : (
-                  <>
-                    <img
-                      src={EditPic}
-                      className="aspect-video object-cover rounded-t-xl h-[390px] w-[952px]"
-                      alt=""
-                    />
-                    <div className="flex">
-                      <div className="relative flex gap-1 md:gap-2 items-center justify-center">
-                        <div className="relative flex items-center justify-center">
-                          <PhotographIcon
-                            width={22}
-                            height={22}
-                            className="text-indigo-400"
-                          />
-                          <input
-                            type="file"
-                            name="image"
-                            id="image"
-                            className="opacity-0 absolute w-6 h-6 -z-0"
-                            onChange={handleImage}
-                            title={""}
-                            multiple
-                          />
-                        </div>
-                        <div className="font-extralight">Photo Upload</div>
-                      </div>
-                      <button className={`w-[100px] h-8 rounded-full flex gap-1 items-center justify-center bg-indigo-400 text-white cursor-pointer`}
-                        onClick={() => UpdateFeed(items.id, items.feed_type)}>
-                        Update {spinner && true ? <Spinner /> : ""}
-                      </button>
-                    </div>
-                  </>
-                )}
-              </>
-            ) : (
-              <div className="mt-[14px]">
-                <img
-                  src={items.attachments_link}
-                  width={952}
-                  height={240}
-                  layout="responsive"
-                  className="aspect-video object-cover rounded-lg mx-auto h-[390px]"
-                  alt=""
-                />
-              </div>)
-          ) : (
-            ""
-          )}
-          {UP_pic && items.attachments_link && items.feed_type === "image_feed" ? (
-            <>
-              <div className={`relative`}>
-                <img src={UP_pic} className="aspect-video object-cover rounded-xl mb-4" alt="" />
-                <div onClick={handleCoverReomve} className="bg-indigo-100 absolute top-4 right-4 z-50 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full" >
-                  <TrashIcon className="w-5 h-5 text-indigo-600" />
-                </div>
-              </div>
-              <div className="flex gap-10">
-                <div className="relative flex gap-1 md:gap-2 items-center justify-center">
-                  <div className="relative flex items-center justify-center">
-                    <PhotographIcon
-                      width={22}
-                      height={22}
-                      className="text-indigo-400"
-                    />
-                    <input
-                      type="file"
-                      name="image"
-                      id="image"
-                      className="opacity-0 absolute w-6 h-6 -z-0"
-                      onChange={handleImage}
-                      title={""}
-                      multiple
-                    />
-                  </div>
-                  <div className="font-extralight">Photo Upload</div>
-                </div>
-                <button className={`w-[100px] h-8 rounded-full flex gap-1 items-center justify-center bg-indigo-400 text-white cursor-pointer`}
-                  onClick={() => UpdateFeed(items.id, items.feed_type)}>
-                  Update {spinner && true ? <Spinner /> : ""}
-                </button>
-              </div>
-            </>
-          ) : ('')}
-
-
-          {/* Update Button */}
-          {EditOn == items.id && (items.feed_type == "basic" || items.feed_type == "event_feed") ? (
-            <button className={`w-[100px] h-8 rounded-full flex gap-1 items-center justify-center bg-indigo-400 text-white cursor-pointer`}
-              onClick={() => UpdateFeed(items.id, items.feed_type)}>
-              Update {spinner && true ? <Spinner /> : ""}
-            </button>
-          ) : ('')}
-
-
-          <div className="flex justify-between mt-[14px]">
-            <div className="flex gap-6">
-              <div className="flex gap-2 items-center">
-                {items.is_heart && items.is_heart == true ? (
-                  <>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="Red"
-                      className="w-6 h-6 cursor-pointer"
-                      onClick={() => deteleHeart(items.heart_id)}
-                    >
-                      <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
-                    </svg>
-                    <span className="font-light text-gray-900">
-                      {items.reactions_count}
-                    </span>
-                  </>
-                ) : (
-                  <>
-                    <HeartIcon
-                      width={24}
-                      height={24}
-                      className="text-gray-600 cursor-pointer"
-                      onClick={() => addHeart(items.id)}
-                    />
-                    <span className="font-light text-gray-600 cursor-pointer">
-                      {items.reactions_count}
-                    </span>
-                  </>
-                )}
-              </div>
-              <div className="flex gap-2 items-center">
-                <ChatAltIcon
-                  width={24}
-                  height={24}
-                  className="text-gray-600 cursor-pointer"
-                />
-                <span className="font-light text-gray-600 cursor-pointer">{comments_count >= 0 && is_deleted == true ? (comments_count) : (items.comments_count == 0 ? (0) : (items.comments_count))}</span>
-              </div>
-            </div>
-            <div className="flex gap-6">
-              <div className="flex gap-2 items-center">
-                {items.is_bookmark && items.is_bookmark == true ? (
-                  <>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      className="w-6 h-6 text-indigo-400 cursor-pointer"
-                      onClick={() => deteleBookmark(items.bookmark_id)}
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M6.32 2.577a49.255 49.255 0 0111.36 0c1.497.174 2.57 1.46 2.57 2.93V21a.75.75 0 01-1.085.67L12 18.089l-7.165 3.583A.75.75 0 013.75 21V5.507c0-1.47 1.073-2.756 2.57-2.93z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    <span className="font-light text-indigo-400">
-                      {items.bookmarks_count}
-                    </span>
-                  </>
-                ) : (
-                  <>
-                    <BookmarkIcon
-                      width={24}
-                      height={24}
-                      className="text-indigo-400 cursor-pointer"
-                      onClick={() => createBookmark(items.id)}
-                    />
-                    <span className="font-light text-indigo-400">
-                      {items.bookmarks_count}
-                    </span>
-                  </>
-                )}
-              </div>
-              <ShareModal items={items && items.feed_type == "share" ? (items.share) : (items)} currentuser={singleItems.currentUser} />
-            </div>
-          </div>
-          <Fragment>
-            {items.user && singleItems.group.can_comment == "all_member" ? (
-              
-              <PostComments news_feed_id={items.id} currentUser={singleItems.currentUser} setComments={setComments} setComments_count={setComments_count} setIs_deleted={setIs_deleted} dp={items.user.display_photo_url} />
-            ) : (
-              items.user && singleItems.currentUser && singleItems.group ? (
-                (admins && isadmin(admins, singleItems.currentUser.id)) || singleItems.group.owner.id == singleItems.currentUser.id ? (
-                  <PostComments news_feed_id={items.id} currentUser={singleItems.currentUser.id} setComments={setComments} setComments_count={setComments_count} setIs_deleted={setIs_deleted} dp={items.user.display_photo_url} />
-                ) : ("")
-              ) : ("")
+              ""
             )}
-            <FilterComments news_feed_id={items.id} comments={comments.data} setComments_count={setComments_count} setComments={setComments} next_page={nextPage} setNextPage={setNextPage} />
-            {!loading && <ReplyComments admins={admins} currentUser={singleItems.currentUser.id} group={singleItems.group} news_feed_id={items.id} comments={comments.data} comments_count={comments_count} setComments_count={setComments_count} setComments={setComments} setIs_deleted={setIs_deleted} items={items} />}
-          </Fragment>
-        </div>
+            {UP_pic && items.attachments_link && items.feed_type === "image_feed" ? (
+              <>
+                <div className={`relative`}>
+                  <img src={UP_pic} className="aspect-video object-cover rounded-xl mb-4" alt="" />
+                  <div onClick={handleCoverReomve} className="bg-indigo-100 absolute top-4 right-4 z-50 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full" >
+                    <TrashIcon className="w-5 h-5 text-indigo-600" />
+                  </div>
+                </div>
+                <div className="flex gap-10">
+                  <div className="relative flex gap-1 md:gap-2 items-center justify-center">
+                    <div className="relative flex items-center justify-center">
+                      <PhotographIcon
+                        width={22}
+                        height={22}
+                        className="text-indigo-400"
+                      />
+                      <input
+                        type="file"
+                        name="image"
+                        id="image"
+                        className="opacity-0 absolute w-6 h-6 -z-0"
+                        onChange={handleImage}
+                        title={""}
+                        multiple
+                      />
+                    </div>
+                    <div className="font-extralight">Photo Upload</div>
+                  </div>
+                  <button className={`w-[100px] h-8 rounded-full flex gap-1 items-center justify-center bg-indigo-400 text-white cursor-pointer`}
+                    onClick={() => UpdateFeed(items.id, items.feed_type)}>
+                    Update {spinner && true ? <Spinner /> : ""}
+                  </button>
+                </div>
+              </>
+            ) : ('')}
 
-      </div>
-      ):("")}
+
+            {/* Update Button */}
+            {EditOn == items.id && (items.feed_type == "basic" || items.feed_type == "event_feed") ? (
+              <button className={`w-[100px] h-8 rounded-full flex gap-1 items-center justify-center bg-indigo-400 text-white cursor-pointer`}
+                onClick={() => UpdateFeed(items.id, items.feed_type)}>
+                Update {spinner && true ? <Spinner /> : ""}
+              </button>
+            ) : ('')}
+
+
+            <div className="flex justify-between mt-[14px]">
+              <div className="flex gap-6">
+                <div className="flex gap-2 items-center">
+                  {items.is_heart && items.is_heart == true ? (
+                    <>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="Red"
+                        className="w-6 h-6 cursor-pointer"
+                        onClick={() => deteleHeart(items.heart_id)}
+                      >
+                        <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
+                      </svg>
+                      <span className="font-light text-gray-900">
+                        {items.reactions_count}
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <HeartIcon
+                        width={24}
+                        height={24}
+                        className="text-gray-600 cursor-pointer"
+                        onClick={() => addHeart(items.id)}
+                      />
+                      <span className="font-light text-gray-600 cursor-pointer">
+                        {items.reactions_count}
+                      </span>
+                    </>
+                  )}
+                </div>
+                <div className="flex gap-2 items-center">
+                  <ChatAltIcon
+                    width={24}
+                    height={24}
+                    className="text-gray-600 cursor-pointer"
+                  />
+                  <span className="font-light text-gray-600 cursor-pointer">{comments_count >= 0 && is_deleted == true ? (comments_count) : (items.comments_count == 0 ? (0) : (items.comments_count))}</span>
+                </div>
+              </div>
+              <div className="flex gap-6">
+                <div className="flex gap-2 items-center">
+                  {items.is_bookmark && items.is_bookmark == true ? (
+                    <>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        className="w-6 h-6 text-indigo-400 cursor-pointer"
+                        onClick={() => deteleBookmark(items.bookmark_id)}
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M6.32 2.577a49.255 49.255 0 0111.36 0c1.497.174 2.57 1.46 2.57 2.93V21a.75.75 0 01-1.085.67L12 18.089l-7.165 3.583A.75.75 0 013.75 21V5.507c0-1.47 1.073-2.756 2.57-2.93z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      <span className="font-light text-indigo-400">
+                        {items.bookmarks_count}
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <BookmarkIcon
+                        width={24}
+                        height={24}
+                        className="text-indigo-400 cursor-pointer"
+                        onClick={() => createBookmark(items.id)}
+                      />
+                      <span className="font-light text-indigo-400">
+                        {items.bookmarks_count}
+                      </span>
+                    </>
+                  )}
+                </div>
+                <ShareModal items={items && items.feed_type == "share" ? (items.share) : (items)} currentuser={singleItems.currentUser} />
+              </div>
+            </div>
+            <Fragment>
+              {items.user && singleItems.group.can_comment == "all_member" ? (
+
+                <PostComments news_feed_id={items.id} currentUser={singleItems.currentUser} setComments={setComments} setComments_count={setComments_count} setIs_deleted={setIs_deleted} dp={items.user.display_photo_url} />
+              ) : (
+                items.user && singleItems.currentUser && singleItems.group ? (
+                  (admins && isadmin(admins, singleItems.currentUser.id)) || singleItems.group.owner.id == singleItems.currentUser.id ? (
+                    <PostComments news_feed_id={items.id} currentUser={singleItems.currentUser.id} setComments={setComments} setComments_count={setComments_count} setIs_deleted={setIs_deleted} dp={items.user.display_photo_url} />
+                  ) : ("")
+                ) : ("")
+              )}
+              <FilterComments news_feed_id={items.id} comments={comments.data} setComments_count={setComments_count} setComments={setComments} next_page={nextPage} setNextPage={setNextPage} />
+              {!loading && <ReplyComments admins={admins} currentUser={singleItems.currentUser.id} group={singleItems.group} news_feed_id={items.id} comments={comments.data} comments_count={comments_count} setComments_count={setComments_count} setComments={setComments} setIs_deleted={setIs_deleted} items={items} />}
+            </Fragment>
+          </div>
+
+        </div>
+      ) : ("")}
     </>
   );
 };

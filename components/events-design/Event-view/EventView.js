@@ -569,7 +569,7 @@ const EventView = () => {
                 {items.event.cover_photo_url ? (
                   <img
                     src={items.event.cover_photo_url}
-                    className="aspect-video object-cover rounded-t-xl h-[390px] w-[952px]"
+                    className="object-cover rounded-t-xl h-auto w-[952px]"
                     alt=""
                   />
                 ) : (
@@ -785,7 +785,7 @@ const EventView = () => {
                 width={952}
                 height={240}
                 layout="responsive"
-                className="aspect-video object-cover rounded-lg mx-auto h-[390px]"
+                className="object-cover rounded-lg mx-auto h-auto"
                 alt=""
               />
             </div>
@@ -803,7 +803,7 @@ const EventView = () => {
                       <a>
                         <img
                           src={items.share.page.display_photo_url} 
-                          className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
+                          className="object-cover rounded-full h-[42px] w-[42px]"
                           width={45} 
                           height={45} 
                           alt="" 
@@ -816,7 +816,7 @@ const EventView = () => {
                       <a>
                         <Image 
                           src={PagePhoto} 
-                          className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
+                          className="object-cover rounded-full h-[42px] w-[42px]"
                           width={45} 
                           height={45} 
                           alt="" 
@@ -832,7 +832,7 @@ const EventView = () => {
                         <a>
                           <img
                             src={items.share.user.display_photo_url} 
-                            className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
+                            className="object-cover rounded-full h-[42px] w-[42px]"
                             width={45} 
                             height={45} 
                             alt="" 
@@ -844,7 +844,7 @@ const EventView = () => {
                         <a>
                           <img
                             src={items.share.user.display_photo_url} 
-                            className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
+                            className="object-cover rounded-full h-[42px] w-[42px]"
                             width={45} 
                             height={45} 
                             alt="" 
@@ -980,7 +980,7 @@ const EventView = () => {
                         {items.share.event.cover_photo_url ? (
                           <img
                             src={items.share.event.cover_photo_url}
-                            className="aspect-video object-cover rounded-t-xl h-[390px] w-[952px]"
+                            className="object-cover rounded-t-xl h-auto w-[952px]"
                             alt=""
                           />
                         ) : (
@@ -1083,7 +1083,7 @@ const EventView = () => {
                       query: items.share.id,
                     }} >
                     <a>
-                      <video controls className="aspect-video w-full rounded-xl my-4">
+                      <video controls className="w-full rounded-xl my-4">
                         <source src={items.share.attachments_link} type="video/mp4" />
                       </video>
                     </a>
@@ -1104,7 +1104,7 @@ const EventView = () => {
                           width={952}
                           height={240}
                           layout="responsive"
-                          className="aspect-video object-cover rounded-lg mx-auto h-[390px]"
+                          className="object-cover rounded-lg mx-auto h-auto"
                           alt=""
                         />
                       </div>

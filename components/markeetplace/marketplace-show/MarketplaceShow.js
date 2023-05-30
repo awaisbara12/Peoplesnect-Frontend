@@ -79,41 +79,34 @@ const MarketplaceShow = () => {
   },[myArray[1]])
 
   return (
-    <div className="w-[720px] xl:w-[1050px] lg:w-[780px] md:w-[850px] px-5 md:px-0 lg:px-0">
+    <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
       {Product && Product.product_pic?(
-      <div className="">
+      <div className="bg-white rounded-xl">
         <AliceCarousel>
         {
          Product.product_pic.map((i)=>(
             <img
               src={i}
               key={i}
-              className="object-cover rounded-xl w-[1050px] h-[300px]"
+              className="md:object-cover object-contain rounded-xl w-[1050px] h-[300px] hover:h-auto "
             />
           ))
         }
         </AliceCarousel>
        
-      </div>
-      ):('')}
-      
       {Product?(
         <div className="mr-3 flex justify-end" >
           {/* <Link href={{pathname: "/messaging-design", query:Product.user.id}}>
             <a> */}
-              <div className="bg-indigo-400 rounded-xl w-44 text-center py-3 text-white font-bold" onClick={()=>SendMessage(Product.user.id,Product.product_pic[0] )}>
+              <div className="bg-indigo-400 rounded-xl w-44 mb-4 text-center py-3 text-white font-bold" onClick={()=>SendMessage(Product.user.id,Product.product_pic[0] )}>
                 Contect With Seller
               </div>
             {/* </a>
           </Link> */}
         </div>
       ):('')}
-      
-
-
-      
-
-
+      </div>
+      ):('')}
       {Product?(
         <div className="bg-white mt-10 p-5 rounded-xl">
           <div className="font-bold text-lg">Product Details</div>
@@ -180,7 +173,7 @@ const MarketplaceShow = () => {
           {/* Overview/description */}
           <div className="mt-5">
             <div className="font-semibold">Overview:</div>
-            <div className="m-3 border rounded-xl p-2">
+            <div className="m-3 border rounded-xl break-words p-2">
               {Product.description}
             </div>
           </div>

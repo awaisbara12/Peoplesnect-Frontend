@@ -23,7 +23,7 @@ const ShowAllFeed = () => {
             <TopNavbar />
             <MobileNav />
           </div>
-          <div className="flex px-2 xl:px-0 lg:px-4 md:px-4 gap-[65px] md:gap-8 lg:gap-6 justify-between">
+          <div className="flex px-2 xl:px-0 lg:px-4 md:px-4 gap-[65px] md:gap-8 lg:gap-6 justify-between mt-12 md:mt-0">
             <div className="h-full bg-zinc-100 md:bg-transparent lg:bg-transparent xl:bg-transparent px-4 md:px-0 lg-px-0 xl:px-0">
               <ShowAll />
             </div>
@@ -31,7 +31,7 @@ const ShowAllFeed = () => {
               <ProfileCard />
               <div className="sticky top-20 z-20">
                 <EventsCard />
-                <PageSuggesions/>
+                <PageSuggesions />
                 <FooterNewsFeed />
               </div>
             </div>

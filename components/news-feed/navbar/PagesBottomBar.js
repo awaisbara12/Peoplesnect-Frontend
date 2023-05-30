@@ -68,7 +68,7 @@ const PagesBottomBar = () => {
       .catch((err) => console.log(err));
   }
   // ActionCable
-  function createConversationAlertSub(CableApp , c_id) {
+  function createConversationAlertSub(CableApp, c_id) {
     CableApp.subscriptions.create(
       {
         channel: 'AlertChannel',
@@ -77,28 +77,29 @@ const PagesBottomBar = () => {
       {
         connected: () => console.log('alert connected'),
         disconnected: () => console.log('alert disconnected'),
-        received: data => {  console.log('alert received');GetConversation();
-         },
-      } 
+        received: data => {
+          console.log('alert received'); GetConversation();
+        },
+      }
     );
   }
   // converstion Alert
-  const GetConversation=async()=>{     
-    await fetch(CONVERSATION_API+"/conversation_alert", {
+  const GetConversation = async () => {
+    await fetch(CONVERSATION_API + "/conversation_alert", {
       method: "GET",
-       headers: {
-        Accept: "application/json", 
-         Authorization: `${authKey}`,
-       },
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
     })
-       .then((resp) => resp.json())
+      .then((resp) => resp.json())
       .then((result) => {
         if (result && result.data) {
           setConversation(result.data);
           console.log(result.data);
         }
       })
-      .catch((err) => console.log(err)); 
+      .catch((err) => console.log(err));
   }
   //  Current user
   const Current_User = async (CableApp) => {
@@ -111,7 +112,7 @@ const PagesBottomBar = () => {
     })
       .then((resp) => resp.json())
       .then((result) => {
-        if (result && result.data &&  result.data.id) {
+        if (result && result.data && result.data.id) {
           setUserDetails(result.data);
           createConversationAlertSub(CableApp, result.data.id)
         }
@@ -123,10 +124,10 @@ const PagesBottomBar = () => {
     let actionCable;
     if (typeof window !== 'undefined') {
       actionCable = require('actioncable');
-      const CableApp= actionCable.createConsumer(WS_PUBLIC_API);
+      const CableApp = actionCable.createConsumer(WS_PUBLIC_API);
       Current_User(CableApp);
     }
-    const CableApp= actionCable.createConsumer(WS_PUBLIC_API);
+    const CableApp = actionCable.createConsumer(WS_PUBLIC_API);
     Current_User(CableApp);
     GetConversation();
     updateCounts();
@@ -150,66 +151,14 @@ const PagesBottomBar = () => {
             </a>
           </Link>
         </div>
-
-        <Menu as="div" className="relative inline-block text-left">
-          <div>
-            <Menu.Button className="flex flex-col items-center">
+        <div>
+          <Link href="/jobs">
+            <a className="flex flex-col items-center">
               <BriefcaseIcon className="h-7 w-7" aria-hidden="true" />
               <div className="">Jobs</div>
-            </Menu.Button>
-          </div>
-
-          <Transition
-            as={Fragment}
-            enter="transition ease-out duration-100"
-            enterFrom="transform opacity-0 scale-95"
-            enterTo="transform opacity-100 scale-100"
-            leave="transition ease-in duration-75"
-            leaveFrom="transform opacity-100 scale-100"
-            leaveTo="transform opacity-0 scale-95"
-          >
-            <Menu.Items className="absolute -top-24 w-96 -left-36 bg-white border-2 border-indigo-400 rounded-full py-3 px-4 text-indigo-400">
-              <div className="flex justify-between items-center">
-                <Menu.Item>
-                  {({ active }) => (
-                    <Link href="/jobs" className="">
-                      <a>
-                        <div className="flex flex-col items-center">
-                          <BookmarkIcon className="h-7 w-7" />
-                          <div className="">My Jobs</div>
-                        </div>
-                      </a>
-                    </Link>
-                  )}
-                </Menu.Item>
-                <Menu.Item>
-                  {({ active }) => (
-                    <Link href="/jobs" className="">
-                      <a>
-                        <div className="flex flex-col items-center">
-                          <ShieldCheckIcon className="h-7 w-7" />
-                          <div className="">Applied Jobs</div>
-                        </div>
-                      </a>
-                    </Link>
-                  )}
-                </Menu.Item>
-                <Menu.Item>
-                  {({ active }) => (
-                    <Link href="/jobs" className="">
-                      <a>
-                        <div className="flex flex-col items-center">
-                          <AcademicCapIcon className="h-7 w-7" />
-                          <div className="">Find Jobs</div>
-                        </div>
-                      </a>
-                    </Link>
-                  )}
-                </Menu.Item>
-              </div>
-            </Menu.Items>
-          </Transition>
-        </Menu>
+            </a>
+          </Link>
+        </div>
         <Menu as="div" className="relative inline-block text-left">
           <div>
             <Menu.Button className="flex flex-col items-center">
@@ -273,8 +222,8 @@ const PagesBottomBar = () => {
           <Link href="/messaging-design" className="">
             <a className="flex flex-col items-center">
               <div className="relative">
-                <ChatAltIcon className="h-5 w-7" />
-                {Conversation && Conversation== 'true' ? (
+                <ChatAltIcon className="h-7 w-7" />
+                {Conversation && Conversation == 'true' ? (
                   <div className="bg-red-400 h-3 w-3 text-white -top-1 left-3 rounded-full flex justify-center items-center absolute">
                   </div>
                 ) : ('')

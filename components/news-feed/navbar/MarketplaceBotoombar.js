@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
 import Link from "next/link";
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { CONVERSATION_API, CURENT_USER_LOGIN_API, GET_NOTIFICATIONS, WS_PUBLIC_API } from "../../../pages/config";
+import { useRouter } from "next/router";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -23,7 +23,7 @@ import {
 } from "@heroicons/react/solid";
 import { PlusSmIcon } from "@heroicons/react/outline";
 
-const GroupsBottomBar = () => {
+const MarketplaceBottomBar = () => {
   const [count, setcount] = useState();
   const [userDetails, setUserDetails] = useState();
   const [Conversation, setConversation] = useState();
@@ -151,7 +151,6 @@ const GroupsBottomBar = () => {
             </a>
           </Link>
         </div>
-
         <div>
           <Link href="/jobs">
             <a className="flex flex-col items-center">
@@ -249,11 +248,12 @@ const GroupsBottomBar = () => {
             </a>
           </Link>
         </div>
+
         <div className="">
-          <Link href="/group-page/new-group">
+          <Link href="/markeet-place/add-your-items">
             <a className="flex flex-col items-center">
               <PlusSmIcon className="h-7 w-7" />
-              <div className="">New Group</div>
+              <div className="">Add Product</div>
             </a>
           </Link>
         </div>
@@ -262,4 +262,4 @@ const GroupsBottomBar = () => {
   );
 };
 
-export default GroupsBottomBar;
+export default MarketplaceBottomBar;

@@ -9,6 +9,8 @@ import MarkeetplaceNavbar from "../navbar/MarkeetplaceNavbar";
 import AddYourItems from "./AddYourItems";
 import TopNavbar from "../MarketPlace-Header/TopNavbar";
 import FooterNewsFeed from "../../news-feed/newsfeed/newsfeedfooter/FooterNewsFeed";
+import MarketplaceBottomBar from "../../news-feed/navbar/MarketplaceBotoombar";
+import MarkeetPlaceMobileNav from "../../news-feed/navbar/mobile-navbar/MarkeetPlaceMobileNav";
 
 const AddYourItemsFeed = () => {
   return (
@@ -22,23 +24,23 @@ const AddYourItemsFeed = () => {
         <div className="xl:max-w-[1340px] container mx-auto">
           <TopNavbar />
           <div className="block md:hidden lg:hidden">
-            <MarkeetplaceNavbar />
+            <MarkeetPlaceMobileNav />
           </div>
-          <div className="flex xl:px-0 lg:px-4 md:px-8 sm:px-0 lg:gap-6 md:gap-4 justify-between">
-            <div className="w-[620px] md:w-full lg:w-full mt-8 mx-14 lg:mx-auto md:mx-auto">
+          <div className="flex xl:px-0 lg:px-4 md:px-8 sm:px-0 lg:gap-6 md:gap-4 justify-between mt-12 md:mt-0">
+            <div className="mt-8 mx-auto">
               <AddYourItems />
             </div>
             <div className="w-72 hidden md:block lg:block">
-            <div className="sticky top-20 z-20">
-              <MarkeetPlaceSideBar />
-              <MarkeetplaceSuggestion />
-              <FooterNewsFeed />
+              <div className="sticky top-20 z-20">
+                <MarkeetPlaceSideBar />
+                <MarkeetplaceSuggestion />
+                <FooterNewsFeed />
               </div>
             </div>
           </div>
         </div>
       </div>
-      <MobileBottomBar />
+      <MarketplaceBottomBar />
     </div>
   );
 };
