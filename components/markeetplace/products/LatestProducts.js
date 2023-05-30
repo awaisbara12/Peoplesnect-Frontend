@@ -100,11 +100,11 @@ const HomeProducts = () => {
                       </div>
                     </div>
                     {/*  Product status */}
-                    <div className="ml-2">
+                    {/* <div className="ml-2">
                       <div className="bg-red-400 rounded-xl py-1 px-3 text-white font-medium text-sm">
                         {i.status}
                       </div>
-                    </div>
+                    </div> */}
                   </div>
 
 
@@ -126,10 +126,14 @@ const HomeProducts = () => {
                     </div>
                   </div>
                   <Link href={{pathname:"/markeet-place/marketplace-show", query:i.id}}>
-                    <a className="flex justify-end">
+                    <a className="flex justify-between">
+                      <div className="text-xs border-indigo-400 mt-4 p-2">
+                        {i.created_at}
+                      </div>
                       <div className="border font-semibold text-xs border-indigo-400 text-center text-indigo-400 w-22 mt-4 p-2 rounded-full">
                         Show Details
                       </div>
+                      
                     </a>
                   </Link>
                 </div>

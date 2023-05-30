@@ -49,7 +49,7 @@ const NewsPost = (setList) => {
   const [hashtaged, setHashtaged] = useState([]);
   let [results, setresults] = useState(0);
   let [speakerMention, setspeakerMention] = useState([]);
-  let [speakerText, setspeakerText] = useState('a');
+  let [speakerText, setspeakerText] = useState();
   const [speakertags, setspeakertags] = useState([]);
 
   const [currentuser, setcurrentuser] = useState();

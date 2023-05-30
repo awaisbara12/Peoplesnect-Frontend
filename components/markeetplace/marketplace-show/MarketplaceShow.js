@@ -95,9 +95,13 @@ const MarketplaceShow = () => {
         </AliceCarousel>
        
       {Product?(
-        <div className="mr-3 flex justify-end" >
+        <div className="mr-3 flex justify-between" >
+            <div className="text-xl border-indigo-400 mt-4 p-2">
+              {Product.created_at}
+            </div>
           {/* <Link href={{pathname: "/messaging-design", query:Product.user.id}}>
             <a> */}
+
               <div className="bg-indigo-400 rounded-xl w-44 mb-4 text-center py-3 text-white font-bold" onClick={()=>SendMessage(Product.user.id,Product.product_pic[0] )}>
                 Contect With Seller
               </div>

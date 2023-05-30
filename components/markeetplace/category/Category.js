@@ -100,11 +100,11 @@ const Category = () => {
                         </div>
                       </div>
                       {/*  Product status */}
-                      <div className="">
+                      {/* <div className="">
                         <div className="bg-red-400 rounded-xl py-1 px-3 text-white font-medium text-sm">
                           {i.status}
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>
@@ -126,7 +126,10 @@ const Category = () => {
                   </div>
                   <Link href={{ pathname: "/markeet-place/marketplace-show", query: i.id }}>
                     <a>
-                      <div className="flex justify-end">
+                      <div className="flex justify-between">
+                        <div className="text-xs border-indigo-400 mt-4 p-2">
+                          {i.created_at}
+                        </div>
                         <div className="border font-semibold text-xs border-indigo-400 text-center text-indigo-400 w-22 mt-4 p-2 rounded-full">
                           Show Details
                         </div>
