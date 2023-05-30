@@ -220,9 +220,18 @@ function MyNetwork() {
                       </a>
                       </Link> 
                         <div className="Request-button flex items-center gap-2">
+                        <Link 
+                            href={{
+                              pathname: "/messaging-design/",
+                              query: user.receiver.id, // the data
+                            }}
+                        >
+                          <a>
                           <button className="border-1 border-indigo-400 rounded-full text-indigo-400 px-3 py-1 hover:bg-indigo-400 hover:text-white">
                             Message
                           </button>
+                          </a>
+                        </Link>
                           <button className="text-gray-600 border-1 border-gray-600 rounded-full px-3 py-1 hover:bg-gray-600 hover:text-white"
                             onClick={()=>RemoveConnection(user.receiver.id)} >
                             Remove

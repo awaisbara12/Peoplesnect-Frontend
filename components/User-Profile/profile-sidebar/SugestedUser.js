@@ -18,40 +18,41 @@ const SugestedUser = () => {
   const [suggestedUsers, setSuggestedUsers] = useState([]);
 
   useEffect(() => {
-    if(suggestedUsers.length == 0){
-      setLoading(true);
-      const getSuggestedUsers = async () => {
-        const res = await axios(
-          SUGGESTED_USER_API,
-          {
-            method: "GET",
-            headers: {
-              Accept: "application/json",
-              "Content-type": "application/json; charset=utf-8",
-              "Access-Control-Allow-Origin": "*",
-              "Access-Control-Allow-Credentials": true,
-              Authorization: authKey,
-            },
-            credentials: "same-origin",
-          }
-        );
-        const result = await res;
-
-        try {
-          if (result) {
-            setSuggestedUsers(result.data);
-            console.log("chhhhhhhhhhhh")
-            setLoading(false);
-          }
-        } catch (error) {
-          console.log(error);
-        }
-        return result;
-      };
+    // if(suggestedUsers.length == 0){
+    //   setLoading(true);
+      
       getSuggestedUsers();
-    }
-  }, [suggestedUsers]);
+    // }
+  }, []);
 
+  const getSuggestedUsers = async () => {
+    const res = await axios(
+      SUGGESTED_USER_API,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-type": "application/json; charset=utf-8",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Credentials": true,
+          Authorization: authKey,
+        },
+        credentials: "same-origin",
+      }
+    );
+    const result = await res;
+
+    try {
+      if (result) {
+        setSuggestedUsers(result.data);
+        console.log("chhhhhhhhhhhh")
+        setLoading(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    return result;
+  };
   function followUser(userId){
     const dataForm = new FormData();
     dataForm.append("followers[followee_id]", userId);
@@ -67,7 +68,8 @@ const SugestedUser = () => {
     .then((resp) => resp.json())
     .then((result) => {
       if (result) {
-        setSuggestedUsers(result.data);
+        // setSuggestedUsers(result.data);
+        getSuggestedUsers();
       }
     })
     .catch((err) => console.log(err));
