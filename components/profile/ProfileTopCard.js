@@ -83,7 +83,8 @@ const ProfileTopCard = () => {
   }
 
   const Deletephoto = async (a) => {
-   
+   var con =confirm("Are you Sure?")
+   if(con){
     await fetch(REMOVE_DP_API+"?type="+a, {
       method: "GET",
       headers: {
@@ -94,12 +95,14 @@ const ProfileTopCard = () => {
       .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-          setcoverpreview("");
-          setImage("");
+          if(a=="cover_photo"){setImage("");}
+          else{setcoverpreview("");}
           Current_User();
         }
       })
       .catch((err) => console.log(err));
+   }
+    
   }
 
   // Bareer Key
@@ -169,10 +172,10 @@ const ProfileTopCard = () => {
               </Link>
             </div>
             <div className="absolute top-0 left-0 right-0 bottom-0 w-full rounded-xl h-full bg-black bg-opacity-0 flex justify-center items-center opacity-0 hover:opacity-100 hover:bg-opacity-90 duration-500">
-
+            {coverimage || image?(
               <div className="absolute top-2 right-2 bg-indigo-400 p-2 rounded-full">
                 <TrashIcon className="w-5 h-5 text-white"  onClick={()=>Deletephoto("cover_photo")}/>
-              </div>
+              </div>):("")}
               <div className="relative flex items-center justify-center">
                 <div className="">
                   <div className="flex gap-1 text-sm items-center p-2 rounded-xl border-1 border-white text-white">
@@ -242,9 +245,11 @@ const ProfileTopCard = () => {
                       </div>
                     </div>
                   </div>
+                  {profileimage || coverpreview?(
                   <div className="absolute bottom-0 right-0 bg-indigo-400 p-1 z-50 rounded-full">
                     <TrashIcon onClick={()=>Deletephoto("display_photo")} className="w-5 h-5 text-white" />
                   </div>
+                  ):("")}
                 </div>
               </div>
             </div>
