@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Head from "next/head";
 import MobileBottomBar from "../news-feed/navbar/MobileBottomBar";
 import MobileNav from "../news-feed/navbar/mobile-navbar/MobileNav";
@@ -8,9 +8,11 @@ import ProfileSideBarFeed from "./profile-sidebar/ProfileSideBarFeed";
 import NewsFeedNav from "../news-feed/navbar/NewsFeedNav";
 import MobileProfileNav from "./profile-navbar/MobileProfileNav";
 import TopNavbar from "../news-feed/navbar/TopNavbar";
-
+import { CURENT_USER_LOGIN_API } from "../../pages/config";
+import { useRouter } from "next/router";
 const ProfileViewFeed = (props) => {
   const userid = props.id
+  
   return (
     <div>
       <Head>
