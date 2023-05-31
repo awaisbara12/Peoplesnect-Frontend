@@ -595,8 +595,8 @@ const ReplyComments = (props) => {
                         <>
                           <Popover.Button
                             className={` ${open
-                                ? ""
-                                : "text-opacity-90 focus-visible:outline-none"
+                              ? ""
+                              : "text-opacity-90 focus-visible:outline-none"
                               }`}
                           >
                             <div className="hover:bg-indigo-100 focus:bg-indigo-100 rounded-full h-8 w-8 flex items-center justify-center">
@@ -989,8 +989,8 @@ const ReplyComments = (props) => {
                                 <>
                                   <Popover.Button
                                     className={` ${open
-                                        ? ""
-                                        : "text-opacity-90 focus-visible:outline-none"
+                                      ? ""
+                                      : "text-opacity-90 focus-visible:outline-none"
                                       }`}
                                   >
                                     <div className="hover:bg-indigo-100 focus:bg-indigo-100 rounded-full h-8 w-8 flex items-center justify-center">

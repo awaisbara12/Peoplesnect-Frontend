@@ -242,7 +242,7 @@ const ProfileTopCard = () => {
             </div>
           ) : ('')}
         </div>
-        <div className="">
+        <div className="w-full">
           <TabsProfileCard />
         </div>
       </div>
