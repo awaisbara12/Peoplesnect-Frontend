@@ -52,35 +52,11 @@ const TabEducationProfile = (props) => {
          ):('')
 
          }
-          
-          {/* <div className="border-b-1 py-5">
-            <div className="flex items-center gap-10">
-              <Link href="">
-                <a>
-                  <Image
-                    src={ProfileAvatar}
-                    width={66}
-                    height={66}
-                    className="object-cover rounded-full"
-                    placeholder="empty"
-                    alt="profile-image"
-                  />
-                </a>
-              </Link>
-              <div className="flex flex-col gap-1">
-                <div className="font-extrabold">
-                  University Of Central punjab Lahore Pakistan
-                </div>
-                <div className="font-light text-sm">MSc</div>
-                <div className="font-extralight">Session: (2016-2018)</div>
-              </div>
-            </div>
-          </div> */}
         </div>
-        <div className="flex justify-center font-bold items-center mt-10">
+        {/* <div className="flex justify-center font-bold items-center mt-10">
           Show All Skills
           <ChevronRightIcon className="h-5 w-5" />
-        </div>
+        </div> */}
       </div>
     </div>
   );

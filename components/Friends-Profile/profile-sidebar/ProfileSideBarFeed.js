@@ -1,9 +1,8 @@
 import React, { Fragment } from "react";
-import NewsSearch from "../../news-feed/search/NewsSearch";
-import ProfileFooter from "./ProfileFooter";
 import ProfilePromotionsSidebar from "./ProfilePromotionsSidebar";
 import ProfileSideBar from "./ProfileSideBar";
 import ProfileUserSidebar from "./ProfileUserSidebar";
+import Footer from "../../footer/Footer";
 const ProfileSideBarFeed = () => {
   return (
     <div className="mt-8">
@@ -11,7 +10,7 @@ const ProfileSideBarFeed = () => {
         <ProfileSideBar />
         <ProfileUserSidebar />
         <ProfilePromotionsSidebar />
-        <ProfileFooter />
+        <Footer />
       </div>
     </div>
   );

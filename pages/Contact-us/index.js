@@ -3,9 +3,9 @@ import PrivateRoutes from "../../components/auth/routes/PrivateRoutes";
 import ContactUsFeed from "../../components/footer/Contact-Us/ContactusFeed";
 const index = () => {
   return (
-    // <PrivateRoutes>
+    <PrivateRoutes>
       <ContactUsFeed />
-    // </PrivateRoutes>
+    </PrivateRoutes>
   );
 };
 export default index;

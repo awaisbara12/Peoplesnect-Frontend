@@ -9,6 +9,8 @@ import SugestedUser from "../../news-feed/sugesteduser/SugestedUser";
 import MobileBottomBar from "../../news-feed/navbar/MobileBottomBar";
 import TopNavbar from "../../news-feed/navbar/TopNavbar";
 import EventsCard from "../../news-feed/eventcard/EventsCard";
+import Footer from "../../footer/Footer";
+import DropdownRender from "../../news-feed/Chat-box/ChatBox";
 
 const EventViewFeed = () => {
   return (
@@ -32,10 +34,12 @@ const EventViewFeed = () => {
               <ProfileCard />
               <EventsCard />
               <SugestedUser />
+              <Footer />
             </div>
           </div>
         </div>
       </div>
+      <DropdownRender />
       <MobileBottomBar />
     </div>
   );

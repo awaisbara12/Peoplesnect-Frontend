@@ -10,6 +10,8 @@ import PageSuggesions from "../../../news-feed/sugesteduser/PageSuggestions";
 import TopNavbar from "../../../news-feed/navbar/TopNavbar";
 import EventsCard from "../../../news-feed/eventcard/EventsCard";
 import FooterNewsFeed from "../../../news-feed/newsfeed/newsfeedfooter/FooterNewsFeed";
+import Footer from "../../../footer/Footer";
+import DropdownRender from "../../../news-feed/Chat-box/ChatBox";
 
 const PageSettingsFeed = () => {
   return (
@@ -31,15 +33,16 @@ const PageSettingsFeed = () => {
             </div>
             <div className="w-72 hidden md:block lg:block">
               <ProfileCard />
-              <div className="sticky top-20 z-20">
+              <div className="sticky top-20 z-0">
                 <EventsCard />
                 <PageSuggesions />
-                <FooterNewsFeed />
+                <Footer />
               </div>
             </div>
           </div>
         </div>
       </div>
+      <DropdownRender />
       <MobileBottomBar />
     </div>
   );

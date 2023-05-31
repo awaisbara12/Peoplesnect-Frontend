@@ -1,16 +1,14 @@
 import React from "react";
 import Head from "next/head";
 import ProfileCard from "../../news-feed/profilecard/ProfileCard";
-import NewsFeedSidebar from "../../news-feed/newsfeed/sidebar/NewsFeedSidebar";
 import MobileBottomBar from "../../news-feed/navbar/MobileBottomBar";
 import MobileNav from "../../news-feed/navbar/mobile-navbar/MobileNav";
-import NewsSearch from "../../news-feed/search/NewsSearch";
 import EventsCard from "../../news-feed/eventcard/EventsCard";
 import Messaging from ".././Messaging";
 import SugestedUser from "../../news-feed/sugesteduser/SugestedUser";
 import Messages from "./Messages";
 import TopNavbar from "../../news-feed/navbar/TopNavbar";
-import FooterNewsFeed from "../../news-feed/newsfeed/newsfeedfooter/FooterNewsFeed";
+import Footer from "../../footer/Footer";
 
 const InboxFeed = () => {
   return (
@@ -37,7 +35,7 @@ const InboxFeed = () => {
               <ProfileCard />
               <EventsCard />
               <SugestedUser />
-              <FooterNewsFeed />
+              <Footer />
             </div>
           </div>
         </div>

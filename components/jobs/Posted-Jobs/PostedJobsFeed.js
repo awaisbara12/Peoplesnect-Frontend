@@ -9,6 +9,8 @@ import EventsCard from "../../news-feed/eventcard/EventsCard";
 import FooterNewsFeed from "../../news-feed/newsfeed/newsfeedfooter/FooterNewsFeed";
 import JobsBottomBar from "../../news-feed/navbar/JobsBottomBar";
 import PostedJobs from "./PostedJobs";
+import Footer from "../../footer/Footer";
+import DropdownRender from "../../news-feed/Chat-box/ChatBox";
 
 const PostedJobsFeed = () => {
   return (
@@ -30,16 +32,17 @@ const PostedJobsFeed = () => {
             </div>
             <div className="w-72 hidden md:block lg:block">
               <ProfileCard />
-              <div className="sticky top-20 z-20">
+              <div className="sticky top-20 z-0">
                 <EventsCard />
                 <JobsSideBar />
-                <FooterNewsFeed />
+                <Footer />
                 <AddNewJob />
               </div>
             </div>
           </div>
         </div>
       </div>
+      <DropdownRender />
       <JobsBottomBar />
     </div>
   );

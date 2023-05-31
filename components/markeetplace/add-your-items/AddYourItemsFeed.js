@@ -11,6 +11,8 @@ import TopNavbar from "../MarketPlace-Header/TopNavbar";
 import FooterNewsFeed from "../../news-feed/newsfeed/newsfeedfooter/FooterNewsFeed";
 import MarketplaceBottomBar from "../../news-feed/navbar/MarketplaceBotoombar";
 import MarkeetPlaceMobileNav from "../../news-feed/navbar/mobile-navbar/MarkeetPlaceMobileNav";
+import Footer from "../../footer/Footer";
+import DropdownRender from "../../news-feed/Chat-box/ChatBox";
 
 const AddYourItemsFeed = () => {
   return (
@@ -31,15 +33,16 @@ const AddYourItemsFeed = () => {
               <AddYourItems />
             </div>
             <div className="w-72 hidden md:block lg:block">
-              <div className="sticky top-20 z-20">
+              <div className="sticky top-20 z-0">
                 <MarkeetPlaceSideBar />
-                <MarkeetplaceSuggestion />
-                <FooterNewsFeed />
+                {/* <MarkeetplaceSuggestion /> */}
+                <Footer />
               </div>
             </div>
           </div>
         </div>
       </div>
+      <DropdownRender />
       <MarketplaceBottomBar />
     </div>
   );

@@ -8,6 +8,8 @@ import TopNavbar from "../news-feed/navbar/TopNavbar";
 import FooterNewsFeed from "../news-feed/newsfeed/newsfeedfooter/FooterNewsFeed";
 import PostView from "./PostView";
 import SugestedUser from "../User-Profile/profile-sidebar/SugestedUser";
+import Footer from "../footer/Footer";
+import DropdownRender from "../news-feed/Chat-box/ChatBox";
 
 const PostViewFeed = () => {
   return (
@@ -29,15 +31,16 @@ const PostViewFeed = () => {
             </div>
             <div className="w-72 hidden md:block lg:block">
               <ProfileCard />
-              <div className="sticky top-20 z-20">
+              <div className="sticky top-20 z-0">
                 <EventsCard />
                 <SugestedUser />
-                <FooterNewsFeed />
+                <Footer />
               </div>
             </div>
           </div>
         </div>
       </div>
+      <DropdownRender />
       <MobileBottomBar />
     </div>
   );

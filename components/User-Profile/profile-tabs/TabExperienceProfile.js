@@ -45,7 +45,6 @@ const TabExperienceProfile = (props) => {
                   )}
                   <div className="font-extralight">
                   {i.city}, {i.state}, {i.country}
-                    {/* <span className="text-indigo-400">Seen More</span> */}
                   </div>
                 </div>
                 </div>
@@ -53,10 +52,10 @@ const TabExperienceProfile = (props) => {
               ))
             ):('')}
         </div>
-        <div className="flex justify-center font-bold items-center mt-10">
+        {/* <div className="flex justify-center font-bold items-center mt-10">
           Show All Experiences
           <ChevronRightIcon className="h-5 w-5" />
-        </div>
+        </div> */}
       </div>
     </div>
   );

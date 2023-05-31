@@ -1,16 +1,14 @@
 import React from "react";
 import Head from "next/head";
 import ProfileCard from "../../news-feed/profilecard/ProfileCard";
-import MobileBottomBar from "../../news-feed/navbar/MobileBottomBar";
 import MobileNav from "../../news-feed/navbar/mobile-navbar/MobileNav";
 import JoindGroup from "./JoindGroup";
-import GroupSearch from "../../news-feed/search/GroupSearch";
 import GroupsSuggesions from "../../news-feed/sugesteduser/GroupsSuggesions";
-import NewsFeedSidebar from "../../news-feed/newsfeed/sidebar/NewsFeedSidebar";
 import TopNavbar from "../../news-feed/navbar/TopNavbar";
-import FooterNewsFeed from "../../news-feed/newsfeed/newsfeedfooter/FooterNewsFeed";
 import EventsCard from "../../news-feed/eventcard/EventsCard";
 import GroupsBottomBar from "../../news-feed/navbar/GroupsBottomBar";
+import Footer from "../../footer/Footer";
+import DropdownRender from "../../news-feed/Chat-box/ChatBox";
 
 const JoindGroupFeed = () => {
   return (
@@ -32,15 +30,16 @@ const JoindGroupFeed = () => {
             </div>
             <div className="w-72 hidden md:block lg:block">
               <ProfileCard />
-              <div className="sticky top-20 z-20">
+              <div className="sticky top-20 z-0">
                 <EventsCard />
                 <GroupsSuggesions />
-                <FooterNewsFeed />
+                <Footer />
               </div>
             </div>
           </div>
         </div>
       </div>
+      <DropdownRender />
       <GroupsBottomBar />
     </div>
   );

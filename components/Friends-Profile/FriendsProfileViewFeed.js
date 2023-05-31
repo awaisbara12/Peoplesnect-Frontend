@@ -9,6 +9,7 @@ import NewsFeedNav from "../news-feed/navbar/NewsFeedNav";
 import MobileProfileNav from "./profile-navbar/MobileProfileNav";
 import TopNavbar from "../news-feed/navbar/TopNavbar";
 import { propTypesDisabled } from "@material-tailwind/react/types/components/accordion";
+import DropdownRender from "../news-feed/Chat-box/ChatBox";
 
 const FriendsProfileViewFeed = (props) => {
 
@@ -30,13 +31,14 @@ const FriendsProfileViewFeed = (props) => {
               <ProfileTopCard id={props.id} />
             </div>
             <div className="w-72 hidden md:block lg:block">
-              <div className=" sticky top-20 z-20">
+              <div className=" sticky top-20 z-0">
                 <ProfileSideBarFeed />
               </div>
             </div>
           </div>
         </div>
       </div>
+      <DropdownRender />
       <MobileBottomBar />
     </div>
   );

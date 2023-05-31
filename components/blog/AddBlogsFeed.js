@@ -1,16 +1,11 @@
 import React from "react";
 import Head from "next/head";
-import ProfileCard from "../news-feed/profilecard/ProfileCard";
-import NewsFeedSidebar from "../news-feed/newsfeed/sidebar/NewsFeedSidebar";
-import BlogPosts from "./BlogPosts";
 import BlogsBottomBar from "../news-feed/navbar/BlogsBottomBar";
-import AddNewBlog from "./AddNewBlog";
-import BlogsSearch from "../news-feed/search/BlogsSearch";
 import BlogsNav from "../news-feed/navbar/mobile-navbar/BlogsNav";
 import EventsCard from "../news-feed/eventcard/EventsCard";
-import FooterNewsFeed from "../news-feed/newsfeed/newsfeedfooter/FooterNewsFeed";
 import TopNavbar from "../news-feed/navbar/TopNavbar";
 import NewPost from "./NewPost";
+import Footer from "../footer/Footer";
 
 const AddBlogsFeed = () => {
   return (
@@ -32,7 +27,7 @@ const AddBlogsFeed = () => {
             </div>
             <div className="w-72 hidden md:block lg:block">
               <EventsCard />
-              <FooterNewsFeed />
+              <Footer />
             </div>
           </div>
         </div>

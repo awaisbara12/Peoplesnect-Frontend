@@ -455,12 +455,12 @@ const Dropdown = ({ color }) => {
               ref={popoverDropdownRef}
               className={
                 (dropdownPopoverShow ? "block" : "hidden ") +
-                (color === "white" ? "bg-white " : bgColor + " ") +
+                (color === "white" ? " bg-white " : bgColor + " ") +
                 "text-base border border-indigo-400 z-50 inbox_DropDown float-left list-none text-left shadow-lg mb-1 transform-gpu translate-x-0 translate-y-0"
               }
               style={{ minWidth: "20rem" }}
             >
-              <div className="w-full bg-white h-[380px]">
+              <div className="w-full bg-white h-[380px] z-50">
                 <div className="sticky bg-white z-40 top-0">
                   <div className="flex justify-between p-3 border-b">
                     {currentuser?(

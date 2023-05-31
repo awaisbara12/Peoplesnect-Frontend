@@ -501,7 +501,7 @@ function BlogShow() {
               <div className="">
                 {list && list.data.photos_link && (
                   <img
-                    className="object-cover rounded-t-lg h-[400px]"
+                    className="object-cover rounded-t-lg h-auto md:h-[400px] hover:h-auto"
                     src={list.data.photos_link[0]}
                     width={1000}
                     height={400}

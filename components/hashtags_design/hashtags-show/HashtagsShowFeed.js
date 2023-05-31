@@ -8,6 +8,8 @@ import SugestedUser from "../../news-feed/sugesteduser/SugestedUser";
 import FooterNewsFeed from "../../news-feed/newsfeed/newsfeedfooter/FooterNewsFeed";
 import MobileBottomBar from "../../news-feed/navbar/MobileBottomBar";
 import HashtagsSingle from "./HashtagsSingle";
+import Footer from "../../footer/Footer";
+import DropdownRender from "../../news-feed/Chat-box/ChatBox";
 
 const HashtagsShowFeed = () => {
   return (
@@ -29,15 +31,16 @@ const HashtagsShowFeed = () => {
             </div>
             <div className="w-72 hidden md:block lg:block">
               <ProfileCard />
-              <div className="sticky top-20 z-20">
+              <div className="sticky top-20 z-0">
                 <EventsCard />
                 <SugestedUser />
-                <FooterNewsFeed />
+                <Footer />
               </div>
             </div>
           </div>
         </div>
       </div>
+      <DropdownRender />
       <MobileBottomBar />
     </div>
   );

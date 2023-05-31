@@ -12,7 +12,7 @@ const TabsProfileCard = (props) => {
       <div className="">
         <div className="flex bg-white rounded-b-xl px-8 mb-8 flex-wrap">
           <div className="border-t-1 w-full">
-            <div className="w-full md:w-full xl:w-5/6 pt-8 pb-7 text-sm">
+            <div className="w-[630px] md:w-full xl:w-5/6 pt-8 pb-7 text-sm">
               <ul className="flex gap-10" role="tablist">
                 <li className="text-base">
                   <a

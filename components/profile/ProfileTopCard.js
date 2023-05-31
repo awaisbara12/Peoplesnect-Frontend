@@ -19,6 +19,7 @@ import {
   UserIcon,
   XIcon,
   StarIcon,
+  TrashIcon
 } from "@heroicons/react/outline";
 import { BookmarkIcon } from "@heroicons/react/solid";
 import {
@@ -30,7 +31,7 @@ import {
 } from "@material-tailwind/react";
 import TabsProfileCard from "./profile-tabs/TabsProfileCard";
 import {
-  CURENT_USER_LOGIN_API, UPDATE_PERSONAL_INFO
+  CURENT_USER_LOGIN_API, REMOVE_DP_API, UPDATE_PERSONAL_INFO
 } from "../../pages/config";
 
 const ProfileTopCard = () => {
@@ -59,7 +60,7 @@ const ProfileTopCard = () => {
     if (type == "cover") {
       dataForm.append("users[cover_photo]", e);
     }
-    else {
+    else if (type == "profile") {
       dataForm.append("users[display_photo]", e);
     }
     await fetch(UPDATE_PERSONAL_INFO, {
@@ -76,6 +77,26 @@ const ProfileTopCard = () => {
           setUserDetails(result.data);
           setcoverimage(result.data.cover_photo_url);
           setprofileimage(result.data.display_photo_url);
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+
+  const Deletephoto = async (a) => {
+   
+    await fetch(REMOVE_DP_API+"?type="+a, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+          setcoverpreview("");
+          setImage("");
+          Current_User();
         }
       })
       .catch((err) => console.log(err));
@@ -148,6 +169,10 @@ const ProfileTopCard = () => {
               </Link>
             </div>
             <div className="absolute top-0 left-0 right-0 bottom-0 w-full rounded-xl h-full bg-black bg-opacity-0 flex justify-center items-center opacity-0 hover:opacity-100 hover:bg-opacity-90 duration-500">
+
+              <div className="absolute top-2 right-2 bg-indigo-400 p-2 rounded-full">
+                <TrashIcon className="w-5 h-5 text-white"  onClick={()=>Deletephoto("cover_photo")}/>
+              </div>
               <div className="relative flex items-center justify-center">
                 <div className="">
                   <div className="flex gap-1 text-sm items-center p-2 rounded-xl border-1 border-white text-white">
@@ -176,7 +201,7 @@ const ProfileTopCard = () => {
                           src={coverpreview}
                           width={96}
                           height={96}
-                          className="object-cover rounded-full z-40"
+                          className="object-cover object-top rounded-full z-40"
                           placeholder="empty"
                           alt="profile-image"
                         />
@@ -217,6 +242,9 @@ const ProfileTopCard = () => {
                       </div>
                     </div>
                   </div>
+                  <div className="absolute bottom-0 right-0 bg-indigo-400 p-1 z-50 rounded-full">
+                    <TrashIcon onClick={()=>Deletephoto("display_photo")} className="w-5 h-5 text-white" />
+                  </div>
                 </div>
               </div>
             </div>
@@ -242,7 +270,7 @@ const ProfileTopCard = () => {
             </div>
           ) : ('')}
         </div>
-        <div className="">
+        <div className="w-full">
           <TabsProfileCard />
         </div>
       </div>

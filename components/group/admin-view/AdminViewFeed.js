@@ -1,16 +1,14 @@
 import React from "react";
 import Head from "next/head";
 import ProfileCard from "../../news-feed/profilecard/ProfileCard";
-import MobileBottomBar from "../../news-feed/navbar/MobileBottomBar";
 import MobileNav from "../../news-feed/navbar/mobile-navbar/MobileNav";
 import AdminView from "./AdminView";
-import GroupSearch from "../../news-feed/search/GroupSearch";
-import NewsFeedSidebar from "../../news-feed/newsfeed/sidebar/NewsFeedSidebar";
 import GroupsSuggesions from "../../news-feed/sugesteduser/GroupsSuggesions";
 import TopNavbar from "../../news-feed/navbar/TopNavbar";
 import EventsCard from "../../news-feed/eventcard/EventsCard";
-import FooterNewsFeed from "../../news-feed/newsfeed/newsfeedfooter/FooterNewsFeed";
 import GroupsBottomBar from "../../news-feed/navbar/GroupsBottomBar";
+import Footer from "../../footer/Footer";
+import DropdownRender from "../../news-feed/Chat-box/ChatBox";
 
 const AdminViewFeed = () => {
   return (
@@ -32,15 +30,16 @@ const AdminViewFeed = () => {
             </div>
             <div className="w-72 hidden md:block lg:block">
               <ProfileCard />
-              <div className="sticky top-20 z-20">
+              <div className="sticky top-20 z-0">
                 <EventsCard />
                 <GroupsSuggesions />
-                <FooterNewsFeed />
+                <Footer />
               </div>
             </div>
           </div>
         </div>
       </div>
+      <DropdownRender />
       <GroupsBottomBar />
     </div>
   );
