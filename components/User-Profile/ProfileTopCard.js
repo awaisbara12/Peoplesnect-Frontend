@@ -296,7 +296,7 @@ const ProfileTopCard = (props) => {
           </div>
           <div className="flex justify-between">
             <div className="my-2 flex flex-col ml-48 gap-1">
-              <div className="">
+              <div className="w-44">
                   {userDetails && userDetails.first_name?(
                     <div className="text-2xl text-indigo-400 font-bold capitalize">
                       {userDetails.first_name} {userDetails.last_name}
@@ -322,12 +322,12 @@ const ProfileTopCard = (props) => {
             </div>
             <div>
 
-            <div className="Request-button flex items-center gap-2">
+            <div className="Request-button flex flex-wrap justify-center items-center gap-2">
             
             { ( btn1 && btn1.length>0  && userDetails && userDetails.profile_type=="public_profile" ) || ( btn2  && btn2=="Request_Available" && userDetails )?(
               <Link href={{pathname: "/messaging-design", query: props.id}}>
                 <a>
-                <Button className="bg-indigo-400 rounded-full mt-4" >
+                <Button className="bg-indigo-400 rounded-full mt-2 md:mt-4" >
                   Message
                 </Button>
                 </a>
@@ -335,11 +335,11 @@ const ProfileTopCard = (props) => {
             ):('')}
 
             {btn1 && btn1.length==0 && userDetails && userDetails.profile_type=="public_profile"?(
-              <Button className="bg-indigo-400 rounded-full mt-4" onClick={()=>CreateFollower(userDetails.id)}>
+              <Button className="bg-indigo-400 rounded-full mt-2 md:mt-4" onClick={()=>CreateFollower(userDetails.id)}>
                 Follow
               </Button>):('')}
               {btn1 && btn1.length>0 && userDetails && userDetails.profile_type=="public_profile"?(
-              <Button className="bg-indigo-400 rounded-full mt-4" onClick={()=>UnFollow(btn1[0].id)}>
+              <Button className="bg-indigo-400 rounded-full mt-2 md:mt-4" onClick={()=>UnFollow(btn1[0].id)}>
                 UnFollow
               </Button>):('')}
             
@@ -349,7 +349,7 @@ const ProfileTopCard = (props) => {
                   pathname: "/User-Profile",
                   query: userDetails.id+"?"+"ok",
                 }}>
-                <Button className="bg-indigo-400 rounded-full mt-4" 
+                <Button className="bg-indigo-400 rounded-full mt-2 md:mt-4" 
                 onClick={()=>ConnectionRequest(userDetails.id)}>
                 Connect
                 </Button>
@@ -358,7 +358,7 @@ const ProfileTopCard = (props) => {
 
               
                {btn2  && btn2=="Request_Available" && userDetails?(
-               <Button className="bg-indigo-400 rounded-full mt-4" 
+               <Button className="bg-indigo-400 rounded-full mt-2 md:mt-4" 
                 onClick={()=>RemoveConnection(userDetails.id)}>
                 Remove Connection
                 </Button>
@@ -366,19 +366,19 @@ const ProfileTopCard = (props) => {
               :('') }
 
               {request && currentuser && btn2!="Request_Not_Available" && request.sender.id == currentuser.id?(
-              <Button className="bg-indigo-400 rounded-full mt-4" onClick={()=>ActionOnFollowRequest(request.id,"cancelled")}>
+              <Button className="bg-indigo-400 rounded-full mt-2 md:mt-4" onClick={()=>ActionOnFollowRequest(request.id,"cancelled")}>
                 Cancel Request
               </Button>):('')}
 
               {request && currentuser && btn2=="" && request.sender.id != currentuser.id?(
-                  <Button className="bg-indigo-400 rounded-full mt-4" onClick={()=>ActionOnFollowRequest(request.id,"accepted")}>
+                  <Button className="bg-indigo-400 rounded-full mt-2 md:mt-4" onClick={()=>ActionOnFollowRequest(request.id,"accepted")}>
                     Accept
                   </Button>   
                 )
                 :('')
               }
               {request && currentuser && btn2=="" && request.sender.id != currentuser.id?(
-                <Button className="bg-indigo-400 rounded-full mt-4" onClick={()=>ActionOnFollowRequest(request.id,"cancelled")}>
+                <Button className="bg-indigo-400 rounded-full mt-2 md:mt-4" onClick={()=>ActionOnFollowRequest(request.id,"cancelled")}>
                   Ignore
                 </Button>
                 )

@@ -107,7 +107,7 @@ const TabsProfileCard = () => {
     <>
       <div className="">
         <div className="flex bg-white rounded-b-xl px-8 mb-8 flex-wrap">
-          <div className="border-t-1 w-full mt-14 md:mt-0">
+          <div className="border-t-1 w-full mt-36 md:mt-0">
             <div className="w-[670px] md:w-full xl:w-full pt-4 pb-7 text-sm">
               <ul className="flex justify-between" role="tablist">
                 <li className="text-xs md:text-base">

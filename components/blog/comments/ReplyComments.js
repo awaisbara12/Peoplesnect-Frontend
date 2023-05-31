@@ -677,7 +677,7 @@ const ReplyComments = (props) => {
                       placeholder={comment.body}
                     /> */}
 
-                        <div className="w-[82%]">
+                        <div className="w-[82%] md:w-[97%]">
                           <HashtagMentionInput postText={postText} setPostText={setPostText} mentioned={mentioned} tags={tags} settags={settags} hastags={hastags} />
                         </div>
                         <div className="flex">
@@ -845,7 +845,7 @@ const ReplyComments = (props) => {
                         {chosenEmoji ? (
                           <Picker onEmojiClick={onEmojiClickReply} className="w-[50px] h-[50px]" />
                         ) : ('')}
-                        <div className="w-[82%]">
+                        <div className="w-[82%] md:w-[97%]">
                           <HashtagMentionInput postText={CommentReply} setPostText={setCommentReply} mentioned={mentioned} tags={tags} settags={settags} hastags={hastags} />
                         </div>
                         <div className="flex">
@@ -1076,7 +1076,7 @@ const ReplyComments = (props) => {
                                 {chosenEmoji ? (
                                   <Picker onEmojiClick={onEmojiClickEditReply} className="w-[50px] h-[50px]" />
                                 ) : ('')}
-                                <div className="w-[82%]">
+                                <div className="w-[82%] md:w-[97%]">
                                   <HashtagMentionInput postText={edit_reply} setPostText={setEditReply} mentioned={mentioned} tags={tags} settags={settags} hastags={hastags} />
                                 </div>
                                 <div className="flex">

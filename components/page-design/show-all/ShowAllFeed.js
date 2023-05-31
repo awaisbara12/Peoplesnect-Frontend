@@ -9,6 +9,8 @@ import FooterNewsFeed from "../../news-feed/newsfeed/newsfeedfooter/FooterNewsFe
 import GroupsBottomBar from "../../news-feed/navbar/GroupsBottomBar";
 
 import PageSuggesions from "../../news-feed/sugesteduser/PageSuggestions";
+import Footer from "../../footer/Footer";
+import DropdownRender from "../../news-feed/Chat-box/ChatBox";
 const ShowAllFeed = () => {
   return (
     <div>
@@ -29,15 +31,16 @@ const ShowAllFeed = () => {
             </div>
             <div className="w-72 hidden md:block lg:block">
               <ProfileCard />
-              <div className="sticky top-20 z-20">
+              <div className="sticky top-20 z-0">
                 <EventsCard />
                 <PageSuggesions />
-                <FooterNewsFeed />
+                <Footer />
               </div>
             </div>
           </div>
         </div>
       </div>
+      <DropdownRender />
       <GroupsBottomBar />
     </div>
   );

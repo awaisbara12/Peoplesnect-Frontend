@@ -10,6 +10,8 @@ import NewsFeedSidebar from "../news-feed/newsfeed/sidebar/NewsFeedSidebar";
 import EventsCard from "../news-feed/eventcard/EventsCard";
 import TopNavbar from "../news-feed/navbar/TopNavbar";
 import FooterNewsFeed from "../news-feed/newsfeed/newsfeedfooter/FooterNewsFeed";
+import Footer from "../footer/Footer";
+import DropdownRender from "../news-feed/Chat-box/ChatBox";
 
 const NotificationsFeed = () => {
   return (
@@ -32,15 +34,16 @@ const NotificationsFeed = () => {
               </div>
               <div className="w-72 hidden md:block lg:block">
                 <ProfileCard />
-                <div className="sticky top-20 z-20">
-                <EventsCard />
-                <SugestedUser />
-                <FooterNewsFeed />
+                <div className="sticky top-20 z-0">
+                  <EventsCard />
+                  <SugestedUser />
+                  <Footer />
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <DropdownRender />
         <MobileBottomBar />
       </div>
     </div>

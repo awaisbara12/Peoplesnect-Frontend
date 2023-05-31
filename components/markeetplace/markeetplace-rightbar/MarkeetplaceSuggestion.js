@@ -23,7 +23,7 @@ const MarkeetplaceSuggestion = () => {
         </div>
         <Link href="/markeet-place/my-listing">
           <a>
-            <div className="px-3 hover:bg-gray-100 rounded-xl flex justify-between items-center mt-4">
+            <div className="px-3 py-3 hover:bg-gray-100 rounded-xl flex justify-between items-center mt-4">
                 <p className="text-sm font-light">My Listing</p>
                 <StarIcon className="w-5 h-5 text-indigo-400" />
             </div>

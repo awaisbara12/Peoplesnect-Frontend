@@ -13,6 +13,8 @@ import EventsCard from "../../news-feed/eventcard/EventsCard";
 import FooterNewsFeed from "../../news-feed/newsfeed/newsfeedfooter/FooterNewsFeed";
 import MarkeetPlaceMobileNav from "../../news-feed/navbar/mobile-navbar/MarkeetPlaceMobileNav";
 import MarketplaceBottomBar from "../../news-feed/navbar/MarketplaceBotoombar";
+import Footer from "../../footer/Footer";
+import DropdownRender from "../../news-feed/Chat-box/ChatBox";
 
 const MarketplaceShowFeed = () => {
   return (
@@ -33,15 +35,16 @@ const MarketplaceShowFeed = () => {
               <MarketplaceShow />
             </div>
             <div className="w-72 hidden md:block lg:block">
-              <div className="sticky top-20 z-20">
+              <div className="sticky top-20 z-0">
                 <MarkeetPlaceSideBar />
                 <MarkeetplaceSuggestion />
-                <FooterNewsFeed />
+                <Footer />
               </div>
             </div>
           </div>
         </div>
       </div>
+      <DropdownRender />
       <MarketplaceBottomBar />
     </div>
   );

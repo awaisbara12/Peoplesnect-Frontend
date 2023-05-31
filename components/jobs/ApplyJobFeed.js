@@ -11,6 +11,8 @@ import AddNewJob from './AddNewJob';
 import ApplyJob from './ApplyJob';
 import MostSearchedJobs from './MostSearchedJobs';
 import RecommendedJobs from './RecommendedJobs';
+import Footer from '../footer/Footer';
+import DropdownRender from '../news-feed/Chat-box/ChatBox';
 
 const ApplyJobFeed = () => {
   return (
@@ -32,16 +34,17 @@ const ApplyJobFeed = () => {
             </div>
             <div className="w-72 hidden md:block lg:block">
               <ProfileCard />
-              <div className="sticky top-20 z-20">
+              <div className="sticky top-20 z-0">
                 <EventsCard />
                 <JobsSideBar />
-                <FooterNewsFeed />
+                <Footer />
                 <AddNewJob />
               </div>
             </div>
           </div>
         </div>
       </div>
+      <DropdownRender />
       <JobsBottomBar />
     </div>
   );

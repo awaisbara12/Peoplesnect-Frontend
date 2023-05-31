@@ -10,6 +10,8 @@ import MyConnections from "../news-feed/sugesteduser/MyConnections";
 import NewsFeedSidebar from "../news-feed/newsfeed/sidebar/NewsFeedSidebar";
 import TopNavbar from "../news-feed/navbar/TopNavbar";
 import FooterNewsFeed from "../news-feed/newsfeed/newsfeedfooter/FooterNewsFeed";
+import Footer from "../footer/Footer";
+import DropdownRender from "../news-feed/Chat-box/ChatBox";
 
 const RequestFeed = () => {
   return (
@@ -31,15 +33,16 @@ const RequestFeed = () => {
             </div>
             <div className="w-72 hidden md:block lg:block">
               <ProfileCard />
-              <div className="sticky top-20 z-20">
+              <div className="sticky top-20 z-0">
                 <EventsCard />
                 <MyConnections />
-                <FooterNewsFeed />
+                <Footer />
               </div>
             </div>
           </div>
         </div>
       </div>
+      <DropdownRender />
       <MobileBottomBar />
     </div>
   );

@@ -2,15 +2,13 @@ import React from "react";
 import Head from "next/head";
 import ProfileCard from "../news-feed/profilecard/ProfileCard";
 import MobileBottomBar from "../news-feed/navbar/MobileBottomBar";
-import Followings from "./Followings";
-import MyNetwrokSearch from "../news-feed/search/MyNetworkSearch";
 import MyNetWorkNav from "../news-feed/navbar/mobile-navbar/MyNetWorkNav";
-import NewsFeedSidebar from "../news-feed/newsfeed/sidebar/NewsFeedSidebar";
 import MyConnections from "../news-feed/sugesteduser/MyConnections";
-import FooterNewsFeed from "../news-feed/newsfeed/newsfeedfooter/FooterNewsFeed";
 import EventsCard from "../news-feed/eventcard/EventsCard";
 import TopNavbar from "../news-feed/navbar/TopNavbar";
 import FollowingsTabs from "./FollowingsTabs";
+import Footer from "../footer/Footer";
+import DropdownRender from "../news-feed/Chat-box/ChatBox";
 
 const FollowingsFeed = () => {
   return (
@@ -33,15 +31,16 @@ const FollowingsFeed = () => {
               </div>
               <div className="w-72 hidden md:block lg:block">
                 <ProfileCard />
-                <div className="sticky top-20 z-20">
+                <div className="sticky top-20 z-0">
                   <EventsCard />
                   <MyConnections />
-                  <FooterNewsFeed />
+                  <Footer />
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <DropdownRender />
         <MobileBottomBar />
       </div>
     </div>

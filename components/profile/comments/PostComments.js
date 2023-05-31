@@ -271,7 +271,7 @@ const PostComments = (props) => {
           {chosenEmoji ? (
             <Picker onEmojiClick={onEmojiClick} className="w-[50px] h-[50px]" />
           ) : ('')}
-          <div className="w-[82%]">
+          <div className="w-[82%] md:w-[97%]">
             <HashtagMentionInput postText={postText} setPostText={setPostText} mentioned={mentioned} tags={tags} settags={settags} hastags={hastags} />
           </div>
           {postImagePreview ? (

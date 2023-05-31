@@ -14,6 +14,7 @@ import TopNavbar from "../news-feed/navbar/TopNavbar";
 import ProfileSideBar from "../profile/profile-sidebar/ProfileSideBar";
 import ProfileSideBarFeed from "../profile/profile-sidebar/ProfileSideBarFeed";
 import FooterNewsFeed from "../news-feed/newsfeed/newsfeedfooter/FooterNewsFeed";
+import Footer from "../footer/Footer";
 
 // import cable from './Inbox-Feed/Cable'
 const MessagingFeed = () => {
@@ -45,7 +46,7 @@ const MessagingFeed = () => {
               <ProfileCard />
               <EventsCard />
               <SugestedUser />
-              <FooterNewsFeed />
+              <Footer />
             </div>
           </div>
         </div>

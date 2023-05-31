@@ -1,14 +1,14 @@
 import React from "react";
 import Head from "next/head";
 import ProfileCard from "../news-feed/profilecard/ProfileCard";
-import NewsFeedSidebar from "../news-feed/newsfeed/sidebar/NewsFeedSidebar";
 import MobileBottomBar from "../news-feed/navbar/MobileBottomBar";
 import MobileNav from "../news-feed/navbar/mobile-navbar/MobileNav";
 import MainEvents from "./MainEvents";
-import EventsSearch from "../news-feed/search/EventsSearch";
 import SugestedUser from "../news-feed/sugesteduser/SugestedUser";
 import EventsCard from "../news-feed/eventcard/EventsCard";
 import TopNavbar from "../news-feed/navbar/TopNavbar";
+import Footer from "../footer/Footer";
+import DropdownRender from "../news-feed/Chat-box/ChatBox";
 
 const MainEventsFeed = () => {
   return (
@@ -33,11 +33,13 @@ const MainEventsFeed = () => {
               <div className="sticky top-20">
                 <EventsCard />
                 <SugestedUser />
+                <Footer />
               </div>
             </div>
           </div>
         </div>
       </div>
+      <DropdownRender />
       <MobileBottomBar />
     </div>
   );

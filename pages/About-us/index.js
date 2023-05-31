@@ -5,9 +5,9 @@ import AboutUsFeed from "../../components/footer/About-us/AboutUsFeed";
 
 const index = () => {
   return (
-    <PrivateRoutes>
+    // <PrivateRoutes>
       <AboutUsFeed />
-    </PrivateRoutes>
+    // </PrivateRoutes>
   );
 };
 

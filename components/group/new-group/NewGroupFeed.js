@@ -11,6 +11,8 @@ import GroupsSuggesions from "../../news-feed/sugesteduser/GroupsSuggesions";
 import TopNavbar from "../../news-feed/navbar/TopNavbar";
 import FooterNewsFeed from "../../news-feed/newsfeed/newsfeedfooter/FooterNewsFeed";
 import GroupsBottomBar from "../../news-feed/navbar/GroupsBottomBar";
+import Footer from "../../footer/Footer";
+import DropdownRender from "../../news-feed/Chat-box/ChatBox";
 
 const NewGroupFeed = () => {
   return (
@@ -32,15 +34,16 @@ const NewGroupFeed = () => {
             </div>
             <div className="w-72 hidden md:block lg:block">
               <ProfileCard />
-              <div className="sticky top-20 z-20">
+              <div className="sticky top-20 z-0">
                 <EventsCard />
                 <GroupsSuggesions />
-                <FooterNewsFeed />
+                <Footer />
               </div>
             </div>
           </div>
         </div>
       </div>
+      <DropdownRender />
       <GroupsBottomBar />
     </div>
   );

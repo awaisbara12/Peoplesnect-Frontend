@@ -30,7 +30,7 @@ const GroupSearchFeed = () => {
               </div>
               <div className="w-72 hidden md:block lg:block">
                 <ProfileCard />
-                <div className="sticky top-20 z-20">
+                <div className="sticky top-20 z-0">
                   <EventsCard />
                   <MyConnections />
                   <FooterNewsFeed />
