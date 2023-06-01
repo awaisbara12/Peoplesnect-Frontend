@@ -52,7 +52,7 @@ const ProfileTopCard = (props) => {
   if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore"); }
  
   // Create Follower
-   const CreateFollower=async(userId)=>
+   const CreateFollower=async(userId,name)=>
    {      
      const requestOptions = {
        method: 'POST',
@@ -62,7 +62,7 @@ const ProfileTopCard = (props) => {
      const data = await response.json();
      setbtn1('');
      CheckFollower();
-     alert("Send Follow Request");
+     alert("You Followed "+name);
    }
   //UnFollow 
   const UnFollow=async(userId)=>
@@ -335,7 +335,7 @@ const ProfileTopCard = (props) => {
             ):('')}
 
             {btn1 && btn1.length==0 && userDetails && userDetails.profile_type=="public_profile"?(
-              <Button className="bg-indigo-400 rounded-full mt-2 md:mt-4" onClick={()=>CreateFollower(userDetails.id)}>
+              <Button className="bg-indigo-400 rounded-full mt-2 md:mt-4" onClick={()=>CreateFollower(userDetails.id, userDetails.first_name)}>
                 Follow
               </Button>):('')}
               {btn1 && btn1.length>0 && userDetails && userDetails.profile_type=="public_profile"?(

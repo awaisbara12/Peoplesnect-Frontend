@@ -101,7 +101,7 @@ function PeendingRequest() {
       .catch((err) => console.log(err));
   }
   // Create Follower
-  const CreateFollower=async(userId)=>
+  const CreateFollower=async(userId,name)=>
   {      
     const requestOptions = {
       method: 'POST',
@@ -111,7 +111,7 @@ function PeendingRequest() {
     const data = await response.json();
     PendingFollowRequest();
     ShowUsers();
-    alert("Sent Follow Request");
+    alert("You Followed "+name);
   }
   // Send Connection Request
   const ConnectionRequest=async(userId)=>
@@ -304,7 +304,7 @@ function PeendingRequest() {
                       {e.profile_type === "public_profile"?(
                         <div>
                           <button className="w-full bg-indigo-400 text-white rounded-xl py-2 hover:text-indigo-400 hover:bg-transparent
-                            border-1 border-indigo-400 mt-5 mb-2 "onClick={()=>CreateFollower(e.id)}>
+                            border-1 border-indigo-400 mt-5 mb-2 "onClick={()=>CreateFollower(e.id, e.first_name)}>
                             Follow
                           </button>
                           <button className="w-full bg-indigo-400 text-white rounded-xl py-2 hover:text-indigo-400 hover:bg-transparent

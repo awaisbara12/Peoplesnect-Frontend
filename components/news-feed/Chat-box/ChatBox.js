@@ -82,6 +82,10 @@ const Dropdown = ({ color }) => {
   const closeDropdownPopover = () => {
     console.log("close/hode");
     setDropdownPopoverShow(false);
+    // setOpenTab(1);
+    setmsguser(''); 
+    setmessages('');
+    setDropdownPopoverShow1(false);
   };
 
 
