@@ -74,7 +74,7 @@ const ApplicatnDetails = (props) => {
               {resume.phone_number?(
               <div className="flex gap-2 items-center font-bold text-sm">
                 <div>
-                  Phon:
+                  Phone:
                 </div>
                 <div className="font-light italic">{resume.phone_number}</div>
               </div>):('')}
@@ -92,6 +92,14 @@ const ApplicatnDetails = (props) => {
                   Country:
                 </div>
                 <div className="font-light italic">{resume.country}</div>
+              </div>
+              ):('')}
+              {resume.state?(
+              <div className="flex gap-2 items-center font-bold text-sm">
+                <div>
+                  State:
+                </div>
+                <div className="font-light italic">{resume.state}</div>
               </div>
               ):('')}
               {resume.city?(
@@ -146,9 +154,9 @@ const ApplicatnDetails = (props) => {
                   </div>
                   <div className="flex gap-2 items-center font-bold text-sm">
                     <div>
-                    Study To:
+                      Study To:
                     </div>
-                    <div className="font-light italic">{i.study_to}</div>
+                    <div className="font-light italic">{i.continue?("Persuing"):(<>{i.study_to}</>)}</div>
                   </div>
                 </div>
               ))
@@ -221,7 +229,7 @@ const ApplicatnDetails = (props) => {
             <div className="mt-2 p-2">
               <ul className="pl-4">
               {resume.skills.map((i)=>(
-                <li className="list-disc" key={i.id}>
+                <li className="list-disc uppercase" key={i.id}>
                   {i.title}
                 </li>
               ))}

@@ -67,14 +67,14 @@ function MyNetwork() {
         }).then((resp) => resp.json())
         .then((result) => {
           if (result) { 
-            alert ("You successfully Remove Connection");
+            alert ("Remove Connection");
           }
         })
         .catch((err) => console.log(err));
         Current_User();
         User_Connections();
     }else{
-      alert ("You cancel your Remove Request");
+      // alert ("You cancel your Remove Request");
     }
 
   }

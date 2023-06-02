@@ -6,16 +6,18 @@ const PersonalInfo = () => {
   const [userDetails, setUserDetails] = useState();
   const [first_name, setfirst_name] = useState();
   const [last_name, setlast_name] = useState();
-  const [country, setcountry] = useState();
+  const [country, setcountry] = useState();           // coutry Code for Fetching State
+  const [countryName, setcountryName] = useState();   // Country name for db save
   const [city, setcity] = useState();
-  const [states, setstates] = useState();
+  const [states, setstates] = useState();             // state Code for Fetching State
+  const [stateName, setstateName] = useState();                 // state name for db save
   const [seleccountry, setseleccountry] = useState();
   
   // Bareer Key
   if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore"); }
   //for update
   const UpdatePersonal=async()=>{
-    await fetch(`${UPDATE_PERSONAL_INFO}?users[city]=${city}&users[country]=${country}&users[first_name]=${first_name}&users[last_name]=${last_name}&users[state]=${states}`, {
+    await fetch(`${UPDATE_PERSONAL_INFO}?users[city]=${city}&users[country]=${countryName}&users[first_name]=${first_name}&users[last_name]=${last_name}&users[state]=${stateName}`, {
     method: "PUT",
      headers: {
       Accept: "application/json", 
@@ -58,6 +60,26 @@ const PersonalInfo = () => {
   useEffect(()=>{
     Current_User();
   },[])
+  // Country handler
+  const countryhandler=(e)=>{
+    var a;
+    if( e && e.target && e.target.value){
+      a=e.target.value.split(",")
+      // console.log(a);
+      setcountry(a[0]);
+      setcountryName(a[1]);
+    }
+  }
+  // State handler
+  const statehandler=(e)=>{
+    var a;
+    if( e && e.target && e.target.value){
+      a=e.target.value.split(",")
+      // console.log(a);
+      setstates(a[0]);
+      setstateName(a[1]);
+    }
+  }
   return (
     <div>
       <div className="mt-8">
@@ -92,20 +114,20 @@ const PersonalInfo = () => {
                 <div className="text-lg font-medium">Location:</div>
                 <div className="flex gap-7">
                   {/* For Country */}
-                  <select onChange={e=>setcountry(e.target.value)} className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-40 lg:w-54 xs:w-auto md:w-52 placeholder:pl-2 rounded-full placeholder:py-2">
+                  <select onChange={countryhandler} className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-40 lg:w-54 xs:w-auto md:w-52 placeholder:pl-2 rounded-full placeholder:py-2">
                     <option value={country}>{country}</option>
                     {
                       Country.getAllCountries().map((item)=>(
-                        <option value={item.isoCode} key={item.isoCode}>{item.name}</option>
+                        <option value={[item.isoCode,item.name]} key={item.isoCode}>{item.name}</option>
                       ))  
                     }
                   </select>
                   {/* For State */}
-                  <select onChange={e=>setstates(e.target.value)} className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-40 lg:w-54 xs:w-auto md:min-w-[13rem] placeholder:pl-2 rounded-full placeholder:py-2">
+                  <select onChange={statehandler} className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-40 lg:w-54 xs:w-auto md:min-w-[13rem] placeholder:pl-2 rounded-full placeholder:py-2">
                     <option value={states}>{states}</option>
                     {
                       State.getStatesOfCountry(country).map((item)=>(
-                        <option value={item.isoCode} key={item.name}>{item.name}</option>
+                        <option value={[item.isoCode,item.name]} key={item.name}>{item.name}</option>
                       ))  
                     }
                   </select>
