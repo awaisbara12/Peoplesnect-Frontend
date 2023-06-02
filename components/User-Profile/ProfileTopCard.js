@@ -99,7 +99,7 @@ const ProfileTopCard = (props) => {
      const data = await response.json();
      //console.log("Send", data );
      CheckConnection();
-     alert("Send Follow Request");
+     alert("Connection Request Sent");
    }
 
   //  function Confirm(followrequest,user_id)

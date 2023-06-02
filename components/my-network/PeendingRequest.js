@@ -124,7 +124,7 @@ function PeendingRequest() {
     const data = await response.json();
     PendingFollowRequest();
     ShowUsers();
-    alert("Sent Follow Request");
+    alert("Connection Request sent");
   }
   //Ignore & Accept Follow Request
   const ActionOnFollowRequest=async(id,status)=>{

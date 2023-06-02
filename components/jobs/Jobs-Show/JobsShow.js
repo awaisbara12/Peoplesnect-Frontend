@@ -137,11 +137,11 @@ const JobsShow = () => {
                         {Recomend.job_company}
                       </div>
 
-                  <div className="flex justify-between items-center mt-2 py-4 text-slate-500 italic">
+                  {/* <div className="flex justify-between items-center mt-2 py-4 text-slate-500 italic">
                     <a href="mailto:Recomend.email_address" className="underline">
                       {Recomend.email_address}
                     </a>
-                  </div>
+                  </div> */}
                       {/* <div className="mt-2 flex text-sm font-light">
                       <StarIcon className="text-amber-400 w-5 h-5" />
                       Rating is 4.3

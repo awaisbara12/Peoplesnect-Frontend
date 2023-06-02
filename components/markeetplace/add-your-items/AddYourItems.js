@@ -18,8 +18,10 @@ const AddYourItems = () => {
   const [productPic, setproductPic] = useState([]);
   const [P_productPic, setP_productPic] = useState([]);
   const [country, setcountry] = useState();
+  const [countryName, setcountryName] = useState();             // Country name for db save
   const [city, setcity] = useState();
   const [states, setstates] = useState();
+  const [stateName, setstateName] = useState();                 // state name for db save
   const router = useRouter();
   const data = router.asPath;
   const myArray = data.split("?");
@@ -52,8 +54,8 @@ const AddYourItems = () => {
     setfeature('')
     dataForm.append("products[contact]", contact);
     dataForm.append("products[description]", des);
-    dataForm.append("products[country]", country);
-    dataForm.append("products[state]", states);
+    dataForm.append("products[country]", countryName);
+    dataForm.append("products[state]", stateName);
     dataForm.append("products[city]", city);
     fetch(PRODUCT_API, {
       method: "POST",
@@ -142,8 +144,13 @@ const AddYourItems = () => {
     dataForm.append("products[price]", price);
     dataForm.append("products[contact]", contact);
     dataForm.append("products[description]", des);
-    dataForm.append("products[country]", country);
-    dataForm.append("products[state]", states);
+    if(countryName && stateName){
+      dataForm.append("products[country]", countryName);
+      dataForm.append("products[state]", stateName);
+    }else if(country && states){
+      dataForm.append("products[country]", country);
+      dataForm.append("products[state]", states);  
+    }
     dataForm.append("products[city]", city);
     if (productPic && productPic.length != 0) {
       for (let i = 0; i < productPic.length; i++) {
@@ -165,6 +172,27 @@ const AddYourItems = () => {
         }
       })
       .catch((err) => console.log(err));
+  }
+
+  // Country handler
+  const countryhandler=(e)=>{
+    var a;
+    if( e && e.target && e.target.value){
+      a=e.target.value.split(",")
+      // console.log(a);
+      setcountry(a[0]);
+      setcountryName(a[1]);
+    }
+  }
+  // State handler
+  const statehandler=(e)=>{
+    var a;
+    if( e && e.target && e.target.value){
+      a=e.target.value.split(",")
+      // console.log(a);
+      setstates(a[0]);
+      setstateName(a[1]);
+    }
   }
   return (
     <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
@@ -203,29 +231,37 @@ const AddYourItems = () => {
                 <div className="text-lg font-medium">Location:</div>
                 <div className="col-span-4 md:col-span-3">
                   <div className="grid grid-cols-3 gap-3">
-                    <select onChange={e => setcountry(e.target.value)} className="placeholder:text-md text-gray-500  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none  w-full placeholder:pl-2 rounded-xl placeholder:py-2">
-                      <option disabled selected hidden>Country Name</option>
-                      <option value={country}>{country}</option>
+                    <select onChange={countryhandler} className="placeholder:text-md text-gray-500  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none  w-full placeholder:pl-2 rounded-xl placeholder:py-2">
+                     {country?(
+                        <option value={country}>{country}</option>
+                     ):(
+                         <option disabled selected hidden>Country Name</option>
+                      )}
                       {
                         Country.getAllCountries().map((item) => (
-                          <option value={item.isoCode} key={item.isoCode}>{item.name}</option>
+                          <option value={[item.isoCode,item.name]} key={item.isoCode}>{item.name}</option>
                         ))
                       }
                     </select>
                     {/* For State */}
-                    <select onChange={e => setstates(e.target.value)} className="placeholder:text-md text-gray-500  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full placeholder:pl-2 rounded-full placeholder:py-2">
-                      <option disabled selected hidden>State Name</option>
-                      <option value={states}>{states}</option>
+                    <select onChange={statehandler} className="placeholder:text-md text-gray-500  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full placeholder:pl-2 rounded-full placeholder:py-2">
+                      {states?(
+                        <option value={states}>{states}</option>
+                       ):(
+                        <option disabled selected hidden>State Name</option>
+                       )
+                      }
+                      
                       {
                         State.getStatesOfCountry(country).map((item) => (
-                          <option value={item.isoCode} key={item.name}>{item.name}</option>
+                          <option value={[item.isoCode,item.name]} key={item.name}>{item.name}</option>
                         ))
                       }
                     </select>
                     {/*  for city */}
                     <select onChange={e => setcity(e.target.value)} className="placeholder:text-md text-gray-500  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full placeholder:pl-2 rounded-full placeholder:py-2">
-                      <option disabled selected hidden>City Name</option>
-                      <option value={city}>{city}</option>
+                    {city?(<option value={city}>{city}</option>):(<option disabled selected hidden>City Name</option>)}
+                      
                       {
                         City.getCitiesOfState(country, states).map((item) => (
                           <option value={item.name} key={item.name}>{item.name}</option>
@@ -360,13 +396,13 @@ const AddYourItems = () => {
                   name && country && states && city && category && feature && des && contact && price && productPic.length !== 0 ? (
                     <div onClick={() => createProduct()}
                       className="bg-indigo-400 text-white p-3 rounded-xl font-bold">
-                      Post Your Add
+                      Post Your Product
                     </div>
                   )
                     :
                     (
                       <div className="bg-indigo-100 cursor-not-allowed text-white p-3 rounded-xl font-bold">
-                        Disabled
+                        Post Your Product
                       </div>
                     ))}
             </div>

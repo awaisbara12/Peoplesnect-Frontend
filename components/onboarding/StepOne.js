@@ -22,8 +22,10 @@ const StepOne = () => {
   const [close, setClose] = useState(false);
   const dispatch = useDispatch();
   const [country, setcountry] = useState();
+  const [countryName, setcountryName] = useState();   // Country name for db save
   const [city, setcity] = useState();
   const [state, setstates] = useState();
+  const [stateName, setstateName] = useState();                 // state name for db save
   const [Errcountry, setcountryErr] = useState();
   const [Errcity, setcityErr] = useState();
   const [Errstate, setstateErr] = useState();
@@ -48,9 +50,9 @@ const StepOne = () => {
       setSpinner(true);
       const data = {
           user: {
-              country: country,
+              country: countryName,
               city:city,
-              state:state,
+              state:stateName,
             },
           };
           const resp = await fetch(ONBOARDING_STEP_ONE_URL, {
@@ -139,6 +141,27 @@ const StepOne = () => {
     };
     getUser();
   }, [user]);
+
+  // Contry handler
+  const countryhandler=(e)=>{
+    var a;
+    if( e && e.target && e.target.value){
+      a=e.target.value.split(",")
+      // console.log(a);
+      setcountry(a[0]);
+      setcountryName(a[1]);
+    }
+  }
+  //  state handler
+  const statehandler=(e)=>{
+    var a;
+    if( e && e.target && e.target.value){
+      a=e.target.value.split(",")
+      // console.log(a);
+      setstates(a[0]);
+      setstateName(a[1]);
+    }
+  }
   return (
     <>
       <div className="signUp--background min-h-screen overflow-y-auto">
@@ -190,7 +213,7 @@ const StepOne = () => {
                 <label htmlFor="" className="font-medium">
                   Country - Region <span className="text-red-400">*</span>
                 </label>
-                <select onChange={e=>setcountry(e.target.value)} 
+                <select onChange={countryhandler} 
                 // className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-40 lg:w-54 xs:w-auto md:w-52 placeholder:pl-2 rounded-full placeholder:py-2"
                 className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none
                  focus:border-indigo-400 focus:drop-shadow-indigo-400 ${
@@ -200,7 +223,7 @@ const StepOne = () => {
                   <option value={country}>{country}</option>
                   {
                     Country.getAllCountries().map((item)=>(
-                      <option value={item.isoCode} key={item.id}>{item.name}</option>
+                      <option value={[item.isoCode,item.name]} key={item.id}>{item.name}</option>
                     ))  
                   }
                 </select>
@@ -223,7 +246,7 @@ const StepOne = () => {
                 <label htmlFor="" className="font-medium">
                   State <span className="text-red-400">*</span>
                 </label>
-                <select onChange={e=>setstates(e.target.value)} 
+                <select onChange={statehandler} 
                 className={`w-full border-gray-100 border py-2 px-3 mt-2 rounded-md focus: outline-none
                  focus:border-indigo-400 focus:drop-shadow-indigo-400 ${
                   Errstate ? "border-red-600" : ""
@@ -232,7 +255,7 @@ const StepOne = () => {
                   <option value={state}>{state}</option>
                     {
                       State.getStatesOfCountry(country).map((item)=>(
-                        <option value={item.isoCode} key={item.name}>{item.name}</option>
+                        <option value={[item.isoCode,item.name]} key={item.name}>{item.name}</option>
                       ))  
                     }
                 </select>
