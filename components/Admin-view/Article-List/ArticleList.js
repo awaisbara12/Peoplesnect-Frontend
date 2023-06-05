@@ -200,7 +200,7 @@ const ArticlesList =()=>{
                   >
                     {articles && articles.map((article)=>(
                       <div 
-                        className="hover:shadow-2xl shadow-lg bg-white rounded-xl"
+                        className="hover:shadow-2xl h-[400px] overflow-hidden shadow-lg bg-white rounded-xl m-6"
                         id={`article-${article.id}`}
                         key={article.id}>
                         <div className="">
@@ -209,14 +209,14 @@ const ArticlesList =()=>{
                             {article && article.photos_link?(
                                 <img
                                   src={article.photos_link}
-                                  className="object-fit rounded-t-xl h-[180px] w-[380px]"
+                                  className="object-cover object-top rounded-t-xl h-[180px] w-[380px]"
                                   placeholder="empty"
                                   alt="profile-image"
                                 />
                                 ):( 
                                 <Image
                                   src={Post}
-                                  className="object-fit rounded-t-xl"
+                                  className="object-cover rounded-t-xl"
                                   width={380}
                                   height={180}
                                   alt=""
