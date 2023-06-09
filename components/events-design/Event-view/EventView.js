@@ -532,7 +532,7 @@ const EventView = () => {
                           <div className="relative bg-white py-2">
                             {currentUser && currentUser.role == "admin"?(
                             <a className="flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50">
-                              <div className="flex text-gray-900 gap-2">
+                              <div className="flex items-center text-gray-900 gap-2">
                                 <TrashIcon className="h-6 w-6 " />
                                 <div className="" onClick={() => DeleteNewsFeed(items.id)}>Delete</div>
                               </div>

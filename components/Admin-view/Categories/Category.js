@@ -253,13 +253,13 @@ const Category =()=>{
             {/* Add Category Input */}
             <div className="flex mt-5">
             <input
-                className='placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full rounded-xl p-2'
+      className='placeholder:text-md placeholder:text-indigo-500 pl-12  hover:shadow-lg bg-white placeholder:rounded-full  border-indigo-400 w-full rounded-l-full'
                 placeholder='Add Category'
                 type='text'
                 value={c_name}
                 onChange={(e)=>setc_name(e.target.value)}
               />
-              <button onClick={()=>AddCategory()}>Add category</button>
+              <button class="bg-indigo-400 text-white p-2 w-36 rounded-r-full" onClick={()=>AddCategory()}>Add category</button>
             </div>
             {/* CAtegory Show */}
             <div className="mt-8">

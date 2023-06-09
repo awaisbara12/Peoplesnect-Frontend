@@ -525,7 +525,7 @@ const NewsFeedSingle = (singleItem) => {
                                 href={card.id}
                                 className="-m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
                               >
-                                <div className="flex h-10 w-10 shrink-0 items-center justify-center text-white sm:h-12 sm:w-12 pl-2">
+                                <div className="flex items-center h-10 w-10 shrink-0  justify-center text-white sm:h-12 sm:w-12 pl-2">
                                   <card.icon className="h-6 w-6 text-gray-900" />
                                 </div>
                                 <div>

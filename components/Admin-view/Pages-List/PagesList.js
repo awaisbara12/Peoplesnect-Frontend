@@ -199,12 +199,12 @@ const PagesList =()=> {
                 >
                   {pages && pages.map((page)=>(
                     <div 
-                      className="hover:shadow-2xl shadow-lg bg-white flex items-center justify-between rounded-xl p-2"
+                      className="hover:shadow-2xl shadow-lg bg-white flex items-start justify-between rounded-xl p-2"
                       id={`page-${page.id}`}
                       key={page.id}>
                     <Link href={{pathname: "/page-design/liked-pages", query: page.id}}>
                       <a>
-                        <div className="flex gap-2 items-center">
+                        <div className="flex items-start gap-2 items-center">
                           {page && page.display_photo_url?(
                             <img
                               src={page.display_photo_url}
@@ -228,9 +228,9 @@ const PagesList =()=> {
                         </div>
                       </a>
                     </Link>
-                    <div className="flex gap-1">
+                    <div className="flex items-start gap-1">
                       <Link href={{pathname: "/Admin/pages-list/Edit-Pages", query: page.id,}}>
-                          <a className="flex gap-1 mt-2">
+                          <a className="flex gap-1 ">
                             <PencilAltIcon className="h-5 w-5 text-indigo-400" />
                           </a>
                       </Link>

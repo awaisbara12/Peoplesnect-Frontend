@@ -237,14 +237,14 @@ function openModal(i) {
                   >
                     {newsletter && newsletter.map((newslet)=>(
                       <div
-                        className="hover:shadow-2xl shadow-lg bg-white flex items-center justify-between rounded-xl p-2"
+                        className="hover:shadow-2xl shadow-lg bg-white flex items-start justify-between rounded-xl p-2"
                         id={`newslet-${newslet.id}`}
                         key={newslet.id}>
                         <Link href="">
                           <a>
                             <div className="flex gap-2 items-start">
                               <div className="text-sm">
-                                <div className="font-bold text-indigo-400">Subject: {newslet.subject}</div>
+                                <div className="font-extralight "> <b className="font-bold text-indigo-400">Subject: </b>{newslet.subject}</div>
                                 <div className="font-extralight"><b className="font-bold text-indigo-400">Email Type: </b>{newslet.email_type}</div>
                                 <div className="font-extralight"><b className="font-bold text-indigo-400">Send Status: </b>{newslet.news_letter_status}</div>
                               </div>
