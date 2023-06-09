@@ -814,7 +814,7 @@ const Dropdown = ({ color }) => {
                             hasMore={currentpagemy != null}
                             inverse={true}
                             scrollableTarget="scrollableDiv"
-                            loader={messages && messages.length>0?(<div className="flex justify-center "><ClipLoader className="my-8" color="#818CF8" size={40} /> </div>):('')}
+                            loader={messages && messages.length!=0?(<div className="flex justify-center "><ClipLoader className="my-8" color="#818CF8" size={40} /> </div>):('')}
                           >
                             {messages?(
                               <div className="">

@@ -8,6 +8,7 @@ import ProfileAvatar from "../../../public/images/profile-avatar.png";
 import { SearchIcon } from "@heroicons/react/outline";
 import { Menu, Transition } from "@headlessui/react";
 import { DotsHorizontalIcon } from "@heroicons/react/solid";
+import { current } from "@reduxjs/toolkit";
 const Blocked = () => {
   const [User, setcurrentuser] = useState();
   const [member, setmember] = useState();
@@ -16,7 +17,7 @@ const Blocked = () => {
   if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore"); }
 
   // UnBlock
-  const UnBlock = (id) => {
+  const UnBlock = (id,check) => {
     const res = fetch(BLOCK_API + "/" + id, {
       method: "DELETE",
       headers: {
@@ -26,18 +27,13 @@ const Blocked = () => {
     })
       .then((resp) => resp.json())
       .then((result) => {
-        ShowBlocked();
+        if(check && check=="connection"){
         User_Connections();
+        }else{ShowBlocked();}
+        
       })
 
   }
-
-
-  useEffect(() => {
-    Current_User();
-    ShowBlocked();
-    User_Connections();
-  }, [])
   // Get All Blocked Connection
   const User_Connections = async () => {
     await fetch(GET_CONNECTIONS + "/blocked", {
@@ -51,7 +47,6 @@ const Blocked = () => {
       .then((result) => {
         if (result) {
           setUserConnections(result.data)
-          console.log("hello", result)
         }
       })
       .catch((err) => console.log(err));
@@ -65,26 +60,32 @@ const Blocked = () => {
     const response = await fetch(`${FOLLOW_USER_API}/blocked`, requestOptions);
     const data = await response.json();
     setmember(data.data);
-    console.log("blocked", data.data)
   }
   //current User
   const Current_User = async () => {
-    await fetch(CURENT_USER_LOGIN_API, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        Authorization: `${authKey}`,
-      },
-    })
-      .then((resp) => resp.json())
-      .then((result) => {
-        if (result) {
-          setcurrentuser(result.data);
-        }
-      })
-      .catch((err) => console.log(err));
+    var c = window.localStorage.getItem("currentuser");
+    var Details = JSON.parse(c);
+    // await fetch(CURENT_USER_LOGIN_API, {
+    //   method: "GET",
+    //   headers: {
+    //     Accept: "application/json",
+    //     Authorization: `${authKey}`,
+    //   },
+    // })
+    //   .then((resp) => resp.json())
+    //   .then((result) => {
+    //     if (result) {
+          setcurrentuser(Details);
+    //     }
+    //   })
+    //   .catch((err) => console.log(err));
   }
 
+  useEffect(() => {
+    Current_User();
+    ShowBlocked();
+    User_Connections();
+  }, [])
   return (
     <div className="mt-8">
       <div className="w-[620px] xl:w-[980px] lg:w-[710px] md:w-[780px] px-5 md:px-0 lg:px-0 xl:px-0">
@@ -184,7 +185,7 @@ const Blocked = () => {
                               <div className="flex items-start flex-col gap-2 border-1 bg-white rounded-xl p-3">
                                 <Menu.Item className="flex gap-1 -mt-2">
                                   <a
-                                    onClick={() => UnBlock(i.id)}
+                                    onClick={() => UnBlock(i.id, "")}
                                   >
                                     UnBlock Member
                                   </a>
@@ -254,7 +255,7 @@ const Blocked = () => {
                               <div className="flex items-start flex-col gap-2 border-1 bg-white rounded-xl p-3">
                                 <Menu.Item className="flex gap-1 -mt-2">
                                   <a
-                                    onClick={() => UnBlock(i.id)}
+                                    onClick={() => UnBlock(i.id, "")}
                                   >
                                     UnBlock Member
                                   </a>
@@ -331,7 +332,7 @@ const Blocked = () => {
                               <div className="flex items-start flex-col gap-2 border-1 bg-white rounded-xl p-3">
                                 <Menu.Item className="flex gap-1 -mt-2">
                                   <a
-                                    onClick={() => UnBlock(i.id)}
+                                    onClick={() => UnBlock(i.id, "connection")}
                                   >
                                     UnBlock Member
                                   </a>
@@ -401,7 +402,7 @@ const Blocked = () => {
                               <div className="flex items-start flex-col gap-2 border-1 bg-white rounded-xl p-3">
                                 <Menu.Item className="flex gap-1 -mt-2">
                                   <a
-                                    onClick={() => UnBlock(i.id)}
+                                    onClick={() => UnBlock(i.id, "connection")}
                                   >
                                     UnBlock Member
                                   </a>

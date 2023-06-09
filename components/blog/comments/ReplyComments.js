@@ -67,22 +67,23 @@ const ReplyComments = (props) => {
 
 
   const Current_User = async () => {
+    var c = window.localStorage.getItem("currentuser");
+    var Details =JSON.parse(c);
+    // await fetch(CURENT_USER_LOGIN_API, {
+    //   method: "GET",
+    //   headers: {
+    //     Accept: "application/json",
+    //     Authorization: `${authKey}`,
+    //   },
+    // })
+    //   .then((resp) => resp.json())
+    //   .then((result) => {
+    //     if (result) {
 
-    await fetch(CURENT_USER_LOGIN_API, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        Authorization: `${authKey}`,
-      },
-    })
-      .then((resp) => resp.json())
-      .then((result) => {
-        if (result) {
-
-          setCurrentUser(result.data.id);
-        }
-      })
-      .catch((err) => console.log(err));
+          setCurrentUser(Details.id);
+    //     }
+    //   })
+    //   .catch((err) => console.log(err));
   }
   // Edit Comment Input Field Show
   function editComment(commentId, body) {

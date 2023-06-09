@@ -36,25 +36,26 @@ const TabContactProfile = () => {
   }
   //current User
   const Current_User=async()=>{    
-   
-    await fetch(CURENT_USER_LOGIN_API, {
-      method: "GET",
-       headers: {
-        Accept: "application/json", 
-         Authorization: `${authKey}`,
-       },
-    })
-       .then((resp) => resp.json())
-      .then((result) => {
-        if (result) {
-          setUserDetails(result.data);  
-          //console.log("Current Userskdgvs",result.data.id)
-          setUseremail(result.data.email)
-          setUserphone(result.data.phone_number)
-          setUserDOB(result.data.DOB)
-        }
-      })
-      .catch((err) => console.log(err)); 
+    var c = window.localStorage.getItem("currentuser");
+    var Details =JSON.parse(c);
+    // await fetch(CURENT_USER_LOGIN_API, {
+    //   method: "GET",
+    //    headers: {
+    //     Accept: "application/json", 
+    //      Authorization: `${authKey}`,
+    //    },
+    // })
+    //    .then((resp) => resp.json())
+    //   .then((result) => {
+    //     if (result) {
+          setUserDetails(Details);  
+    //       //console.log("Current Userskdgvs",result.data.id)
+          setUseremail(Details.email)
+          setUserphone(Details.phone_number)
+          setUserDOB(Details.DOB)
+    //     }
+    //   })
+    //   .catch((err) => console.log(err)); 
   }
   const Update_contact_info=async()=>{    
   
@@ -68,9 +69,11 @@ const TabContactProfile = () => {
        .then((resp) => resp.json())
       .then((result) => {
         if (result) {
+          const currentuserSting = JSON.stringify(result.data);     // convert json into string
+          localStorage.setItem("currentuser", currentuserSting);    // save currentuser in localstorage as string        
           closeModal();
           setUserDetails(result.data);  
-          //console.log("Curhngnrent",result.data)
+          // console.log("Curhngnrent",result.data)
           setUseremail(result.data.email)
           setUserphone(result.data.phone_number)
           setUserDOB(result.data.DOB)

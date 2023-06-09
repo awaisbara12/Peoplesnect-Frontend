@@ -50,21 +50,23 @@ const NewsPostProfile = (setList) => {
   if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore"); }
   // Current User
   const Current_User = async () => {
-    await fetch(CURENT_USER_LOGIN_API, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        Authorization: `${authKey}`,
-      },
-    })
-      .then((resp) => resp.json())
-      .then((result) => {
-        if (result) {
-          setUserDetails(result.data);
+    var c = window.localStorage.getItem("currentuser");
+    var Details =JSON.parse(c);
+    // await fetch(CURENT_USER_LOGIN_API, {
+    //   method: "GET",
+    //   headers: {
+    //     Accept: "application/json",
+    //     Authorization: `${authKey}`,
+    //   },
+    // })
+    //   .then((resp) => resp.json())
+    //   .then((result) => {
+    //     if (result) {
+          setUserDetails(Details);
           //console.log("Current Userss",result.data)
-        }
-      })
-      .catch((err) => console.log(err));
+      //   }
+      // })
+      // .catch((err) => console.log(err));
   }
   const handleImageSelect = (e) => {
     setEventCoverImage(e.target.files[0]);

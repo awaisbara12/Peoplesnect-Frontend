@@ -18,14 +18,7 @@ import { CalendarIcon, ChevronRightIcon } from "@heroicons/react/solid";
 import { Popover, Transition } from "@headlessui/react";
 import Link from "next/link";
 import ProfileAvatar from "../../../../public/images/profile-avatar.png";
-
 import PagePhoto from "../../../../public/images/752126.jpg";
-import PostImage from "../../../../public/images/post-image.png";
-// import PostComments from "../comments/PostComments";
-// import FilterComments from "../comments/FilterComments";
-// import ReplyComments from "../comments/ReplyComments";
-
-
 import PostComments from "../../../profile/comments/PostComments";
 import FilterComments from "../../../profile/comments/FilterComments";
 import ReplyComments from "../../../profile/comments/ReplyComments";
@@ -33,16 +26,11 @@ import axios from "axios";
 import {
   BOOKMARK_NEWSFEED_API_KEY,
   REACTION_NEWSFEED_API_KEY,
-  COMMENT_API_KEY,
   NEWSFEED_COMMENT_POST_KEY,
-  CURENT_USER_LOGIN_API,
-  GROUP_API,
   REPORT_API,
 } from "../../../../pages/config";
 import App from "../newspost/App";
-import HashtagMentionInput from "../newspost/HashtagMentionInput";
 import ShareModal from "./ShareModal";
-// import Spinner from "../../../common/Spinner";
 
 const cardDropdown = [
   {
@@ -81,7 +69,7 @@ const NewsFeedSingle = (singleItem) => {
   const [is_deleted, setIs_deleted] = useState(0);
   const [loading, setLoading] = useState(true);
   const [nextPage, setNextPage] = useState('');
-  const [CurrentUser, setCurrentUser] = useState();
+  const [CurrentUser, setCurrentUser] = useState(singleItem.user);
   const [postText, setPostText] = useState("");
   let [isOpen, setIsOpen] = useState(false);
   const [tags, settags] = useState([]);
@@ -89,12 +77,11 @@ const NewsFeedSingle = (singleItem) => {
   const [hashtaged, setHashtaged] = useState([]);
   let [hastags, sethastags] = useState();
 
-
-
   const [admins, setadmins] = useState();
-  // console.log("items = >",items)
   // Bareer key
-  if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore"); }
+  if (typeof window !== "undefined") { 
+    var authKey = window.localStorage.getItem("keyStore");
+  }
   // copy link to clipboard
   const copylink = (postid) => {
     const links = window.location.href        // get Full Link
@@ -194,20 +181,25 @@ const NewsFeedSingle = (singleItem) => {
   }
 
   const Current_User = async () => {
-    await fetch(CURENT_USER_LOGIN_API, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        Authorization: `${authKey}`,
-      },
-    })
-      .then((resp) => resp.json())
-      .then((result) => {
-        if (result) {
-          setCurrentUser(result.data);
-        }
-      })
-      .catch((err) => console.log(err));
+    var c = window.localStorage.getItem("currentuser");
+    var Details =JSON.parse(c);
+    // await fetch(CURENT_USER_LOGIN_API, {
+    //   method: "GET",
+    //   headers: {
+    //     Accept: "application/json",
+    //     Authorization: `${authKey}`,
+    //   },
+    // })
+    //   .then((resp) => resp.json())
+    //   .then((result) => {
+    //     if (result) {
+          setCurrentUser(Details);
+    //     }
+    //   })
+    //   .catch((err) => console.log(err));
+
+   
+
   }
 
   function createReport(feedId) {
@@ -675,373 +667,368 @@ const NewsFeedSingle = (singleItem) => {
               </a>
             </Link>
           ) : (
-            ""
-          )}
-          {items.feed_type && items.feed_type === "video_feed" ? (
-            <Link
-              href={{
-                pathname: "/events-design/event-view",
-                query: items.id,
-              }} >
-              <a>
-                <video controls className="aspect-video w-full rounded-xl my-4">
-                  <source src={items.attachments_link} type="video/mp4" />
-                </video>
-              </a>
-            </Link>
-          ) : (
-            ""
-          )}
-          {items.attachments_link && items.feed_type === "image_feed" ? (
-            <Link
-              href={{
-                pathname: "/events-design/event-view",
-                query: items.id,
-              }} >
-              <a>
-                <div className="mt-[14px]">
-                  <img
-                    src={items.attachments_link}
-                    width={952}
-                    height="auto"
-                    layout="responsive"
-                    className="object-cover rounded-lg mx-auto h-auto"
-                    alt=""
-                  />
-                </div>
-              </a>
-            </Link>
-          ) : (
-            ""
-          )}
-
-          {items.feed_type && items.feed_type === "share" ? (
-            <div className="border p-4 m-2">
-              <div className="flex gap-2 items-center">
-
-                {items && items.share.page ? (
-                  items.share.page.display_photo_url ? (
-                    <Link href={{ pathname: "/page-design/suggested-pages", query: items.share.page.id, }}>
-                      <a>
-                        <img
-                          src={items.share.page.display_photo_url}
-                          className="object-cover rounded-full h-[42px] w-[42px]"
-                          width={45}
-                          height={45}
-                          alt=""
-                        />
-                      </a>
-                    </Link>
-                  ) : (
-                    <Link href={{ pathname: "/page-design/suggested-pages", query: items.share.page.id, }}>
-                      <a>
-                        <Image
-                          src={PagePhoto}
-                          className="object-cover rounded-full h-[42px] w-[42px]"
-                          width={45}
-                          height={45}
-                          alt=""
-                        />
-                      </a>
-                    </Link>
-                  )
-                ) : (
-                  items && items.share.user && items.share.user.display_photo_url ? (
-                    CurrentUser && CurrentUser.id == items.share.user.id ? (
-                      <Link href="/profile">
-                        <a>
-                          <img
-                            src={items.share.user.display_photo_url}
-                            className="object-cover rounded-full h-[42px] w-[42px]"
-                            width={45}
-                            height={45}
-                            alt=""
-                          />
-                        </a>
-                      </Link>
-                    ) : (
-                      <Link href={{ pathname: "/User-Profile", query: items.share.user.id, }}>
-                        <a>
-                          <img
-                            src={items.share.user.display_photo_url}
-                            className="object-cover rounded-full h-[42px] w-[42px]"
-                            width={45}
-                            height={45}
-                            alt=""
-                          />
-                        </a>
-                      </Link>
-                    )
-                  ) : (
-                    CurrentUser && CurrentUser.id == items.share.user.id ? (
-                      <Link href="/profile">
-                        <a>
-                          <Image
-                            src={ProfileAvatar}
-                            width={45}
-                            height={45}
-                            alt=""
-                          />
-                        </a>
-                      </Link>
-                    ) : (
-                      <Link href={{ pathname: "/User-Profile", query: items.share.user.id, }}>
-                        <a>
-                          <Image
-                            src={ProfileAvatar}
-                            width={45}
-                            height={45}
-                            alt=""
-                          />
-                        </a>
-                      </Link>
-                    )
-
-                  )
-                )}
-
-                <div>
-                  {items.share.page ? (
-                    <>
-                      <Link href={{ pathname: "/page-design/suggested-pages", query: items.share.page.id, }}>
-                        <a>
-                          <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
-
-                            <div className="capitalize">{items.share.page.name}</div>
-                          </h4>
-                          <div className="font-light text-gray-900 opacity-[0.8] italic">  Page Post</div>
-                        </a>
-                      </Link>
-                    </>
-
-                  ) : (
-                    items.share.group ? (
-                      <>
-                        <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
-                          {CurrentUser && CurrentUser.id == items.share.user.id ? (
+            items.feed_type && items.feed_type === "video_feed" ? (
+              <Link
+                href={{
+                  pathname: "/events-design/event-view",
+                  query: items.id,
+                }} >
+                <a>
+                  <video controls className="aspect-video w-full rounded-xl my-4">
+                    <source src={items.attachments_link} type="video/mp4" />
+                  </video>
+                </a>
+              </Link>
+            ) : (
+              items.attachments_link && items.feed_type === "image_feed" ? (
+                <Link
+                  href={{
+                    pathname: "/events-design/event-view",
+                    query: items.id,
+                  }} >
+                  <a>
+                    <div className="mt-[14px]">
+                      <img
+                        src={items.attachments_link}
+                        width={952}
+                        height="auto"
+                        layout="responsive"
+                        className="object-cover rounded-lg mx-auto h-auto"
+                        alt=""
+                      />
+                    </div>
+                  </a>
+                </Link>
+              ) : (
+                items.feed_type && items.feed_type === "share" ? (
+                  <div className="border p-4 m-2">
+                    <div className="flex gap-2 items-center">
+      
+                      {items && items.share.page ? (
+                        items.share.page.display_photo_url ? (
+                          <Link href={{ pathname: "/page-design/suggested-pages", query: items.share.page.id, }}>
+                            <a>
+                              <img
+                                src={items.share.page.display_photo_url}
+                                className="object-cover rounded-full h-[42px] w-[42px]"
+                                width={45}
+                                height={45}
+                                alt=""
+                              />
+                            </a>
+                          </Link>
+                        ) : (
+                          <Link href={{ pathname: "/page-design/suggested-pages", query: items.share.page.id, }}>
+                            <a>
+                              <Image
+                                src={PagePhoto}
+                                className="object-cover rounded-full h-[42px] w-[42px]"
+                                width={45}
+                                height={45}
+                                alt=""
+                              />
+                            </a>
+                          </Link>
+                        )
+                      ) : (
+                        items && items.share.user && items.share.user.display_photo_url ? (
+                          CurrentUser && CurrentUser.id == items.share.user.id ? (
                             <Link href="/profile">
                               <a>
-                                {items.share.user.first_name} {items.share.user.last_name}
+                                <img
+                                  src={items.share.user.display_photo_url}
+                                  className="object-cover rounded-full h-[42px] w-[42px]"
+                                  width={45}
+                                  height={45}
+                                  alt=""
+                                />
                               </a>
                             </Link>
                           ) : (
                             <Link href={{ pathname: "/User-Profile", query: items.share.user.id, }}>
                               <a>
-                                {items.share.user.first_name} {items.share.user.last_name}
+                                <img
+                                  src={items.share.user.display_photo_url}
+                                  className="object-cover rounded-full h-[42px] w-[42px]"
+                                  width={45}
+                                  height={45}
+                                  alt=""
+                                />
                               </a>
                             </Link>
-                          )}
-                          <ChevronRightIcon
-                            width={24}
-                            height={24}
-                            className="text-indigo-400"
-                          />
-                          <Link href={{ pathname: "/group-page/joind-group", query: items.share.group.id, }}>
-                            <a>
-                              <div className="capitalize">{items.share.group.title}</div>
-                            </a>
-                          </Link>
-                        </h4>
-                        <div className="font-light text-gray-900 opacity-[0.8] italic">Group Post</div>
-
-                      </>
-                    ) : (
-                      <>
-                        {CurrentUser && CurrentUser.id == items.user.id ? (
-                          <Link href="/profile">
-                            <a>
+                          )
+                        ) : (
+                          CurrentUser && CurrentUser.id == items.share.user.id ? (
+                            <Link href="/profile">
+                              <a>
+                                <Image
+                                  src={ProfileAvatar}
+                                  width={45}
+                                  height={45}
+                                  alt=""
+                                />
+                              </a>
+                            </Link>
+                          ) : (
+                            <Link href={{ pathname: "/User-Profile", query: items.share.user.id, }}>
+                              <a>
+                                <Image
+                                  src={ProfileAvatar}
+                                  width={45}
+                                  height={45}
+                                  alt=""
+                                />
+                              </a>
+                            </Link>
+                          )
+      
+                        )
+                      )}
+      
+                      <div>
+                        {items.share.page ? (
+                          <>
+                            <Link href={{ pathname: "/page-design/suggested-pages", query: items.share.page.id, }}>
+                              <a>
+                                <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
+      
+                                  <div className="capitalize">{items.share.page.name}</div>
+                                </h4>
+                                <div className="font-light text-gray-900 opacity-[0.8] italic">  Page Post</div>
+                              </a>
+                            </Link>
+                          </>
+      
+                        ) : (
+                          items.share.group ? (
+                            <>
                               <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
-                                {items.share.user.first_name} {items.share.user.last_name}
-                                <BadgeCheckIcon
-                                  width={14}
-                                  height={14}
+                                {CurrentUser && CurrentUser.id == items.share.user.id ? (
+                                  <Link href="/profile">
+                                    <a>
+                                      {items.share.user.first_name} {items.share.user.last_name}
+                                    </a>
+                                  </Link>
+                                ) : (
+                                  <Link href={{ pathname: "/User-Profile", query: items.share.user.id, }}>
+                                    <a>
+                                      {items.share.user.first_name} {items.share.user.last_name}
+                                    </a>
+                                  </Link>
+                                )}
+                                <ChevronRightIcon
+                                  width={24}
+                                  height={24}
                                   className="text-indigo-400"
                                 />
+                                <Link href={{ pathname: "/group-page/joind-group", query: items.share.group.id, }}>
+                                  <a>
+                                    <div className="capitalize">{items.share.group.title}</div>
+                                  </a>
+                                </Link>
                               </h4>
-                              <div className="font-light text-gray-900 opacity-[0.8]">
-                                {items.share.user.city ? items.share.user.city + ", " : ""}{items.share.user.state ? items.share.user.state + ", " : ""} {items.share.user.country}
-                              </div>
-                            </a>
-                          </Link>
-                        ) : (
-                          <Link href={{ pathname: "/User-Profile", query: items.share.user.id, }}>
-                            <a>
-                              <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
-                                {items.share.user.first_name} {items.share.user.last_name}
-                                <BadgeCheckIcon
-                                  width={14}
-                                  height={14}
-                                  className="text-indigo-400"
-                                />
-                              </h4>
-                              <div className="font-light text-gray-900 opacity-[0.8]">
-                                {items.share.user.city ? items.share.user.city + ", " : ""}{items.share.user.state ? items.share.user.state + ", " : ""} {items.share.user.country}
-                              </div>
-                            </a>
-                          </Link>
-                        )}
-
-                      </>
-                    )
-                  )}
-
-                </div>
-              </div>
-              <div className="p-2 pb-2">
-                {items.share.tags && items.share.tags.length > 0 || (items.share.hashtags && items.share.hashtags.length > 0) ?
-                  <App state={items.share.body} website={items.share.tags} hashtags={items.share.hashtags} />
-                  : <ReadMore>
-                    {items.share.body ? items.share.body : ""}
-                  </ReadMore>}
-              </div>
-              <div className="mt-[14px] mx-auto">
-                {items.share.event && items.share.event ? (
-                  <Link
-                    href={{
-                      pathname: "/events-design/event-view",
-                      query: items.id,
-                    }} >
-                    <a>
-                      <div className="rounded-xl bg-white border border-gray-100 my-2">
-                        {items.share.event.cover_photo_url ? (
-                          <img
-                            src={items.share.event.cover_photo_url}
-                            className="object-cover rounded-t-xl h-auto w-[952px]"
-                            alt=""
-                          />
-                        ) : (
-                          ""
-                        )}
-                        <div className="py-3 px-3">
-                          <div className="flex justify-between items-center">
-                            <div>
-                              {/* Date & Time */}
-                              <div className="text-red-400 text-sm">
-                                <span>{items.share.event.start_time}</span>
-                                <span>-{items.share.event.end_time}</span>&nbsp;
-                                <span>{items.share.event.start_date}</span>&nbsp;
-                              </div>
-                              {/* Name */}
-                              <div className="font-semibold text-lg">
-                                {items.share.event.name}
-                              </div>
-                              {/* Event-type */}
-                              <div className="flex items-center gap-2">
-                                <CalendarIcon
-                                  width={16}
-                                  height={16}
-                                  className="text-gray-900"
-                                />
-                                <span className="text-gray-900 text-sm">
-                                  {items.share.event.event_type}
-                                </span>
-                              </div>
-                              {items.share.event.event_type === "online" ? ('') : (
-                                <>
-                                  {/* Adress */}
-                                  {items.share.event.address ? (
-                                    <div className="flex items-center gap-2">
-                                      <CalendarIcon
-                                        width={16}
-                                        height={16}
-                                        className="text-gray-900"
+                              <div className="font-light text-gray-900 opacity-[0.8] italic">Group Post</div>
+      
+                            </>
+                          ) : (
+                            <>
+                              {CurrentUser && CurrentUser.id == items.user.id ? (
+                                <Link href="/profile">
+                                  <a>
+                                    <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
+                                      {items.share.user.first_name} {items.share.user.last_name}
+                                      <BadgeCheckIcon
+                                        width={14}
+                                        height={14}
+                                        className="text-indigo-400"
                                       />
-                                      <span className="text-gray-900 text-sm">
-                                        {items.share.event.address}
-                                      </span>
+                                    </h4>
+                                    <div className="font-light text-gray-900 opacity-[0.8]">
+                                      {items.share.user.city ? items.share.user.city + ", " : ""}{items.share.user.state ? items.share.user.state + ", " : ""} {items.share.user.country}
                                     </div>
-                                  ) : ('')}
-
-                                  {/* Venue */}
-                                  {items.share.event.venue ? (
-                                    <div className="flex items-center gap-2">
-                                      <CalendarIcon
-                                        width={16}
-                                        height={16}
-                                        className="text-gray-900"
+                                  </a>
+                                </Link>
+                              ) : (
+                                <Link href={{ pathname: "/User-Profile", query: items.share.user.id, }}>
+                                  <a>
+                                    <h4 className="flex gap-[6px] items-center font-medium text-gray-900 capitalize">
+                                      {items.share.user.first_name} {items.share.user.last_name}
+                                      <BadgeCheckIcon
+                                        width={14}
+                                        height={14}
+                                        className="text-indigo-400"
                                       />
-                                      <span className="text-gray-900 text-sm">
-                                        {items.share.event.venue}
-                                      </span>
+                                    </h4>
+                                    <div className="font-light text-gray-900 opacity-[0.8]">
+                                      {items.share.user.city ? items.share.user.city + ", " : ""}{items.share.user.state ? items.share.user.state + ", " : ""} {items.share.user.country}
                                     </div>
-                                  ) : ('')}
-
-                                </>
+                                  </a>
+                                </Link>
                               )}
-                              {/* Link */}
-                              <div className="text-gray-900 flex gap-2">
-                                <CalendarIcon
-                                  width={16}
-                                  height={16}
-                                  className="text-gray-900"
+      
+                            </>
+                          )
+                        )}
+      
+                      </div>
+                    </div>
+                    <div className="p-2 pb-2">
+                      {items.share.tags && items.share.tags.length > 0 || (items.share.hashtags && items.share.hashtags.length > 0) ?
+                        <App state={items.share.body} website={items.share.tags} hashtags={items.share.hashtags} />
+                        : <ReadMore>
+                          {items.share.body ? items.share.body : ""}
+                        </ReadMore>}
+                    </div>
+                    <div className="mt-[14px] mx-auto">
+                      {items.share.event && items.share.event ? (
+                        <Link
+                          href={{
+                            pathname: "/events-design/event-view",
+                            query: items.id,
+                          }} >
+                          <a>
+                            <div className="rounded-xl bg-white border border-gray-100 my-2">
+                              {items.share.event.cover_photo_url ? (
+                                <img
+                                  src={items.share.event.cover_photo_url}
+                                  className="object-cover rounded-t-xl h-auto w-[952px]"
+                                  alt=""
                                 />
-                                <span>{items.share.event.event_link}</span>
-                              </div>
-                              {/* Speaker */}
-                              <div className="text-gray-900">
-                                {items.share.event.tags && items.share.event.tags.length > 0 ?
-                                  <App state={items.share.event.speaker} website={items.share.event.tags} />
-                                  : items.share.event.body ? items.share.event.body : ""}
+                              ) : (
+                                ""
+                              )}
+                              <div className="py-3 px-3">
+                                <div className="flex justify-between items-center">
+                                  <div>
+                                    {/* Date & Time */}
+                                    <div className="text-red-400 text-sm">
+                                      <span>{items.share.event.start_time}</span>
+                                      <span>-{items.share.event.end_time}</span>&nbsp;
+                                      <span>{items.share.event.start_date}</span>&nbsp;
+                                    </div>
+                                    {/* Name */}
+                                    <div className="font-semibold text-lg">
+                                      {items.share.event.name}
+                                    </div>
+                                    {/* Event-type */}
+                                    <div className="flex items-center gap-2">
+                                      <CalendarIcon
+                                        width={16}
+                                        height={16}
+                                        className="text-gray-900"
+                                      />
+                                      <span className="text-gray-900 text-sm">
+                                        {items.share.event.event_type}
+                                      </span>
+                                    </div>
+                                    {items.share.event.event_type === "online" ? ('') : (
+                                      <>
+                                        {/* Adress */}
+                                        {items.share.event.address ? (
+                                          <div className="flex items-center gap-2">
+                                            <CalendarIcon
+                                              width={16}
+                                              height={16}
+                                              className="text-gray-900"
+                                            />
+                                            <span className="text-gray-900 text-sm">
+                                              {items.share.event.address}
+                                            </span>
+                                          </div>
+                                        ) : ('')}
+      
+                                        {/* Venue */}
+                                        {items.share.event.venue ? (
+                                          <div className="flex items-center gap-2">
+                                            <CalendarIcon
+                                              width={16}
+                                              height={16}
+                                              className="text-gray-900"
+                                            />
+                                            <span className="text-gray-900 text-sm">
+                                              {items.share.event.venue}
+                                            </span>
+                                          </div>
+                                        ) : ('')}
+      
+                                      </>
+                                    )}
+                                    {/* Link */}
+                                    <div className="text-gray-900 flex gap-2">
+                                      <CalendarIcon
+                                        width={16}
+                                        height={16}
+                                        className="text-gray-900"
+                                      />
+                                      <span>{items.share.event.event_link}</span>
+                                    </div>
+                                    {/* Speaker */}
+                                    <div className="text-gray-900">
+                                      {items.share.event.tags && items.share.event.tags.length > 0 ?
+                                        <App state={items.share.event.speaker} website={items.share.event.tags} />
+                                        : items.share.event.body ? items.share.event.body : ""}
+                                    </div>
+                                  </div>
+                                  <Link
+                                    href={{
+                                      pathname: "/events-design/event-view",
+                                      query: items.id,
+                                    }}
+                                  >
+                                    <a className="text-sm text-gray-600 cursor-pointer flex items-center border border-gray-100 rounded-full py-1 px-3">
+                                      View Event
+                                    </a>
+                                  </Link>
+                                </div>
                               </div>
                             </div>
-                            <Link
-                              href={{
-                                pathname: "/events-design/event-view",
-                                query: items.id,
-                              }}
-                            >
-                              <a className="text-sm text-gray-600 cursor-pointer flex items-center border border-gray-100 rounded-full py-1 px-3">
-                                View Event
-                              </a>
-                            </Link>
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </Link>
-                ) : (
-                  ""
-                )}
-                {items.share.feed_type && items.share.feed_type === "video_feed" ? (
-                  <Link
-                    href={{
-                      pathname: "/events-design/event-view",
-                      query: items.id,
-                    }} >
-                    <a>
-                      <video controls className="aspect-video w-full rounded-xl my-4">
-                        <source src={items.share.attachments_link} type="video/mp4" />
-                      </video>
-                    </a>
-                  </Link>
-                ) : (
-                  ""
-                )}
-                {items.share.attachments_link && items.share.feed_type === "image_feed" ? (
-                  <Link
-                    href={{
-                      pathname: "/events-design/event-view",
-                      query: items.id,
-                    }} >
-                    <a>
-                      <div className="mt-[14px]">
-                        <img
-                          src={items.share.attachments_link}
-                          width={952}
-                          height={240}
-                          layout="responsive"
-                          className="object-cover rounded-lg mx-auto h-auto"
-                          alt=""
-                        />
-                      </div>
-                    </a>
-                  </Link>
-                ) : (
-                  ""
-                )}
-              </div>
-            </div>) : ("")}
-
+                          </a>
+                        </Link>
+                      ) : (
+                        ""
+                      )}
+                      {items.share.feed_type && items.share.feed_type === "video_feed" ? (
+                        <Link
+                          href={{
+                            pathname: "/events-design/event-view",
+                            query: items.id,
+                          }} >
+                          <a>
+                            <video controls className="aspect-video w-full rounded-xl my-4">
+                              <source src={items.share.attachments_link} type="video/mp4" />
+                            </video>
+                          </a>
+                        </Link>
+                      ) : (
+                        ""
+                      )}
+                      {items.share.attachments_link && items.share.feed_type === "image_feed" ? (
+                        <Link
+                          href={{
+                            pathname: "/events-design/event-view",
+                            query: items.id,
+                          }} >
+                          <a>
+                            <div className="mt-[14px]">
+                              <img
+                                src={items.share.attachments_link}
+                                width={952}
+                                height={240}
+                                layout="responsive"
+                                className="object-cover rounded-lg mx-auto h-auto"
+                                alt=""
+                              />
+                            </div>
+                          </a>
+                        </Link>
+                      ) : (
+                        ""
+                      )}
+                    </div>
+                </div>) : ("")
+              )
+            )
+          )}
           <div className="flex justify-between mt-[14px]">
             <div className="flex gap-6">
               <div className="flex gap-2 items-center">
@@ -1125,10 +1112,10 @@ const NewsFeedSingle = (singleItem) => {
 
           <Fragment>
             {CurrentUser && items && items.page && items.page.can_comment != "all_member" && (CurrentUser.id != items.page.user_id) ? ('') : (
-              <PostComments news_feed_id={items.id} setComments={setComments} setComments_count={setComments_count} setIs_deleted={setIs_deleted} dp={items.user.display_photo_url} />
+              <PostComments news_feed_id={items.id} setComments={setComments} setComments_count={setComments_count} setIs_deleted={setIs_deleted} dp={CurrentUser.display_photo_url} />
             )}
             <FilterComments news_feed_id={items.id} comments={comments.data} setComments_count={setComments_count} setComments={setComments} next_page={nextPage} setNextPage={setNextPage} />
-            {!loading && <ReplyComments news_feed_id={items.id} comments={comments.data} comments_count={comments_count} setComments_count={setComments_count} setComments={setComments} setIs_deleted={setIs_deleted} items={items} />}
+            {!loading && <ReplyComments news_feed_id={items.id} comments={comments.data} comments_count={comments_count} setComments_count={setComments_count} setComments={setComments} setIs_deleted={setIs_deleted} items={items} user={CurrentUser} />}
           </Fragment>
         </div>
 

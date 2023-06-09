@@ -111,90 +111,19 @@ function MyNetwork() {
           </div>
           {userConnections? (
             userConnections.map((user) => 
-              { 
-                if( user.sender && user.receiver && userDetails.id!=user.sender.id)
-                {
-                  return(
-                    <div className="border-b-1" key={user.id}>
-                      <div className="request-profile flex  px-4 py-3 justify-between items-center">
-                      <Link 
-                            href={{
-                              pathname: "/User-Profile/",
-                              query: user.sender.id, // the data
-                      }}>
-                      <a>
-                        <div className="flex items-center gap-3">
-                              {user.sender && user.sender.display_photo_url?(
-                                  <img
-                                    src={user.sender.display_photo_url}
-                                    className="object-cover rounded-full z-40 h-[35px] w-[35px]"
-                                    alt=""
-                                  />
-                                ):(
-                                  <Image
-                                    src={ProfileAvatar}
-                                    width={35}
-                                    height={35}
-                                    className="object-cover rounded-full z-40"
-                                    placeholder="empty"
-                                    alt="profile-image"
-                                  />
-                                )
-                              }
-                              {/* <Image src={ProfileAvatar} width={35} height={35} alt="" /> */}
-                          
-                          <div className="">
-                              <div className="username text-sm font-bold capitalize">{user.sender.first_name} {user.sender.last_name}</div>
-                              <div className="userfield text-xs capitalize">{user.sender.city},{user.sender.country}</div>
-                              {/* <div className="mutual-followers text-xs">
-                                Matual Friends +3
-                              </div> */}
-                          </div>
-                        </div>
-                      </a>
-                      </Link> 
-                        <div className="Request-button flex items-center gap-2">
-                        <Link 
-                            href={{
-                              pathname: "/messaging-design/",
-                              query: user.sender.id, // the data
-                            }}
-                        >
-                          <a>
-                          <button className="border-1 border-indigo-400 rounded-full text-indigo-400 px-3 py-1 hover:bg-indigo-400 hover:text-white">
-                            Message
-                          </button>
-                          </a>
-                        </Link>
-                          <button className="text-gray-600 border-1 border-gray-600 rounded-full px-3 py-1 hover:bg-gray-600 hover:text-white"
-                            onClick={()=>RemoveConnection(user.sender.id)} >
-                            Remove
-                          </button>
-                          <button className="text-gray-600 border-1 border-gray-600 rounded-full px-3 py-1 hover:bg-gray-600 hover:text-white"
-                            onClick={()=>Block(user.id, user.sender.id,"Connection")} >
-                            Block
-                          </button>
-                        </div>
-                      
-                      </div>
-                    </div>
-                  )
-                }
-                else if(user.sender && user.receiver)
-                {
-                  return(
-                    <div className="border-b-1" key={user.id}>
-                      <div className="request-profile flex  px-4 py-3 justify-between items-center">
-                      <Link 
-                            href={{
-                              pathname: "/User-Profile/",
-                              query: user.receiver.id, // the data
-                      }}>
-                      <a>
-                        <div className="flex items-center gap-3">
-                          {user.sender && user.receiver.display_photo_url?(
+              (
+                <div className="border-b-1" key={user.id}>
+                  <div className="request-profile flex  px-4 py-3 justify-between items-center">
+                  <Link 
+                        href={{
+                          pathname: "/User-Profile/",
+                          query: user.id, // the data
+                  }}>
+                  <a>
+                    <div className="flex items-center gap-3">
+                          {user && user.display_photo_url?(
                               <img
-                                src={user.receiver.display_photo_url}
+                                src={user.display_photo_url}
                                 className="object-cover rounded-full z-40 h-[35px] w-[35px]"
                                 alt=""
                               />
@@ -209,44 +138,111 @@ function MyNetwork() {
                               />
                             )
                           }
-                          <div className="">
-                              <div className="username text-sm font-bold capitalize">{user.receiver.first_name} {user.receiver.last_name}</div>
-                              <div className="userfield text-xs capitalize">{user.receiver.city},{user.receiver.country}</div>
-                              {/* <div className="mutual-followers text-xs">
-                                Matual Friends +3
-                              </div> */}
-                          </div>
-                        </div>
-                      </a>
-                      </Link> 
-                        <div className="Request-button flex items-center gap-2">
-                        <Link 
-                            href={{
-                              pathname: "/messaging-design/",
-                              query: user.receiver.id, // the data
-                            }}
-                        >
-                          <a>
-                          <button className="border-1 border-indigo-400 rounded-full text-indigo-400 px-3 py-1 hover:bg-indigo-400 hover:text-white">
-                            Message
-                          </button>
-                          </a>
-                        </Link>
-                          <button className="text-gray-600 border-1 border-gray-600 rounded-full px-3 py-1 hover:bg-gray-600 hover:text-white"
-                            onClick={()=>RemoveConnection(user.receiver.id)} >
-                            Remove
-                          </button>
-                          <button className="text-gray-600 border-1 border-gray-600 rounded-full px-3 py-1 hover:bg-gray-600 hover:text-white"
-                            onClick={()=>Block(user.id, user.receiver.id,"Connection")} >
-                            Block
-                          </button>
-                        </div>
+                          {/* <Image src={ProfileAvatar} width={35} height={35} alt="" /> */}
                       
+                      <div className="">
+                          <div className="username text-sm font-bold capitalize">{user.first_name} {user.last_name}</div>
+                          <div className="userfield text-xs capitalize">{user.city?<>{user.city}, </>:""}{user.state?<>{user.state}, </>:""}{user.country?<>{user.country}</>:""}</div>
+                          {/* <div className="mutual-followers text-xs">
+                            Matual Friends +3
+                          </div> */}
                       </div>
                     </div>
-                  )
-                }
-              }
+                  </a>
+                  </Link> 
+                    <div className="Request-button flex items-center gap-2">
+                    <Link 
+                        href={{
+                          pathname: "/messaging-design/",
+                          query: user.id, // the data
+                        }}
+                    >
+                      <a>
+                      <button className="border-1 border-indigo-400 rounded-full text-indigo-400 px-3 py-1 hover:bg-indigo-400 hover:text-white">
+                        Message
+                      </button>
+                      </a>
+                    </Link>
+                      <button className="text-gray-600 border-1 border-gray-600 rounded-full px-3 py-1 hover:bg-gray-600 hover:text-white"
+                        onClick={()=>RemoveConnection(user.id)} >
+                        Remove
+                      </button>
+                      <button className="text-gray-600 border-1 border-gray-600 rounded-full px-3 py-1 hover:bg-gray-600 hover:text-white"
+                        onClick={()=>Block(user.id, user.id,"Connection")} >
+                        Block
+                      </button>
+                    </div>
+                  
+                  </div>
+                </div>
+              )
+                // else if(user.sender && user.receiver)
+                // {
+                //   return(
+                //     <div className="border-b-1" key={user.id}>
+                //       <div className="request-profile flex  px-4 py-3 justify-between items-center">
+                //       <Link 
+                //             href={{
+                //               pathname: "/User-Profile/",
+                //               query: user.receiver.id, // the data
+                //       }}>
+                //       <a>
+                //         <div className="flex items-center gap-3">
+                //           {user.sender && user.receiver.display_photo_url?(
+                //               <img
+                //                 src={user.receiver.display_photo_url}
+                //                 className="object-cover rounded-full z-40 h-[35px] w-[35px]"
+                //                 alt=""
+                //               />
+                //             ):(
+                //               <Image
+                //                 src={ProfileAvatar}
+                //                 width={35}
+                //                 height={35}
+                //                 className="object-cover rounded-full z-40"
+                //                 placeholder="empty"
+                //                 alt="profile-image"
+                //               />
+                //             )
+                //           }
+                //           <div className="">
+                //               <div className="username text-sm font-bold capitalize">{user.receiver.first_name} {user.receiver.last_name}</div>
+                //               <div className="userfield text-xs capitalize">{user.receiver.city},{user.receiver.country}</div>
+                //               {/* <div className="mutual-followers text-xs">
+                //                 Matual Friends +3
+                //               </div> */}
+                //           </div>
+                //         </div>
+                //       </a>
+                //       </Link> 
+                //         <div className="Request-button flex items-center gap-2">
+                //         <Link 
+                //             href={{
+                //               pathname: "/messaging-design/",
+                //               query: user.receiver.id, // the data
+                //             }}
+                //         >
+                //           <a>
+                //           <button className="border-1 border-indigo-400 rounded-full text-indigo-400 px-3 py-1 hover:bg-indigo-400 hover:text-white">
+                //             Message
+                //           </button>
+                //           </a>
+                //         </Link>
+                //           <button className="text-gray-600 border-1 border-gray-600 rounded-full px-3 py-1 hover:bg-gray-600 hover:text-white"
+                //             onClick={()=>RemoveConnection(user.receiver.id)} >
+                //             Remove
+                //           </button>
+                //           <button className="text-gray-600 border-1 border-gray-600 rounded-full px-3 py-1 hover:bg-gray-600 hover:text-white"
+                //             onClick={()=>Block(user.id, user.receiver.id,"Connection")} >
+                //             Block
+                //           </button>
+                //         </div>
+                      
+                //       </div>
+                //     </div>
+                //   )
+                // }
+              
             )
           ):('')}
           

@@ -74,6 +74,8 @@ const ProfileTopCard = () => {
       .then((resp) => resp.json())
       .then((result) => {
         if (result) {
+          const currentuserSting = JSON.stringify(result.data);     // convert json into string
+          localStorage.setItem("currentuser", currentuserSting);
           setUserDetails(result.data);
           setcoverimage(result.data.cover_photo_url);
           setprofileimage(result.data.display_photo_url);
@@ -97,6 +99,9 @@ const ProfileTopCard = () => {
         if (result) {
           if(a=="cover_photo"){setImage("");}
           else{setcoverpreview("");}
+          
+          const currentuserSting = JSON.stringify(result.data);     // convert json into string
+          localStorage.setItem("currentuser", currentuserSting);
           Current_User();
         }
       })
@@ -113,23 +118,24 @@ const ProfileTopCard = () => {
 
   //current User
   const Current_User = async () => {
-
-    await fetch(CURENT_USER_LOGIN_API, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        Authorization: `${authKey}`,
-      },
-    })
-      .then((resp) => resp.json())
-      .then((result) => {
-        if (result) {
-          setUserDetails(result.data);
-          setcoverimage(result.data.cover_photo_url);
-          setprofileimage(result.data.display_photo_url);
-        }
-      })
-      .catch((err) => console.log(err));
+    var c = window.localStorage.getItem("currentuser");
+    var Details =JSON.parse(c);
+    // await fetch(CURENT_USER_LOGIN_API, {
+    //   method: "GET",
+    //   headers: {
+    //     Accept: "application/json",
+    //     Authorization: `${authKey}`,
+    //   },
+    // })
+    //   .then((resp) => resp.json())
+    //   .then((result) => {
+    //     if (result) {
+          setUserDetails(Details);
+          setcoverimage(Details.cover_photo_url);
+          setprofileimage(Details.display_photo_url);
+      //   }
+      // })
+      // .catch((err) => console.log(err));
   }
   useEffect(() => {
     Current_User();

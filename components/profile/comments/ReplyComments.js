@@ -49,12 +49,10 @@ const ReplyComments = (props) => {
   const [editCommentId, setCommentId] = useState("");
   const [is_heart, setIsHeart] = useState(false);
   const [postText, setPostText] = useState("");
-  const [currentUser, setCurrentUser] = useState();
+  const [currentUser, setCurrentUser] = useState(props.user);
   const [postImage, setPostImage] = useState([]);
   const [C_postImagePreview, setC_postImagePreview] = useState([]);
   const [mediaType, setmediaType] = useState();
-
-
   const [chosenEmoji, setChosenEmoji] = useState(false);
   const [tags, settags] = useState([]);
   const [mentioned, setMentioned] = useState([]);
@@ -82,23 +80,24 @@ const ReplyComments = (props) => {
   }
 
   const Current_User = async () => {
+    var c = window.localStorage.getItem("currentuser");
+    var Details =JSON.parse(c);
+    // await fetch(CURENT_USER_LOGIN_API, {
+    //   method: "GET",
+    //   headers: {
+    //     Accept: "application/json",
+    //     Authorization: `${authKey}`,
+    //   },
+    // })
+    //   .then((resp) => resp.json())
+    //   .then((result) => {
+    //     if (result) {
 
-    await fetch(CURENT_USER_LOGIN_API, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        Authorization: `${authKey}`,
-      },
-    })
-      .then((resp) => resp.json())
-      .then((result) => {
-        if (result) {
-
-          setCurrentUser(result.data.id);
-          // console.log("user",result.data.id)
-        }
-      })
-      .catch((err) => console.log(err));
+          setCurrentUser(Details.id);
+    //       // console.log("user",result.data.id)
+    //     }
+    //   })
+    //   .catch((err) => console.log(err));
   }
   // Edit Comment Input Field Show
   function editComment(commentId, body) {

@@ -18,9 +18,10 @@ import {
 import {
   ChevronDownIcon,
 } from "@heroicons/react/outline";
-import TopNavbarSearch from "./TopNavbarSearch ";
+// import TopNavbarSearch from "./TopNavbarSearch ";
 import {CONVERSATION_API, CURENT_USER_LOGIN_API, GET_NOTIFICATIONS, WS_PUBLIC_API} from "../../../pages/config";
 import { useRouter } from "next/router";
+import TopNavbarMarketplaceSearch from "./TopNavbarMarketplaceSearch";
 
 
 const TopNavbar = () => {
@@ -148,7 +149,7 @@ const TopNavbar = () => {
               </a>
             </Link>
           </div>
-          <TopNavbarSearch />
+        <TopNavbarMarketplaceSearch />
         </div>
         <ul className="">
           <div className="flex items-center gap-4 lg:gap-6 md:gap-5">

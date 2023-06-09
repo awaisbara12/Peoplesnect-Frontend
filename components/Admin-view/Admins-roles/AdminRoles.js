@@ -99,6 +99,7 @@ const AdminRoles = () => {
       const result = await res;
       if(result){
         if(result.data.data.role =="user"){
+
           document.getElementById(`user-${userId}`).classList.add("hidden");
         }else{
           const updatedUser = result.data.data;

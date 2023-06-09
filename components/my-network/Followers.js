@@ -33,6 +33,7 @@ const Followers = (props) => {
     };
     const response = await fetch(`${FOLLOW_USER_API}/${userId}`,requestOptions);
     const data = await response.json();
+   
     setfollower(data.data);
     ShowFollowing();
   }
@@ -81,108 +82,106 @@ const Followers = (props) => {
 
           {follower ?(
             follower.map((i)=>(
-              i.follower?(
-            <div className="border-b-1" key={i.id}>
-            <div className="Followings-profile flex  px-4 py-10 justify-between items-center">
-              <div className="flex items-center gap-3">
-                {i.follower.display_photo_url?(
-                   <Link 
-                   href={{
-                    pathname: "/User-Profile",
-                    query: i.follower.id}}>
-                   <a>
-                     <img 
-                     src={i.follower.display_photo_url}
-                     className="object-cover rounded-full z-40 h-[35px] w-[35px]"        
-                    
-                     width={35} 
-                     height={35} 
-                     alt="" />
-                   </a>
-                   </Link>
-                ):(
-                   <Link href={{
-                    pathname: "/User-Profile",
-                    query: i.follower.id}}>
-                   <a>
-                     <Image 
-                     src={ProfileAvatar}
-                     width={35} 
-                     height={35} 
-                     alt="" />
-                   </a>
-                   </Link>
-                )}
-               
-                <div className="">
-                 <Link href={{
-                    pathname: "/User-Profile",
-                    query: i.follower.id}}>
+              <div className="border-b-1" key={i.id}>
+              <div className="Followings-profile flex  px-4 py-10 justify-between items-center">
+                <div className="flex items-center gap-3">
+                  {i.display_photo_url?(
+                    <Link 
+                    href={{
+                      pathname: "/User-Profile",
+                      query: i.id}}>
                     <a>
-                      <div className="username text-sm font-bold capitalize">{i.follower.first_name} {i.follower.last_name}</div>
-                      <div className="userfield text-xs capitalize">{i.follower.city}, {i.follower.country}</div>
+                      <img 
+                      src={i.display_photo_url}
+                      className="object-cover rounded-full z-40 h-[35px] w-[35px]"        
+                      
+                      width={35} 
+                      height={35} 
+                      alt="" />
                     </a>
-                  </Link>
+                    </Link>
+                  ):(
+                    <Link href={{
+                      pathname: "/User-Profile",
+                      query: i.id}}>
+                    <a>
+                      <Image 
+                      src={ProfileAvatar}
+                      width={35} 
+                      height={35} 
+                      alt="" />
+                    </a>
+                    </Link>
+                  )}
+                
+                  <div className="">
+                  <Link href={{
+                      pathname: "/User-Profile",
+                      query: i.id}}>
+                      <a>
+                        <div className="username text-sm font-bold capitalize">{i.first_name} {i.last_name}</div>
+                        <div className="userfield text-xs capitalize">{i.city?<>{i.city}, </>:""}{i.state?<>{i.state}, </>:""}{i.country?<>{i.country}</>:""}</div>
+                      </a>
+                    </Link>
+                  </div>
                 </div>
-              </div>
-              
-              <Menu as="div" className="relative inline-block text-left">
-                <div>
-                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-indigo-400 border-1 hover:bg-indigo-400 hover:text-white border-indigo-400 px-3 py-2">
-                    Follower
-                    <ChevronDownIcon
-                      className="-mr-1 ml-2 h-5 w-5"
-                      aria-hidden="true"
-                    />
-                  </Menu.Button>
-                </div>
+                
+                <Menu as="div" className="relative inline-block text-left">
+                  <div>
+                    <Menu.Button className="inline-flex justify-center w-full rounded-full  text-indigo-400 border-1 hover:bg-indigo-400 hover:text-white border-indigo-400 px-3 py-2">
+                      Follower
+                      <ChevronDownIcon
+                        className="-mr-1 ml-2 h-5 w-5"
+                        aria-hidden="true"
+                      />
+                    </Menu.Button>
+                  </div>
 
-                <Transition
-                  as={Fragment}
-                  enter="transition ease-out duration-100"
-                  enterFrom="transform opacity-0 scale-95"
-                  enterTo="transform opacity-100 scale-100"
-                  leave="transition ease-in duration-75"
-                  leaveFrom="transform opacity-100 scale-100"
-                  leaveTo="transform opacity-0 scale-95"
-                >
-                  <Menu.Items className="origin-top-right absolute right-0 mt-2 ">
-                    <div className="py-1">
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="#"
-                            className={classNames(
-                              active ? "" : "",
-                              "block px-4 text-sm rounded-full border-1 text-indigo-400 border-indigo-400 hover:bg-indigo-400 hover:text-white"
-                            )}
-                            onClick={()=>confirmation(i.id)}
-                          >
-                            Remove
-                          </a>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="#"
-                            className={classNames(
-                              active ? "" : "",
-                              "block px-4 text-sm mt-2 rounded-full border-1 text-indigo-400 border-indigo-400 hover:bg-indigo-400 hover:text-white"
-                            )}
-                            onClick={()=>Block(i.id, i.follower.id,"Follower")}
-                          >
-                            Block
-                          </a>
-                        )}
-                      </Menu.Item>
-                    </div>
-                  </Menu.Items>
-                </Transition>
-              </Menu>
-            </div>
-            </div> 
-             ):("")
+                  <Transition
+                    as={Fragment}
+                    enter="transition ease-out duration-100"
+                    enterFrom="transform opacity-0 scale-95"
+                    enterTo="transform opacity-100 scale-100"
+                    leave="transition ease-in duration-75"
+                    leaveFrom="transform opacity-100 scale-100"
+                    leaveTo="transform opacity-0 scale-95"
+                  >
+                    <Menu.Items className="origin-top-right absolute right-0 mt-2 ">
+                      <div className="py-1">
+                        <Menu.Item>
+                          {({ active }) => (
+                            <a
+                              href="#"
+                              className={classNames(
+                                active ? "" : "",
+                                "block px-4 text-sm rounded-full border-1 text-indigo-400 border-indigo-400 hover:bg-indigo-400 hover:text-white"
+                              )}
+                              onClick={()=>confirmation(i.id)}
+                            >
+                              Remove
+                            </a>
+                          )}
+                        </Menu.Item>
+                        <Menu.Item>
+                          {({ active }) => (
+                            <a
+                              href="#"
+                              className={classNames(
+                                active ? "" : "",
+                                "block px-4 text-sm mt-2 rounded-full border-1 text-indigo-400 border-indigo-400 hover:bg-indigo-400 hover:text-white"
+                              )}
+                              onClick={()=>Block(i.id, i.id,"Follower")}
+                            >
+                              Block
+                            </a>
+                          )}
+                        </Menu.Item>
+                      </div>
+                    </Menu.Items>
+                  </Transition>
+                </Menu>
+              </div>
+              </div> 
              )))  :('')}
           
           

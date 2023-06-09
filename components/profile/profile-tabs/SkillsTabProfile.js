@@ -40,8 +40,11 @@ const SkillsTabProfile = () => {
         }).then((resp) => resp.json())
         .then((result) => {
           if (result) { 
-            seteditOpen(false); 
-            Current_User();
+            seteditOpen(false);
+            const currentuserSting = JSON.stringify(result.data);     // convert json into string
+            localStorage.setItem("currentuser", currentuserSting);    // save currentuser in localstorage as string      
+            setcurrentuser(result.data.skills); 
+            // Current_User();
           }
         })
         .catch((err) => console.log(err));
@@ -60,8 +63,11 @@ const SkillsTabProfile = () => {
         }).then((resp) => resp.json())
         .then((result) => {
           if (result) { 
-            seteditOpen(false); 
-            Current_User();
+            seteditOpen(false);
+            const currentuserSting = JSON.stringify(result.data);     // convert json into string
+            localStorage.setItem("currentuser", currentuserSting);    // save currentuser in localstorage as string      
+            setcurrentuser(result.data.skills); 
+            // Current_User();
             alert("your skill updated successfully");
           }
         })
@@ -84,7 +90,11 @@ const SkillsTabProfile = () => {
         if (result) { 
           setIsOpen(false);
           setuserskill(""); 
-          Current_User();
+          const currentuserSting = JSON.stringify(result.data);     // convert json into string
+          localStorage.setItem("currentuser", currentuserSting);    // save currentuser in localstorage as string      
+          // console.log("skill update",result.data)
+          setcurrentuser(result.data.skills);
+          // Current_User();
           alert("Your Skill Added Successfully")
         }
       })
@@ -93,20 +103,22 @@ const SkillsTabProfile = () => {
   }
   //current User
   const Current_User=async()=>{    
-    await fetch(CURENT_USER_LOGIN_API, {
-      method: "GET",
-       headers: {
-        Accept: "application/json", 
-         Authorization: `${authKey}`,
-       },
-    })
-       .then((resp) => resp.json())
-      .then((result) => {
-        if (result) {
-          setcurrentuser(result.data.skills); 
-        }
-      })
-      .catch((err) => console.log(err)); 
+    var c = window.localStorage.getItem("currentuser");
+    var Details =JSON.parse(c);
+    // await fetch(CURENT_USER_LOGIN_API, {
+    //   method: "GET",
+    //    headers: {
+    //     Accept: "application/json", 
+    //      Authorization: `${authKey}`,
+    //    },
+    // })
+    //    .then((resp) => resp.json())
+    //   .then((result) => {
+    //     if (result) {
+          setcurrentuser(Details.skills); 
+    //     }
+    //   })
+    //   .catch((err) => console.log(err)); 
   }
 
   useEffect(()=>{

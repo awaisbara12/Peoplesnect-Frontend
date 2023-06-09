@@ -26,7 +26,7 @@ const MarketplaceShowFeed = () => {
       </Head>
       <div className="pb-20 md:pb-10 lg:pb-10">
         <div className="xl:max-w-[1340px] container mx-auto">
-          <TopNavbar />
+          {/* <TopNavbar /> */}
           <div className="z-50">
             <MarkeetPlaceMobileNav />
           </div>

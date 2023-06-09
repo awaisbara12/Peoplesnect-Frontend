@@ -42,7 +42,9 @@ const AccountManagment = () => {
           }else{
             if(result && result.data && result.data.is_deleted){
               signout(); 
-            }else{
+            }else if (result && result.data){
+              const currentuserSting = JSON.stringify(result.data);     // convert json into string
+              localStorage.setItem("currentuser", currentuserSting);    // save currentuser in localstorage as string      
               setUserDetails(result.data);
               settemporary(result.data.is_deleted);
               setpermanent(false);
@@ -56,23 +58,25 @@ const AccountManagment = () => {
    
   }
   const Current_User=async()=>{    
-   
-    await fetch(CURENT_USER_LOGIN_API, {
-      method: "GET",
-       headers: {
-        Accept: "application/json", 
-         Authorization: `${authKey}`,
-       },
-    })
-       .then((resp) => resp.json())
-      .then((result) => {
-        if (result) {
-          setUserDetails(result.data);
-          settemporary(result.data.is_deleted);
+    var c = window.localStorage.getItem("currentuser");
+    var Details = JSON.parse(c);
+    // console.log("Account",Details)
+    // await fetch(CURENT_USER_LOGIN_API, {
+    //   method: "GET",
+    //    headers: {
+    //     Accept: "application/json", 
+    //      Authorization: `${authKey}`,
+    //    },
+    // })
+    //    .then((resp) => resp.json())
+    //   .then((result) => {
+    //     if (result) {
+          setUserDetails(Details);
+          settemporary(Details.is_deleted);
           setpermanent(false);
-        }
-      })
-      .catch((err) => console.log(err)); 
+    //     }
+    //   })
+    //   .catch((err) => console.log(err)); 
   }
   const toggler =(e)=>{ 
     if(e=="temporary"){ 

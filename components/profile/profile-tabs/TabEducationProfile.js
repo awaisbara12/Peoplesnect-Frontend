@@ -81,6 +81,8 @@ const TabEducationProfile = () => {
       .then((result) => {
         if (result) {
           closeCreateModal();
+          const currentuserSting = JSON.stringify(result.data);     // convert json into string
+          localStorage.setItem("currentuser", currentuserSting);    // save currentuser in localstorage as string   
           setUserUpdateeducation(result.data)
           alert("Your Education Added Successfully")
         }
@@ -124,6 +126,8 @@ const TabEducationProfile = () => {
       .then((result) => {
         if (result) {
           closeModal();
+          const currentuserSting = JSON.stringify(result.data);     // convert json into string
+          localStorage.setItem("currentuser", currentuserSting);    // save currentuser in localstorage as string   
           setUserUpdateeducation(result.data);
           alert("Your Education Updated Successfully")
         }
@@ -148,6 +152,8 @@ const TabEducationProfile = () => {
     .then((resp) => resp.json())
     .then((result) => {
       if (result) {
+        const currentuserSting = JSON.stringify(result.data);     // convert json into string
+        localStorage.setItem("currentuser", currentuserSting);
         setUserDetails(result.data);
         setUsereducation(result.data.educations)
        // console.log(result.data.educations)

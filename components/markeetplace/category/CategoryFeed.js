@@ -26,7 +26,7 @@ const CategoryFeed = () => {
       </Head>
       <div className="pb-20 md:pb-10 lg:pb-10">
         <div className="xl:max-w-[1340px] container mx-auto">
-          <TopNavbar />
+          {/* <TopNavbar /> */}
           <div className="block md:hidden lg:hidden">
             <MarkeetPlaceMobileNav />
           </div>

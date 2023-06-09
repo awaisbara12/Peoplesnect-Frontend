@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Head from "next/head";
 import NewsPost from "./newsfeed/newspost/NewsPost";
-import NewsFeedUserCard from "./newsfeed/feedcard/NewsFeedUserCard";
 import ProfileCard from "./profilecard/ProfileCard";
 import EventsCard from "./eventcard/EventsCard";
 import ChatBox from "./Chat-box/ChatBox";
@@ -22,9 +21,10 @@ const NewsFeedDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [lastpage, setlastpage] = useState(0);
   const [currentpage, setcurrentpage] = useState(1);
-
+  const [user, setuser] = useState(1);
+  // var user=[];
   if (typeof window !== "undefined") {
-    var authKey = window.localStorage.getItem("keyStore");
+    var authKey = window.localStorage.getItem("keyStore"); 
   }
 
   const getNewsFeed = async () => {
@@ -43,7 +43,7 @@ const NewsFeedDashboard = () => {
 
     try {
       if (result.status == 200) {
-        console.log(result.data.data);
+        // console.log(result.data.data);
         const mergedata = [...list, ...result.data.data]
         setList(mergedata);
         setcurrentpage(result.data.pages.next_page)
@@ -61,9 +61,12 @@ const NewsFeedDashboard = () => {
   }
   useEffect(() => {
     setLoading(true);
+      var c = window.localStorage.getItem("currentuser");
+      setuser(JSON.parse(c));
     getNewsFeed();
   }, []);
 
+  // console.log("ccc",user)
   return (
     <>
       <Head>
@@ -75,7 +78,7 @@ const NewsFeedDashboard = () => {
         <div className="xl:max-w-[1340px] container mx-auto">
           <>
             <div className="sticky z-50 top-0">
-              <TopNavbar />
+              {/* <TopNavbar /> */}
               <MobileNav />
             </div>
           </>
@@ -88,9 +91,9 @@ const NewsFeedDashboard = () => {
                 hasMore={currentpage && currentpage != null}
                 loader={<div className="flex justify-center"><ClipLoader className="my-8" color="#818CF8" size={40} /> </div>}
               >
-                {list && list.length > 0 && list.map((items) => (
+                {user && list && list.length > 0 && list.map((items) => (
                   items.user ? (
-                    <NewsFeedSingle items={items} key={items.id} />
+                    <NewsFeedSingle items={items} key={items.id} user={user} />
                   ) : ("")
                 )
                 )
@@ -99,7 +102,7 @@ const NewsFeedDashboard = () => {
               {/* {!loading && <NewsFeedUserCard list={list} setList={setList}/>} */}
             </div>
             <div className="w-72 md:w-64 hidden md:block lg:block">
-              <ProfileCard />
+              <ProfileCard user={user}/>
               <div className="sticky top-20 z-10">
                 <EventsCard />
                 <SugestedUser />

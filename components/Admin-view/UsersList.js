@@ -98,6 +98,9 @@ const UsersList = () => {
       const result = await res;
       if(result){
         if(result.data.role !="user"){
+          // const currentuserSting = JSON.stringify(result.data.data);     // convert json into string
+          // localStorage.setItem("currentuser", currentuserSting);    // save currentuser in localstorage as string      
+          // console.log(result.data);
           document.getElementById(`user-${userId}`).classList.add("hidden");
         }
       }
