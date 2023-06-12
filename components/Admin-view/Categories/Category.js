@@ -259,7 +259,7 @@ const Category =()=>{
                 value={c_name}
                 onChange={(e)=>setc_name(e.target.value)}
               />
-              <button class="bg-indigo-400 text-white p-2 w-36 rounded-r-full" onClick={()=>AddCategory()}>Add category</button>
+              <button className="bg-indigo-400 text-white p-2 w-36 rounded-r-full" onClick={()=>AddCategory()}>Add category</button>
             </div>
             {/* CAtegory Show */}
             <div className="mt-8">
