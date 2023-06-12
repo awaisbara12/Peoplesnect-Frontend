@@ -68,6 +68,7 @@ const Followings = (props) => {
     };
     const response = await fetch(`${FOLLOW_USER_API}`,requestOptions);
     const data = await response.json();
+    // console.log("followeeee",data.data)
     setfollowee(data.data);
   }
   useEffect(() => {
@@ -85,92 +86,90 @@ const Followings = (props) => {
 
           {followee?(
             followee.map((i)=>(
-              i.followee?(
-            <div className="border-b-1" key={i.id}>
-            <div className="Followings-profile flex  px-4 py-10 justify-between items-center">
-            <Link 
-              href={{
-              pathname: "/User-Profile",
-              query: i.followee.id,
-            }}>
-            <a>
-              <div className="flex items-center gap-3">
-                {i.followee.display_photo_url?(
-                     <img 
-                     src={i.followee.display_photo_url}
-                     className="object-cover rounded-full z-40 h-[35px] w-[35px]"        
-                     alt="" />
-                ):(
-                <Image 
-                     src={ProfileAvatar}
-                     width={35} 
-                     height={35} 
-                     alt="" />
-                )}
-                <div className="">
-                 <div className="username text-sm font-bold capitalize">{i.followee.first_name} {i.followee.last_name}</div>
-                 <div className="userfield text-xs capitalize">{i.followee.city}, {i.followee.country}</div>
+              <div className="border-b-1" key={i.id}>
+              <div className="Followings-profile flex  px-4 py-10 justify-between items-center">
+              <Link 
+                href={{
+                pathname: "/User-Profile",
+                query: i.id,
+              }}>
+              <a>
+                <div className="flex items-center gap-3">
+                  {i.display_photo_url?(
+                      <img 
+                      src={i.display_photo_url}
+                      className="object-cover rounded-full z-40 h-[35px] w-[35px]"        
+                      alt="" />
+                  ):(
+                  <Image 
+                      src={ProfileAvatar}
+                      width={35} 
+                      height={35} 
+                      alt="" />
+                  )}
+                  <div className="">
+                  <div className="username text-sm font-bold capitalize">{i.first_name} {i.last_name}</div>
+                  <div className="userfield text-xs capitalize">{i.city?<>{i.city}, </>:""}{i.state?<>{i.state}, </>:""}{i.country?<>{i.country}</>:""}</div>
+                  </div>
                 </div>
-              </div>
-            </a>
-            </Link> 
-              <Menu as="div" className="relative inline-block text-left">
-                <div>
-                  <Menu.Button className="inline-flex justify-center w-full rounded-full  text-indigo-400 border-1 hover:bg-indigo-400 hover:text-white border-indigo-400 px-3 py-2">
-                    Following
-                    <ChevronDownIcon
-                      className="-mr-1 ml-2 h-5 w-5"
-                      aria-hidden="true"
-                    />
-                  </Menu.Button>
-                </div>
+              </a>
+              </Link> 
+                <Menu as="div" className="relative inline-block text-left">
+                  <div>
+                    <Menu.Button className="inline-flex justify-center w-full rounded-full  text-indigo-400 border-1 hover:bg-indigo-400 hover:text-white border-indigo-400 px-3 py-2">
+                      Following
+                      <ChevronDownIcon
+                        className="-mr-1 ml-2 h-5 w-5"
+                        aria-hidden="true"
+                      />
+                    </Menu.Button>
+                  </div>
 
-                <Transition
-                  as={Fragment}
-                  enter="transition ease-out duration-100"
-                  enterFrom="transform opacity-0 scale-95"
-                  enterTo="transform opacity-100 scale-100"
-                  leave="transition ease-in duration-75"
-                  leaveFrom="transform opacity-100 scale-100"
-                  leaveTo="transform opacity-0 scale-95"
-                >
-                  <Menu.Items className=" absolute right-0">
-                    <div className="py-1">
-                    <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="#"
-                            className={classNames(
-                              active ? "" : "",
-                              "block px-4 text-sm  border-indigo-400  rounded-full border-1 text-indigo-400 hover:bg-indigo-400 hover:text-white"
-                            )}
-                            onClick={()=>confirmation(i.id)}
-                          >
-                             Unfollow
-                          </a>
-                        )}
-                      </Menu.Item>
+                  <Transition
+                    as={Fragment}
+                    enter="transition ease-out duration-100"
+                    enterFrom="transform opacity-0 scale-95"
+                    enterTo="transform opacity-100 scale-100"
+                    leave="transition ease-in duration-75"
+                    leaveFrom="transform opacity-100 scale-100"
+                    leaveTo="transform opacity-0 scale-95"
+                  >
+                    <Menu.Items className=" absolute right-0">
+                      <div className="py-1">
                       <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="#"
-                            className={classNames(
-                              active ? "" : "",
-                              "block px-4 text-sm origin-top-right mt-2 border-indigo-400  rounded-full border-1 text-indigo-400 hover:bg-indigo-400 hover:text-white"
-                            )}
-                            onClick={()=>Block(i.id, i.followee.id,"Follower")}
-                          >
-                             Block
-                          </a>
-                        )}
-                      </Menu.Item>
-                    </div>
-                  </Menu.Items>
-                </Transition>
-              </Menu>
-            </div>
-            </div> 
-              ):("")
+                          {({ active }) => (
+                            <a
+                              href="#"
+                              className={classNames(
+                                active ? "" : "",
+                                "block px-4 text-sm  border-indigo-400  rounded-full border-1 text-indigo-400 hover:bg-indigo-400 hover:text-white"
+                              )}
+                              onClick={()=>confirmation(i.id)}
+                            >
+                              Unfollow
+                            </a>
+                          )}
+                        </Menu.Item>
+                        <Menu.Item>
+                          {({ active }) => (
+                            <a
+                              href="#"
+                              className={classNames(
+                                active ? "" : "",
+                                "block px-4 text-sm origin-top-right mt-2 border-indigo-400  rounded-full border-1 text-indigo-400 hover:bg-indigo-400 hover:text-white"
+                              )}
+                              onClick={()=>Block(i.id, i.id,"Follower")}
+                            >
+                              Block
+                            </a>
+                          )}
+                        </Menu.Item>
+                      </div>
+                    </Menu.Items>
+                  </Transition>
+                </Menu>
+              </div>
+              </div> 
             ))
           ):('')}
           

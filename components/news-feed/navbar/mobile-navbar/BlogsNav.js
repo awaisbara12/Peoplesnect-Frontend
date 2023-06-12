@@ -50,6 +50,7 @@ const Blogsnav = () => {
           </label>
         </div> */}
         <TopNavbarSearch />
+        
         <div className="relative">
           <Image
             src={ProfileAvatar}

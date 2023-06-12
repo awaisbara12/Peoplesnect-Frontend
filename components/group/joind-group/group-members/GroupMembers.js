@@ -156,7 +156,7 @@ const GroupMembers = () => {
               <div className="">0</div>
             )}
           </div>
-          <div className="relative text-gray-500 flex justify-end mt-5 mr-5">
+          {/* <div className="relative text-gray-500 flex justify-end mt-5 mr-5">
             <input
               className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-48 xs:w-auto placeholder:pl-2 rounded-full placeholder:py-2"
               placeholder="Search by Name"
@@ -168,7 +168,7 @@ const GroupMembers = () => {
                 <SearchIcon className="w-5 h-5 absolute top-3 right-3" />
               </a>
             </Link>
-          </div>
+          </div> */}
           <div className="border-b-1">
             {/* For Creater */}
             {admin ? (

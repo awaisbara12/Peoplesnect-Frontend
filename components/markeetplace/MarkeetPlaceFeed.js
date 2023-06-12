@@ -10,6 +10,7 @@ import MarkeetPlaceMobileNav from "../news-feed/navbar/mobile-navbar/MarkeetPlac
 import MarketplaceBottomBar from "../news-feed/navbar/MarketplaceBotoombar";
 import Footer from "../footer/Footer";
 import DropdownRender from "../news-feed/Chat-box/ChatBox";
+import MobileNav from "../news-feed/navbar/mobile-navbar/MobileNav";
 
 const MarkeetPlaceFeed = () => {
   return (
@@ -23,9 +24,10 @@ const MarkeetPlaceFeed = () => {
       <div className="pb-20 md:pb-10 lg:pb-10">
         <div className="xl:max-w-[1340px] container mx-auto">
           <div className="sticky top-0 z-50">
-            <TopNavbar />
+            {/* <TopNavbar /> */}
             <div className="block md:hidden lg:hidden">
-              <MarkeetPlaceMobileNav />
+              {/* <MarkeetPlaceMobileNav /> */}
+              {/* <MobileNav/> */}
             </div>
           </div>
           <div className="flex xl:px-0 lg:px-4 md:px-8 px-2 lg:gap-6 md:gap-4 justify-between">

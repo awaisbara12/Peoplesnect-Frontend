@@ -76,7 +76,7 @@ const MyListing = () => {
             dataLength={Product && Product.length }
             next={fetchMoreData}
             hasMore={currentpage != null }
-            loader={<div className="flex justify-center"><ClipLoader className="my-8" color="#818CF8" size={40} /> </div>}
+            loader={Product && Product.length!=0?<div className="flex justify-center"><ClipLoader className="my-8" color="#818CF8" size={40} /> </div>:""}
             // className="grid xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2 grid-cols-1 gap-8 mx-auto"
           >
             {Product?(

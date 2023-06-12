@@ -3,6 +3,7 @@ import dynamic from "next/dynamic";
 import InputEmoji from "react-input-emoji";
 // const Picker = dynamic(() => import("emoji-picker-react"), { ssr: false });
 
+import Link from "next/link";
 import Image from "next/image";
 import ProfileAvatar from "../../../public/images/profile-avatar.png";
 import {
@@ -19,6 +20,7 @@ import HashtagMentionInput from "../Comment-Input/HashtagMentionInput";
 import Picker from 'emoji-picker-react';
 
 const PostComments = (props) => {
+
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
   }
@@ -289,20 +291,24 @@ const PostComments = (props) => {
           ) : ('')}
         </div>
         <div className="absolute top-2 left-0">
-          {props.dp ? (
-            <img
-              src={props.dp}
-              className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
-
-              width={34}
-              height={34} alt="" />
-          ) : (
-            <Image
-              src={ProfileAvatar}
-              className="object-cover rounded-full "
-              width={34}
-              height={34} alt="" />
-          )}
+          <Link href="/profile">
+            <a>
+              {props.dp ? (
+                  <img
+                    src={props.dp}
+                    className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
+                    width={34}
+                    height={34} alt="" />
+                ) : (
+                  <Image
+                    src={ProfileAvatar}
+                    className="object-cover rounded-full "
+                    width={34}
+                    height={34} alt="" />
+                )}
+            </a>
+          </Link>
+              
 
         </div>
         <div className="flex items-center absolute top-3 right-0 ">

@@ -332,7 +332,7 @@ function updateJob() {
                   >
                     {jobs && jobs.map((job)=>(
                       <div 
-                        className="hover:shadow-2xl shadow-lg bg-white flex items-center justify-between rounded-xl p-2"
+                        className="hover:shadow-2xl shadow-lg bg-white flex items-start justify-between rounded-xl p-2"
                         id={`job-${job.id}`}
                         key={job.id}>
                       <Link href={{pathname: "/jobs/jobs-show", query: job.id}}>

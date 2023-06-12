@@ -26,7 +26,10 @@ const ContectInfo = () => {
      .then((resp) => resp.json())
     .then((result) => {
       if (result) {
-        setUserDetails(result.data.id); 
+        const currentuserSting = JSON.stringify(result.data);     // convert json into string
+        localStorage.setItem("currentuser", currentuserSting);    // save currentuser in localstorage as string      
+        // Current_User();
+        // setUserDetails(result.data.id); 
         alert("Your Information has been Updated! ") 
       }
     })
@@ -35,25 +38,26 @@ const ContectInfo = () => {
   
   // for current user
   const Current_User=async()=>{    
-   
-    await fetch(CURENT_USER_LOGIN_API, {
-      method: "GET",
-       headers: {
-        Accept: "application/json", 
-         Authorization: `${authKey}`,
-       },
-    })
-       .then((resp) => resp.json())
-      .then((result) => {
-        if (result) {
-          setUserDetails(result.data.id);  
-          setemail(result.data.email);
-          setphone(result.data.phone_number);
-          setDOB(result.data.DOB);
-          //console.log("user",result.data)
-        }
-      })
-      .catch((err) => console.log(err)); 
+    var c = window.localStorage.getItem("currentuser");
+    var Details = JSON.parse(c);
+    // await fetch(CURENT_USER_LOGIN_API, {
+    //   method: "GET",
+    //    headers: {
+    //     Accept: "application/json", 
+    //      Authorization: `${authKey}`,
+    //    },
+    // })
+    //    .then((resp) => resp.json())
+    //   .then((result) => {
+    //     if (result) {
+          setUserDetails(Details.id);  
+          setemail(Details.email);
+          setphone(Details.phone_number);
+          setDOB(Details.DOB);
+    //       //console.log("user",result.data)
+    //     }
+    //   })
+    //   .catch((err) => console.log(err)); 
   }
  
  

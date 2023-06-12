@@ -21,7 +21,7 @@ import {
 import { SEARCH_MULTIPLE } from "../../../pages/config";
 import { useRouter } from "next/router";
 
-const TopNavbarSearch = () => {
+const TopNavbarMarketplaceSearch = () => {
   let [isOpen, setisOpen] = useState(false);
   let [results, setresults] = useState();
   let [value, setvalue] = useState();
@@ -59,7 +59,7 @@ const TopNavbarSearch = () => {
     {
       setresults('');
     }else{
-      await fetch(SEARCH_MULTIPLE+"?query="+event.target.value+"&type=Job", {
+      await fetch(SEARCH_MULTIPLE+"?query="+event.target.value+"&type=Product", {
         method: "GET",
          headers: {
           Accept: "application/json", 
@@ -71,10 +71,10 @@ const TopNavbarSearch = () => {
           if (result) {
             if (event.target.value.length == 0)
             {
-              // console.log("Hellos");
               setresults('');
             }else{
               setresults(result.data);
+              console.log(result.data)
             }
           }
         })
@@ -89,12 +89,12 @@ const TopNavbarSearch = () => {
               <SearchIcon className="text-slate-400 h-5 w-5" />
         </span>
         <div
-          className="text-slate-400 hover:shadow-xl bg-gray-100 w-62 md:w-56  rounded-xl border-none pl-14 cursor-text"
+          className="text-slate-400 hover:shadow-xl bg-gray-100 w-64 md:w-56  rounded-xl border-none pl-14 cursor-text"
           placeholder="Search"
           onClick={openModal}
           type="text"
           name="search"
-        > Search Jobs
+        > Search Products
           </div>
               <div className="">
                 <Transition appear show={isOpen} as={Fragment}>
@@ -138,7 +138,7 @@ const TopNavbarSearch = () => {
                                       <input 
                                       className="focus:text-slate-400 focus:border-none bg-transparent text-slate-400 w-full border-none rounded-3xl"
                                       type="text"
-                                      placeHolder="Search Jobs"
+                                      placeHolder="Search Products"
                                       onChange={searchmultiples}
                                       onKeyPress={handleKeypress}
                                       />
@@ -311,7 +311,37 @@ const TopNavbarSearch = () => {
                                                 </div>
                                                 </a>
                                               </Link>
-                                            ):('')
+                                            ):(
+                                              i.searchable_type && i.searchable_type=="Product"?(
+                                                <Link  href={{pathname: "/markeet-place/marketplace-show", query: i.product.id}} key={i.product.id}>
+                                                  <a className="flex items-center gap-2 p-2 border-b" >
+                                                    {i.product && i.product.product_pic?
+                                                      (
+                                                        <img
+                                                          src={i.product.product_pic[0]}
+                                                          className="object-cover rounded-full z-40 h-[42px] w-[42px]"
+                                                          alt=""
+                                                        />
+                                                      ) : (
+                                                        <Image
+                                                          src={Compnylogo1}
+                                                          width={45}
+                                                          height={45}
+                                                          alt=""
+                                                        />
+                                                      )
+                                                    }
+                                                    <div className="">
+                                                    <div className="flex gap-4 items-center">
+                                                    <div className="font-bold">{i.product.name} </div>
+                                                    <div className="font-extralight text-xs italic font-serif">MarketPlace</div>
+                                                    </div>
+                                                    <div className="font-light text-xs">{i.product.category.name}</div>
+                                                  </div>
+                                                  </a>
+                                                </Link>
+                                              ):('')
+                                            )
                                         ))
                                       )
                                     )
@@ -403,4 +433,4 @@ const TopNavbarSearch = () => {
   );
 };
 
-export default TopNavbarSearch;
+export default TopNavbarMarketplaceSearch;

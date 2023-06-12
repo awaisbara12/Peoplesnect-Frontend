@@ -26,7 +26,8 @@ const AccountPreferences = () => {
      .then((resp) => resp.json())
     .then((result) => {
       if (result) {
-        setUserDetails(result.data); 
+        const currentuserSting = JSON.stringify(result.data);     // convert json into string
+        localStorage.setItem("currentuser", currentuserSting);    // save currentuser in localstorage as string      
         Current_User();
         alert("Your Information has been Updated! ") 
       }
@@ -36,25 +37,28 @@ const AccountPreferences = () => {
   }
   //For Current User
   const Current_User=async()=>{    
-   
-    await fetch(CURENT_USER_LOGIN_API, {
-      method: "GET",
-       headers: {
-        Accept: "application/json", 
-         Authorization: `${authKey}`,
-       },
-    })
-       .then((resp) => resp.json())
-      .then((result) => {
-        if (result) {
-          setUserDetails(result.data.id);  
-          setvedioauto(result.data.auto_play_videos);
-           setprofile_type(result.data.profile_type);
-           setlanguage(result.data.language);
+      
+    var c = window.localStorage.getItem("currentuser");
+    var Details = JSON.parse(c);
+
+    // await fetch(CURENT_USER_LOGIN_API, {
+    //   method: "GET",
+    //    headers: {
+    //     Accept: "application/json", 
+    //      Authorization: `${authKey}`,
+    //    },
+    // })
+    //    .then((resp) => resp.json())
+    //   .then((result) => {
+    //     if (result) {
+          setUserDetails(Details.id);  
+          setvedioauto(Details.auto_play_videos);
+           setprofile_type(Details.profile_type);
+           setlanguage(Details.language);
           //console.log("user",result.data)
-        }
-      })
-      .catch((err) => console.log(err)); 
+      //   }
+      // })
+      // .catch((err) => console.log(err)); 
   }
   useEffect(()=>{
     Current_User();

@@ -150,22 +150,23 @@ const AdminView = (setList, singleItem) => {
       })
   }
   const Current_User = async () => {
-
-    await fetch(CURENT_USER_LOGIN_API, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        Authorization: `${authKey}`,
-      },
-    })
-      .then((resp) => resp.json())
-      .then((result) => {
-        if (result) {
-          setCurrentUser(result.data);
+    var c = window.localStorage.getItem("currentuser");
+    var Details =JSON.parse(c);
+    // await fetch(CURENT_USER_LOGIN_API, {
+    //   method: "GET",
+    //   headers: {
+    //     Accept: "application/json",
+    //     Authorization: `${authKey}`,
+    //   },
+    // })
+    //   .then((resp) => resp.json())
+    //   .then((result) => {
+    //     if (result) {
+          setCurrentUser(Details);
           // console.log("user",result.data);
-        }
-      })
-      .catch((err) => console.log(err));
+      //   }
+      // })
+      // .catch((err) => console.log(err));
   }
 
   const GetAdmins = () => {

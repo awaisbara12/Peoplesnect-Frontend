@@ -18,9 +18,10 @@ import {
 import {
   ChevronDownIcon,
 } from "@heroicons/react/outline";
-import TopNavbarSearch from "./TopNavbarSearch ";
+import TopNavbarSearch from "./TopNavbarJobSearch ";
 import {CONVERSATION_API, CURENT_USER_LOGIN_API, GET_NOTIFICATIONS, WS_PUBLIC_API} from "../../../pages/config";
 import { useRouter } from "next/router";
+import MessageIcon from "../../news-feed/navbar/MessageIcon";
 
 
 const TopNavbar = () => {
@@ -69,69 +70,65 @@ const TopNavbar = () => {
       .catch((err) => console.log(err)); 
   }
    // Current user
-   const Current_User=async(CableApp)=>{    
-    await fetch(CURENT_USER_LOGIN_API, {
-      method: "GET",
-       headers: {
-        Accept: "application/json", 
-         Authorization: `${authKey}`,
-       },
-    })
-      .then((resp) => resp.json())
-      .then((result) => {
-        if (result) {
-          setUserDetails(result.data);
-          createConversationAlertSub(CableApp, result.data.id) 
+   const Current_User=async(CableApp)=>{  
+    var c = window.localStorage.getItem("currentuser");
+    var Details=JSON.parse(c);  
+    // await fetch(CURENT_USER_LOGIN_API, {
+    //   method: "GET",
+    //    headers: {
+    //     Accept: "application/json", 
+    //      Authorization: `${authKey}`,
+    //    },
+    // })
+    //   .then((resp) => resp.json())
+    //   .then((result) => {
+        if (Details) {
+          setUserDetails(Details);
+          // createConversationAlertSub(CableApp, Details.id) 
         }
-      })
-      .catch((err) => console.log(err)); 
+    //   })
+    //   .catch((err) => console.log(err)); 
   }
   useEffect(()=>{
-    let actionCable;
-    if (typeof window !== 'undefined') {
-      actionCable = require('actioncable');
-      const CableApp= actionCable.createConsumer(WS_PUBLIC_API);
-    }
-    const CableApp= actionCable.createConsumer(WS_PUBLIC_API);
-    Current_User(CableApp);
+    Current_User();
     updateCounts();
-    GetConversation();
+    // GetConversation();
   },[])
 
 
   // ActionCable
-  function createConversationAlertSub(CableApp , c_id) {
-    CableApp.subscriptions.create(
-      {
-        channel: 'AlertChannel',
-        id: c_id,
-      },
-      {
-        connected: () => console.log('alert connected'),
-        disconnected: () => console.log('alert disconnected'),
-        received: data => {  console.log('alert received');GetConversation();
-         },
-      } 
-    );
-  }
+  // function createConversationAlertSub(CableApp , c_id) {
+  //   CableApp.subscriptions.create(
+  //     {
+  //       channel: 'AlertChannel',
+  //       id: c_id,
+  //     },
+  //     {
+  //       connected: () => console.log('alert connected'),
+  //       disconnected: () => console.log('alert disconnected'),
+  //       received: data => {  console.log('alert received');GetConversation();
+  //        },
+  //     } 
+  //   );
+  // }
   // converstion Alert
-  const GetConversation=async()=>{     
-    await fetch(CONVERSATION_API+"/conversation_alert", {
-      method: "GET",
-       headers: {
-        Accept: "application/json", 
-         Authorization: `${authKey}`,
-       },
-    })
-       .then((resp) => resp.json())
-      .then((result) => {
-        if (result && result.data) {
-          setConversation(result.data);
-          console.log(result.data);
-        }
-      })
-      .catch((err) => console.log(err)); 
-  }
+  // const GetConversation=async()=>{     
+  //   await fetch(CONVERSATION_API+"/conversation_alert", {
+  //     method: "GET",
+  //      headers: {
+  //       Accept: "application/json", 
+  //        Authorization: `${authKey}`,
+  //      },
+  //   })
+  //      .then((resp) => resp.json())
+  //     .then((result) => {
+  //       if (result && result.data) {
+  //         setConversation(result.data);
+  //         console.log(result.data);
+  //       }
+  //     })
+  //     .catch((err) => console.log(err)); 
+  // }
 
 
 
@@ -198,7 +195,7 @@ const TopNavbar = () => {
                 </li>
               </a>
             </Link>
-            <Link href="/messaging-design" className="">
+            {/* <Link href="/messaging-design" className="">
               <a>
                 <li className="flex font-normal text-xl items-center flex-col gap-1">
                   <div className="relative">
@@ -211,7 +208,8 @@ const TopNavbar = () => {
                   <div className="text-sm md:text-xs">Messaging</div>
                 </li>
               </a>
-            </Link>
+            </Link> */}
+            <MessageIcon/>
             <Link href="/notifications" className="">
               <a onClick={()=>updateCount()}>
                 <li className="flex font-normal text-xl items-center flex-col gap-1">

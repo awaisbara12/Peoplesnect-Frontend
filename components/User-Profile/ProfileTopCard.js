@@ -179,21 +179,22 @@ const ProfileTopCard = (props) => {
   }
 
   const Current_User=async()=>{    
-   
-    await fetch(CURENT_USER_LOGIN_API, {
-      method: "GET",
-       headers: {
-        Accept: "application/json", 
-         Authorization: `${authKey}`,
-       },
-    })
-       .then((resp) => resp.json())
-      .then((result) => {
-        if (result) {
-          setCurrent_User(result.data);  
-        }
-      })
-      .catch((err) => console.log(err)); 
+    var c = window.localStorage.getItem("currentuser");
+    var Details =JSON.parse(c);
+    // await fetch(CURENT_USER_LOGIN_API, {
+    //   method: "GET",
+    //    headers: {
+    //     Accept: "application/json", 
+    //      Authorization: `${authKey}`,
+    //    },
+    // })
+    //    .then((resp) => resp.json())
+    //   .then((result) => {
+        // if (result) {
+          setCurrent_User(Details);  
+      //   }
+      // })
+      // .catch((err) => console.log(err)); 
   }
 
   const ActionOnFollowRequest=async(id,status)=>{

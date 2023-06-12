@@ -26,7 +26,12 @@ const AccountSecurity = () => {
         },
       }).then((resp) => resp.json())
         .then((result) => {
-          if (result) { setUserDetails(result.data);alert("Your Password has been reset"); }
+          if (result) { 
+            const currentuserSting = JSON.stringify(result.data);     // convert json into string
+            localStorage.setItem("currentuser", currentuserSting);    // save currentuser in localstorage as string
+            setUserDetails(result.data);
+            alert("Your Password has been reset");
+          }
         }).catch((err) => console.log(err)); 
     }else{alert("Please Enter Password");}
     

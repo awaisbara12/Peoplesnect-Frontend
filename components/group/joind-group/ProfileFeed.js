@@ -100,7 +100,7 @@ const ProfileFeed = (props) => {
           <NewsPostProfile lists={list} setList={setList} />
         ) : (
           props.currentUser && props.group ? (
-            (admins && isadmin(admins, props.currentUser.id)) || props.group.owner.id == props.currentUser.id ? (
+            (admins && isadmin(admins, props.currentUser.id)) || (props.group && props.group.owner && props.group.owner.id == props.currentUser.id) ? (
               <NewsPostProfile lists={list} setList={setList} />
             ) : ("")
           ) : ("")

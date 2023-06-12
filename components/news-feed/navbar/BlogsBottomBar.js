@@ -102,21 +102,23 @@ const BlogsBottomBar = () => {
   }
   //  Current user
   const Current_User = async (CableApp) => {
-    await fetch(CURENT_USER_LOGIN_API, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        Authorization: `${authKey}`,
-      },
-    })
-      .then((resp) => resp.json())
-      .then((result) => {
-        if (result && result.data && result.data.id) {
-          setUserDetails(result.data);
-          createConversationAlertSub(CableApp, result.data.id)
+    var c = window.localStorage.getItem("currentuser");
+    var Details=JSON.parse(c);
+    // await fetch(CURENT_USER_LOGIN_API, {
+    //   method: "GET",
+    //   headers: {
+    //     Accept: "application/json",
+    //     Authorization: `${authKey}`,
+    //   },
+    // })
+    //   .then((resp) => resp.json())
+    //   .then((result) => {
+        if (Details && Details.id) {
+          setUserDetails(Details);
+          createConversationAlertSub(CableApp, Details.id)
         }
-      })
-      .catch((err) => console.log(err));
+    //   })
+    //   .catch((err) => console.log(err));
   }
   useEffect(() => {
     // Current_User();

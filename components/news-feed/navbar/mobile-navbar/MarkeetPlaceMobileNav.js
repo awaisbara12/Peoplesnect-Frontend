@@ -24,8 +24,9 @@ import {
   StarIcon,
 } from "@heroicons/react/outline";
 import Spinner from "../../../common/Spinner";
-import TopNavbarSearch from "../../../markeetplace/MarketPlace-Header/TopNavbarSearch ";
+// import TopNavbarSearch from "../../../markeetplace/MarketPlace-Header/TopNavbarSearch ";
 import { MenuAlt4Icon } from "@heroicons/react/solid";
+import TopNavbarMarketplaceSearch from "../../../markeetplace/MarketPlace-Header/TopNavbarMarketplaceSearch";
 const MarkeetPlaceMobileNav = () => {
   const [category, setcategory] = useState();
   // Bareer Key
@@ -65,7 +66,7 @@ const MarkeetPlaceMobileNav = () => {
             </Link>
           </div>
           <div className="w-full">
-            <TopNavbarSearch />
+            <TopNavbarMarketplaceSearch />
           </div>
         </div>
         <div className="flex gap-6">

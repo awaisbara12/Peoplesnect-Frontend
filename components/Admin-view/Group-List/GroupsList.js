@@ -199,12 +199,12 @@ const GroupsList =()=> {
                 >
                   {groups && groups.map((group)=>(
                     <div 
-                      className="hover:shadow-2xl shadow-lg bg-white flex items-center justify-between rounded-xl p-2"
+                      className="hover:shadow-2xl shadow-lg bg-white flex items-start justify-between rounded-xl p-2"
                       id={`group-${group.id}`}
                       key={group.id}>
                       <Link href={{pathname: "/group-page/joind-group", query: group.id}}>
                         <a>
-                          <div className="flex gap-2 items-center">
+                          <div className="flex gap-2 items-start">
                             {group && group.display_image_url?(
                                 <img
                                   src={group.display_image_url}
@@ -229,9 +229,9 @@ const GroupsList =()=> {
                           </div>
                         </a>
                       </Link>
-                      <div className="flex gap-1">
+                      <div className="flex items-start gap-1">
                         <Link href={{pathname: "/Admin/groups-list/Edit-Groups", query: group.id,}}>
-                            <a className="flex gap-1 mt-2">
+                            <a className="flex gap-1 ">
                               <PencilAltIcon className="h-5 w-5 text-indigo-400" />
                             </a>
                         </Link>

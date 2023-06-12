@@ -13,25 +13,35 @@ const ProfileCard = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [userDetails, setUserDetails] = useState();
+  useEffect(()=>{
+    var c = window.localStorage.getItem("currentuser");
+    setUserDetails(JSON.parse(c));
+  },[])
+  // useEffect(() => {
+  //   setLoading(true);
+  //   if(props.user){
 
-  useEffect(() => {
-    setLoading(true);
-    dispatch(fetchUser());
-    setLoading(false);
-  }, [dispatch]);
+  //   }else{
+  //     dispatch(fetchUser());
+  //   }
+  //   setLoading(false);
+  // }, [dispatch]);
 
-  const { data: user } = useSelector((state) => state.user);
+  // const { data: user } = useSelector((state) => state.user);
 
-  useEffect(() => {
-    const authKey = localStorage.getItem("keyStore");
-    function load() {
-      if (authKey || localStorage == undefined) {
-        localStorage.setItem("userData", JSON.stringify(user));
-      }
-    }
-    load();
-    setUserDetails(JSON.parse(localStorage.getItem("userData")));
-  }, [user]);
+  // useEffect(() => {
+    // const authKey = localStorage.getItem("keyStore");
+    // function load() {
+    //   if (authKey || localStorage == undefined) {
+    //     localStorage.setItem("userData", JSON.stringify(user));
+    //   }
+    // }
+    // load();
+    // setUserDetails(JSON.parse(localStorage.getItem("userData")));
+  //   setLoading(true);
+    
+  //   setLoading(false);
+  // }, []);
 
   if (loading)
     return (
@@ -46,10 +56,10 @@ const ProfileCard = () => {
           <Link href="/profile">
             <a>
               <div className="relative -z-0 flex justify-center">
-              {userDetails && userDetails.user && userDetails.user.cover_photo_url ? (
+              {userDetails && userDetails && userDetails.cover_photo_url ? (
                 <div className="relative -z-0 flex justify-center">
                 <img
-                src={userDetails.user.cover_photo_url}
+                src={userDetails.cover_photo_url}
                 className="rounded-t-xl w-[293px] h-[93px] object-cover"
                 placeholder="blur"
                 alt="profile-bg"
@@ -66,10 +76,10 @@ const ProfileCard = () => {
               )}
                
                
-                {userDetails && userDetails.user && userDetails.user.display_photo_url? (
+                {userDetails && userDetails && userDetails.display_photo_url? (
                   <div className="absolute z-10 -top-8">
                   <img
-                  src={userDetails.user.display_photo_url}
+                  src={userDetails.display_photo_url}
                   alt="profile"
                   className="rounded-full object-cover w-[62px] h-[62px] border-4 border-white"
                 />
@@ -91,10 +101,10 @@ const ProfileCard = () => {
             </a>
           </Link>
           <div className="font-semibold capitalize text-base text-gray-900 text-center mt-2.5 mb-1.5">
-            {userDetails && userDetails.user ? (
+            {userDetails && userDetails ? (
               <>
                 {" "}
-                {userDetails.user.first_name} {userDetails.user.last_name}
+                {userDetails.first_name} {userDetails.last_name}
               </>
             ) : (
               <Spinner />
@@ -102,19 +112,19 @@ const ProfileCard = () => {
           </div>
         </div>
         <div className="font-light text-base text-gray-900 leading-5 text-center">
-          {userDetails && userDetails.user ? (
-            <> {userDetails.user.recent_job}</>
+          {userDetails && userDetails ? (
+            <> {userDetails.recent_job}</>
           ) : (
             <Spinner />
           )}
         </div>
         <div className="font-light max-h-[40px] overflow-hidden px-5 text-base text-gray-900 leading-5 text-center">
-        {userDetails && userDetails.user ? (
-            <> {userDetails.user.description}</>
+        {userDetails && userDetails ? (
+            <> {userDetails.description}</>
           ) : (
             <Spinner />
           )}
-        {/* {userDetails.user.description} */}
+        {/* {userDetails.description} */}
          {/* Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum */}
         </div>
         <div className="text-center">
@@ -126,7 +136,7 @@ const ProfileCard = () => {
         </a>
         </Link>
         <div className="mt-4 text-indigo-400 px-3 rounded-full font-medium">
-          Profile Views : {userDetails && userDetails.user && userDetails.user.views_count? userDetails.user.views_count: 0}
+          Profile Views : {userDetails && userDetails && userDetails.views_count? userDetails.views_count: 0}
         </div>
         </div>
         {/* <div className="border-1 text-gray-100 my-5"></div>

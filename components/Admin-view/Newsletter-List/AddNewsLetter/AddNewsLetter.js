@@ -20,7 +20,7 @@ const AddNewsLetter = () => {
     setemail_type(e)
   };
 
-  console.log(email);
+  // console.log(email);
   const Add_NewsLetter = async (commit) => {
     const dataForm = new FormData();
     // commit

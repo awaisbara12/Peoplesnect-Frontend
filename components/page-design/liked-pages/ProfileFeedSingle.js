@@ -101,7 +101,6 @@ const ProfileFeedSingle = (singleItems) => {
   const [spinner, setSpinner] = useState(false);
   const [admins, setadmins] = useState(singleItems.admin);
 
-
   const [tags, settags] = useState([]);
   const [mentioned, setMentioned] = useState([]);
   const [hashtaged, setHashtaged] = useState([]);
@@ -298,7 +297,7 @@ const ProfileFeedSingle = (singleItems) => {
   }
   // Forn All admins
   function isadmin(admin, user_id) {
-    if (admin.length > 0) {
+    if (admin && admin.length > 0) {
       for (var i = 0; i < admin.length; i++) {
         if (admin[i].user.id == user_id) { return true; }
       }
@@ -1210,13 +1209,13 @@ const ProfileFeedSingle = (singleItems) => {
               </div>
             </div>
             <Fragment>
-              {items.user && singleItems.group.can_comment == "all_member" ? (
+              {singleItems.currentUser && items.user && singleItems.group.can_comment == "all_member" ? (
 
-                <PostComments news_feed_id={items.id} currentUser={singleItems.currentUser} setComments={setComments} setComments_count={setComments_count} setIs_deleted={setIs_deleted} dp={items.user.display_photo_url} />
+                <PostComments news_feed_id={items.id} currentUser={singleItems.currentUser} setComments={setComments} setComments_count={setComments_count} setIs_deleted={setIs_deleted} dp={singleItems.currentUser.display_photo_url} />
               ) : (
                 items.user && singleItems.currentUser && singleItems.group ? (
                   (admins && isadmin(admins, singleItems.currentUser.id)) || singleItems.group.owner.id == singleItems.currentUser.id ? (
-                    <PostComments news_feed_id={items.id} currentUser={singleItems.currentUser.id} setComments={setComments} setComments_count={setComments_count} setIs_deleted={setIs_deleted} dp={items.user.display_photo_url} />
+                    <PostComments news_feed_id={items.id} currentUser={singleItems.currentUser.id} setComments={setComments} setComments_count={setComments_count} setIs_deleted={setIs_deleted} dp={singleItems.currentUser.display_photo_url} />
                   ) : ("")
                 ) : ("")
               )}

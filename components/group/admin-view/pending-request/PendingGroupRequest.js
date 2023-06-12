@@ -81,13 +81,13 @@ const PendingGroupRequest = () => {
                         <a>
                           <div className="username text-sm font-bold capitalize">{i.sender_details.first_name} {i.sender_details.last_name}</div>
                           <div className="mutual-followers text-xs">
-                            {i.sender_details.email}{/* Friends Already Members */}
+                            {i.sender_details.city?(<>{i.sender_details.city}, </>):("")} {i.sender_details.state?(<>{i.sender_details.state}, </>):("")} {i.sender_details.country} {/* Friends Already Members */}
                             {/* <span className="text-indigo-400"> 2+</span> */}
                           </div>
-                          <div className="userfield text-xs">
+                          {/* <div className="userfield text-xs">
                             Added By{" "}
                             <span className="text-indigo-400">User Name</span>
-                          </div>
+                          </div> */}
                         </a>
                       </Link>
                     </div>

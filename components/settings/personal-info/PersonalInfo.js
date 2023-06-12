@@ -28,6 +28,8 @@ const PersonalInfo = () => {
     .then((result) => {
       if (result) {
         setUserDetails(result.data.id); 
+        const currentuserSting = JSON.stringify(result.data);     // convert json into string
+        localStorage.setItem("currentuser", currentuserSting);    // save currentuser in localstorage as string
         alert("Your Information has been Updated! ") 
       }
     })
@@ -35,27 +37,30 @@ const PersonalInfo = () => {
   }
    // for current user
   const Current_User=async()=>{    
-   
-    await fetch(CURENT_USER_LOGIN_API, {
-      method: "GET",
-       headers: {
-        Accept: "application/json", 
-         Authorization: `${authKey}`,
-       },
-    })
-       .then((resp) => resp.json())
-      .then((result) => {
-        if (result) {
-          setUserDetails(result.data.id);  
-          console.log("Current Userss",result.data)
-          setfirst_name(result.data.first_name);
-          setlast_name(result.data.last_name);
-          setcountry(result.data.country);
-          setcity(result.data.city);
-          setstates(result.data.state)
-        }
-      })
-      .catch((err) => console.log(err)); 
+    var c = window.localStorage.getItem("currentuser");
+    var Details = JSON.parse(c);
+    // console.log("Detail",Details)
+    // await fetch(CURENT_USER_LOGIN_API, {
+    //   method: "GET",
+    //    headers: {
+    //     Accept: "application/json", 
+    //      Authorization: `${authKey}`,
+    //    },
+    // })
+    //    .then((resp) => resp.json())
+    //   .then((result) => {
+    //     if (result) {
+          setUserDetails(Details.id);  
+          setfirst_name(Details.first_name);
+          setlast_name(Details.last_name);
+          setcountry(Details.country);
+          setcity(Details.city);
+          setstates(Details.state);
+          setcountryName(Details.country);
+          setstateName(Details.state)
+    //     }
+    //   })
+    //   .catch((err) => console.log(err)); 
   }
   useEffect(()=>{
     Current_User();

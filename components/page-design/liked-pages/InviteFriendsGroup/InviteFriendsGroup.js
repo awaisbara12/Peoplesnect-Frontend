@@ -12,7 +12,7 @@ const InviteFriendsGroup = (props) => {
   const [isCheck, setIsCheck] = useState(props.isCheck);
   const [list, setList] = useState([]);
 
-  console.log(props.page);
+  // console.log(props.page);
 
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
@@ -65,7 +65,7 @@ const InviteFriendsGroup = (props) => {
     }
   };
 
-  console.log("id is",isCheck);
+  // console.log("id is",isCheck);
 
   const catalog = list.map(({ id, first_name, last_name, city, country,display_photo_url  }) => {
     return (

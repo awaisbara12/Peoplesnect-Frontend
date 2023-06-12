@@ -98,6 +98,9 @@ const UsersList = () => {
       const result = await res;
       if(result){
         if(result.data.role !="user"){
+          // const currentuserSting = JSON.stringify(result.data.data);     // convert json into string
+          // localStorage.setItem("currentuser", currentuserSting);    // save currentuser in localstorage as string      
+          // console.log(result.data);
           document.getElementById(`user-${userId}`).classList.add("hidden");
         }
       }
@@ -224,12 +227,12 @@ const UsersList = () => {
                   >
                     {users && users.map((user)=>(
                       <div 
-                        className="hover:shadow-2xl shadow-lg bg-white flex items-center justify-between rounded-xl p-2"
+                        className="hover:shadow-2xl shadow-lg bg-white flex items-start justify-between rounded-xl p-2"
                         id={`user-${user.id}`}
                         key={user.id}>
                         <Link href={{pathname: "/User-Profile", query: user.id}}>
                           <a>
-                            <div className="flex gap-2 items-center" >
+                            <div className="flex gap-2 items-start" >
                               {user && user.display_photo_url?(
                                 <img
                                   src={user.display_photo_url}
