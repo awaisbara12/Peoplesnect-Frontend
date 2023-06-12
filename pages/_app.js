@@ -16,10 +16,7 @@ function App({ Component, pageProps }) {
       {screen && (screen[1]=="login" || screen[1]=="" || screen[1]=="About-us" || screen[1]=="Admin")?(""):(
         <>
           <TopNavbar/>
-          <div className="mt-20">
           <MobileNav/>
- 
-          </div>
         </>
       )}
       <Component {...pageProps} />
