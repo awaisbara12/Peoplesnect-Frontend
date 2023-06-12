@@ -10,6 +10,7 @@ import TopNavbar from "../news-feed/navbar/TopNavbar";
 import FooterNewsFeed from "../news-feed/newsfeed/newsfeedfooter/FooterNewsFeed";
 import SuggestedBlogs from "./SuggestedBlogs";
 import Footer from "../footer/Footer";
+import MobileNav from "../news-feed/navbar/mobile-navbar/MobileNav";
 
 const BlogsFeed = () => {
   return (
@@ -23,7 +24,9 @@ const BlogsFeed = () => {
         <div className="xl:max-w-[1340px] container mx-auto">
           <div className="sticky top-0 z-50">
             {/* <TopNavbar /> */}
-            <BlogsNav />
+            {/* <BlogsNav /> */}
+            {/* <MobileNav/> */}
+
           </div>
           <div className="flex xl:px-0 lg:px-4 md:px-8 sm:px-0 gap-[65px] lg:gap-6 md:gap-4 justify-between mt-12 md:mt-0">
             <div className="h-full bg-zinc-100 mx-auto">

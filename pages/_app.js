@@ -1,5 +1,7 @@
 import { useRouter } from "next/router";
 import { Provider } from "react-redux";
+import MarketplaceBottomBar from "../components/news-feed/navbar/MarketplaceBotoombar";
+import MobileNav from "../components/news-feed/navbar/mobile-navbar/MobileNav";
 import TopNavbar from "../components/news-feed/navbar/TopNavbar";
 import store from "../store/store";
 import "../styles/globals.css";
@@ -12,9 +14,16 @@ function App({ Component, pageProps }) {
   return (
     <Provider store={store}>
       {screen && (screen[1]=="login" || screen[1]=="" || screen[1]=="About-us" || screen[1]=="Admin")?(""):(
-      <TopNavbar/>
+        <>
+          <TopNavbar/>
+          <div className="mt-20">
+          <MobileNav/>
+ 
+          </div>
+        </>
       )}
       <Component {...pageProps} />
+      {/* <MarketplaceBottomBar /> */}
     </Provider>
   );
 }

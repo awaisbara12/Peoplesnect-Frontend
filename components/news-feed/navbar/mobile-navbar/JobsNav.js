@@ -329,21 +329,16 @@ const JobsNav = () => {
 
                         {results && results.length > 0 ? (
                           <div className="text-right border-t px-6">
-                            {/* <Link href={{pathname: "/search", query: value,}}>
-                                 <a href=""> */}
                             <button className="mt-2 border-indigo-400 border text-indigo-400 px-2 py-1 rounded-full font-small"
                               onClick={() => pagemove()} >
                               Show more
                             </button>
-                            {/* </a>
-                                 </Link> */}
                           </div>
                         ) : ('')
 
                         }
 
                       </Dialog.Panel>
-
                     </Transition.Child>
                   </div>
                 </div>

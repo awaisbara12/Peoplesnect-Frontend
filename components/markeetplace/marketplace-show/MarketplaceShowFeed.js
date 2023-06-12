@@ -15,6 +15,7 @@ import MarkeetPlaceMobileNav from "../../news-feed/navbar/mobile-navbar/MarkeetP
 import MarketplaceBottomBar from "../../news-feed/navbar/MarketplaceBotoombar";
 import Footer from "../../footer/Footer";
 import DropdownRender from "../../news-feed/Chat-box/ChatBox";
+import MobileNav from "../../news-feed/navbar/mobile-navbar/MobileNav";
 
 const MarketplaceShowFeed = () => {
   return (
@@ -28,7 +29,8 @@ const MarketplaceShowFeed = () => {
         <div className="xl:max-w-[1340px] container mx-auto">
           {/* <TopNavbar /> */}
           <div className="z-50">
-            <MarkeetPlaceMobileNav />
+            {/* <MarkeetPlaceMobileNav /> */}
+            {/* <MobileNav/> */}
           </div>
           <div className="flex xl:px-0 lg:px-4 md:px-8 sm:px-0 lg:gap-6 md:gap-4 justify-between mt-12 md:mt-0">
             <div className="mt-8 mx-auto">

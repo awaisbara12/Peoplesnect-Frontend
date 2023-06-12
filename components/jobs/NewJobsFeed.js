@@ -15,6 +15,7 @@ import JobsBottomBar from "../news-feed/navbar/JobsBottomBar";
 import TopNavbar from "./Job-Header/TopNavbar";
 import Footer from "../footer/Footer";
 import DropdownRender from "../news-feed/Chat-box/ChatBox";
+import MobileNav from "../news-feed/navbar/mobile-navbar/MobileNav";
 const NewJobsFeed = () => {
   return (
     <div>
@@ -27,7 +28,8 @@ const NewJobsFeed = () => {
         <div className="xl:max-w-[1340px] container mx-auto">
           <div className="sticky top-0 z-50">
             {/* <TopNavbar /> */}
-            <JobsNav />
+            {/* <JobsNav /> */}
+            {/* <MobileNav/> */}
           </div>
           <div className="flex xl:px-0 lg:px-4 md:px-8 sm:px-0 gap-[65px] lg:gap-6 md:gap-4 justify-between mt-12 md:mt-0">
             <div className="h-full bg-zinc-100">
