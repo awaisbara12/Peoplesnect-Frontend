@@ -18,14 +18,19 @@ import {
   BookmarkIcon,
   AcademicCapIcon,
   ShieldCheckIcon,
+  PlusSmIcon,
 } from "@heroicons/react/solid";
 import { CONVERSATION_API, CURENT_USER_LOGIN_API, GET_NOTIFICATIONS, WS_PUBLIC_API } from "../../../pages/config";
+import AddNewJob from "../../jobs/AddNewJob";
+import MessageIcon from "./MessageIcon";
 
 const MobileBottomBar = () => {
   const [count, setcount] = useState();
   const [userDetails, setUserDetails] = useState();
   const [Conversation, setConversation] = useState();
   const router = useRouter();
+  const data = router.asPath;
+  const screen = data.split("/");
   // Bareer Key
   if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore"); }
   // for count notification (on-click)
@@ -137,32 +142,32 @@ const MobileBottomBar = () => {
         <div className="">
           <Link href="/news-feed">
             <a className="flex flex-col items-center">
-              <HomeIcon className="text-gray-900 h-7 w-7" />
-              <div className="">Home</div>
+              <HomeIcon className="text-gray-900 h-5 w-5" />
+              <div className="text-xs">Home</div>
             </a>
           </Link>
         </div>
         <div className="">
           <Link href="/blog">
             <a className="flex flex-col items-center">
-              <LibraryIcon className="h-7 w-7" />
-              <div className="">Articles</div>
+              <LibraryIcon className="h-5 w-5" />
+              <div className="text-xs">Articles</div>
             </a>
           </Link>
         </div>
         <div>
           <Link href="/jobs">
             <a className="flex flex-col items-center">
-              <BriefcaseIcon className="h-7 w-7" aria-hidden="true" />
-              <div className="">Jobs</div>
+              <BriefcaseIcon className="h-5 w-5" aria-hidden="true" />
+              <div className="text-xs">Jobs</div>
             </a>
           </Link>
         </div>
         <Menu as="div" className="relative inline-block text-left">
           <div>
             <Menu.Button className="flex flex-col items-center">
-              <UsersIcon className="h-7 w-7" aria-hidden="true" />
-              <div className="">My Network</div>
+              <UsersIcon className="h-5 w-5" aria-hidden="true" />
+              <div className="text-xs">My Network</div>
             </Menu.Button>
           </div>
 
@@ -182,8 +187,8 @@ const MobileBottomBar = () => {
                     <Link href="/my-network/Peending-Request" className="">
                       <a>
                         <div className="flex flex-col items-center">
-                          <UserAddIcon className="h-7 w-7" />
-                          <div className="">Pending Requests</div>
+                          <UserAddIcon className="h-5 w-5" />
+                          <div className="text-xs">Pending Requests</div>
                         </div>
                       </a>
                     </Link>
@@ -194,8 +199,8 @@ const MobileBottomBar = () => {
                     <Link href="/my-network" className="">
                       <a>
                         <div className="flex flex-col items-center">
-                          <UserGroupIcon className="h-7 w-7" />
-                          <div className="">Connections</div>
+                          <UserGroupIcon className="h-5 w-5" />
+                          <div className="text-xs">Connections</div>
                         </div>
                       </a>
                     </Link>
@@ -206,8 +211,8 @@ const MobileBottomBar = () => {
                     <Link href="/my-network/Followings" className="">
                       <a>
                         <div className="flex flex-col items-center">
-                          <UsersIcon className="h-7 w-7" />
-                          <div className="">Followings</div>
+                          <UsersIcon className="h-5 w-5" />
+                          <div className="text-xs">Followings</div>
                         </div>
                       </a>
                     </Link>
@@ -217,36 +222,74 @@ const MobileBottomBar = () => {
             </Menu.Items>
           </Transition>
         </Menu>
-        <div className="">
-          <Link href="/messaging-design" className="">
-            <a className="flex flex-col items-center">
-              <div className="relative">
-                <ChatAltIcon className="h-7 w-7" />
-                {Conversation && Conversation == 'true' ? (
-                  <div className="bg-red-400 h-3 w-3 text-white -top-1 left-3 rounded-full flex justify-center items-center absolute">
-                  </div>
-                ) : ('')
-                }
-                <div className="text-sm md:text-xs">chat</div>
-              </div>
-            </a>
-          </Link>
-        </div>
-        <div className="">
+        <MessageIcon/>
+        <div className="text-xs">
           <Link href="/notifications" className="">
             <a onClick={() => updateCount()} className="flex flex-col items-center" >
               <div className="relative">
-                <BellIcon className="h-7 w-7" />
+                <BellIcon className="h-5 w-5" />
                 {count && count != '0' ? (
                   <div className="bg-red-400 h-4 w-4 text-white -top-1 left-3 rounded-full flex justify-center items-center absolute">
                     <p className="text-[8px]">{count}</p>
                   </div>
                 ) : ('')}
               </div>
-              <div className="text-sm md:text-xs">Notifications</div>
+              <div className="text-xs">Notifications</div>
             </a>
           </Link>
         </div>
+        {
+          screen[1]=="blog"?(
+            <div className="">
+              <Link href="/blog/new-blog">
+                <a className="flex flex-col items-center">
+                  <PlusSmIcon className="h-5 w-5" />
+                  <div className="text-xs">Add Blog</div>
+                </a>
+              </Link>
+            </div>
+          ):(
+            screen[1]=="jobs"?(
+              <div className="">
+                <AddNewJob />
+              </div>
+            ):(
+              screen[1]=="page-design"?(
+                <div className="">
+                  <Link href="/page-design/new-page">
+                    <a className="flex flex-col items-center">
+                      <PlusSmIcon className="h-5 w-5" />
+                      <div className="text-xs">New Page</div>
+                    </a>
+                  </Link>
+                </div>
+              ):(
+                screen[1]=="group-page"?(
+                  <div className="">
+                    <Link href="/group-page/new-group">
+                      <a className="flex flex-col items-center">
+                        <PlusSmIcon className="h-5 w-5" />
+                        <div className="text-xs">New Group</div>
+                      </a>
+                    </Link>
+                  </div>
+                ):(
+                  screen[1]=="markeet-place"?(
+                    <div className="">
+                      <Link href="/markeet-place/add-your-items">
+                        <a className="flex flex-col items-center">
+                          <PlusSmIcon className="h-5 w-5" />
+                          <div className="text-xs">Add Product</div>
+                        </a>
+                      </Link>
+                    </div>
+                  ):('')
+                  )
+                )
+              )
+            )
+        }
+       
 
       </div>
     </div>

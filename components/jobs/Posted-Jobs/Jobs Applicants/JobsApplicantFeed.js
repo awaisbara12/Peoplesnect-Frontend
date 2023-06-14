@@ -48,7 +48,7 @@ const JobsApplicantFeed = () => {
         </div>
       </div>
       <DropdownRender />
-      <JobsBottomBar />
+      {/*<JobsBottomBar/>*/}
     </div>
   );
 };

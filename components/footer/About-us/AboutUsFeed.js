@@ -8,6 +8,7 @@ import MobileBottomBar from "../../news-feed/navbar/MobileBottomBar";
 import AboutUs from "./AboutUs";
 import Link from "next/link";
 import NavbarLogo from "../../../public/images/logo.png";
+import MobileLogo from "../../../public/images/logo-circle.png";
 import Image from "next/image";
 const AboutUsFeed = () => {
   return (
@@ -20,11 +21,21 @@ const AboutUsFeed = () => {
       <div className="">
         <div className="xl:max-w-full container mx-auto">
           <div className="sticky top-0 z-50">
-          <div className="navbar-brand p-3 bg-white shadow-xl rounded-b-xl">
+          <div className="navbar-brand p-1 md:p-3 bg-white shadow-xl rounded-b-xl">
               <Link href="/news-feed">
-                <a>
+                <a className="hidden md:block">
                   <Image
                     src={NavbarLogo}
+                    className="w-full"
+                    placeholder="blur"
+                    alt=""
+                  />
+                </a>
+              </Link>
+              <Link href="/news-feed">
+                <a className="block md:hidden">
+                  <Image
+                    src={MobileLogo}
                     className="w-full"
                     placeholder="blur"
                     alt=""
@@ -39,7 +50,7 @@ const AboutUsFeed = () => {
         </div>
         <Footer />
       </div>
-      <MobileBottomBar />
+      {/* <MobileBottomBar/> */}
     </div>
   );
 };

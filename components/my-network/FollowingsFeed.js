@@ -43,7 +43,7 @@ const FollowingsFeed = () => {
           </div>
         </div>
         <DropdownRender />
-        <MobileBottomBar />
+        {/*<MobileBottomBar/> */}
       </div>
     </div>
   );

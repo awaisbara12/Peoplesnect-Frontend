@@ -39,7 +39,7 @@ const MarketPlaceFeed = () => {
             </div>
           </div>
         </div>
-        <MobileBottomBar />
+        {/*<MobileBottomBar/> */}
       </div>
     </div>
   );

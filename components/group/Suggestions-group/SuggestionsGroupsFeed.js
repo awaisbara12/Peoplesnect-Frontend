@@ -23,7 +23,7 @@ const SuggestionsGroupsFeed = () => {
         <div className="xl:max-w-[1340px] container mx-auto">
           <div className="sticky top-0 z-50">
             {/* <TopNavbar /> */}
-            <MobileNav />
+            {/* <MobileNav/> */}
           </div>
           <div className="flex px-2 xl:px-0 lg:px-4 md:px-4 gap-[65px] md:gap-8 lg:gap-6 justify-between mt-12 md:mt-0">
             <div className="h-full bg-zinc-100 mx-auto">
@@ -41,7 +41,7 @@ const SuggestionsGroupsFeed = () => {
         </div>
       </div>
       <DropdownRender />
-      <GroupsBottomBar />
+      {/*<GroupsBottomBar/> */}
     </div>
   );
 };

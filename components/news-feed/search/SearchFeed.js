@@ -39,7 +39,7 @@ const SearchFeed = () => {
             </div>
           </div>
         </div>
-        <MobileBottomBar />
+        {/*<MobileBottomBar/> */}
       </div>
     </div>
   );

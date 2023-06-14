@@ -46,7 +46,7 @@ const SavedJobsFeed = () => {
         </div>
       </div>
       <DropdownRender />
-      <JobsBottomBar />
+      {/*<JobsBottomBar/>*/}
     </div>
   );
 };

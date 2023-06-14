@@ -34,7 +34,7 @@ const AddBlogsFeed = () => {
           </div>
         </div>
       </div>
-      <BlogsBottomBar />
+      {/*<BlogsBottomBar/> */}
     </div>
   );
 };

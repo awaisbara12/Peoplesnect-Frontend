@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { Provider } from "react-redux";
-import MarketplaceBottomBar from "../components/news-feed/navbar/MarketplaceBotoombar";
 import MobileNav from "../components/news-feed/navbar/mobile-navbar/MobileNav";
+import MobileBottomBar from "../components/news-feed/navbar/MobileBottomBar";
 import TopNavbar from "../components/news-feed/navbar/TopNavbar";
 import store from "../store/store";
 import "../styles/globals.css";
@@ -13,14 +13,21 @@ function App({ Component, pageProps }) {
   const screen = data.split("/");
   return (
     <Provider store={store}>
-      {screen && (screen[1]=="login" || screen[1]=="" || screen[1]=="About-us" || screen[1]=="Admin")?(""):(
+      {/* Mobile And Desktop TopBar/Header */}
+      {screen && (screen[1]=="login" || screen[1]=="" || screen[1]=="About-us" || screen[1]=="Admin" || screen[1]=="onboarding")?(""):(
         <>
           <TopNavbar/>
           <MobileNav/>
         </>
       )}
+      
       <Component {...pageProps} />
-      {/* <MarketplaceBottomBar /> */}
+      
+      {/* Mobile BottomBar/Footer */}
+      {screen && (screen[1]=="login" || screen[1]=="" || screen[1]=="About-us" || screen[1]=="onboarding")?(""):(
+        <MobileBottomBar/>
+      )}
+      
     </Provider>
   );
 }

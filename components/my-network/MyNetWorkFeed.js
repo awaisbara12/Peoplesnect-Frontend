@@ -42,7 +42,7 @@ const MyNetWorkFeed = () => {
         </div>
       </div>
       <DropdownRender />
-      <MobileBottomBar />
+      {/*<MobileBottomBar/> */}
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import AliceCarousel from "react-alice-carousel";
+import AliceCarousel1 from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 import { CURENT_USER_LOGIN_API, MESSAGES_API, PRODUCT_API } from "../../../pages/config";
 import { useRouter } from "next/router";
@@ -30,6 +31,7 @@ const Productdetails = [
 
 const MarketplaceShow = () => {
   const [Product, setProduct] = useState();
+  const [imagess, setimagess] = useState([]);
   const [CurrentUser, setCurrentUser] = useState();
   let [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
@@ -50,6 +52,7 @@ const MarketplaceShow = () => {
       .then((result) => {
         if (result) {
           setProduct(result.data)
+          setimagess(result.data.product_pic)
         }
       })
       .catch((err) => console.log(err));
@@ -84,7 +87,9 @@ const MarketplaceShow = () => {
     setIsOpen(false);
   }
 
-  function openModal() {
+  function openModal(i) {
+    // console.log(Product.product_pic)
+    setimagess(i)
     setIsOpen(true);
   }
   return (
@@ -98,7 +103,7 @@ const MarketplaceShow = () => {
                   src={i}
                   key={i}
                   className="md:object-cover object-contain cursor-zoom-in rounded-xl w-[1050px] h-[400px]"
-                  onClick={openModal}
+                  onClick={()=>openModal(i)}
                 />
               ))
             }
@@ -147,9 +152,9 @@ const MarketplaceShow = () => {
                       >
                       </Dialog.Title>
                       <div className="">
-                        <AliceCarousel>
-                          {
-                            Product.product_pic.map((a) => (
+                        {/* <AliceCarousel>
+                          {imagess &&
+                           imagess.map((a) => (
                               <img
                                 src={a}
                                 key={a}
@@ -157,7 +162,11 @@ const MarketplaceShow = () => {
                               />
                             ))
                           }
-                        </AliceCarousel>
+                        </AliceCarousel> */}
+                        <img
+                          src={imagess}
+                          className="object-contain bg-white cursor-zoom-in rounded-4xl w-[1050px] h-[500px]"
+                        />
                       </div>
                     </Dialog.Panel>
                   </Transition.Child>

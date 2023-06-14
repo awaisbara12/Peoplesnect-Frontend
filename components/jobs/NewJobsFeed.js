@@ -49,7 +49,7 @@ const NewJobsFeed = () => {
         </div>
       </div>
       <DropdownRender />
-      <JobsBottomBar />
+      {/*<JobsBottomBar/>*/}
     </div>
   );
 };

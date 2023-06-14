@@ -47,7 +47,7 @@ const ApplyJobFeed = () => {
         </div>
       </div>
       <DropdownRender />
-      <JobsBottomBar />
+      {/*<JobsBottomBar/>*/}
     </div>
   );
 };

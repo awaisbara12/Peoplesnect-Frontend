@@ -74,23 +74,43 @@ const MessageIcon = () => {
     GetConversation();
   }, [])
     return(
-      <Link href="/messaging-design" className="">
-              <a>
-                  <li className="flex font-normal text-xl items-center flex-col gap-1">
-                  {/* <ChatAltIcon className="h-5 w-5 text-indigo-400" /> */}
-                  <div className="relative">
-                      <ChatAltIcon className="h-5 w-5 text-indigo-400" />
-                      {Conversation && Conversation== 'true' ? (
-                      <div className="bg-red-400 h-3 w-3 text-white -top-1 left-3 rounded-full flex justify-center items-center absolute">
-                      </div>
-                      ) : ('')
+      <>
+        <div className=" hidden md:block">
+        <Link href="/messaging-design" className="">
+          <a>
+            <li className="flex font-normal text-xl items-center flex-col gap-1">
+            {/* <ChatAltIcon className="h-5 w-5 text-indigo-400" /> */}
+            <div className="relative">
+                <ChatAltIcon className="h-5 w-5 text-indigo-400" />
+                {Conversation && Conversation== 'true' ? (
+                <div className="bg-red-400 h-3 w-3 text-white -top-1 left-3 rounded-full flex justify-center items-center absolute">
+                </div>
+                ) : ('')
 
-                      }
-                  </div>
-                  <div className="text-sm md:text-xs">Messaging</div>
-                  </li>
-              </a>
-      </Link>
+                }
+            </div>
+            <div className="text-sm md:text-xs">Messaging</div>
+            </li>
+          </a>
+        </Link>
+        </div>
+        <div className=" block md:hidden">
+        <Link href="/messaging-design" className="">
+          <a>
+            <div className="relative">
+                <ChatAltIcon className="h-5 w-5" />
+                {Conversation && Conversation== 'true' ? (
+                <div className="bg-red-400 h-3 w-3 text-white -top-2 left-3 rounded-full flex justify-center items-center absolute">
+                </div>
+                ) : ('')
+
+                }
+            </div>
+            <div className="text-xs">chat</div>
+          </a>
+        </Link>
+        </div>
+      </>
     )
 }
 
