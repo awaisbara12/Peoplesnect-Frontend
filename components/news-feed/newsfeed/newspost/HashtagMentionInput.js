@@ -90,7 +90,7 @@ const HashtagMentionInput = (props) => {
     <div>
       <MentionsInput className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] mention-input pt-0 resize-none border-0 px-0 text-base overflow-y-hidden outline-none focus:none focus:ring-0"
         value={props.postText} onChange={handleChange}
-        placeholder={"Enter text..."}
+        placeholder={"What you are upto ?"}
         allowSpaceInQuery={true}
       >
         <Mention

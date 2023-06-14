@@ -244,7 +244,7 @@ const MobileBottomBar = () => {
               <Link href="/blog/new-blog">
                 <a className="flex flex-col items-center">
                   <PlusSmIcon className="h-5 w-5" />
-                  <div className="text-xs">Add Blog</div>
+                  <div className="text-xs">Add Article </div>
                 </a>
               </Link>
             </div>

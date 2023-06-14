@@ -31,7 +31,7 @@ if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("k
   return (
     <>
       <div className="bg-white p-5 mt-5 rounded-xl">
-        <div className="text-base font-bold leading-5">Pages Suggestions</div>
+        <div className="text-base font-bold leading-5">Page Suggestions For You </div>
         {SugestPages && 
           SugestPages.map((i)=>(
             <Link href={{pathname:"/page-design/suggested-pages",query:i.id}} key={i.id}>

@@ -38,7 +38,7 @@ const GroupsSuggesions = () => {
   return (
     <>
       <div className="bg-white p-5 mt-5 rounded-xl">
-        <div className="text-base font-bold leading-5">Group Suggestions</div>
+        <div className="text-base font-bold leading-5">Suggested Groups for you</div>
         
         
         {joingroups && joingroups.map((i)=>(

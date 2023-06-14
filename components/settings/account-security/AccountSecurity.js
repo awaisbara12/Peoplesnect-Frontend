@@ -91,7 +91,7 @@ const AccountSecurity = () => {
                 </div>
               </div>
               <div className="flex justify-center gap-10 items-center mt-5 ">
-                <div className="text-lg font-medium">Cofirm Password:</div>
+                <div className="text-lg font-medium">Confirm Password :</div>
                 <div className="relative">
                   <input
                     className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none md:w-96 w-auto placeholder:pl-2 rounded-full placeholder:py-2"
