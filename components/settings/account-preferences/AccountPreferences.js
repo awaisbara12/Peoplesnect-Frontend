@@ -69,7 +69,7 @@ const AccountPreferences = () => {
       <div className="mt-8">
       <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
           <div className="">
-            <div className="heading text-lg font-bold">Account Preference</div>
+            <div className="heading text-lg font-bold">Account Preferences </div>
             <div className="flex items-center justify-between border bg-white mt-4 p-4 rounded-xl">
               <div className="">Language</div>
               <div className="border flex gap-1 rounded-full py-2 px-4">

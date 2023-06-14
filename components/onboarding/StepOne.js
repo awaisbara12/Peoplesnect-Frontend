@@ -201,11 +201,12 @@ const StepOne = () => {
             )}
             <div className="text-center pt-6">
               <h1 className="font-bold text-xl pb-2">
-                Welcome at PeoplesNect 👋{" "}
+              Hi, Welcome onboard 👋{" "}
               </h1>
               <p className="font-light">
-                Lets start your profile, connect with peoples
-                <br /> communries, companies & find jobs
+                Start building up your profile and start finding 
+                <br />the professionals from a number of different 
+                industries.
               </p>
             </div>
 

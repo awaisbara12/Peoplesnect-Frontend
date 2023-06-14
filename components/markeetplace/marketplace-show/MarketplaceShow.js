@@ -31,6 +31,7 @@ const Productdetails = [
 
 const MarketplaceShow = () => {
   const [Product, setProduct] = useState();
+  const [currentuser, setcurrentuser] = useState();
   const [imagess, setimagess] = useState([]);
   const [CurrentUser, setCurrentUser] = useState();
   let [isOpen, setIsOpen] = useState(false);
@@ -79,6 +80,8 @@ const MarketplaceShow = () => {
       .catch((err) => console.log(err));
   }
   useEffect(() => {
+    var c = window.localStorage.getItem("currentuser");
+    setcurrentuser(JSON.parse(c));
     product();
   }, [myArray[1]])
 
@@ -184,9 +187,10 @@ const MarketplaceShow = () => {
               {/* <Link href={{pathname: "/messaging-design", query:Product.user.id}}>
             <a> */}
 
+            {Product && currentuser && currentuser.id==Product.user.id?(""):(
               <div className="bg-indigo-400 rounded-xl w-44 text-center py-3 text-white font-bold" onClick={() => SendMessage(Product.user.id, Product.product_pic[0])}>
-                Contect With Seller
-              </div>
+               Contact With Seller
+              </div>)}
               {/* </a>
           </Link> */}
             </div>

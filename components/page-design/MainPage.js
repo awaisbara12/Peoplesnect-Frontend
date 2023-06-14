@@ -383,7 +383,7 @@ const MainPage = () => {
         <div className="mt-8">
           <div className="bg-white rounded-xl p-4">
             <div className="justify-between flex items-center">
-              <div className="heading font-semibold">Suggestions For You</div>
+              <div className="heading font-semibold">Page Suggestions For You </div>
               <Link href={{pathname: "page-design/show-all", query:"Suggested",}} className="all-button">
                 <a className="bg-indigo-400 text-white px-3 py-2 rounded-full">
                   Show All

@@ -23,7 +23,7 @@ return (
       <Link href="/events-design">
       <a>
         <div className="flex justify-between font-light text-sm mt-4 border-b-1 pb-4">
-          <div className="">Event</div>
+          <div className="">Events</div>
           <CalendarIcon className="w-5 h-5 text-indigo-400" />
         </div>
       </a>

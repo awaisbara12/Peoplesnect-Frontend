@@ -197,13 +197,13 @@ const AddYourItems = () => {
   return (
     <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
       <div className="bg-white p-5 rounded-xl">
-        <div className="my-5 font-bold">Add Details About Ur Product</div>
+        <div className="my-5 font-bold">Add Details About your Product</div>
         <div className="md:w-10/12 w-full mx-auto">
           <div className="border p-5 rounded-xl">
             <div className="">
               <div className="flex justify-between items-center flex-wrap mb-4">
                 <label htmlFor="" className="font-semibold">
-                  Type Your Product Category:
+                Select your Product Category:
                 </label>
                 <select className="w-full md:w-96 bg-gray-100 py-2 px-3 mt-2 border-none rounded-xl focus:drop-shadow-indigo-400"
                   value={category} onChange={(e) => setcategory(e.target.value)} >
