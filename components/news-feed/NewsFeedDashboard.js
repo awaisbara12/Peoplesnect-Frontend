@@ -79,7 +79,7 @@ const NewsFeedDashboard = () => {
           <>
             <div className="sticky z-50 top-0">
               {/* <TopNavbar /> */}
-              <MobileNav />
+            {/* <MobileNav/> */}
             </div>
           </>
           <div className="flex xl:px-0 lg:px-4 md:px-6 sm:px-0 gap-[65px] lg:gap-6 md:gap-4 justify-between mt-12 md:mt-0">
@@ -113,7 +113,7 @@ const NewsFeedDashboard = () => {
           </div>
         </div>
       </div>
-      <MobileBottomBar />
+      {/*<MobileBottomBar/> */}
     </>
   );
 };

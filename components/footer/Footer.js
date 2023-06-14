@@ -3,8 +3,8 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <Fragment>
-      <footer className="bg-white py-2 mt-8 rounded-xl">
+    <Fragment className="mt-8">
+      <footer className="bg-white py-2 rounded-xl">
         <ul className="flex flex-wrap justify-center gap-5 text-xs">
           <li className="">
             <Link href="/Contact-us">

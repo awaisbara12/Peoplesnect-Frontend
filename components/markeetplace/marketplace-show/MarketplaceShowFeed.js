@@ -47,7 +47,7 @@ const MarketplaceShowFeed = () => {
         </div>
       </div>
       <DropdownRender />
-      <MarketplaceBottomBar />
+      {/*<MarketplaceBottomBar/>*/}
     </div>
   );
 };

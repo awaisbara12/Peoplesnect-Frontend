@@ -45,7 +45,7 @@ const RequestFeed = () => {
         </div>
       </div>
       <DropdownRender />
-      <MobileBottomBar />
+      {/*<MobileBottomBar/> */}
     </div>
   );
 };

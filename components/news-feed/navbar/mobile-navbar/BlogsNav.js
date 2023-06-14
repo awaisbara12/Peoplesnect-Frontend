@@ -23,34 +23,11 @@ import TopNavbarSearch from "../../search/TopNavbarSearch ";
 const Blogsnav = () => {
   const [open, setOpen] = useState(true);
   return (
-    <div className="fixed top-0 block lg:hidden md:hidden bg-white w-full rounded-b-2xl">
+    <div className="fixed top-0 z-50">
+      <div className="block lg:hidden md:hidden bg-white w-full rounded-b-2xl">
+
       <div className="h-14 px-4 flex justify-between items-center">
-        {/* <div className="flex items-center gap-4">
-          <div className="">
-            <Link href="/news-feed">
-              <a>
-                <Image src={NavbarLogo} width={35} height={35} alt="" />
-              </a>
-            </Link>
-          </div>
-          <label className="relative block">
-            <span className="absolute inset-y-0 left-0 flex items-center pl-4">
-              <Link href="/news-feed">
-                <a>
-                  <SearchIcon className="text-slate-400 h-5 w-5" />
-                </a>
-              </Link>
-            </span>
-            <input
-              className="placeholder:text-slate-400 bg-zinc-100 placeholder:text-xl w-48 h-7 rounded-full py-2 border-none pl-10"
-              placeholder="Search"
-              type="text"
-              name="search"
-            />
-          </label>
-        </div> */}
         <TopNavbarSearch />
-        
         <div className="relative">
           <Image
             src={ProfileAvatar}
@@ -62,7 +39,7 @@ const Blogsnav = () => {
           />
           <div
             className={`${open ? "w-0" : "w-96"
-              } absolute h-screen z-50 right-0 overflow-hidden duration-500 rounded-xl bg-white`}
+              } absolute h-auto z-50 right-0 overflow-hidden duration-500 rounded-xl bg-white`}
           >
             <div className="p-5">
               <div>
@@ -129,6 +106,7 @@ const Blogsnav = () => {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

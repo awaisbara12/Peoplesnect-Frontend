@@ -16,6 +16,7 @@ export const signout = async () => {
         router.push("/login");
         localStorage.removeItem("keyStore");
         localStorage.removeItem("userData");
+        localStorage.removeItem("currentuser");
       }
     })
     .catch((error) => console.log(error));

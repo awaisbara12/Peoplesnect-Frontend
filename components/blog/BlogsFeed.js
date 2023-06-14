@@ -44,7 +44,7 @@ const BlogsFeed = () => {
           </div>
         </div>
       </div>
-      <BlogsBottomBar />
+      {/*<BlogsBottomBar/> */}
     </div>
   );
 };

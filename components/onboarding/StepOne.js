@@ -71,7 +71,7 @@ const StepOne = () => {
                   } else {
                       if (result && 200) {
                           // router.push("/onboarding/step-two");
-
+                          //  console.log("step.1",result)
                           const otps = {
                             user: {
                               otp: 123456,
@@ -92,6 +92,8 @@ const StepOne = () => {
                                 alert("Enter OTP")
                               } else {
                                 if (result && 200) {
+                                  const currentuserSting = JSON.stringify(result.data);     // convert json into string
+                                  localStorage.setItem("currentuser", currentuserSting);    // save currentuser in localstorage as string
                                   router.push("/news-feed");
                                 }
                               }

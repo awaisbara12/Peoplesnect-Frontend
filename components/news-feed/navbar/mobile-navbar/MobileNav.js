@@ -32,6 +32,7 @@ import { CATEGORY_API } from "../../../../pages/config";
 
 const MobileNav = () => {
   const [open, setOpen] = useState(true);
+  const [currentuser, setcurrentuser] = useState();
   const router = useRouter();
   const data = router.asPath;
   const screen = data.split("/");
@@ -61,10 +62,13 @@ const MobileNav = () => {
   }
 
   useEffect(() => {
+    var c = window.localStorage.getItem("currentuser");
+    setcurrentuser(JSON.parse(c));
     getCategory();
   }, [])
   return (
-    <div className="fixed top-0 block lg:hidden md:hidden bg-white w-full rounded-b-2xl">
+    <div className="fixed top-0 z-50 w-full">
+      <div className="block lg:hidden md:hidden bg-white rounded-b-2xl">
       <div className="h-14 px-4 flex justify-between items-center">
         <div className="flex items-center gap-4">
           <div className="">
@@ -96,24 +100,24 @@ const MobileNav = () => {
               <Link href="/jobs/saved-jobs" className="">
                 <a>
                   <div className="flex flex-col items-center">
-                    <BookmarkIcon className="h-5 w-5" />
-                    <div className="">Saved</div>
+                    <BookmarkIcon className="h-3 w-3" />
+                    <div className="text-xs">Saved</div>
                   </div>
                 </a>
               </Link>
               <Link href="/jobs/applied-jobs" className="">
                 <a>
                   <div className="flex flex-col items-center">
-                    <ShieldCheckIcon className="h-5 w-5" />
-                    <div className="">Applied</div>
+                    <ShieldCheckIcon className="h-3 w-3" />
+                    <div className="text-xs">Applied</div>
                   </div>
                 </a>
               </Link>
               <Link href="/jobs/posted-jobs" className="">
                 <a>
                   <div className="flex flex-col items-center">
-                    <AcademicCapIcon className="h-5 w-5" />
-                    <div className="">Posted</div>
+                    <AcademicCapIcon className="h-3 w-3" />
+                    <div className="text-xs">Posted</div>
                   </div>
                 </a>
               </Link>
@@ -123,16 +127,16 @@ const MobileNav = () => {
               <Link href="/markeet-place/my-listing" className="">
                 <a>
                   <div className="flex flex-col items-center">
-                    <StarIcon className="h-5 w-5" />
-                    <div className="">My Listing</div>
+                    <StarIcon className="h-3 w-3" />
+                    <div className="text-xs">My Listing</div>
                   </div>
                 </a>
               </Link>
               <Menu as="div" className="relative inline-block text-left">
                 <div>
                   <Menu.Button className="flex flex-col items-center">
-                    <MenuAlt4Icon className="h-7 w-7" aria-hidden="true" />
-                    <div className="">Categories</div>
+                    <MenuAlt4Icon className="h-3 w-3" aria-hidden="true" />
+                    <div className="text-xs">Categories</div>
                   </Menu.Button>
                 </div>
 
@@ -172,6 +176,14 @@ const MobileNav = () => {
             </div>
           ):(""))}
           <div className="relative">
+          {currentuser && currentuser.display_photo_url?(
+            <img
+              src={currentuser.display_photo_url}
+              alt=""
+              className="cursor-pointer w-[35px] h-[35px]"
+              onClick={() => setOpen(!open)}
+            />
+          ):(
             <Image
               src={ProfileAvatar}
               width={35}
@@ -179,66 +191,66 @@ const MobileNav = () => {
               alt=""
               className="cursor-pointer"
               onClick={() => setOpen(!open)}
-            />
+            />)}
             <div
-              className={`${open ? "w-0" : "w-96"
-                } absolute h-screen z-50 right-0 overflow-hidden duration-500 rounded-xl bg-white`}
+              className={`${open ? "w-0" : "w-52"
+                } absolute h-auto text-white z-50 top-10 right-0 overflow-y-scroll duration-500 rounded-xl bg-indigo-400`}
             >
               <div className="p-5">
                 <div>
                   <Link href="/profile">
-                    <a className="flex items-center mb-8 gap-2">
-                      <UserIcon className="h-7 w-7" />
-                      <div className="font-bold">Profile</div>
+                    <a className="flex items-center mb-6 gap-2">
+                      <UserIcon className="h-5 w-5" />
+                      <div className="font-bold text-xs">Profile</div>
                     </a>
                   </Link>
                 </div>
                 <div>
                   <Link href="/news-feed">
-                    <a className="flex items-center mb-8 gap-2">
-                      <BookmarkIcon className="h-7 w-7" />
-                      <div className="font-bold">Saved Items</div>
+                    <a className="flex items-center mb-6 gap-2">
+                      <BookmarkIcon className="h-5 w-5" />
+                      <div className="font-bold text-xs">Saved Items</div>
                     </a>
                   </Link>
                 </div>
 
                 <div>
                   <Link href="/markeet-place">
-                    <a className="flex items-center mb-8 gap-2">
-                      <StarIcon className="h-7 w-7" />
-                      <div className="font-bold">MarketPlace</div>
+                    <a className="flex items-center mb-6 gap-2">
+                      <StarIcon className="h-5 w-5" />
+                      <div className="font-bold text-xs">MarketPlace</div>
                     </a>
                   </Link>
                 </div>
                 <div>
                   <Link href="/group-page">
-                    <a className="flex items-center mb-8 gap-2">
-                      <UserGroupIcon className="h-7 w-7" />
-                      <div className="font-bold">Groups</div>
+                    <a className="flex items-center mb-6 gap-2">
+                      <UserGroupIcon className="h-5 w-5" />
+                      <div className="font-bold text-xs">Groups</div>
                     </a>
                   </Link>
                 </div>
                 <div>
                   <Link href="/page-design">
-                    <a className="flex items-center mb-8 gap-2">
-                      <VideoCameraIcon className="h-7 w-7" />
-                      <div className="font-bold">Pages</div>
+                    <a className="flex items-center mb-6 gap-2">
+                      <VideoCameraIcon className="h-5 w-5" />
+                      <div className="font-bold text-xs">Pages</div>
                     </a>
                   </Link>
                 </div>
                 <div>
                   <Link href="/hashtag-design">
-                    <a className="flex items-center mb-8 gap-2">
-                      <HashtagIcon className="h-7 w-7" />
-                      <div className="font-bold">Hashtags</div>
+                    <a className="flex items-center mb-6 gap-2">
+                      <HashtagIcon className="h-5 w-5" />
+                      <div className="font-bold text-xs">Hashtags</div>
                     </a>
                   </Link>
                 </div>
                 <div>
                   <Link href="/settings">
-                    <a className="flex items-center mb-8 gap-2">
-                      <CogIcon className="h-7 w-7" />
-                      <div className="font-bold">Setting</div>
+                    <a className="flex items-center mb-6 gap-2">
+                      <CogIcon className="h-5 w-5" />
+                      <div className="font-bold text-xs">Setting</div>
                     </a>
                   </Link>
                 </div>
@@ -249,7 +261,7 @@ const MobileNav = () => {
                       className="flex gap-2 cursor-pointer"
                     >
                       <LogoutIcon className="h-5 w-5" />
-                      <div className="font-bold">SignOut</div>
+                      <div className="font-bold text-xs">SignOut</div>
                     </a>
                   ) : (
                     <Spinner />
@@ -259,6 +271,7 @@ const MobileNav = () => {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

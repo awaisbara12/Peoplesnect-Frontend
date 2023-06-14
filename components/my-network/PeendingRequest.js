@@ -162,42 +162,42 @@ function PeendingRequest() {
                 {
               return(
               <div className="border-b-1"key="{items.id}">
-              <div className="request-profile flex  px-4 py-3 justify-between items-center">
-                <div className="flex items-center gap-3">
-                  <Link 
-                   href={{
-                    pathname: "/User-Profile/",
-                    query: items.sender.id,}}
-                    >
-                    <a>
-                      <Image src={ProfileAvatar} width={35} height={35} alt="" />
-                    </a>
-                  </Link>
-                  <div className="">
-                  <Link 
-                   href={{
-                    pathname: "/User-Profile/",
-                    query: items.sender.id,}}
-                    >
-                    <a>
-                      <div className="username text-sm font-bold">{items.sender.first_name} {items.sender.last_name}</div>
-                      <div className="userfield text-xs">{items.sender.city}, {items.sender.country}</div>
-                      <div className="mutual-followers text-xs">Matual Friends +3</div>
-                    </a>
+                <div className="request-profile flex  px-4 py-3 justify-between items-center">
+                  <div className="flex items-center gap-3">
+                    <Link 
+                    href={{
+                      pathname: "/User-Profile/",
+                      query: items.sender.id,}}
+                      >
+                      <a>
+                        <Image src={ProfileAvatar} width={35} height={35} alt="" />
+                      </a>
                     </Link>
+                    <div className="">
+                    <Link 
+                    href={{
+                      pathname: "/User-Profile/",
+                      query: items.sender.id,}}
+                      >
+                      <a>
+                        <div className="username text-sm font-bold">{items.sender.first_name} {items.sender.last_name}</div>
+                        <div className="userfield text-xs">{items.sender.city}, {items.sender.country}</div>
+                        <div className="mutual-followers text-xs">Matual Friends +3</div>
+                      </a>
+                      </Link>
+                    </div>
+                  </div>
+                  <div className="Request-button flex items-center gap-2">
+                    <button className="border-1 border-indigo-400 rounded-full text-indigo-400 px-3 py-1 hover:bg-indigo-400 hover:text-white"
+                      onClick={()=>ActionOnFollowRequest(items.id,"accepted")}>
+                      Accept
+                    </button>
+                    <button className="text-gray-600 border-1 border-gray-600 rounded-full px-3 py-1 hover:bg-gray-600 hover:text-white"
+                      onClick={()=>ActionOnFollowRequest(items.id,"cancelled")}>
+                      Ignore
+                    </button>
                   </div>
                 </div>
-                <div className="Request-button flex items-center gap-2">
-                  <button className="border-1 border-indigo-400 rounded-full text-indigo-400 px-3 py-1 hover:bg-indigo-400 hover:text-white"
-                    onClick={()=>ActionOnFollowRequest(items.id,"accepted")}>
-                    Accept
-                  </button>
-                  <button className="text-gray-600 border-1 border-gray-600 rounded-full px-3 py-1 hover:bg-gray-600 hover:text-white"
-                    onClick={()=>ActionOnFollowRequest(items.id,"cancelled")}>
-                    Ignore
-                  </button>
-                </div>
-              </div>
               </div>
               )
               }}

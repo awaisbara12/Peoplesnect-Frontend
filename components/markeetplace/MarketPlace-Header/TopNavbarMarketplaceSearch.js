@@ -85,11 +85,11 @@ const TopNavbarMarketplaceSearch = () => {
   return (
     <div className="flex items-center gap-2">
       <label className="relative block">
-        <span className="absolute inset-y-0 left-0 flex items-center pl-7 cursor-pointer">
+        <span className="absolute inset-y-0 left-0 flex items-center pl-2 md:pl-7 cursor-pointer">
               <SearchIcon className="text-slate-400 h-5 w-5" />
         </span>
         <div
-          className="text-slate-400 hover:shadow-xl bg-gray-100 w-64 md:w-56  rounded-xl border-none pl-14 cursor-text"
+          className="text-slate-400 hover:shadow-xl bg-gray-100 w-auto md:w-56  rounded-xl border-none pl-8 md:pl-14 cursor-text"
           placeholder="Search"
           onClick={openModal}
           type="text"

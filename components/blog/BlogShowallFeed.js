@@ -45,7 +45,7 @@ const BlogShowallFeed = () => {
           </div>
         </div>
       </div>
-      <BlogsBottomBar />
+      {/*<BlogsBottomBar/> */}
     </div>
   );
 };

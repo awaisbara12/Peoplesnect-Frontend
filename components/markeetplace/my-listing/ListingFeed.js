@@ -47,7 +47,7 @@ const ListingFeed = () => {
         </div>
       </div>
       <DropdownRender />
-      <MarketplaceBottomBar />
+      {/*<MarketplaceBottomBar/>*/}
     </div>
   );
 };

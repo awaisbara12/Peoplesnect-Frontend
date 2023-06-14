@@ -39,7 +39,7 @@ const GroupSearchFeed = () => {
             </div>
           </div>
         </div>
-        <MobileBottomBar />
+        {/*<MobileBottomBar/> */}
       </div>
     </div>
   );

@@ -192,22 +192,21 @@ const AddNewJob = (setList, singleItem) => {
   return (
     <div>
       <div className="block md:hidden">
-        <Link href="/jobs">
-          <a className="flex flex-col items-center">
-            <PlusSmIcon className="h-7 w-7" />
+        {/* <Link href="/jobs"> */}
+          <div className="flex flex-col items-center" onClick={openModal}>
+            <PlusSmIcon className="h-5 w-5" />
             <button
-              onClick={openModal}
               type="submit"
-              className=""
+              className="text-xs"
             >
               Add Job
             </button>
-          </a>
-        </Link>
+          </div>
+        {/* </Link> */}
       </div>
       <div className="add_new_button sticky top-16 text-right hidden md:block">
-        <Link href="" className="">
-          <a>
+        {/* <Link href="" className="">
+          <a> */}
             <button
               onClick={openModal}
               type="submit"
@@ -215,8 +214,8 @@ const AddNewJob = (setList, singleItem) => {
             >
               Add New Job
             </button>
-          </a>
-        </Link>
+          {/* </a>
+        </Link> */}
       </div>
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog

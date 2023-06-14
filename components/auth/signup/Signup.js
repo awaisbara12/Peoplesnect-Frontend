@@ -92,6 +92,9 @@ const Signup = () => {
 
         if (result) {
           localStorage.setItem("keyStore", headers);
+          const currentuserSting = JSON.stringify(result.user);     // convert json into string
+          localStorage.setItem("currentuser", currentuserSting);    // save currentuser in localstorage as string
+          // console.log("signup",result.user)
         }
 
         try {
