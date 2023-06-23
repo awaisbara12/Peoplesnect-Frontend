@@ -21,6 +21,8 @@ import { useRouter } from "next/router";
 import { array } from "yup";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import ClipLoader from 'react-spinners/ClipLoader';
+import AliceCarousel from "react-alice-carousel";
+import "react-alice-carousel/lib/alice-carousel.css";
 const Messages = () => {
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
@@ -183,13 +185,14 @@ const Messages = () => {
           if (result && result.data) {
             setmessages(result.data);
             setcurrentpagemy(result.pages.next_page)
+            // console.log(result.data)
           }
           else{setmessages('');}
         })
         .catch((err) => console.log(err)); 
     }else{console.log("no user")}
   }
-  //  Fing @nd User
+  //  Fing 2nd User
   const recipientUserDetails=async(id, cable)=>{   
     if(myArray[1])
       {
@@ -279,7 +282,7 @@ const Messages = () => {
         {/* Chat-Head */}
         <div className="flex justify-between bg-white sticky top-0 p-3 z-40 border-b rounded-tr-xl">
           {senderDetails?(
-             <div className="font-bold flex items-center gap-2 ">{senderDetails.first_name} {senderDetails.last_name}</div>
+             <div className="font-bold flex items-center gap-2 capitalize ">{myArray && myArray[2] && myArray[2]=="Marketplace"?(<>Marketplace :- </>):("")} {senderDetails.first_name} {senderDetails.last_name}  </div>
           ):('')}
          <Link href="">
             <a>
@@ -377,12 +380,28 @@ const Messages = () => {
                             )
                           }
 
-                          {i.productPic?(
-                            <div className="relative w-1/4 mt-2">
-                              <img
-                              src={i.productPic}
-                              className="rounded-xl my-2 max-h-[150px] max-w-[230px] object-cover"
-                              alt=""/>
+                          {i.product?(
+                            <div className="relative  mt-2">
+                              <AliceCarousel>
+                              {i.product.product_pic.map((j) => (
+                                <Link href={{ pathname: "/markeet-place/marketplace-show", query: i.product.id,}} key={j}>
+                                <a>
+                                  <img
+                                    src={j}
+                                    key={j}
+                                    // className="md:object-cover object-contain cursor-zoom-in rounded-xl w-[1050px] h-[400px]"
+                                    // onClick={()=>openModal(i)}
+                                    className="rounded-xl my-0 max-h-[150px] max-w-full object-cover"
+                                  />
+                                </a>
+                                </Link>
+                              ))}
+                              </AliceCarousel>
+                              <Link href={{ pathname: "/markeet-place/marketplace-show", query: i.product.id,}}>
+                                <a>
+                                <b>{i.product.name}</b>
+                                </a>
+                              </Link>
                             </div>
                           ):('')}
                           <div className="">{i.body} </div>
@@ -429,12 +448,28 @@ const Messages = () => {
                             )
                           }
                             
-                            {i.productPic?(
-                              <div className="relative w-1/4 mt-2">
-                                <img
-                                src={i.productPic}
-                                className="rounded-xl my-2 max-h-[150px] max-w-[230px] object-cover"
-                                alt=""/>
+                            {i.product?(
+                              <div className="relative  mt-2">
+                               <AliceCarousel>
+                               {i.product.product_pic.map((j) => (
+                                 <Link href={{ pathname: "/markeet-place/marketplace-show", query: i.product.id,}} key={j}>
+                                 <a>
+                                   <img
+                                     src={j}
+                                     key={j}
+                                     // className="md:object-cover object-contain cursor-zoom-in rounded-xl w-[1050px] h-[400px]"
+                                     // onClick={()=>openModal(i)}
+                                     className="rounded-xl my-0 max-h-[150px] max-w-full object-cover"
+                                   />
+                                 </a>
+                                 </Link>
+                               ))}
+                               </AliceCarousel>
+                               <Link href={{ pathname: "/markeet-place/marketplace-show", query: i.product.id,}}>
+                                 <a>
+                                 <b>{i.product.name}</b>
+                                 </a>
+                               </Link>
                               </div>
                             ):('')}
                             <div className="text-white">{i.body} </div>

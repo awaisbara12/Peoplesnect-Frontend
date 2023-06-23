@@ -98,7 +98,7 @@ const MyListing = () => {
                           <div className="">
                             <div className="username text-sm font-bold">{i.name}</div>
                             <div className="userfield font-light">{i.category.name}</div>
-                            <div className="">{i.city?i.city+", ":''}{i.state?i.state+", ":""} {i.country?i.country+", ":""} </div>
+                            <div className="">{i.city?i.city+", ":''} {i.country?i.country:""} </div>
                             <div className="mt-0 font-thin">Product Posted {i.created_at}</div>
                           </div>
                         </div>

@@ -10,7 +10,7 @@ import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { useFormik } from "formik";
 import { Dialog } from "@headlessui/react";
-import { XIcon } from "@heroicons/react/outline";
+import { ChevronLeftIcon, ChevronRightIcon, XIcon } from "@heroicons/react/outline";
 
 const Productshow = [
   {
@@ -32,6 +32,8 @@ const Productdetails = [
 const MarketplaceShow = () => {
   const [Product, setProduct] = useState();
   const [currentuser, setcurrentuser] = useState();
+  const [picLength, setpicLength] = useState();
+  const [picshow, setpicshow] = useState(0);
   const [imagess, setimagess] = useState([]);
   const [CurrentUser, setCurrentUser] = useState();
   let [isOpen, setIsOpen] = useState(false);
@@ -53,7 +55,8 @@ const MarketplaceShow = () => {
       .then((result) => {
         if (result) {
           setProduct(result.data)
-          setimagess(result.data.product_pic)
+          setimagess(result.data.product_pic);
+          setpicLength(result.data.product_pic.length);
         }
       })
       .catch((err) => console.log(err));
@@ -62,9 +65,10 @@ const MarketplaceShow = () => {
   const SendMessage = async (r_id, image) => {
     const dataForm = new FormData();
     // dataForm.append("attachment_type", "image");
-    dataForm.append("product_pic", image);
+    dataForm.append("product_id", Product.id);
     dataForm.append("body", "Is this still available?");
     dataForm.append("recipient_id", r_id);
+    dataForm.append("Marketplace", "Marketplace");
     await fetch(MESSAGES_API, {
       method: "POST",
       headers: {
@@ -90,10 +94,21 @@ const MarketplaceShow = () => {
     setIsOpen(false);
   }
 
-  function openModal(i) {
-    // console.log(Product.product_pic)
+  function openModal(i,j) {
+    setpicshow(j);
     setimagess(i)
     setIsOpen(true);
+  }
+
+  function picsShow(i){
+    if (i=="-"){
+      if(picshow>0){setpicshow(picshow-1);}
+      else{setpicshow(picLength-1);}
+    }
+    else if (i=="+"){
+      if(picshow+1<picLength){setpicshow(picshow+1);}
+      else{setpicshow(0);}
+    }
   }
   return (
     <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
@@ -101,12 +116,12 @@ const MarketplaceShow = () => {
         <div className="bg-white rounded-xl">
           <AliceCarousel>
             {
-              Product.product_pic.map((i) => (
+              Product.product_pic.map((i,j) => (
                 <img
                   src={i}
                   key={i}
                   className="md:object-cover object-contain cursor-zoom-in rounded-xl w-[1050px] h-[400px]"
-                  onClick={()=>openModal(i)}
+                  onClick={()=>openModal(i,j)}
                 />
               ))
             }
@@ -142,7 +157,7 @@ const MarketplaceShow = () => {
                     leaveFrom="opacity-100 scale-100"
                     leaveTo="opacity-0 scale-95"
                   >
-                    <Dialog.Panel className="w-[620px] rounded-xl xl:w-[980px] lg:w-[730px] md:w-[780px] text-left align-middle transition-all">
+                    <Dialog.Panel className=" text-left align-middle transition-all">
                       <div className="flex justify-end items-center mx-4">
                         {/* <XIcon
                           onClick={closeModal}
@@ -155,21 +170,17 @@ const MarketplaceShow = () => {
                       >
                       </Dialog.Title>
                       <div className="">
-                        {/* <AliceCarousel>
-                          {imagess &&
-                           imagess.map((a) => (
-                              <img
-                                src={a}
-                                key={a}
-                                className="object-contain bg-white cursor-zoom-in rounded-4xl w-[1050px] h-[500px]"
-                              />
-                            ))
-                          }
-                        </AliceCarousel> */}
-                        <img
-                          src={imagess}
-                          className="object-contain bg-white cursor-zoom-in rounded-4xl w-[1050px] h-[500px]"
-                        />
+                       
+                        <div className="flex w-auto h-[500px]">
+                        <div className="my-auto z-50"><button className="bg-indigo-400 border-4 border-white p-2 -mr-14 rounded-full" onClick={()=>picsShow("-")}><ChevronLeftIcon className="h-5 w-5 text-white" /></button></div>
+                          <img
+                            src={Product.product_pic[picshow]}
+                            className="object-contain cursor-zoom-in bg-white rounded-4xl w-[1050px] h-auto"
+                          />
+                           <div className="my-auto"><button className="bg-indigo-400 p-2 border-4 border-white -ml-10 rounded-full" onClick={()=>picsShow("+")}><ChevronRightIcon className="h-5 w-5 text-white" /></button></div>
+                        </div>
+                        
+                        
                       </div>
                     </Dialog.Panel>
                   </Transition.Child>
@@ -237,7 +248,7 @@ const MarketplaceShow = () => {
                     ${Product.price}
                   </th>
                   {Product.country ? <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap rounded-bl-xl dark:text-white">
-                    {Product.city ? Product.city + ", " : ""}{Product.state ? Product.state + ", " : ''}{Product.country},
+                    {Product.city ? Product.city + ", " : ""}{Product.country}
                   </th> : ""}
                 </tr>
               </table>
