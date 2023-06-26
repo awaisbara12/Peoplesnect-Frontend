@@ -27,6 +27,8 @@ import PostComments from "../../profile/comments/PostComments";
 import FilterComments from "../../profile/comments/FilterComments";
 import ReplyComments from "../../profile/comments/ReplyComments";
 import ShareModal from "../../news-feed/newsfeed/feedcard/ShareModal";
+import AliceCarousel from "react-alice-carousel";
+import "react-alice-carousel/lib/alice-carousel.css";
 
 const ReadMore = ({ children }) => {
   const text = children;
@@ -781,14 +783,20 @@ const EventView = () => {
           )}
           {items.attachments_link && items.feed_type === "image_feed" ? (
             <div className="mt-[14px]">
-              <img
-                src={items.attachments_link}
-                width={952}
-                height={240}
-                layout="responsive"
-                className="object-cover rounded-lg mx-auto h-auto"
-                alt=""
-              />
+              <AliceCarousel>
+              {items.attachments_link.map((i)=>(
+                <img
+                  key={i}
+                  src={i}
+                  width={952}
+                  height={240}
+                  layout="responsive"
+                  className="object-cover rounded-lg mx-auto h-auto"
+                  alt=""
+                />
+              ))}
+              
+              </AliceCarousel>
             </div>
           ) : (
             ""
@@ -1093,24 +1101,29 @@ const EventView = () => {
                   ""
                 )}
                 {items.share.attachments_link && items.share.feed_type === "image_feed" ? (
-                  <Link
-                    href={{
-                      pathname: "/events-design/event-view",
-                      query: items.share.id,
-                    }} >
-                    <a>
-                      <div className="mt-[14px]">
-                        <img
-                          src={items.share.attachments_link}
-                          width={952}
-                          height={240}
-                          layout="responsive"
-                          className="object-cover rounded-lg mx-auto h-auto"
-                          alt=""
-                        />
-                      </div>
-                    </a>
-                  </Link>
+                  <AliceCarousel>
+                    {items.share.attachments_link.map((i)=>(
+                      <Link
+                      href={{
+                        pathname: "/events-design/event-view",
+                        query: items.share.id,
+                      }} key={i}>
+                        <a>
+                          <div className="mt-[14px]">
+                            <img
+                              src={i}
+                              width={952}
+                              height={240}
+                              layout="responsive"
+                              className="object-cover rounded-lg mx-auto h-auto"
+                              alt=""
+                            />
+                          </div>
+                        </a>
+                      </Link>
+                    ))}
+                  </AliceCarousel>
+                      
                 ) : (
                   ""
                 )}

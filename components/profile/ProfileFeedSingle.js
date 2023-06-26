@@ -42,6 +42,8 @@ import Spinner from "../common/Spinner";
 import App from "../news-feed/newsfeed/newspost/App";
 import HashtagMentionInput from "../news-feed/newsfeed/newspost/HashtagMentionInput";
 import ShareModal from "../news-feed/newsfeed/feedcard/ShareModal";
+import AliceCarousel from "react-alice-carousel";
+import "react-alice-carousel/lib/alice-carousel.css";
 // import Spinner from "../common/Spinner";
 
 const cardDropdown = [
@@ -1154,6 +1156,7 @@ const ProfileFeedSingle = (singleItems) => {
                   ''
                 ) : (
                   <>
+                    
                     <img
                       src={EditPic}
                       className="aspect-video object-cover rounded-t-xl h-[390px] w-[952px]"
@@ -1189,14 +1192,20 @@ const ProfileFeedSingle = (singleItems) => {
               </>
             ) : (
               <div className="mt-[14px]">
-                <img
-                  src={items.attachments_link}
-                  width={952}
-                  height={240}
-                  layout="responsive"
-                  className="aspect-video object-cover rounded-lg mx-auto h-[390px]"
-                  alt=""
-                />
+                <AliceCarousel>
+                {items.attachments_link && items.attachments_link.map((i)=>(
+                  <img
+                    src={i}
+                    width={952}
+                    height={240}
+                    key={i}
+                    layout="responsive"
+                    className="aspect-video object-cover rounded-lg mx-auto h-[390px]"
+                    alt=""
+                  />
+                ))}
+                
+                </AliceCarousel>
               </div>)
           ) : (
             ""
@@ -1522,24 +1531,28 @@ const ProfileFeedSingle = (singleItems) => {
                   ""
                 )}
                 {items.share.attachments_link && items.share.feed_type === "image_feed" ? (
-                  <Link
-                    href={{
-                      pathname: "/events-design/event-view",
-                      query: items.id,
-                    }} >
-                    <a>
-                      <div className="mt-[14px]">
-                        <img
-                          src={items.share.attachments_link}
-                          width={952}
-                          height={240}
-                          layout="responsive"
-                          className="aspect-video object-cover rounded-lg mx-auto h-[390px]"
-                          alt=""
-                        />
-                      </div>
-                    </a>
-                  </Link>
+                  <AliceCarousel>
+                    {items.share.attachments_link.map((i)=>(
+                      <Link
+                      href={{
+                        pathname: "/events-design/event-view",
+                        query: items.id,
+                      }} key={i}>
+                      <a>
+                        <div className="mt-[14px]">
+                          <img
+                            src={i}
+                            width={952}
+                            height={240}
+                            layout="responsive"
+                            className="aspect-video object-cover rounded-lg mx-auto h-[390px]"
+                            alt=""
+                          />
+                        </div>
+                      </a>
+                    </Link>
+                    ))}
+                  </AliceCarousel>
                 ) : (
                   ""
                 )}

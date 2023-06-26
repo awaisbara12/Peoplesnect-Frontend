@@ -31,6 +31,8 @@ import {
 } from "../../../../pages/config";
 import App from "../newspost/App";
 import ShareModal from "./ShareModal";
+import AliceCarousel from "react-alice-carousel";
+import "react-alice-carousel/lib/alice-carousel.css";
 
 const cardDropdown = [
   {
@@ -76,7 +78,6 @@ const NewsFeedSingle = (singleItem) => {
   const [mentioned, setMentioned] = useState([]);
   const [hashtaged, setHashtaged] = useState([]);
   let [hastags, sethastags] = useState();
-
   const [admins, setadmins] = useState();
   // Bareer key
   if (typeof window !== "undefined") { 
@@ -681,24 +682,33 @@ const NewsFeedSingle = (singleItem) => {
               </Link>
             ) : (
               items.attachments_link && items.feed_type === "image_feed" ? (
-                <Link
-                  href={{
-                    pathname: "/events-design/event-view",
-                    query: items.id,
-                  }} >
-                  <a>
-                    <div className="mt-[14px]">
-                      <img
-                        src={items.attachments_link}
-                        width={952}
-                        height="auto"
-                        layout="responsive"
-                        className="object-cover rounded-lg mx-auto h-auto"
-                        alt=""
-                      />
-                    </div>
-                  </a>
-                </Link>
+                <AliceCarousel>
+                   {
+                    items.attachments_link.map((i)=>(
+                      <div className="mt-[14px]" key={i}>
+                        <Link
+                          href={{
+                            pathname: "/events-design/event-view",
+                            query: items.id,
+                          }} >
+                        <a>
+                          <img
+                            src={i}
+                            key={i}
+                            width={952}
+                            height="auto"
+                            layout="responsive"
+                            className="object-cover rounded-lg mx-auto h-auto"
+                            alt=""
+                          />
+                        </a>
+                        </Link>
+                      </div>
+                    ))
+                   }
+                    
+                  
+                </AliceCarousel>
               ) : (
                 items.feed_type && items.feed_type === "share" ? (
                   <div className="border p-4 m-2">
@@ -1003,24 +1013,49 @@ const NewsFeedSingle = (singleItem) => {
                         ""
                       )}
                       {items.share.attachments_link && items.share.feed_type === "image_feed" ? (
-                        <Link
-                          href={{
-                            pathname: "/events-design/event-view",
-                            query: items.id,
-                          }} >
-                          <a>
-                            <div className="mt-[14px]">
-                              <img
-                                src={items.share.attachments_link}
-                                width={952}
-                                height={240}
-                                layout="responsive"
-                                className="object-cover rounded-lg mx-auto h-auto"
-                                alt=""
-                              />
-                            </div>
-                          </a>
-                        </Link>
+                        // <Link
+                        //   href={{
+                        //     pathname: "/events-design/event-view",
+                        //     query: items.id,
+                        //   }} >
+                        //   <a>
+                        //     <div className="mt-[14px]">
+                        //       <img
+                        //         src={items.share.attachments_link}
+                        //         width={952}
+                        //         height={240}
+                        //         layout="responsive"
+                        //         className="object-cover rounded-lg mx-auto h-auto"
+                        //         alt=""
+                        //       />
+                        //     </div>
+                        //   </a>
+                        // </Link>
+                        <AliceCarousel>
+                          {
+                            items.share.attachments_link.map((i)=>(
+                              <div className="mt-[14px]" key={i}>
+                                <Link
+                                  href={{
+                                    pathname: "/events-design/event-view",
+                                    query: items.id,
+                                  }} >
+                                <a>
+                                  <img
+                                    src={i}
+                                    key={i}
+                                    width={952}
+                                    height="auto"
+                                    layout="responsive"
+                                    className="object-cover rounded-lg mx-auto h-auto"
+                                    alt=""
+                                  />
+                                </a>
+                                </Link>
+                              </div>
+                            ))
+                          }
+                        </AliceCarousel>
                       ) : (
                         ""
                       )}
