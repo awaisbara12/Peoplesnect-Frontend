@@ -244,7 +244,7 @@ const ProfileTopCard = () => {
                           name="image"
                           id="image"
                           onChange={onProfileChange}
-                          className="opacity-0 absolute top-auto left-0 z-10"
+                          className="opacity-0 absolute w-full top-auto left-0 z-10"
                           title={""}
                           multiple
                         />
@@ -262,12 +262,9 @@ const ProfileTopCard = () => {
           </div>
           {userDetails ? (
             <div className="my-2 flex flex-col ml-48 gap-1">
-              <div className="group relative">
+              <div className="">
                 <div className="text-2xl text-indigo-400 font-bold capitalize">
                   {userDetails.first_name} {userDetails.last_name}
-                </div>
-                <div className="absolute left-40 top-2 opacity-0 group-hover:opacity-100 cursor-pointer">
-                  {/* <PencilIcon className="h-4 w-4 text-indigo-400" /> */}
                 </div>
               </div>
               <Link href="" className="">
