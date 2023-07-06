@@ -44,6 +44,8 @@ import HashtagMentionInput from "../news-feed/newsfeed/newspost/HashtagMentionIn
 import ShareModal from "../news-feed/newsfeed/feedcard/ShareModal";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import 'react-lazy-load-image-component/src/effects/blur.css';
 // import Spinner from "../common/Spinner";
 
 const cardDropdown = [
@@ -641,7 +643,8 @@ const ProfileFeedSingle = (singleItems) => {
           <div className="flex gap-2">
             {items && items.user && items.user.display_photo_url ?
               (
-                <img
+                <LazyLoadImage
+                  effect="blur"
                   src={items.user.display_photo_url}
                   className="object-cover rounded-full z-40 h-[42px] w-[42px]"
                   alt=""
@@ -756,14 +759,16 @@ const ProfileFeedSingle = (singleItems) => {
                   <>
                     {UP_pic ? (
                       <div className={`relative`}>
-                        <img src={UP_pic} className="aspect-video object-cover rounded-xl mb-4" alt="" />
+                        <LazyLoadImage
+                          effect="blur" src={UP_pic} className="aspect-video object-cover rounded-xl mb-4" alt="" />
                         <div onClick={handleCoverReomve} className="bg-indigo-100 absolute top-4 right-4 z-50 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full" >
                           <TrashIcon className="w-5 h-5 text-indigo-600" />
                         </div>
                       </div>
                     ) : (
                       <>
-                        <img
+                        <LazyLoadImage
+                          effect="blur"
                           src={EditPic}
                           className="aspect-video object-cover rounded-t-xl h-[390px] w-[952px]"
                           alt=""
@@ -798,7 +803,8 @@ const ProfileFeedSingle = (singleItems) => {
                     )}
                   </>
                 ) : (
-                  <img
+                  <LazyLoadImage
+                    effect="blur"
                     src={items.event.cover_photo_url}
                     className="aspect-video object-cover rounded-t-xl h-[390px] w-[952px]"
                     alt=""
@@ -1220,7 +1226,8 @@ const ProfileFeedSingle = (singleItems) => {
                         <div className="flex flex-wrap relative gap-4 border rounded-lg p-3" >
                           {EditPic.map((i,j) => (
                             <div key={i}>
-                              <img
+                              <LazyLoadImage
+                                effect="blur"
                                 src={i}
                                 key={i}
                                 className="object-cover rounded-xl w-32 h-32 ml-2"
@@ -1263,7 +1270,8 @@ const ProfileFeedSingle = (singleItems) => {
               <div className="mt-[14px]">
                 <AliceCarousel>
                 {items.attachments_link && items.attachments_link.map((i)=>(
-                  <img
+                  <LazyLoadImage
+                    effect="blur"
                     src={i}
                     width={952}
                     height={240}
@@ -1285,7 +1293,8 @@ const ProfileFeedSingle = (singleItems) => {
               <div className={`relative`}>
               {UP_pic.map((i,j) => (
                 <div className="relative" key={i}>
-                  <img
+                  <LazyLoadImage
+                    effect="blur"
                     src={i}
                     key={i}
                     className="object-cover rounded-xl w-[300px] h-[300px]"
@@ -1338,7 +1347,8 @@ const ProfileFeedSingle = (singleItems) => {
                   items.share.page.display_photo_url ? (
                     <Link href={{ pathname: "/page-design/suggested-pages", query: items.share.page.id, }}>
                       <a>
-                        <img
+                        <LazyLoadImage
+                          effect="blur"
                           src={items.share.page.display_photo_url}
                           className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
                           width={45}
@@ -1364,7 +1374,8 @@ const ProfileFeedSingle = (singleItems) => {
                   items && items.share.user && items.share.user.display_photo_url ? (
                     <>
                       {singleItems && singleItems.currentuser && singleItems.currentuser.id == items.share.user.id ? (
-                        <img
+                        <LazyLoadImage
+                          effect="blur"
                           src={items.share.user.display_photo_url}
                           className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
                           width={45}
@@ -1374,7 +1385,8 @@ const ProfileFeedSingle = (singleItems) => {
                       ) : (
                         <Link href={{ pathname: "/User-Profile", query: items.share.user.id, }}>
                           <a>
-                            <img
+                            <LazyLoadImage
+                              effect="blur"
                               src={items.share.user.display_photo_url}
                               className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
                               width={45}
@@ -1499,7 +1511,8 @@ const ProfileFeedSingle = (singleItems) => {
                     <a>
                       <div className="rounded-xl bg-white border border-gray-100 my-2">
                         {items.share.event.cover_photo_url ? (
-                          <img
+                          <LazyLoadImage
+                            effect="blur"
                             src={items.share.event.cover_photo_url}
                             className="aspect-video object-cover rounded-t-xl h-[390px] w-[952px]"
                             alt=""
@@ -1622,7 +1635,8 @@ const ProfileFeedSingle = (singleItems) => {
                       }} key={i}>
                       <a>
                         <div className="mt-[14px]">
-                          <img
+                          <LazyLoadImage
+                            effect="blur"
                             src={i}
                             width={952}
                             height={240}
