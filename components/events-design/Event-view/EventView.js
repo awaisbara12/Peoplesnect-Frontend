@@ -6,6 +6,7 @@ import {
   BookmarkIcon,
   CalendarIcon,
   ChatAltIcon,
+  ChevronLeftIcon,
   ChevronRightIcon,
   HeartIcon,
   SaveAsIcon,
@@ -56,6 +57,10 @@ const EventView = () => {
   const [loading, setLoading] = useState(true);
   const [nextPage, setNextPage] = useState('');
   const [currentUser, setCurrentUser] = useState();
+
+  const [picOpen, setpicOpen] = useState(false);
+  const [picshow, setpicshow] = useState(0);
+  const [picLength, setpicLength] = useState();
 
   //  ******** Modal ***********
 
@@ -247,8 +252,26 @@ const EventView = () => {
       console.log(error);
     }
   }
-
-
+  // pic close Modal 
+  function closePicModal() {
+    setpicOpen(false);
+  }
+  // pic open Modal
+  function openPicModal(i,j) {
+    setpicLength(i.length)
+    setpicshow(j);
+    setpicOpen(true);
+  }
+  function picsShow(i){
+    if (i=="-"){
+      if(picshow>0){setpicshow(picshow-1);}
+      else{setpicshow(picLength-1);}
+    }
+    else if (i=="+"){
+      if(picshow+1<picLength){setpicshow(picshow+1);}
+      else{setpicshow(0);}
+    }
+  }
   // ************ EVENT-View **************
 
   // close modal
@@ -784,7 +807,7 @@ const EventView = () => {
           {items.attachments_link && items.feed_type === "image_feed" ? (
             <div className="mt-[14px]">
               <AliceCarousel>
-              {items.attachments_link.map((i)=>(
+              {items.attachments_link.map((i,j)=>(
                 <img
                   key={i}
                   src={i}
@@ -793,6 +816,7 @@ const EventView = () => {
                   layout="responsive"
                   className="object-cover rounded-lg mx-auto h-auto"
                   alt=""
+                  onClick={()=>openPicModal(items.attachments_link,j)}
                 />
               ))}
               
@@ -801,7 +825,6 @@ const EventView = () => {
           ) : (
             ""
           )}
-
           {items.feed_type && items.feed_type === "share" ? (
             <div className="border p-4 m-2">
               <div className="flex gap-2 items-center">
@@ -1128,9 +1151,11 @@ const EventView = () => {
                   ""
                 )}
               </div>
-            </div>):("")
-          }
-          
+            </div>
+          ) : (
+          ""
+          )}
+          {/* Heart Icons and Comment Section */}
           <>
             <div className="flex justify-between mt-[14px]">
               <div className="flex gap-6">
@@ -1219,6 +1244,72 @@ const EventView = () => {
               {!loading && <ReplyComments news_feed_id={items.id} comments={comments.data} comments_count={comments_count} setComments_count={setComments_count} setComments={setComments} setIs_deleted={setIs_deleted} items={items}/>}
             </Fragment>
           </>
+          {/* Image Modal */}
+          <Transition appear show={picOpen} as={Fragment}>
+            <Dialog
+              as="div"
+              className="relative z-50 cursor-zoom-out"
+              static={true}
+              onClose={closePicModal}
+            >
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0"
+                enterTo="opacity-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
+              >
+                <div className="fixed inset-0 bg-black bg-opacity-90" />
+              </Transition.Child>
+
+              <div className="fixed inset-0 overflow-y-auto">
+                <div className="flex min-h-full items-center justify-center p-4 text-center">
+                  <Transition.Child
+                    as={Fragment}
+                    enter="ease-out duration-300"
+                    enterFrom="opacity-0 scale-95"
+                    enterTo="opacity-100 scale-100"
+                    leave="ease-in duration-200"
+                    leaveFrom="opacity-100 scale-100"
+                    leaveTo="opacity-0 scale-95"
+                  >
+                    <Dialog.Panel className=" text-left align-middle transition-all">
+                      <div className="flex justify-end items-center mx-4">
+                        {/* <XIcon
+                          onClick={closeModal}
+                          className="w-5 text-white h-5 cursor-zoom-out"
+                        /> */}
+                      </div>
+                      <Dialog.Title
+                        as="h3"
+                        className="text-lg font-medium leading-6 text-gray-900"
+                      >
+                      </Dialog.Title>
+                      <div className="">
+                       
+                        <div className="flex w-auto h-[500px]">
+                        <div className="my-auto z-50"><button className="bg-indigo-400 border-4 border-white p-2 -mr-14 rounded-full" onClick={()=>picsShow("-")}><ChevronLeftIcon className="h-5 w-5 text-white" /></button></div>
+                          {items.attachments_link && items.attachments_link.length>0?(
+                          <>
+                          <img
+                            src={items.attachments_link[picshow]}
+                            className="object-contain cursor-zoom-in bg-white rounded-4xl w-[1050px] h-auto"
+                          />
+                           <div className="my-auto"><button className="bg-indigo-400 p-2 border-4 border-white -ml-10 rounded-full" onClick={()=>picsShow("+")}><ChevronRightIcon className="h-5 w-5 text-white" /></button></div>
+                           </>
+                          ):("")}
+                           </div>
+                        
+                        
+                      </div>
+                    </Dialog.Panel>
+                  </Transition.Child>
+                </div>
+              </div>
+            </Dialog>
+          </Transition>
         </div>
         ):('')}
       </div>
