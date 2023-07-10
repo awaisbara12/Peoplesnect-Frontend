@@ -33,6 +33,8 @@ import TabsProfileCard from "./profile-tabs/TabsProfileCard";
 import {
   CURENT_USER_LOGIN_API, REMOVE_DP_API, UPDATE_PERSONAL_INFO
 } from "../../pages/config";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 const ProfileTopCard = () => {
   const [openTab, setOpenTab] = React.useState(1);
@@ -149,27 +151,27 @@ const ProfileTopCard = () => {
               <Link href="/">
                 <a>
                   {image ? (
-                    <Image
+                    <LazyLoadImage
+                      effect="blur"
                       src={image}
-                      className="object-cover rounded-xl"
-                      width={1030}
-                      height={320}
+                      className="object-cover rounded-xl h-[320px] w-[1030px]"
                       alt=""
                     />
                   ) : (
                     coverimage ? (
-                      <img
+                      <LazyLoadImage
+                        effect="blur"
                         src={coverimage}
                         className="object-cover rounded-xl h-[320px] w-[1030px]"
                         alt=""
                       />
                     ) :
                       (
-                        <Image
-                          src={postimage}
-                          className="object-cover rounded-xl"
-                          width={1030}
-                          height={320}
+                        <LazyLoadImage
+                          effect="blur"
+                          src={postimage.src}
+                          className="object-cover rounded-xl h-[320px] w-[1030px]"
+                         
                           alt=""
                         />
                       )
@@ -206,29 +208,29 @@ const ProfileTopCard = () => {
                   <Link href="">
                     <a>
                       {coverpreview ? (
-                        <Image
+                        <LazyLoadImage
+                          effect="blur"
                           src={coverpreview}
-                          width={96}
-                          height={96}
-                          className="object-cover object-top rounded-full z-40"
-                          placeholder="empty"
-                          alt="profile-image"
+                         
+                          className="object-cover object-top rounded-full z-40 h-[96px] w-[96px]"
+                          alt=""
                         />
                       ) : (
                         profileimage ? (
-                          <img
+                          <LazyLoadImage
+                            effect="blur"
                             src={profileimage}
                             className="object-cover rounded-full z-40 h-[96px] w-[96px]"
                             alt=""
                           />
                         ) : (
-                          <Image
-                            src={ProfileAvatar}
-                            width={96}
-                            height={96}
-                            className="object-cover rounded-full z-40"
-                            placeholder="empty"
-                            alt="profile-image"
+                          <LazyLoadImage
+                            effect="blur"
+                            src={ProfileAvatar.src}
+                            
+                            className="object-cover rounded-full z-40 h-[96px] w-[96px]"
+                            
+                            alt=""
                           />
                         )
                       )}

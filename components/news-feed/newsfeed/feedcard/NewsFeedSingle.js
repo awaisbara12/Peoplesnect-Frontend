@@ -33,6 +33,8 @@ import App from "../newspost/App";
 import ShareModal from "./ShareModal";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 const cardDropdown = [
   {
@@ -327,7 +329,8 @@ const NewsFeedSingle = (singleItem) => {
               items.page.display_photo_url ? (
                 <Link href={{ pathname: "/page-design/suggested-pages", query: items.page.id, }}>
                   <a>
-                    <img
+                    <LazyLoadImage
+                      effect="blur"
                       src={items.page.display_photo_url}
                       className="object-cover rounded-full h-[42px] w-[42px]"
                       width={45}
@@ -339,8 +342,9 @@ const NewsFeedSingle = (singleItem) => {
               ) : (
                 <Link href={{ pathname: "/page-design/suggested-pages", query: items.page.id, }}>
                   <a>
-                    <Image
-                      src={PagePhoto}
+                    <LazyLoadImage
+                      effect="blur"
+                      src={PagePhoto.src}
                       className="object-cover rounded-full h-[42px] w-[42px]"
                       width={45}
                       height={45}
@@ -354,7 +358,8 @@ const NewsFeedSingle = (singleItem) => {
                 CurrentUser && CurrentUser.id == items.user.id ? (
                   <Link href="/profile">
                     <a>
-                      <img
+                      <LazyLoadImage
+                        effect="blur"
                         src={items.user.display_photo_url}
                         className="object-cover rounded-full h-[42px] w-[42px]"
                         width={45}
@@ -366,7 +371,8 @@ const NewsFeedSingle = (singleItem) => {
                 ) : (
                   <Link href={{ pathname: "/User-Profile", query: items.user.id, }}>
                     <a>
-                      <img
+                      <LazyLoadImage
+                        effect="blur"
                         src={items.user.display_photo_url}
                         className="object-cover rounded-full h-[42px] w-[42px]"
                         width={45}
@@ -381,8 +387,9 @@ const NewsFeedSingle = (singleItem) => {
                 CurrentUser && CurrentUser.id == items.user.id ? (
                   <Link href="/profile">
                     <a>
-                      <Image
-                        src={ProfileAvatar}
+                      <LazyLoadImage
+                        effect="blur"
+                        src={ProfileAvatar.src}
                         width={45}
                         height={45}
                         alt=""
@@ -392,8 +399,9 @@ const NewsFeedSingle = (singleItem) => {
                 ) : (
                   <Link href={{ pathname: "/User-Profile", query: items.user.id, }}>
                     <a>
-                      <Image
-                        src={ProfileAvatar}
+                      <LazyLoadImage
+                        effect="blur"
+                        src={ProfileAvatar.src}
                         width={45}
                         height={45}
                         alt=""
@@ -494,55 +502,60 @@ const NewsFeedSingle = (singleItem) => {
 
             </div>
           </div>
-          <div className="">
+          <div className="flex">
+            <div className="font-light text-gray-900 opacity-[0.8]">
+              {items.created_at}
+              </div>
             <div className="">
-              <Popover className="relative">
-                {({ open }) => (
-                  <>
-                    <Popover.Button
-                      className={` ${open ? "" : "text-opacity-90 focus-visible:outline-none"
-                        }`}
-                    >
-                      <div className="hover:bg-indigo-100 focus:bg-indigo-100 rounded-full h-8 w-8 flex items-center justify-center">
-                        <DotsHorizontalIcon className="w-5 h-5" />
-                      </div>
-                    </Popover.Button>
-                    <Transition
-                      as={Fragment}
-                      enter="transition ease-out duration-200"
-                      enterFrom="opacity-0 translate-y-1"
-                      enterTo="opacity-100 translate-y-0"
-                      leave="transition ease-in duration-150"
-                      leaveFrom="opacity-100 translate-y-0"
-                      leaveTo="opacity-0 translate-y-1"
-                    >
-                      <Popover.Panel className="absolute left-1/2 z-10 mt-3 w-72 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-3xl">
-                        <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
-                          <div className="relative bg-white py-2">
-                            {cardDropdown.map((card) => (
-                              <a
-                                key={card.name}
-                                onClick={() => optionConfirm(card.name, items)}
-                                href={card.id}
-                                className="-m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
-                              >
-                                <div className="flex items-center h-10 w-10 shrink-0  justify-center text-white sm:h-12 sm:w-12 pl-2">
-                                  <card.icon className="h-6 w-6 text-gray-900" />
-                                </div>
-                                <div>
-                                  <p className="text-sm font-medium text-gray-900">
-                                    {card.name}
-                                  </p>
-                                </div>
-                              </a>
-                            ))}
-                          </div>
+              <div className="">
+                <Popover className="relative">
+                  {({ open }) => (
+                    <>
+                      <Popover.Button
+                        className={` ${open ? "" : "text-opacity-90 focus-visible:outline-none"
+                          }`}
+                      >
+                        <div className="hover:bg-indigo-100 focus:bg-indigo-100 rounded-full h-8 w-8 flex items-center justify-center">
+                          <DotsHorizontalIcon className="w-5 h-5" />
                         </div>
-                      </Popover.Panel>
-                    </Transition>
-                  </>
-                )}
-              </Popover>
+                      </Popover.Button>
+                      <Transition
+                        as={Fragment}
+                        enter="transition ease-out duration-200"
+                        enterFrom="opacity-0 translate-y-1"
+                        enterTo="opacity-100 translate-y-0"
+                        leave="transition ease-in duration-150"
+                        leaveFrom="opacity-100 translate-y-0"
+                        leaveTo="opacity-0 translate-y-1"
+                      >
+                        <Popover.Panel className="absolute left-1/2 z-10 mt-3 w-72 max-w-sm -translate-x-full transform px-4 sm:px-0 lg:max-w-3xl">
+                          <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                            <div className="relative bg-white py-2">
+                              {cardDropdown.map((card) => (
+                                <a
+                                  key={card.name}
+                                  onClick={() => optionConfirm(card.name, items)}
+                                  href={card.id}
+                                  className="-m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
+                                >
+                                  <div className="flex items-center h-10 w-10 shrink-0  justify-center text-white sm:h-12 sm:w-12 pl-2">
+                                    <card.icon className="h-6 w-6 text-gray-900" />
+                                  </div>
+                                  <div>
+                                    <p className="text-sm font-medium text-gray-900">
+                                      {card.name}
+                                    </p>
+                                  </div>
+                                </a>
+                              ))}
+                            </div>
+                          </div>
+                        </Popover.Panel>
+                      </Transition>
+                    </>
+                  )}
+                </Popover>
+              </div>
             </div>
           </div>
         </div>
@@ -572,7 +585,8 @@ const NewsFeedSingle = (singleItem) => {
               <a>
                 <div className="rounded-xl bg-white border border-gray-100 my-2">
                   {items.event.cover_photo_url ? (
-                    <img
+                    <LazyLoadImage
+                        effect="blur"
                       src={items.event.cover_photo_url}
                       className="object-cover rounded-t-xl h-auto w-[952px]"
                       alt=""
@@ -692,7 +706,8 @@ const NewsFeedSingle = (singleItem) => {
                             query: items.id,
                           }} >
                         <a>
-                          <img
+                          <LazyLoadImage
+                        effect="blur"
                             src={i}
                             key={i}
                             width={952}
@@ -718,7 +733,8 @@ const NewsFeedSingle = (singleItem) => {
                         items.share.page.display_photo_url ? (
                           <Link href={{ pathname: "/page-design/suggested-pages", query: items.share.page.id, }}>
                             <a>
-                              <img
+                              <LazyLoadImage
+                        effect="blur"
                                 src={items.share.page.display_photo_url}
                                 className="object-cover rounded-full h-[42px] w-[42px]"
                                 width={45}
@@ -730,8 +746,9 @@ const NewsFeedSingle = (singleItem) => {
                         ) : (
                           <Link href={{ pathname: "/page-design/suggested-pages", query: items.share.page.id, }}>
                             <a>
-                              <Image
-                                src={PagePhoto}
+                              <LazyLoadImage
+                                effect="blur"
+                                src={PagePhoto.src}
                                 className="object-cover rounded-full h-[42px] w-[42px]"
                                 width={45}
                                 height={45}
@@ -745,7 +762,8 @@ const NewsFeedSingle = (singleItem) => {
                           CurrentUser && CurrentUser.id == items.share.user.id ? (
                             <Link href="/profile">
                               <a>
-                                <img
+                                <LazyLoadImage
+                        effect="blur"
                                   src={items.share.user.display_photo_url}
                                   className="object-cover rounded-full h-[42px] w-[42px]"
                                   width={45}
@@ -757,7 +775,8 @@ const NewsFeedSingle = (singleItem) => {
                           ) : (
                             <Link href={{ pathname: "/User-Profile", query: items.share.user.id, }}>
                               <a>
-                                <img
+                                <LazyLoadImage
+                        effect="blur"
                                   src={items.share.user.display_photo_url}
                                   className="object-cover rounded-full h-[42px] w-[42px]"
                                   width={45}
@@ -771,8 +790,9 @@ const NewsFeedSingle = (singleItem) => {
                           CurrentUser && CurrentUser.id == items.share.user.id ? (
                             <Link href="/profile">
                               <a>
-                                <Image
-                                  src={ProfileAvatar}
+                                <LazyLoadImage
+                                  effect="blur"
+                                  src={ProfileAvatar.src}
                                   width={45}
                                   height={45}
                                   alt=""
@@ -782,8 +802,9 @@ const NewsFeedSingle = (singleItem) => {
                           ) : (
                             <Link href={{ pathname: "/User-Profile", query: items.share.user.id, }}>
                               <a>
-                                <Image
-                                  src={ProfileAvatar}
+                                <LazyLoadImage
+                                  effect="blur"
+                                  src={ProfileAvatar.src}
                                   width={45}
                                   height={45}
                                   alt=""
@@ -879,7 +900,9 @@ const NewsFeedSingle = (singleItem) => {
                             </>
                           )
                         )}
-      
+                        <div className="font-light text-gray-900 opacity-[0.8]">
+                          {items.share.created_at}
+                        </div>
                       </div>
                     </div>
                     <div className="p-2 pb-2">
@@ -899,7 +922,8 @@ const NewsFeedSingle = (singleItem) => {
                           <a>
                             <div className="rounded-xl bg-white border border-gray-100 my-2">
                               {items.share.event.cover_photo_url ? (
-                                <img
+                                <LazyLoadImage
+                        effect="blur"
                                   src={items.share.event.cover_photo_url}
                                   className="object-cover rounded-t-xl h-auto w-[952px]"
                                   alt=""
@@ -1020,7 +1044,8 @@ const NewsFeedSingle = (singleItem) => {
                         //   }} >
                         //   <a>
                         //     <div className="mt-[14px]">
-                        //       <img
+                        //       <LazyLoadImage
+                        // effect="blur"
                         //         src={items.share.attachments_link}
                         //         width={952}
                         //         height={240}
@@ -1041,7 +1066,8 @@ const NewsFeedSingle = (singleItem) => {
                                     query: items.id,
                                   }} >
                                 <a>
-                                  <img
+                                  <LazyLoadImage
+                                    effect="blur"
                                     src={i}
                                     key={i}
                                     width={952}

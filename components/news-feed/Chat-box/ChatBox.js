@@ -612,7 +612,7 @@ const Dropdown = ({ color }) => {
                                   dropdownPopoverShow1
                                   : openDropdownPopover1(i.sender,i.from);
                                 }} key={i.id}>
-                                <Link href="">
+                               
                                   <a className="flex items-center gap-2">
                                   {currentuser.id!=i.message_CID && i.status=="Unread"?(
                                     i.sender.display_photo_url?(
@@ -663,7 +663,7 @@ const Dropdown = ({ color }) => {
                                       {/* <div className="font-light">Your Conversations</div> */}
                                     </div>
                                   </a>
-                                </Link>
+                                
                               </div>
                             )
 
@@ -686,7 +686,7 @@ const Dropdown = ({ color }) => {
                               dropdownPopoverShow1
                               : openDropdownPopover1(i.user);
                             }} key={i.id}>
-                            <Link href="">
+                           
                               <a className="flex items-center gap-2">
                               {i.user && i.user.display_photo_url?(
                                 <img
@@ -708,7 +708,7 @@ const Dropdown = ({ color }) => {
                                   <div className="font-light">Search User </div>
                                 </div>
                               </a>
-                            </Link>
+                            
                           </div>
                           ))
                         }
@@ -723,7 +723,7 @@ const Dropdown = ({ color }) => {
                                 dropdownPopoverShow1
                                 : openDropdownPopover1(i);
                               }} key={i.id}>
-                              <Link href="">
+                              
                                 <a className="flex items-center gap-2">
                                 {i && i.display_photo_url?(
                                   <img
@@ -745,7 +745,7 @@ const Dropdown = ({ color }) => {
                                     <div className="font-light">Friends  </div>
                                   </div>
                                 </a>
-                              </Link>
+                              
                             </div>
                           ))
                         }
