@@ -19,6 +19,8 @@ import axios from "axios";
 import App from "../Comment-Input/App";
 import HashtagMentionInput from "../Comment-Input/HashtagMentionInput";
 import Picker from 'emoji-picker-react';
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 const ReadMore = ({ children }) => {
   const text = children;
@@ -562,7 +564,8 @@ const ReplyComments = (props) => {
                       currentUser && currentUser == comment.user.id ? (
                         <Link href="/profile">
                           <a>
-                            <img
+                            <LazyLoadImage
+                              effect="blur"
                               src={comment.user.display_photo_url}
                               className="object-cover rounded-full z-40 h-[38px] w-[38px]"
                               alt=""
@@ -572,7 +575,8 @@ const ReplyComments = (props) => {
                       ) : (
                         <Link href={{ pathname: "/User-Profile", query: comment.user.id, }}>
                           <a>
-                            <img
+                            <LazyLoadImage
+                              effect="blur"
                               src={comment.user.display_photo_url}
                               className="object-cover rounded-full z-40 h-[38px] w-[38px]"
                               alt=""
@@ -584,14 +588,14 @@ const ReplyComments = (props) => {
                       comment && comment.user && currentUser && currentUser == comment.user.id ? (
                         <Link href="/profile">
                           <a>
-                            <Image src={ProfileAvatar} width={38} height={38} alt="" />
+                            <LazyLoadImage effect="blur" src={ProfileAvatar.src} className="object-cover rounded-full z-40 h-[38px] w-[38px]" alt="" />
                           </a>
                         </Link>
                       ) : (
                         comment && comment.user ? (
                           <Link href={{ pathname: "/User-Profile", query: comment.user.id, }}>
                             <a>
-                              <Image src={ProfileAvatar} width={38} height={38} alt="" />
+                              <LazyLoadImage effect="blur" src={ProfileAvatar.src} className="object-cover rounded-full z-40 h-[38px] w-[38px]" alt="" />
                             </a>
                           </Link>
                         ) : ("")
@@ -758,7 +762,8 @@ const ReplyComments = (props) => {
                       {C_postImagePreview ? (
 
                         <div className="relative w-1/4 mt-2">
-                          <img
+                          <LazyLoadImage
+                              effect="blur"
                             src={C_postImagePreview}
                             className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
                             alt=""
@@ -773,7 +778,8 @@ const ReplyComments = (props) => {
                       ) : (
                         <div className="relative w-1/4 mt-2">
                           {comment.attachments_link ? (
-                            <img
+                            <LazyLoadImage
+                              effect="blur"
                               src={comment.attachments_link[0]}
                               className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
                               alt=""
@@ -811,7 +817,8 @@ const ReplyComments = (props) => {
                     }
 
                     {comment.attachments_link ? (
-                      <img
+                      <LazyLoadImage
+                              effect="blur"
                         src={comment.attachments_link[0]}
                         className="rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
                         alt=""
@@ -930,7 +937,8 @@ const ReplyComments = (props) => {
                     {/* show or remove preview of image In Comment'sReply */}
                     {C_postImagePreview ? (
                       <div className="relative w-1/4 mt-2">
-                        <img
+                        <LazyLoadImage
+                              effect="blur"
                           src={C_postImagePreview}
                           className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
                           alt=""
@@ -958,7 +966,8 @@ const ReplyComments = (props) => {
                               currentUser && currentUser == i.user.id ? (
                                 <Link href="/profile">
                                   <a>
-                                    <img
+                                    <LazyLoadImage
+                              effect="blur"
                                       src={i.user.display_photo_url}
                                       className="object-cover rounded-full z-40 h-[38px] w-[38px]"
                                       alt=""
@@ -969,7 +978,8 @@ const ReplyComments = (props) => {
                                 i.user ? (
                                   <Link href={{ pathname: "/User-Profile", query: i.user.id, }}>
                                     <a>
-                                      <img
+                                      <LazyLoadImage
+                              effect="blur"
                                         src={i.user.display_photo_url}
                                         className="object-cover rounded-full z-40 h-[38px] w-[38px]"
                                         alt=""
@@ -982,16 +992,14 @@ const ReplyComments = (props) => {
                               i.user && currentUser && currentUser == i.user.id ? (
                                 <Link href="/profile">
                                   <a>
-                                    <Image src={ProfileAvatar} className="object-cover rounded-full "
-                                      width={38} height={38} alt="" />
+                                    <LazyLoadImage effect="blur" src={ProfileAvatar.src} className="object-cover rounded-full z-40 h-[38px] w-[38px]" alt="" />
                                   </a>
                                 </Link>
                               ) : (
                                 i.user ? (
                                   <Link href={{ pathname: "/User-Profile", query: i.user.id, }}>
                                     <a>
-                                      <Image src={ProfileAvatar} className="object-cover rounded-full "
-                                        width={38} height={38} alt="" />
+                                      <LazyLoadImage effect="blur" src={ProfileAvatar.src} className="object-cover rounded-full z-40 h-[38px] w-[38px]" alt="" />
                                     </a>
                                   </Link>
                                 ) : ("")
@@ -1164,7 +1172,8 @@ const ReplyComments = (props) => {
                             {/* Preview of Image in Edit Reply */}
                             {C_postImagePreview ? (
                               <div className="relative w-1/4 mt-2">
-                                <img
+                                <LazyLoadImage
+                              effect="blur"
                                   src={C_postImagePreview}
                                   className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
                                   alt=""
@@ -1177,7 +1186,8 @@ const ReplyComments = (props) => {
                             ) : (
                               <div className="relative w-1/4 mt-2">
                                 {i.attachments_link ? (
-                                  <img
+                                  <LazyLoadImage
+                              effect="blur"
                                     src={i.attachments_link}
                                     className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
                                     alt=""
@@ -1211,7 +1221,8 @@ const ReplyComments = (props) => {
                               )
                             }
                             {i.attachments_link ? (
-                              <img
+                              <LazyLoadImage
+                              effect="blur"
                                 src={i.attachments_link[0]}
                                 className=" rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
                                 alt=""

@@ -92,6 +92,7 @@ const HashtagMentionInput = (props) => {
         value={props.postText} onChange={handleChange}
         placeholder={"What you are upto ?"}
         allowSpaceInQuery={true}
+        autoFocus={false}
       >
         <Mention
           trigger="#"

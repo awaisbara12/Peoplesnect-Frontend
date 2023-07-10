@@ -650,8 +650,9 @@ const ProfileFeedSingle = (singleItems) => {
                   alt=""
                 />
               ) : (
-                <Image
-                  src={ProfileAvatar}
+                <LazyLoadImage
+                  effect="blur"
+                  src={ProfileAvatar.src}
                   className="object-cover rounded-full "
                   width={45}
                   height={45}
@@ -1360,8 +1361,9 @@ const ProfileFeedSingle = (singleItems) => {
                   ) : (
                     <Link href={{ pathname: "/page-design/suggested-pages", query: items.share.page.id, }}>
                       <a>
-                        <Image
-                          src={PagePhoto}
+                        <LazyLoadImage
+                          effect="blur"
+                          src={PagePhoto.src}
                           className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
                           width={45}
                           height={45}
@@ -1400,8 +1402,9 @@ const ProfileFeedSingle = (singleItems) => {
                   ) : (
                     <>
                       {singleItems && singleItems.currentuser && singleItems.currentuser.id == items.share.user.id ? (
-                        <Image
-                          src={ProfileAvatar}
+                        <LazyLoadImage
+                          effect="blur"
+                          src={ProfileAvatar.src}
                           width={45}
                           height={45}
                           alt=""
@@ -1409,8 +1412,9 @@ const ProfileFeedSingle = (singleItems) => {
                       ) : (
                         <Link href={{ pathname: "/User-Profile", query: items.share.user.id, }}>
                           <a>
-                            <Image
-                              src={ProfileAvatar}
+                            <LazyLoadImage
+                              effect="blur"
+                              src={ProfileAvatar.src}
                               width={45}
                               height={45}
                               alt=""
