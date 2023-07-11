@@ -93,7 +93,7 @@ const NewsFeedDashboard = () => {
               >
                 {user && list && list.length > 0 && list.map((items) => (
                   items.user ? (
-                    <NewsFeedSingle items={items} key={items.id} user={user} />
+                    <NewsFeedSingle list={list} setList={setList} items={items} key={items.id} user={user} />
                   ) : ("")
                 )
                 )

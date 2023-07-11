@@ -1167,7 +1167,7 @@ const NewsFeedSingle = (singleItem) => {
                 )}
               </div>
 
-              <ShareModal items={items && items.feed_type == "share" ? (items.share) : (items)} currentuser={CurrentUser && CurrentUser} />
+              <ShareModal items={items && items.feed_type == "share" ? (items.share) : (items)} currentuser={CurrentUser && CurrentUser} list={singleItem.list} setList={singleItem.setList}/>
             </div>
           </div>
 
