@@ -185,8 +185,8 @@ const ShareModal = (props) => {
       .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-          // const mergedata = [result.data,...setList.list]
-          // setList.setList(mergedata);
+          const mergedata = [...props.list,result.data]
+          props.setList(mergedata);
           setPostText("");
           setpostnews(false);
           closeModal();

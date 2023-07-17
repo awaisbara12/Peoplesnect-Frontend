@@ -27,37 +27,101 @@ const NewsFeedDashboard = () => {
     var authKey = window.localStorage.getItem("keyStore"); 
   }
 
-  const getNewsFeed = async () => {
-    const res = await axios(GET_CONNECTION_AND_FOLLOWING_NEWS_FEEDS +"?page=" + currentpage, {
+  // const getNewsFeed = async () => {
+  //   const res = await axios(GET_CONNECTION_AND_FOLLOWING_NEWS_FEEDS +"?page=" + currentpage, {
+  //     method: "GET",
+  //     headers: {
+  //       Accept: "application/json",
+  //       "Content-type": "application/json; charset=utf-8",
+  //       "Access-Control-Allow-Origin": "*",
+  //       "Access-Control-Allow-Credentials": true,
+  //       Authorization: authKey,
+  //     },
+  //     credentials: "same-origin",
+  //   });
+  //   const result = await res;
+
+  //   try {
+  //     if (result.status == 200) {
+  //       console.log(result.data.data);
+  //       console.log(result.data);
+  //       const mergedata = [...list, ...result.data.data]
+  //       setList(mergedata);
+  //       setcurrentpage(result.data.pages.next_page)
+  //       setlastpage(result.data.pages.total_pages)
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  //   setLoading(false);
+  //   return result;
+  // };
+
+  const getNewsFeed = () => {
+    fetch(GET_CONNECTION_AND_FOLLOWING_NEWS_FEEDS, {
       method: "GET",
       headers: {
         Accept: "application/json",
-        "Content-type": "application/json; charset=utf-8",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Credentials": true,
-        Authorization: authKey,
+        Authorization: `${authKey}`,
       },
-      credentials: "same-origin",
-    });
-    const result = await res;
-
-    try {
-      if (result.status == 200) {
-        // console.log(result.data.data);
-        const mergedata = [...list, ...result.data.data]
-        setList(mergedata);
-        setcurrentpage(result.data.pages.next_page)
-        setlastpage(result.data.pages.total_pages)
-      }
-    } catch (error) {
-      console.log(error);
-    }
-    setLoading(false);
-    return result;
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+        console.log(result.data);
+        // console.log(result);
+        const mergedata = [...list, ...result.data]
+        const uniqueIds = new Set();
+        const uniqueObjects = mergedata.filter(item => {
+          if (!uniqueIds.has(item.id)) {
+            uniqueIds.add(item.id);
+            return true;
+          }
+          return false;
+        });
+        setList(uniqueObjects);
+        setcurrentpage(result.pages.next_page)
+        setlastpage(result.pages.total_pages)
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
+  const getNewsFeed2 = () => {
+    fetch(GET_CONNECTION_AND_FOLLOWING_NEWS_FEEDS +"?page=" + currentpage, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result) {
+        console.log(result.data);
+        // console.log(result);
+        const mergedata = [...list, ...result.data]
+        const uniqueIds = new Set();
+        const uniqueObjects = mergedata.filter(item => {
+          if (!uniqueIds.has(item.id)) {
+            uniqueIds.add(item.id);
+            return true;
+          }
+          return false;
+        });
+        setList(uniqueObjects);
+        setcurrentpage(result.pages.next_page)
+        setlastpage(result.pages.total_pages)
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+console.log(list);
+
   const fetchMoreData = () => {
-    getNewsFeed();
+    if(currentpage && currentpage!=1){
+      getNewsFeed2();
+    }
   }
   useEffect(() => {
     setLoading(true);
@@ -93,7 +157,7 @@ const NewsFeedDashboard = () => {
               >
                 {user && list && list.length > 0 && list.map((items) => (
                   items.user ? (
-                    <NewsFeedSingle items={items} key={items.id} user={user} />
+                    <NewsFeedSingle list={list} setList={setList} items={items} key={items.id} user={user} />
                   ) : ("")
                 )
                 )
