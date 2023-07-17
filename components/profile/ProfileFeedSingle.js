@@ -335,10 +335,12 @@ const ProfileFeedSingle = (singleItems) => {
       dataForm.append("events[total_seats]", seats);
     }
     else {
-      if (U_pic) {
+      if (U_pic && feedType!="video_feed") {
         for (let i = 0; i < U_pic.length; i++) {
           dataForm.append("news_feeds[feed_attachments][]", U_pic[i]);
         }
+      }else if(U_pic && feedType=="video_feed"){
+        dataForm.append("news_feeds[feed_attachments][]", U_pic);
       }
     }
     fetch(POST_NEWSFEED_API_KEY + "/" + id, {
