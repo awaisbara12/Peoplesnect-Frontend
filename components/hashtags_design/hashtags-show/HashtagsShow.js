@@ -35,6 +35,7 @@ import {
 import PostComments from "./comments/PostComments";
 import FilterComments from "./comments/FilterComments";
 import ReplyComments from "./comments/ReplyComments";
+import ShowAlert from "../../Alerts/Alertss";
 // import Spinner from "../common/Spinner";
 
 const cardDropdown = [
@@ -84,6 +85,9 @@ const HashtagsShow = (singleItems) => {
   const [is_deleted, setIs_deleted] = useState(0);
   const [loading, setLoading] = useState(true);
   const [nextPage, setNextPage] = useState('');
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
+  
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
   }
@@ -92,7 +96,8 @@ const HashtagsShow = (singleItems) => {
     const links1 = window.location.pathname   // get link after localhost
     const copylink1 = links.split(links1)    // get link domain like(localhost..etc)
     navigator.clipboard.writeText(copylink1[0] + "/events-design/event-view?" + postid)
-    alert("Link Copied to your Clipboard");
+    setopenalert(true);
+    setalertbody("Link Copied to your Clipboard!");
 
   }
   // Get NewsFeed for the updation Lists
@@ -137,8 +142,12 @@ const HashtagsShow = (singleItems) => {
 
     try {
       if (result.status == 200) {
+        setopenalert(true);
+        setalertbody("Record Deleted Succefully");
+        setTimeout(()=>{
         getNewsFeed();
-        alert("Record Deleted Succefully");
+        },2000)
+        
 
       }
     } catch (error) {
@@ -149,7 +158,8 @@ const HashtagsShow = (singleItems) => {
   };
   // update user newsfeed's post
   const EditFeed = (uid) => {
-    alert(" ues" + uid);
+    // setopenalert(true);
+    // alert(" ues" + uid);
   };
   // Confirmation Edit Or Delete
   const optionConfirm = (uid, name) => {
@@ -313,6 +323,9 @@ const HashtagsShow = (singleItems) => {
 
   return (
     <>
+      {openalert?(
+        <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+      ):("")}
       {/*  NewsFeed */}
       {singleItems && singleItems.type == "NewsFeed" ? (
         <div className="w-full xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">

@@ -8,11 +8,15 @@ import { Menu, Transition } from "@headlessui/react";
 import { DotsHorizontalIcon } from "@heroicons/react/solid";
 import { BLOCK_API, GROUP_API, GROUP_MEMBERS_API } from "../../../../../pages/config";
 import { useRouter } from "next/router";
+import ShowAlert from "../../../../Alerts/Alertss";
 
 const GrooupAdmins = () => {
   const [member, setmember] = useState();
   const [count, setcount] = useState();
   const [admin, setadmin] = useState();
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
+  
   const router = useRouter();
   const data = router.asPath;
   const myArray = data.split("?");
@@ -61,7 +65,10 @@ const GrooupAdmins = () => {
       .then((resp) => resp.json())
       .then((result) => {
         GetAdmins();
-        alert("Admin has been Removed from Group")
+        // alert("Admin has been Removed from Group")
+
+        setopenalert(true);
+        setalertbody("Admin has been Removed fron Group!")
       })
   }
   // remove admin
@@ -76,7 +83,9 @@ const GrooupAdmins = () => {
       .then((resp) => resp.json())
       .then((result) => {
         GetAdmins();
-        alert("Now " + name + " is  Group Member")
+        setalertbody("Now " + name + " is  Group Member")
+        setopenalert(true);
+        // setalertbody("Member has been Removed!")
       })
   }
   // Block
@@ -104,6 +113,9 @@ const GrooupAdmins = () => {
   }, [])
   return (
     <div className="mt-8">
+      {openalert?(
+        <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+      ):("")}
       <div className="w-[620px] xl:w-[980px] lg:w-[710px] md:w-[780px] px-5 md:px-0 lg:px-0 xl:px-0">
         <div className="bg-white rounded-xl mt-8">
           <div className="flex justify-between items-center border-b-1 p-4">

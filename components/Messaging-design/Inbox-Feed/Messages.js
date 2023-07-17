@@ -23,6 +23,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import ClipLoader from 'react-spinners/ClipLoader';
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
+import ShowAlert from "../../Alerts/Alertss";
 const Messages = () => {
   if (typeof window !== "undefined") {
     var authKey = window.localStorage.getItem("keyStore");
@@ -35,6 +36,8 @@ const Messages = () => {
   const [senderDetails, setsenderDetails] = useState("");        // 2nd USER
   const [cables, setcables] = useState(null);                    // ACTIONCABLE CONNECTION
   const [currentuser, setcurrentuser] = useState(null);          // current user
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
   
   const [currentpagemy, setcurrentpagemy] = useState(1);         // PAGE PARAM [:- PAGY]
   const router = useRouter();
@@ -165,7 +168,8 @@ const Messages = () => {
              downfunction();
             }
             else if(result && result.block){
-              alert("You can't Send Message");
+              setopenalert(true)
+              setalertbody("You can't Send Message");
             }
         })
         .catch((err) => console.log(err)); 
@@ -278,9 +282,12 @@ const Messages = () => {
     <div
       ref={myDivRef}
       id={senderDetails && senderDetails.id}>
+        {openalert?(
+        <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+      ):("")}
       <div className="w-full bg-white rounded-r-xl">
         {/* Chat-Head */}
-        <div className="flex justify-between bg-white sticky top-0 p-3 z-40 border-b rounded-tr-xl">
+        <div className="flex justify-between bg-white sticky top-0 p-3 z-20 border-b rounded-tr-xl">
           {senderDetails?(
              <div className="font-bold flex items-center gap-2 capitalize ">{myArray && myArray[2] && myArray[2]=="Marketplace"?(<>Marketplace :- </>):("")} {senderDetails.first_name} {senderDetails.last_name}  </div>
           ):('')}

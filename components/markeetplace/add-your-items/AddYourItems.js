@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { CATEGORY_API, PRODUCT_API } from "../../../pages/config";
 import { Country, State, City } from 'country-state-city';
+import ShowAlert from "../../Alerts/Alertss";
 
 const AddYourItems = () => {
   const [selectCategory, setselectCategory] = useState();  // map on category's select
@@ -23,10 +24,15 @@ const AddYourItems = () => {
   const [city, setcity] = useState();
   const [states, setstates] = useState();
   const [stateName, setstateName] = useState();                 // state name for db save
+  
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
+  
+  
   const router = useRouter();
   const data = router.asPath;
   const myArray = data.split("?");
-  console.log("P_productPic",P_productPic)
+  // console.log("P_productPic",P_productPic)
   //   Bareer key
   if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore"); }
   // Upload image
@@ -226,8 +232,11 @@ const AddYourItems = () => {
       .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-          alert('Update Successfully')
-          router.push("/markeet-place/marketplace-show?" + id);
+          setopenalert(true);
+          setalertbody('Update Successfully')
+          setTimeout(()=>{
+            router.push("/markeet-place/marketplace-show?" + id);
+          },2000)
         }
       })
       .catch((err) => console.log(err));
@@ -255,6 +264,9 @@ const AddYourItems = () => {
   }
   return (
     <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
+      {openalert?(
+        <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+      ):("")}
       <div className="bg-white p-5 rounded-xl">
         <div className="my-5 font-bold">Add Details About your Product</div>
         <div className="md:w-10/12 w-full mx-auto">
@@ -473,7 +485,7 @@ const AddYourItems = () => {
 
 
 
-            <div className="flex justify-center mt-7">
+            <div className="flex justify-center mt-7 cursor-pointer">
               {myArray && myArray[1] && country && city && states && name && category && feature && des && contact && price && (U_P_productPic.length !== 0 || productPic.length !== 0 || P_productPic.length !== 0) ? (
                 <div onClick={() => UpdateProduct(myArray[1])}
                   className="bg-indigo-400 text-white p-3 rounded-xl font-bold">

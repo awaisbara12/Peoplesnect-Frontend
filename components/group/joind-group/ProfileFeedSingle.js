@@ -49,6 +49,7 @@ import ReplyComments from "../../profile/comments/ReplyComments";
 import ShareModal from "../../news-feed/newsfeed/feedcard/ShareModal";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
+import ShowAlert from "../../Alerts/Alertss";
 
 const ReadMore = ({ children }) => {
   const text = children;
@@ -104,7 +105,9 @@ const ProfileFeedSingle = (singleItems) => {
   const [bookmarks, setBookmarks] = useState(singleItems.bookmarks);
   const [spinner, setSpinner] = useState(false);
   const [admins, setadmins] = useState(singleItems.admin);
-
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
+  
 
 
   const [tags, settags] = useState([]);
@@ -119,7 +122,9 @@ const ProfileFeedSingle = (singleItems) => {
     const links1 = window.location.pathname   // get link after localhost
     const copylink1 = links.split(links1)
     navigator.clipboard.writeText(copylink1[0] + "/events-design/event-view?" + postid);    // get link domain like(localhost..etc)
-    alert("Link Copied to your Clipboard");
+    setalertbody("Link Copied to your Clipboard");
+    setopenalert(true);
+
   }
   const router = useRouter();
   const data = router.asPath;
@@ -166,8 +171,14 @@ const ProfileFeedSingle = (singleItems) => {
 
     try {
       if (result.status == 200) {
-        getNewsFeed();
-        alert("Record Deleted Succefully");
+        // alert("Record Deleted Succefully");
+        setalertbody("Record Deleted Succefully");
+        setopenalert(true);
+        setTimeout(() => {
+          getNewsFeed();
+        }, 2000);
+        
+        
 
       }
     } catch (error) {
@@ -202,7 +213,10 @@ const ProfileFeedSingle = (singleItems) => {
       .then((result) => {
         if (result) {
           // console.log("Hello");
-          alert("Your report send to Admin");
+          // alert("Your report send to Admin");
+          setalertbody("Your Report Send to Admin");
+          setopenalert(true);
+  
         }
       })
       .catch((err) => console.log(err));
@@ -625,6 +639,9 @@ const ProfileFeedSingle = (singleItems) => {
 
   return (
     <>
+      {openalert?(
+        <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+      ):("")}
       {items.user ? (
         <div className="w-full xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">
           <div className="flex gap-2 justify-between items-center px-[22px] py-[14px]">
@@ -781,7 +798,13 @@ const ProfileFeedSingle = (singleItems) => {
                                     </div>
                                   </div>
                                 </button>
-
+                                
+                                <div className="flex items-center rounded-lg px-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50">
+                                <div className="flex text-gray-900 gap-2 cursor-pointer	 " onClick={() => copylink(items.id)}>
+                                  <ShareIcon className=" h-4 w-4" />
+                                  <div className="text-sm font-medium text-gray-900" >Share</div>
+                                </div>
+                              </div>
 
                               </div>
                             </div>

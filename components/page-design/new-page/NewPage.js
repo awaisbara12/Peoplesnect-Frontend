@@ -1,6 +1,7 @@
 import { Router, useRouter } from "next/router";
 import React, { useState } from "react";
 import { PAGES_API } from "../../../pages/config";
+import ShowAlert from "../../Alerts/Alertss";
 
 const NewPAge = () => {
   const [name,setname] = useState();
@@ -12,6 +13,9 @@ const NewPAge = () => {
   const [cancomment,setcancomment] = useState();
   const [canmessage,setcanmessage] = useState();
   const [showbtn,setshowbtn] = useState(true);
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
+
   const router = useRouter();
   // Bareer Key
   if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore"); }
@@ -57,13 +61,19 @@ const NewPAge = () => {
         setcoverpreview('');
         setcancomment('');
         setcanmessage('');
-        alert("Page Created!")
+        // alert("Page Created!")
+        setopenalert(true);
+        setalertbody("Page Created Successfully!")
+        
         router.push('/page-design/liked-pages?'+result.data.id);
 
       })
   }
   return (
     <div>
+      {openalert?(
+        <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+      ):("")}
       <div className="mt-8">
       <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
           <div className="">

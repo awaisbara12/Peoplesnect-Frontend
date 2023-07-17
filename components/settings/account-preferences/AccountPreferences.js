@@ -4,11 +4,14 @@ import {
   ACCOUNT_PREFERENCE_SETTING,
   CURENT_USER_LOGIN_API
 } from "../../../pages/config";
+import ShowAlert from "../../Alerts/Alertss";
 const AccountPreferences = () => {
   const [userDetails, setUserDetails] = useState();
   const [profile_type, setprofile_type] = useState();
   const [vedioautoplay, setvedioauto] = useState(false);
   const [language, setlanguage] = useState();
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
   
    // Bareer Key
   if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore"); }
@@ -29,7 +32,9 @@ const AccountPreferences = () => {
         const currentuserSting = JSON.stringify(result.data);     // convert json into string
         localStorage.setItem("currentuser", currentuserSting);    // save currentuser in localstorage as string      
         Current_User();
-        alert("Your Information has been Updated! ") 
+        // alert("Your Information has been Updated! ") 
+      setopenalert(true);
+      setalertbody("Your Information has been Updated!")
       }
     })
     .catch((err) => console.log(err));
@@ -66,6 +71,10 @@ const AccountPreferences = () => {
   
   return (
     <div>
+      {openalert?(
+        <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+      ):("")}
+      
       <div className="mt-8">
       <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
           <div className="">

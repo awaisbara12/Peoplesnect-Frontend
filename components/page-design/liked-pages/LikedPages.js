@@ -286,7 +286,7 @@ const LikedPages = (setList, singleItem) => {
                   <div className=" flex justify-between items-center">
                     {Page && Page.name?(
                     <div className="heading ml-28 text-2xl text-indigo-400 font-bold capitalize cursor-pointer">
-                    {Page.name}
+                    {Page.name} 
                     </div>
                     ):('')}
                   </div>
