@@ -12,6 +12,7 @@ import { useFormik } from "formik";
 import { Dialog } from "@headlessui/react";
 import { ChevronLeftIcon, ChevronRightIcon, XIcon } from "@heroicons/react/outline";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import ShowAlert from "../../Alerts/Alertss";
 
 const Productshow = [
   {
@@ -37,6 +38,9 @@ const MarketplaceShow = () => {
   const [picshow, setpicshow] = useState(0);
   const [imagess, setimagess] = useState([]);
   const [CurrentUser, setCurrentUser] = useState();
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
+  
   let [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const data = router.asPath;
@@ -79,7 +83,8 @@ const MarketplaceShow = () => {
     })
       .then((resp) => resp.json())
       .then((result) => {
-        alert("Message sent successfully");
+        setopenalert(true)
+        setalertbody("Message sent successfully!");
 
       })
       .catch((err) => console.log(err));
@@ -113,6 +118,9 @@ const MarketplaceShow = () => {
   }
   return (
     <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
+      {openalert?(
+        <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+      ):("")}
       {Product && Product.product_pic ? (
         <div className="bg-white rounded-xl">
           <AliceCarousel>
@@ -200,7 +208,7 @@ const MarketplaceShow = () => {
             <a> */}
 
             {Product && currentuser && currentuser.id==Product.user.id?(""):(
-              <div className="bg-indigo-400 rounded-xl w-44 text-center py-3 text-white font-bold" onClick={() => SendMessage(Product.user.id, Product.product_pic[0])}>
+              <div className="bg-indigo-400 rounded-xl w-44 text-center py-3 text-white font-bold cursor-pointer" onClick={() => SendMessage(Product.user.id, Product.product_pic[0])}>
                Contact With Seller
               </div>)}
               {/* </a>

@@ -13,12 +13,15 @@ import {
 } from "@heroicons/react/outline";
 import { BookmarkIcon } from "@heroicons/react/solid";
 import { USE_APPLY_JOB_API } from "../../../pages/config";
+import ShowAlert from "../../Alerts/Alertss";
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 const SavedJobs = () => {
   const [Applied_list, setApplied_list] = useState();
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
   
   // Bareer Key
   if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore");}
@@ -29,7 +32,8 @@ const SavedJobs = () => {
     const links1=window.location.pathname   // get link after 
     const copylink1 = links.split(links1)    // get link domain like(localhost..etc)
     navigator.clipboard.writeText(copylink1[0]+"/jobs/jobs-show?"+postid);
-    alert("Link Copied to your Clipboard ");
+    setopenalert(true);
+    setalertbody("Link Copied to your Clipboard ");
   }
   // Removed saved_Jobs
   const removeSavedJob =(ID)=>{
@@ -70,6 +74,9 @@ const SavedJobs = () => {
   }, []);
   return (
     <div className="mt-8">
+      {openalert?(
+        <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+      ):("")}
       <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 xl:px-0 lg:px-0">
         <div className="bg-white rounded-xl">
           <div className="border-b-1 p-4">

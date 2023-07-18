@@ -14,12 +14,15 @@ import {
   FOLLOW_REQUEST_USER_API,
   CURENT_USER_LOGIN_API
 } from "../../pages/config";
+import ShowAlert from "../Alerts/Alertss";
 
 function PeendingRequest() {
   const [UserList, setUserList] = useState(true);
   const [user_request, setUser_Request] = useState([]);
   const { data: user } = useSelector((state) => state.user);
   const [userDetails, setUserDetails] = useState();
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
   
   // Bareer Key
   if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore"); }
@@ -111,7 +114,9 @@ function PeendingRequest() {
     const data = await response.json();
     PendingFollowRequest();
     ShowUsers();
-    alert("You Followed "+name);
+    // alert("You Followed "+name);
+    setopenalert(true);
+    setalertbody("You Followed "+name);
   }
   // Send Connection Request
   const ConnectionRequest=async(userId)=>
@@ -124,7 +129,9 @@ function PeendingRequest() {
     const data = await response.json();
     PendingFollowRequest();
     ShowUsers();
-    alert("Connection Request sent");
+    // alert("Connection Request sent");
+    setopenalert(true);
+    setalertbody("Connection Request sent");
   }
   //Ignore & Accept Follow Request
   const ActionOnFollowRequest=async(id,status)=>{
@@ -146,6 +153,9 @@ function PeendingRequest() {
   return (
     <div className="mt-8">
     <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
+        {openalert?(
+            <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+          ):("")}
         <div className="bg-white rounded-xl">
           <div className="flex justify-between items-center border-b-1 p-4">
             <div className="heading">Connections Request</div>

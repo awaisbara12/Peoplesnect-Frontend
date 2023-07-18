@@ -4,10 +4,15 @@ import Image from "next/image";
 import ProfileAvatar from "../../../../public/images/profile-avatar.png";
 import { PAGE_REQUEST_API } from "../../../../pages/config";
 import { useRouter } from "next/router";
+import ShowAlert from "../../../Alerts/Alertss";
 
 const PendingGroupRequest = () => {
   const [all_reaquest, setall_reaquest] = useState();
   const [disabled, setdisabled] = useState(false);
+
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
+
   const router = useRouter();
   const data = router.asPath;
   const myArray = data.split("?");
@@ -25,8 +30,14 @@ const PendingGroupRequest = () => {
     })
       .then((resp) => resp.json())
       .then((result) => {
-        PendingRequest();
-        alert("Request has been " + status);
+        setopenalert(true);
+        setalertbody("Request has been " + status + " !" )
+        setTimeout(() => {
+          // props.setopenalert(false)
+          PendingRequest();
+        }, 2000);
+        
+        // alert("Request has been " + status);
         setdisabled(false);
       })
   }
@@ -51,6 +62,9 @@ const PendingGroupRequest = () => {
 
   return (
     <div className="mt-8">
+      {openalert?(
+        <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+      ):("")}
       <div className="w-[620px] xl:w-[980px] lg:w-[710px] md:w-[780px] px-5 md:px-0 lg:px-0 xl:px-0">
         <div className="bg-white rounded-xl">
           <div className="flex justify-between items-center border-b-1 p-4">

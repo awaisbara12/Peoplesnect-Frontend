@@ -48,6 +48,7 @@ import ReplyComments from "../../profile/comments/ReplyComments";
 import ShareModal from "../../news-feed/newsfeed/feedcard/ShareModal";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
+import ShowAlert from "../../Alerts/Alertss";
 
 const ReadMore = ({ children }) => {
   const text = children;
@@ -108,6 +109,9 @@ const ProfileFeedSingle = (singleItems) => {
   const [hashtaged, setHashtaged] = useState([]);
   let [hastags, sethastags] = useState();
 
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
+  
   const router = useRouter();
   const data = router.asPath;
   const myArray = data.split("?");
@@ -120,7 +124,9 @@ const ProfileFeedSingle = (singleItems) => {
     const links1 = window.location.pathname   // get link after localhost
     const copylink1 = links.split(links1)
     navigator.clipboard.writeText(copylink1[0] + "/events-design/event-view?" + postid);    // get link domain like(localhost..etc)
-    alert("Link Copied to your Clipboard");
+    // alert("Link Copied to your Clipboard");
+    setopenalert(true);
+    setalertbody("Link Copied to your Clipboard!")
   }
   // Get NewsFeed for the updation Lists
   const getNewsFeed = async () => {
@@ -165,8 +171,14 @@ const ProfileFeedSingle = (singleItems) => {
 
     try {
       if (result.status == 200) {
-        getNewsFeed();
-        alert("Record Deleted Succefully");
+        setopenalert(true);
+        setalertbody("Record Deleted Succefully!")
+        setTimeout(() => {
+          getNewsFeed();
+        }, 2000);
+        
+        // alert("Record Deleted Succefully");
+
 
       }
     } catch (error) {
@@ -192,7 +204,8 @@ const ProfileFeedSingle = (singleItems) => {
       .then((result) => {
         if (result) {
           // console.log("Hello");
-          alert("Your report send to Admin");
+          setopenalert(true);
+          setalertbody("Your report send to Admin");
         }
       })
       .catch((err) => console.log(err));
@@ -627,6 +640,9 @@ const ProfileFeedSingle = (singleItems) => {
 
   return (
     <>
+      {openalert?(
+        <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+      ):("")}
       {items.user ? (
         <div className="w-full xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">
           <div className="flex gap-2 justify-between items-center px-[22px] py-[14px]">
@@ -635,7 +651,7 @@ const ProfileFeedSingle = (singleItems) => {
                 (
                   <img
                     src={singleItems.group.display_photo_url}
-                    className="object-cover rounded-full z-40 h-[42px] w-[42px]"
+                    className="object-cover rounded-full z-20 h-[42px] w-[42px]"
                     alt=""
                   />
                 ) : (

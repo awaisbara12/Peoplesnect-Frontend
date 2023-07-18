@@ -45,6 +45,7 @@ import 'react-lazy-load-image-component/src/effects/blur.css';
 import HashtagMentionInput from "../newspost/HashtagMentionInput";
 import TimezoneSelect, { allTimezones } from "react-timezone-select";
 import Spinner from "../../../common/Spinner";
+import ShowAlert from "../../../Alerts/Alertss";
 
 const cardDropdown = [
   {
@@ -129,6 +130,8 @@ const NewsFeedSingle = (singleItem) => {
   const [seats, setseats] = useState();
   const [address, setaddress] = useState();
   const [venue, setvenue] = useState();
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
 
 
   let [speakerMention, setspeakerMention] = useState([]);
@@ -144,7 +147,9 @@ const NewsFeedSingle = (singleItem) => {
     const links1 = window.location.pathname   // get link after localhost
     const copylink = links.split(links1)    // get link domain like(localhost..etc)
     navigator.clipboard.writeText(copylink[0] + "/events-design/event-view?" + postid);
-    alert("Link Copied to your Clipboard");
+    // alert("Link Copied to your Clipboard");
+    setopenalert(true);
+    setalertbody("Link Copied to your Clipboard");
   }
   // Add Heart
   function addHeart(feedId) {
@@ -274,7 +279,9 @@ const NewsFeedSingle = (singleItem) => {
       .then((result) => {
         if (result) {
           // console.log("Hello");
-          alert("Your report send to Admin");
+          // alert("Your report send to Admin");
+          setopenalert(true);
+          setalertbody("Your report send to Admin");
         }
       })
       .catch((err) => console.log(err));
@@ -314,7 +321,9 @@ const NewsFeedSingle = (singleItem) => {
       const links1 = window.location.pathname   // get link after localhost
       const copylink = links.split(links1)    // get link domain like(localhost..etc)
       navigator.clipboard.writeText(copylink[0] + "/events-design/event-view?" + item.id);
-      alert("Link Copied to your Clipboard");
+      // alert("Link Copied to your Clipboard");
+      setopenalert(true);
+      setalertbody("Link Copied to your Clipboard");
     }else  if (name == "Delete") {
       var a = confirm("Are you sure!");
       if (a) {
@@ -407,7 +416,11 @@ const NewsFeedSingle = (singleItem) => {
       if (e.target.files.length !== 0) {
         setUP_pic(window.URL.createObjectURL(e.target.files[0]));
       }
-    } else { alert("Please Select Image") }
+    } else { 
+      // alert("Please Select Image") 
+      setopenalert(true);
+      setalertbody("Please Select Image");
+    }
 
    
   };
@@ -422,7 +435,11 @@ const NewsFeedSingle = (singleItem) => {
         setUP_pic(URL.createObjectURL(e.target.files[0]));
         //  console.log("Check",URL.createObjectURL(U_pic))
       }
-    } else { alert("Please Select video") }
+    } else { 
+      // alert("Please Select video") 
+      setopenalert(true);
+      setalertbody("Please Select video");
+    }
 
   };
   //  remover preview
@@ -643,6 +660,9 @@ const NewsFeedSingle = (singleItem) => {
       <div className="w-full xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl"
       id={`newsfeed-${items.id}`}
       key={items.id}>
+        {openalert?(
+          <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+        ):("")}
         <div className="flex gap-2 justify-between items-center px-[22px] py-[14px]">
           <div className="flex gap-2 items-center">
 

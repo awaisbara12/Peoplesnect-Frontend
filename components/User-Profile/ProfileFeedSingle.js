@@ -413,7 +413,7 @@ const ProfileFeedSingle = (singleItems) => {
 
             </div>
 
-            <div className="">
+            {/*<div className="">
               <div className="">
                 <Popover className="relative">
                   {({ open }) => (
@@ -463,7 +463,7 @@ const ProfileFeedSingle = (singleItems) => {
                   )}
                 </Popover>
               </div>
-            </div>
+            </div>*/}
           </div>
           {/* <div className="border-1 border-gray-100"></div> */}
 

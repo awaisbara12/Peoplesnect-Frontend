@@ -15,6 +15,7 @@ import { Popover, Transition } from "@headlessui/react";
 import { Editor } from "@tinymce/tinymce-react";
 import HashtagMentionInput from "./blog-description-input/HashtagMentionInput";
 import App from "./blog-description-input/App";
+import ShowAlert from "../Alerts/Alertss";
 
 const cardDropdown = [
   {
@@ -67,7 +68,9 @@ function BlogShow() {
   const [title, setTitle] = useState();      // Blog Title
   const [blogContent, setBlogContent] = useState(""); // Blog Description
   const [blog_type, setblog_type] = useState("");
-
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
+  
   
   const [tags, settags] = useState([]);
   const [mentioned, setMentioned] = useState([]);
@@ -159,7 +162,11 @@ function BlogShow() {
     const result = await res;
     try {
       if (result.status == 200) {
-        router.push("/blog");
+        setopenalert(true);
+        setalertbody("Article Removed Successfully")
+        setTimeout(()=>{
+          router.push("/blog");
+        },2000)
       }
     } catch (error) {}
     setLoading(false);
@@ -198,6 +205,8 @@ function BlogShow() {
           setBlogContent('');
           setblog_type('');
           getBlogs();
+          setopenalert(true);
+          setalertbody("Blog is updated............!");
         }
       })
       .catch((err) => console.log(err));
@@ -222,7 +231,8 @@ function BlogShow() {
     // const links1=window.location.pathname   // get link after 
     // const copylink1 = links.split(links1)    // get link domain like(localhost..etc)
     navigator.clipboard.writeText(links);
-    alert("Link Copied to your Clipboard");
+    setopenalert(true);
+    setalertbody("Link Copied to your Clipboard");
   }
   function addHeart(feedId) {
     const dataForm = new FormData();
@@ -427,6 +437,9 @@ function BlogShow() {
 
   return (
     <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
+       {openalert?(
+        <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+      ):("")}
         {/* Blog Show */}
       <div className="blogs bg-white rounded-xl my-8 ">
         <div className="image">
@@ -512,7 +525,7 @@ function BlogShow() {
                 )}
               </div>
               {currentUser && list && list.data && currentUser.id==list.data.user.id?(
-              <div  className="bg-indigo-100 absolute top-4 right-4 z-50 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full">
+              <div  className="bg-indigo-100 absolute top-4 right-4 z-20 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full">
                 <div className="">
                   <Popover className="relative">
                     {({ open }) => (

@@ -50,6 +50,7 @@ import { useRouter } from "next/router";
 import ProfileFeed from "./ProfileFeed";
 import InviteFriendsGroup from "./InviteFriendsGroup/InviteFriendsGroup";
 import axios from "axios";
+import ShowAlert from "../../Alerts/Alertss";
 
 // import Spinner from "../../../common/Spinner";
 
@@ -113,6 +114,8 @@ const JoindGroup = (setList, singleItem) => {
 
   const [group, setgroup] = useState();
   const [admins, setadmins] = useState();
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
 
   const router = useRouter();
   const data = router.asPath;
@@ -251,7 +254,9 @@ const JoindGroup = (setList, singleItem) => {
       SendInviteRequest();
     }
     else {
-      alert("Select Friend to Invite");
+      // alert("Select Friend to Invite");
+      setopenalert(true);
+      setalertbody("Select Friend to Invite");
     }
   }
 
@@ -404,6 +409,9 @@ const JoindGroup = (setList, singleItem) => {
 
   return (
     <div className="mt-8 w-[620px] xl:w-[980px] lg:w-[710px] md:w-[780px] px-auto md:px-0 lg:px-0 xl:px-0">
+      {openalert?(
+        <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+      ):("")}
       {/* Group Profile */}
       <div className="">
         <div className="blogs bg-white rounded-xl">

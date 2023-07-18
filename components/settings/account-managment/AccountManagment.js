@@ -5,12 +5,18 @@ import {
 } from "../../../pages/config";
 import { signout } from "../../auth/signout/SignOut";
 import { router } from "next/router";
+import ShowAlert from "../../Alerts/Alertss";
+import ShowConfirm from "../../Alerts/Confirmation";
 
 const AccountManagment = () => {
   const [defaultvalue, setdefaultvalue] = useState();
   const [userDetails, setUserDetails] = useState();
   const [temporary, settemporary] = useState();
   const [permanent, setpermanent] = useState();
+  const [openconfirm, setopenconfirm] = useState(false); // For Confirm Show
+  const [confirmbody, setconfirmbody] = useState(); // For Confirm Body
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
   // Bareer Key
   if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore"); }
     // confirmation 
@@ -21,7 +27,11 @@ const AccountManagment = () => {
     if (a===false){
       // console.log("confirm",a)
     }
-    }else{alert("your changes are not updated")}
+    }else{
+      setopenalert(true);
+      setalertbody("Your Changes Are Not Updated!")
+      // alert("your changes are not updated")
+    }
       
   }
   //  for acc# deactivation
@@ -48,7 +58,7 @@ const AccountManagment = () => {
               setUserDetails(result.data);
               settemporary(result.data.is_deleted);
               setpermanent(false);
-              alert("Your Account has been Activated!") 
+              // alert("Your Account has been Activated!") 
             }
             
           }
@@ -81,6 +91,8 @@ const AccountManagment = () => {
   const toggler =(e)=>{ 
     if(e=="temporary"){ 
     var a = confirm("Are You Sure you want to Deactivate your account?");
+    // setopenconfirm(true)
+    // console.log("")
     if(a)
     { settemporary(true);
       setdefaultvalue("temporary");
@@ -116,6 +128,10 @@ const AccountManagment = () => {
 
   return (
     <div>
+      {openalert?(
+        <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+      ):("")}
+      
       <div className="mt-8">
       <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
           <div className="">

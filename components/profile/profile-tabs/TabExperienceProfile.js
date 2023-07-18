@@ -10,6 +10,7 @@ import { Country, State, City }  from 'country-state-city';
 import {    
   CURENT_USER_LOGIN_API, UPDATE_USER_WORK_EXPERIENCE
 } from "../../../pages/config";
+import ShowAlert from "../../Alerts/Alertss";
 
 const TabExperienceProfile = () => {
   let [isOpen, setIsOpen] = useState(false);
@@ -28,6 +29,8 @@ const TabExperienceProfile = () => {
   const [current_work, setusercurrent_work] = useState();
   const [starting, setuserstarting] = useState();
   const [ending, setuserending] = useState();
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
   
    // Bareer Key
    if (typeof window !== "undefined") {
@@ -112,7 +115,9 @@ const TabExperienceProfile = () => {
     .then((result) => {
       if (result) {
         closeModal();
-        alert("Your Work Experience Updated Successfully")
+        // alert("Your Work Experience Updated Successfully");
+        setopenalert(true);
+        setalertbody("Your Work Experience Updated Successfully");
       }
     })
     .catch((err) => console.log(err));
@@ -154,7 +159,9 @@ const TabExperienceProfile = () => {
         if (result) {
           closeCreateModal();
           setUserUpdate_work_experience(result.data)
-          alert("Your Work Experience Added Successfully")
+          // alert("Your Work Experience Added Successfully");
+          setopenalert(true);
+          setalertbody("Your Work Experience Added Successfully");
         }
       })
       .catch((err) => console.log(err));
@@ -165,6 +172,9 @@ const TabExperienceProfile = () => {
   },[])
   return (
     <div className="bg-white rounded-xl p-10">
+      {openalert?(
+        <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+      ):("")}
       <div className="flex items-center justify-between mb-5">
         <div className="font-extrabold ">Experience</div>
         <div className="flex ml-auto gap-2">

@@ -14,6 +14,7 @@ import {
 import { DotsHorizontalIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/router";
 import { GROUP_API, GROUP_MEMBERS_API } from "../../../../pages/config";
+import ShowAlert from "../../../Alerts/Alertss";
 
 const GroupMembers = () => {
   const [member, setmember] = useState();
@@ -22,6 +23,8 @@ const GroupMembers = () => {
   const [admincount, setadmincount] = useState(); //admins count
   const [admins, setadmins] = useState();         // all Admins Details
   const [admin, setadmin] = useState();           // Creater
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
   // group_details
   const router = useRouter();
   const data = router.asPath;
@@ -39,8 +42,12 @@ const GroupMembers = () => {
     })
       .then((resp) => resp.json())
       .then((result) => {
-        GetMember();
-        alert("Member has been Removed")
+        // alert("Member has been Removed");
+        setopenalert(true);
+        setalertbody("Member has been Removed");
+        setTimeout(() => {
+          GetMember();
+        }, 2000);
       })
   }
   // Get Super Admin
@@ -98,6 +105,9 @@ const GroupMembers = () => {
   }, [])
   return (
     <div className="mt-8">
+      {openalert?(
+        <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+      ):("")}
       <div className="image  bg-white rounded-b-xl">
         {/* Cover Photo */}
         {admin ? (
@@ -132,13 +142,13 @@ const GroupMembers = () => {
           {admin && admin.display_image_url ? (
             <img
               src={admin.display_image_url}
-              className="object-cover rounded-full z-40 h-[100px] w-[100px]"
+              className="object-cover rounded-full z-20 h-[100px] w-[100px]"
               alt=""
             />
           ) : (
             <Image
               src={ProfileAvatar}
-              className="object-cover rounded-full z-40"
+              className="object-cover rounded-full z-20"
               width={96}
               height={96}
               alt=""
@@ -179,7 +189,7 @@ const GroupMembers = () => {
                     {admin.owner.display_photo_url ? (
                       <Link href={{ pathname: "/User-Profile", query: admin.owner.id, }}>
                         <a>
-                          <img src={admin.owner.display_photo_url} className="object-cover rounded-full z-40 h-[40px] w-[40px]" />
+                          <img src={admin.owner.display_photo_url} className="object-cover rounded-full z-20 h-[40px] w-[40px]" />
                         </a>
                       </Link>
                     ) : (
@@ -222,7 +232,7 @@ const GroupMembers = () => {
                         {i.group_member && i.group_member.display_photo_url ? (
                           <Link href={{ pathname: "/User-Profile", query: i.group_member.id, }}>
                             <a>
-                              <img src={i.group_member.display_photo_url} className="object-cover rounded-full z-40 h-[40px] w-[40px]" alt="" />
+                              <img src={i.group_member.display_photo_url} className="object-cover rounded-full z-20 h-[40px] w-[40px]" alt="" />
                             </a>
                           </Link>
                         ) : (
@@ -257,7 +267,7 @@ const GroupMembers = () => {
                     {i.group_member && i.group_member.display_photo_url ? (
                       <Link href={{ pathname: "/User-Profile", query: i.group_member.id, }}>
                         <a>
-                          <img src={i.group_member.display_photo_url} className="object-cover rounded-full z-40 h-[40px] w-[40px]" alt="" />
+                          <img src={i.group_member.display_photo_url} className="object-cover rounded-full z-20 h-[40px] w-[40px]" alt="" />
                         </a>
                       </Link>
                     ) : (

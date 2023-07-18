@@ -11,6 +11,7 @@ function classNames(...classes) {
 }
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { ClipLoader } from "react-spinners";
+import ShowAlert from "../Alerts/Alertss";
 
 const Notifications = () => {
   const [notify, setnotify] = useState([]);
@@ -20,7 +21,9 @@ const Notifications = () => {
   const [lastpage, setlastpage] = useState(0);
   const [currentpage, setcurrentpage] = useState(1);
   // const [notify, setpro] = useState();
-
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
+  
   //  GET_NOTIFICATIONS
   // Bareer Key
   if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore");  }
@@ -78,8 +81,11 @@ const Notifications = () => {
     })
     .then((resp) => resp.json())
     .then((result) => {
-      allNotifications();
-      alert("Request has been "+status);
+      setopenalert(true);
+      setalertbody("Request has been "+status);
+      setTimeout(()=>{
+        allNotifications();
+      },2000)
     })
   }
   const Current_User=async()=>{   
@@ -112,6 +118,9 @@ const Notifications = () => {
 
   return (
     <div>
+      {openalert?(
+        <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+      ):("")}
       <div className="mt-8">
       <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
           <div className="bg-white rounded-xl">

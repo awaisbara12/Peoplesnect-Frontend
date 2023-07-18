@@ -11,6 +11,7 @@ import { fetchUser } from "../../store/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Country, State, City }  from 'country-state-city';
 import Spinner from "../common/Spinner";
+import ShowAlert from "../Alerts/Alertss";
 
 const StepOne = () => {
   if (typeof window !== "undefined") {
@@ -29,7 +30,9 @@ const StepOne = () => {
   const [Errcountry, setcountryErr] = useState();
   const [Errcity, setcityErr] = useState();
   const [Errstate, setstateErr] = useState();
-
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
+  
 
 
   useEffect(() => {
@@ -89,7 +92,8 @@ const StepOne = () => {
                             const result = await resp.json();
                             try {
                               if (result && result.error) {
-                                alert("Enter OTP")
+                                setopenalert(true);
+                                setalertbody("Enter OTP")
                               } else {
                                 if (result && 200) {
                                   const currentuserSting = JSON.stringify(result.data);     // convert json into string
@@ -166,6 +170,9 @@ const StepOne = () => {
   }
   return (
     <>
+      {openalert?(
+        <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+      ):("")}
       <div className="signUp--background min-h-screen overflow-y-auto">
         <div className="text-center py-6">
           <Image

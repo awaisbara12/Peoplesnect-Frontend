@@ -4,12 +4,17 @@ import {
   UPDATE_CONTACT_INFO,
 
 } from "../../../pages/config";
+import ShowAlert from "../../Alerts/Alertss";
+// import ShowAlert from "../../Alerts/ShowAlert";
+// import Alertss from "../../Alerts/Alertss";
+// import alertss from "../../Alerts/Alertss";
 const ContectInfo = () => {
   const [userDetails, setUserDetails] = useState();
   const [email, setemail] = useState();
   const [phone, setphone] = useState();
   const [DOB, setDOB] = useState();
   const [seleccountry, setseleccountry] = useState();
+  const [openalert, setopenalert] = useState(false);
   
   // Bareer Key
   if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore"); }
@@ -30,7 +35,9 @@ const ContectInfo = () => {
         localStorage.setItem("currentuser", currentuserSting);    // save currentuser in localstorage as string      
         // Current_User();
         // setUserDetails(result.data.id); 
-        alert("Your Information has been Updated! ") 
+        // alert("Your Information has been Updated! ") 
+        setopenalert(true);
+         
       }
     })
     .catch((err) => console.log(err));
@@ -68,6 +75,9 @@ const ContectInfo = () => {
 
   return (
     <div>
+      {openalert?(
+        <ShowAlert openalert={openalert} setopenalert={setopenalert} body="Your Information has been Updated!"/>
+      ):("")}
       <div className="mt-8">
       <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
           <div className="">

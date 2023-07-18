@@ -13,11 +13,15 @@ import {
 import { DotsHorizontalIcon } from "@heroicons/react/solid";
 import { BLOCK_API, GROUP_API, GROUP_MEMBERS_API } from "../../../../pages/config";
 import { useRouter } from "next/router";
+import ShowAlert from "../../../Alerts/Alertss";
 
 const GroupMembers = () => {
   const [member, setmember] = useState();
   const [count, setcount] = useState();
 
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
+  
   const router = useRouter();
   const data = router.asPath;
   const myArray = data.split("?");
@@ -34,7 +38,9 @@ const GroupMembers = () => {
       .then((resp) => resp.json())
       .then((result) => {
         GetMember();
-        alert("Member has been Removed")
+        // alert("Member has been Removed")
+        setopenalert(true);
+        setalertbody("Member has been Removed!")
       })
   }
   // Get Group's Member
@@ -66,7 +72,9 @@ const GroupMembers = () => {
       .then((resp) => resp.json())
       .then((result) => {
         GetMember();
-        alert("Now " + name + " is Group Admin");
+        // alert("Now " + name + " is Group Admin");
+        setopenalert(true);
+        setalertbody("Now " + name + " is Group Admin");
       })
   }
   // Block
@@ -93,6 +101,9 @@ const GroupMembers = () => {
   }, [])
   return (
     <div className="mt-8">
+      {openalert?(
+        <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+      ):("")}
       <div className="w-[620px] xl:w-[980px] lg:w-[710px] md:w-[780px] px-5 md:px-0 lg:px-0 xl:px-0">
         <div className="bg-white rounded-xl mt-8">
           <div className="flex justify-between items-center border-b-1 p-4">

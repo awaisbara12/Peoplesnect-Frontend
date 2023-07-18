@@ -46,6 +46,7 @@ import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import 'react-lazy-load-image-component/src/effects/blur.css';
+import ShowAlert from "../Alerts/Alertss";
 // import Spinner from "../common/Spinner";
 
 const cardDropdown = [
@@ -101,6 +102,8 @@ const ProfileFeedSingle = (singleItems) => {
   const [bookmarks, setBookmarks] = useState(singleItems.bookmarks);
   const [spinner, setSpinner] = useState(false);
   const [isActive, setIsActive] = useState(false);
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
 
   const [timezone, settimezone] = useState();
   const [eventlink, seteventlink] = useState();
@@ -127,7 +130,9 @@ const ProfileFeedSingle = (singleItems) => {
     const links1 = window.location.pathname   // get link after localhost
     const copylink1 = links.split(links1)
     navigator.clipboard.writeText(copylink1[0] + "/events-design/event-view?" + postid);    // get link domain like(localhost..etc)
-    alert("Link Copied to your Clipboard");
+    // alert("Link Copied to your Clipboard");
+    setopenalert(true);
+    setalertbody("Link Copied to your Clipboard");
   }
   // Get NewsFeed for the updation Lists
   const getNewsFeed = async () => {
@@ -173,10 +178,13 @@ const ProfileFeedSingle = (singleItems) => {
 
     try {
       if (result.status == 200) {
-        getNewsFeed();
-        RecentActivity();
-        alert("Record Deleted Succefully");
-
+        // alert("Record Deleted Succefully");
+        setopenalert(true);
+        setalertbody("Record Deleted Succefully");
+        setTimeout(()=>{
+          getNewsFeed();
+          RecentActivity();
+        },2000)
       }
     } catch (error) {
       console.log(error);
@@ -278,7 +286,11 @@ const ProfileFeedSingle = (singleItems) => {
         setUP_pic(URL.createObjectURL(e.target.files[0]));
         //  console.log("Check",URL.createObjectURL(U_pic))
       }
-    } else { alert("Please Select video") }
+    } else { 
+      // alert("Please Select video") 
+      setopenalert(true);
+      setalertbody("Please Select video");
+    }
 
   };
   //  remover preview
@@ -641,6 +653,9 @@ const ProfileFeedSingle = (singleItems) => {
   return (
     <>
       <div className="w-full xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">
+        {openalert?(
+          <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+        ):("")}
         <div className="flex gap-2 justify-between items-center px-[22px] py-[14px]">
           <div className="flex gap-2">
             {items && items.user && items.user.display_photo_url ?

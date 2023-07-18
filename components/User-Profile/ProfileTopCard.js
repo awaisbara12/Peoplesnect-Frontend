@@ -39,6 +39,7 @@ import {
   CURENT_USER_LOGIN_API, 
   
 } from "../../pages/config";
+import ShowAlert from "../Alerts/Alertss";
 
 const ProfileTopCard = (props) => {
   const [btn1, setbtn1] = useState();
@@ -47,6 +48,8 @@ const ProfileTopCard = (props) => {
   const [currentuser, setCurrent_User] = useState();
   const [connection, setconnection] = useState(false);
   const [userDetails, setUserDetails] = useState();
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
   
 // Bareer Key
   if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore"); }
@@ -62,7 +65,9 @@ const ProfileTopCard = (props) => {
      const data = await response.json();
      setbtn1('');
      CheckFollower();
-     alert("You Followed "+name);
+    //  alert("You Followed "+name);
+    setopenalert(true);
+    setalertbody("You Followed "+name);
    }
   //UnFollow 
   const UnFollow=async(userId)=>
@@ -99,7 +104,9 @@ const ProfileTopCard = (props) => {
      const data = await response.json();
      //console.log("Send", data );
      CheckConnection();
-     alert("Connection Request Sent");
+    //  alert("Connection Request Sent");
+    setopenalert(true);
+    setalertbody("Connection Request sent");
    }
 
   //  function Confirm(followrequest,user_id)
@@ -245,6 +252,9 @@ const ProfileTopCard = (props) => {
   return (
     <>
     <div className="mt-8 w-full xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
+        {openalert?(
+          <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+        ):("")}
         <div className="w-full bg-white p-5 rounded-t-xl">
           <div className="w-full">
             <div className="">
@@ -276,7 +286,7 @@ const ProfileTopCard = (props) => {
                       src={userDetails.display_photo_url}
                       width={96}
                       height={96}
-                      className="object-cover rounded-full z-40 h-[96px] w-[96px]"
+                      className="object-cover rounded-full z-20 h-[96px] w-[96px]"
                       placeholder="empty"
                       alt="profile-image"
                     />
@@ -285,7 +295,7 @@ const ProfileTopCard = (props) => {
                       src={ProfileAvatar}
                       width={96}
                       height={96}
-                      className="object-cover rounded-full z-40"
+                      className="object-cover rounded-full z-20"
                       placeholder="empty"
                       alt="profile-image"
                     />
