@@ -21,6 +21,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { ClipLoader } from "react-spinners";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
+import ShowAlert from "../../Alerts/Alertss";
 
 
 const Dropdown = ({ color }) => {
@@ -53,6 +54,8 @@ const Dropdown = ({ color }) => {
   const [currentpagemy, setcurrentpagemy] = useState(1);         // PAGE PARAM [:- PAGY]
   let [smsFriends, setsmsFriends] = useState([]);                  // Get all Friends
   const [marketplace, setmarketplace] = useState([]);          //  Show MarketPlace Label
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
   
   const messageRef = useRef();
   var tomsgid;                                                   
@@ -276,7 +279,9 @@ const Dropdown = ({ color }) => {
             }
             // downfunction();
           }else if(result && result.block){
-            alert("You can't send Message");
+            // alert("You can't send Message");
+            setopenalert(true);
+            setalertbody("You can't send Message");
           }
         })
         .catch((err) => console.log(err)); 
@@ -442,6 +447,9 @@ const Dropdown = ({ color }) => {
   return (
     <>
       <div className="flex flex-wrap">
+        {openalert?(
+          <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+        ):("")}
         <div className="fixed bottom-4 right-4">
           <div className="relative inline-flex align-middle w-full">
             <a

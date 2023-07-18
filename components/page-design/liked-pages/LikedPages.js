@@ -51,6 +51,7 @@ import { useRouter } from "next/router";
 import ProfileFeed from "./ProfileFeed";
 import InviteFriendsGroup from "./InviteFriendsGroup/InviteFriendsGroup";
 import axios from "axios";
+import ShowAlert from "../../Alerts/Alertss";
 const cardDropdown = [
   {
     name: "Turn Off Notifications",
@@ -90,6 +91,8 @@ const LikedPages = (setList, singleItem) => {
   const [admins,setadmins] = useState();
   const [InviteUser,setInviteUser] = useState();
   const [isCheck, setIsCheck] = useState([]);
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
   const router = useRouter();
   const data = router.asPath;
   const myArray = data.split("?");
@@ -206,7 +209,10 @@ const LikedPages = (setList, singleItem) => {
     }
     else
     {
-      alert("Select Friend to Invite");
+      // alert("Select Friend to Invite");
+      setopenalert(true);
+      setalertbody("Select Friend to Invite");
+      setTimeout(() => {}, 2000);
     }
   }
 
@@ -241,6 +247,9 @@ const LikedPages = (setList, singleItem) => {
 
   return (
     <div className="mt-8">
+      {openalert?(
+        <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+      ):("")}
       <div className="w-full xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
         <div className=" flex justify-between items-center">
           <div className="w-full xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
@@ -363,7 +372,7 @@ const LikedPages = (setList, singleItem) => {
                 <Transition appear show={isOpen} as={Fragment}>
                   <Dialog
                     as="div"
-                    className="relative z-50"
+                    className="relative z-20"
                     static={true}
                     onClose={closeModal}
                   >

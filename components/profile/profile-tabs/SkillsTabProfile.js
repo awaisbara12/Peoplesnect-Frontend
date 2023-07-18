@@ -10,6 +10,7 @@ import {
   UPDATE_PERSONAL_INFO,
   ADD_SKILLS
 } from "../../../pages/config";
+import ShowAlert from "../../Alerts/Alertss";
 const SkillsTabProfile = () => {
   let [isOpen, setIsOpen] = useState(false);
   let [editOpen, seteditOpen] = useState(false);
@@ -17,6 +18,8 @@ const SkillsTabProfile = () => {
   const [skill, setuserskill] = useState();
   const [editskill, seteditskill] = useState();
   const [editskillid, seteditskillid] = useState();
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
   // Bareer Key
   if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore"); } 
   // for close modal
@@ -68,7 +71,9 @@ const SkillsTabProfile = () => {
             localStorage.setItem("currentuser", currentuserSting);    // save currentuser in localstorage as string      
             setcurrentuser(result.data.skills); 
             // Current_User();
-            alert("your skill updated successfully");
+            // alert("your skill updated successfully");
+            setopenalert(true);
+            setalertbody("your skill updated successfully");
           }
         })
         .catch((err) => console.log(err));
@@ -95,7 +100,9 @@ const SkillsTabProfile = () => {
           // console.log("skill update",result.data)
           setcurrentuser(result.data.skills);
           // Current_User();
-          alert("Your Skill Added Successfully")
+          // alert("Your Skill Added Successfully")
+          setopenalert(true);
+          setalertbody("Your Skill Added Successfully");
         }
       })
       .catch((err) => console.log(err));
@@ -127,6 +134,9 @@ const SkillsTabProfile = () => {
 
   return (
     <div className="bg-white rounded-xl p-10">
+      {openalert?(
+        <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+      ):("")}
       <div className="flex items-center justify-between mb-5">
         <div className="font-extrabold ">Skills</div>
         <div className="flex ml-auto gap-2">

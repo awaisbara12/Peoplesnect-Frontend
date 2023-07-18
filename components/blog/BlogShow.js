@@ -205,6 +205,8 @@ function BlogShow() {
           setBlogContent('');
           setblog_type('');
           getBlogs();
+          setopenalert(true);
+          setalertbody("Blog is updated............!");
         }
       })
       .catch((err) => console.log(err));

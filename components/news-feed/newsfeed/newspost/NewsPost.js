@@ -29,6 +29,7 @@ import axios from "axios";
 import NewsFeedUserCard from "../../../news-feed/newsfeed/feedcard/NewsFeedUserCard";
 import App from "./App";
 import HashtagMentionInput from "./HashtagMentionInput";
+import ShowAlert from "../../../Alerts/Alertss";
 
 const NewsPost = (setList) => {
   const [loading, setLoading] = useState(false);
@@ -51,6 +52,8 @@ const NewsPost = (setList) => {
   let [speakerMention, setspeakerMention] = useState([]);
   let [speakerText, setspeakerText] = useState();
   const [speakertags, setspeakertags] = useState([]);
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
 
   const [currentuser, setcurrentuser] = useState();
 
@@ -95,7 +98,11 @@ const NewsPost = (setList) => {
       if (e.target.files.length !== 0) {
         setPreviewEventCoverImage(window.URL.createObjectURL(e.target.files[0]));
       }
-    } else { alert("Please Select Image") }
+    } else { 
+      // alert("Please Select Image") 
+      setopenalert(true);
+      setalertbody("Please Select Image");
+    }
 
     
     // if(eventCoverImage && eventCoverImage.length>0 && previewEventCoverImage && previewEventCoverImage.length>0){
@@ -161,7 +168,11 @@ const NewsPost = (setList) => {
       if (e.target.files.length !== 0) {
         setVideoPreview(URL.createObjectURL(e.target.files[0]));
       }
-    } else { alert("Please Select Vedio") }
+    } else { 
+      // alert("Please Select Vedio") 
+      setopenalert(true);
+      setalertbody("Please Select Vedio");
+    }
   };
   //  For RemovePhoto [:-  Feed-type-Image ]
   const handleCoverReomve = (index) => {
@@ -430,6 +441,9 @@ const NewsPost = (setList) => {
   }
   return (
     <div className="mt-8 z-20">
+      {openalert?(
+        <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+      ):("")}
       <div className="w-full xl:w-[980px] lg:w-[730px] md:w-[780px] rounded-xl bg-white p-[22px]">
         <form onSubmit={postNewsData}>
           <div className="w-full flex justify-start gap-[22px]">

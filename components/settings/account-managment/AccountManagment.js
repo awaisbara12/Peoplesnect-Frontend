@@ -58,7 +58,7 @@ const AccountManagment = () => {
               setUserDetails(result.data);
               settemporary(result.data.is_deleted);
               setpermanent(false);
-              alert("Your Account has been Activated!") 
+              // alert("Your Account has been Activated!") 
             }
             
           }

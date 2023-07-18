@@ -27,6 +27,7 @@ import Link from "next/link";
 import Spinner from "../../common/Spinner";
 import axios from "axios";
 import HashtagMentionInput from "../../news-feed/newsfeed/newspost/HashtagMentionInput";
+import ShowAlert from "../../Alerts/Alertss";
 
 const NewsPostProfile = (setList) => {
   if (typeof window !== "undefined") {
@@ -47,6 +48,8 @@ const NewsPostProfile = (setList) => {
   const [videoPreview, setVideoPreview] = useState();
   const [userDetails, setUserDetails] = useState(setList.currentUser);
   let [isOpen, setIsOpen] = useState(false);
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
 
 
 
@@ -140,7 +143,11 @@ const NewsPostProfile = (setList) => {
       if (e.target.files.length !== 0) {
         setVideoPreview(URL.createObjectURL(e.target.files[0]));
       }
-    } else { alert("Please Select Vedio") }
+    } else { 
+      // alert("Please Select Vedio");
+      setopenalert(true);
+      setalertbody("Please Select Vedio");
+    }
   };
   // for Remove Vedio (Vedio_Feed)
   const handleVideoRemove = (e) => {
@@ -349,6 +356,9 @@ const NewsPostProfile = (setList) => {
   // console.log("setList",setList)
   return (
     <div className="mt-8 z-20">
+      {openalert?(
+        <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+      ):("")}
       <div className="w-full xl:w-[980px] lg:w-[730px] md:w-[780px] rounded-xl bg-white p-[22px]">
         <form onSubmit={postNewsData}>
           <div className="w-full flex justify-start gap-[22px]">

@@ -9,6 +9,7 @@ import { ChevronRightIcon, XIcon, PencilAltIcon,TrashIcon } from "@heroicons/rea
 import {    
   CURENT_USER_LOGIN_API,USER_EDUCATION
 } from "../../../pages/config";
+import ShowAlert from "../../Alerts/Alertss";
 
 const TabEducationProfile = () => {
   let [isOpen, setIsOpen] = useState(false);
@@ -23,6 +24,8 @@ const TabEducationProfile = () => {
   const [education_study_to, setUsereducation_study_to] = useState();
   const [update_education, setUserUpdateeducation] = useState();
   const [current_study, setcurrent_study] = useState(false);
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
 
    // For checkbox
    const chckbox =()=>{
@@ -84,7 +87,9 @@ const TabEducationProfile = () => {
           const currentuserSting = JSON.stringify(result.data);     // convert json into string
           localStorage.setItem("currentuser", currentuserSting);    // save currentuser in localstorage as string   
           setUserUpdateeducation(result.data)
-          alert("Your Education Added Successfully")
+          // alert("Your Education Added Successfully")
+          setopenalert(true);
+          setalertbody("Your Education Added Successfully");
         }
       })
       .catch((err) => console.log(err));
@@ -129,7 +134,9 @@ const TabEducationProfile = () => {
           const currentuserSting = JSON.stringify(result.data);     // convert json into string
           localStorage.setItem("currentuser", currentuserSting);    // save currentuser in localstorage as string   
           setUserUpdateeducation(result.data);
-          alert("Your Education Updated Successfully")
+          // alert("Your Education Updated Successfully")
+          setopenalert(true);
+          setalertbody("Your Education Updated Successfully");
         }
       })
       .catch((err) => console.log(err));
@@ -166,6 +173,9 @@ const TabEducationProfile = () => {
   },[])
   return (
     <div className="bg-white rounded-xl p-10">
+      {openalert?(
+        <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+      ):("")}
       <div className="flex items-center justify-between mb-5">
         <div className="font-extrabold ">Education</div>
         <div className="flex ml-auto gap-2">

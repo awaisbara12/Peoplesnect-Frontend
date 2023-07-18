@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { ADMIN_PAGE_API, CURENT_USER_LOGIN_API, PAGES_API } from "../../../../pages/config";
+import ShowAlert from "../../../Alerts/Alertss";
 
 const EditPages = () => {
   const [page, setPage] = useState({});
@@ -10,6 +11,8 @@ const EditPages = () => {
   const [can_comment, setcan_comment] = useState();
   const [can_message, setcan_message] = useState();
   const [deletegroup,setdeletegroup] = useState(false);
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
   const router = useRouter();
   const data = router.asPath;
   const myArray = data.split("?");
@@ -38,8 +41,13 @@ const EditPages = () => {
       .then((resp) => resp.json())
       .then((result) => {
         
-        window.location.href = '/page-design';
-        alert("Your Page Deleted successfully!")
+        // window.location.href = '/page-design';
+        // alert("Your Page Deleted successfully!")
+        setopenalert(true);
+        setalertbody("Your Page Deleted successfully!");
+        setTimeout(() => {
+          window.location.href = '/page-design';
+        }, 2000);
       })
 
       if(deletegroup) {setdeletegroup(false)}
@@ -62,7 +70,9 @@ const EditPages = () => {
     .then((resp) => resp.json())
     .then((result) => {
       if(result.data){
-        alert("Updated Details Successfully")
+        // alert("Updated Details Successfully")
+        setopenalert(true);
+        setalertbody("Updated Details Successfully");
         setPage(result.data);
         setcan_comment(result.data.can_comment)
         setcan_message(result.data.can_message)
@@ -119,6 +129,9 @@ const EditPages = () => {
     <div>
       <div className="mt-8">
       <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
+          {openalert?(
+            <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+          ):("")}
           <div className="">
             <div className="heading text-lg font-bold">Page Settings</div>
             <div className="border items-center bg-white mt-4 p-10 rounded-xl">

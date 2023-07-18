@@ -31,10 +31,13 @@ import {
 } from "@material-tailwind/react";
 import TabsProfileCard from "./profile-tabs/TabsProfileCard";
 import { FOLLOW_REQUEST_USER_API, FOLLOW_USER_API, VIEW_CONNECTION, SHOW_USER_PROFILE } from "../../pages/config";
+import ShowAlert from "../Alerts/Alertss";
 const ProfileTopCard = (props) => {
   const [userDetails, setUserDetails] = useState();
   const [btn1, setbtn1] = useState();
   const [btn2, setbtn2] = useState(true);
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
   // Bareer Key
   if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore"); }
   // Remove connection
@@ -58,8 +61,13 @@ const ProfileTopCard = (props) => {
      const response = await fetch(`${FOLLOW_REQUEST_USER_API}?follow_requests[receiver_id]=${userId}`,requestOptions);
      const data = await response.json();
      //console.log("Send", data );
-     CheckConnection();
-     alert("Send Follow Request");
+    //  CheckConnection();
+    //  alert("Send Follow Request");
+     setopenalert(true);
+     setalertbody("Send Follow Request");
+     setTimeout(() => {
+      CheckConnection();
+     }, 2000);
    }
 
   // Create Follower
@@ -71,9 +79,15 @@ const ProfileTopCard = (props) => {
     };
     const response = await fetch(`${FOLLOW_USER_API}?followers[followee_id]=${userId}`,requestOptions);
     const data = await response.json();
-    setbtn1('');
-    CheckFollower();
-    alert("Send Follow Request");
+    // setbtn1('');
+    // CheckFollower();
+    // alert("Send Follow Request");
+    setopenalert(true);
+    setalertbody("Send Follow Request");
+    setTimeout(() => {
+      setbtn1('');
+      CheckFollower();
+    }, 2000);
   }
   //UnFollow 
   const UnFollow=async(userId)=>
@@ -153,6 +167,9 @@ const ProfileTopCard = (props) => {
   return (
     <>
     <div className="mt-8 w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
+        {openalert?(
+          <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+        ):("")}
         <div className="w-full bg-white p-5 rounded-t-xl">
           <div className="w-full">
             <div className="">

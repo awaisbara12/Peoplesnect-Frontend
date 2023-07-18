@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 // import { GROUP_API } from "../../../../pages/config";
 import { GROUP_API, CURENT_USER_LOGIN_API, ADMIN_GROUP_API } from "../../../../pages/config";
+import ShowAlert from "../../../Alerts/Alertss";
 
 const EditGroups = () => {
   const [name, setname] = useState();
@@ -15,6 +16,8 @@ const EditGroups = () => {
   const [deletegroup, setdeletegroup] = useState(false);
   const [currentUser, setCurrentUser] = useState();
   const [group, setgroup] = useState();
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
 
   const router = useRouter();
   const data = router.asPath;
@@ -65,8 +68,13 @@ const EditGroups = () => {
     })
       .then((resp) => resp.json())
       .then((result) => {
-        GetGroupDetails();
-        alert("Your Setting has been updated!")
+        // GetGroupDetails();
+        // alert("Your Setting has been updated!")
+        setopenalert(true);
+        setalertbody("Your Setting has been updated!");
+        setTimeout(() => {
+          GetGroupDetails();
+        }, 2000);
 
       })
   }
@@ -102,8 +110,13 @@ const EditGroups = () => {
       .then((resp) => resp.json())
       .then((result) => {
 
-        window.location.href = '/group-page';
-        alert("Your Group Deleted successfully!")
+        // window.location.href = '/group-page';
+        // alert("Your Group Deleted successfully!")
+        setopenalert(true);
+        setalertbody("Your Group Deleted successfully!");
+        setTimeout(() => {
+          window.location.href = '/group-page';
+        }, 2000);
       })
 
     if (deletegroup) { setdeletegroup(false) }
@@ -136,6 +149,9 @@ const EditGroups = () => {
       <div className="mt-8">
         <div className="w-[620px] xl:w-[980px] lg:w-[710px] md:w-[780px] px-5 md:px-0 lg:px-0 xl:px-0">
           <div className="">
+            {openalert?(
+              <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+            ):("")}
             <div className="heading text-lg font-bold">Group Settings</div>
             {/* Name & description */}
             <div className="border items-center bg-white mt-4 p-10 rounded-xl">
