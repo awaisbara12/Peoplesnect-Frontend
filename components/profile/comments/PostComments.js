@@ -18,8 +18,6 @@ import { COMMENT_API_KEY, HASHTAGS_API, NEWSFEED_COMMENT_POST_KEY, RECENT_ACTIVI
 import axios from "axios";
 import HashtagMentionInput from "../Comment-Input/HashtagMentionInput";
 import Picker from 'emoji-picker-react';
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import 'react-lazy-load-image-component/src/effects/blur.css';
 
 const PostComments = (props) => {
 
@@ -280,8 +278,7 @@ const PostComments = (props) => {
           </div>
           {postImagePreview ? (
             <div className="relative w-1/4 mt-2">
-              <LazyLoadImage
-                effect="blur"
+              <img
                 src={postImagePreview}
                 className="object-cover rounded-full ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
                 alt="" />
@@ -297,16 +294,16 @@ const PostComments = (props) => {
           <Link href="/profile">
             <a>
               {props.dp ? (
-                  <LazyLoadImage
-                    effect="blur"
+                  <img
                     src={props.dp}
                     className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
                      alt="" />
                 ) : (
-                  <LazyLoadImage
-                    effect="blur"
-                    src={ProfileAvatar.src}
+                  <Image
+                    src={ProfileAvatar}
                     className="object-cover rounded-full h-[42px] w-[42px]"
+                    height={42}
+                    width={42}
                     alt="" />
                 )}
             </a>

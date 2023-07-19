@@ -11,7 +11,6 @@ import { Menu, Transition } from "@headlessui/react";
 import { useFormik } from "formik";
 import { Dialog } from "@headlessui/react";
 import { ChevronLeftIcon, ChevronRightIcon, XIcon } from "@heroicons/react/outline";
-import { LazyLoadImage } from "react-lazy-load-image-component";
 import ShowAlert from "../../Alerts/Alertss";
 
 const Productshow = [
@@ -126,7 +125,7 @@ const MarketplaceShow = () => {
           <AliceCarousel>
             {
               Product.product_pic.map((i,j) => (
-                <LazyLoadImage
+                <img
                   src={i}
                   key={i}
                   className="md:object-cover object-contain cursor-zoom-in rounded-xl w-[1050px] h-[400px]"
