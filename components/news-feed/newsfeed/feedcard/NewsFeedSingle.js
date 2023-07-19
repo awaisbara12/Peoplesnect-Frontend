@@ -40,8 +40,6 @@ import App from "../newspost/App";
 import ShareModal from "./ShareModal";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import 'react-lazy-load-image-component/src/effects/blur.css';
 import HashtagMentionInput from "../newspost/HashtagMentionInput";
 import TimezoneSelect, { allTimezones } from "react-timezone-select";
 import Spinner from "../../../common/Spinner";
@@ -670,8 +668,7 @@ const NewsFeedSingle = (singleItem) => {
               items.page.display_photo_url ? (
                 <Link href={{ pathname: "/page-design/suggested-pages", query: items.page.id, }}>
                   <a>
-                    <LazyLoadImage
-                      effect="blur"
+                    <img
                       src={items.page.display_photo_url}
                       className="object-cover rounded-full h-[42px] w-[42px]"
                       width={45}
@@ -683,9 +680,8 @@ const NewsFeedSingle = (singleItem) => {
               ) : (
                 <Link href={{ pathname: "/page-design/suggested-pages", query: items.page.id, }}>
                   <a>
-                    <LazyLoadImage
-                      effect="blur"
-                      src={PagePhoto.src}
+                    <Image
+                      src={PagePhoto}
                       className="object-cover rounded-full h-[42px] w-[42px]"
                       width={45}
                       height={45}
@@ -699,8 +695,7 @@ const NewsFeedSingle = (singleItem) => {
                 CurrentUser && CurrentUser.id == items.user.id ? (
                   <Link href="/profile">
                     <a>
-                      <LazyLoadImage
-                        effect="blur"
+                      <img
                         src={items.user.display_photo_url}
                         className="object-cover rounded-full h-[42px] w-[42px]"
                         width={45}
@@ -712,8 +707,7 @@ const NewsFeedSingle = (singleItem) => {
                 ) : (
                   <Link href={{ pathname: "/User-Profile", query: items.user.id, }}>
                     <a>
-                      <LazyLoadImage
-                        effect="blur"
+                      <img
                         src={items.user.display_photo_url}
                         className="object-cover rounded-full h-[42px] w-[42px]"
                         width={45}
@@ -728,9 +722,8 @@ const NewsFeedSingle = (singleItem) => {
                 CurrentUser && CurrentUser.id == items.user.id ? (
                   <Link href="/profile">
                     <a>
-                      <LazyLoadImage
-                        effect="blur"
-                        src={ProfileAvatar.src}
+                      <Image
+                        src={ProfileAvatar}
                         width={45}
                         height={45}
                         alt=""
@@ -740,9 +733,8 @@ const NewsFeedSingle = (singleItem) => {
                 ) : (
                   <Link href={{ pathname: "/User-Profile", query: items.user.id, }}>
                     <a>
-                      <LazyLoadImage
-                        effect="blur"
-                        src={ProfileAvatar.src}
+                      <Image
+                        src={ProfileAvatar}
                         width={45}
                         height={45}
                         alt=""
@@ -1069,16 +1061,14 @@ const NewsFeedSingle = (singleItem) => {
                 <>
                   {UP_pic ? (
                     <div className={`relative`}>
-                      <LazyLoadImage
-                        effect="blur" src={UP_pic} className="aspect-video object-cover rounded-xl mb-4" alt="" />
+                      <img src={UP_pic} className="aspect-video object-cover rounded-xl mb-4" alt="" />
                       <div onClick={handleCoverReomve} className="bg-indigo-100 absolute top-4 right-4 z-50 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full" >
                         <TrashIcon className="w-5 h-5 text-indigo-600" />
                       </div>
                     </div>
                   ) : (
                     <>
-                      <LazyLoadImage
-                        effect="blur"
+                      <img
                         src={EditPic}
                         className="aspect-video object-cover rounded-t-xl h-[390px] w-[952px]"
                         alt=""
@@ -1113,8 +1103,7 @@ const NewsFeedSingle = (singleItem) => {
                   )}
                 </>
               ) : (
-                <LazyLoadImage
-                  effect="blur"
+                <img
                   src={items.event.cover_photo_url}
                   className="aspect-video object-cover rounded-t-xl h-[390px] w-[952px]"
                   alt=""
@@ -1515,8 +1504,7 @@ const NewsFeedSingle = (singleItem) => {
                               <div className="flex flex-wrap relative gap-4 border rounded-lg p-3" >
                                 {EditPic.map((i,j) => (
                                   <div key={i}>
-                                    <LazyLoadImage
-                                      effect="blur"
+                                    <img
                                       src={i}
                                       key={i}
                                       className="object-cover rounded-xl w-32 h-32 ml-2"
@@ -1559,8 +1547,7 @@ const NewsFeedSingle = (singleItem) => {
                     <div className="mt-[14px]">
                       <AliceCarousel>
                       {items.attachments_link && items.attachments_link.map((i,j)=>(
-                        <LazyLoadImage
-                          effect="blur"
+                        <img
                           src={i}
                           width={952}
                           height={240}
@@ -1584,8 +1571,7 @@ const NewsFeedSingle = (singleItem) => {
                         items.share.page.display_photo_url ? (
                           <Link href={{ pathname: "/page-design/suggested-pages", query: items.share.page.id, }}>
                             <a>
-                              <LazyLoadImage
-                        effect="blur"
+                              <img
                                 src={items.share.page.display_photo_url}
                                 className="object-cover rounded-full h-[42px] w-[42px]"
                                 width={45}
@@ -1597,9 +1583,8 @@ const NewsFeedSingle = (singleItem) => {
                         ) : (
                           <Link href={{ pathname: "/page-design/suggested-pages", query: items.share.page.id, }}>
                             <a>
-                              <LazyLoadImage
-                                effect="blur"
-                                src={PagePhoto.src}
+                              <Image
+                                src={PagePhoto}
                                 className="object-cover rounded-full h-[42px] w-[42px]"
                                 width={45}
                                 height={45}
@@ -1613,8 +1598,7 @@ const NewsFeedSingle = (singleItem) => {
                           CurrentUser && CurrentUser.id == items.share.user.id ? (
                             <Link href="/profile">
                               <a>
-                                <LazyLoadImage
-                        effect="blur"
+                                <img
                                   src={items.share.user.display_photo_url}
                                   className="object-cover rounded-full h-[42px] w-[42px]"
                                   width={45}
@@ -1626,8 +1610,7 @@ const NewsFeedSingle = (singleItem) => {
                           ) : (
                             <Link href={{ pathname: "/User-Profile", query: items.share.user.id, }}>
                               <a>
-                                <LazyLoadImage
-                        effect="blur"
+                                <img
                                   src={items.share.user.display_photo_url}
                                   className="object-cover rounded-full h-[42px] w-[42px]"
                                   width={45}
@@ -1641,9 +1624,8 @@ const NewsFeedSingle = (singleItem) => {
                           CurrentUser && CurrentUser.id == items.share.user.id ? (
                             <Link href="/profile">
                               <a>
-                                <LazyLoadImage
-                                  effect="blur"
-                                  src={ProfileAvatar.src}
+                                <Image
+                                  src={ProfileAvatar}
                                   width={45}
                                   height={45}
                                   alt=""
@@ -1653,9 +1635,8 @@ const NewsFeedSingle = (singleItem) => {
                           ) : (
                             <Link href={{ pathname: "/User-Profile", query: items.share.user.id, }}>
                               <a>
-                                <LazyLoadImage
-                                  effect="blur"
-                                  src={ProfileAvatar.src}
+                                <Image
+                                  src={ProfileAvatar}
                                   width={45}
                                   height={45}
                                   alt=""
@@ -1773,8 +1754,7 @@ const NewsFeedSingle = (singleItem) => {
                           <a>
                             <div className="rounded-xl bg-white border border-gray-100 my-2">
                               {items.share.event.cover_photo_url ? (
-                                <LazyLoadImage
-                                  effect="blur"
+                                <img
                                   src={items.share.event.cover_photo_url}
                                   className="object-cover rounded-t-xl h-auto w-[952px]"
                                   alt=""
@@ -1911,8 +1891,7 @@ const NewsFeedSingle = (singleItem) => {
                           {
                             items.share.attachments_link.map((i,j)=>(
                               <div className="mt-[14px]" key={i}>
-                                  <LazyLoadImage
-                                    effect="blur"
+                                  <img
                                     src={i}
                                     key={i}
                                     width={952}
@@ -1940,8 +1919,7 @@ const NewsFeedSingle = (singleItem) => {
               <div className={`relative`}>
               {UP_pic.map((i,j) => (
                 <div className="relative" key={i}>
-                  <LazyLoadImage
-                    effect="blur"
+                  <img
                     src={i}
                     key={i}
                     className="object-cover rounded-xl w-[300px] h-[300px]"
@@ -2165,8 +2143,7 @@ const NewsFeedSingle = (singleItem) => {
                               <div className="my-auto z-50"><button className="bg-indigo-400 border-4 border-white p-2 -mr-12 rounded-full" onClick={()=>picsShow("-")}><ChevronLeftIcon className="h-5 w-5 text-white" /></button></div>
                             ):("")}
                           
-                            <LazyLoadImage
-                              effect="blur"
+                            <img
                               src={imagess[picshow]}
                               className="object-contain cursor-zoom-in bg-white rounded-4xl w-[1010px] h-[500px]"
                             />
