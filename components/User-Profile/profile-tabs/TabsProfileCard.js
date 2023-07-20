@@ -3,6 +3,7 @@ import SkillsTabProfile from "./SkillsTabProfile";
 import TabExperienceProfile from "./TabExperienceProfile";
 import TabEducationProfile from "./TabEducationProfile";
 import TabProfile from "./TabProfile";
+import TabContactProfile from "./TabContactProfile";
 
 const TabsProfileCard = (props) => {
   const [des, setdes] = useState(props.user);
@@ -33,6 +34,27 @@ const TabsProfileCard = (props) => {
                     Profile
                   </a>
                 </li>
+                {props && props.user && ((props.user.contact_privacy=="every_one") ||  ( (props.user.contact_privacy=="friends" && props.connection)  || (props.user.contact_privacy=="friends" && props.follow))) ? (
+                  <li className="text-base">
+                    <a
+                      className={
+                        "" +
+                        (openTab === 6
+                          ? "border-b-2 font-bold pb-6 text-indigo-400 border-indigo-400"
+                          : "")
+                      }
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setOpenTab(6);
+                      }}
+                      data-toggle="tab"
+                      href="#link7"
+                      role="tablist"
+                    >
+                      Contact Info
+                    </a>
+                  </li>
+                ):("")}
                 <li className="text-base">
                   <a
                     className={
@@ -109,6 +131,11 @@ const TabsProfileCard = (props) => {
             <div className={openTab === 5 ? "block" : "hidden"} id="link5">
               <TabExperienceProfile user={props.user} />
             </div>
+            {props && props.user && ((props.user.contact_privacy=="every_one") ||  ( (props.user.contact_privacy=="friends" && props.connection)  || (props.user.contact_privacy=="friends" && props.follow))) ? (
+              <div className={openTab === 6 ? "block" : "hidden"} id="link6">
+                <TabContactProfile user={props.user} connection={props.connection}/>
+              </div>
+            ):("")}
           </div>
         </div>
       </div>
