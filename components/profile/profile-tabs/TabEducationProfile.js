@@ -10,6 +10,7 @@ import {
   CURENT_USER_LOGIN_API,USER_EDUCATION
 } from "../../../pages/config";
 import ShowAlert from "../../Alerts/Alertss";
+import { format } from 'date-fns';
 
 const TabEducationProfile = () => {
   let [isOpen, setIsOpen] = useState(false);
@@ -447,7 +448,7 @@ const TabEducationProfile = () => {
                 </div>
                 <div className="font-light text-sm"> {s.degree}</div>
                 <div className="font-light text-sm"> {s.degree_type}</div>               
-                <div className="font-extralight">{s.continue?(<p>{s.study_from} <b>To</b> Present</p>):(<p>{s.study_from} <b>To</b> {s.study_to}</p>)}</div>
+                <div className="font-extralight">{s.continue?(<p>{format(new Date(s.study_from), 'MMM yyyy')} <b>To</b> Present</p>):(<p>{format(new Date(s.study_from), 'MMM yyyy')} <b>To</b> {format(new Date(s.study_to), 'MMM yyyy')}</p>)}</div>
               </div>
             </div>
           </div>

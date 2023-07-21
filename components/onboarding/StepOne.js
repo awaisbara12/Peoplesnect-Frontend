@@ -156,6 +156,9 @@ const StepOne = () => {
       // console.log(a);
       setcountry(a[0]);
       setcountryName(a[1]);
+      setstates('');
+      setstateName('');
+      setcity('');
     }
   }
   //  state handler
@@ -166,6 +169,7 @@ const StepOne = () => {
       // console.log(a);
       setstates(a[0]);
       setstateName(a[1]);
+      setcity('');
     }
   }
   return (

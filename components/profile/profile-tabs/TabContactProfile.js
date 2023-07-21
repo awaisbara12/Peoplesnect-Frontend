@@ -2,6 +2,9 @@ import { useState, useEffect, React, Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { Dialog } from "@headlessui/react";
 import Link from "next/link";
+import "react-phone-input-2/lib/style.css";
+import PhoneInput from "react-phone-input-2";
+import startsWith from 'lodash.startswith';
 import {
   CalendarIcon,
   MailIcon,
@@ -20,6 +23,10 @@ const TabContactProfile = () => {
   const [email, setUseremail] = useState();
   const [phone_number, setUserphone] = useState();
   const [DOB, setUserDOB] = useState();
+
+  const handleOnChange = (value, country) => {
+    setUserphone(value);
+  };
 
   function closeModal() {
     setIsOpen(false);
@@ -148,7 +155,7 @@ const TabContactProfile = () => {
                           />
                         </div>
                         <div className="mt-5 ">
-                            <div className="">
+                            {/* <div className="">
                               <input
                                 className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full placeholder:pl-2 rounded-full placeholder:py-2"
                                 placeholder="Change Your Number"
@@ -157,7 +164,13 @@ const TabContactProfile = () => {
                                 type="text"
                                 name="search"
                               />
-                            </div>
+                            </div> */}
+                           <PhoneInput
+                              countryCodeEditable={false}
+                              country={'us'}
+                              value={phone_number}
+                              onChange={handleOnChange}
+                            />
                         </div>
                         <div className="mt-5">
                             <div className="">
