@@ -69,6 +69,19 @@ const JobsShow = () => {
       })
       .catch((err) => console.log(err));
   }
+
+  const UnApplied=async()=>{
+    const requestOptions = {
+      method: 'DELETE',
+      headers:{Accept: "application/json", Authorization: `${authKey}`},
+    };
+    const response = await fetch(`${USE_APPLY_JOB_API}/${myArray[1]}`,requestOptions);
+    setopenalert(true);
+    setalertbody("You Unapplied on this Job")
+    setTimeout(()=>{
+      canApply();
+    },2000)
+  }
   // Show Job Data
   const ShowJobs = () => {
     fetch(JOBS_API + "/" + myArray[1], {
@@ -276,6 +289,7 @@ const JobsShow = () => {
                 ) : (
                   <div className="mt-4 text-right">
                     <button className="bg-indigo-200 cursor-not-allowed text-slate-400 rounded-full p-3">Applied</button>
+                    <button className="bg-indigo-400 text-white rounded-full p-3 ml-5" onClick={() => UnApplied()} >UnApplied</button>
                   </div>
                 )}
               </div>
