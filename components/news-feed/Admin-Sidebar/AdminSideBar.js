@@ -132,8 +132,16 @@ const AdminSideBAr = () => {
                   </Link>
                   <Link href="/Admin/admin-roles">
                   <a href="">
-                    <div className="flex justify-between font-light text-sm mt-4">
+                    <div className="flex justify-between font-light text-sm mt-4 border-b-1 pb-4">
                       <div className="">Admin Roles</div>
+                      <AdjustmentsIcon className="w-5 h-5 text-indigo-400" />
+                    </div>
+                  </a>
+                  </Link>
+                  <Link href="/Admin/skills">
+                  <a href="">
+                    <div className="flex justify-between font-light text-sm mt-4">
+                      <div className="">Add Skills</div>
                       <AdjustmentsIcon className="w-5 h-5 text-indigo-400" />
                     </div>
                   </a>
@@ -187,7 +195,6 @@ const AdminSideBAr = () => {
                   </div>
                 </a>
               </Link>
-
               <Link href="/Admin/Categories">
                 <a>
                   <div className="flex justify-between font-light text-sm mt-4 border-b-1 pb-4">
