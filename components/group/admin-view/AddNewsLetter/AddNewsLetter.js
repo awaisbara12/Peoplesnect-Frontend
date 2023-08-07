@@ -144,6 +144,7 @@ const AddNewsLetter = () => {
               <div className="grid grid-cols-5 items-center">
                 <div className="text-lg font-medium">Subject:</div>
                 <div className='col-span-3'>
+                  
                   <input
                     className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full xs:w-auto placeholder:pl-2 rounded-full placeholder:py-2"
                     placeholder="Type Subject Here"
