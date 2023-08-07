@@ -16,6 +16,7 @@ import {
   LockClosedIcon,
   LogoutIcon,
   MailIcon,
+  PaperClipIcon,
   UserAddIcon,
   UserGroupIcon,
 } from "@heroicons/react/outline";
@@ -151,7 +152,7 @@ const AdminView = (setList, singleItem) => {
   }
   const Current_User = async () => {
     var c = window.localStorage.getItem("currentuser");
-    var Details =JSON.parse(c);
+    var Details = JSON.parse(c);
     // await fetch(CURENT_USER_LOGIN_API, {
     //   method: "GET",
     //   headers: {
@@ -162,11 +163,11 @@ const AdminView = (setList, singleItem) => {
     //   .then((resp) => resp.json())
     //   .then((result) => {
     //     if (result) {
-          setCurrentUser(Details);
-          // console.log("user",result.data);
-      //   }
-      // })
-      // .catch((err) => console.log(err));
+    setCurrentUser(Details);
+    // console.log("user",result.data);
+    //   }
+    // })
+    // .catch((err) => console.log(err));
   }
 
   const GetAdmins = () => {
@@ -361,6 +362,14 @@ const AdminView = (setList, singleItem) => {
                           <a className="flex gap-1 mt-2">
                             <UserAddIcon className="w-5 h-5" />
                             Blocked Member
+                          </a>
+                        </Link>
+                      </Menu.Item>
+                      <Menu.Item className="">
+                        <Link href={{ pathname: "/AddNewsLetter", query: myArray[1], }}>
+                          <a className="flex gap-1 mt-2">
+                            <PaperClipIcon className="w-5 h-5" />
+                            Add NewsLetter
                           </a>
                         </Link>
                       </Menu.Item>
