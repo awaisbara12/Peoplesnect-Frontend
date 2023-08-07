@@ -4,19 +4,25 @@ import {
   UPDATE_CONTACT_INFO,
 
 } from "../../../pages/config";
+import ShowAlert from "../../Alerts/Alertss";
+// import ShowAlert from "../../Alerts/ShowAlert";
+// import Alertss from "../../Alerts/Alertss";
+// import alertss from "../../Alerts/Alertss";
 const ContectInfo = () => {
   const [userDetails, setUserDetails] = useState();
   const [email, setemail] = useState();
   const [phone, setphone] = useState();
   const [DOB, setDOB] = useState();
   const [seleccountry, setseleccountry] = useState();
+  const [openalert, setopenalert] = useState(false);
+  const [contact_privacy, setcontact_privacy] = useState();
   
   // Bareer Key
   if (typeof window !== "undefined") {var authKey = window.localStorage.getItem("keyStore"); }
   
   //for update
   const UpdateContact=async()=>{
-    await fetch(`${UPDATE_CONTACT_INFO}?users[phone_number]=${phone}&users[email]=${email}&users[DOB]=${DOB}`, {
+    await fetch(`${UPDATE_CONTACT_INFO}?users[phone_number]=${phone}&users[email]=${email}&users[DOB]=${DOB}&users[contact_privacy]=${contact_privacy}`, {
     method: "PUT",
      headers: {
       Accept: "application/json", 
@@ -30,7 +36,9 @@ const ContectInfo = () => {
         localStorage.setItem("currentuser", currentuserSting);    // save currentuser in localstorage as string      
         // Current_User();
         // setUserDetails(result.data.id); 
-        alert("Your Information has been Updated! ") 
+        // alert("Your Information has been Updated! ") 
+        setopenalert(true);
+         
       }
     })
     .catch((err) => console.log(err));
@@ -54,6 +62,7 @@ const ContectInfo = () => {
           setemail(Details.email);
           setphone(Details.phone_number);
           setDOB(Details.DOB);
+          setcontact_privacy(Details.contact_privacy)
     //       //console.log("user",result.data)
     //     }
     //   })
@@ -68,6 +77,9 @@ const ContectInfo = () => {
 
   return (
     <div>
+      {openalert?(
+        <ShowAlert openalert={openalert} setopenalert={setopenalert} body="Your Information has been Updated!"/>
+      ):("")}
       <div className="mt-8">
       <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
           <div className="">
@@ -116,6 +128,22 @@ const ContectInfo = () => {
                   </div>
                 </div>
               </div>
+              <div className="mt-5">
+                <div className="flex username items-center gap-11 text-lg font-medium justify-center">
+                  <label>
+                    <div className="">
+                      Privacy:
+                      <select name="selectcontact_privacy" value={contact_privacy}  onChange={e => setcontact_privacy(e.target.value)}
+                        className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-96 placeholder:pl-2 rounded-full placeholder:py-2 ml-7">
+                        <option value="no_one">No One</option>
+                        <option value="every_one">Everyone</option>
+                        <option value="friends">Friends</option>
+                      </select>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
               <div className="flex justify-end mt-5">
                 <button className="border-2 border-indigo-400 bg-indigo-400 p-2 rounded-full text-white font-bold" 
                  onClick={UpdateContact}>

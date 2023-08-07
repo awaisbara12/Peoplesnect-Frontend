@@ -8,8 +8,11 @@ import { TagsInput } from "react-tag-input-component";
 import {    
   CURENT_USER_LOGIN_API,
   UPDATE_PERSONAL_INFO,
-  ADD_SKILLS
+  ADD_SKILLS,
+  SEARCH_MULTIPLE,
+  ADMIN_SKILLS
 } from "../../../pages/config";
+import ShowAlert from "../../Alerts/Alertss";
 const SkillsTabProfile = () => {
   let [isOpen, setIsOpen] = useState(false);
   let [editOpen, seteditOpen] = useState(false);
@@ -17,10 +20,14 @@ const SkillsTabProfile = () => {
   const [skill, setuserskill] = useState();
   const [editskill, seteditskill] = useState();
   const [editskillid, seteditskillid] = useState();
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
+  let [results, setresults] = useState();
+  const [closeresults,setcloseresults] = useState(false);
   // Bareer Key
   if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore"); } 
   // for close modal
-  function closeModal() { setuserskill(""); setIsOpen(false); }
+  function closeModal() { setuserskill(""); setIsOpen(false); setresults(''); }
   // for Open modal
   function openModal() { setIsOpen(true);}
   // for Close  Edit-modal
@@ -68,7 +75,9 @@ const SkillsTabProfile = () => {
             localStorage.setItem("currentuser", currentuserSting);    // save currentuser in localstorage as string      
             setcurrentuser(result.data.skills); 
             // Current_User();
-            alert("your skill updated successfully");
+            // alert("your skill updated successfully");
+            setopenalert(true);
+            setalertbody("your skill updated successfully");
           }
         })
         .catch((err) => console.log(err));
@@ -95,11 +104,55 @@ const SkillsTabProfile = () => {
           // console.log("skill update",result.data)
           setcurrentuser(result.data.skills);
           // Current_User();
-          alert("Your Skill Added Successfully")
+          // alert("Your Skill Added Successfully")
+          setopenalert(true);
+          setalertbody("Your Skill Added Successfully");
         }
       })
       .catch((err) => console.log(err));
    } 
+  }
+
+  function addvalue(i){
+    setuserskill(i.title);
+    setcloseresults(true);
+  }
+
+  const searchmultiples  = async(event) =>{
+    setuserskill(event.target.value);
+    if (event.target.value.length == 0)
+    {
+      // console.log("Hello");
+      setcloseresults(true);
+      setresults('');
+    }else{
+      await fetch(ADMIN_SKILLS+"/skill_search"+"?query="+event.target.value, {
+        method: "GET",
+         headers: {
+          Accept: "application/json", 
+           Authorization: `${authKey}`,
+         },
+      })
+         .then((resp) => resp.json())
+        .then((result) => {
+          if (result) {
+            if (event.target.value.length == 0)
+            {
+              setcloseresults(true);
+              setresults('');
+            }else{
+              if(result.data.length>0){
+                setcloseresults(false);
+              }else{
+                setcloseresults(true);
+              }
+              setresults(result.data);
+              console.log(result.data);
+            }
+          }
+        })
+        .catch((err) => console.log(err));
+    }
   }
   //current User
   const Current_User=async()=>{    
@@ -127,6 +180,9 @@ const SkillsTabProfile = () => {
 
   return (
     <div className="bg-white rounded-xl p-10">
+      {openalert?(
+        <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+      ):("")}
       <div className="flex items-center justify-between mb-5">
         <div className="font-extrabold ">Skills</div>
         <div className="flex ml-auto gap-2">
@@ -184,14 +240,30 @@ const SkillsTabProfile = () => {
                       <div>
                         <input
                           className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full placeholder:pl-2 rounded-full placeholder:py-2"      
-                         value={skill}
-                         type="text"
-                          onChange={(e)=>setuserskill(e.target.value)}
+                          value={skill}
+                          type="text"
+                          onChange={searchmultiples}
                           name="skills"
                           placeHolder="Add Skills"
                         />
                         {/* <em>press enter to add new Skill</em> */}
                       </div>
+                      {closeresults ==false?(
+                        <div className="h-40 overflow-y-scroll mt-2">
+                          {results && results.map((i)=>(
+                            <div className="" key={i.id}>
+                              <div className="mr-2 border-1">
+                                <div className="flex gap-4 items-center mt-1 mb-1 ml-4">
+                                  <button className="font-bold" onClick={()=>addvalue(i)}>
+                                    {i.title}
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                            ))}
+                        </div>
+                      ):("")}
+                        
                       <div className="flex gap-4 justify-end">
                          {skill?(
                             <button className="text-white px-4 py-2 rounded-xl mt-6 bg-indigo-400"
@@ -290,7 +362,7 @@ const SkillsTabProfile = () => {
           </Transition>
         </div>
       </div>
-      <div className="font-bold uppercase px-2">
+      <div className="font-bold px-2">
         {c_user?(
           c_user.map((i)=>(
             <div className="flex flex-col" key={i.id}>       

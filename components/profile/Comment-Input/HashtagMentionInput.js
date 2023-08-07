@@ -93,6 +93,7 @@ const [mentions, setMentions] = useState([]);
       value={props.postText} onChange={handleChange}
       placeholder={"Your Comment"}
       allowSpaceInQuery={true}
+      autoFocus={false}
     >
         <Mention
           trigger="#"

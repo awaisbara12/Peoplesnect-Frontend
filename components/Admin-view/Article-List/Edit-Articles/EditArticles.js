@@ -11,6 +11,7 @@ import FilterComments from "../../../blog/comments/FilterComments";
 import ReplyComments from "../../../blog/comments/ReplyComments";
 import HashtagMentionInput from "../../../profile/Comment-Input/HashtagMentionInput";
 import App from "../../../news-feed/newsfeed/newspost/App";
+import ShowAlert from "../../../Alerts/Alertss";
 const cardDropdown = [
   {
     name: "Edit",
@@ -57,6 +58,8 @@ function EditArticles() {
   const [title, setTitle] = useState();      // Blog Title
   const [blogContent, setBlogContent] = useState(""); // Blog Description
   const [blog_type, setblog_type] = useState("");
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
 
   
   const [tags, settags] = useState([]);
@@ -194,7 +197,9 @@ function EditArticles() {
           setBlogContent('');
           
           getBlogs();
-          alert("Blog is Updated..............!");
+          // alert("Blog is Updated..............!");
+          setopenalert(true);
+          setalertbody("Blog is Updated..............!");
         }
       })
       .catch((err) => console.log(err));
@@ -219,7 +224,9 @@ function EditArticles() {
     // const links1=window.location.pathname   // get link after 
     // const copylink1 = links.split(links1)    // get link domain like(localhost..etc)
     navigator.clipboard.writeText(links);
-    alert("Link Copied to your Clipboard");
+    // alert("Link Copied to your Clipboard");
+    setopenalert(true);
+    setalertbody("Link Copied to your Clipboard");
   }
   function addHeart(feedId) {
     const dataForm = new FormData();
@@ -426,6 +433,9 @@ function EditArticles() {
     <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
         {/* Blog Show */}
       <div className="blogs bg-white rounded-xl my-8 ">
+        {openalert?(
+          <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+        ):("")}
         <div className="image">
           {/*  Edit Title */}
           {currentUser && list && list.data && currentUser.role=="admin" && EditOn?(

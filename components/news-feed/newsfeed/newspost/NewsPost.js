@@ -29,6 +29,7 @@ import axios from "axios";
 import NewsFeedUserCard from "../../../news-feed/newsfeed/feedcard/NewsFeedUserCard";
 import App from "./App";
 import HashtagMentionInput from "./HashtagMentionInput";
+import ShowAlert from "../../../Alerts/Alertss";
 
 const NewsPost = (setList) => {
   const [loading, setLoading] = useState(false);
@@ -51,6 +52,8 @@ const NewsPost = (setList) => {
   let [speakerMention, setspeakerMention] = useState([]);
   let [speakerText, setspeakerText] = useState();
   const [speakertags, setspeakertags] = useState([]);
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
 
   const [currentuser, setcurrentuser] = useState();
 
@@ -95,29 +98,65 @@ const NewsPost = (setList) => {
       if (e.target.files.length !== 0) {
         setPreviewEventCoverImage(window.URL.createObjectURL(e.target.files[0]));
       }
-    } else { alert("Please Select Image") }
+    } else { 
+      // alert("Please Select Image") 
+      setopenalert(true);
+      setalertbody("Please Select Image");
+    }
+
+    
+    // if(eventCoverImage && eventCoverImage.length>0 && previewEventCoverImage && previewEventCoverImage.length>0){
+    //   const mergedata = [...eventCoverImage, ...e.target.files]
+    //   setEventCoverImage(mergedata);
+    //   var pres = [];
+    //   for (var i = 0; i < e.target.files.length; i++) {
+    //     pres[i] = window.URL.createObjectURL(e.target.files[i]);
+    //   }
+    //   const mergedata1 = [...previewEventCoverImage, ...pres]
+    //   setPreviewEventCoverImage(mergedata1)
+    // }
+    // else{
+    //   setEventCoverImage(e.target.files);
+    //   // var pres = [];
+    //   // for (var i = 0; i < e.target.files.length; i++) {
+    //   //   pres[i] = window.URL.createObjectURL(e.target.files[i]);
+    //   // }
+    //   setPreviewEventCoverImage(window.URL.createObjectURL(e.target.files[0]))
+    // }
 
   };
-
   //  For image [Feed-type-Image]
   const handleImagePost = (e) => {
-    if (e.target.files[0]) {
-      var type = e.target.files[0].type
-      var s = type.split("/")
-      if (s[0] == 'image') {
-        setPostImage(e.target.files[0]);
-        if (e.target.files.length !== 0) {
-          setpostImagePreview(window.URL.createObjectURL(e.target.files[0]));
-        }
-        setFeedType("image_feed");
-      } else { alert("Please Select Image") }
+    // if (e.target.files[0]) {
+    //   var type = e.target.files[0].type
+    //   var s = type.split("/")
+    //   if (s[0] == 'image') {
+    //     setPostImage(e.target.files[0]);
+    //     if (e.target.files.length !== 0) {
+    //       setpostImagePreview(window.URL.createObjectURL(e.target.files[0]));
+    //     }
+    //     setFeedType("image_feed");
+    //   } else { alert("Please Select Image") }
+    // }
+    if(postImage && postImage.length>0 || postImagePreview && postImagePreview.length>0){
+      const mergedata = [...postImage, ...e.target.files]
+      setPostImage(mergedata);
+      var pres = [];
+      for (var i = 0; i < e.target.files.length; i++) {
+        pres[i] = window.URL.createObjectURL(e.target.files[i]);
+      }
+      const mergedata1 = [...postImagePreview, ...pres]
+      setpostImagePreview(mergedata1)
     }
-  };
-
-  const handleCoverReomve = (e) => {
-    setpostImagePreview(window.URL.revokeObjectURL(e.target.files));
-    setPreviewEventCoverImage(window.URL.revokeObjectURL(e.target.files));
-    setVideoPreview(window.URL.revokeObjectURL(e.target.files));
+    else{
+      setPostImage(e.target.files);
+      var pres = [];
+      for (var i = 0; i < e.target.files.length; i++) {
+        pres[i] = window.URL.createObjectURL(e.target.files[i]);
+      }
+      setpostImagePreview(pres)
+    }
+    setFeedType("image_feed");
   };
   //  For Vedio [Feed-type-Vedio]
   const handleVideo = (e) => {
@@ -129,9 +168,44 @@ const NewsPost = (setList) => {
       if (e.target.files.length !== 0) {
         setVideoPreview(URL.createObjectURL(e.target.files[0]));
       }
-    } else { alert("Please Select Vedio") }
+    } else { 
+      // alert("Please Select Vedio") 
+      setopenalert(true);
+      setalertbody("Please Select Vedio");
+    }
   };
+  //  For RemovePhoto [:-  Feed-type-Image ]
+  const handleCoverReomve = (index) => {
+    // setpostImagePreview(window.URL.revokeObjectURL(e.target.files));
+    // setPreviewEventCoverImage(window.URL.revokeObjectURL(e.target.files));
+    // setVideoPreview(window.URL.revokeObjectURL(e.target.files));
+    setPreviewEventCoverImage("");
+    setVideoPreview("");
+    setEventCoverImage([]);
+    setVideoSrc([])
+    if (index !== 0) {
+      const updatedArray = [...postImagePreview];
+      updatedArray.splice(index, 1);
+      setpostImagePreview(updatedArray);
 
+      if(postImage && postImage.length>0){
+        const updatedArray1 = [...postImage];
+        updatedArray1.splice(index, 1);
+        setPostImage(updatedArray1);
+      }
+      
+    }else{setpostImagePreview('');setPostImage([]);setFeedType('');}
+  };
+  //  For remove [:- Feed-type-Event/Vedio]
+  const handleVedioEventReomve =(e)=>{
+    setPreviewEventCoverImage("");
+    setVideoPreview("");
+    setEventCoverImage([]);
+    setVideoSrc([])
+    // setpostImagePreview(window.URL.revokeObjectURL(e.target.files));
+    // setPreviewEventCoverImage(window.URL.revokeObjectURL(e.target.files));
+    // setVideoPreview(window.URL.revokeObjectURL(e.target.files));
+  }
   const onSubmit = () => {
     resetForm();
   };
@@ -174,7 +248,13 @@ const NewsPost = (setList) => {
       }
     }
     // dataForm.append("news_feeds[tags][]", tags);
-    dataForm.append("news_feeds[feed_attachments][]", postImage);
+    
+    // for one-pic
+    // dataForm.append("news_feeds[feed_attachments][]", postImage);
+    // for many-pic
+    for (let i = 0; i < postImage.length; i++) {
+      dataForm.append(`news_feeds[feed_attachments][]`, postImage[i]);
+    }
     dataForm.append("news_feeds[feed_attachments][]", videoSrc);
     if (feedType === "event_feed") {
       dataForm.append("events[name]", values.eventName);
@@ -197,6 +277,7 @@ const NewsPost = (setList) => {
       }
     }
     setLoading(true);
+    setFeedType('');
     fetch(POST_NEWSFEED_API_KEY, {
       method: "POST",
       headers: {
@@ -360,6 +441,9 @@ const NewsPost = (setList) => {
   }
   return (
     <div className="mt-8 z-20">
+      {openalert?(
+        <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+      ):("")}
       <div className="w-full xl:w-[980px] lg:w-[730px] md:w-[780px] rounded-xl bg-white p-[22px]">
         <form onSubmit={postNewsData}>
           <div className="w-full flex justify-start gap-[22px]">
@@ -406,7 +490,7 @@ const NewsPost = (setList) => {
                 <source src={videoPreview} type="video/mp4" />
               </video>
               <div
-                onClick={handleCoverReomve}
+                onClick={handleVedioEventReomve}
                 className="bg-indigo-100 absolute top-4 right-4 z-50 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
               >
                 <TrashIcon className="w-5 h-5 text-indigo-600" />
@@ -416,20 +500,39 @@ const NewsPost = (setList) => {
             ""
           )}
 
-          {postImagePreview ? (
-            <div className={`relative`}>
-              <img
-                src={postImagePreview}
-                className="aspect-video object-cover rounded-xl mb-4"
-                alt=""
-              />
+          {postImagePreview && postImagePreview.length>0? (
+            // <div className={`relative`}>
+            //   <img
+            //     src={postImagePreview}
+            //     className="aspect-video object-cover rounded-xl mb-4"
+            //     alt=""
+            //   />
 
-              <div
-                onClick={handleCoverReomve}
-                className="bg-indigo-100 absolute top-4 right-4 z-50 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
-              >
-                <TrashIcon className="w-5 h-5 text-indigo-600" />
-              </div>
+            //   <div
+            //     onClick={handleCoverReomve}
+            //     className="bg-indigo-100 absolute top-4 right-4 z-50 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
+            //   >
+            //     <TrashIcon className="w-5 h-5 text-indigo-600" />
+            //   </div>
+            // </div>
+            <div className="flex flex-wrap gap-4" >
+              {postImagePreview.map((i,j) => (
+                <div className="relative" key={i}>
+                  <img
+                    src={i}
+                    key={i}
+                    className="object-cover rounded-xl w-[300px] h-[300px]"
+                  />
+                  <div className="absolute top-0 hover:shadow-4xl right-0 w-7 h-7 flex justify-center items-center bg-indigo-400 rounded-l-full">
+                    <TrashIcon className="h-4 w-4 text-white" onClick={ ()=>handleCoverReomve(j)} />
+                    {/* <div>
+                    <p className="text-sm font-medium text-gray-900">
+                      Delete
+                    </p>
+                  </div> */}
+                  </div>
+                </div>
+              ))}
             </div>
           ) : (
             ""
@@ -618,6 +721,7 @@ const NewsPost = (setList) => {
                           type="file"
                           name="image"
                           id="image"
+                          // multiple
                           className="absolute top-0 left-0 w-full h-[270px] opacity-0"
                           onChange={handleImageSelect}
                         />
@@ -646,7 +750,7 @@ const NewsPost = (setList) => {
 
                           {previewEventCoverImage ? (
                             <div
-                              onClick={handleCoverReomve}
+                              onClick={handleVedioEventReomve}
                               className="bg-indigo-100 absolute top-4 right-4 z-40 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
                             >
                               <TrashIcon className="w-5 h-5 text-indigo-600 " />

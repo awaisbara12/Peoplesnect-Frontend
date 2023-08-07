@@ -250,61 +250,79 @@ const Messaging = () => {
                         if(i.recipient && currentuser.id != i.recipient.id)
                           {
                             return(
-                              <Link href={{pathname:"/messaging-design",query:i.recipient.id}} key={i.id}>
-                                <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
-                                  {currentuser.id!=i.message_CID && i.status=="Unread"?(
-                                    i.recipient.display_photo_url?(
-                                      <div className="relative">
-                                        <img
-                                          className="object-cover rounded-full w-[45px] h-[45px]"
-                                          src={i.recipient.display_photo_url}
-                                          alt=""
-                                        />
-                                        <div className="bg-red-400 h-2.5 w-2.5 -left-1 -top-1 rounded-full absolute"></div> 
-                                      </div>
-                                    ):(
-                                      <div className="relative">
-                                        <Image
-                                          className="object-cover rounded-full"
-                                          src={ProfileAvatar}
-                                          width={45}
-                                          height={45}
-                                          alt=""
-                                        />
-                                        <div className="bg-red-400 h-2.5 w-2.5 -left-1 -top-1 rounded-full absolute"></div> 
-                                      </div>
-                                    )):(
-                                      i.recipient.display_photo_url?(
-                                        <img
-                                          className="object-cover rounded-full w-[45px] h-[45px]"
-                                          src={i.recipient.display_photo_url}
-                                          alt=""
-                                        />
-                                      ):( 
+                              <div className="flex items-center gap-2 bg-gray-100 p-2 border-b" key={i.id}>
+                                {currentuser.id!=i.message_CID && i.status=="Unread"?(
+                                  i.recipient.display_photo_url?(
+                                    <div className="relative">
+                                      <img
+                                        className="object-cover rounded-full w-[45px] h-[45px]"
+                                        src={i.recipient.display_photo_url}
+                                        alt=""
+                                      />
+                                      <div className="bg-red-400 h-2.5 w-2.5 -left-1 -top-1 rounded-full absolute"></div> 
+                                    </div>
+                                  ):(
+                                    <div className="relative">
                                       <Image
                                         className="object-cover rounded-full"
                                         src={ProfileAvatar}
                                         width={45}
                                         height={45}
                                         alt=""
-                                      />)
-                                    )
-                                  }
-                                  <div className="">
-                                    <div className="font-bold">{i.recipient.first_name} {i.recipient.last_name}</div>
-                                    {currentuser.id!=i.message_CID && i.status=="Unread"?(
-                                      <div className="">{i.status} message</div>
-                                    ):(
-                                      <div className="">Seen all message</div>
-                                    )}
-                                  </div>
-                                </a>
-                              </Link>
+                                      />
+                                      <div className="bg-red-400 h-2.5 w-2.5 -left-1 -top-1 rounded-full absolute"></div> 
+                                    </div>
+                                  )):(
+                                    i.recipient.display_photo_url?(
+                                      <img
+                                        className="object-cover rounded-full w-[45px] h-[45px]"
+                                        src={i.recipient.display_photo_url}
+                                        alt=""
+                                      />
+                                    ):( 
+                                    <Image
+                                      className="object-cover rounded-full"
+                                      src={ProfileAvatar}
+                                      width={45}
+                                      height={45}
+                                      alt=""
+                                    />)
+                                  )
+                                }
+
+                                {i.from && i.from=="Marketplace"?(
+                                  <Link href={{pathname:"/messaging-design",query:i.recipient.id+"?Marketplace"}} >
+                                    <a>
+                                      <div className="">
+                                        <div className="font-bold">{i.recipient.first_name} {i.recipient.last_name}</div>
+                                        {currentuser.id!=i.message_CID && i.status=="Unread"?(
+                                          <div className="">{i.status} message</div>
+                                        ):(
+                                          <div className="">Seen all message</div>
+                                        )}
+                                      </div>
+                                    </a>
+                                  </Link>
+                                  ):(
+                                  <Link href={{pathname:"/messaging-design",query:i.recipient.id}} >
+                                    <a>
+                                      <div className="">
+                                        <div className="font-bold">{i.recipient.first_name} {i.recipient.last_name}</div>
+                                        {currentuser.id!=i.message_CID && i.status=="Unread"?(
+                                          <div className="">{i.status} message</div>
+                                        ):(
+                                          <div className="">Seen all message</div>
+                                        )}
+                                      </div>
+                                    </a>
+                                  </Link>
+                                  )
+                                }   
+                              </div>
                             )
                           }else{
                             return(
-                              <Link href={{pathname:"/messaging-design",query:i.sender.id}} key={i.id}>
-                                <a className="flex items-center gap-2 bg-gray-100 p-2 border-b">
+                              <div className="flex items-center gap-2 bg-gray-100 p-2 border-b" key={i.id}>
                                 {currentuser.id!=i.message_CID && i.status=="Unread"?(
                                   i.sender.display_photo_url?(
                                     <div className="relative">
@@ -343,18 +361,39 @@ const Messaging = () => {
                                         alt=""
                                       />
                                     )
-                                  )}
-                                  <div className="">
-                                    <div className="font-bold">{i.sender.first_name} {i.sender.last_name}</div>
-                                    {/* <div className="">user as show as popup</div> */}
-                                    {currentuser.id!=i.message_CID && i.status=="Unread"?(
-                                      <div className="">You {i.status} message</div>
-                                    ):(
-                                      <div className="">Seen all message</div>
-                                    )}
-                                  </div>
-                                </a>
-                              </Link>
+                                  )
+                                }
+
+                                {i.from && i.from=="Marketplace"?(
+                                  <Link href={{pathname:"/messaging-design",query:i.sender.id+"?Marketplace"}} >
+                                    <a>
+                                      <div className="">
+                                        <div className="font-bold">{i.sender.first_name} {i.sender.last_name}</div>
+                                        {/* <div className="">user as show as popup</div> */}
+                                        {currentuser.id!=i.message_CID && i.status=="Unread"?(
+                                          <div className="">You {i.status} message</div>
+                                        ):(
+                                          <div className="">Seen all message</div>
+                                        )}
+                                      </div>
+                                    </a>
+                                  </Link>
+                                ):(
+                                  <Link href={{pathname:"/messaging-design",query:i.sender.id}} >
+                                    <a>
+                                      <div className="">
+                                        <div className="font-bold">{i.sender.first_name} {i.sender.last_name}</div>
+                                        {/* <div className="">user as show as popup</div> */}
+                                        {currentuser.id!=i.message_CID && i.status=="Unread"?(
+                                          <div className="">You {i.status} message</div>
+                                        ):(
+                                          <div className="">Seen all message</div>
+                                        )}
+                                      </div>
+                                    </a>
+                                  </Link>
+                                )}
+                              </div>
                             )
                           }
                       })

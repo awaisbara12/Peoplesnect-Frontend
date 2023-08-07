@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { CURENT_USER_LOGIN_API, PAGES_API } from "../../../../pages/config";
+import ShowAlert from "../../../Alerts/Alertss";
 
 const PageSettings = () => {
   const [page, setPage] = useState({});
@@ -10,6 +11,9 @@ const PageSettings = () => {
   const [can_comment, setcan_comment] = useState();
   const [can_message, setcan_message] = useState();
   const [deletegroup,setdeletegroup] = useState(false);
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
+  
   const router = useRouter();
   const data = router.asPath;
   const myArray = data.split("?");
@@ -37,9 +41,13 @@ const PageSettings = () => {
       })
       .then((resp) => resp.json())
       .then((result) => {
+        setopenalert(true);
+        setalertbody("Your Page Deleted successfully!")
+        setTimeout(()=>{
+          window.location.href = '/page-design';
+        },2000)
+       
         
-        window.location.href = '/page-design';
-        alert("Your Page Deleted successfully!")
       })
 
       if(deletegroup) {setdeletegroup(false)}
@@ -62,12 +70,16 @@ const PageSettings = () => {
     .then((resp) => resp.json())
     .then((result) => {
       if(result.data){
-        alert("Updated Details Successfully")
-        setPage(result.data);
-        setcan_comment(result.data.can_comment)
-        setcan_message(result.data.can_message)
-        setdes(result.data.description)
-        setname(result.data.name)
+        setalertbody("Updated Details Successfully")
+        setopenalert(true);
+        setTimeout(()=>{
+          setPage(result.data);
+          setcan_comment(result.data.can_comment)
+          setcan_message(result.data.can_message)
+          setdes(result.data.description)
+          setname(result.data.name)
+        },2000)
+        
       }
     })
   }
@@ -117,6 +129,9 @@ const PageSettings = () => {
   },[])
   return (
     <div>
+      {openalert?(
+        <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+      ):("")}
       <div className="mt-8">
       <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
           <div className="">

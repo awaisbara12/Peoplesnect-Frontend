@@ -19,6 +19,7 @@ import PostComments from "./comments/PostComments";
 import FilterComments from "./comments/FilterComments";
 import ReplyComments from "./comments/ReplyComments";
 import { useRouter } from "next/router";
+import ShowAlert from "../Alerts/Alertss";
 
 const PostView = () => {
   //posts && items are same 
@@ -29,7 +30,10 @@ const PostView = () => {
   const [comments_count, setComments_count] = useState([]);
   const [is_deleted, setIs_deleted] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [nextPage, setNextPage] = useState('')
+  const [nextPage, setNextPage] = useState('');
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
+
 
   // bareer key
   if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore"); }
@@ -44,7 +48,9 @@ const PostView = () => {
     const links1 = window.location.pathname   // get link after localhost
     const copylink1 = links.split(links1)    // get link domain like(localhost..etc)
     navigator.clipboard.writeText(copylink1[0] + "/events-design/event-view?" + postid);
-    alert("Link Copied to your Clipboard");
+    // alert("Link Copied to your Clipboard");
+    setopenalert(true);
+    setalertbody("Link Copied to your Clipboard");
   }
   function addHeart(feedId) {
     const dataForm = new FormData();
@@ -201,6 +207,9 @@ const PostView = () => {
 
   return (
     <div className="w-full xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">
+      {openalert?(
+        <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+      ):("")}
       <div className="blogs bg-white rounded-xl my-8 ">
         <div className="px-5 py-4 flex justify-between">
           {/*  For Post Header(uder pic, name... etc)  */}

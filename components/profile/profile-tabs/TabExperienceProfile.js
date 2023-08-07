@@ -10,6 +10,8 @@ import { Country, State, City }  from 'country-state-city';
 import {    
   CURENT_USER_LOGIN_API, UPDATE_USER_WORK_EXPERIENCE
 } from "../../../pages/config";
+import ShowAlert from "../../Alerts/Alertss";
+import { format } from 'date-fns';
 
 const TabExperienceProfile = () => {
   let [isOpen, setIsOpen] = useState(false);
@@ -17,6 +19,7 @@ const TabExperienceProfile = () => {
   const [userDetails, setUserDetails] = useState();
   const [work_experiences, setuserworkexperience] = useState();
   const [update_work_experience, setUserUpdate_work_experience] = useState();
+  const [Discripation, setDiscripation] = useState();
 
   const [work_experience_id, setuser_work_experience_id] = useState();
   const [company_name, setusercompany_name] = useState();
@@ -28,6 +31,8 @@ const TabExperienceProfile = () => {
   const [current_work, setusercurrent_work] = useState();
   const [starting, setuserstarting] = useState();
   const [ending, setuserending] = useState();
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
   
    // Bareer Key
    if (typeof window !== "undefined") {
@@ -58,6 +63,7 @@ const TabExperienceProfile = () => {
     setusercurrent_work('');
     setuserstarting('');
     setuserending('');
+    setDiscripation('');
   }
   // For checkbox
   const chckbox =()=>{
@@ -78,6 +84,7 @@ const TabExperienceProfile = () => {
     setusercurrent_work(s.current_work);
     setuserstarting(s.starting);
     setuserending(s.ending);
+    setuserending(s.description);
   }
 
   const Current_User=async()=>{    //current User
@@ -101,7 +108,7 @@ const TabExperienceProfile = () => {
 
   const UpdateWorkExperience=async()=>{  // UpdateWorkExperience
 
-  await fetch(`${UPDATE_USER_WORK_EXPERIENCE}/${work_experience_id}?work_experiences[company_name]=${company_name}&work_experiences[job_title]=${job_title}&work_experiences[country]=${country}&work_experiences[state]=${state}&work_experiences[city]=${city}&work_experiences[job_type]=${job_type}&work_experiences[current_work]=${current_work}&work_experiences[starting]=${starting}&work_experiences[ending]=${ending}`, {
+  await fetch(`${UPDATE_USER_WORK_EXPERIENCE}/${work_experience_id}?work_experiences[company_name]=${company_name}&work_experiences[job_title]=${job_title}&work_experiences[country]=${country}&work_experiences[state]=${state}&work_experiences[city]=${city}&work_experiences[job_type]=${job_type}&work_experiences[current_work]=${current_work}&work_experiences[starting]=${starting}&work_experiences[ending]=${ending}&work_experiences[description]=${Discripation}`, {
     method: "Put",
       headers: {
       Accept: "application/json", 
@@ -112,7 +119,9 @@ const TabExperienceProfile = () => {
     .then((result) => {
       if (result) {
         closeModal();
-        alert("Your Work Experience Updated Successfully")
+        // alert("Your Work Experience Updated Successfully");
+        setopenalert(true);
+        setalertbody("Your Work Experience Updated Successfully");
       }
     })
     .catch((err) => console.log(err));
@@ -142,7 +151,7 @@ const TabExperienceProfile = () => {
   
   const CreateWorkExperience=async()=>{  // CreateWorkExperience
 
-    await fetch(`${UPDATE_USER_WORK_EXPERIENCE}?work_experiences[company_name]=${company_name}&work_experiences[job_title]=${job_title}&work_experiences[country]=${country}&work_experiences[state]=${state}&work_experiences[city]=${city}&work_experiences[job_type]=${job_type}&work_experiences[current_work]=${current_work}&work_experiences[starting]=${starting}&work_experiences[ending]=${ending}`, {
+    await fetch(`${UPDATE_USER_WORK_EXPERIENCE}?work_experiences[company_name]=${company_name}&work_experiences[job_title]=${job_title}&work_experiences[country]=${country}&work_experiences[state]=${state}&work_experiences[city]=${city}&work_experiences[job_type]=${job_type}&work_experiences[current_work]=${current_work}&work_experiences[starting]=${starting}&work_experiences[ending]=${ending}&work_experiences[description]=${Discripation}`, {
       method: "Post",
        headers: {
         Accept: "application/json", 
@@ -154,7 +163,9 @@ const TabExperienceProfile = () => {
         if (result) {
           closeCreateModal();
           setUserUpdate_work_experience(result.data)
-          alert("Your Work Experience Added Successfully")
+          // alert("Your Work Experience Added Successfully");
+          setopenalert(true);
+          setalertbody("Your Work Experience Added Successfully");
         }
       })
       .catch((err) => console.log(err));
@@ -165,6 +176,9 @@ const TabExperienceProfile = () => {
   },[])
   return (
     <div className="bg-white rounded-xl p-10">
+      {openalert?(
+        <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+      ):("")}
       <div className="flex items-center justify-between mb-5">
         <div className="font-extrabold ">Experience</div>
         <div className="flex ml-auto gap-2">
@@ -286,6 +300,18 @@ const TabExperienceProfile = () => {
                                 <option value="Temporary">Temporary</option>
                             </select>
                           </div>
+                        </div>
+                        <div className="">
+                          <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmfor="grid-first-name">
+                            Add a Description
+                          </label>
+                          <textarea
+                            rows={5}
+                            cols={80}
+                            value={Discripation}
+                            onChange={(e) => setDiscripation(e.target.value)}
+                            className="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                          />
                         </div>
                         {/*  */}
                         <div className="grid grid-cols-2 gap-5">
@@ -471,6 +497,18 @@ const TabExperienceProfile = () => {
                             </select>
                           </div>
                         </div>
+                        <div className="">
+                          <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmfor="grid-first-name">
+                            Add a Description
+                          </label>
+                          <textarea
+                            rows={5}
+                            cols={80}
+                            value={Discripation}
+                            onChange={(e) => setDiscripation(e.target.value)}
+                            className="appearance-none block w-full bg-zinc-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                          />
+                        </div>
                         <div className="grid grid-cols-2 gap-5">
                           <div className="mt-8">
                               <div className="">
@@ -573,8 +611,9 @@ const TabExperienceProfile = () => {
                 <div className="flex flex-col gap-1">
                   <div className="font-extrabold">{s.company_name}</div>
                   <div className="font-light"><b>{s.job_title} - {s.job_type}</b></div>
+                  <div className="font-extrabold">{s.description}</div>
                   <div className="font-light">
-                    {s.current_work?(<p className="font-light"> {s.starting} <b>To</b> Present </p>):(<p className="font-extralight">{s.starting} <b>To</b> {s.ending} </p>)}</div>
+                    {s.current_work?(<p className="font-light"> {format(new Date(s.starting), 'MMM yyyy')} <b>To</b> Present </p>):(<p className="font-extralight">{format(new Date(s.starting), 'MMM yyyy')} <b>To</b> {format(new Date(s.ending), 'MMM yyyy')} </p>)}</div>
                     <div className="font-extralight">{s.city}, {s.state}, {s.country}</div>
                   {/* <div className="font-extralight">
                     March 2019 - Present- 3 yrs 7 mos

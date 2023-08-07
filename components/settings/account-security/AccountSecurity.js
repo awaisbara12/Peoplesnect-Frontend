@@ -3,6 +3,7 @@ import React,{useEffect,useState} from "react";
 import {
   SET_PASSWORD_API
 } from "../../../pages/config";
+import ShowAlert from "../../Alerts/Alertss";
 const AccountSecurity = () => {
   const [userDetails, setUserDetails] = useState();
   const [dbpass, setdbpass] = useState();
@@ -11,6 +12,8 @@ const AccountSecurity = () => {
   const [type1, settype1] = useState("password");
   const [type2, settype2] = useState("password");
   const [type3, settype3] = useState("password");
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
    // Bareer Key
   if (typeof window !== "undefined"){var authKey = window.localStorage.getItem("keyStore"); }
   
@@ -30,10 +33,16 @@ const AccountSecurity = () => {
             const currentuserSting = JSON.stringify(result.data);     // convert json into string
             localStorage.setItem("currentuser", currentuserSting);    // save currentuser in localstorage as string
             setUserDetails(result.data);
-            alert("Your Password has been reset");
+            // alert("Your Password has been reset");
+            setopenalert(true);
+            setalertbody("Your Password has been Reset!")
           }
         }).catch((err) => console.log(err)); 
-    }else{alert("Please Enter Password");}
+    }else{
+      // alert("Please Enter Password");
+      setopenalert(true);
+      setalertbody("Please Enter Password!")
+    }
     
   }
   
@@ -58,6 +67,9 @@ const AccountSecurity = () => {
 
   return (
     <div>
+      {openalert?(
+        <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+      ):("")}
       <div className="mt-8">
       <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
           <div className="">
@@ -91,7 +103,7 @@ const AccountSecurity = () => {
                 </div>
               </div>
               <div className="flex justify-center gap-10 items-center mt-5 ">
-                <div className="text-lg font-medium">Cofirm Password:</div>
+                <div className="text-lg font-medium">Confirm Password :</div>
                 <div className="relative">
                   <input
                     className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none md:w-96 w-auto placeholder:pl-2 rounded-full placeholder:py-2"

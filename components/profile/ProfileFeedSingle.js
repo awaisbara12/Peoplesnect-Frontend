@@ -42,6 +42,9 @@ import Spinner from "../common/Spinner";
 import App from "../news-feed/newsfeed/newspost/App";
 import HashtagMentionInput from "../news-feed/newsfeed/newspost/HashtagMentionInput";
 import ShareModal from "../news-feed/newsfeed/feedcard/ShareModal";
+import AliceCarousel from "react-alice-carousel";
+import "react-alice-carousel/lib/alice-carousel.css";
+import ShowAlert from "../Alerts/Alertss";
 // import Spinner from "../common/Spinner";
 
 const cardDropdown = [
@@ -97,6 +100,8 @@ const ProfileFeedSingle = (singleItems) => {
   const [bookmarks, setBookmarks] = useState(singleItems.bookmarks);
   const [spinner, setSpinner] = useState(false);
   const [isActive, setIsActive] = useState(false);
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
 
   const [timezone, settimezone] = useState();
   const [eventlink, seteventlink] = useState();
@@ -123,7 +128,9 @@ const ProfileFeedSingle = (singleItems) => {
     const links1 = window.location.pathname   // get link after localhost
     const copylink1 = links.split(links1)
     navigator.clipboard.writeText(copylink1[0] + "/events-design/event-view?" + postid);    // get link domain like(localhost..etc)
-    alert("Link Copied to your Clipboard");
+    // alert("Link Copied to your Clipboard");
+    setopenalert(true);
+    setalertbody("Link Copied to your Clipboard");
   }
   // Get NewsFeed for the updation Lists
   const getNewsFeed = async () => {
@@ -169,10 +176,13 @@ const ProfileFeedSingle = (singleItems) => {
 
     try {
       if (result.status == 200) {
-        getNewsFeed();
-        RecentActivity();
-        alert("Record Deleted Succefully");
-
+        // alert("Record Deleted Succefully");
+        setopenalert(true);
+        setalertbody("Record Deleted Succefully");
+        setTimeout(()=>{
+          getNewsFeed();
+          RecentActivity();
+        },2000)
       }
     } catch (error) {
       console.log(error);
@@ -183,7 +193,13 @@ const ProfileFeedSingle = (singleItems) => {
   // update user newsfeed's post
   const EditFeed = (uid) => {
     setEditOn(uid);
+    setUP_pic()
   };
+  const handleReomveUploadedPreview = () => {
+    // setP_productPic(window.URL.revokeObjectURL(e.target.files));
+    // setproductPic([]);
+    setEditPic([]);
+  }
   // Confirmation Edit Or Delete
   const optionConfirm = (uid, name, item) => {
     if (name == "Delete") {
@@ -219,14 +235,42 @@ const ProfileFeedSingle = (singleItems) => {
   };
   //Edited image
   const handleImage = (e) => {
-    var type = e.target.files[0].type
-    var s = type.split("/")
-    if (s[0] == 'image') {
-      setU_pic(e.target.files[0]);
-      if (e.target.files.length !== 0) {
-        setUP_pic(window.URL.createObjectURL(e.target.files[0]));
+    // var type = e.target.files[0].type
+    // var s = type.split("/")
+    // if (s[0] == 'image') {
+    //   setU_pic(e.target.files[0]);
+    //   if (e.target.files.length !== 0) {
+    //     setUP_pic(window.URL.createObjectURL(e.target.files[0]));
+    //   }
+    // } else { alert("Please Select Image") }
+
+   
+      setU_pic(e.target.files);
+      var pres = [];
+      for (var i = 0; i < e.target.files.length; i++) {
+        pres[i] = window.URL.createObjectURL(e.target.files[i]);
       }
-    } else { alert("Please Select Image") }
+      setUP_pic(pres)
+
+      if(U_pic && U_pic.length>0 || UP_pic && UP_pic.length>0){
+        const mergedata = [...U_pic, ...e.target.files]
+        setU_pic(mergedata);
+        var pres = [];
+        for (var i = 0; i < e.target.files.length; i++) {
+          pres[i] = window.URL.createObjectURL(e.target.files[i]);
+        }
+        const mergedata1 = [...UP_pic, ...pres]
+        setUP_pic(mergedata1)
+      }
+      else{
+        setU_pic(e.target.files);
+        var pres = [];
+        for (var i = 0; i < e.target.files.length; i++) {
+          pres[i] = window.URL.createObjectURL(e.target.files[i]);
+        }
+        setUP_pic(pres)
+      }
+   
 
   };
   //Edited vedio
@@ -240,12 +284,34 @@ const ProfileFeedSingle = (singleItems) => {
         setUP_pic(URL.createObjectURL(e.target.files[0]));
         //  console.log("Check",URL.createObjectURL(U_pic))
       }
-    } else { alert("Please Select video") }
+    } else { 
+      // alert("Please Select video") 
+      setopenalert(true);
+      setalertbody("Please Select video");
+    }
 
   };
   //  remover preview
   const handleCoverReomve = (e) => {
     setUP_pic(window.URL.revokeObjectURL(e.target.files));
+  };
+
+  const handleCoverReomves = (index) => {
+    // setpostImagePreview(window.URL.revokeObjectURL(e.target.files));
+    // setPreviewEventCoverImage(window.URL.revokeObjectURL(e.target.files));
+    // setVideoPreview(window.URL.revokeObjectURL(e.target.files));
+    
+    if (index !== -1) {
+      const updatedArray = [...UP_pic];
+      updatedArray.splice(index, 1);
+      setUP_pic(updatedArray);
+
+      if(U_pic && U_pic.length>0){
+        const updatedArray1 = [...U_pic];
+        updatedArray1.splice(index, 1);
+        setU_pic(updatedArray1);
+      }
+    }
   };
   // Update feed
   function UpdateFeed(id, feedType) {
@@ -279,7 +345,13 @@ const ProfileFeedSingle = (singleItems) => {
       dataForm.append("events[total_seats]", seats);
     }
     else {
-      if (U_pic) { dataForm.append("news_feeds[feed_attachments][]", U_pic); }
+      if (U_pic && feedType!="video_feed") {
+        for (let i = 0; i < U_pic.length; i++) {
+          dataForm.append("news_feeds[feed_attachments][]", U_pic[i]);
+        }
+      }else if(U_pic && feedType=="video_feed"){
+        dataForm.append("news_feeds[feed_attachments][]", U_pic);
+      }
     }
     fetch(POST_NEWSFEED_API_KEY + "/" + id, {
       method: "PUT",
@@ -579,18 +651,23 @@ const ProfileFeedSingle = (singleItems) => {
   return (
     <>
       <div className="w-full xl:w-[980px] lg:w-[730px] md:w-[780px] pb-4 mt-[14px] bg-white rounded-xl">
+        {openalert?(
+          <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+        ):("")}
         <div className="flex gap-2 justify-between items-center px-[22px] py-[14px]">
           <div className="flex gap-2">
             {items && items.user && items.user.display_photo_url ?
               (
                 <img
+
                   src={items.user.display_photo_url}
                   className="object-cover rounded-full z-40 h-[42px] w-[42px]"
                   alt=""
                 />
               ) : (
                 <Image
-                  src={ProfileAvatar}
+
+                  src={ProfileAvatar.src}
                   className="object-cover rounded-full "
                   width={45}
                   height={45}
@@ -698,7 +775,8 @@ const ProfileFeedSingle = (singleItems) => {
                   <>
                     {UP_pic ? (
                       <div className={`relative`}>
-                        <img src={UP_pic} className="aspect-video object-cover rounded-xl mb-4" alt="" />
+                        <img
+                          src={UP_pic} className="aspect-video object-cover rounded-xl mb-4" alt="" />
                         <div onClick={handleCoverReomve} className="bg-indigo-100 absolute top-4 right-4 z-50 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full" >
                           <TrashIcon className="w-5 h-5 text-indigo-600" />
                         </div>
@@ -706,6 +784,7 @@ const ProfileFeedSingle = (singleItems) => {
                     ) : (
                       <>
                         <img
+
                           src={EditPic}
                           className="aspect-video object-cover rounded-t-xl h-[390px] w-[952px]"
                           alt=""
@@ -741,6 +820,7 @@ const ProfileFeedSingle = (singleItems) => {
                   </>
                 ) : (
                   <img
+
                     src={items.event.cover_photo_url}
                     className="aspect-video object-cover rounded-t-xl h-[390px] w-[952px]"
                     alt=""
@@ -1150,15 +1230,30 @@ const ProfileFeedSingle = (singleItems) => {
           {items.attachments_link && items.feed_type === "image_feed" ? (
             EditOn == items.id ? (
               <>
-                {UP_pic ? (
+                {UP_pic && UP_pic .length> 0 ? (
                   ''
                 ) : (
                   <>
-                    <img
-                      src={EditPic}
-                      className="aspect-video object-cover rounded-t-xl h-[390px] w-[952px]"
-                      alt=""
-                    />
+                    
+                    
+                 
+                    {
+                      EditPic && EditPic.length>0? (
+                        <div className="flex flex-wrap relative gap-4 border rounded-lg p-3" >
+                          {EditPic.map((i,j) => (
+                            <div key={i}>
+                              <img
+
+                                src={i}
+                                key={i}
+                                className="object-cover rounded-xl w-32 h-32 ml-2"
+                              />
+                            </div>
+                          ))}
+    
+                        </div>):('')
+                    
+                    }
                     <div className="flex">
                       <div className="relative flex gap-1 md:gap-2 items-center justify-center">
                         <div className="relative flex items-center justify-center">
@@ -1189,26 +1284,46 @@ const ProfileFeedSingle = (singleItems) => {
               </>
             ) : (
               <div className="mt-[14px]">
-                <img
-                  src={items.attachments_link}
-                  width={952}
-                  height={240}
-                  layout="responsive"
-                  className="aspect-video object-cover rounded-lg mx-auto h-[390px]"
-                  alt=""
-                />
+                <AliceCarousel>
+                {items.attachments_link && items.attachments_link.map((i)=>(
+                  <img
+                    src={i}
+                    width={952}
+                    height={240}
+                    key={i}
+                    layout="responsive"
+                    className="aspect-video object-cover rounded-lg mx-auto h-[390px]"
+                    alt=""
+                  />
+                ))}
+                
+                </AliceCarousel>
               </div>)
           ) : (
             ""
           )}
 
-          {UP_pic && items.attachments_link && items.feed_type === "image_feed" ? (
+          {UP_pic && UP_pic .length> 0 && items.attachments_link && items.feed_type === "image_feed" ? (
             <>
               <div className={`relative`}>
-                <img src={UP_pic} className="aspect-video object-cover rounded-xl mb-4" alt="" />
-                <div onClick={handleCoverReomve} className="bg-indigo-100 absolute top-4 right-4 z-50 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full" >
-                  <TrashIcon className="w-5 h-5 text-indigo-600" />
+              {UP_pic.map((i,j) => (
+                <div className="relative" key={i}>
+                  <img
+
+                    src={i}
+                    key={i}
+                    className="object-cover rounded-xl w-[300px] h-[300px]"
+                  />
+                  <div className="absolute top-0 hover:shadow-4xl right-0 w-7 h-7 flex justify-center items-center bg-indigo-400 rounded-l-full">
+                    <TrashIcon className="h-4 w-4 text-white" onClick={ ()=>handleCoverReomves(j)} />
+                    {/* <div>
+                    <p className="text-sm font-medium text-gray-900">
+                      Delete
+                    </p>
+                  </div> */}
+                  </div>
                 </div>
+              ))}
               </div>
               <div className="flex gap-10">
                 <div className="relative flex gap-1 md:gap-2 items-center justify-center">
@@ -1283,7 +1398,7 @@ const ProfileFeedSingle = (singleItems) => {
                       ) : (
                         <Link href={{ pathname: "/User-Profile", query: items.share.user.id, }}>
                           <a>
-                            <img
+                            <Image
                               src={items.share.user.display_photo_url}
                               className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
                               width={45}
@@ -1297,8 +1412,8 @@ const ProfileFeedSingle = (singleItems) => {
                   ) : (
                     <>
                       {singleItems && singleItems.currentuser && singleItems.currentuser.id == items.share.user.id ? (
-                        <Image
-                          src={ProfileAvatar}
+                        <img
+                          src={ProfileAvatar.src}
                           width={45}
                           height={45}
                           alt=""
@@ -1522,24 +1637,28 @@ const ProfileFeedSingle = (singleItems) => {
                   ""
                 )}
                 {items.share.attachments_link && items.share.feed_type === "image_feed" ? (
-                  <Link
-                    href={{
-                      pathname: "/events-design/event-view",
-                      query: items.id,
-                    }} >
-                    <a>
-                      <div className="mt-[14px]">
-                        <img
-                          src={items.share.attachments_link}
-                          width={952}
-                          height={240}
-                          layout="responsive"
-                          className="aspect-video object-cover rounded-lg mx-auto h-[390px]"
-                          alt=""
-                        />
-                      </div>
-                    </a>
-                  </Link>
+                  <AliceCarousel>
+                    {items.share.attachments_link.map((i)=>(
+                      <Link
+                      href={{
+                        pathname: "/events-design/event-view",
+                        query: items.id,
+                      }} key={i}>
+                      <a>
+                        <div className="mt-[14px]">
+                          <img
+                            src={i}
+                            width={952}
+                            height={240}
+                            layout="responsive"
+                            className="aspect-video object-cover rounded-lg mx-auto h-[390px]"
+                            alt=""
+                          />
+                        </div>
+                      </a>
+                    </Link>
+                    ))}
+                  </AliceCarousel>
                 ) : (
                   ""
                 )}

@@ -19,6 +19,9 @@ import { CONVERSATION_API, CURENT_USER_LOGIN_API, MESSAGES_API, SEARCH_MULTIPLE,
 const Picker = dynamic(() => import("emoji-picker-react"), { ssr: false });
 import InfiniteScroll from "react-infinite-scroll-component";
 import { ClipLoader } from "react-spinners";
+import AliceCarousel from "react-alice-carousel";
+import "react-alice-carousel/lib/alice-carousel.css";
+import ShowAlert from "../../Alerts/Alertss";
 
 
 const Dropdown = ({ color }) => {
@@ -50,6 +53,9 @@ const Dropdown = ({ color }) => {
   const [subscribed, setsubscribed] = useState();                // Sms Subscription
   const [currentpagemy, setcurrentpagemy] = useState(1);         // PAGE PARAM [:- PAGY]
   let [smsFriends, setsmsFriends] = useState([]);                  // Get all Friends
+  const [marketplace, setmarketplace] = useState([]);          //  Show MarketPlace Label
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
   
   const messageRef = useRef();
   var tomsgid;                                                   
@@ -90,7 +96,11 @@ const Dropdown = ({ color }) => {
 
 
   // open chat-popover
-  const openDropdownPopover1 = (i) => {
+  const openDropdownPopover1 = (i, marketplaceShow ) => {
+    if (marketplaceShow && marketplaceShow=="Marketplace"){
+      setmarketplace(marketplaceShow)
+    }else{setmarketplace("")}
+    console.log("marketplaceShow",marketplaceShow)
     GetMessages(i.id)
     tomsgid=i.id;
     setmsguser(i);
@@ -269,7 +279,9 @@ const Dropdown = ({ color }) => {
             }
             // downfunction();
           }else if(result && result.block){
-            alert("You can't send Message");
+            // alert("You can't send Message");
+            setopenalert(true);
+            setalertbody("You can't send Message");
           }
         })
         .catch((err) => console.log(err)); 
@@ -435,6 +447,9 @@ const Dropdown = ({ color }) => {
   return (
     <>
       <div className="flex flex-wrap">
+        {openalert?(
+          <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+        ):("")}
         <div className="fixed bottom-4 right-4">
           <div className="relative inline-flex align-middle w-full">
             <a
@@ -541,7 +556,7 @@ const Dropdown = ({ color }) => {
                                 ref={btnDropdownRef1}
                                 onClick={() => {
                                   dropdownPopoverShow1
-                                  : openDropdownPopover1(i.recipient);
+                                  : openDropdownPopover1(i.recipient, i.from);
                                 }} key={i.id}>
                                 <Link href="">
                                   <a className="flex items-center gap-2">
@@ -603,9 +618,9 @@ const Dropdown = ({ color }) => {
                                 ref={btnDropdownRef1}
                                 onClick={() => {
                                   dropdownPopoverShow1
-                                  : openDropdownPopover1(i.sender);
+                                  : openDropdownPopover1(i.sender,i.from);
                                 }} key={i.id}>
-                                <Link href="">
+                               
                                   <a className="flex items-center gap-2">
                                   {currentuser.id!=i.message_CID && i.status=="Unread"?(
                                     i.sender.display_photo_url?(
@@ -656,7 +671,7 @@ const Dropdown = ({ color }) => {
                                       {/* <div className="font-light">Your Conversations</div> */}
                                     </div>
                                   </a>
-                                </Link>
+                                
                               </div>
                             )
 
@@ -679,7 +694,7 @@ const Dropdown = ({ color }) => {
                               dropdownPopoverShow1
                               : openDropdownPopover1(i.user);
                             }} key={i.id}>
-                            <Link href="">
+                           
                               <a className="flex items-center gap-2">
                               {i.user && i.user.display_photo_url?(
                                 <img
@@ -701,7 +716,7 @@ const Dropdown = ({ color }) => {
                                   <div className="font-light">Search User </div>
                                 </div>
                               </a>
-                            </Link>
+                            
                           </div>
                           ))
                         }
@@ -716,7 +731,7 @@ const Dropdown = ({ color }) => {
                                 dropdownPopoverShow1
                                 : openDropdownPopover1(i);
                               }} key={i.id}>
-                              <Link href="">
+                              
                                 <a className="flex items-center gap-2">
                                 {i && i.display_photo_url?(
                                   <img
@@ -738,7 +753,7 @@ const Dropdown = ({ color }) => {
                                     <div className="font-light">Friends  </div>
                                   </div>
                                 </a>
-                              </Link>
+                              
                             </div>
                           ))
                         }
@@ -767,7 +782,7 @@ const Dropdown = ({ color }) => {
                               : closeDropdownPopover1();
                             }}>
                             <ArrowLeftIcon className="h-4 w-4" />
-                            <div className="capitalize"> {msguser.first_name} {msguser.last_name} </div>
+                            <div className="capitalize">{marketplace && marketplace=="Marketplace"?(<div className="italic">Marketplace: </div>):("")} {msguser.first_name} {msguser.last_name} </div>
                           </div>
                           <div ref={btnDropdownRef1}
                             onClick={() => {
@@ -825,53 +840,86 @@ const Dropdown = ({ color }) => {
                                       <div className="ml-2 mt-3">
                                         <div className="flex items-center gap-2">
                                         {i.user.display_photo_url?(
-                                          <img
-                                            className="object-cover w-[30px] h-[30px] rounded-full"
-                                            src={i.user.display_photo_url}
-                                            width={30}
-                                            height={30}
-                                            alt=""
-                                          />
+                                          <Link href={{ pathname: "/User-Profile", query: i.user.id,}}>
+                                          <a>
+                                            <img
+                                              className="object-cover w-[30px] h-[30px] rounded-full"
+                                              src={i.user.display_photo_url}
+                                              width={30}
+                                              height={30}
+                                              alt=""
+                                            />
+                                          </a>
+                                          </Link>
+                                          
                                           ):(
-                                          <Image
-                                            className="object-cover"
-                                            src={ProfileAvatar}
-                                            width={30}
-                                            height={30}
-                                            alt=""
-                                          />)}
+                                            <Link href={{ pathname: "/User-Profile", query: i.user.id,}}>
+                                              <a>
+                                              <Image
+                                                className="object-cover"
+                                                src={ProfileAvatar}
+                                                width={30}
+                                                height={30}
+                                                alt=""
+                                              />
+                                              </a>
+                                            </Link>
+                                         )}
                                           <div className=" bg-gray-100 w-60 p-2 border rounded-xl">
-                                          {i.attachment && i.attachment_type=="image"?(
-                                            <div className="relative w-1/4 mt-2">
-                                              <img
-                                              src={i.attachment}
-                                              className="rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
-                                              alt=""/>
-                                            </div>
-                                            ):(
-                                              i.attachment && i.attachment_type=="video"?(
-                                                <div className="relative w-1/4 mt-2">
-                                                  <div className="relative w-1/4 mt-2">
-                                                    <video controls className=" rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover">
-                                                      <source src={i.attachment} type="video/mp4" />
-                                                    </video> 
-                                                  </div>
-                                                </div>
-
+                                            {i.attachment && i.attachment_type=="image"?(
+                                              <div className="relative w-1/4 mt-2">
+                                                <img
+                                                src={i.attachment}
+                                                className="rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
+                                                alt=""/>
+                                              </div>
                                               ):(
-                                                i.attachment && i.attachment_type=="application"?(
+                                                i.attachment && i.attachment_type=="video"?(
                                                   <div className="relative w-1/4 mt-2">
-                                                    <div className=" flex border-b w-56 pb-2 justify-between ">
-                                                      <div>{i.attachment_type}</div>
-                                                      <a href={i.attachment} download>
-                                                        <button className= "text-black p-0">Download</button>
-                                                      </a>
+                                                    <div className="relative w-1/4 mt-2">
+                                                      <video controls className=" rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover">
+                                                        <source src={i.attachment} type="video/mp4" />
+                                                      </video> 
                                                     </div>
                                                   </div>
-                                                ):('')
+
+                                                ):(
+                                                  i.attachment && i.attachment_type=="application"?(
+                                                    <div className="relative w-1/4 mt-2">
+                                                      <div className=" flex border-b w-56 pb-2 justify-between ">
+                                                        <div>{i.attachment_type}</div>
+                                                        <a href={i.attachment} download>
+                                                          <button className= "text-black p-0">Download</button>
+                                                        </a>
+                                                      </div>
+                                                    </div>
+                                                  ):('')
+                                                )
                                               )
-                                            )
-                                          }
+                                            }
+
+                                            {i.product?(
+                                              <div className="relative mt-2">
+                                                <AliceCarousel>
+                                                  {i.product.product_pic.map((j) => (
+                                                    <Link href={{ pathname: "/markeet-place/marketplace-show", query: i.product.id,}} key={j}>
+                                                    <a>
+                                                      <img
+                                                        src={j}
+                                                        key={j}
+                                                        className="rounded-xl my-0 max-h-[150px] max-w-full object-cover"
+                                                      />
+                                                    </a>
+                                                    </Link>
+                                                  ))}
+                                                  </AliceCarousel>
+                                                  <Link href={{ pathname: "/markeet-place/marketplace-show", query: i.product.id,}}>
+                                                    <a>
+                                                    <b>{i.product.name}</b>
+                                                    </a>
+                                                  </Link>
+                                              </div>
+                                            ):('')}
                                             <div className="">{i.body }</div>
                                             <div className=" flex justify-end mt-0 mr-2 text-xs text-black">{i.time}</div>
                                           </div>
@@ -921,25 +969,66 @@ const Dropdown = ({ color }) => {
                                               )
                                             )
                                           }
+                                          {i.product?(
+                                            <div className="relative  mt-2">
+                                              {/* <Link href={{ pathname: "/markeet-place/marketplace-show", query: i.product.id,}}>
+                                              <a>
+                                                <img
+                                                  src={i.product.product_pic[0]}
+                                                  className="rounded-xl my-2 max-h-[150px] max-w-[230px] object-cover"
+                                                  alt=""
+                                                />
+                                                <b>{i.product.name}</b>
+                                              </a>
+                                              </Link> */}
+                                              <AliceCarousel>
+                                                {i.product.product_pic.map((j) => (
+                                                  <Link href={{ pathname: "/markeet-place/marketplace-show", query: i.product.id,}} key={j}>
+                                                  <a>
+                                                    <img
+                                                      src={j}
+                                                      key={j}
+                                                      className="rounded-xl my-0 max-h-[150px] max-w-full object-cover"
+                                                    />
+                                                  </a>
+                                                  </Link>
+                                                ))}
+                                                </AliceCarousel>
+                                                <Link href={{ pathname: "/markeet-place/marketplace-show", query: i.product.id,}}>
+                                                  <a>
+                                                  <b>{i.product.name}</b>
+                                                  </a>
+                                                </Link>
+                                            </div>
+                                          ):('')}
                                             <div className="">{i.body}</div>
                                             <div className=" flex justify-end mt-0 mr-2 text-xs text-black">{i.time}</div>
                                           </div>
                                           {i.user.display_photo_url?(
-                                          <img
-                                            className="object-cover w-[30px] h-[30px] rounded-full"
-                                            src={i.user.display_photo_url}
-                                            width={30}
-                                            height={30}
-                                            alt=""
-                                          />
+                                            <Link href="profile">
+                                            <a>
+                                              <img
+                                                className="object-cover w-[30px] h-[30px] rounded-full"
+                                                src={i.user.display_photo_url}
+                                                width={30}
+                                                height={30}
+                                                alt=""
+                                              />
+                                            </a>
+                                            </Link>
                                           ):(
-                                          <Image
-                                            className="object-cover"
-                                            src={ProfileAvatar}
-                                            width={30}
-                                            height={30}
-                                            alt=""
-                                          />)}
+                                            <Link href="profile">
+                                            <a>
+                                              <Image
+                                                className="object-cover"
+                                                src={ProfileAvatar}
+                                                width={30}
+                                                height={30}
+                                                alt=""
+                                              />
+                                            </a>
+                                            </Link>
+                                          )}
                                         </div>
                                       </div>
                                     )

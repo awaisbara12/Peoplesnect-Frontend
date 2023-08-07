@@ -39,6 +39,8 @@ import FilterComments from "../profile/comments/FilterComments";
 import ReplyComments from "../profile/comments/ReplyComments";
 import App from "../profile/Comment-Input/App";
 import ShareModal from "../news-feed/newsfeed/feedcard/ShareModal";
+import AliceCarousel from "react-alice-carousel";
+import "react-alice-carousel/lib/alice-carousel.css";
 const cardDropdown = [
   {
     name: "Edit",
@@ -411,7 +413,7 @@ const ProfileFeedSingle = (singleItems) => {
 
             </div>
 
-            <div className="">
+            {/*<div className="">
               <div className="">
                 <Popover className="relative">
                   {({ open }) => (
@@ -461,7 +463,7 @@ const ProfileFeedSingle = (singleItems) => {
                   )}
                 </Popover>
               </div>
-            </div>
+            </div>*/}
           </div>
           {/* <div className="border-1 border-gray-100"></div> */}
 
@@ -540,16 +542,41 @@ const ProfileFeedSingle = (singleItems) => {
               ""
             )}
             {items.attachments_link && items.feed_type === "image_feed" ? (
-              <div className="mt-[14px]">
-                <img
-                  src={items.attachments_link}
-                  width={952}
-                  height={240}
-                  layout="responsive"
-                  className="aspect-video object-cover rounded-lg mx-auto h-[390px]"
-                  alt=""
-                />
-              </div>
+              // <div className="mt-[14px]">
+              //   <img
+              //     src={items.attachments_link}
+              //     width={952}
+              //     height={240}
+              //     layout="responsive"
+              //     className="aspect-video object-cover rounded-lg mx-auto h-[390px]"
+              //     alt=""
+              //   />
+              // </div>
+              <AliceCarousel>
+              {
+                items.attachments_link.map((i)=>(
+                  <div className="mt-[14px]" key={i}>
+                    <Link
+                      href={{
+                        pathname: "/events-design/event-view",
+                        query: items.id,
+                      }} >
+                    <a>
+                      <img
+                        src={i}
+                        key={i}
+                        width={952}
+                        height="auto"
+                        layout="responsive"
+                        className="object-cover rounded-lg mx-auto h-auto"
+                        alt=""
+                      />
+                    </a>
+                    </Link>
+                  </div>
+                ))
+              }
+              </AliceCarousel>
             ) : (
               ""
             )}
@@ -858,24 +885,49 @@ const ProfileFeedSingle = (singleItems) => {
                     ""
                   )}
                   {items.share.attachments_link && items.share.feed_type === "image_feed" ? (
-                    <Link
-                      href={{
-                        pathname: "/events-design/event-view",
-                        query: items.id,
-                      }} >
-                      <a>
-                        <div className="mt-[14px]">
-                          <img
-                            src={items.share.attachments_link}
-                            width={952}
-                            height={240}
-                            layout="responsive"
-                            className="aspect-video object-cover rounded-lg mx-auto h-[390px]"
-                            alt=""
-                          />
+                    // <Link
+                    //   href={{
+                    //     pathname: "/events-design/event-view",
+                    //     query: items.id,
+                    //   }} >
+                    //   <a>
+                    //     <div className="mt-[14px]">
+                    //       <img
+                    //         src={items.share.attachments_link}
+                    //         width={952}
+                    //         height={240}
+                    //         layout="responsive"
+                    //         className="aspect-video object-cover rounded-lg mx-auto h-[390px]"
+                    //         alt=""
+                    //       />
+                    //     </div>
+                    //   </a>
+                    // </Link>
+                    <AliceCarousel>
+                    {
+                      items.share.attachments_link.map((i)=>(
+                        <div className="mt-[14px]" key={i}>
+                          <Link
+                            href={{
+                              pathname: "/events-design/event-view",
+                              query: items.id,
+                            }} >
+                          <a>
+                            <img
+                              src={i}
+                              key={i}
+                              width={952}
+                              height="auto"
+                              layout="responsive"
+                              className="object-cover rounded-lg mx-auto h-auto"
+                              alt=""
+                            />
+                          </a>
+                          </Link>
                         </div>
-                      </a>
-                    </Link>
+                      ))
+                    }
+                    </AliceCarousel>
                   ) : (
                     ""
                   )}

@@ -26,6 +26,8 @@ import PostImage from "../../../../public/images/post-image.png";
 import App from '../newspost/App';
 import { HASHTAGS_API, POST_NEWSFEED_API_KEY, SEARCH_MULTIPLE } from '../../../../pages/config';
 import ProfileAvatar from "../../../../public/images/profile-avatar.png";
+import AliceCarousel from "react-alice-carousel";
+import "react-alice-carousel/lib/alice-carousel.css";
 
 const ReadMore = ({ children }) => {
   const text = children;
@@ -183,8 +185,8 @@ const ShareModal = (props) => {
       .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-          // const mergedata = [result.data,...setList.list]
-          // setList.setList(mergedata);
+          const mergedata = [...props.list,result.data]
+          props.setList(mergedata);
           setPostText("");
           setpostnews(false);
           closeModal();
@@ -361,14 +363,19 @@ const ShareModal = (props) => {
 
                               {props.items.attachments_link && props.items.feed_type === "image_feed" ? (
                                 <div className="mt-[2px]">
-                                  <img
-                                    src={props.items.attachments_link}
-                                    width={952}
-                                    height={240}
-                                    layout="responsive"
-                                    className="aspect-video object-cover rounded-lg mx-auto h-[390px]"
-                                    alt=""
-                                  />
+                                  <AliceCarousel>
+                                  {props.items.attachments_link.map((i)=>(
+                                    <img
+                                      key={i}
+                                      src={i}
+                                      width={952}
+                                      height={240}
+                                      layout="responsive"
+                                      className="aspect-video object-cover rounded-lg mx-auto h-[390px]"
+                                      alt=""
+                                    />
+                                  ))}
+                                  </AliceCarousel>
                                 </div> 
                               ) : (
                                 ""

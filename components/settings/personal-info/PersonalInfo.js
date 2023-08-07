@@ -1,6 +1,7 @@
 import React, { useEffect,useState } from "react";
 import { UPDATE_PERSONAL_INFO,CURENT_USER_LOGIN_API } from "../../../pages/config";
 import { Country, State, City }  from 'country-state-city';
+import ShowAlert from "../../Alerts/Alertss";
 
 const PersonalInfo = () => {
   const [userDetails, setUserDetails] = useState();
@@ -12,6 +13,8 @@ const PersonalInfo = () => {
   const [states, setstates] = useState();             // state Code for Fetching State
   const [stateName, setstateName] = useState();                 // state name for db save
   const [seleccountry, setseleccountry] = useState();
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
   
   // Bareer Key
   if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore"); }
@@ -30,7 +33,9 @@ const PersonalInfo = () => {
         setUserDetails(result.data.id); 
         const currentuserSting = JSON.stringify(result.data);     // convert json into string
         localStorage.setItem("currentuser", currentuserSting);    // save currentuser in localstorage as string
-        alert("Your Information has been Updated! ") 
+        // alert("Your Information has been Updated! ") 
+        setopenalert(true);
+        setalertbody("Your Information has been Updated! ")
       }
     })
     .catch((err) => console.log(err));
@@ -73,6 +78,9 @@ const PersonalInfo = () => {
       // console.log(a);
       setcountry(a[0]);
       setcountryName(a[1]);
+      setstates('');
+      setstateName('');
+      setcity('');
     }
   }
   // State handler
@@ -83,10 +91,14 @@ const PersonalInfo = () => {
       // console.log(a);
       setstates(a[0]);
       setstateName(a[1]);
+      setcity('');
     }
   }
   return (
     <div>
+      {openalert?(
+        <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+      ):("")}
       <div className="mt-8">
       <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
           <div className="">

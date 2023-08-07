@@ -40,7 +40,7 @@ const MainSettings = () => {
             <a href="settings/account-preference">
               <div className="username flex gap-2 text-lg font-medium">
                 <KeyIcon className="h-7 w-7" />
-                Account Prefernces
+                Account Preferences 
               </div>
             </a>
           </div>
@@ -64,7 +64,7 @@ const MainSettings = () => {
             <a href="settings/account-managment">
               <div className="username flex gap-2 text-lg font-medium">
                 <RefreshIcon className="h-7 w-7" />
-                Account Manegment
+                Account Management
               </div>
             </a>
           </div>

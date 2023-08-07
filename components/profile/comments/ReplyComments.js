@@ -584,14 +584,14 @@ const ReplyComments = (props) => {
                       comment && comment.user && currentUser && currentUser == comment.user.id ? (
                         <Link href="/profile">
                           <a>
-                            <Image src={ProfileAvatar} width={38} height={38} alt="" />
+                            <Image src={ProfileAvatar} className="object-cover rounded-full z-40 h-[38px] w-[38px]" height={38} width={38} alt="" />
                           </a>
                         </Link>
                       ) : (
                         comment && comment.user ? (
                           <Link href={{ pathname: "/User-Profile", query: comment.user.id, }}>
                             <a>
-                              <Image src={ProfileAvatar} width={38} height={38} alt="" />
+                              <Image src={ProfileAvatar} className="object-cover rounded-full z-40 h-[38px] w-[38px]" height={38} width={38} alt="" />
                             </a>
                           </Link>
                         ) : ("")
@@ -982,16 +982,14 @@ const ReplyComments = (props) => {
                               i.user && currentUser && currentUser == i.user.id ? (
                                 <Link href="/profile">
                                   <a>
-                                    <Image src={ProfileAvatar} className="object-cover rounded-full "
-                                      width={38} height={38} alt="" />
+                                    <Image src={ProfileAvatar.src} className="object-cover rounded-full z-40 h-[38px] w-[38px]" height={38} width={38} alt="" />
                                   </a>
                                 </Link>
                               ) : (
                                 i.user ? (
                                   <Link href={{ pathname: "/User-Profile", query: i.user.id, }}>
                                     <a>
-                                      <Image src={ProfileAvatar} className="object-cover rounded-full "
-                                        width={38} height={38} alt="" />
+                                      <Image src={ProfileAvatar.src} className="object-cover rounded-full z-40 h-[38px] w-[38px]"  height={38} width={38} alt="" />
                                     </a>
                                   </Link>
                                 ) : ("")

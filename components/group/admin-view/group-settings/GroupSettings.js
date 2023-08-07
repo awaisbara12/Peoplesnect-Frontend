@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { GROUP_API, CURENT_USER_LOGIN_API } from "../../../../pages/config";
+import ShowAlert from "../../../Alerts/Alertss";
 
 const GroupSettings = () => {
   const [name, setname] = useState();
@@ -14,7 +15,9 @@ const GroupSettings = () => {
   const [deletegroup, setdeletegroup] = useState(false);
   const [currentUser, setCurrentUser] = useState();
   const [group, setgroup] = useState();
-
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
+  
   const router = useRouter();
   const data = router.asPath;
   const myArray = data.split("?");
@@ -65,7 +68,9 @@ const GroupSettings = () => {
       .then((resp) => resp.json())
       .then((result) => {
         GetGroupDetails();
-        alert("Your Setting has been updated!")
+        // alert("Your Setting has been updated!")
+        setopenalert(true);
+        setalertbody("Your Setting has been Updated! ")
 
       })
   }
@@ -100,9 +105,13 @@ const GroupSettings = () => {
     })
       .then((resp) => resp.json())
       .then((result) => {
-
-        window.location.href = '/group-page';
-        alert("Your Group Deleted successfully!")
+        setopenalert(true);
+        setalertbody("Your Group Deleted successfully! ");
+        setTimeout(() => {
+          // props.setopenalert(false)
+          window.location.href = '/group-page';
+        }, 2000);
+        // alert("Your Group Deleted successfully!")
       })
 
     if (deletegroup) { setdeletegroup(false) }
@@ -132,6 +141,9 @@ const GroupSettings = () => {
   return (
     <div>
       <div className="mt-8">
+      {openalert?(
+        <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+      ):("")}
         <div className="w-[620px] xl:w-[980px] lg:w-[710px] md:w-[780px] px-5 md:px-0 lg:px-0 xl:px-0">
           <div className="">
             <div className="heading text-lg font-bold">Group Settings</div>

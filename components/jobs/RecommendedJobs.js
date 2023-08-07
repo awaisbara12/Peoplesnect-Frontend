@@ -15,6 +15,7 @@ import {
 import { JOBS_API, USE_APPLY_JOB_API } from "../../pages/config";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import ClipLoader from 'react-spinners/ClipLoader';
+import ShowAlert from "../Alerts/Alertss";
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
@@ -22,7 +23,9 @@ function classNames(...classes) {
 const RecommendedJobs = () => {
   const [Recomend, setRecomend] = useState([]);
   const [currentpage, setcurrentpage] = useState(1);
-
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
+  
   // Bareer Key
   if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore"); }
   // CopyLink
@@ -31,7 +34,8 @@ const RecommendedJobs = () => {
     // const links1=window.location.pathname   // get link after 
     // const copylink1 = links.split(links1)    // get link domain like(localhost..etc)
     navigator.clipboard.writeText(links + "/jobs-show?" + postid);
-    alert("Link Copied to your Clipboard");
+    setopenalert(true);
+    setalertbody("Link Copied to your Clipboard!");
   }
   // Saved job function
   const savedJobs = (job_id, status) => {
@@ -82,6 +86,9 @@ const RecommendedJobs = () => {
   }
   return (
     <div className="mt-8">
+      {openalert?(
+        <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+      ):("")}
       <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 xl:px-0 lg:px-0">
         <div className="">
           <div className="bg-white rounded-xl p-4 mb-4 ">

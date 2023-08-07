@@ -16,6 +16,7 @@ import {
 import { BriefcaseIcon, Lock, LockClosedIcon, StarIcon } from "@heroicons/react/solid";
 import { JOBS_API, USE_APPLY_JOB_API } from "../../../pages/config";
 import { useRouter } from "next/router";
+import ShowAlert from "../../Alerts/Alertss";
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
@@ -25,6 +26,9 @@ const JobsShow = () => {
   const [can_apply, setcan_apply] = useState();
   const [PostImage, setPostImage] = useState([]);
   const [postImagePreview, setpostImagePreview] = useState();
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
+  
   var dateString = '';
   const router = useRouter();
   const data = router.asPath;
@@ -39,7 +43,10 @@ const JobsShow = () => {
       if (e.target.files.length !== 0) {
         setpostImagePreview(window.URL.createObjectURL(e.target.files[0]));
       }
-    } else (alert("Invalid File type.!  :-pdf/docx.."))
+    } else {
+        setopenalert(true);
+        setalertbody("Invalid File ( Select pdf/docx.. )")
+      }
   };
   const handleCoverReomve = (e) => {
     setpostImagePreview(window.URL.revokeObjectURL(e.target.files));
@@ -61,6 +68,19 @@ const JobsShow = () => {
         }
       })
       .catch((err) => console.log(err));
+  }
+
+  const UnApplied=async()=>{
+    const requestOptions = {
+      method: 'DELETE',
+      headers:{Accept: "application/json", Authorization: `${authKey}`},
+    };
+    const response = await fetch(`${USE_APPLY_JOB_API}/${myArray[1]}`,requestOptions);
+    setopenalert(true);
+    setalertbody("You Unapplied on this Job")
+    setTimeout(()=>{
+      canApply();
+    },2000)
   }
   // Show Job Data
   const ShowJobs = () => {
@@ -102,15 +122,21 @@ const JobsShow = () => {
       .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-          alert("You Applied on Job")
-          ShowJobs();
-          canApply();
+          setopenalert(true);
+          setalertbody("You Applied on Job")
+          setTimeout(()=>{
+            ShowJobs();
+            canApply();
+          },2000)
         }
       })
       .catch((err) => console.log(err));
   }
   return (
     <div className="mt-8">
+      {openalert?(
+        <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+      ):("")}
       <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 xl:px-0 lg:px-0">
         <div className="">
           {/* <div className="">
@@ -263,6 +289,7 @@ const JobsShow = () => {
                 ) : (
                   <div className="mt-4 text-right">
                     <button className="bg-indigo-200 cursor-not-allowed text-slate-400 rounded-full p-3">Applied</button>
+                    <button className="bg-indigo-400 text-white rounded-full p-3 ml-5" onClick={() => UnApplied()} >UnApplied</button>
                   </div>
                 )}
               </div>

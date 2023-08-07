@@ -78,27 +78,67 @@ const NewsPostProfile = (setList) => {
       setPreviewEventCoverImage(window.URL.createObjectURL(e.target.files[0]));
     }
   };
-
+  // for Upload pic (image_Feed)
   const handleImagePost = (e) => {
-    setPostImage(e.target.files[0]);
-    if (e.target.files.length !== 0) {
-      setpostImagePreview(window.URL.createObjectURL(e.target.files[0]));
+    // setPostImage(e.target.files[0]);
+    // if (e.target.files.length !== 0) {
+    //   setpostImagePreview(window.URL.createObjectURL(e.target.files[0]));
+    // }
+    // setFeedType("image_feed");
+    if(postImage && postImage.length>0 || postImagePreview && postImagePreview.length>0){
+      const mergedata = [...postImage, ...e.target.files]
+      setPostImage(mergedata);
+      var pres = [];
+      for (var i = 0; i < e.target.files.length; i++) {
+        pres[i] = window.URL.createObjectURL(e.target.files[i]);
+      }
+      const mergedata1 = [...postImagePreview, ...pres]
+      setpostImagePreview(mergedata1)
+    }
+    else{
+      setPostImage(e.target.files);
+      var pres = [];
+      for (var i = 0; i < e.target.files.length; i++) {
+        pres[i] = window.URL.createObjectURL(e.target.files[i]);
+      }
+      setpostImagePreview(pres)
     }
     setFeedType("image_feed");
   };
+  // for Remove pic (image_Feed)
+  const handleCoverReomve = (index) => {
+    // setpostImagePreview(window.URL.revokeObjectURL(e.target.files));
+    // setPreviewEventCoverImage(window.URL.revokeObjectURL(e.target.files));
+    // setVideoPreview(window.URL.revokeObjectURL(e.target.files));
+    setPreviewEventCoverImage("");
+    setVideoPreview("");
+    setEventCoverImage([]);
+    setVideoSrc([])
+    if (index !== 0) {
+      const updatedArray = [...postImagePreview];
+      updatedArray.splice(index, 1);
+      setpostImagePreview(updatedArray);
 
-  const handleCoverReomve = (e) => {
-    setpostImagePreview(window.URL.revokeObjectURL(e.target.files));
-    setPreviewEventCoverImage(window.URL.revokeObjectURL(e.target.files));
-    setVideoPreview(window.URL.revokeObjectURL(e.target.files));
+      if(postImage && postImage.length>0){
+        const updatedArray1 = [...postImage];
+        updatedArray1.splice(index, 1);
+        setPostImage(updatedArray1);
+      }
+      
+    }else{setpostImagePreview('');setPostImage([]);setFeedType('');}
   };
-
+  // for Upload Vedio (Vedio)
   const handleVideo = (e) => {
     setFeedType("video_feed");
     setVideoSrc(e.target.files[0]);
     if (e.target.files.length !== 0) {
       setVideoPreview(URL.createObjectURL(e.target.files[0]));
     }
+  };
+  const handleVideoRemove = (e) => {
+    setFeedType("")
+    setVideoSrc("");
+    setVideoPreview("");
   };
 
   const onSubmit = () => {
@@ -147,8 +187,10 @@ const NewsPostProfile = (setList) => {
     dataForm.append("news_feeds[body]", postText.replace(/\[\@(.*?)\]\((.*?)\)/g, "@$1"));
     dataForm.append("news_feeds[feed_type]", feedType);
     dataForm.append("news_feeds[feed_from]", "groups");
-
-    dataForm.append("news_feeds[feed_attachments][]", postImage);
+    for (let i = 0; i < postImage.length; i++) {
+      dataForm.append(`news_feeds[feed_attachments][]`, postImage[i]);
+    }
+    // dataForm.append("news_feeds[feed_attachments][]", postImage);
     dataForm.append("news_feeds[feed_attachments][]", videoSrc);
     // if (feedType === "event_feed") {
     //   dataForm.append("events[name]", values.eventName);
@@ -346,7 +388,7 @@ const NewsPostProfile = (setList) => {
                 <source src={videoPreview} type="video/mp4" />
               </video>
               <div
-                onClick={handleCoverReomve}
+                onClick={handleVideoRemove}
                 className="bg-indigo-100 absolute top-4 right-4 z-50 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
               >
                 <TrashIcon className="w-5 h-5 text-indigo-600" />
@@ -357,19 +399,38 @@ const NewsPostProfile = (setList) => {
           )}
 
           {postImagePreview ? (
-            <div className={`relative`}>
-              <img
-                src={postImagePreview}
-                className="aspect-video object-cover rounded-xl mb-4"
-                alt=""
-              />
+            // <div className={`relative`}>
+            //   <img
+            //     src={postImagePreview}
+            //     className="aspect-video object-cover rounded-xl mb-4"
+            //     alt=""
+            //   />
 
-              <div
-                onClick={handleCoverReomve}
-                className="bg-indigo-100 absolute top-4 right-4 z-50 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
-              >
-                <TrashIcon className="w-5 h-5 text-indigo-600" />
-              </div>
+            //   <div
+            //     onClick={handleCoverReomve}
+            //     className="bg-indigo-100 absolute top-4 right-4 z-50 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
+            //   >
+            //     <TrashIcon className="w-5 h-5 text-indigo-600" />
+            //   </div>
+            // </div>
+            <div className="flex flex-wrap gap-4" >
+              {postImagePreview.map((i,j) => (
+                <div className="relative" key={i}>
+                  <img
+                    src={i}
+                    key={i}
+                    className="object-cover rounded-xl w-[300px] h-[300px]"
+                  />
+                  <div className="absolute top-0 hover:shadow-4xl right-0 w-7 h-7 flex justify-center items-center bg-indigo-400 rounded-l-full">
+                    <TrashIcon className="h-4 w-4 text-white" onClick={ ()=>handleCoverReomve(j)} />
+                    {/* <div>
+                    <p className="text-sm font-medium text-gray-900">
+                      Delete
+                    </p>
+                  </div> */}
+                  </div>
+                </div>
+              ))}
             </div>
           ) : (
             ""

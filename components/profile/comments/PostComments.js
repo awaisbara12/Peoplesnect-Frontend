@@ -280,7 +280,7 @@ const PostComments = (props) => {
             <div className="relative w-1/4 mt-2">
               <img
                 src={postImagePreview}
-                className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
+                className="object-cover rounded-full ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
                 alt="" />
 
               <div className="bg-indigo-100 absolute top-4 right-0 z-10 w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
@@ -297,14 +297,14 @@ const PostComments = (props) => {
                   <img
                     src={props.dp}
                     className="aspect-video object-cover rounded-full h-[42px] w-[42px]"
-                    width={34}
-                    height={34} alt="" />
+                     alt="" />
                 ) : (
                   <Image
                     src={ProfileAvatar}
-                    className="object-cover rounded-full "
-                    width={34}
-                    height={34} alt="" />
+                    className="object-cover rounded-full h-[42px] w-[42px]"
+                    height={42}
+                    width={42}
+                    alt="" />
                 )}
             </a>
           </Link>

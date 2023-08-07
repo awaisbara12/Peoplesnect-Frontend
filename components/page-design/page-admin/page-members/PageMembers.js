@@ -13,6 +13,7 @@ import {
 import { DotsHorizontalIcon } from "@heroicons/react/solid";
 import { BLOCK_API, GROUP_API, GROUP_MEMBERS_API, PAGES_API } from "../../../../pages/config";
 import { useRouter } from "next/router";
+import ShowAlert from "../../../Alerts/Alertss";
 
 const PageMembers = () => {
   const [member, setmember] = useState();
@@ -21,6 +22,8 @@ const PageMembers = () => {
   const [admins, setadmins] = useState();// all Admins Details
   const [admin, setadmin] = useState();           // Creater
 
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
 
   const router = useRouter();
   const data = router.asPath;
@@ -38,9 +41,14 @@ const PageMembers = () => {
     })
       .then((resp) => resp.json())
       .then((result) => {
-        GetMember();
-        GetAdmins();
-        alert("Removed Successfully")
+        setopenalert(true);
+        setalertbody("Removed Successfully!")
+        setTimeout(()=>{
+          GetMember();
+          GetAdmins();
+        },2000)
+       
+        
       })
   }
   // Get all Admins
@@ -136,6 +144,9 @@ const PageMembers = () => {
   }, [])
   return (
     <div className="mt-8">
+      {openalert?(
+        <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+      ):("")}
       <div className="w-[620px] xl:w-[980px] lg:w-[710px] md:w-[780px] px-5 md:px-0 lg:px-0 xl:px-0">
         <div className="bg-white rounded-xl mt-8">
           <div className="flex justify-between items-center border-b-1 p-4">

@@ -11,6 +11,7 @@ import axios from "axios";
 import Router from "next/router";
 import { Menu, Transition } from "@headlessui/react";
 import { Dialog } from "@headlessui/react";
+import ShowAlert from '../../Alerts/Alertss';
 
 const Category =()=>{
   const [products, setProducts] = useState([]);
@@ -22,6 +23,8 @@ const Category =()=>{
   const [c_name, setc_name] = useState();
   const [Editc_name, setEditc_name] = useState();
   const [EditId, setEditId] = useState();
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
 
 
   let [editOpen, seteditOpen] = useState(false);
@@ -51,7 +54,11 @@ const Category =()=>{
           }
         })
         .catch((err) => console.log(err));
-    }else{alert("Enter Category")}
+    }else{
+      // alert("Enter Category")
+      setopenalert(true);
+      setalertbody("Enter Category");
+    }
     
   }//  Update Category
   function UpdateCategory(id) {
@@ -232,6 +239,9 @@ const Category =()=>{
       <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
         <div className="mt-8">
           <div className="">
+            {openalert?(
+              <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+            ):("")}
             {/* Heading Category-List */}
             <div className=" flex justify-center">
               <div className="heading text-4xl font-semibold text-indigo-400">Category List</div>

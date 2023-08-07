@@ -149,11 +149,9 @@ const ProfileTopCard = () => {
               <Link href="/">
                 <a>
                   {image ? (
-                    <Image
+                    <img
                       src={image}
-                      className="object-cover rounded-xl"
-                      width={1030}
-                      height={320}
+                      className="object-cover rounded-xl h-[320px] w-[1030px]"
                       alt=""
                     />
                   ) : (
@@ -167,9 +165,9 @@ const ProfileTopCard = () => {
                       (
                         <Image
                           src={postimage}
-                          className="object-cover rounded-xl"
-                          width={1030}
+                          className="object-cover rounded-xl h-[320px] w-[1030px]"
                           height={320}
+                          width={1080}
                           alt=""
                         />
                       )
@@ -206,13 +204,10 @@ const ProfileTopCard = () => {
                   <Link href="">
                     <a>
                       {coverpreview ? (
-                        <Image
+                        <img
                           src={coverpreview}
-                          width={96}
-                          height={96}
-                          className="object-cover object-top rounded-full z-40"
-                          placeholder="empty"
-                          alt="profile-image"
+                          className="object-cover object-top rounded-full z-40 h-[96px] w-[96px]"
+                          alt=""
                         />
                       ) : (
                         profileimage ? (
@@ -224,11 +219,10 @@ const ProfileTopCard = () => {
                         ) : (
                           <Image
                             src={ProfileAvatar}
-                            width={96}
+                            className="object-cover rounded-full z-40 h-[96px] w-[96px]"
                             height={96}
-                            className="object-cover rounded-full z-40"
-                            placeholder="empty"
-                            alt="profile-image"
+                            width={96}
+                            alt=""
                           />
                         )
                       )}
@@ -244,7 +238,7 @@ const ProfileTopCard = () => {
                           name="image"
                           id="image"
                           onChange={onProfileChange}
-                          className="opacity-0 absolute top-auto left-0 z-10"
+                          className="opacity-0 absolute w-full top-auto left-0 z-10"
                           title={""}
                           multiple
                         />
@@ -262,12 +256,9 @@ const ProfileTopCard = () => {
           </div>
           {userDetails ? (
             <div className="my-2 flex flex-col ml-48 gap-1">
-              <div className="group relative">
+              <div className="">
                 <div className="text-2xl text-indigo-400 font-bold capitalize">
                   {userDetails.first_name} {userDetails.last_name}
-                </div>
-                <div className="absolute left-40 top-2 opacity-0 group-hover:opacity-100 cursor-pointer">
-                  {/* <PencilIcon className="h-4 w-4 text-indigo-400" /> */}
                 </div>
               </div>
               <Link href="" className="">
