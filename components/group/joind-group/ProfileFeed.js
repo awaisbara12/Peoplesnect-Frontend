@@ -22,9 +22,11 @@ const ProfileFeed = (props) => {
   const myArray = data.split("?");
 
   function isadmin(admin, user_id) {
-    for (var i = 0; i < admin.length; i++) {
-      if (admin[i].group_member.id == user_id) {
-        return true;
+    if (admin.length){
+      for (var i = 0; i < admin.length; i++) {
+        if (admin[i].group_member.id == user_id) {
+          return true;
+        }
       }
     }
     return false;

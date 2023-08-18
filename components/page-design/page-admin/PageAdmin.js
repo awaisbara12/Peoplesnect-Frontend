@@ -496,6 +496,14 @@ const PageAdmin = (setList, singleItem) => {
                             </a>
                           </Link>
                         </Menu.Item>
+                        <Menu.Item className="">
+                        <Link href={{pathname: "/page-design/AddNews-Letter", query: myArray[1],}}>
+                            <a className="flex gap-1 mt-2">
+                              <CogIcon className="w-5 h-5" />
+                              Add NewsLetter
+                            </a>
+                          </Link>
+                        </Menu.Item>
                       </div>
                     </Menu.Items>
                   </Transition>

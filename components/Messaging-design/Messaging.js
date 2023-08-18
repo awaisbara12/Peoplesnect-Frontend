@@ -320,7 +320,7 @@ const Messaging = () => {
                                 }   
                               </div>
                             )
-                          }else{
+                          }else if(i.sender && currentuser.id != i.sender.id){
                             return(
                               <div className="flex items-center gap-2 bg-gray-100 p-2 border-b" key={i.id}>
                                 {currentuser.id!=i.message_CID && i.status=="Unread"?(
@@ -395,6 +395,157 @@ const Messaging = () => {
                                 )}
                               </div>
                             )
+                          }else if(i.group){
+                            {
+                              return(
+                                <div className="flex items-center gap-2 bg-gray-100 p-2 border-b" key={i.id}>
+                                  {currentuser.id!=i.message_CID && i.status=="Unread"?(
+                                    i.group.display_image_url?(
+                                      <div className="relative">
+                                        <img
+                                          className="object-cover rounded-full w-[45px] h-[45px]"
+                                          src={i.group.display_image_url}
+                                          alt=""
+                                        />
+                                        <div className="bg-red-400 h-2.5 w-2.5 -left-1 -top-1 rounded-full absolute"></div> 
+                                      </div>
+                                    ):(
+                                      <div className="relative">
+                                        <Image
+                                          className="object-cover rounded-full"
+                                          src={ProfileAvatar}
+                                          width={45}
+                                          height={45}
+                                          alt=""
+                                        />
+                                        <div className="bg-red-400 h-2.5 w-2.5 -left-1 -top-1 rounded-full absolute"></div> 
+                                      </div>
+                                    )):(
+                                      i.group.display_image_url?(
+                                        <img
+                                          className="object-cover rounded-full w-[45px] h-[45px]"
+                                          src={i.group.display_image_url}
+                                          alt=""
+                                        />
+                                      ):( 
+                                      <Image
+                                        className="object-cover rounded-full"
+                                        src={ProfileAvatar}
+                                        width={45}
+                                        height={45}
+                                        alt=""
+                                      />)
+                                    )
+                                  }
+  
+                                  {i.group && i.recipient?(
+                                    <Link href={{pathname:"/messaging-design",query:i.group.id+"?group"}} >
+                                      <a>
+                                        <div className="">
+                                          <div className="font-bold">{i.group.title} (NewsLetter)</div>
+                                          {currentuser.id!=i.message_CID && i.status=="Unread"?(
+                                            <div className="">NewsLetter {i.status} message</div>
+                                          ):(
+                                            <div className="">Seen all NewsLetter</div>
+                                          )}
+                                        </div>
+                                      </a>
+                                    </Link>
+                                  ):(
+                                    <Link href={{pathname:"/messaging-design",query:i.group.id+"?groups"}} >
+                                      <a>
+                                        <div className="">
+                                          <div className="font-bold">{i.group.title} (Group)</div>
+                                          {currentuser.id!=i.message_CID && i.status=="Unread"?(
+                                            <div className="">{i.status} messages</div>
+                                          ):(
+                                            <div className="">Seen all group message</div>
+                                          )}
+                                        </div>
+                                      </a>
+                                    </Link>
+                                  )}
+                                    
+                                    
+                                  
+                                </div>
+                              )
+                            }
+                          }else if(i.page){
+                            {
+                              return(
+                                <div className="flex items-center gap-2 bg-gray-100 p-2 border-b" key={i.id}>
+                                  {currentuser.id!=i.message_CID && i.status=="Unread"?(
+                                    i.page.display_photo_url?(
+                                      <div className="relative">
+                                        <img
+                                          className="object-cover rounded-full w-[45px] h-[45px]"
+                                          src={i.page.display_photo_url}
+                                          alt=""
+                                        />
+                                        <div className="bg-red-400 h-2.5 w-2.5 -left-1 -top-1 rounded-full absolute"></div> 
+                                      </div>
+                                    ):(
+                                      <div className="relative">
+                                        <Image
+                                          className="object-cover rounded-full"
+                                          src={ProfileAvatar}
+                                          width={45}
+                                          height={45}
+                                          alt=""
+                                        />
+                                        <div className="bg-red-400 h-2.5 w-2.5 -left-1 -top-1 rounded-full absolute"></div> 
+                                      </div>
+                                    )):(
+                                      i.page.display_photo_url?(
+                                        <img
+                                          className="object-cover rounded-full w-[45px] h-[45px]"
+                                          src={i.page.display_photo_url}
+                                          alt=""
+                                        />
+                                      ):( 
+                                      <Image
+                                        className="object-cover rounded-full"
+                                        src={ProfileAvatar}
+                                        width={45}
+                                        height={45}
+                                        alt=""
+                                      />)
+                                    )
+                                  }
+  
+                                  {i.page && i.recipient?(
+                                    <Link href={{pathname:"/messaging-design",query:i.page.id+"?page"}} >
+                                      <a>
+                                        <div className="">
+                                          <div className="font-bold">{i.page.name} (NewsLetter)</div>
+                                          {currentuser.id!=i.message_CID && i.status=="Unread"?(
+                                            <div className="">NewsLetter {i.status} messages</div>
+                                          ):(
+                                            <div className="">Seen all NewsLetter</div>
+                                          )}
+                                        </div>
+                                      </a>
+                                    </Link>
+                                  ):(
+                                    <Link href={{pathname:"/messaging-design",query:i.page.id+"?Groups"}} >
+                                      <a>
+                                        <div className="">
+                                          <div className="font-bold">{i.page.name} (Group)</div>
+                                          {currentuser.id!=i.message_CID && i.status=="Unread"?(
+                                            <div className="">{i.status} messages</div>
+                                          ):(
+                                            <div className="">Seen all Group message</div>
+                                          )}
+                                        </div>
+                                      </a>
+                                    </Link>
+                                  )}
+                                    
+                                  
+                                </div>
+                              )
+                            }
                           }
                       })
                     }

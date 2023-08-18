@@ -1,29 +1,60 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import { useRouter } from "next/router";
 import {Transition } from "@headlessui/react";
-import { GROUP_API, MESSAGES_API } from "../../../../pages/config";
+import { GROUP_API, MESSAGES_API, PAGES_API } from "../../../../pages/config";
 import { Dialog } from "@headlessui/react";
 import { PhotographIcon, TrashIcon, XIcon } from "@heroicons/react/outline";
 import InviteFriendsGroup from "../InviteFriendsGroup/InviteFriendsGroup";
 
-const AddNewsLetter = () => {
+const NewsLetter = () => {
   const [subject, setsubject] = useState();
   const [isCheck, setIsCheck] = useState([]);
   let [isOpen, setIsOpen] = useState(false);
   const [text, setText] = useState("");                          // SMS BODY
-  const [attachment_type, setattachment_type] = useState("");    // TYPE [:- IMAGE/VEDIO/Doc]
   const router = useRouter();
   const data = router.asPath;
   const myArray = data.split("?");
+  const [group, setgroup] = useState();
   const [postImage, setPostImage] = useState([]);                // UPLOAD [:- IMAGE/VEDIO/Doc]
   const [postImagePreview, setpostImagePreview] = useState();    // PREVIEW [:- IMAGE/VEDIO/Doc]
-  const [group, setgroup] = useState();
+  const [attachment_type, setattachment_type] = useState("");    // TYPE [:- IMAGE/VEDIO/Doc]
 
   // Bareer Key
   if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore"); }
 
   function closeModal() {
     setIsOpen(false);
+  }
+
+  function inviteModal() {
+    if (isCheck.length > 0) {
+      // SendInviteRequest();
+      closeModal();
+    }
+    else {
+      alert("Select Friend to Invite");
+    }
+  }
+  function openModal() {
+    setIsOpen(true);
+  }
+  function closeinviteModal() {
+    setIsCheck([]);
+    setIsOpen(false);
+  }
+  const GetGroup = () => {
+    const res = fetch(PAGES_API + "/" + myArray[1], {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        setgroup(result.data);
+        console.log(result);
+      })
   }
 
   const handleImagePost = (e) => {
@@ -51,36 +82,6 @@ const AddNewsLetter = () => {
     setattachment_type('')
   }
 
-  function inviteModal() {
-    if (isCheck.length > 0) {
-      // SendInviteRequest();
-      closeModal();
-    }
-    else {
-      alert("Select Friend to Invite");
-    }
-  }
-  function openModal() {
-    setIsOpen(true);
-  }
-  function closeinviteModal() {
-    setIsCheck([]);
-    setIsOpen(false);
-  }
-  const GetGroup = () => {
-    const res = fetch(GROUP_API + "/" + myArray[1], {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        Authorization: `${authKey}`,
-      },
-    })
-      .then((resp) => resp.json())
-      .then((result) => {
-        setgroup(result.data);
-      })
-  }
-
   const SendMessage=async()=>{
     if ((text) && myArray[1])
     {
@@ -92,7 +93,7 @@ const AddNewsLetter = () => {
       dataForm.append("body", text);
       dataForm.append("subject", subject);
       dataForm.append("member",isCheck); 
-      dataForm.append("group_id",myArray[1]); 
+      dataForm.append("page_id",myArray[1]); 
       setText('');
       setsubject('');
       clearPic();     
@@ -106,7 +107,7 @@ const AddNewsLetter = () => {
         .then((resp) => resp.json())
         .then((result) => {
             if (result && result.data) {
-              alert("NewsLetter Send")
+              alert("NewsLetter Send");
             }
            
         })
@@ -114,33 +115,6 @@ const AddNewsLetter = () => {
     }
   }
 
-  const createMessageChanel=async(id,CableApp)=> {
-    CableApp.subscriptions.create(
-      {
-        channel: 'MessageChannel',
-        current_user:  id,
-        recipient_id:  myArray[1]
-      },
-      {
-        connected: () => {
-          console.log('Chat-connected');
-        },
-        disconnected: () => {
-          console.log('Chat-disconnected');
-
-        },
-        received: data => { 
-          if(myDivRef.current){
-            if (myDivRef.current.id == myArray[1]){
-              
-              downfunction();
-              console.log("Chat-received");
-            }
-          }
-        },
-      }
-    );
-  }
   // console.log(isCheck);
   useEffect(() => {
     GetGroup();
@@ -169,6 +143,7 @@ const AddNewsLetter = () => {
                     onChange={(e) => setsubject(e.target.value)}
                   />
                 </div>
+                
               </div>
               <div className="mt-4">
                 <div className="">
@@ -208,7 +183,7 @@ const AddNewsLetter = () => {
                                   <div
                                     className="text-lg font-medium leading-6 text-gray-900 px-8"
                                   >
-                                    Select Group Members
+                                    Select Page Members
                                   </div>
                                   <XIcon
                                     onClick={closeinviteModal}
@@ -327,14 +302,16 @@ const AddNewsLetter = () => {
                 </div>
               </div>
               <div className='flex justify-end gap-4 mt-12'>
-                <div className='col-span-3'>
-                  <button
-                    className='px-4 py-2 border rounded-full hover:border-indigo-400 hover:bg-transparent hover:text-indigo-400 bg-indigo-400 text-white'
-                    onClick={openModal} 
-                  >
-                    Select Group Members
-                    </button>
-                </div>
+                {group?(
+                  <div className='col-span-3'>
+                    <button
+                      className='px-4 py-2 border rounded-full hover:border-indigo-400 hover:bg-transparent hover:text-indigo-400 bg-indigo-400 text-white'
+                      onClick={openModal} 
+                    >
+                      Select Page Members
+                      </button>
+                  </div>
+                  ):("")}
                 <div>
                   <button className='px-4 py-2 border rounded-full hover:border-indigo-400 hover:bg-transparent hover:text-indigo-400 bg-indigo-400 text-white' onClick={() => SendMessage()}>Send NewsLetter</button>
                 </div>
@@ -347,4 +324,4 @@ const AddNewsLetter = () => {
   );
 }
 
-export default AddNewsLetter;
+export default NewsLetter;

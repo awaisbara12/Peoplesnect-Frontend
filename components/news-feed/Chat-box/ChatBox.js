@@ -56,6 +56,9 @@ const Dropdown = ({ color }) => {
   const [marketplace, setmarketplace] = useState([]);          //  Show MarketPlace Label
   const [openalert, setopenalert] = useState(false); // For Alert Show
   const [alertbody, setalertbody] = useState(); // For Alert Body
+  const [page, setpage] = useState(); // For Alert Body
+  const [group, setgroup] = useState(); // For Alert Body
+  const [grouptypes, setgrouptype] = useState('');
   
   const messageRef = useRef();
   var tomsgid;                                                   
@@ -72,7 +75,7 @@ const Dropdown = ({ color }) => {
       createConversationSub(CableApp);
     }
     const CableApp= actionCable.createConsumer(WS_PUBLIC_API);
-    createConversationSub(CableApp)
+    createConversationSub(CableApp);
     ShowFriends();
     
     if(currentuser){
@@ -86,7 +89,7 @@ const Dropdown = ({ color }) => {
   };
   // Box close
   const closeDropdownPopover = () => {
-    console.log("close/hode");
+    // console.log("close/hode");
     setDropdownPopoverShow(false);
     // setOpenTab(1);
     setmsguser(''); 
@@ -100,14 +103,30 @@ const Dropdown = ({ color }) => {
     if (marketplaceShow && marketplaceShow=="Marketplace"){
       setmarketplace(marketplaceShow)
     }else{setmarketplace("")}
-    console.log("marketplaceShow",marketplaceShow)
-    GetMessages(i.id)
+    if(marketplaceShow=="page" || marketplaceShow=="pages"){
+      setgrouptype(marketplaceShow);
+      setpage(i);
+    }else{
+      setpage('');
+    }
+    if(marketplaceShow=="group" || marketplaceShow=="groups"){
+      setgrouptype(marketplaceShow);
+      setgroup(i);
+    }else{
+      setgroup('');
+    }
+    if(marketplaceShow=="groups" && marketplaceShow=="pages"){
+      setgrouptype('');
+    }
+    // console.log("marketplaceShow",marketplaceShow)
+    GetMessages(i.id,marketplaceShow)
     tomsgid=i.id;
     setmsguser(i);
     createPopper(btnDropdownRef1.current, popoverDropdownRef1.current, {
       placement: "bottom-end",
     });
-    createMessageSub(subscribed , i.id)
+
+    createMessageSub(subscribed , i.id, marketplaceShow);
     setDropdownPopoverShow1(true);
   };
   // back chat-popover
@@ -116,6 +135,7 @@ const Dropdown = ({ color }) => {
     setmsguser(''); 
     setmessages('');
     setDropdownPopoverShow1(false);
+    setgrouptype('');
   };
   // Send sms On-Enter
   function handleOnEnter() {
@@ -161,8 +181,11 @@ const Dropdown = ({ color }) => {
     if (typeof window !== 'undefined') {
       actionCable = require('actioncable');
       const CableApp= actionCable.createConsumer(WS_PUBLIC_API);
+      setsubscribed(CableApp);
+      Current_User(CableApp);
     }
     const CableApp= actionCable.createConsumer(WS_PUBLIC_API);
+    setsubscribed(CableApp);
     Current_User(CableApp);
     ConversationAlert()
   },[])
@@ -197,13 +220,41 @@ const Dropdown = ({ color }) => {
       .then((result) => {
         if (result && result.data) {
           setConversation(result.data);
+          console.log(result.data);
           // setc_pageConversation(result.pages.next_page)
         }
       })
       .catch((err) => console.log(err)); 
   }
   // Get All SMS of any Conversation
-  const GetMessages=async(id)=>{  
+  const GetMessages=async(id,grouptype)=>{
+    if(grouptype && (grouptype=="pages" || grouptype=="groups")){
+      await fetch(MESSAGES_API+"?recipient_id="+id+"&type=groups", {
+        method: "GET",
+        headers: {
+          Accept: "application/json", 
+          Authorization: `${authKey}`,
+        },
+      })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result && result.data) {
+          setmessages(result.data);
+          setcurrentpagemy(result.pages.next_page);
+          if (messageRef.current) {
+            messageRef.current.scrollIntoView(
+              {
+                behavior: 'smooth',
+                block: 'end',  //center
+                inline: 'nearest'
+              })
+          }
+
+        }
+        else{setmessages('');}
+      })
+      .catch((err) => console.log(err));
+    }else{
       await fetch(MESSAGES_API+"?recipient_id="+id, {
         method: "GET",
         headers: {
@@ -211,28 +262,85 @@ const Dropdown = ({ color }) => {
           Authorization: `${authKey}`,
         },
       })
-        .then((resp) => resp.json())
-        .then((result) => {
-          if (result && result.data) {
-            setmessages(result.data);
-            setcurrentpagemy(result.pages.next_page);
-            if (messageRef.current) {
-              messageRef.current.scrollIntoView(
-                {
-                  behavior: 'smooth',
-                  block: 'end',  //center
-                  inline: 'nearest'
-                })
-            }
-
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result && result.data) {
+          setmessages(result.data);
+          setcurrentpagemy(result.pages.next_page);
+          if (messageRef.current) {
+            messageRef.current.scrollIntoView(
+              {
+                behavior: 'smooth',
+                block: 'end',  //center
+                inline: 'nearest'
+              })
           }
-          else{setmessages('');}
-        })
-        .catch((err) => console.log(err)); 
+
+        }
+        else{setmessages('');}
+      })
+      .catch((err) => console.log(err));
+    } 
   }
   //  Send/Create Sms
   const SendMessage=async()=>{
-    if (text || attachment_type)
+    if((page || group) && grouptypes && grouptypes!="groups" && grouptypes!="pages"){
+      setopenalert(true);
+      setalertbody("You can't send Message");
+    }else if ((text || attachment_type) && (grouptypes=="groups" || grouptypes=="pages"))
+    {
+      const dataForm = new FormData();
+      if(postImagePreview){
+        dataForm.append("attachment_type", attachment_type);
+        dataForm.append("attachment", postImage);
+      }
+      dataForm.append("body", text);
+      dataForm.append("recipient_id",msguser.id ); 
+      setText('');
+      clearPic();     
+      await fetch(MESSAGES_API+"?type=groups", {
+        method: "POST",
+        headers: {
+          Accept: "application/json", 
+          Authorization: `${authKey}`,
+        },body: dataForm,
+      })
+        .then((resp) => resp.json())
+        .then((result) => {
+          // if (result) {
+          //   GetMessages(msguser.id)
+          // }
+          if (result && result.data) {
+            if(messages.length==0){
+              let actionCable;
+              if (typeof window !== 'undefined') {
+                actionCable = require('actioncable');
+                const CableApp= actionCable.createConsumer(WS_PUBLIC_API);
+              }
+              const CableApp= actionCable.createConsumer(WS_PUBLIC_API);
+              createMessageSub(CableApp, msguser.id, grouptypes);
+            }
+            // GetMessages(msguser.id)
+            if (messages) {
+              let mergedData;
+              if (Array.isArray(result.data)) {
+                mergedData = [...result.data, ...messages];
+              } else {
+                mergedData = [result.data, ...messages];
+              }
+              setmessages(mergedData);
+            } else {
+              setmessages(Array.isArray(result.data) ? result.data : [result.data]);
+            }
+            // downfunction();
+          }else if(result && result.block){
+            // alert("You can't send Message");
+            setopenalert(true);
+            setalertbody("You can't send Message");
+          }
+        })
+        .catch((err) => console.log(err)); 
+    }else if (text || attachment_type)
     {
       const dataForm = new FormData();
       if(postImagePreview){
@@ -263,7 +371,7 @@ const Dropdown = ({ color }) => {
                 const CableApp= actionCable.createConsumer(WS_PUBLIC_API);
               }
               const CableApp= actionCable.createConsumer(WS_PUBLIC_API);
-              createMessageSub(CableApp, msguser.id);
+              createMessageSub(CableApp, msguser.id, grouptypes);
             }
             // GetMessages(msguser.id)
             if (messages) {
@@ -340,26 +448,56 @@ const Dropdown = ({ color }) => {
 // ****** Subscription ******
 
   // SMS Subscription
-  function createMessageSub(subscribeds,  r_id) {
-    subscribeds.subscriptions.create(
-      {
-        channel: 'MessageChannel',
-        current_user:  currentuser.id,
-        recipient_id:  r_id,
-      },
-      {
-        connected: () => console.log('Box-connected'),
-        disconnected: () => console.log('Box-disconnected'),
-        received: data => {  
-          if(myDivRef.current){
-            if( myDivRef.current.id ==  data){
-              console.log('Box-recieved');
-              GetMessages(data);
+  function createMessageSub(subscribeds,  r_id, grouptype) {
+    if((grouptype=="groups" || grouptype=="pages")){
+      subscribeds.subscriptions.create(
+        {
+          channel: 'MessageChannel',
+          current_user:  currentuser.id,
+          recipient_id:  r_id,
+          type: "groups"
+        },
+        {
+          connected: () => console.log('Chat-connected'),
+          disconnected: () => console.log('Chat-disconnected'),
+          received: data => {
+            if(myDivRef.current){
+              if( myDivRef.current.id ==  data){
+                console.log('Chat-recieved');
+                GetMessages(data,grouptype);
+              }
             }
-          }
-       },
-      }
-    );
+        },
+        }
+      );
+
+    }else{
+      subscribeds.subscriptions.create(
+        {
+          channel: 'MessageChannel',
+          current_user:  currentuser.id,
+          recipient_id:  r_id,
+        },
+        {
+          connected: () => console.log('Chat-connected'),
+          disconnected: () => console.log('Chat-disconnected'),
+          received: data => {
+            if(myDivRef.current){
+              if( myDivRef.current.id ==  data){
+                console.log('Chat-recieved');
+                if(grouptype=="group" && group){
+                  GetMessages(group.id,grouptype);  
+                }else if(grouptype=="page" && page){
+                  GetMessages(page.id,grouptype);
+                }else{
+                  GetMessages(data,grouptype);
+                }
+              }
+            }
+        },
+        }
+      );
+    }
   }
   // Converstion Subscription
   function createConversationSub(CableApp) {
@@ -408,7 +546,7 @@ const Dropdown = ({ color }) => {
   }
   //  Fetch Sms OnScroll [:pagy ]
   const fetchMoreSMS = async() => {
-    if(msguser){
+    if(msguser && grouptypes!="groups" && grouptypes!="pages"){
       await fetch(MESSAGES_API+"?recipient_id="+msguser.id+"&page="+currentpagemy, {
         method: "GET",
         headers: {
@@ -425,7 +563,24 @@ const Dropdown = ({ color }) => {
           else{setmessages('');}
         })
         .catch((err) => console.log(err)); 
-    }else{console.log("no user")}
+    }else{
+      await fetch(MESSAGES_API+"?recipient_id="+msguser.id+"&page="+currentpagemy+"&type=groups", {
+        method: "GET",
+        headers: {
+          Accept: "application/json", 
+          Authorization: `${authKey}`,
+        },
+      }).then((resp) => resp.json())
+        .then((result) => {
+          if (result && result.data) {
+            const mergedata = [...messages, ...result.data ]
+            setmessages(mergedata);
+            setcurrentpagemy(result.pages.next_page)
+          }
+          else{setmessages('');}
+        })
+        .catch((err) => console.log(err)); 
+    }
   } 
   // converstion Alert
   const ConversationAlert=async()=>{     
@@ -549,7 +704,7 @@ const Dropdown = ({ color }) => {
                     <div className="h-[256px] overflow-y-scroll">
                       {Conversation && currentuser &&
                         Conversation.map((i)=>{
-                          if(currentuser.id != i.recipient.id)
+                          if(i.recipient && currentuser.id != i.recipient.id)
                           {
                             return(
                               <div className=" bg-gray-100 p-2 border-b"
@@ -612,7 +767,7 @@ const Dropdown = ({ color }) => {
                                 </Link>
                               </div>
                             )
-                          }else{
+                          }else if(i.sender && currentuser.id != i.sender.id){
                             return(
                               <div className=" bg-gray-100 p-2 border-b"
                                 ref={btnDropdownRef1}
@@ -667,6 +822,258 @@ const Dropdown = ({ color }) => {
                                         <div className="">You {i.status} message</div>
                                       ):(
                                         <div className="">Seen all message</div>
+                                      )}
+                                      {/* <div className="font-light">Your Conversations</div> */}
+                                    </div>
+                                  </a>
+                                
+                              </div>
+                            )
+
+                          }else if(i.group && i.recipient){
+                            return(
+                              <div className=" bg-gray-100 p-2 border-b"
+                                ref={btnDropdownRef1}
+                                onClick={() => {
+                                  dropdownPopoverShow1
+                                  : openDropdownPopover1(i.group,"group");
+                                }} key={i.id}>
+                               
+                                  <a className="flex items-center gap-2">
+                                  {currentuser.id!=i.message_CID && i.status=="Unread"?(
+                                    i.group.display_image_url?(
+                                      <div className="relative"> 
+                                       <img
+                                          className="object-cover rounded-full w-[40px] h-[40px]"
+                                          src={i.group.display_image_url}
+                                          alt=""
+                                        />
+                                        <div className="bg-red-400 h-2.5 w-2.5 -left-1 -top-1 rounded-full absolute"></div> 
+                                      </div>
+                                    ):(
+                                      <div className="relative">
+                                      <Image
+                                        className="object-cover"
+                                        src={ProfileAvatar}
+                                        width={40}
+                                        height={40}
+                                        alt=""
+                                      />
+                                      <div className="bg-red-400 h-2.5 w-2.5 -left-1 -top-1 rounded-full absolute"></div> 
+                                      </div>
+                                    )):(
+                                      i.group.display_image_url?(
+                                        <img
+                                          className="object-cover rounded-full w-[40px] h-[40px]"
+                                          src={i.group.display_image_url}
+                                          alt=""
+                                        />
+                                      ):(
+                                        <Image
+                                          className="object-cover"
+                                          src={ProfileAvatar}
+                                          width={40}
+                                          height={40}
+                                          alt=""
+                                        />
+                                      )
+                                    )
+                                  }
+                                    <div>
+                                      <div className="font-bold capitalize">{i.group.title}</div>
+                                      {currentuser.id!=i.message_CID && i.status=="Unread"?(
+                                        <div className="">NewsLetter {i.status} message</div>
+                                      ):(
+                                        <div className="">Seen all NewsLetters</div>
+                                      )}
+                                      {/* <div className="font-light">Your Conversations</div> */}
+                                    </div>
+                                  </a>
+                                
+                              </div>
+                            )
+
+                          }else if(i.group){
+                            return(
+                              <div className=" bg-gray-100 p-2 border-b"
+                                ref={btnDropdownRef1}
+                                onClick={() => {
+                                  dropdownPopoverShow1
+                                  : openDropdownPopover1(i.group,"groups");
+                                }} key={i.id}>
+                               
+                                  <a className="flex items-center gap-2">
+                                  {currentuser.id!=i.message_CID && i.status=="Unread"?(
+                                    i.group.display_image_url?(
+                                      <div className="relative"> 
+                                       <img
+                                          className="object-cover rounded-full w-[40px] h-[40px]"
+                                          src={i.group.display_image_url}
+                                          alt=""
+                                        />
+                                        <div className="bg-red-400 h-2.5 w-2.5 -left-1 -top-1 rounded-full absolute"></div> 
+                                      </div>
+                                    ):(
+                                      <div className="relative">
+                                      <Image
+                                        className="object-cover"
+                                        src={ProfileAvatar}
+                                        width={40}
+                                        height={40}
+                                        alt=""
+                                      />
+                                      <div className="bg-red-400 h-2.5 w-2.5 -left-1 -top-1 rounded-full absolute"></div> 
+                                      </div>
+                                    )):(
+                                      i.group.display_image_url?(
+                                        <img
+                                          className="object-cover rounded-full w-[40px] h-[40px]"
+                                          src={i.group.display_image_url}
+                                          alt=""
+                                        />
+                                      ):(
+                                        <Image
+                                          className="object-cover"
+                                          src={ProfileAvatar}
+                                          width={40}
+                                          height={40}
+                                          alt=""
+                                        />
+                                      )
+                                    )
+                                  }
+                                    <div>
+                                      <div className="font-bold capitalize">{i.group.title} (Group)</div>
+                                      {currentuser.id!=i.message_CID && i.status=="Unread"?(
+                                        <div className="">{i.status} message</div>
+                                      ):(
+                                        <div className="">Seen all Group Messages</div>
+                                      )}
+                                      {/* <div className="font-light">Your Conversations</div> */}
+                                    </div>
+                                  </a>
+                                
+                              </div>
+                            )
+
+                          }else if(i.page && i.recipient){
+                            return(
+                              <div className=" bg-gray-100 p-2 border-b"
+                                ref={btnDropdownRef1}
+                                onClick={() => {
+                                  dropdownPopoverShow1
+                                  : openDropdownPopover1(i.page,"page");
+                                }} key={i.id}>
+                               
+                                  <a className="flex items-center gap-2">
+                                  {currentuser.id!=i.message_CID && i.status=="Unread"?(
+                                    i.page.display_photo_url?(
+                                      <div className="relative"> 
+                                       <img
+                                          className="object-cover rounded-full w-[40px] h-[40px]"
+                                          src={i.page.display_photo_url}
+                                          alt=""
+                                        />
+                                        <div className="bg-red-400 h-2.5 w-2.5 -left-1 -top-1 rounded-full absolute"></div> 
+                                      </div>
+                                    ):(
+                                      <div className="relative">
+                                      <Image
+                                        className="object-cover"
+                                        src={ProfileAvatar}
+                                        width={40}
+                                        height={40}
+                                        alt=""
+                                      />
+                                      <div className="bg-red-400 h-2.5 w-2.5 -left-1 -top-1 rounded-full absolute"></div> 
+                                      </div>
+                                    )):(
+                                      i.page.display_photo_url?(
+                                        <img
+                                          className="object-cover rounded-full w-[40px] h-[40px]"
+                                          src={i.page.display_photo_url}
+                                          alt=""
+                                        />
+                                      ):(
+                                        <Image
+                                          className="object-cover"
+                                          src={ProfileAvatar}
+                                          width={40}
+                                          height={40}
+                                          alt=""
+                                        />
+                                      )
+                                    )
+                                  }
+                                    <div>
+                                      <div className="font-bold capitalize">{i.page.name}</div>
+                                      {currentuser.id!=i.message_CID && i.status=="Unread"?(
+                                        <div className="">NewsLetter {i.status} message</div>
+                                      ):(
+                                        <div className="">Seen all message</div>
+                                      )}
+                                      {/* <div className="font-light">Your Conversations</div> */}
+                                    </div>
+                                  </a>
+                                
+                              </div>
+                            )
+
+                          }else if(i.page){
+                            return(
+                              <div className=" bg-gray-100 p-2 border-b"
+                                ref={btnDropdownRef1}
+                                onClick={() => {
+                                  dropdownPopoverShow1
+                                  : openDropdownPopover1(i.page,"pages");
+                                }} key={i.id}>
+                               
+                                  <a className="flex items-center gap-2">
+                                  {currentuser.id!=i.message_CID && i.status=="Unread"?(
+                                    i.page.display_photo_url?(
+                                      <div className="relative"> 
+                                       <img
+                                          className="object-cover rounded-full w-[40px] h-[40px]"
+                                          src={i.page.display_photo_url}
+                                          alt=""
+                                        />
+                                        <div className="bg-red-400 h-2.5 w-2.5 -left-1 -top-1 rounded-full absolute"></div> 
+                                      </div>
+                                    ):(
+                                      <div className="relative">
+                                      <Image
+                                        className="object-cover"
+                                        src={ProfileAvatar}
+                                        width={40}
+                                        height={40}
+                                        alt=""
+                                      />
+                                      <div className="bg-red-400 h-2.5 w-2.5 -left-1 -top-1 rounded-full absolute"></div> 
+                                      </div>
+                                    )):(
+                                      i.page.display_photo_url?(
+                                        <img
+                                          className="object-cover rounded-full w-[40px] h-[40px]"
+                                          src={i.page.display_photo_url}
+                                          alt=""
+                                        />
+                                      ):(
+                                        <Image
+                                          className="object-cover"
+                                          src={ProfileAvatar}
+                                          width={40}
+                                          height={40}
+                                          alt=""
+                                        />
+                                      )
+                                    )
+                                  }
+                                    <div>
+                                      <div className="font-bold capitalize">{i.page.name} (Group)</div>
+                                      {currentuser.id!=i.message_CID && i.status=="Unread"?(
+                                        <div className="">{i.status} Messages</div>
+                                      ):(
+                                        <div className="">Seen all Group Messages</div>
                                       )}
                                       {/* <div className="font-light">Your Conversations</div> */}
                                     </div>
@@ -782,7 +1189,7 @@ const Dropdown = ({ color }) => {
                               : closeDropdownPopover1();
                             }}>
                             <ArrowLeftIcon className="h-4 w-4" />
-                            <div className="capitalize">{marketplace && marketplace=="Marketplace"?(<div className="italic">Marketplace: </div>):("")} {msguser.first_name} {msguser.last_name} </div>
+                            <div className="capitalize">{marketplace && marketplace=="Marketplace"?(<div className="italic">Marketplace: </div>):("")} {page && page.name?(<div className="italic">{page.name} </div>):("")} {group && group.title?(<div className="italic">{group.title} </div>):("")} {msguser.first_name} {msguser.last_name} </div>
                           </div>
                           <div ref={btnDropdownRef1}
                             onClick={() => {
@@ -797,7 +1204,17 @@ const Dropdown = ({ color }) => {
                       </div>
                       {/* chat-Box body */}
                       
-                      <div ref={myDivRef} id={msguser && msguser.id}>
+                      <div ref={myDivRef} id={
+                        messages && messages.length>0 && grouptypes && (grouptypes=="group" || grouptypes=="page")?(
+                          messages[0].conversation_id
+                        ):(
+                        page && page.id?(
+                        page.id
+                      ):(group && group.id?(
+                        group.id
+                      ):(msguser && msguser.id?(
+                        msguser.id
+                      ):(""))))}>
                         
                       {/* Show Messages */}
                       
@@ -834,7 +1251,194 @@ const Dropdown = ({ color }) => {
                             {messages?(
                               <div className="">
                                 {messages.slice(0).reverse().map((i)=>{
-                                  if(i.user && msguser&& i.user.id==msguser.id)
+                                  if(page && grouptypes && (grouptypes!="pages" && grouptypes!="groups"))
+                                  {
+                                    return(
+                                      <div className="ml-2 mt-3">
+                                        <div className="flex items-center gap-2">
+                                        {page.display_photo_url?(
+                                          <Link href={{ pathname: "/page-design/liked-pages", query: page.id,}}>
+                                          <a>
+                                            <img
+                                              className="object-cover w-[30px] h-[30px] rounded-full"
+                                              src={page.display_photo_url}
+                                              width={30}
+                                              height={30}
+                                              alt=""
+                                            />
+                                          </a>
+                                          </Link>
+                                          
+                                          ):(
+                                            <Link href={{ pathname: "/page-design/liked-pages", query: page.id,}}>
+                                              <a>
+                                              <Image
+                                                className="object-cover"
+                                                src={ProfileAvatar}
+                                                width={30}
+                                                height={30}
+                                                alt=""
+                                              />
+                                              </a>
+                                            </Link>
+                                         )}
+                                          <div className=" bg-gray-100 w-60 p-2 border rounded-xl">
+                                            {i.attachment && i.attachment_type=="image"?(
+                                              <div className="relative w-1/4 mt-2">
+                                                <img
+                                                src={i.attachment}
+                                                className="rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
+                                                alt=""/>
+                                              </div>
+                                              ):(
+                                                i.attachment && i.attachment_type=="video"?(
+                                                  <div className="relative w-1/4 mt-2">
+                                                    <div className="relative w-1/4 mt-2">
+                                                      <video controls className=" rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover">
+                                                        <source src={i.attachment} type="video/mp4" />
+                                                      </video> 
+                                                    </div>
+                                                  </div>
+
+                                                ):(
+                                                  i.attachment && i.attachment_type=="application"?(
+                                                    <div className="relative w-1/4 mt-2">
+                                                      <div className=" flex border-b w-56 pb-2 justify-between ">
+                                                        <div>{i.attachment_type}</div>
+                                                        <a href={i.attachment} download>
+                                                          <button className= "text-black p-0">Download</button>
+                                                        </a>
+                                                      </div>
+                                                    </div>
+                                                  ):('')
+                                                )
+                                              )
+                                            }
+
+                                            {i.product?(
+                                              <div className="relative mt-2">
+                                                <AliceCarousel>
+                                                  {i.product.product_pic.map((j) => (
+                                                    <Link href={{ pathname: "/markeet-place/marketplace-show", query: i.product.id,}} key={j}>
+                                                    <a>
+                                                      <img
+                                                        src={j}
+                                                        key={j}
+                                                        className="rounded-xl my-0 max-h-[150px] max-w-full object-cover"
+                                                      />
+                                                    </a>
+                                                    </Link>
+                                                  ))}
+                                                  </AliceCarousel>
+                                                  <Link href={{ pathname: "/markeet-place/marketplace-show", query: i.product.id,}}>
+                                                    <a>
+                                                    <b>{i.product.name}</b>
+                                                    </a>
+                                                  </Link>
+                                              </div>
+                                            ):('')}
+                                             <div className="">{i.subject }</div>
+                                            <div className="">{i.body }</div>
+                                            <div className=" flex justify-end mt-0 mr-2 text-xs text-black">{i.time}</div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    )
+                                  }else if(group && grouptypes && (grouptypes!="pages" && grouptypes!="groups"))
+                                  {
+                                    return(
+                                      <div className="ml-2 mt-3">
+                                        <div className="flex items-center gap-2">
+                                        {group.display_image_url?(
+                                          <Link href={{ pathname: "/group-page/joind-group", query: group.id,}}>
+                                          <a>
+                                            <img
+                                              className="object-cover w-[30px] h-[30px] rounded-full"
+                                              src={group.display_image_url}
+                                              width={30}
+                                              height={30}
+                                              alt=""
+                                            />
+                                          </a>
+                                          </Link>
+                                          
+                                          ):(
+                                            <Link href={{ pathname: "/group-page/joind-group", query: group.id,}}>
+                                              <a>
+                                              <Image
+                                                className="object-cover"
+                                                src={ProfileAvatar}
+                                                width={30}
+                                                height={30}
+                                                alt=""
+                                              />
+                                              </a>
+                                            </Link>
+                                         )}
+                                          <div className=" bg-gray-100 w-60 p-2 border rounded-xl">
+                                            {i.attachment && i.attachment_type=="image"?(
+                                              <div className="relative w-1/4 mt-2">
+                                                <img
+                                                src={i.attachment}
+                                                className="rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover"
+                                                alt=""/>
+                                              </div>
+                                              ):(
+                                                i.attachment && i.attachment_type=="video"?(
+                                                  <div className="relative w-1/4 mt-2">
+                                                    <div className="relative w-1/4 mt-2">
+                                                      <video controls className=" rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover">
+                                                        <source src={i.attachment} type="video/mp4" />
+                                                      </video> 
+                                                    </div>
+                                                  </div>
+
+                                                ):(
+                                                  i.attachment && i.attachment_type=="application"?(
+                                                    <div className="relative w-1/4 mt-2">
+                                                      <div className=" flex border-b w-56 pb-2 justify-between ">
+                                                        <div>{i.attachment_type}</div>
+                                                        <a href={i.attachment} download>
+                                                          <button className= "text-black p-0">Download</button>
+                                                        </a>
+                                                      </div>
+                                                    </div>
+                                                  ):('')
+                                                )
+                                              )
+                                            }
+
+                                            {i.product?(
+                                              <div className="relative mt-2">
+                                                <AliceCarousel>
+                                                  {i.product.product_pic.map((j) => (
+                                                    <Link href={{ pathname: "/markeet-place/marketplace-show", query: i.product.id,}} key={j}>
+                                                    <a>
+                                                      <img
+                                                        src={j}
+                                                        key={j}
+                                                        className="rounded-xl my-0 max-h-[150px] max-w-full object-cover"
+                                                      />
+                                                    </a>
+                                                    </Link>
+                                                  ))}
+                                                  </AliceCarousel>
+                                                  <Link href={{ pathname: "/markeet-place/marketplace-show", query: i.product.id,}}>
+                                                    <a>
+                                                    <b>{i.product.name}</b>
+                                                    </a>
+                                                  </Link>
+                                              </div>
+                                            ):('')}
+                                             <div className="">{i.subject }</div>
+                                            <div className="">{i.body }</div>
+                                            <div className=" flex justify-end mt-0 mr-2 text-xs text-black">{i.time}</div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    )
+                                  }
+                                  else if(i.user && currentuser&& i.user.id!=currentuser.id)
                                   {
                                     return(
                                       <div className="ml-2 mt-3">
@@ -1001,6 +1605,7 @@ const Dropdown = ({ color }) => {
                                                 </Link>
                                             </div>
                                           ):('')}
+                                             <div className="">{i.subject}</div>
                                             <div className="">{i.body}</div>
                                             <div className=" flex justify-end mt-0 mr-2 text-xs text-black">{i.time}</div>
                                           </div>
