@@ -1,29 +1,117 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import { useRouter } from "next/router";
 import {Transition } from "@headlessui/react";
-import { GROUP_API, MESSAGES_API } from "../../../../pages/config";
+import { MESSAGES_API, PAGES_API } from "../../../../../pages/config";
 import { Dialog } from "@headlessui/react";
-import { PhotographIcon, TrashIcon, XIcon } from "@heroicons/react/outline";
-import InviteFriendsGroup from "../InviteFriendsGroup/InviteFriendsGroup";
+import { XIcon } from "@heroicons/react/outline";
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import InviteFriendsGroup from '../../InviteFriendsGroup/InviteFriendsGroup';
+import ShowAlert from '../../../../Alerts/Alertss';
 
-const AddNewsLetter = () => {
+const PagesAddNewsLetter = () => {
   const [subject, setsubject] = useState();
   const [isCheck, setIsCheck] = useState([]);
   let [isOpen, setIsOpen] = useState(false);
   const [text, setText] = useState("");                          // SMS BODY
-  const [attachment_type, setattachment_type] = useState("");    // TYPE [:- IMAGE/VEDIO/Doc]
   const router = useRouter();
   const data = router.asPath;
   const myArray = data.split("?");
+  const [group, setgroup] = useState();
   const [postImage, setPostImage] = useState([]);                // UPLOAD [:- IMAGE/VEDIO/Doc]
   const [postImagePreview, setpostImagePreview] = useState();    // PREVIEW [:- IMAGE/VEDIO/Doc]
-  const [group, setgroup] = useState();
+  const [attachment_type, setattachment_type] = useState("");    // TYPE [:- IMAGE/VEDIO/Doc]
+  const [editorHtml, setEditorHtml] = useState('');
+  const [openalert, setopenalert] = useState(false); // For Alert Show
+  const [alertbody, setalertbody] = useState(); // For Alert Body
+
+
+  // Text Editor For sending newsletter start
+  const modules = {
+    toolbar: {
+      container: [
+        [{ font: [] }],
+        [{ size: ['small', false, 'large', 'huge'] }],
+        ['bold', 'italic', 'underline', 'strike'],
+        [{ color: [] }, { background: [] }],
+        [{ script: 'sub' }, { script: 'super' }],
+        [{ header: '1' }, { header: '2' }, 'blockquote', 'code-block'],
+        [{ list: 'ordered' }, { list: 'bullet' }],
+        [{ align: [] }],
+        ['link', 'image'],
+        ['clean'],
+      ],
+      handlers: {
+        image: handleImage,
+      },
+    },
+  };
+
+  const handleImage = () => {
+    const input = document.createElement('input');
+    input.setAttribute('type', 'file');
+    input.setAttribute('accept', 'image/*');
+    input.click();
+
+    input.onchange = (e) => {
+      const file = e.target.files[0];
+
+      if (file) {
+        const formData = new FormData();
+        formData.append('image', file);
+        
+        // Simulate an upload to a server and get the image URL
+        // Replace this with your actual image upload logic
+        const imageURL = 'https://example.com/image.jpg';
+
+        const range = this.quill.getSelection(true);
+        this.quill.insertEmbed(range.index, 'image', imageURL, 'user');
+      }
+    };
+  };
+
+  const handleChange = (html) => {
+    setEditorHtml(html);
+  };
+  // End here Text Editor
 
   // Bareer Key
   if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore"); }
 
   function closeModal() {
     setIsOpen(false);
+  }
+
+  function inviteModal() {
+    if (isCheck.length > 0) {
+      // SendInviteRequest();
+      closeModal();
+    }
+    else {
+      alert("Select Friend to Invite");
+    }
+  }
+  function openModal() {
+    setIsOpen(true);
+  }
+  function closeinviteModal() {
+    setIsCheck([]);
+    setIsOpen(false);
+  }
+  const GetGroup = () => {
+    debugger;
+    const res = fetch(PAGES_API + "/" + myArray[1], {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authKey}`,
+      },
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        setgroup(result.data);
+        console.log(result);
+      })
   }
 
   const handleImagePost = (e) => {
@@ -51,49 +139,19 @@ const AddNewsLetter = () => {
     setattachment_type('')
   }
 
-  function inviteModal() {
-    if (isCheck.length > 0) {
-      // SendInviteRequest();
-      closeModal();
-    }
-    else {
-      alert("Select Friend to Invite");
-    }
-  }
-  function openModal() {
-    setIsOpen(true);
-  }
-  function closeinviteModal() {
-    setIsCheck([]);
-    setIsOpen(false);
-  }
-  const GetGroup = () => {
-    const res = fetch(GROUP_API + "/" + myArray[1], {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        Authorization: `${authKey}`,
-      },
-    })
-      .then((resp) => resp.json())
-      .then((result) => {
-        setgroup(result.data);
-      })
-  }
-
   const SendMessage=async()=>{
-    if ((text) && myArray[1])
+    if ((editorHtml) && myArray[1])
     {
       const dataForm = new FormData();
       if(postImagePreview){
         dataForm.append("attachment_type", attachment_type);
         dataForm.append("attachment", postImage);
       }
-      dataForm.append("body", text);
+      dataForm.append("body", editorHtml);
       dataForm.append("subject", subject);
       dataForm.append("member",isCheck); 
-      dataForm.append("group_id",myArray[1]); 
-      setText('');
+      dataForm.append("page_id",myArray[1]); 
+      setEditorHtml('');
       setsubject('');
       clearPic();     
       await fetch(MESSAGES_API, {
@@ -106,7 +164,11 @@ const AddNewsLetter = () => {
         .then((resp) => resp.json())
         .then((result) => {
             if (result && result.data) {
-              alert("NewsLetter Send")
+              setopenalert(true);
+              setalertbody(result.data);
+              setTimeout(() => {
+                window.location.href = '/page-design/AddNews-Letter?'+myArray[1];
+              }, 2000);
             }
            
         })
@@ -114,41 +176,16 @@ const AddNewsLetter = () => {
     }
   }
 
-  const createMessageChanel=async(id,CableApp)=> {
-    CableApp.subscriptions.create(
-      {
-        channel: 'MessageChannel',
-        current_user:  id,
-        recipient_id:  myArray[1]
-      },
-      {
-        connected: () => {
-          console.log('Chat-connected');
-        },
-        disconnected: () => {
-          console.log('Chat-disconnected');
-
-        },
-        received: data => { 
-          if(myDivRef.current){
-            if (myDivRef.current.id == myArray[1]){
-              
-              downfunction();
-              console.log("Chat-received");
-            }
-          }
-        },
-      }
-    );
-  }
   // console.log(isCheck);
   useEffect(() => {
     GetGroup();
-    
   }, [myArray[1]])
 
   return (
     <div className="mt-8">
+      {openalert?(
+        <ShowAlert openalert={openalert} setopenalert={setopenalert} body={alertbody}/>
+      ):("")}
       <div className="w-[620px] xl:w-[980px] lg:w-[730px] md:w-[780px] px-5 md:px-0 lg:px-0">
         <div className="mt-8">
           <div className="">
@@ -169,6 +206,7 @@ const AddNewsLetter = () => {
                     onChange={(e) => setsubject(e.target.value)}
                   />
                 </div>
+                
               </div>
               <div className="mt-4">
                 <div className="">
@@ -208,7 +246,7 @@ const AddNewsLetter = () => {
                                   <div
                                     className="text-lg font-medium leading-6 text-gray-900 px-8"
                                   >
-                                    Select Group Members
+                                    Select Page Members
                                   </div>
                                   <XIcon
                                     onClick={closeinviteModal}
@@ -247,8 +285,8 @@ const AddNewsLetter = () => {
                   </Transition>
                 </div>
               </div>
-              <div className="grid grid-cols-5 mt-5">
-                <div className="text-lg font-medium">Message:</div>
+              <div className="mt-5">
+                {/* <div className="text-lg font-medium">Message:</div>
                 <div className="col-span-3">
                   <textarea
                     className="placeholder:text-md  hover:shadow-lg  bg-gray-100 placeholder:rounded-full  border-none w-full rounded-xl"
@@ -260,15 +298,20 @@ const AddNewsLetter = () => {
                     value={text}
                     onChange={(e) => setText(e.target.value)}
                   />
-                </div>
+                </div> */}
+                <ReactQuill
+                  value={editorHtml}
+                  onChange={handleChange}
+                  modules={modules}
+                />
               </div>
-              <div className="flex justify-end grid grid-cols-3 p-1 mt-4">
+              {/* <div className="flex justify-end grid grid-cols-3 p-1 mt-4">
                 <div className="flex gap-2 items-center justify-center">
                   <div className="relative flex gap-2 items-center justify-center">
                     <PhotographIcon
                       className={"h-10 w-10 opacity-40"}
                     />
-                    {/* <div className="font-extralight">Photo Upload</div> */}
+                    
                     <input
                       type={"file"}
                       name="image"
@@ -309,9 +352,7 @@ const AddNewsLetter = () => {
                       ):(
                         postImagePreview && attachment_type=="application"?(
                           <div className="relative w-1/4 mt-2">
-                          {/* <video autoPlay="autoplay" controls className="ml-5 rounded-xl my-4 max-h-[150px] max-w-[230px] object-cover">
-                            <source src={postImagePreview} type="video/mp4" />
-                          </video> */}
+                         
                           
                           <div>{postImagePreview}</div>
                           
@@ -321,20 +362,22 @@ const AddNewsLetter = () => {
                           </div>
                         </div>
                         ):('')
-                        // application
+                        
                       )
                     )}
                 </div>
-              </div>
+              </div> */}
               <div className='flex justify-end gap-4 mt-12'>
-                <div className='col-span-3'>
-                  <button
-                    className='px-4 py-2 border rounded-full hover:border-indigo-400 hover:bg-transparent hover:text-indigo-400 bg-indigo-400 text-white'
-                    onClick={openModal} 
-                  >
-                    Select Group Members
-                    </button>
-                </div>
+                {group?(
+                  <div className='col-span-3'>
+                    <button
+                      className='px-4 py-2 border rounded-full hover:border-indigo-400 hover:bg-transparent hover:text-indigo-400 bg-indigo-400 text-white'
+                      onClick={openModal} 
+                    >
+                      Select Page Members
+                      </button>
+                  </div>
+                  ):("")}
                 <div>
                   <button className='px-4 py-2 border rounded-full hover:border-indigo-400 hover:bg-transparent hover:text-indigo-400 bg-indigo-400 text-white' onClick={() => SendMessage()}>Send NewsLetter</button>
                 </div>
@@ -347,4 +390,4 @@ const AddNewsLetter = () => {
   );
 }
 
-export default AddNewsLetter;
+export default PagesAddNewsLetter;

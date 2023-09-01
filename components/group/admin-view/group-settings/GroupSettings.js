@@ -17,6 +17,7 @@ const GroupSettings = () => {
   const [group, setgroup] = useState();
   const [openalert, setopenalert] = useState(false); // For Alert Show
   const [alertbody, setalertbody] = useState(); // For Alert Body
+  const [groupchat, setgroupchat] = useState();
   
   const router = useRouter();
   const data = router.asPath;
@@ -55,6 +56,7 @@ const GroupSettings = () => {
     dataForm.append("groups[description]", des);
     dataForm.append("groups[group_type]", type);
     dataForm.append("groups[can_post]", canpost);
+    dataForm.append("groups[groupchat]", groupchat);
     if (dp) { dataForm.append("groups[display_image]", dp); }
     if (coverphoto) { dataForm.append("groups[cover_image]", coverphoto); }
     const res = fetch(GROUP_API + "/" + myArray[1], {
@@ -90,6 +92,7 @@ const GroupSettings = () => {
         setdes(result.data.description);
         settype(result.data.group_type);
         setcanpost(result.data.can_post);
+        setgroupchat(result.data.groupchat);
         setdp('');
         setcoverphoto('');
       })
@@ -281,6 +284,50 @@ const GroupSettings = () => {
                         className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                       >
                         Only Admins
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="heading mt-4 text-lg font-bold">
+                Messenger Group Chat
+              </div>
+              <div className="border hover:bg-gray-100 mt-4 p-4 bg-gray-50 hover:shadow-lg rounded-xl">
+                <div className="flex items-center justify-between ">
+                  <div className="">Messenger Group Chat</div>
+                  <div className="flex items-center gap-4">
+                    <div className="flex items-center">
+                      <input
+                        id="default-radio-5"
+                        type="radio"
+                        name="default-radios"
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-indigo-400 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        value="allow"
+                        checked={groupchat === "allow"}
+                        onChange={(e) => setgroupchat(e.target.value)}
+                      />
+                      <label
+                        htmlFor="default-radio-5"
+                        className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                      >
+                        Allow
+                      </label>
+                    </div>
+                    <div className="flex items-center">
+                      <input
+                        id="default-radio-6"
+                        type="radio"
+                        name="default-radioss"
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-indigo-400 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        value="deny"
+                        checked={groupchat === "deny"}
+                        onChange={(e) => setgroupchat(e.target.value)}
+                      />
+                      <label
+                        htmlFor="default-radio-6"
+                        className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                      >
+                        Deny
                       </label>
                     </div>
                   </div>

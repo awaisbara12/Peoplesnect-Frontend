@@ -51,7 +51,6 @@ const Messages = () => {
   
   //  Subscribe Message Channel
   const createMessageChanel=async(id,CableApp)=> {
-    debugger;
     if(myArray[2] && (myArray[2]=="groups" || myArray[2]=="Groups")){
       CableApp.subscriptions.create(
         {
@@ -70,9 +69,8 @@ const Messages = () => {
           },
           received: data => {
             if(myDivRef.current){
-              console.log("Chat-received123",myDivRef);
-              console.log("Chat-received12",messages);
-              // debugger;
+              // console.log("Chat-received123",myDivRef);
+              // console.log("Chat-received12",messages);
               if (myDivRef.current.id == myArray[1]){
                 GetMessages();
                 downfunction();
@@ -105,7 +103,7 @@ const Messages = () => {
           },
           received: data => { 
             if(myDivRef.current){
-              if (myDivRef.current.id == myArray[1]){
+              if ((myDivRef.current.id == myArray[1]) || (data && data==myDivRef.current.id)){
                 GetMessages();
                 downfunction();
                 console.log("Chat-received");
@@ -674,7 +672,7 @@ const Messages = () => {
                             </div>
                           ):('')}
                           <div className="text-bold">{i.subject}</div>
-                          <div className="">{i.body} </div>
+                          <div className=""><div dangerouslySetInnerHTML={{ __html: i.body }} /> </div>
                           <div className=" flex justify-end mt-0 mr-2 text-xs">{i.time}</div>
                         </div>
                       </div>

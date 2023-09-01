@@ -3,10 +3,9 @@ import Head from "next/head";
 import ProfileCard from "../../../news-feed/profilecard/ProfileCard";
 import GroupsSuggesions from "../../../news-feed/sugesteduser/GroupsSuggesions";
 import EventsCard from "../../../news-feed/eventcard/EventsCard";
-import GroupsBottomBar from "../../../news-feed/navbar/GroupsBottomBar";
 import Footer from "../../../footer/Footer";
 import DropdownRender from "../../../news-feed/Chat-box/ChatBox";
-import AddNewsLetter from "./AddNewsLetter";
+import NewLetterList from "./NewLetterList";
 
 const PageMembersFeed = () => {
   return (
@@ -22,7 +21,7 @@ const PageMembersFeed = () => {
           </div>
           <div className="flex px-2 xl:px-0 lg:px-4 md:px-4 gap-[65px] md:gap-8 lg:gap-6 justify-between mt-12 md:mt-0">
             <div className="h-full bg-zinc-100 md:bg-transparent lg:bg-transparent xl:bg-transparent px-4 md:px-0 lg-px-0 xl:px-0">
-              <AddNewsLetter />
+              <NewLetterList />
             </div>
             <div className="w-72 hidden md:block lg:block">
               <ProfileCard />

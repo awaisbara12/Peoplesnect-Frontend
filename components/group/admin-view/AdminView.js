@@ -369,7 +369,7 @@ const AdminView = (setList, singleItem) => {
                         <Link href={{ pathname: "/AddNewsLetter", query: myArray[1], }}>
                           <a className="flex gap-1 mt-2">
                             <PaperClipIcon className="w-5 h-5" />
-                            Add NewsLetter
+                            NewsLetters
                           </a>
                         </Link>
                       </Menu.Item>

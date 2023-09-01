@@ -449,6 +449,7 @@ const Dropdown = ({ color }) => {
 
   // SMS Subscription
   function createMessageSub(subscribeds,  r_id, grouptype) {
+    debugger;
     if((grouptype=="groups" || grouptype=="pages")){
       subscribeds.subscriptions.create(
         {
@@ -893,7 +894,7 @@ const Dropdown = ({ color }) => {
                               </div>
                             )
 
-                          }else if(i.group){
+                          }else if(i.group && ((i.group.groupchat=="allow" && i.recipient==null))){
                             return(
                               <div className=" bg-gray-100 p-2 border-b"
                                 ref={btnDropdownRef1}
@@ -1338,7 +1339,7 @@ const Dropdown = ({ color }) => {
                                               </div>
                                             ):('')}
                                              <div className="">{i.subject }</div>
-                                            <div className="">{i.body }</div>
+                                            <div className=""><div dangerouslySetInnerHTML={{ __html: i.body }} /></div>
                                             <div className=" flex justify-end mt-0 mr-2 text-xs text-black">{i.time}</div>
                                           </div>
                                         </div>
@@ -1431,7 +1432,7 @@ const Dropdown = ({ color }) => {
                                               </div>
                                             ):('')}
                                              <div className="">{i.subject }</div>
-                                            <div className="">{i.body }</div>
+                                            <div className=""><div dangerouslySetInnerHTML={{ __html: i.body }} /></div>
                                             <div className=" flex justify-end mt-0 mr-2 text-xs text-black">{i.time}</div>
                                           </div>
                                         </div>

@@ -1,13 +1,13 @@
 import React from "react";
 import Head from "next/head";
-import ProfileCard from "../../../news-feed/profilecard/ProfileCard";
-import GroupsSuggesions from "../../../news-feed/sugesteduser/GroupsSuggesions";
-import EventsCard from "../../../news-feed/eventcard/EventsCard";
-import Footer from "../../../footer/Footer";
-import DropdownRender from "../../../news-feed/Chat-box/ChatBox";
-import NewsLetterList from "./NewsLetterList";
+import ProfileCard from "../../../../news-feed/profilecard/ProfileCard";
+import EventsCard from "../../../../news-feed/eventcard/EventsCard";
+import Footer from "../../../../footer/Footer";
+import PagesAddNewsLetter from "./PagesAddNewsLetter";
+import GroupsSuggesions from "../../../../news-feed/sugesteduser/GroupsSuggesions";
+import DropdownRender from "../../../../news-feed/Chat-box/ChatBox";
 
-const NewsLetterFeed = () => {
+const PagesAddNewsLetterFeed = () => {
   return (
     <div>
       <Head>
@@ -18,12 +18,11 @@ const NewsLetterFeed = () => {
       <div className="pb-20 md:pb-10 lg:pb-10">
         <div className="xl:max-w-[1340px] container mx-auto">
           <div className="sticky top-0 z-50">
-            {/* <TopNavbar /> */}
-          {/* <MobileNav/> */}
+
           </div>
           <div className="flex px-2 xl:px-0 lg:px-4 md:px-4 gap-[65px] md:gap-8 lg:gap-6 justify-between mt-12 md:mt-0">
             <div className="h-full bg-zinc-100 md:bg-transparent lg:bg-transparent xl:bg-transparent px-4 md:px-0 lg-px-0 xl:px-0">
-              <NewsLetterList/>
+              <PagesAddNewsLetter />
             </div>
             <div className="w-72 hidden md:block lg:block">
               <ProfileCard />
@@ -42,4 +41,4 @@ const NewsLetterFeed = () => {
   );
 };
 
-export default NewsLetterFeed;
+export default PagesAddNewsLetterFeed;

@@ -395,7 +395,7 @@ const Messaging = () => {
                                 )}
                               </div>
                             )
-                          }else if(i.group){
+                          }else if(i.group && ((i.group.groupchat=="allow" && i.recipient==null) || i.recipient)){
                             {
                               return(
                                 <div className="flex items-center gap-2 bg-gray-100 p-2 border-b" key={i.id}>
