@@ -5,9 +5,11 @@ import { GROUP_API, MESSAGES_API } from "../../../../../pages/config";
 import { Dialog } from "@headlessui/react";
 import { PhotographIcon, TrashIcon, XIcon } from "@heroicons/react/outline";
 import InviteFriendsGroup from "../../InviteFriendsGroup/InviteFriendsGroup";
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
 import ShowAlert from '../../../../Alerts/Alertss';
+import dynamic from 'next/dynamic';
+const DynamicEditor = dynamic(() => import('../../MyEditor'), {
+  ssr: false, // This ensures it's not rendered on the server
+});
 
 const GroupAddNewsLetter = () => {
   const [subject, setsubject] = useState();
@@ -24,55 +26,6 @@ const GroupAddNewsLetter = () => {
   const [editorHtml, setEditorHtml] = useState('');
   const [openalert, setopenalert] = useState(false); // For Alert Show
   const [alertbody, setalertbody] = useState(); // For Alert Body
-
-  // Text Editor For sending newsletter start
-  const modules = {
-    toolbar: {
-      container: [
-        [{ font: [] }],
-        [{ size: ['small', false, 'large', 'huge'] }],
-        ['bold', 'italic', 'underline', 'strike'],
-        [{ color: [] }, { background: [] }],
-        [{ script: 'sub' }, { script: 'super' }],
-        [{ header: '1' }, { header: '2' }, 'blockquote', 'code-block'],
-        [{ list: 'ordered' }, { list: 'bullet' }],
-        [{ align: [] }],
-        ['link', 'image'],
-        ['clean'],
-      ],
-      handlers: {
-        image: handleImage,
-      },
-    },
-  };
-
-  const handleImage = () => {
-    const input = document.createElement('input');
-    input.setAttribute('type', 'file');
-    input.setAttribute('accept', 'image/*');
-    input.click();
-
-    input.onchange = (e) => {
-      const file = e.target.files[0];
-
-      if (file) {
-        const formData = new FormData();
-        formData.append('image', file);
-        
-        // Simulate an upload to a server and get the image URL
-        // Replace this with your actual image upload logic
-        const imageURL = 'https://example.com/image.jpg';
-
-        const range = this.quill.getSelection(true);
-        this.quill.insertEmbed(range.index, 'image', imageURL, 'user');
-      }
-    };
-  };
-
-  const handleChange = (html) => {
-    setEditorHtml(html);
-  };
-  // End here Text Editor
 
   // Bareer Key
   if (typeof window !== "undefined") { var authKey = window.localStorage.getItem("keyStore"); }
@@ -324,11 +277,12 @@ const GroupAddNewsLetter = () => {
                     onChange={(e) => setText(e.target.value)}
                   />
                 </div> */}
-                <ReactQuill
+                {/* <ReactQuill
                   value={editorHtml}
                   onChange={handleChange}
                   modules={modules}
-                />
+                /> */}
+                <DynamicEditor editorHtml={editorHtml} setEditorHtml={setEditorHtml}/>
               </div>
               {/* <div className="flex justify-end grid grid-cols-3 p-1 mt-4">
                 <div className="flex gap-2 items-center justify-center">

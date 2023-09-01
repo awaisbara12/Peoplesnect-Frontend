@@ -41,7 +41,6 @@ const NewsLetterList =()=> {
       .then((resp) => resp.json())
       .then((result) => {
         if (result) {
-          console.log(result.data);
           const mergedata = [...newsletter, ...result.data]
           setnewsletter(mergedata);
           setcurrentpage(result.pages.next_page)
